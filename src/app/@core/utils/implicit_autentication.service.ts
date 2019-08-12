@@ -23,7 +23,7 @@ export class ImplicitAutenticationService {
                 'Accept': 'application/json',
                 'authorization': 'Bearer ' + window.localStorage.getItem('access_token'),
             }),
-        }
+        };
         auth.setGeneral(environment.TOKEN);
     }
 
@@ -45,7 +45,7 @@ export class ImplicitAutenticationService {
     }
 
     public getAuthorizationUrl(button): string {
-        return  auth.live(button)
+        return  auth.live(button);
     }
 
 }

@@ -12,7 +12,7 @@ import {
 const routes: Routes = [
   {
     path: 'pages',
-    loadChildren: () => import('app/pages/pages.module')
+    loadChildren: () => import('../app/pages/pages.module')
       .then(m => m.PagesModule),
   },
   {
@@ -50,7 +50,7 @@ const routes: Routes = [
 ];
 
 const config: ExtraOptions = {
-  useHash: false,
+  useHash: true,
 };
 
 @NgModule({
