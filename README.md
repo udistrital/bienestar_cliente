@@ -14,17 +14,11 @@ Como componentes básicos cuenta con:
 <summary><h2> 🛠️ Configuracion del proyecto</h2></summary>
 
   - Clonar el proyecto del repositorio de git
-  - Si es la primera vez que se corre el contenedor se debe construir el mismo con 
-  ```shell 
-      docker-compose up --build
-  ```
-  - Si por el contrario , ya se ha construido el contenedor y se quiere levantar el mismo se ejecuta  
-  ```shell 
-      docker-compose up
-  ```
-  - Opción alternativa para correrlo 
-  ```shell 
-      npx ng serve --port {PORT} donde PORT es el numero de puerto
+
+  - Correr el proyecto con
+  ```shell
+      npx npm install ##instalación de dependencias
+      npx ng serve --port {PORT} ##donde PORT es el numero de puerto
   ```
 
 
