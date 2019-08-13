@@ -15,6 +15,7 @@ import {
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImplicitAutenticationService } from '../@core/utils/implicit_autentication.service';
 import { NotificacionesService } from '../@core/utils/notificaciones.service';
 import { ConfiguracionService } from '../@core/data/configuracion.service';
@@ -46,6 +47,7 @@ import { DARK_THEME } from './styles/theme.dark';
 const NB_MODULES = [
   NbLayoutModule,
   NbMenuModule,
+  NgbModule,
   NbUserModule,
   NbActionsModule,
   NbSearchModule,
