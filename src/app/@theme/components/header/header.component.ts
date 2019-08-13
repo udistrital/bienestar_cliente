@@ -135,4 +135,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/pages/notificacion/listado']);
     }
   }
+  goToHome() {
+    this.menuService.navigateHome();
+  }
+  changeStateNoView(): void {
+    this.notificacionService.changeStateNoView(this.username)
+  }  
+  toggleNotifications(): boolean {
+    this.sidebarService.toggle(false, 'notifications-sidebar');
+    this.changeStateNoView()
+    return false;
+  }    
 }
