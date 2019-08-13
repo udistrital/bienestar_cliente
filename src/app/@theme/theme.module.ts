@@ -15,6 +15,10 @@ import {
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
+import { ImplicitAutenticationService } from '../@core/utils/implicit_autentication.service';
+import { NotificacionesService } from '../@core/utils/notificaciones.service';
+import { ConfiguracionService } from '../@core/data/configuracion.service';
+
 
 import {
   FooterComponent,
@@ -70,6 +74,18 @@ const PIPES = [
   NumberWithCommasPipe,
 ];
 
+const NB_THEME_PROVIDERS = [
+  ...NbThemeModule.forRoot(
+    {
+      name: 'default',
+      //name: 'ud',
+    },
+    [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ],
+  ).providers,
+  ...NbSidebarModule.forRoot().providers,
+  ...NbMenuModule.forRoot().providers,
+];
+
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
@@ -79,14 +95,10 @@ export class ThemeModule {
   static forRoot(): ModuleWithProviders {
     return <ModuleWithProviders>{
       ngModule: ThemeModule,
-      providers: [
-        ...NbThemeModule.forRoot(
-          {
-            name: 'default',
-          },
-          [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ],
-        ).providers,
-      ],
+      providers: [...NB_THEME_PROVIDERS,
+        ImplicitAutenticationService,
+        NotificacionesService,
+        ConfiguracionService],
     };
   }
 }
