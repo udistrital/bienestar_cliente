@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.notificacionService.arrayMessages$
       .subscribe((notification: any) => {
         const temp = notification.map((notify: any) => {
-          return { title: notify.Content.Message, icon: 'fa fa-commenting-o' }
+          return { title: notify.Content.Message, icon: 'fa fa-commenting-o' };
         });
         this.userMenu = [...temp.slice(0, 7), ...[{ title: 'ver todas', icon: 'fa fa-list' }]];
       });
@@ -139,11 +139,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuService.navigateHome();
   }
   changeStateNoView(): void {
-    this.notificacionService.changeStateNoView(this.username)
-  }  
+    this.notificacionService.changeStateNoView(this.username);
+  }
   toggleNotifications(): boolean {
     this.sidebarService.toggle(false, 'notifications-sidebar');
-    this.changeStateNoView()
+    this.changeStateNoView();
     return false;
-  }    
+  }
 }

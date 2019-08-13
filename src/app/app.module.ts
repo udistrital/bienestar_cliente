@@ -54,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-    }),    
+    }),
   ],
   bootstrap: [AppComponent],
   providers: [ImplicitAutenticationService,
