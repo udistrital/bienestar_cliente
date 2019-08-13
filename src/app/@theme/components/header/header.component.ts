@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
-
+import { TranslateService } from '@ngx-translate/core';
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
+import { NotificacionesService } from '../../../@core/utils/notificaciones.service';
+import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 
 @Component({
   selector: 'ngx-header',
@@ -14,6 +17,10 @@ import { Subject } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
+  itemClick: Subscription;
+  liveTokenValue: boolean = false;
+  username = '';
+  private autenticacion = new ImplicitAutenticationService;
   userPictureOnly: boolean = false;
   user: any;
 
@@ -38,14 +45,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private userService: UserData,
+    private router: Router,
+    private layoutService: LayoutService,
+    private breakpointService: NbMediaBreakpointsService,
+    public notificacionService: NotificacionesService,
+    public translate: TranslateService) {
+    this.translate = translate;
+    this.itemClick = this.menuService.onItemClick()
+      .subscribe((event) => {
+        this.onContecxtItemSelection(event.item.title);
+      });
+
+    this.notificacionService.arrayMessages$
+      .subscribe((notification: any) => {
+        const temp = notification.map((notify: any) => {
+          return { title: notify.Content.Message, icon: 'fa fa-commenting-o' }
+        });
+        this.userMenu = [...temp.slice(0, 7), ...[{ title: 'ver todas', icon: 'fa fa-list' }]];
+      });
+    this.liveToken();
   }
 
   ngOnInit() {
@@ -91,4 +115,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuService.navigateHome();
     return false;
   }
+  login() {
+    window.location.replace(this.autenticacion.getAuthorizationUrl(true));
+  }
+  logout() {
+    this.autenticacion.logout();
+    // this.liveTokenValue = auth.live(true);
+  }
+  liveToken() {
+    if (this.autenticacion.live()) {
+      this.liveTokenValue = this.autenticacion.live();
+      this.username = (this.autenticacion.getPayload()).sub;
+    }
+    return this.autenticacion.live();
+  }
+
+  onContecxtItemSelection(title) {
+    if (title === 'ver todas') {
+      this.router.navigate(['/pages/notificacion/listado']);
+    }
+  }
+  goToHome() {
+    this.menuService.navigateHome();
+  }
+  changeStateNoView(): void {
+    this.notificacionService.changeStateNoView(this.username)
+  }  
+  toggleNotifications(): boolean {
+    this.sidebarService.toggle(false, 'notifications-sidebar');
+    this.changeStateNoView()
+    return false;
+  }    
 }
