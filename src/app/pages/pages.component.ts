@@ -5,7 +5,7 @@ import { MENU_ITEMS } from './pages-menu';
 import { MENU_PUBLICO } from './pages-menu';
 import { MenuService } from '../@core/data/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ImplicitAutenticationService } from './../@core/utils/implicit_autentication.service'
+import { ImplicitAutenticationService } from './../@core/utils/implicit_autentication.service';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 
@@ -37,7 +37,8 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     if (!this.autenticacion.live()) {
-      this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role).filter((data: any) => (data.indexOf('/') === -1));
+      this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
+      .filter((data: any) => (data.indexOf('/') === -1));
       this.menuws.get(this.rol + '/presupuesto_kronos').subscribe(
         data => {
           this.dataMenu = <any>data;

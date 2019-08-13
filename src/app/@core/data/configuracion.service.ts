@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-import { environment } from './../../../environments/environment'
+import { environment } from './../../../environments/environment';
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -52,5 +52,5 @@ export class ConfiguracionService {
         status: error.status,
         message: 'Something bad happened; please try again later.',
       });
-    };
+    }
   }

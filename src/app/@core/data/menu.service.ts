@@ -8,7 +8,7 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Accept': 'application/json',
   }),
-}
+};
 
 const path = environment.CONF_MENU_SERVICE;
 
@@ -58,5 +58,5 @@ export class MenuService {
       status: error.status,
       message: 'Something bad happened; please try again later.',
     });
-  };
+  }
 }

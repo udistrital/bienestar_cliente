@@ -40,7 +40,7 @@ export class NotificacionesService {
     }
 
     getNotificaciones() {
-        this.noNotifySubject.next((this.listMessage.filter(data => data.Estado === 'Enviada')).length)
+        this.noNotifySubject.next((this.listMessage.filter(data => data.Estado === 'Enviada')).length);
         this.arrayMessagesSubject.next(this.listMessage);
     }
 
@@ -51,7 +51,8 @@ export class NotificacionesService {
     connect() {
         if (this.autenticacion.live() && production) {
             this.payload = this.autenticacion.getPayload();
-            this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role).filter((data: any) => (data.indexOf('/') === -1));
+            this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
+            .filter((data: any) => (data.indexOf('/') === -1));
             this.messagesSubject = webSocket(`${NOTIFICACION_SERVICE}?id=${this.payload.sub}&profiles=${this.roles}`);
             this.messagesSubject
                 .pipe(
@@ -63,7 +64,7 @@ export class NotificacionesService {
                             this.noNotifySubject.next(this.listMessage.length);
                             this.arrayMessagesSubject.next(this.listMessage);
                         }
-                        return msn
+                        return msn;
                     }),
                 )
                 .subscribe(
@@ -85,7 +86,7 @@ export class NotificacionesService {
         this.listMessage = [...[message], ...this.listMessage];
         this.noNotifySubject.next((this.listMessage.filter(data => data.Estado === 'Enviada')).length);
         this.arrayMessagesSubject.next(this.listMessage);
-        console.info(this.listMessage)
+        console.info(this.listMessage);
     }
 
     changeStateNoView(user) {
@@ -100,7 +101,8 @@ export class NotificacionesService {
 
     queryNotification() {
         if (this.autenticacion.live() && production) {
-            this.confService.get('notificacion_estado_usuario?query=Usuario:' + this.payload.sub + ',Activo:true&sortby=id&order=asc&limit=-1')
+            this.confService.get('notificacion_estado_usuario?query=Usuario:'
+             + this.payload.sub + ',Activo:true&sortby=id&order=asc&limit=-1')
             .subscribe((resp: any) => {
                 if (resp !== null) {
                     from(resp)

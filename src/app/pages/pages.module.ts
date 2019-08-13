@@ -28,7 +28,7 @@ import { SharedModule } from '../shared/shared.module';
   providers: [
     ConfiguracionService,
     MenuService,
-  ],  
+  ],
 })
 export class PagesModule {
 }
