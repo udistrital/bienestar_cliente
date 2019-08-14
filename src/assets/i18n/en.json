@@ -20,21 +20,16 @@
         "consulta-apropiaciones-iniciales": "Consulta de Apropiaciones I.",
         "registro-apropiaciones-iniciales": "Registro de Apropiaciones I."
       } ,
-      "plan-cuentas": {
-        "plan-cuentas":"Plan de Cuentas",
+      "gestion_plan_cuentas":{
+        "gestion_plan_cuentas": "Gestión Plan de Cuentas",
         "arbol": "Arbol",
         "consulta": "Consulta",
         "registro": "Registro",
         "comprobacion-apropiacion-inicial": "Comprobacion AI",
-        "gestion-plan-cuentas": {
-          "gestion-plan-cuentas": "Gestión Plan de Cuentas",
-          "rubros": "Rubros Presupuestales",
-          "apropiaciones": "Apropiaciones Iniciales",
-          "fuentes": "Fuentes de Financiamiento",
-          "productos": "Productos"
-        },
-        "gestion-modificaciones" : "Gestión Modificaciones",
-        "tabla-crud" : "Tabla CRUD "
+        "gestion_rubros": "Rubros Presupuestales",
+        "gestion_apropiaciones": "Apropiaciones Iniciales",
+        "gestion_fuentes": "Fuentes de Financiamiento",
+        "gestion_productos": "Productos"
       } ,
       
       "atencion_usuario": {

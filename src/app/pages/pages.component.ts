@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { MenuItem } from './menu-item';
 import { MENU_ITEMS } from './pages-menu';
-import { MENU_PUBLICO } from './pages-menu';
 import { MenuService } from '../@core/data/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImplicitAutenticationService } from './../@core/utils/implicit_autentication.service';
@@ -36,10 +35,10 @@ export class PagesComponent implements OnInit {
     private autenticacion: ImplicitAutenticationService) { }
 
   ngOnInit() {
-    if (!this.autenticacion.live()) {
+    if (this.autenticacion.live()) {
       this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
-      .filter((data: any) => (data.indexOf('/') === -1));
-      this.menuws.get(this.rol + '/presupuesto_kronos').subscribe(
+        .filter((data: any) => (data.indexOf('/') === -1));
+      this.menuws.get(this.roles + '/presupuesto_kronos').subscribe(
         data => {
           this.dataMenu = <any>data;
           for (let i = 0; i < this.dataMenu.length; i++) {
@@ -64,7 +63,7 @@ export class PagesComponent implements OnInit {
                 }
                 if (i === 0) {
                   this.object.title = 'Dashboard';
-                  this.object.icon = 'nb-home';
+                  this.object.icon = 'home-outline';
                   this.object.home = true;
                 }
               } else {
@@ -89,7 +88,7 @@ export class PagesComponent implements OnInit {
                 }
                 if (i === 0) {
                   this.object.title = 'Dashboard';
-                  this.object.icon = 'nb-home';
+                  this.object.icon = 'home-outline';
                   this.object.home = true;
                 }
                 for (let j = 0; j < this.dataMenu[i].Opciones.length; j++) {
@@ -137,8 +136,8 @@ export class PagesComponent implements OnInit {
         });
     } else {
       this.rol = 'PUBLICO';
-      console.info('PUBLICO');
-      this.menu = MENU_PUBLICO;
+      // console.info(' Menu PUBLICO');
+      this.menu = MENU_ITEMS;
       this.translateMenu();
     }
     this.translateMenu();

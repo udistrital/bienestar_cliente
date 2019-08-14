@@ -17,7 +17,6 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImplicitAutenticationService } from '../@core/utils/implicit_autentication.service';
-import { NotificacionesService } from '../@core/utils/notificaciones.service';
 import { ConfiguracionService } from '../@core/data/configuracion.service';
 
 
@@ -99,7 +98,6 @@ export class ThemeModule {
       ngModule: ThemeModule,
       providers: [...NB_THEME_PROVIDERS,
         ImplicitAutenticationService,
-        NotificacionesService,
         ConfiguracionService],
     };
   }

@@ -6,7 +6,6 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { NotificacionesService } from '../../../@core/utils/notificaciones.service';
 import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 
 @Component({
@@ -54,7 +53,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
-    public notificacionService: NotificacionesService,
     public translate: TranslateService) {
     this.translate = translate;
     this.itemClick = this.menuService.onItemClick()
@@ -62,13 +60,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.onContecxtItemSelection(event.item.title);
       });
 
-    this.notificacionService.arrayMessages$
-      .subscribe((notification: any) => {
-        const temp = notification.map((notify: any) => {
-          return { title: notify.Content.Message, icon: 'fa fa-commenting-o' };
-        });
-        this.userMenu = [...temp.slice(0, 7), ...[{ title: 'ver todas', icon: 'fa fa-list' }]];
-      });
     this.liveToken();
   }
 
@@ -139,7 +130,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuService.navigateHome();
   }
   changeStateNoView(): void {
-    this.notificacionService.changeStateNoView(this.username);
+    // this.notificacionService.changeStateNoView(this.username);
   }
   toggleNotifications(): boolean {
     this.sidebarService.toggle(false, 'notifications-sidebar');
