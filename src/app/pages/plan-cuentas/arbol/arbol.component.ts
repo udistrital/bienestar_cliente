@@ -139,43 +139,12 @@ export class ArbolComponent implements OnChanges {
 @Component({
   selector: 'ngx-nb-fs-icon',
   template: `
-  <nb-card>
-  <nb-card-body>
-
-    <table [nbTreeGrid]="dataSource" nbSort (sort)="changeSort($event)" equalColumnsWidth>
-
-      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
-
-      <ng-container [nbTreeGridColumnDef]="customColumn">
-        <th nbTreeGridHeaderCell [nbSortHeader]="getDirection(customColumn)" *nbTreeGridHeaderCellDef>
-          {{customColumn}}
-        </th>
-
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-
-          <nb-tree-grid-row-toggle
-            [expanded]="row.expanded"
-            *ngIf="row.data.kind === 'dir'">
-          </nb-tree-grid-row-toggle>
-
-          {{row.data.name}}
-
-        </td>
-      </ng-container>
-
-      <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
-        <th nbTreeGridHeaderCell [nbSortHeader]="getDirection(column)" *nbTreeGridHeaderCellDef>
-          {{column}}
-        </th>
-
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column]}}</td>
-      </ng-container>
-
-    </table>
-
-  </nb-card-body>
-</nb-card>
+    <nb-tree-grid-row-toggle
+      [expanded]="expanded"
+      *ngIf="isDir(); else fileIcon"
+    >
+    </nb-tree-grid-row-toggle>
+    <ng-template #fileIcon> </ng-template>
   `,
 })
 export class FsIconAComponent {
