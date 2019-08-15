@@ -19,6 +19,10 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
+      path: 'plan-cuentas',
+      loadChildren: './plan-cuentas/plan-cuentas.module#PlanCuentasModule',
+    },
+    {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
         .then(m => m.LayoutModule),
