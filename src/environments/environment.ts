@@ -18,12 +18,12 @@ export const environment = {
   CONF_MENU_SERVICE: 'http://10.20.0.254/configuracion_api/v1/menu_opcion_padre/ArbolMenus/',
   TOKEN: {
     AUTORIZATION_URL: 'https://autenticacion.udistrital.edu.co/oauth2/authorize',
-    CLIENTE_ID: 'pszmROXqfec4pTShgF_fn2DAAX0a',
+    CLIENTE_ID: 'sNNgaDMW1yXXE8ucvkVQXNpv464a',
     RESPONSE_TYPE: 'id_token token',
     SCOPE: 'openid email role',
-    REDIRECT_URL: 'http://localhost:9000/',
+    REDIRECT_URL: 'http://localhost:4200/presupuesto/',
     SIGN_OUT_URL: 'https://autenticacion.udistrital.edu.co/oidc/logout',
-    SIGN_OUT_REDIRECT_URL: 'http://localhost:9000/',
+    SIGN_OUT_REDIRECT_URL: 'http://localhost:4200/presupuesto/',
   },
 
 };
