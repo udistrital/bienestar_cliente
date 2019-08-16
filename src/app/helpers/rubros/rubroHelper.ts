@@ -47,6 +47,7 @@ export class RubroHelper {
             const rootsObsv: Observable<any>[] = [];
 
             this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion_valores/${unidadEjecutora.toString()}/${vigencia}`).toPromise().then(res => {
+
                 for (const element of res) {
 
                     rootsObsv.push(this.getArbol(element.Codigo));
@@ -54,8 +55,11 @@ export class RubroHelper {
                 }
                 forkJoin(rootsObsv).subscribe(treeUnformated => {
                     const tree = [];
+
                     for (const branch of treeUnformated) {
-                        tree.push(branch[0]);
+                        if (branch) {
+                            tree.push(branch[0]);
+                        }
                     }
                     observer.next(tree);
                     observer.complete();
@@ -66,7 +70,6 @@ export class RubroHelper {
             // observable execution
 
         });
-
         return roots;
     }
 

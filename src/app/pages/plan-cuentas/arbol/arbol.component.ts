@@ -80,7 +80,11 @@ export class ArbolComponent implements OnChanges {
 
   private data: TreeNode<EstructuraArbolRubrosApropiaciones>[];
   loadTreeRubros() {
+
     this.rbHelper.getFullArbol().subscribe((res) => {
+
+      console.table(res);
+
       this.data = res;
       this.dataSource = this.dataSourceBuilder.create(this.data);
     });

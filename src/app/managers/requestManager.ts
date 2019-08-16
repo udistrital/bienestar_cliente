@@ -21,7 +21,7 @@ export class RequestManager {
     this.httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json',
-        'authorization': 'Bearer ' + window.localStorage.getItem('access_token'),
+        'Content-Type': 'application/json',
       }),
     };
   }
@@ -54,14 +54,14 @@ export class RequestManager {
     return this.http.get<any>(`${this.path}${endpoint}`, this.httpOptions).pipe(
       map(
         (res) => {
-          if (res.hasOwnProperty('Body')) {
+
+          if (res && res.hasOwnProperty('Body')) {
             return res['Body'];
           } else {
             return res;
           }
         },
       ),
-      catchError(this.errManager.handleError.bind(this)),
     );
   }
 
