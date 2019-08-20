@@ -59,7 +59,7 @@ export class ArbolComponent implements OnChanges {
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private rbHelper: RubroHelper,
-    private apHelper: ApropiacionHelper ) {
+    private apHelper: ApropiacionHelper) {
   }
   ngOnChanges(changes) {
     if (changes.optionSelect !== undefined) {
@@ -80,18 +80,21 @@ export class ArbolComponent implements OnChanges {
 
   private data: TreeNode<EstructuraArbolRubrosApropiaciones>[];
   loadTreeRubros() {
+
     this.rbHelper.getFullArbol().subscribe((res) => {
+
       this.data = res;
       this.dataSource = this.dataSourceBuilder.create(this.data);
+
     });
   }
 
 
   loadTreeApropiaciones() {
     this.customColumn = 'Codigo';
-    this.defaultColumns = [  'Nombre', 'ApropiacionInicial' ];
+    this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
-    this.apHelper.getFullArbol().subscribe( res => {
+    this.apHelper.getFullArbol().subscribe(res => {
       this.data = res;
       // console.info(this.data);
       this.dataSource2 = this.dataSourceBuilder2.create(this.data);
@@ -102,10 +105,10 @@ export class ArbolComponent implements OnChanges {
   loadTree() {
     // console.info(this.opcionSeleccionada);
     // console.info(this.optionSelect);
-    if (this.opcionSeleccionada === 'Rubros' ) {
-        this.loadTreeRubros();
-    } else if ( this.opcionSeleccionada === 'Apropiaciones' ) {
-        this.loadTreeApropiaciones();
+    if (this.opcionSeleccionada === 'Rubros') {
+      this.loadTreeRubros();
+    } else if (this.opcionSeleccionada === 'Apropiaciones') {
+      this.loadTreeApropiaciones();
     }
   }
   updateTreeSignal($event) {

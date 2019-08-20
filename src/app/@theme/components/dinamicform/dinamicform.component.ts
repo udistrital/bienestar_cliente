@@ -153,7 +153,7 @@ export class DinamicformComponent implements OnInit, OnChanges {
       || ((c.etiqueta === 'file' && c.valor.name === undefined) && (c.etiqueta === 'file' && c.urlTemp === undefined))) {
       if (c.prefix) {
         c.alerta = '** Este patrón no es aceptado';
-      }else {
+      } else {
         c.alerta = '** Debe llenar este campo';
 
       }

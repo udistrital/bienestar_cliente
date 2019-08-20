@@ -22,7 +22,7 @@ const isButtonLogin = false;
 
 if (!autenticacion.getAuthorizationUrl(isButtonLogin)) {
 
- }else {
+ } else {
    autenticacion.live();
 
         }
