@@ -61,12 +61,8 @@ export class ArbolComponent implements OnChanges {
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private rbHelper: RubroHelper,
-    private apHelper: ApropiacionHelper,
-    private getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones>) {
-    this.getters = { dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => node.Hijos || undefined,
-      expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
-    };
+    private apHelper: ApropiacionHelper) {
+
   }
   ngOnChanges(changes) {
     if (changes.optionSelect !== undefined) {
@@ -98,13 +94,18 @@ export class ArbolComponent implements OnChanges {
 
 
   loadTreeApropiaciones() {
+    const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => node.Hijos || undefined,
+      expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
+    };
     this.customColumn = 'Codigo';
     this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     this.apHelper.getFullRaices().subscribe(res => {
     this.data = res;
       // console.info(this.data);
-      this.dataSource2 = this.dataSourceBuilder2.create(this.data, this.getters);
+      this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
       console.info( this.dataSource2);
     },
     );
