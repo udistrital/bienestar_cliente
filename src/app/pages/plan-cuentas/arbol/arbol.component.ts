@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import {
+  NbGetters,
   NbSortDirection,
   NbTreeGridDataSource,
   NbTreeGridDataSourceBuilder,
@@ -23,14 +24,15 @@ interface EstructuraArbolRubros {
 
 interface EstructuraArbolRubrosApropiaciones {
   Codigo: string;
-  Descripcion: string;
+  Descripcion?: string;
   ApropiacionInicial: number;
-  Hijos: string[];
-  Movimientos: string[];
-  Padre: string;
+  Hijos?: EstructuraArbolRubrosApropiaciones[];
+  Movimientos?: string[];
+  Padre?: string;
   UnidadEjecutora: number;
-  Estado: string;
-  _Id: string;
+  Estado?: string;
+  IsLeaf: boolean;
+  expanded?: boolean;
 }
 
 @Component({
@@ -60,6 +62,7 @@ export class ArbolComponent implements OnChanges {
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private rbHelper: RubroHelper,
     private apHelper: ApropiacionHelper) {
+
   }
   ngOnChanges(changes) {
     if (changes.optionSelect !== undefined) {
@@ -78,7 +81,7 @@ export class ArbolComponent implements OnChanges {
 
   // private data: TreeNode<EstructuraArbolRubrosApropiaciones>[] | TreeNode<EstructuraArbolRubros>[];
 
-  private data: TreeNode<EstructuraArbolRubrosApropiaciones>[];
+  private data: EstructuraArbolRubrosApropiaciones[];
   loadTreeRubros() {
 
     this.rbHelper.getFullArbol().subscribe((res) => {
@@ -91,13 +94,19 @@ export class ArbolComponent implements OnChanges {
 
 
   loadTreeApropiaciones() {
+    const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => node.Hijos || undefined,
+      expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
+    };
     this.customColumn = 'Codigo';
     this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
-    this.apHelper.getFullArbol().subscribe(res => {
-      this.data = res;
+    this.apHelper.getFullRaices().subscribe(res => {
+    this.data = res;
       // console.info(this.data);
-      this.dataSource2 = this.dataSourceBuilder2.create(this.data);
+      this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+      console.info( this.dataSource2);
     },
     );
   }
