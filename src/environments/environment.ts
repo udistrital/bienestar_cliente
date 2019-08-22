@@ -18,7 +18,7 @@ export const environment = {
   CONF_MENU_SERVICE: 'http://10.20.0.254/configuracion_api/v1/menu_opcion_padre/ArbolMenus/',
   TOKEN: {
     AUTORIZATION_URL: 'https://autenticacion.udistrital.edu.co/oauth2/authorize',
-    CLIENTE_ID: 'sNNgaDMW1yXXE8ucvkVQXNpv464a',
+    CLIENTE_ID: 'DUh_Oz9ONEccBjTzA9X7948hyZYa',
     RESPONSE_TYPE: 'id_token token',
     SCOPE: 'openid email role',
     REDIRECT_URL: 'http://localhost:4200/presupuesto/',

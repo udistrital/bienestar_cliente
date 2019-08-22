@@ -22,7 +22,6 @@ const routes: Routes = [{
       path: 'plan-cuentas',
       loadChildren: () => import('./plan-cuentas/plan-cuentas.module')
       .then(m => m.PlanCuentasModule),
-      
     },
     {
       path: 'layout',
