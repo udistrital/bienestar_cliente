@@ -2,6 +2,7 @@ import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
+import { Observable, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -39,11 +40,10 @@ export class ApropiacionHelper {
 
     }
 
-    public getFullArbol() {
+    public getFullArbol(raiz) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         // Set the optional branch for the API request.
         const unidadEjecutora = 1;
-        const raiz = '3-8';
         const vigencia = 2019;
         // call request manager for the tree's data.
         return this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion/${raiz}/${unidadEjecutora.toString()}/${vigencia.toString()}`);
@@ -54,11 +54,36 @@ export class ApropiacionHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         // Set the optional branch for the API request.
         const unidadEjecutora = 1;
-        // const raiz = '3-8';
         const vigencia = 2019;
         // call request manager for the tree's data.
-        return this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora.toString()}/${vigencia.toString()}`);
+        const roots = new Observable<any>((observer) => {
+            const rootsObsv: Observable<any>[] = [];
 
+            this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora.toString()}/${vigencia.toString()}`).toPromise().then(res => {
+
+                for (const element of res) {
+
+                    rootsObsv.push(this.getFullArbol(element.Codigo));
+
+                }
+                forkJoin(rootsObsv).subscribe(treeUnformated => {
+                    const tree = [];
+
+                    for (const branch of treeUnformated) {
+                        if (branch) {
+                            tree.push(branch[0]);
+                        }
+                    }
+                    observer.next(tree);
+                    observer.complete();
+                });
+
+            });
+
+            // observable execution
+
+        });
+        return roots;
     }
 
 }
