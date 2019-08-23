@@ -5,14 +5,14 @@ import { PopUpManager } from '../../managers/popUpManager';
 import { Observable, forkJoin } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ApropiacionHelper {
 
-  constructor(
-    private rqManager: RequestManager,
-    private pUpManager: PopUpManager,
-  ) {}
+    constructor(
+        private rqManager: RequestManager,
+        private pUpManager: PopUpManager,
+    ) { }
 
 
     /**
@@ -84,6 +84,26 @@ export class ApropiacionHelper {
 
         });
         return roots;
+    }
+
+    public getRootsBalance(unidadEjecutora: number, vigencia: number) {
+
+        let totalIncomes = 0;
+        let totalExpenses = 0;
+
+        this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora}/${vigencia}`).toPromise().then((res) => {
+            for (const aprRoot of res) {
+                if (aprRoot.Codigo === '2') {
+                    totalIncomes = aprRoot.ApropiacionInicial;
+                } else if (aprRoot.Codigo === '3') {
+                    totalExpenses = aprRoot.aprRoot.ApropiacionInicial;
+                }
+            }
+        });
+        return {
+            totalIncomes,
+            totalExpenses,
+        };
     }
 
 }

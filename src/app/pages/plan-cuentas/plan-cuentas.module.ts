@@ -13,6 +13,7 @@ import {
   NbCheckboxModule } from '@nebular/theme';
 
 import { ProductosRubroComponent } from './rubros/productos-rubro/productos-rubro.component';
+import { ComprobacionApropiacionInicialComponent } from './comprobacion-apropiacion-inicial/comprobacion-apropiacion-inicial.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
@@ -22,6 +23,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
   declarations: [
     ...routedComponents,
     ProductosRubroComponent,
+    ComprobacionApropiacionInicialComponent,
   ],
   imports: [
     ThemeModule,
