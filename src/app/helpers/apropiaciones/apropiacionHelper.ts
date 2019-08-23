@@ -61,10 +61,23 @@ export class ApropiacionHelper {
 
     }
 
-    public getRootsBalance() {
+    public getRootsBalance(unidadEjecutora: number, vigencia: number) {
+
+        let totalIncomes = 0;
+        let totalExpenses = 0;
+
+        this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora}/${vigencia}`).toPromise().then((res) => {
+            for (const aprRoot of res) {
+                if (aprRoot.Codigo === '2') {
+                    totalIncomes = aprRoot.ApropiacionInicial;
+                } else if (aprRoot.Codigo === '3') {
+                    totalExpenses = aprRoot.aprRoot.ApropiacionInicial;
+                }
+            }
+        });
         return {
-            totalIncomes: 1001,
-            totalExpenses: 1000,
+            totalIncomes,
+            totalExpenses,
         };
     }
 

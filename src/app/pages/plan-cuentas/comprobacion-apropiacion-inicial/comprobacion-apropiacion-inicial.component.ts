@@ -19,7 +19,7 @@ export class ComprobacionApropiacionInicialComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    const {totalIncomes, totalExpenses } = this.apHelper.getRootsBalance();
+    const { totalIncomes, totalExpenses } = this.apHelper.getRootsBalance(1, 1);
     this.ingresos = totalIncomes;
     this.egresos = totalExpenses;
     this.balanceado = (this.ingresos === this.egresos);
