@@ -10,11 +10,7 @@ import { RubroHelper } from '../../../helpers/rubros/rubroHelper';
 import { Observable } from 'rxjs';
 import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
 
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
+
 
 interface EstructuraArbolRubros {
   Nombre: string;

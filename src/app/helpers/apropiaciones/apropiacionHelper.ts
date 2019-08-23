@@ -4,14 +4,14 @@ import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ApropiacionHelper {
 
-  constructor(
-    private rqManager: RequestManager,
-    private pUpManager: PopUpManager,
-  ) {}
+    constructor(
+        private rqManager: RequestManager,
+        private pUpManager: PopUpManager,
+    ) { }
 
 
     /**
@@ -59,6 +59,13 @@ export class ApropiacionHelper {
         // call request manager for the tree's data.
         return this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora.toString()}/${vigencia.toString()}`);
 
+    }
+
+    public getRootsBalance() {
+        return {
+            totalIncomes: 1001,
+            totalExpenses: 1000,
+        };
     }
 
 }

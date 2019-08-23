@@ -18,8 +18,6 @@ export class ApropiacionesComponent implements OnInit {
   valorApropiacion: number;
   vigenciaSel: any;
   clean = false;
-  valoringresos = 666666666666;
-  valoregresos = 666666666666;
   opcion: string;
   VigenciaActual = 0;
   optionView: string;
@@ -29,6 +27,7 @@ export class ApropiacionesComponent implements OnInit {
     { vigencia: 2017 },
     { vigencia: 2016 },
   ];
+  balanceado: boolean;
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -126,6 +125,10 @@ export class ApropiacionesComponent implements OnInit {
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
+  }
+
+  checkComprobacion(event: boolean) {
+   this.balanceado = event;
   }
 
 }
