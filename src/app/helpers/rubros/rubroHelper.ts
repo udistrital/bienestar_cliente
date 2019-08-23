@@ -43,34 +43,35 @@ export class RubroHelper {
         const unidadEjecutora = 1;
         // const raiz = 3;
         // call request manager for the tree's data.
-        const roots = new Observable<any>((observer) => {
-            const rootsObsv: Observable<any>[] = [];
+        return this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion_valores/${unidadEjecutora.toString()}/${vigencia}`)
+        // const roots = new Observable<any>((observer) => {
+        //     const rootsObsv: Observable<any>[] = [];
 
-            this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion_valores/${unidadEjecutora.toString()}/${vigencia}`).toPromise().then(res => {
+            // this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion_valores/${unidadEjecutora.toString()}/${vigencia}`).toPromise().then(res => {
 
-                for (const element of res) {
+            //     for (const element of res) {
 
-                    rootsObsv.push(this.getArbol(element.Codigo));
+            //         rootsObsv.push(this.getArbol(element.Codigo));
 
-                }
-                forkJoin(rootsObsv).subscribe(treeUnformated => {
-                    const tree = [];
+            //     }
+            //     forkJoin(rootsObsv).subscribe(treeUnformated => {
+            //         const tree = [];
 
-                    for (const branch of treeUnformated) {
-                        if (branch) {
-                            tree.push(branch[0]);
-                        }
-                    }
-                    observer.next(tree);
-                    observer.complete();
-                });
+            //         for (const branch of treeUnformated) {
+            //             if (branch) {
+            //                 tree.push(branch[0]);
+            //             }
+            //         }
+            //         observer.next(tree);
+            //         observer.complete();
+            //     });
 
-            });
+            // });
 
             // observable execution
 
-        });
-        return roots;
+        // });
+        // return roots;
     }
 
 
@@ -109,7 +110,7 @@ export class RubroHelper {
      */
     public rubroDelete(id: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.delete('arbol_rubro/', id).pipe(
+        return this.rqManager.delete('arbol_rubro', id).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

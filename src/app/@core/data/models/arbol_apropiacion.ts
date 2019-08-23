@@ -5,4 +5,11 @@ export class ArbolApropiacion {
     Vigencia: number;
     ApropiacionInicial: number;
     Estado: string;
+    ApropiacionAnterior: number;
+    Codigo: string; 
+    Nombre: string;
+    Descripcion: string;
+    UnidadEjecutora: string;
+    RubroPadre: string;
+    Hijos: Array<string>;    
 }

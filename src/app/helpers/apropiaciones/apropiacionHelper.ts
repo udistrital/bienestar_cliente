@@ -3,16 +3,17 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 import { Observable, forkJoin } from 'rxjs';
+import { popup } from 'leaflet';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ApropiacionHelper {
 
-  constructor(
-    private rqManager: RequestManager,
-    private pUpManager: PopUpManager,
-  ) {}
+    constructor(
+        private rqManager: RequestManager,
+        private pUpManager: PopUpManager,
+    ) { }
 
 
     /**
@@ -24,19 +25,38 @@ export class ApropiacionHelper {
        */
     public apropiacionRegister(apropiacionData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        apropiacionData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-        apropiacionData.Organizacion = 1;
-        return this.rqManager.post(`arbol_rubro_apropiacion/`, apropiacionData).pipe(
-            map(
-                (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo registrar la Apropiación Inicial al rubro seleccionado.');
-                        return undefined;
-                    }
-                    return res;
-                },
-            ),
-        );
+        apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
+        apropiacionData.Organizacion = '1';
+        console.info(apropiacionData.ApropiacionAnterior);
+        if (apropiacionData.ApropiacionAnterior == 0) {
+            return this.rqManager.post(`arbol_rubro_apropiacion/`, apropiacionData).pipe(
+                map(
+                    (res) => {
+                        if (res['Type'] === 'error') {
+                            this.pUpManager.showErrorAlert('No se pudo registrar la Apropiación Inicial al rubro seleccionado.');
+                            return undefined;
+                        }
+                        return res;
+                    },
+                ),
+            );            
+        }else if(apropiacionData.ApropiacionAnterior > 0 ) {
+            return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
+            apropiacionData).pipe(
+                map(
+                    (res) => {
+                        if (res['Type'] === 'error') {
+                            this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
+                            return undefined;
+                        }
+                        return res;
+                    },
+                ),
+            );            
+        } else{
+            this.pUpManager.showErrorAlert('Valor Invalido de Apropiación');
+        }
+
 
     }
 
@@ -48,22 +68,21 @@ export class ApropiacionHelper {
        * @returns  <Observable> data of the object updated at the DB. undefined if the request has errors
        */
     public apropiacionUpdate(apropiacionData) {
-        console.info(apropiacionData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         apropiacionData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
         apropiacionData.Organizacion = 1;
-        return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Rubro.Codigo}/${apropiacionData.vigencia}/${apropiacionData.UnidadEjecutora}`,
-         apropiacionData ).pipe(
-            map(
-                (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
-                        return undefined;
-                    }
-                    return res;
-                },
-            ),
-        );
+        return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Rubro.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
+            apropiacionData).pipe(
+                map(
+                    (res) => {
+                        if (res['Type'] === 'error') {
+                            this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
+                            return undefined;
+                        }
+                        return res;
+                    },
+                ),
+            );
 
     }
 
@@ -89,7 +108,7 @@ export class ApropiacionHelper {
             this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora.toString()}/${vigencia.toString()}`).toPromise().then(res => {
 
                 for (const element of res) {
-                    
+
                     rootsObsv.push(this.getFullArbol(element.Codigo));
                 }
                 forkJoin(rootsObsv).subscribe(treeUnformated => {
@@ -109,6 +128,26 @@ export class ApropiacionHelper {
 
         });
         return roots;
+    }
+
+    public getRootsBalance(unidadEjecutora: number, vigencia: number) {
+
+        let totalIncomes = 0;
+        let totalExpenses = 0;
+
+        this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora}/${vigencia}`).toPromise().then((res) => {
+            for (const aprRoot of res) {
+                if (aprRoot.Codigo === '2') {
+                    totalIncomes = aprRoot.ApropiacionInicial;
+                } else if (aprRoot.Codigo === '3') {
+                    totalExpenses = aprRoot.aprRoot.ApropiacionInicial;
+                }
+            }
+        });
+        return {
+            totalIncomes,
+            totalExpenses,
+        };
     }
 
 }

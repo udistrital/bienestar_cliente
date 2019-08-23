@@ -9,12 +9,9 @@ import {
 import { RubroHelper } from '../../../helpers/rubros/rubroHelper';
 import { Observable } from 'rxjs';
 import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
+import { ArbolHelper } from '../../../helpers/arbol/arbolHelper';
 
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
+
 
 interface EstructuraArbolRubros {
   Nombre: string;
@@ -46,7 +43,9 @@ export class ArbolComponent implements OnChanges {
   @Output() rubroSeleccionado = new EventEmitter();
   @Input() updateSignal: Observable<string[]>;
   @Input() optionSelect: string;
+  @Input() vigencia:  string;
   opcionSeleccionada: string;
+  vigenciaSeleccionada: string;
 
   update: any;
   customColumn = 'Codigo';
@@ -62,18 +61,24 @@ export class ArbolComponent implements OnChanges {
   constructor(
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
-    private rbHelper: RubroHelper,
+    private treeHelper: ArbolHelper,
     private apHelper: ApropiacionHelper) {
 
   }
   ngOnChanges(changes) {
-    if (changes.optionSelect !== undefined) {
-      if (changes.optionSelect.currentValue !== undefined) {
+    if (changes.optionSelect !== undefined ) {
+      if (changes.optionSelect.currentValue !== undefined ) {
         this.opcionSeleccionada = changes.optionSelect.currentValue;
-        // console.info(this.opcionSeleccionada)
         this.loadTree();
       }
     }
+    if (changes.vigencia !== undefined) {
+      if (changes.vigencia.currentValue !== undefined) {
+        console.info(changes.vigencia.currentValue);
+          this.vigenciaSeleccionada = changes.vigencia.currentValue;
+          this.loadTree();
+      }
+    }    
     if (changes['updateSignal'] && this.updateSignal) {
       this.updateSignal.subscribe(() => {
         this.loadTree();
@@ -86,7 +91,7 @@ export class ArbolComponent implements OnChanges {
   private data: EstructuraArbolRubrosApropiaciones[];
   loadTreeRubros() {
 
-    this.rbHelper.getFullArbol().subscribe((res) => {
+    this.treeHelper.getFullArbol().subscribe((res) => {
 
       this.data = res;
       this.dataSource = this.dataSourceBuilder.create(this.data);
@@ -104,9 +109,8 @@ export class ArbolComponent implements OnChanges {
     this.customColumn = 'Codigo';
     this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
-    this.apHelper.getFullRaices().subscribe(res => {
+    this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
     this.data = res;
-      // console.info(this.data);
       this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
     },
     );
