@@ -33,6 +33,8 @@ interface EstructuraArbolRubrosApropiaciones {
   Estado?: string;
   IsLeaf: boolean;
   expanded?: boolean;
+  data?: EstructuraArbolRubrosApropiaciones;
+  children?: EstructuraArbolRubrosApropiaciones[];
 }
 
 @Component({
@@ -95,8 +97,8 @@ export class ArbolComponent implements OnChanges {
 
   loadTreeApropiaciones() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
-      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => node.Hijos || undefined,
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined ,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? []: node.children,
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
@@ -106,7 +108,6 @@ export class ArbolComponent implements OnChanges {
     this.data = res;
       // console.info(this.data);
       this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
-      console.info( this.dataSource2);
     },
     );
   }

@@ -40,14 +40,41 @@ export class ApropiacionHelper {
 
     }
 
+    /**
+       * Apropiacion Inicial Update
+       * If the response has errors in the OAS API it should show a popup message with an error.
+       * If the response suceed, it returns the data of the updated object.
+       * @param apropiacionData object to save in the DB
+       * @returns  <Observable> data of the object updated at the DB. undefined if the request has errors
+       */
+    public apropiacionUpdate(apropiacionData) {
+        console.info(apropiacionData);
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        apropiacionData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
+        apropiacionData.Organizacion = 1;
+        return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Rubro.Codigo}/${apropiacionData.vigencia}/${apropiacionData.UnidadEjecutora}`,
+         apropiacionData ).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+
+    }
+
     public getFullArbol(raiz) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         // Set the optional branch for the API request.
         const unidadEjecutora = 1;
         const vigencia = 2019;
         // call request manager for the tree's data.
+        // return this.rqManager.get(`arbol_rubro_apropiacion/${raiz}/${vigencia.toString()}/${unidadEjecutora.toString()}`);
         return this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion/${raiz}/${unidadEjecutora.toString()}/${vigencia.toString()}`);
-
     }
 
     public getFullRaices() {
@@ -62,13 +89,11 @@ export class ApropiacionHelper {
             this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora.toString()}/${vigencia.toString()}`).toPromise().then(res => {
 
                 for (const element of res) {
-
+                    
                     rootsObsv.push(this.getFullArbol(element.Codigo));
-
                 }
                 forkJoin(rootsObsv).subscribe(treeUnformated => {
                     const tree = [];
-
                     for (const branch of treeUnformated) {
                         if (branch) {
                             tree.push(branch[0]);

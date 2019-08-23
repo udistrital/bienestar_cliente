@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
 import { PopUpManager } from '../../../managers/popUpManager';
@@ -12,6 +12,7 @@ import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 export class ApropiacionesComponent implements OnInit {
 
   @Input() vigenciaSeleccionada;
+  @Output() eventChange = new EventEmitter();
   rubroSeleccionado: any;
   apropiacionData: ArbolApropiacion;
   apropiacionAprobada: boolean;
@@ -98,7 +99,7 @@ export class ApropiacionesComponent implements OnInit {
 
   preAsignarApropiacion() {
     this.apropiacionData.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : this.vigenciaSel;
-    this.apropiacionData.Rubro.Id = typeof this.rubroSeleccionado._id === 'undefined' ? undefined : this.rubroSeleccionado._id;
+    this.apropiacionData.Rubro.Id = typeof this.rubroSeleccionado._id === 'undefined' ? undefined : this.rubroSeleccionado.Codigo;
     this.apropiacionData.Rubro.Nombre = typeof this.rubroSeleccionado.Nombre === 'undefined' ? undefined : this.rubroSeleccionado.Nombre;
     this.apropiacionData.Rubro.Descripcion = typeof this.rubroSeleccionado.Descripcion === 'undefined' ? undefined : this.rubroSeleccionado.Descripcion;
     this.apropiacionData.Rubro.UnidadEjecutora = typeof this.rubroSeleccionado.UnidadEjecutora === 'undefined'
@@ -110,11 +111,11 @@ export class ApropiacionesComponent implements OnInit {
 
     console.info(this.apropiacionData);
     if (this.vigenciaSel !== undefined) {
-      this.apHelper.apropiacionRegister(this.apropiacionData).subscribe((res) => {
+      this.apHelper.apropiacionUpdate(this.apropiacionData).subscribe((res) => {
         if (res) {
           this.popManager.showSuccessAlert('Se registro la preasignación de apropiación correctamente!');
           this.cleanForm();
-          // this.eventChange.emit(true);
+           this.eventChange.emit(true);
         }
       });
     } else {
