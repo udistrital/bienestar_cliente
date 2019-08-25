@@ -29,7 +29,8 @@
           <td colspan="2"><p class="correcto">{{ "APROPIACION.comprobacion-igualdad" | translate }}</p></td>
       </tr>
       <tr *ngIf="!balanceado">
-          <td colspan="2"><p class="error">{{ "APROPIACION.comprobacion-diferencia" | translate }}{{ingresos-egresos}}</p></td>
+          <td *ngIf="ingresos-egresos !== 0" colspan="2"><p class="error">{{ "APROPIACION.comprobacion-diferencia" | translate }}{{ingresos-egresos}}</p></td>
+          <td *ngIf="ingresos-egresos === 0" colspan="2"><p class="error">{{ "APROPIACION.comprobacion-diferencia-cero" | translate }}</p></td>
       </tr>
     </table>
   </div>

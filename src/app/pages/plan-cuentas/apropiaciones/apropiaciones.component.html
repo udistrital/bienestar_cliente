@@ -10,8 +10,13 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-6 col-lg-6 col-xxxl-6">
-              <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange" [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
+            <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
+              [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
+            <ngx-comprobacion-apropiacion-inicial (comprobacion)='checkComprobacion($event)' [vigencia]="vigenciaSel"
+              [updateSignal]="eventChange">
+            </ngx-comprobacion-apropiacion-inicial>
           </div>
+
           <div *ngIf="isLeaf" class="col-md-6 col-lg-6 col-xxxl-6">
             <div class="container-fluid">
               <nb-card>
@@ -92,8 +97,7 @@
                   </form>
                 </nb-card-body>
               </nb-card>
-              <ngx-comprobacion-apropiacion-inicial (comprobacion)='checkComprobacion($event)'>
-              </ngx-comprobacion-apropiacion-inicial>
+
             </div>
           </div>
         </div>

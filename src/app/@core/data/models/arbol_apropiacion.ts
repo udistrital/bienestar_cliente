@@ -10,6 +10,6 @@ export class ArbolApropiacion {
     Nombre: string;
     Descripcion: string;
     UnidadEjecutora: string;
-    RubroPadre: string;
+    Padre: string;
     Hijos: Array<string>;    
 }

@@ -39,21 +39,21 @@ export class ApropiacionHelper {
                         return res;
                     },
                 ),
-            );            
-        }else if(apropiacionData.ApropiacionAnterior > 0 ) {
+            );
+        } else if (apropiacionData.ApropiacionAnterior > 0) {
             return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
-            apropiacionData).pipe(
-                map(
-                    (res) => {
-                        if (res['Type'] === 'error') {
-                            this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
-                            return undefined;
-                        }
-                        return res;
-                    },
-                ),
-            );            
-        } else{
+                apropiacionData).pipe(
+                    map(
+                        (res) => {
+                            if (res['Type'] === 'error') {
+                                this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
+                                return undefined;
+                            }
+                            return res;
+                        },
+                    ),
+                );
+        } else {
             this.pUpManager.showErrorAlert('Valor Invalido de Apropiación');
         }
 
@@ -96,58 +96,12 @@ export class ApropiacionHelper {
         return this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion/${raiz}/${unidadEjecutora.toString()}/${vigencia.toString()}`);
     }
 
-    public getFullRaices() {
-        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        // Set the optional branch for the API request.
+
+
+    public getRootsBalance(vigencia: number) {
         const unidadEjecutora = 1;
-        const vigencia = 2019;
-        // call request manager for the tree's data.
-        const roots = new Observable<any>((observer) => {
-            const rootsObsv: Observable<any>[] = [];
+        return this.rqManager.get(`arbol_rubro_apropiacion/comprobar_balance/${unidadEjecutora.toString()}/${vigencia}`)
 
-            this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora.toString()}/${vigencia.toString()}`).toPromise().then(res => {
-
-                for (const element of res) {
-
-                    rootsObsv.push(this.getFullArbol(element.Codigo));
-                }
-                forkJoin(rootsObsv).subscribe(treeUnformated => {
-                    const tree = [];
-                    for (const branch of treeUnformated) {
-                        if (branch) {
-                            tree.push(branch[0]);
-                        }
-                    }
-                    observer.next(tree);
-                    observer.complete();
-                });
-
-            });
-
-            // observable execution
-
-        });
-        return roots;
-    }
-
-    public getRootsBalance(unidadEjecutora: number, vigencia: number) {
-
-        let totalIncomes = 0;
-        let totalExpenses = 0;
-
-        this.rqManager.get(`arbol_rubro_apropiacion/RaicesArbolApropiacion/${unidadEjecutora}/${vigencia}`).toPromise().then((res) => {
-            for (const aprRoot of res) {
-                if (aprRoot.Codigo === '2') {
-                    totalIncomes = aprRoot.ApropiacionInicial;
-                } else if (aprRoot.Codigo === '3') {
-                    totalExpenses = aprRoot.aprRoot.ApropiacionInicial;
-                }
-            }
-        });
-        return {
-            totalIncomes,
-            totalExpenses,
-        };
     }
 
 }

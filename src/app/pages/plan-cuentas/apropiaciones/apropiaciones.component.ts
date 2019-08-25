@@ -61,7 +61,7 @@ export class ApropiacionesComponent implements OnInit {
       Nombre: '',
       Descripcion: '',
       UnidadEjecutora: '',
-      RubroPadre: '',
+      Padre: '',
       Hijos: [],
     };
 
@@ -118,7 +118,7 @@ export class ApropiacionesComponent implements OnInit {
     this.apropiacionData.Nombre = typeof this.rubroSeleccionado.Nombre === 'undefined' ? undefined : this.rubroSeleccionado.Nombre;
     this.apropiacionData.Descripcion = typeof this.rubroSeleccionado.Descripcion === 'undefined' ? undefined : this.rubroSeleccionado.Descripcion;
     this.apropiacionData.UnidadEjecutora = typeof this.rubroSeleccionado.UnidadEjecutora === 'undefined' ? undefined : this.rubroSeleccionado.UnidadEjecutora;
-    this.apropiacionData.RubroPadre = typeof this.rubroSeleccionado.Padre === 'undefined' ? undefined : this.rubroSeleccionado.Padre;
+    this.apropiacionData.Padre = typeof this.rubroSeleccionado.Padre === 'undefined' ? undefined : this.rubroSeleccionado.Padre;
     this.apropiacionData.Hijos = typeof this.rubroSeleccionado.Hijos === 'undefined' ? undefined : this.rubroSeleccionado.Hijos;
     this.apropiacionData.ApropiacionInicial = typeof this.valorApropiacion === 'undefined' ? undefined : this.valorApropiacion;
     this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ApropiacionInicial === 'undefined' ? undefined : this.rubroSeleccionado.ApropiacionInicial;
