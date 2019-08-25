@@ -6,10 +6,10 @@ export class ArbolApropiacion {
     ApropiacionInicial: number;
     Estado: string;
     ApropiacionAnterior: number;
-    Codigo: string; 
+    Codigo: string;
     Nombre: string;
     Descripcion: string;
     UnidadEjecutora: string;
     Padre: string;
-    Hijos: Array<string>;    
+    Hijos: Array<string>;
 }

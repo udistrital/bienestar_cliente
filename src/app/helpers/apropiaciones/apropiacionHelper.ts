@@ -2,8 +2,6 @@ import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
-import { Observable, forkJoin } from 'rxjs';
-import { popup } from 'leaflet';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +26,7 @@ export class ApropiacionHelper {
         apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         apropiacionData.Organizacion = '1';
         console.info(apropiacionData.ApropiacionAnterior);
-        if (apropiacionData.ApropiacionAnterior == 0) {
+        if (parseFloat(apropiacionData.ApropiacionAnterior) === 0) {
             return this.rqManager.post(`arbol_rubro_apropiacion/`, apropiacionData).pipe(
                 map(
                     (res) => {
@@ -100,7 +98,7 @@ export class ApropiacionHelper {
 
     public getRootsBalance(vigencia: number) {
         const unidadEjecutora = 1;
-        return this.rqManager.get(`arbol_rubro_apropiacion/comprobar_balance/${unidadEjecutora.toString()}/${vigencia}`)
+        return this.rqManager.get(`arbol_rubro_apropiacion/comprobar_balance/${unidadEjecutora.toString()}/${vigencia}`);
 
     }
 

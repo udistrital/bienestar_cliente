@@ -6,9 +6,7 @@ import {
   NbTreeGridDataSourceBuilder,
   NbSortRequest,
 } from '@nebular/theme';
-import { RubroHelper } from '../../../helpers/rubros/rubroHelper';
 import { Observable } from 'rxjs';
-import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
 import { ArbolHelper } from '../../../helpers/arbol/arbolHelper';
 
 
@@ -43,7 +41,7 @@ export class ArbolComponent implements OnChanges {
   @Output() rubroSeleccionado = new EventEmitter();
   @Input() updateSignal: Observable<string[]>;
   @Input() optionSelect: string;
-  @Input() vigencia:  string;
+  @Input() vigencia: string;
   opcionSeleccionada: string;
   vigenciaSeleccionada: string;
 
@@ -61,13 +59,12 @@ export class ArbolComponent implements OnChanges {
   constructor(
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
-    private treeHelper: ArbolHelper,
-    private apHelper: ApropiacionHelper) {
+    private treeHelper: ArbolHelper) {
 
   }
   ngOnChanges(changes) {
-    if (changes.optionSelect !== undefined ) {
-      if (changes.optionSelect.currentValue !== undefined ) {
+    if (changes.optionSelect !== undefined) {
+      if (changes.optionSelect.currentValue !== undefined) {
         this.opcionSeleccionada = changes.optionSelect.currentValue;
         this.loadTree();
       }
@@ -75,10 +72,10 @@ export class ArbolComponent implements OnChanges {
     if (changes.vigencia !== undefined) {
       if (changes.vigencia.currentValue !== undefined) {
         console.info(changes.vigencia.currentValue);
-          this.vigenciaSeleccionada = changes.vigencia.currentValue;
-          this.loadTree();
+        this.vigenciaSeleccionada = changes.vigencia.currentValue;
+        this.loadTree();
       }
-    }    
+    }
     if (changes['updateSignal'] && this.updateSignal) {
       this.updateSignal.subscribe(() => {
         this.loadTree();
@@ -102,15 +99,15 @@ export class ArbolComponent implements OnChanges {
 
   loadTreeApropiaciones() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
-      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined ,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? []: node.children,
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? [] : node.children,
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
     this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
-    this.data = res;
+      this.data = res;
       this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
     },
     );

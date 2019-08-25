@@ -84,7 +84,7 @@ export class ApropiacionesComponent implements OnInit {
         0,
       );
       this.rubroSeleccionado.ApropiacionInicial = parseInt(this.rubroSeleccionado.ApropiacionInicial, 0);
-    } else{
+    } else {
       this.isLeaf = false;
     }
   }
