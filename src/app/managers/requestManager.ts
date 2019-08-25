@@ -90,6 +90,18 @@ export class RequestManager {
   }
 
   /**
+   * Perform a PUT http request
+   * @param endpoint service's end-point
+   * @param element data to send as JSON, With the params to UPDATE
+   * @returns Observable<any>
+   */
+  putParams(endpoint, element) {
+    return this.http.put<any>(`${this.path}${endpoint}`, element, this.httpOptions).pipe(
+      catchError(this.errManager.handleError),
+    );
+  }
+
+  /**
    * Perform a DELETE http request
    * @param endpoint service's end-point
    * @param id element's id for remove

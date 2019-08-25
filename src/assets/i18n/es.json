@@ -131,7 +131,8 @@
     "ingresos": " 2 INGRESOS",
     "egresos": "3 EGRESOS",
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
-    "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: "
+    "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
+    "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0"
   },
   "MODIF": {
     "modificacion_fuentes": "Modificación fuentes de financiamiento",
