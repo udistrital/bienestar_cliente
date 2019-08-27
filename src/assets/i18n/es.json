@@ -56,6 +56,8 @@
   },
   "GLOBAL": {
     "gestion-titulo": "Gestión de",
+    "consulta-vigencia-actual": "Consultar Vigencia Actual",
+    "preasignacion-apropiacion-inicial": "Preasignación de Apropiaciones Iniciales",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
     "rubro": "Rubro",
     "dependencia": "Dependencia",

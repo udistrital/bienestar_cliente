@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ArbolComponent, FsIconAComponent} from './arbol/arbol.component';
 import { GestionPlanCuentasComponent } from './gestion-plan-cuentas/gestion-plan-cuentas.component';
 import { RubrosComponent } from './rubros/rubros.component';
-import { ApropiacionesComponent } from './apropiaciones/apropiaciones.component';
+import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 
 
 const routes: Routes = [{
@@ -20,7 +20,7 @@ const routes: Routes = [{
 },
 {
   path: 'apropiaciones',
-  component: ApropiacionesComponent,
+  component: GestionApropiacionesComponent,
 },
 
 ];
@@ -35,6 +35,6 @@ export const routedComponents = [
   ArbolComponent,
   GestionPlanCuentasComponent,
   RubrosComponent,
-  ApropiacionesComponent,
+  GestionApropiacionesComponent,
   FsIconAComponent,
 ];
