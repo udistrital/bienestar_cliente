@@ -65,16 +65,15 @@ export class ApropiacionHelper {
        * @param apropiacionData object to save in the DB
        * @returns  <Observable> data of the object updated at the DB. undefined if the request has errors
        */
-    public apropiacionUpdate(apropiacionData) {
+    public apropiacionApprove(apropiacionData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        apropiacionData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-        apropiacionData.Organizacion = 1;
-        return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Rubro.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
+        return this.rqManager.post(`arbol_rubro_apropiacion/aprobacion_masiva/${apropiacionData.UnidadEjecutora}/${apropiacionData.Vigencia}`,
             apropiacionData).pipe(
                 map(
                     (res) => {
                         if (res['Type'] === 'error') {
-                            this.pUpManager.showErrorAlert('No se pudo actualizar la Apropiación Inicial al rubro seleccionado.');
+                            this.pUpManager
+                                .showErrorAlert('No se pudo realizar la aprobación de la Apropiación Inicial de la Vigencia ' + apropiacionData.Vigencia);
                             return undefined;
                         }
                         return res;

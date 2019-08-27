@@ -31,7 +31,7 @@ export class PopUpManager {
     }
 
     public showAlert(status, title, text) {
-        Swal.fire({
+        return Swal.fire({
             type: status,
             title: title,
             text: text,

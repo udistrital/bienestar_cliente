@@ -22,9 +22,10 @@ export class ApropiacionesComponent implements OnInit {
   vigenciaSel: any;
   clean = false;
   opcion: string;
-  VigenciaActual = 0;
+  VigenciaActual = '2019';
   optionView: string;
   vigencias: any[] = [
+    { vigencia: 2020 },
     { vigencia: 2019 },
     { vigencia: 2018 },
     { vigencia: 2017 },
@@ -91,6 +92,19 @@ export class ApropiacionesComponent implements OnInit {
 
 
   aprobarApropiacion() {
+    this.popManager.showAlert('warning', 'Aprobar Apropiación', 'esta seguro?')
+      .then((result) => {
+        if (result.value) {
+          this.apHelper.apropiacionApprove({ UnidadEjecutora: '1', Vigencia: this.vigenciaSel}).subscribe((res) => {
+            if (res) {
+              this.popManager.showSuccessAlert('Aprobación exitosa para la apropiación ' + this.vigenciaSel);
+              this.cleanForm();
+              this.eventChange.emit(true);
+            }
+          });
+        }
+      },
+      );
     this.apropiacionAprobada = true;
   }
 
@@ -122,7 +136,7 @@ export class ApropiacionesComponent implements OnInit {
     this.apropiacionData.Hijos = typeof this.rubroSeleccionado.Hijos === 'undefined' ? undefined : this.rubroSeleccionado.Hijos;
     this.apropiacionData.ApropiacionInicial = typeof this.valorApropiacion === 'undefined' ? undefined : this.valorApropiacion;
     this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ApropiacionInicial === 'undefined' ? undefined : this.rubroSeleccionado.ApropiacionInicial;
-    this.apropiacionData.Estado = 'preasignado'; // Estado preasignado
+    this.apropiacionData.Estado = 'registrada'; // Estado preasignado
 
     console.table(this.apropiacionData);
     if (this.vigenciaSel !== undefined) {
