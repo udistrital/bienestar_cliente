@@ -15,6 +15,8 @@ import {
 import { ProductosRubroComponent } from './rubros/productos-rubro/productos-rubro.component';
 import { ComprobacionApropiacionInicialComponent } from './comprobacion-apropiacion-inicial/comprobacion-apropiacion-inicial.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ApropiacionesComponent } from './apropiaciones/apropiaciones.component';
+import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia.component';
 
 
 
@@ -24,6 +26,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     ...routedComponents,
     ProductosRubroComponent,
     ComprobacionApropiacionInicialComponent,
+    ApropiacionesComponent,
+    ConsultaVigenciaComponent,
   ],
   imports: [
     ThemeModule,

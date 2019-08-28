@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <nb-card>
     <nb-card-header>
-      Gestión de Apropiaciones Iniciales
-      <nb-select id="select_vigencia" placeholder="Vigencia" outline status="success" [(ngModel)]="VigenciaActual">
+      Gestión de Preasignación Inicial
+      <nb-select id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="VigenciaActual">
         <nb-option *ngFor="let v of vigencias" [value]="v" (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
       </nb-select>
     </nb-card-header>
