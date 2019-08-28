@@ -8,7 +8,7 @@ describe('GestionApropiacionesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GestionApropiacionesComponent ]
+      declarations: [ GestionApropiacionesComponent ],
     })
     .compileComponents();
   }));
