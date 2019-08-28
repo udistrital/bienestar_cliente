@@ -95,7 +95,7 @@ export class ApropiacionesComponent implements OnInit {
     this.popManager.showAlert('warning', 'Aprobar Apropiación', 'esta seguro?')
       .then((result) => {
         if (result.value) {
-          this.apHelper.apropiacionApprove({ UnidadEjecutora: '1', Vigencia: this.vigenciaSel}).subscribe((res) => {
+          this.apHelper.apropiacionApprove({ UnidadEjecutora: '1', Vigencia: this.vigenciaSel }).subscribe((res) => {
             if (res) {
               this.popManager.showSuccessAlert('Aprobación exitosa para la apropiación ' + this.vigenciaSel);
               this.cleanForm();
@@ -127,7 +127,7 @@ export class ApropiacionesComponent implements OnInit {
   }
 
   preAsignarApropiacion() {
-    this.apropiacionData.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : this.vigenciaSel;
+    this.apropiacionData.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
     this.apropiacionData.Codigo = typeof this.rubroSeleccionado.Codigo === 'undefined' ? undefined : this.rubroSeleccionado.Codigo;
     this.apropiacionData.Nombre = typeof this.rubroSeleccionado.Nombre === 'undefined' ? undefined : this.rubroSeleccionado.Nombre;
     this.apropiacionData.Descripcion = typeof this.rubroSeleccionado.Descripcion === 'undefined' ? undefined : this.rubroSeleccionado.Descripcion;
