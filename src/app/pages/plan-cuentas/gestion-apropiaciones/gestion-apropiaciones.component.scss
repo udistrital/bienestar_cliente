@@ -5,7 +5,8 @@
 
 @mixin md-icon-size($size: 5px) {
   font-size: $size;
-  padding: 3rem;
+  padding: 2rem;
+  height: 200px;
 }
 
 :host {
@@ -15,4 +16,35 @@
     }
     text-align: center;
   }
+}
+.secDashboard{
+  margin: 0 1%;
+}
+.secDashboard nb-card {
+  height: auto;
+}
+.secDashboard nb-card{
+  border-radius: 3%;
+}
+.secDashboard .option-icon {
+  justify-content: center;
+  align-items: center;
+  color: #17a2b8;
+}
+.secDashboard h3{
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+  color: #17a2b8;
+  max-width: 75%;
+}
+.secDashboard mat-icon {
+  max-width: 50%;
+}
+.secDashboard .option-icon:hover{
+  cursor: pointer;
+  color: #fff;
+  background-color: rgba(23, 162, 184, 0.5);
+}
+.secDashboard .option-icon:hover h3 {
+  color: #fff;
 }

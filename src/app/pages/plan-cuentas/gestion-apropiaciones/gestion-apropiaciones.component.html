@@ -7,36 +7,32 @@
   </button>
 </div>
 <br/>
-<div class="col-12 col-sm-6 col-md-8">
+<div class="col-12 col-sm-6 col-md-12">
   <div class="row" *ngIf="!opcionSeleccionada">
-    <div class="card-col">
-      <nb-card size="medium">
+    <div class="card-col-4" class="secDashboard">
+      <nb-card size="small" (click)="routeView('apropiacion')">
         <nb-card-body >
-          <div class="option-icon">
-            <mat-icon  svgIcon="consulta_apropiacion" inline="true"></mat-icon>
-          </div>
-        </nb-card-body>
-        <nb-card-footer status="info" type="submit" class="btn btn-info btn-block "
-            (click)="routeView('apropiacion')">
-            {{
+            <div class="option-icon d-flex flex-column">
+              <mat-icon  svgIcon="consulta_apropiacion" inline="true"></mat-icon>
+              <h3>{{
                     "GLOBAL.consulta-vigencia-actual" | translate
                   }}
-          </nb-card-footer>
+              </h3>
+            </div>
+        </nb-card-body>
       </nb-card>
     </div>
-    <div class="card-col">
-      <nb-card size="medium">
+    <div class="card-col-4" class="secDashboard">
+      <nb-card size="small"  (click)="routeView('preasignacion')">
         <nb-card-body >
-          <div class="option-icon">
-            <mat-icon  svgIcon="preasignacion" inline="true"></mat-icon>
-          </div>
+            <div class="option-icon d-flex flex-column">
+              <mat-icon  svgIcon="preasignacion" inline="true"></mat-icon>
+              <h3>{{
+                    "GLOBAL.preasignacion-apropiacion-inicial" | translate
+                   }}
+              </h3>
+            </div>
         </nb-card-body>
-        <nb-card-footer status="info" type="submit" class="btn btn-info btn-block "
-            (click)="routeView('preasignacion')">
-            {{
-                        "GLOBAL.preasignacion-apropiacion-inicial" | translate
-                      }}
-          </nb-card-footer>
       </nb-card>
     </div>
   </div>
