@@ -113,6 +113,24 @@ export class ArbolComponent implements OnChanges {
     );
   }
 
+  loadTreeApropiacionesEstado() {
+    const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? [] : node.children,
+      expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
+    };
+    this.customColumn = 'Codigo';
+    this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
+    this.allColumns = [this.customColumn, ...this.defaultColumns];
+    console.info(this.vigenciaSeleccionada);
+    this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
+      this.data = res;
+      this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+      console.info(this.dataSource2);
+    },
+    );
+  }  
+
   loadTree() {
     // console.info(this.opcionSeleccionada);
     // console.info(this.optionSelect);
@@ -120,6 +138,8 @@ export class ArbolComponent implements OnChanges {
       this.loadTreeRubros();
     } else if (this.opcionSeleccionada === 'Apropiaciones') {
       this.loadTreeApropiaciones();
+    } else if (this.opcionSeleccionada === 'ApropiacionesEstado') {
+      this.loadTreeApropiacionesEstado();
     }
   }
   updateTreeSignal($event) {

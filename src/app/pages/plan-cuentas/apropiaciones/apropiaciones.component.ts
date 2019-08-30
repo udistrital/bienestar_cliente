@@ -22,7 +22,7 @@ export class ApropiacionesComponent implements OnInit {
   vigenciaSel: any;
   clean = false;
   opcion: string;
-  VigenciaActual = '2019';
+  VigenciaActual = '2020';
   optionView: string;
   vigencias: any[] = [
     { vigencia: 2020 },
@@ -37,7 +37,7 @@ export class ApropiacionesComponent implements OnInit {
     private apHelper: ApropiacionHelper,
     private popManager: PopUpManager,
   ) {
-    this.vigenciaSel = '2019';
+    this.vigenciaSel = '2020';
     this.optionView = 'Apropiaciones';
 
     this.rubroSeleccionado = {
