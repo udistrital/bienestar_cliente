@@ -25,7 +25,7 @@ export class ApropiacionHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         apropiacionData.Organizacion = '1';
-        console.info(apropiacionData.ApropiacionAnterior);
+        console.info(apropiacionData.Vigencia);
         if (parseFloat(apropiacionData.ApropiacionAnterior) === 0) {
             return this.rqManager.post(`arbol_rubro_apropiacion/`, apropiacionData).pipe(
                 map(
