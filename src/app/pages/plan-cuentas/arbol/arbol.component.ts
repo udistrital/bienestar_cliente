@@ -129,7 +129,7 @@ export class ArbolComponent implements OnChanges {
       console.info(this.dataSource2);
     },
     );
-  }  
+  }
 
   loadTree() {
     // console.info(this.opcionSeleccionada);

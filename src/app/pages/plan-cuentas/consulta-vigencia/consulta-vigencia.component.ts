@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
-import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
-import { PopUpManager } from '../../../managers/popUpManager';
 
 @Component({
   selector: 'ngx-consulta-vigencia',
@@ -24,8 +22,6 @@ export class ConsultaVigenciaComponent implements OnInit {
   balanceado: boolean;
 
   constructor(
-    private apHelper: ApropiacionHelper,
-    private popManager: PopUpManager,
   ) {
     this.vigenciaSel = '2020';
     this.optionView = 'ApropiacionesEstado';
@@ -50,15 +46,15 @@ export class ConsultaVigenciaComponent implements OnInit {
   }
 
   receiveMessage($event) {
-      this.rubroSeleccionado = <Rubro>$event;
-      // console.info(this.rubroSeleccionado);
-      this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
-      this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
-      this.rubroSeleccionado.UnidadEjecutora = parseInt(
-        this.rubroSeleccionado.UnidadEjecutora,
-        0,
-      );
-      this.rubroSeleccionado.ApropiacionInicial = parseInt(this.rubroSeleccionado.ApropiacionInicial, 0);
-    
+    this.rubroSeleccionado = <Rubro>$event;
+    // console.info(this.rubroSeleccionado);
+    this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
+    this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
+    this.rubroSeleccionado.UnidadEjecutora = parseInt(
+      this.rubroSeleccionado.UnidadEjecutora,
+      0,
+    );
+    this.rubroSeleccionado.ApropiacionInicial = parseInt(this.rubroSeleccionado.ApropiacionInicial, 0);
+
   }
 }
