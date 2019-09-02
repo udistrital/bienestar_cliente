@@ -123,6 +123,7 @@ export class ApropiacionesComponent implements OnInit {
       _id: '',
     };
     this.apropiacionData = <ArbolApropiacion>{};
+    this.valorApropiacion = 0;
 
   }
 
