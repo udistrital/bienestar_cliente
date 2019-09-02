@@ -106,11 +106,13 @@ export class ArbolComponent implements OnChanges {
     this.customColumn = 'Codigo';
     this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
+    if (this.vigenciaSeleccionada) {
     this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
       this.data = res;
       this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
     },
     );
+  }
   }
 
   loadTreeApropiacionesEstado() {
@@ -123,12 +125,14 @@ export class ArbolComponent implements OnChanges {
     this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     console.info(this.vigenciaSeleccionada);
-    this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
-      this.data = res;
-      this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
-      console.info(this.dataSource2);
-    },
-    );
+    if (this.vigenciaSeleccionada) {
+      this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
+        this.data = res;
+        this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+        console.info(this.dataSource2);
+      },
+      );
+    }
   }
 
   loadTree() {
