@@ -38,7 +38,7 @@
 </nb-card>
 
 <!-- ArbolApropiaciones -->
-<nb-card *ngIf="opcionSeleccionada=='Apropiaciones'">
+<nb-card *ngIf="opcionSeleccionada=='Apropiaciones' || opcionSeleccionada=='ApropiacionesEstado' ">
   <nb-card-body>
     <label class="search-label" for="search">{{
       "GLOBAL.buscar" | translate

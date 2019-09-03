@@ -122,12 +122,13 @@ export class ArbolComponent implements OnChanges {
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
-    this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
+    this.defaultColumns = ['Nombre', 'ApropiacionInicial', 'Estado'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
-    console.info(this.vigenciaSeleccionada);
     if (this.vigenciaSeleccionada) {
+      console.info(this.vigenciaSeleccionada);
       this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
         this.data = res;
+        console.info(this.data);
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
         console.info(this.dataSource2);
       },

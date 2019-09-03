@@ -12,7 +12,6 @@ export class ConsultaVigenciaComponent implements OnInit {
   @Output() eventChange = new EventEmitter();
   vigenciaChange: string;
   rubroSeleccionado: any;
-  apropiacionAprobada: boolean;
   valorApropiacion: number;
   vigenciaSel: any;
   clean = false;
