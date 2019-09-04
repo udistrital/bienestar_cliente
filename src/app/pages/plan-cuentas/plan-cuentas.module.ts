@@ -44,7 +44,6 @@ import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia
     Ng2SmartTableModule,
   ],
   exports: [
-
   ],
 })
 export class PlanCuentasModule { }

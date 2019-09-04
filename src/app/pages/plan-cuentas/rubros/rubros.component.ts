@@ -23,6 +23,7 @@ export class RubrosComponent implements OnInit {
   formInfoRubro: any;
   rubroData: NodoRubro;
   editandoRubro: boolean;
+  productos: boolean = false;
 
   vigencias: any[] = [
     { vigencia: 2019 },
@@ -71,6 +72,11 @@ export class RubrosComponent implements OnInit {
 
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
+    if (this.rubroSeleccionado.Hijos.length === 0) {
+      this.productos = true;
+    } else {
+      this.productos = false;
+    }
     this.rubroSeleccionado.UnidadEjecutora = parseInt(this.rubroSeleccionado.UnidadEjecutora, 0);
 
     const data = {

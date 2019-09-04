@@ -6,6 +6,7 @@ import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 
 
+
 const routes: Routes = [{
   path: 'arbol',
   component: ArbolComponent,
