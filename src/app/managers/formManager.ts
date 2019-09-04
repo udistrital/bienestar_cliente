@@ -10,12 +10,12 @@ export class FormManager {
         }
         return -1;
     }
-    public static ConstruirForm(form:any, translate: TranslateService){
-        form.titulo =  translate.instant('GLOBAL.aplicacion');
+    public static ConstruirForm(form: any, translate: TranslateService) {
+        form.titulo = translate.instant('GLOBAL.aplicacion');
         form.btn = translate.instant('GLOBAL.guardar');
         for (let i = 0; i < form.campos.length; i++) {
-          form.campos[i].label = translate.instant('GLOBAL.' + form.campos[i].label_i18n);
-          form.campos[i].placeholder = translate.instant('GLOBAL.placeholder_' + form.campos[i].label_i18n);
+            form.campos[i].label = translate.instant('GLOBAL.' + form.campos[i].label_i18n);
+            form.campos[i].placeholder = translate.instant('GLOBAL.placeholder_' + form.campos[i].label_i18n);
         }
         return form;
     }

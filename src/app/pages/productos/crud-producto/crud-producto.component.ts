@@ -32,8 +32,8 @@ export class CrudProductoComponent implements OnInit {
   clean: boolean;
 
   constructor(
-    private translate: TranslateService, 
-    private configuracionService: ConfiguracionService, 
+    private translate: TranslateService,
+    private configuracionService: ConfiguracionService,
     private toasterService: ToasterService,
     ) {
     this.formProducto = FORM_PRODUCTO;
@@ -43,7 +43,7 @@ export class CrudProductoComponent implements OnInit {
     });
   }
 
- 
+
 
   useLanguage(language: string) {
     this.translate.use(language);
@@ -64,7 +64,7 @@ export class CrudProductoComponent implements OnInit {
     }
   }
 
-  updateProducto(Producto: any): void {
+  updateProducto(producto: any): void {
 
     const opt: any = {
       title: 'Update?',
@@ -77,7 +77,7 @@ export class CrudProductoComponent implements OnInit {
     Swal.fire(opt)
       .then((willDelete) => {
         if (willDelete.value) {
-          this.info_producto = <Producto>Producto;
+          this.info_producto = <Producto>producto;
           this.configuracionService.put('Producto', this.info_producto)
             .subscribe(res => {
               this.loadProducto();
@@ -88,7 +88,7 @@ export class CrudProductoComponent implements OnInit {
       });
   }
 
-  createProducto(Producto: any): void {
+  createProducto(producto: any): void {
     const opt: any = {
       title: 'Create?',
       text: 'Create Producto!',
@@ -100,7 +100,7 @@ export class CrudProductoComponent implements OnInit {
     Swal.fire(opt)
       .then((willDelete) => {
         if (willDelete.value) {
-          this.info_producto = <Producto>Producto;
+          this.info_producto = <Producto>producto;
           this.configuracionService.post('Producto', this.info_producto)
             .subscribe(res => {
               this.info_producto = <Producto><unknown>res;

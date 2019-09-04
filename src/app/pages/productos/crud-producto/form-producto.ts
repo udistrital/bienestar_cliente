@@ -25,4 +25,4 @@ export let FORM_PRODUCTO = {
             tipo: 'text',
         }
     ],
-}
+};
