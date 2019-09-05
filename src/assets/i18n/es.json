@@ -63,6 +63,7 @@
     "dependencia": "Dependencia",
     "valor": "Valor",
     "producto": "Producto",
+    "productos": "Productos",
     "porcentaje": "Porcentaje %",
     "quitar_producto": "Quitar producto",
     "apropiacion-inicial": "Apropiacion inicial",
@@ -70,6 +71,7 @@
     "detalle-rubro": "Detalle del rubro",
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
+    "codigo": "Código",
     "unidad-ejecutora": "Centro gestor",
     "entidad": "Entidad",
     "descripcion": "Descripción",
@@ -111,7 +113,11 @@
     "alerta_documental_documento": "El documento se ha guardado en nuestro gestor documental",
     "info_basica": "Información básica",
     "resumen": "Resumen",
-    "placeholder_resumen": "Ej: Resumen"
+    "placeholder_resumen": "Ej: Resumen",
+    "nombre": "Nombre",
+    "placeholder_codigo": "Código",
+    "placeholder_nombre": "Nombre",
+    "placeholder_descripcion": "Descripción"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -159,6 +165,14 @@
     "valor-reduccion": "Valor reducción",
     "quitar-dependencia": "Quitar Dependencia",
     "traslado": "Traslado"
+  },
+  "PRODUCTO": {
+    "mensaje_actualizar": "¿ Actualizar Producto ?",
+    "confirmacion_actualizacion": "Producto Actualizado",
+    "mensaje_registrar": "¿ Crear Producto ?",
+    "confirmacion_creacion": "Producto Registrado",
+    "mensaje_eliminar": "¿ Eliminar Producto ?",
+    "confirmacion_eliminar": "Producto Eliminado"
   },
   "_id": "ID",
   "Nombre": "Nombre",
