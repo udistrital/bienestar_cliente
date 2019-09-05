@@ -99,7 +99,7 @@ export class ListProductoComponent implements OnInit {
   }
 
   onCreate(event): void {
-    this.uid = '0';
+    this.uid = null;
     this.activetab();
   }
 

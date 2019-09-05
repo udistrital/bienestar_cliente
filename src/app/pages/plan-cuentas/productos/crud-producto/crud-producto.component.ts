@@ -56,7 +56,6 @@ export class CrudProductoComponent implements OnInit {
     if (this.producto_id) {
       this.productoHelper.getProductos(this.producto_id)
         .subscribe(res => {
-          console.info('edit', res);
           if (res !== null) {
             this.info_producto = <Producto>res;
           }
