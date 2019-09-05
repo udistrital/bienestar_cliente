@@ -36,6 +36,7 @@ export class CrudProductoComponent implements OnInit {
     private configuracionService: ConfiguracionService,
     private toasterService: ToasterService,
     ) {
+
     this.formProducto = FORM_PRODUCTO;
     this.formProducto = FormManager.ConstruirForm(this.formProducto, this.translate);
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

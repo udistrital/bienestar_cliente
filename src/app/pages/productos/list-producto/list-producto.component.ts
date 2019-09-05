@@ -12,7 +12,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   styleUrls: ['./list-producto.component.scss'],
   })
 export class ListProductoComponent implements OnInit {
-  uid: number;
+  uid: string;
   cambiotab: boolean = false;
   config: ToasterConfig;
   settings: any;
@@ -20,6 +20,8 @@ export class ListProductoComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private translate: TranslateService, private configuracionService: ConfiguracionService, private toasterService: ToasterService) {
+    console.log('constructor');
+    
     this.loadData();
     this.cargarCampos();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -120,7 +122,7 @@ export class ListProductoComponent implements OnInit {
   }
 
   onCreate(event): void {
-    this.uid = 0;
+    this.uid = '0';
     this.activetab();
   }
 

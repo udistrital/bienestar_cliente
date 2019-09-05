@@ -10,10 +10,10 @@ const routes: Routes = [{
   path: '',
   component: ProductoComponent,
   children: [{
-    path: 'list-aplicacion',
+    path: 'list-producto',
     component: ListProductoComponent,
   }, {
-    path: 'crud-aplicacion',
+    path: 'crud-producto',
     component: CrudProductoComponent,
   }],
 }];

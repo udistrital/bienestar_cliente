@@ -7,6 +7,7 @@ import { ToasterModule } from 'angular2-toaster';
 import { SharedModule } from '../../shared/shared.module';
 import { CrudProductoComponent } from './crud-producto/crud-producto.component';
 import { ToasterService} from 'angular2-toaster';
+import { NbCardModule } from '@nebular/theme';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ToasterService} from 'angular2-toaster';
     ProductoRoutingModule,
     Ng2SmartTableModule,
     ToasterModule,
+    NbCardModule,
     SharedModule,
   ],
   declarations: [
