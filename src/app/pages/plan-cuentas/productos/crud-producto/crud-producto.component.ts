@@ -1,13 +1,14 @@
 
-import { Producto } from './../../../@core/data/models/producto';
+import { Producto } from '../../../../@core/data/models/producto';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ConfiguracionService } from '../../../@core/data/configuracion.service';
 import { FORM_PRODUCTO } from './form-producto';
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { ToasterConfig } from 'angular2-toaster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
-import { FormManager } from '../../../managers/formManager';
+import { FormManager } from '../../../../managers/formManager';
+import { ProductoHelper } from '../../../../helpers/productos/productoHelper';
+import { PopUpManager } from '../../../../managers/popUpManager';
 
 @Component({
   selector: 'ngx-crud-producto',
@@ -33,9 +34,9 @@ export class CrudProductoComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private configuracionService: ConfiguracionService,
-    private toasterService: ToasterService,
-    ) {
+    private productoHelper: ProductoHelper,
+    private popUpManager: PopUpManager,
+  ) {
 
     this.formProducto = FORM_PRODUCTO;
     this.formProducto = FormManager.ConstruirForm(this.formProducto, this.translate);
@@ -53,10 +54,11 @@ export class CrudProductoComponent implements OnInit {
 
   public loadProducto(): void {
     if (this.producto_id) {
-      this.configuracionService.get('Producto/?query=id:' + this.producto_id)
+      this.productoHelper.getProductos(this.producto_id)
         .subscribe(res => {
+          console.info('edit', res);
           if (res !== null) {
-            this.info_producto = <Producto>res[0];
+            this.info_producto = <Producto>res;
           }
         });
     } else {
@@ -79,11 +81,11 @@ export class CrudProductoComponent implements OnInit {
       .then((willDelete) => {
         if (willDelete.value) {
           this.info_producto = <Producto>producto;
-          this.configuracionService.put('Producto', this.info_producto)
+          this.productoHelper.productoUpdate(this.info_producto)
             .subscribe(res => {
               this.loadProducto();
               this.eventChange.emit(true);
-              this.showToast('info', 'updated', 'Producto updated');
+              this.popUpManager.showSuccessAlert('Producto Updated');
             });
         }
       });
@@ -102,12 +104,11 @@ export class CrudProductoComponent implements OnInit {
       .then((willDelete) => {
         if (willDelete.value) {
           this.info_producto = <Producto>producto;
-          this.configuracionService.post('Producto', this.info_producto)
-            .subscribe(res => {
-              this.info_producto = <Producto><unknown>res;
-              this.eventChange.emit(true);
-              this.showToast('info', 'created', 'Producto created');
-            });
+          this.productoHelper.productoRegister(this.info_producto).subscribe(res => {
+            this.info_producto = <Producto><unknown>res;
+            this.eventChange.emit(true);
+            this.popUpManager.showSuccessAlert('Producto Creado');
+          });
         }
       });
   }
@@ -124,27 +125,6 @@ export class CrudProductoComponent implements OnInit {
         this.updateProducto(event.data.Producto);
       }
     }
-  }
-
-  private showToast(type: string, title: string, body: string) {
-    this.config = new ToasterConfig({
-      // 'toast-top-full-width', 'toast-bottom-full-width', 'toast-top-left', 'toast-top-center'
-      positionClass: 'toast-top-center',
-      timeout: 5000,  // ms
-      newestOnTop: true,
-      tapToDismiss: false, // hide on click
-      preventDuplicates: true,
-      animation: 'slideDown', // 'fade', 'flyLeft', 'flyRight', 'slideDown', 'slideUp'
-      limit: 5,
-    });
-    const toast: Toast = {
-      type: type, // 'default', 'info', 'success', 'warning', 'error'
-      title: title,
-      body: body,
-      showCloseButton: true,
-      bodyOutputType: BodyOutputType.TrustedHtml,
-    };
-    this.toasterService.popAsync(toast);
   }
 
 }

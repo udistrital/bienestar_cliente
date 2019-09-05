@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ConfiguracionService } from '../../../@core/data/configuracion.service';
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { ToasterConfig } from 'angular2-toaster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
+import { ProductoHelper } from '../../../helpers/productos/productoHelper';
+import { PopUpManager } from '../../../managers/popUpManager';
 
 @Component({
   selector: 'ngx-list-producto',
   templateUrl: './list-producto.component.html',
   styleUrls: ['./list-producto.component.scss'],
-  })
+})
 export class ListProductoComponent implements OnInit {
   uid: string;
   cambiotab: boolean = false;
@@ -19,9 +20,9 @@ export class ListProductoComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private translate: TranslateService, private configuracionService: ConfiguracionService, private toasterService: ToasterService) {
-    console.log('constructor');
-    
+  constructor(private translate: TranslateService,
+    private productoHelper: ProductoHelper,
+    private popUpManager: PopUpManager) {
     this.loadData();
     this.cargarCampos();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -47,6 +48,13 @@ export class ListProductoComponent implements OnInit {
       },
       mode: 'external',
       columns: {
+        Codigo: {
+          title: this.translate.instant('GLOBAL.codigo'),
+          // type: 'string;',
+          valuePrepareFunction: (value) => {
+            return value;
+          },
+        },
         Nombre: {
           title: this.translate.instant('GLOBAL.nombre'),
           // type: 'string;',
@@ -60,7 +68,7 @@ export class ListProductoComponent implements OnInit {
           valuePrepareFunction: (value) => {
             return value;
           },
-       
+
         },
       },
     };
@@ -71,11 +79,14 @@ export class ListProductoComponent implements OnInit {
   }
 
   loadData(): void {
-    this.configuracionService.get('aplicacion/?limit=0').subscribe(res => {
+    this.productoHelper.getProductos('').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
-          }
+
+      } else {
+        this.source.load([]);
+      }
     });
   }
 
@@ -83,7 +94,7 @@ export class ListProductoComponent implements OnInit {
   }
 
   onEdit(event): void {
-    this.uid = event.data.Id;
+    this.uid = event.data['_id'];
     this.activetab();
   }
 
@@ -95,24 +106,24 @@ export class ListProductoComponent implements OnInit {
   onDelete(event): void {
     const opt: any = {
       title: 'Deleting?',
-      text: 'Delete Aplicacion!',
+      text: 'Delete Product!',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
     };
     Swal.fire(opt)
-    .then((willDelete) => {
+      .then((willDelete) => {
 
-      if (willDelete.value) {
-        this.configuracionService.delete('aplicacion/', event.data).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.showToast('info', 'deleted', 'Aplicacion deleted');
+        if (willDelete.value) {
+          this.productoHelper.productoDelete(event.data['_id']).subscribe(res => {
+            if (res !== null) {
+              this.loadData();
+              this.popUpManager.showSuccessAlert('Product Deleted');
             }
-         });
-      }
-    });
+          });
+        }
+      });
   }
 
   activetab(): void {
@@ -137,27 +148,6 @@ export class ListProductoComponent implements OnInit {
 
   itemselec(event): void {
     // console.log("afssaf");
-  }
-
-  private showToast(type: string, title: string, body: string) {
-    this.config = new ToasterConfig({
-      // 'toast-top-full-width', 'toast-bottom-full-width', 'toast-top-left', 'toast-top-center'
-      positionClass: 'toast-top-center',
-      timeout: 5000,  // ms
-      newestOnTop: true,
-      tapToDismiss: false, // hide on click
-      preventDuplicates: true,
-      animation: 'slideDown', // 'fade', 'flyLeft', 'flyRight', 'slideDown', 'slideUp'
-      limit: 5,
-    });
-    const toast: Toast = {
-      type: type, // 'default', 'info', 'success', 'warning', 'error'
-      title: title,
-      body: body,
-      showCloseButton: true,
-      bodyOutputType: BodyOutputType.TrustedHtml,
-    };
-    this.toasterService.popAsync(toast);
   }
 
 }

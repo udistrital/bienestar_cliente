@@ -71,6 +71,7 @@
     "detalle-rubro": "Detalle del rubro",
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
+    "codigo": "Código",
     "unidad-ejecutora": "Centro gestor",
     "entidad": "Entidad",
     "descripcion": "Descripción",
@@ -112,7 +113,8 @@
     "alerta_documental_documento": "El documento se ha guardado en nuestro gestor documental",
     "info_basica": "Información básica",
     "resumen": "Resumen",
-    "placeholder_resumen": "Ej: Resumen"
+    "placeholder_resumen": "Ej: Resumen",
+    "nombre": "Nombre"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
