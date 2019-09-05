@@ -47,13 +47,6 @@ export class ListProductoComponent implements OnInit {
       },
       mode: 'external',
       columns: {
-        // Id: {
-        //   title: this.translate.instant('GLOBAL.id'),
-        //   // type: 'number;',
-        //   valuePrepareFunction: (value) => {
-        //     return value;
-        //   },
-        // },
         Nombre: {
           title: this.translate.instant('GLOBAL.nombre'),
           // type: 'string;',
@@ -67,34 +60,7 @@ export class ListProductoComponent implements OnInit {
           valuePrepareFunction: (value) => {
             return value;
           },
-        },
-        Dominio: {
-          title: this.translate.instant('GLOBAL.dominio'),
-          // type: 'string;',
-          valuePrepareFunction: (value) => {
-            return value;
-          },
-        },
-        Estado: {
-          title: this.translate.instant('GLOBAL.estado'),
-          // type: 'boolean;',
-          valuePrepareFunction: (value) => {
-            return value;
-          },
-        },
-        Alias: {
-          title: this.translate.instant('GLOBAL.alias'),
-          // type: 'string;',
-          valuePrepareFunction: (value) => {
-            return value;
-          },
-        },
-        EstiloIcono: {
-          title: this.translate.instant('GLOBAL.estilo_icono'),
-          // type: 'string;',
-          valuePrepareFunction: (value) => {
-            return value;
-          },
+       
         },
       },
     };
