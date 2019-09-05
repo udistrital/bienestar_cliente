@@ -1,5 +1,8 @@
 @import '../@theme/styles/themes';
+:host {
 
+  background: nb-theme(background-basic-color-1);
+}
 @include nb-install-component() {
   ::ng-deep router-outlet + * {
     display: block;

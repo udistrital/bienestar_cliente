@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <nb-card>
+    <nb-card-header>
+      {{
+        "GLOBAL.apropiacion-inicial" | translate
+      }}
+      {{
+        "GLOBAL.vigencia" | translate
+      }}
+      {{
+        vigenciaSel
+      }}             
+    </nb-card-header>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-xxxl-6">
+            <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
+              [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
+          </div>
+
+          <div class="col-md-6 col-lg-6 col-xxxl-6">
+            <div class="container-fluid">
+              <nb-card>
+                <nb-card-header>{{
+                    "GLOBAL.detalle-rubro" | translate
+                  }}</nb-card-header>
+                <nb-card-body>
+                  <form>
+                    <div class="form-group">
+                      <label>{{ "GLOBAL.nombre-rubro" | translate }}</label>
+                      <input type="text" class="form-control" placeholder="Nombre" [value]="rubroSeleccionado.Nombre"
+                        readonly />
+                    </div>
+                    <div class="form-group">
+                      <label>{{ "GLOBAL.codigo-rubro" | translate }}</label>
+                      <input type="text" class="form-control" placeholder="Codigo" [value]="rubroSeleccionado.Codigo"
+                        readonly />
+                    </div>
+
+                    <div class="form-group">
+                      <label>{{
+                          "GLOBAL.unidad-ejecutora" | translate
+                        }}</label>
+                      <input type="text" class="form-control" placeholder="Centro Gestor"
+                        [value]="rubroSeleccionado.UnidadEjecutora" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label>{{ "GLOBAL.entidad" | translate }}</label>
+                      <input type="text" class="form-control" placeholder="Entidad" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label>{{ "GLOBAL.descripcion" | translate }}</label>
+                      <textarea class="form-control" placeholder="Descripción" [value]="rubroSeleccionado.Descripcion"
+                        readonly></textarea>
+                    </div>
+                  </form>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card>
+</div>

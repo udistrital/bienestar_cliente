@@ -37,4 +37,4 @@ Como componentes básicos cuenta con:
    - Plan Cuentas MONGO CRUD . [Repositorio](https://github.com/udistrital/plan_cuentas_mongo_crud)
  
   ### Herramientas usadas
-  - **ngx-admin:** este [template](https://github.com/akveo/ngx-admin) es el que utiliza ngxGenerator, esta basado en Angular 7+, Bootstrap 4 y Nebular.
+  - **ngx-admin:** este [template](https://github.com/akveo/ngx-admin) es el que utiliza ngxGenerator, esta basado en Angular 8+, Bootstrap 4 y Nebular.

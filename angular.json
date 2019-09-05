@@ -29,6 +29,7 @@
               }
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/typeface-exo/index.css",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
@@ -104,7 +105,7 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ]
-            } 
+            }
           }
         },
         "serve": {
@@ -143,6 +144,7 @@
               "node_modules/chart.js/dist/Chart.min.js"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/typeface-exo/index.css",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",

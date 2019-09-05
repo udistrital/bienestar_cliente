@@ -12,15 +12,20 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImplicitAutenticationService } from '../@core/utils/implicit_autentication.service';
+import { ConfiguracionService } from '../@core/data/configuracion.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FooterComponent,
   HeaderComponent,
   SearchInputComponent,
   TinyMCEComponent,
+  DinamicformComponent,
 } from './components';
 import {
   CapitalizePipe,
@@ -38,10 +43,50 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import {
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatStepperModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule,
+} from '@angular/material';
 
 const NB_MODULES = [
   NbLayoutModule,
   NbMenuModule,
+  NgbModule,
   NbUserModule,
   NbActionsModule,
   NbSearchModule,
@@ -52,6 +97,7 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbCardModule,
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -61,6 +107,7 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  DinamicformComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -70,23 +117,70 @@ const PIPES = [
   NumberWithCommasPipe,
 ];
 
+const MAT_MODULES = [
+  CdkTableModule,
+  CdkTreeModule,
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatStepperModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule,
+];
+
+const NB_THEME_PROVIDERS = [
+  ...NbThemeModule.forRoot(
+    {
+      name: 'default',
+      // name: 'ud',
+    },
+    [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
+  ).providers,
+  ...NbSidebarModule.forRoot().providers,
+  ...NbMenuModule.forRoot().providers,
+];
+
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
-  exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, ...PIPES, ...COMPONENTS, ...MAT_MODULES],
+  declarations: [...COMPONENTS, ...PIPES, DinamicformComponent],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {
     return <ModuleWithProviders>{
       ngModule: ThemeModule,
-      providers: [
-        ...NbThemeModule.forRoot(
-          {
-            name: 'default',
-          },
-          [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ],
-        ).providers,
-      ],
+      providers: [...NB_THEME_PROVIDERS,
+        ImplicitAutenticationService,
+        ConfiguracionService],
     };
   }
 }
