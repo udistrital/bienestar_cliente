@@ -35,15 +35,20 @@ export class CrudFuenteComponent implements OnInit {
     private popUpManager: PopUpManager,
   ) {
     this.formFuente = FORM_FUENTE;
-    this.formFuente = FormManager.ConstruirForm(this.formFuente, this.translate, 'RUBRO.add-fuente');
+    this.formFuente = FormManager.ConstruirForm(this.formFuente, this.translate, 'FUENTE_FINANCIAMIENTO.asignar_fuente');
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.formFuente = FormManager.ConstruirForm(this.formFuente, this.translate, 'RUBRO.add-fuente');
+      this.formFuente = FormManager.ConstruirForm(this.formFuente, this.translate, 'FUENTE_FINANCIAMIENTO.asignar_fuente');
     });
 
    }
 
   ngOnInit() {
+    this.loadFuente();
   }
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
+
 
   public loadFuente(): void {
     if (this.fuente_id) {
@@ -56,6 +61,62 @@ export class CrudFuenteComponent implements OnInit {
     } else {
       this.info_fuente = undefined;
       this.clean = !this.clean;
+    }
+  }
+
+  updateFuente(fuente: any): void {
+
+    const opt: any = {
+      title: this.translate.instant('GLOBAL.actualizar'),
+      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_actualizar'),
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+      showCancelButton: true,
+    };
+    Swal.fire(opt)
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_fuente = <FuenteFinanciamiento>fuente;
+          this.fuenteHelper.fuenteUpdate(this.info_fuente)
+            .subscribe(res => {
+              this.loadFuente();
+              this.eventChange.emit(true);
+              this.popUpManager.showSuccessAlert(this.translate.instant('FUENTE_FINANCIAMIENTO.confirmacion_actualizacion'));
+            });
+        }
+      });
+  }
+
+  createFuente(fuente: any): void {
+    const opt: any = {
+      title: this.translate.instant('GLOBAL.crear'),
+      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_registrar'),
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+      showCancelButton: true,
+    };
+    Swal.fire(opt)
+      .then((willDelete) => {
+        if (willDelete.value) {
+          this.info_fuente = <FuenteFinanciamiento>fuente;
+          this.fuenteHelper.fuenteRegister(this.info_fuente).subscribe(res => {
+            this.info_fuente = <FuenteFinanciamiento><unknown>res;
+            this.eventChange.emit(true);
+            this.popUpManager.showSuccessAlert(this.translate.instant('FUENTE_FINANCIAMIENTO.confirmacion_creacion'));
+          });
+        }
+      });
+  }
+
+  validarForm(event) {
+    if (event.valid) {
+      if (this.info_fuente === undefined) {
+        this.createFuente(event.data.FuenteFinanciamiento);
+      } else {
+        this.updateFuente(event.data.FuenteFinanciamiento);
+      }
     }
   }
 

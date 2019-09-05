@@ -19,6 +19,10 @@ import { ApropiacionesComponent } from './apropiaciones/apropiaciones.component'
 import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia.component';
 import { CrudFuenteComponent } from './fuentes/crud-fuente/crud-fuente.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
+import { ListProductoComponent } from './productos/list-producto.component';
+import { ToasterModule, ToasterService } from 'angular2-toaster';
+import { CrudProductoComponent } from './productos/crud-producto/crud-producto.component';
+import { ConfiguracionService } from '../../@core/data/configuracion.service';
 
 
 
@@ -32,6 +36,12 @@ import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component
     ConsultaVigenciaComponent,
     CrudFuenteComponent,
     ListFuenteComponent,
+    ListProductoComponent,
+    CrudProductoComponent,
+  ],
+  providers: [
+    ConfiguracionService,
+    ToasterService,
   ],
   imports: [
     ThemeModule,
@@ -46,9 +56,9 @@ import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component
     NbStepperModule,
     NbCardModule,
     Ng2SmartTableModule,
+    ToasterModule,
   ],
   exports: [
-
   ],
   entryComponents: [CrudFuenteComponent, ListFuenteComponent],
 })

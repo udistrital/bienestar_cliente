@@ -29,6 +29,8 @@ export class ProductoHelper {
 
     }
 
+
+
     /**
      * Productos register
      * If the response has errors in the OAS API it should show a popup message with an error.
@@ -88,7 +90,7 @@ export class ProductoHelper {
     public productoUpdate(productoData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         productoData.Id = productoData.Id;
-        return this.rqManager.put('producto/', productoData , productoData.Id).pipe(
+        return this.rqManager.put('producto/', productoData, productoData._id).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

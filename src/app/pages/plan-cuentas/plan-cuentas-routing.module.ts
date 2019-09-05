@@ -4,6 +4,8 @@ import { ArbolComponent, FsIconAComponent} from './arbol/arbol.component';
 import { GestionPlanCuentasComponent } from './gestion-plan-cuentas/gestion-plan-cuentas.component';
 import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
+import { ListProductoComponent } from './productos/list-producto.component';
+
 
 
 const routes: Routes = [{
@@ -21,6 +23,10 @@ const routes: Routes = [{
 {
   path: 'apropiaciones',
   component: GestionApropiacionesComponent,
+},
+{
+  path: 'productos',
+  component: ListProductoComponent,
 },
 
 ];
