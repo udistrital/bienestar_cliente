@@ -17,6 +17,8 @@ import { ComprobacionApropiacionInicialComponent } from './comprobacion-apropiac
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ApropiacionesComponent } from './apropiaciones/apropiaciones.component';
 import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia.component';
+import { CrudFuenteComponent } from './fuentes/crud-fuente/crud-fuente.component';
+import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 
 
 
@@ -28,6 +30,8 @@ import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia
     ComprobacionApropiacionInicialComponent,
     ApropiacionesComponent,
     ConsultaVigenciaComponent,
+    CrudFuenteComponent,
+    ListFuenteComponent,
   ],
   imports: [
     ThemeModule,
@@ -46,5 +50,6 @@ import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia
   exports: [
 
   ],
+  entryComponents: [CrudFuenteComponent, ListFuenteComponent],
 })
 export class PlanCuentasModule { }
