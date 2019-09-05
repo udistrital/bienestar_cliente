@@ -10,8 +10,8 @@ export class FormManager {
         }
         return -1;
     }
-    public static ConstruirForm(form: any, translate: TranslateService) {
-        form.titulo = translate.instant('GLOBAL.aplicacion');
+    public static ConstruirForm(form: any, translate: TranslateService, tittle: string) {
+        form.titulo = translate.instant(tittle);
         form.btn = translate.instant('GLOBAL.guardar');
         for (let i = 0; i < form.campos.length; i++) {
             form.campos[i].label = translate.instant('GLOBAL.' + form.campos[i].label_i18n);

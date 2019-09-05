@@ -39,9 +39,9 @@ export class CrudProductoComponent implements OnInit {
   ) {
 
     this.formProducto = FORM_PRODUCTO;
-    this.formProducto = FormManager.ConstruirForm(this.formProducto, this.translate);
+    this.formProducto = FormManager.ConstruirForm(this.formProducto, this.translate, 'RUBRO.add-producto');
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.formProducto = FormManager.ConstruirForm(this.formProducto, this.translate);
+      this.formProducto = FormManager.ConstruirForm(this.formProducto, this.translate, 'RUBRO.add-producto');
     });
   }
 
@@ -69,8 +69,8 @@ export class CrudProductoComponent implements OnInit {
   updateProducto(producto: any): void {
 
     const opt: any = {
-      title: 'Update?',
-      text: 'Update Producto!',
+      title: this.translate.instant('GLOBAL.actualizar'),
+      text: this.translate.instant('PRODUCTO.mensaje_actualizar'),
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -84,7 +84,7 @@ export class CrudProductoComponent implements OnInit {
             .subscribe(res => {
               this.loadProducto();
               this.eventChange.emit(true);
-              this.popUpManager.showSuccessAlert('Producto Updated');
+              this.popUpManager.showSuccessAlert(this.translate.instant('PRODUCTO.confirmacion_actualizacion'));
             });
         }
       });
@@ -92,8 +92,8 @@ export class CrudProductoComponent implements OnInit {
 
   createProducto(producto: any): void {
     const opt: any = {
-      title: 'Create?',
-      text: 'Create Producto!',
+      title: this.translate.instant('GLOBAL.crear'),
+      text: this.translate.instant('PRODUCTO.mensaje_registrar'),
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -106,7 +106,7 @@ export class CrudProductoComponent implements OnInit {
           this.productoHelper.productoRegister(this.info_producto).subscribe(res => {
             this.info_producto = <Producto><unknown>res;
             this.eventChange.emit(true);
-            this.popUpManager.showSuccessAlert('Producto Creado');
+            this.popUpManager.showSuccessAlert(this.translate.instant('PRODUCTO.confirmacion_creacion'));
           });
         }
       });

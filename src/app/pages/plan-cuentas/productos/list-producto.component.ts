@@ -105,8 +105,8 @@ export class ListProductoComponent implements OnInit {
 
   onDelete(event): void {
     const opt: any = {
-      title: 'Deleting?',
-      text: 'Delete Product!',
+      title: this.translate.instant('GLOBAL.eliminar'),
+      text: this.translate.instant('PRODUCTO.mensaje_eliminar'),
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -119,7 +119,7 @@ export class ListProductoComponent implements OnInit {
           this.productoHelper.productoDelete(event.data['_id']).subscribe(res => {
             if (res !== null) {
               this.loadData();
-              this.popUpManager.showSuccessAlert('Product Deleted');
+              this.popUpManager.showSuccessAlert(this.translate.instant('PRODUCTO.confirmacion_actualizacion'));
             }
           });
         }

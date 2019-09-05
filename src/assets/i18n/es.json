@@ -114,7 +114,10 @@
     "info_basica": "Información básica",
     "resumen": "Resumen",
     "placeholder_resumen": "Ej: Resumen",
-    "nombre": "Nombre"
+    "nombre": "Nombre",
+    "placeholder_codigo": "Código",
+    "placeholder_nombre": "Nombre",
+    "placeholder_descripcion": "Descripción"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -162,6 +165,14 @@
     "valor-reduccion": "Valor reducción",
     "quitar-dependencia": "Quitar Dependencia",
     "traslado": "Traslado"
+  },
+  "PRODUCTO": {
+    "mensaje_actualizar": "¿ Actualizar Producto ?",
+    "confirmacion_actualizacion": "Producto Actualizado",
+    "mensaje_registrar": "¿ Crear Producto ?",
+    "confirmacion_creacion": "Producto Registrado",
+    "mensaje_eliminar": "¿ Eliminar Producto ?",
+    "confirmacion_eliminar": "Producto Eliminado"
   },
   "_id": "ID",
   "Nombre": "Nombre",
