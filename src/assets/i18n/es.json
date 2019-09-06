@@ -132,7 +132,13 @@
     "add-dependencia": "Añadir dependencia",
     "remove-dependencia": "Quitar dependencia",
     "remove-rubro": "Quitar rubro",
-    "max_value_dep": "ERROR: Se ha superado el valor de las dependencias"
+    "max_value_dep": "ERROR: Se ha superado el valor de las dependencias",
+    "mensaje_actualizar": "¿ Actualizar Fuente de Financiamiento ?",
+    "confirmacion_actualizacion": "Fuente de Financiamiento Actualizada",
+    "mensaje_registrar": "¿ Crear Fuente de Financiamiento ?",
+    "confirmacion_creacion": "Fuente Registrada",
+    "mensaje_eliminar": "¿ Eliminar Fuente ?",
+    "confirmacion_eliminar": "Fuente Eliminada"
   },
   "APROPIACION": {
     "comprobacion": "Comprobación de la apropiacion inicial",

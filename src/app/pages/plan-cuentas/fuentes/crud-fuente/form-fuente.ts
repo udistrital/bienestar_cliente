@@ -34,9 +34,9 @@ export let FORM_FUENTE = {
         {
             etiqueta: 'input',
             claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
-            nombre: 'NombreFuente',
-            label_i18n: 'Nombre Fuente',
-            placeholder_i18n: 'Nombre de Fuente de Financiamiento',
+            nombre: 'Nombre',
+            label_i18n: 'nombre',
+            placeholder_i18n: 'nombre',
             requerido: true,
             tipo: 'text',
         },
