@@ -1,23 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { FuenteFinanciamiento } from "../../../../@core/data/models/fuente_financiamiento";
-import { FORM_FUENTE } from "./form-fuente";
-import { ToasterConfig } from "angular2-toaster";
-import { TranslateService, LangChangeEvent } from "@ngx-translate/core";
-import { FormManager } from "../../../../managers/formManager";
-import { FuenteHelper } from "../../../../helpers/fuentes/fuenteHelper";
-import { PopUpManager } from "../../../../managers/popUpManager";
-import Swal from "sweetalert2";
-import "style-loader!angular2-toaster/toaster.css";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FuenteFinanciamiento } from '../../../../@core/data/models/fuente_financiamiento';
+import { FORM_FUENTE } from './form-fuente';
+import { ToasterConfig } from 'angular2-toaster';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { FormManager } from '../../../../managers/formManager';
+import { FuenteHelper } from '../../../../helpers/fuentes/fuenteHelper';
+import { PopUpManager } from '../../../../managers/popUpManager';
+import Swal from 'sweetalert2';
+import 'style-loader!angular2-toaster/toaster.css';
 
 @Component({
-  selector: "ngx-crud-fuente",
-  templateUrl: "./crud-fuente.component.html",
-  styleUrls: ["./crud-fuente.component.scss"]
+  selector: 'ngx-crud-fuente',
+  templateUrl: './crud-fuente.component.html',
+  styleUrls: ['./crud-fuente.component.scss']
 })
 export class CrudFuenteComponent implements OnInit {
   config: ToasterConfig;
   fuente_id: string;
-  @Input("fuente_id")
+  @Input('fuente_id')
   set name(fuente_id: string) {
     this.fuente_id = fuente_id;
     this.loadFuente();
@@ -37,13 +37,13 @@ export class CrudFuenteComponent implements OnInit {
     this.formFuente = FormManager.ConstruirForm(
       this.formFuente,
       this.translate,
-      "FUENTE_FINANCIAMIENTO.asignar_fuente"
+      'FUENTE_FINANCIAMIENTO.asignar_fuente'
     );
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.formFuente = FormManager.ConstruirForm(
         this.formFuente,
         this.translate,
-        "FUENTE_FINANCIAMIENTO.asignar_fuente"
+        'FUENTE_FINANCIAMIENTO.asignar_fuente'
       );
     });
   }
@@ -70,9 +70,9 @@ export class CrudFuenteComponent implements OnInit {
 
   updateFuente(fuente: any): void {
     const opt: any = {
-      title: this.translate.instant("GLOBAL.actualizar"),
-      text: this.translate.instant("FUENTE_FINANCIAMIENTO.mensaje_actualizar"),
-      icon: "warning",
+      title: this.translate.instant('GLOBAL.actualizar'),
+      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_actualizar'),
+      icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true
@@ -85,7 +85,7 @@ export class CrudFuenteComponent implements OnInit {
           this.eventChange.emit(true);
           this.popUpManager.showSuccessAlert(
             this.translate.instant(
-              "FUENTE_FINANCIAMIENTO.confirmacion_actualizacion"
+              'FUENTE_FINANCIAMIENTO.confirmacion_actualizacion'
             )
           );
         });
@@ -95,9 +95,9 @@ export class CrudFuenteComponent implements OnInit {
 
   createFuente(fuente: any): void {
     const opt: any = {
-      title: this.translate.instant("GLOBAL.crear"),
-      text: this.translate.instant("FUENTE_FINANCIAMIENTO.mensaje_registrar"),
-      icon: "warning",
+      title: this.translate.instant('GLOBAL.crear'),
+      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_registrar'),
+      icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true
@@ -105,12 +105,13 @@ export class CrudFuenteComponent implements OnInit {
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
         this.info_fuente = <FuenteFinanciamiento>fuente;
+        this.info_fuente.Codigo = this.info_fuente.Codigo.toString();
         this.fuenteHelper.fuenteRegister(this.info_fuente).subscribe(res => {
-          this.info_fuente = <FuenteFinanciamiento>(<unknown>res);
+          this.info_fuente = <FuenteFinanciamiento><unknown>res;
           this.eventChange.emit(true);
           this.popUpManager.showSuccessAlert(
             this.translate.instant(
-              "FUENTE_FINANCIAMIENTO.confirmacion_creacion"
+              'FUENTE_FINANCIAMIENTO.confirmacion_creacion'
             )
           );
         });

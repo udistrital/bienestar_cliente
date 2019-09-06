@@ -1,20 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { TranslateService, LangChangeEvent } from "@ngx-translate/core";
-import { LocalDataSource } from "ng2-smart-table";
+import { Component, OnInit } from '@angular/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { LocalDataSource } from 'ng2-smart-table';
 import {
-  ToasterService,
-  ToasterConfig,
-  Toast,
-  BodyOutputType
-} from "angular2-toaster";
-import Swal from "sweetalert2";
-import "style-loader!angular2-toaster/toaster.css";
-import { FuenteHelper } from "../../../../helpers/fuentes/fuenteHelper";
-import { PopUpManager } from "../../../../managers/popUpManager";
+  ToasterConfig
+} from 'angular2-toaster';
+import Swal from 'sweetalert2';
+import 'style-loader!angular2-toaster/toaster.css';
+import { FuenteHelper } from '../../../../helpers/fuentes/fuenteHelper';
+import { PopUpManager } from '../../../../managers/popUpManager';
 @Component({
-  selector: "ngx-list-fuente",
-  templateUrl: "./list-fuente.component.html",
-  styleUrls: ["./list-fuente.component.scss"]
+  selector: 'ngx-list-fuente',
+  templateUrl: './list-fuente.component.html',
+  styleUrls: ['./list-fuente.component.scss']
 })
 export class ListFuenteComponent implements OnInit {
   uid: string;
@@ -25,11 +22,10 @@ export class ListFuenteComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   constructor(
     private translate: TranslateService,
-    private toasterService: ToasterService,
     private fuenteHelper: FuenteHelper,
     private popUpManager: PopUpManager
   ) {
-    console.log("constructor");
+    // console.log('constructor');
     this.loadData();
     this.cargarCampos();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -37,7 +33,7 @@ export class ListFuenteComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
   cargarCampos() {
     this.settings = {
       add: {
@@ -54,17 +50,17 @@ export class ListFuenteComponent implements OnInit {
         deleteButtonContent: '<i class="nb-trash"></i>',
         confirmDelete: true
       },
-      mode: "external",
+      mode: 'external',
       columns: {
         Nombre: {
-          title: this.translate.instant("GLOBAL.nombre"),
+          title: this.translate.instant('GLOBAL.nombre'),
           // type: 'string;',
           valuePrepareFunction: value => {
             return value;
           }
         },
         Descripcion: {
-          title: this.translate.instant("GLOBAL.descripcion"),
+          title: this.translate.instant('GLOBAL.descripcion'),
           // type: 'string;',
           valuePrepareFunction: value => {
             return value;
@@ -78,7 +74,7 @@ export class ListFuenteComponent implements OnInit {
   }
 
   loadData(): void {
-    this.fuenteHelper.getFuentes("").subscribe(res => {
+    this.fuenteHelper.getFuentes('').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
@@ -88,8 +84,8 @@ export class ListFuenteComponent implements OnInit {
     });
   }
   onEdit(event): void {
-    console.info(event);
-    this.uid = event.data['_id'];
+    // console.info(event);
+    this.uid = event.data['Codigo'];
     this.activetab();
   }
 
@@ -100,20 +96,20 @@ export class ListFuenteComponent implements OnInit {
 
   onDelete(event): void {
     const opt: any = {
-      title: this.translate.instant("GLOBAL.eliminar"),
-      text: this.translate.instant("FUENTE_FINANCIAMIENTO.mensaje_eliminar"),
-      icon: "warning",
+      title: this.translate.instant('GLOBAL.eliminar'),
+      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_eliminar'),
+      icon: 'warning',
       buttons: true,
       dangerMode: true,
       showCancelButton: true
     };
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
-        this.fuenteHelper.fuenteDelete(event.data["_id"]).subscribe(res => {
+        this.fuenteHelper.fuenteDelete(event.data['_id']).subscribe(res => {
           if (res !== null) {
             this.loadData();
             this.popUpManager.showSuccessAlert(
-              this.translate.instant("FUENTE.confirmacion_actualizacion")
+              this.translate.instant('FUENTE.confirmacion_actualizacion')
             );
           }
         });
@@ -126,7 +122,7 @@ export class ListFuenteComponent implements OnInit {
   }
 
   selectTab(event): void {
-    if (event.tabTitle === this.translate.instant("GLOBAL.lista")) {
+    if (event.tabTitle === this.translate.instant('GLOBAL.lista')) {
       this.cambiotab = false;
     } else {
       this.cambiotab = true;
@@ -140,27 +136,8 @@ export class ListFuenteComponent implements OnInit {
     }
   }
   itemselec(event): void {
-    // console.log("afssaf");
+    // console.log('afssaf');
   }
 
-  private showToast(type: string, title: string, body: string) {
-    this.config = new ToasterConfig({
-      // 'toast-top-full-width', 'toast-bottom-full-width', 'toast-top-left', 'toast-top-center'
-      positionClass: "toast-top-center",
-      timeout: 5000, // ms
-      newestOnTop: true,
-      tapToDismiss: false, // hide on click
-      preventDuplicates: true,
-      animation: "slideDown", // 'fade', 'flyLeft', 'flyRight', 'slideDown', 'slideUp'
-      limit: 5
-    });
-    const toast: Toast = {
-      type: type, // 'default', 'info', 'success', 'warning', 'error'
-      title: title,
-      body: body,
-      showCloseButton: true,
-      bodyOutputType: BodyOutputType.TrustedHtml
-    };
-    this.toasterService.popAsync(toast);
-  }
+
 }

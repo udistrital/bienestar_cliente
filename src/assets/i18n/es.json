@@ -115,9 +115,16 @@
     "resumen": "Resumen",
     "placeholder_resumen": "Ej: Resumen",
     "nombre": "Nombre",
+    "tipo_documento":"Tipo de documento",
+    "fecha_documento": "Fecha de documento",
+    "numero_documento": "Numero Documento",
+    "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
-    "placeholder_descripcion": "Descripción"
+    "placeholder_descripcion": "Descripción",
+    "placeholder_tipo_documento": "Tipo Documento",
+    "placeholder_fecha_documento": "Fecha Documento",
+    "placeholder_numero_documento": "Numero Documento"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
