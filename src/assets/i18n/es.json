@@ -115,9 +115,16 @@
     "resumen": "Resumen",
     "placeholder_resumen": "Ej: Resumen",
     "nombre": "Nombre",
+    "tipo_documento":"Tipo de documento",
+    "fecha_documento": "Fecha de documento",
+    "numero_documento": "Numero Documento",
+    "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
-    "placeholder_descripcion": "Descripción"
+    "placeholder_descripcion": "Descripción",
+    "placeholder_tipo_documento": "Tipo Documento",
+    "placeholder_fecha_documento": "Fecha Documento",
+    "placeholder_numero_documento": "Numero Documento"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -132,7 +139,13 @@
     "add-dependencia": "Añadir dependencia",
     "remove-dependencia": "Quitar dependencia",
     "remove-rubro": "Quitar rubro",
-    "max_value_dep": "ERROR: Se ha superado el valor de las dependencias"
+    "max_value_dep": "ERROR: Se ha superado el valor de las dependencias",
+    "mensaje_actualizar": "¿ Actualizar Fuente de Financiamiento ?",
+    "confirmacion_actualizacion": "Fuente de Financiamiento Actualizada",
+    "mensaje_registrar": "¿ Crear Fuente de Financiamiento ?",
+    "confirmacion_creacion": "Fuente Registrada",
+    "mensaje_eliminar": "¿ Eliminar Fuente ?",
+    "confirmacion_eliminar": "Fuente Eliminada"
   },
   "APROPIACION": {
     "comprobacion": "Comprobación de la apropiacion inicial",

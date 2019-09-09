@@ -39,7 +39,7 @@ export class FuenteHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         fuenteData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = 2019;
+        fuenteData.Vigencia = 2020;
         fuenteData.activo = true;
         return this.rqManager.post(`fuente_financiamiento/`, fuenteData).pipe(
             map(
@@ -68,8 +68,8 @@ export class FuenteHelper {
         fuenteData.Organizacion = 1;
         fuenteData.Vigencia = 2019;
         fuenteData.activo = true;
-        fuenteData.Id = fuenteData.Id;
-        return this.rqManager.put('fuente_financiamiento/', fuenteData , fuenteData.Id).pipe(
+        fuenteData.Codigo = fuenteData.Codigo;
+        return this.rqManager.put('fuente_financiamiento/', fuenteData , fuenteData.Codigo).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
