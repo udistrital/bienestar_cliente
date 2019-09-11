@@ -1,39 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import {
-  ToasterConfig
-} from 'angular2-toaster';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
-import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
+import { Observable } from 'rxjs';
+import { RequestManager } from '../../../../@core/managers/requestManager';
 @Component({
-  selector: 'ngx-list-fuente',
-  templateUrl: './list-fuente.component.html',
-  styleUrls: ['./list-fuente.component.scss']
+  selector: 'ngx-list-entity',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
-export class ListFuenteComponent implements OnInit {
-  uid: string;
+export class ListEntityComponent implements OnInit {
+  // Local Inputs ...
+  @Input('uuidReadFieldName') uuidReadField: string;
+  @Input('uuidDeleteFieldName') uuidDeleteField: string;
+  @Input('listColumns') listColumns: object;
+
+  @Input('deleteConfirmMessage') deleteConfirmMessage: string;
+  @Input('deleteMessage') deleteMessage: string;
+
+  @Input('loadDataFunction') loadDataFunction: (...params) => Observable<any>;
+  @Input('deleteDataFunction') deleteDataFunction: (...params) => Observable<any>;
+  // Crud Inputs.
+  @Input('formEntity') formEntity: any;
+  @Input('formTittle') formTittle: string;
+  @Input('updateMessage') updateMessage: string;
+  @Input('createMessage') createMessage: string;
+  @Input('updateConfirmMessage') updateConfirmMessage: string;
+  @Input('createConfirmMessage') createConfirmMessage: string;
+
+  @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
+  @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
+  @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
+
+  uid: any;
   cambiotab: boolean = false;
-  config: ToasterConfig;
   settings: any;
+  regresarLabel: string;
 
   source: LocalDataSource = new LocalDataSource();
   constructor(
     private translate: TranslateService,
-    private fuenteHelper: FuenteHelper,
-    private popUpManager: PopUpManager
+    private popUpManager: PopUpManager,
+    // tslint:disable-next-line
+    private rqManager: RequestManager,
   ) {
     // console.log('constructor');
+  }
+
+  ngOnInit() {
+    this.regresarLabel = this.translate.instant('GLOBAL.regresar');
     this.loadData();
     this.cargarCampos();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.cargarCampos();
     });
   }
-
-  ngOnInit() { }
   cargarCampos() {
     this.settings = {
       add: {
@@ -51,22 +74,7 @@ export class ListFuenteComponent implements OnInit {
         confirmDelete: true
       },
       mode: 'external',
-      columns: {
-        Nombre: {
-          title: this.translate.instant('GLOBAL.nombre'),
-          // type: 'string;',
-          valuePrepareFunction: value => {
-            return value;
-          }
-        },
-        Descripcion: {
-          title: this.translate.instant('GLOBAL.descripcion'),
-          // type: 'string;',
-          valuePrepareFunction: value => {
-            return value;
-          }
-        }
-      }
+      columns: this.listColumns,
     };
   }
   useLanguage(language: string) {
@@ -74,7 +82,8 @@ export class ListFuenteComponent implements OnInit {
   }
 
   loadData(): void {
-    this.fuenteHelper.getFuentes('').subscribe(res => {
+
+    this.loadDataFunction('').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
@@ -84,8 +93,7 @@ export class ListFuenteComponent implements OnInit {
     });
   }
   onEdit(event): void {
-    // console.info(event);
-    this.uid = event.data['Codigo'];
+    this.uid = event.data[this.uuidReadField];
     this.activetab();
   }
 
@@ -97,7 +105,7 @@ export class ListFuenteComponent implements OnInit {
   onDelete(event): void {
     const opt: any = {
       title: this.translate.instant('GLOBAL.eliminar'),
-      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_eliminar'),
+      text: this.translate.instant(this.deleteMessage),
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -105,11 +113,11 @@ export class ListFuenteComponent implements OnInit {
     };
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
-        this.fuenteHelper.fuenteDelete(event.data['_id']).subscribe(res => {
+        this.deleteDataFunction(event.data[this.uuidDeleteField]).subscribe(res => {
           if (res !== null) {
             this.loadData();
             this.popUpManager.showSuccessAlert(
-              this.translate.instant('FUENTE.confirmacion_actualizacion')
+              this.translate.instant(this.deleteConfirmMessage)
             );
           }
         });

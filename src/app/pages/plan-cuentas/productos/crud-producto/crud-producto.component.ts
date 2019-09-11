@@ -6,9 +6,9 @@ import { ToasterConfig } from 'angular2-toaster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
-import { FormManager } from '../../../../managers/formManager';
-import { ProductoHelper } from '../../../../helpers/productos/productoHelper';
-import { PopUpManager } from '../../../../managers/popUpManager';
+import { FormManager } from '../../../../@core/managers/formManager';
+import { ProductoHelper } from '../../../../@core/helpers/productos/productoHelper';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 
 @Component({
   selector: 'ngx-crud-producto',

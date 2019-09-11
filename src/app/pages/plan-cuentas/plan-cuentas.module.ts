@@ -26,7 +26,6 @@ import { ConfiguracionService } from '../../@core/data/configuracion.service';
 
 
 
-
 @NgModule({
   declarations: [
     ...routedComponents,
