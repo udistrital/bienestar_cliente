@@ -68,7 +68,7 @@ export class ListFuenteComponent implements OnInit {
         }
       }
     };
-  };
+  }
 
 
 
