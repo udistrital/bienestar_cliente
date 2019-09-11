@@ -24,7 +24,7 @@ export class ListFuenteComponent implements OnInit {
   createConfirmMessage: string;
   loadFormDataFunction: (...params) => Observable<any>;
   updateEntityFunction: (...params) => Observable<any>;
-  createEntityFunction: (...params) => Observable<any>; 
+  createEntityFunction: (...params) => Observable<any>;
 
 
   listColumns: object;
@@ -51,8 +51,8 @@ export class ListFuenteComponent implements OnInit {
     this.createConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_creacion';
     this.loadFormDataFunction = this.fuenteHelper.getFuentes;
     this.updateEntityFunction = this.fuenteHelper.fuenteUpdate;
-    this.createEntityFunction = this.fuenteHelper.fuenteRegister;    
-    this.listColumns =  {
+    this.createEntityFunction = this.fuenteHelper.fuenteRegister;
+    this.listColumns = {
       Nombre: {
         title: this.translate.instant('GLOBAL.nombre'),
         // type: 'string;',
@@ -70,6 +70,6 @@ export class ListFuenteComponent implements OnInit {
     };
   };
 
-  
+
 
 }
