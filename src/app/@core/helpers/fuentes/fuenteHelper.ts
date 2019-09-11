@@ -41,6 +41,8 @@ export class FuenteHelper {
         fuenteData.Organizacion = 1;
         fuenteData.Vigencia = 2020;
         fuenteData.activo = true;
+        fuenteData.Codigo = fuenteData.Codigo.toString();
+        fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
         return this.rqManager.post(`fuente_financiamiento/`, fuenteData).pipe(
             map(
                 (res) => {
@@ -68,7 +70,8 @@ export class FuenteHelper {
         fuenteData.Organizacion = 1;
         fuenteData.Vigencia = 2019;
         fuenteData.activo = true;
-        fuenteData.Codigo = fuenteData.Codigo;
+        fuenteData.Codigo = fuenteData.Codigo.toString();
+        fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
         return this.rqManager.put('fuente_financiamiento/', fuenteData , fuenteData.Codigo).pipe(
             map(
                 (res) => {

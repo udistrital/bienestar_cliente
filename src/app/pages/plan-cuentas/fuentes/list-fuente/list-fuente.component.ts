@@ -1,143 +1,75 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { LocalDataSource } from 'ng2-smart-table';
-import {
-  ToasterConfig
-} from 'angular2-toaster';
-import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
-import { PopUpManager } from '../../../../@core/managers/popUpManager';
+import { FORM_FUENTE } from '../crud-fuente/form-fuente';
 @Component({
   selector: 'ngx-list-fuente',
   templateUrl: './list-fuente.component.html',
   styleUrls: ['./list-fuente.component.scss']
 })
 export class ListFuenteComponent implements OnInit {
-  uid: string;
-  cambiotab: boolean = false;
-  config: ToasterConfig;
-  settings: any;
+  uuidReadFieldName: string;
+  uuidDeleteFieldName: string;
+  deleteConfirmMessage: string;
+  deleteMessage: string;
+  loadDataFunction: (...params) => Observable<any>;
+  deleteDataFunction: (...params) => Observable<any>;
+  formEntity: any;
+  formTittle: string;
+  updateMessage: string;
+  createMessage: string;
+  updateConfirmMessage: string;
+  createConfirmMessage: string;
+  loadFormDataFunction: (...params) => Observable<any>;
+  updateEntityFunction: (...params) => Observable<any>;
+  createEntityFunction: (...params) => Observable<any>; 
 
-  source: LocalDataSource = new LocalDataSource();
+
+  listColumns: object;
+
   constructor(
     private translate: TranslateService,
-    private fuenteHelper: FuenteHelper,
-    private popUpManager: PopUpManager
+    private fuenteHelper: FuenteHelper
   ) {
-    // console.log('constructor');
-    this.loadData();
-    this.cargarCampos();
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.cargarCampos();
-    });
+
   }
 
-  ngOnInit() { }
-  cargarCampos() {
-    this.settings = {
-      add: {
-        addButtonContent: '<i class="nb-plus"></i>',
-        createButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>'
+  ngOnInit() {
+    this.uuidReadFieldName = 'Codigo';
+    this.uuidDeleteFieldName = 'Codigo';
+    this.deleteConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_actualizacion';
+    this.deleteMessage = 'FUENTE_FINANCIAMIENTO.mensaje_eliminar';
+    this.loadDataFunction = this.fuenteHelper.getFuentes;
+    this.deleteDataFunction = this.fuenteHelper.fuenteDelete;
+    this.formEntity = FORM_FUENTE;
+    this.formTittle = 'FUENTE_FINANCIAMIENTO.asignar_fuente';
+    this.updateMessage = 'FUENTE_FINANCIAMIENTO.mensaje_actualizar';
+    this.createMessage = 'FUENTE_FINANCIAMIENTO.mensaje_registrar';
+    this.updateConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_actualizacion';
+    this.createConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_creacion';
+    this.loadFormDataFunction = this.fuenteHelper.getFuentes;
+    this.updateEntityFunction = this.fuenteHelper.fuenteUpdate;
+    this.createEntityFunction = this.fuenteHelper.fuenteRegister;    
+    this.listColumns =  {
+      Nombre: {
+        title: this.translate.instant('GLOBAL.nombre'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
+        }
       },
-      edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
-        saveButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>'
-      },
-      delete: {
-        deleteButtonContent: '<i class="nb-trash"></i>',
-        confirmDelete: true
-      },
-      mode: 'external',
-      columns: {
-        Nombre: {
-          title: this.translate.instant('GLOBAL.nombre'),
-          // type: 'string;',
-          valuePrepareFunction: value => {
-            return value;
-          }
-        },
-        Descripcion: {
-          title: this.translate.instant('GLOBAL.descripcion'),
-          // type: 'string;',
-          valuePrepareFunction: value => {
-            return value;
-          }
+      Descripcion: {
+        title: this.translate.instant('GLOBAL.descripcion'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
         }
       }
     };
-  }
-  useLanguage(language: string) {
-    this.translate.use(language);
-  }
+  };
 
-  loadData(): void {
-    this.fuenteHelper.getFuentes('').subscribe(res => {
-      if (res !== null) {
-        const data = <Array<any>>res;
-        this.source.load(data);
-      } else {
-        this.source.load([]);
-      }
-    });
-  }
-  onEdit(event): void {
-    // console.info(event);
-    this.uid = event.data['Codigo'];
-    this.activetab();
-  }
-
-  onCreate(event): void {
-    this.uid = null;
-    this.activetab();
-  }
-
-  onDelete(event): void {
-    const opt: any = {
-      title: this.translate.instant('GLOBAL.eliminar'),
-      text: this.translate.instant('FUENTE_FINANCIAMIENTO.mensaje_eliminar'),
-      icon: 'warning',
-      buttons: true,
-      dangerMode: true,
-      showCancelButton: true
-    };
-    Swal.fire(opt).then(willDelete => {
-      if (willDelete.value) {
-        this.fuenteHelper.fuenteDelete(event.data['_id']).subscribe(res => {
-          if (res !== null) {
-            this.loadData();
-            this.popUpManager.showSuccessAlert(
-              this.translate.instant('FUENTE.confirmacion_actualizacion')
-            );
-          }
-        });
-      }
-    });
-  }
-
-  activetab(): void {
-    this.cambiotab = !this.cambiotab;
-  }
-
-  selectTab(event): void {
-    if (event.tabTitle === this.translate.instant('GLOBAL.lista')) {
-      this.cambiotab = false;
-    } else {
-      this.cambiotab = true;
-    }
-  }
-
-  onChange(event) {
-    if (event) {
-      this.loadData();
-      this.cambiotab = !this.cambiotab;
-    }
-  }
-  itemselec(event): void {
-    // console.log('afssaf');
-  }
-
+  
 
 }

@@ -52,7 +52,7 @@ export let FORM_FUENTE = {
         {
             etiqueta: 'input',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'NumeroDoc',
+            nombre: 'NumeroDocumento',
             label_i18n: 'numero_documento',
             placeholder_i18n: 'numero_documento',
             requerido: true,
