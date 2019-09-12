@@ -3,7 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@a
 import { Router } from '@angular/router';
 
 import { tap } from 'rxjs/operators';
-import { PopUpManager } from '../../managers/popUpManager';
+import { PopUpManager } from '../managers/popUpManager';
 import { TranslateService } from '@ngx-translate/core';
 
 

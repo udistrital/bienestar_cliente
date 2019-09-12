@@ -3,9 +3,9 @@ import { FuenteFinanciamiento } from '../../../../@core/data/models/fuente_finan
 import { FORM_FUENTE } from './form-fuente';
 import { ToasterConfig } from 'angular2-toaster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { FormManager } from '../../../../managers/formManager';
-import { FuenteHelper } from '../../../../helpers/fuentes/fuenteHelper';
-import { PopUpManager } from '../../../../managers/popUpManager';
+import { FormManager } from '../../../../@core/managers/formManager';
+import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 

@@ -14,6 +14,7 @@ import {
   NbThemeModule,
   NbCardModule,
 } from '@nebular/theme';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +27,8 @@ import {
   SearchInputComponent,
   TinyMCEComponent,
   DinamicformComponent,
+  ListEntityComponent,
+  CrudEntityComponent,
 } from './components';
 import {
   CapitalizePipe,
@@ -108,6 +111,8 @@ const COMPONENTS = [
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
   DinamicformComponent,
+  ListEntityComponent,
+  CrudEntityComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -170,9 +175,9 @@ const NB_THEME_PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES, Ng2SmartTableModule],
   exports: [CommonModule, FormsModule, ReactiveFormsModule, ...PIPES, ...COMPONENTS, ...MAT_MODULES],
-  declarations: [...COMPONENTS, ...PIPES, DinamicformComponent],
+  declarations: [...COMPONENTS, ...PIPES, DinamicformComponent, ListEntityComponent, CrudEntityComponent],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {
