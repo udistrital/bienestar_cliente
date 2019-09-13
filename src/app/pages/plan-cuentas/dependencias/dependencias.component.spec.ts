@@ -1,21 +1,20 @@
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrudProductoComponent } from './crud-producto.component';
+import { DependenciasComponent } from './dependencias.component';
 
-describe('CrudProductoComponent', () => {
-  let component: CrudProductoComponent;
-  let fixture: ComponentFixture<CrudProductoComponent>;
+describe('DependenciasComponent', () => {
+  let component: DependenciasComponent;
+  let fixture: ComponentFixture<DependenciasComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrudProductoComponent ],
+      declarations: [ DependenciasComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrudProductoComponent);
+    fixture = TestBed.createComponent(DependenciasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

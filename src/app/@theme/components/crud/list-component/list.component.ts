@@ -29,6 +29,7 @@ export class ListEntityComponent implements OnInit {
   @Input('createMessage') createMessage: string;
   @Input('updateConfirmMessage') updateConfirmMessage: string;
   @Input('createConfirmMessage') createConfirmMessage: string;
+  @Input('isOnlyCrud') isOnlyCrud: boolean;
 
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
@@ -59,19 +60,17 @@ export class ListEntityComponent implements OnInit {
   }
   cargarCampos() {
     this.settings = {
+      actions: {
+        add: true,
+        edit: false,
+        delete: false,
+        custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' },{ name: 'delete', title: '<i class="nb-trash"></i>' },{ name: 'other', title: '<i class="nb-shuffle"></i>' }],
+        position: 'left'
+      },
       add: {
         addButtonContent: '<i class="nb-plus"></i>',
         createButtonContent: '<i class="nb-checkmark"></i>',
         cancelButtonContent: '<i class="nb-close"></i>'
-      },
-      edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
-        saveButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>'
-      },
-      delete: {
-        deleteButtonContent: '<i class="nb-trash"></i>',
-        confirmDelete: true
       },
       mode: 'external',
       columns: this.listColumns,
@@ -93,8 +92,29 @@ export class ListEntityComponent implements OnInit {
     });
   }
   onEdit(event): void {
+    console.info(event);
     this.uid = event.data[this.uuidReadField];
     this.activetab();
+  }
+  
+  onAddOther(event): void {
+    console.info(event);
+  }
+  onCustom(event): void {
+    switch (event.action) {
+      case 'edit':
+        console.info(event);
+        this.onEdit(event)
+        break;
+      case 'delete':
+        this.onDelete(event)
+        break;
+      case 'other':
+        this.onAddOther(event)
+        break;
+      default:
+        break;
+    }
   }
 
   onCreate(event): void {

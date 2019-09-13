@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
-import { FORM_FUENTE } from '../crud-fuente/form-fuente';
+import { FORM_FUENTE } from '../form-fuente';
+import { DependenciasComponent } from '../../dependencias/dependencias.component';
 @Component({
   selector: 'ngx-list-fuente',
   templateUrl: './list-fuente.component.html',
@@ -25,6 +26,7 @@ export class ListFuenteComponent implements OnInit {
   loadFormDataFunction: (...params) => Observable<any>;
   updateEntityFunction: (...params) => Observable<any>;
   createEntityFunction: (...params) => Observable<any>;
+  isOnlyCrud: boolean;
 
 
   listColumns: object;
@@ -37,6 +39,7 @@ export class ListFuenteComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isOnlyCrud = false;
     this.uuidReadFieldName = 'Codigo';
     this.uuidDeleteFieldName = 'Codigo';
     this.deleteConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_actualizacion';
