@@ -21,7 +21,7 @@ export class ModificacionApropiacionComponent implements OnInit {
                Id: 1,
                Nombre: 'Acta'
             }
-        ]
+        ];
     }
 
 
