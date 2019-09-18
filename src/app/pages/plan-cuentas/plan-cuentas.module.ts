@@ -23,6 +23,7 @@ import { ListProductoComponent } from './productos/list-producto.component';
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { CrudProductoComponent } from './productos/crud-producto/crud-producto.component';
 import { ConfiguracionService } from '../../@core/data/configuracion.service';
+import { MatStepperModule } from '@angular/material';
 
 
 
@@ -56,6 +57,7 @@ import { ConfiguracionService } from '../../@core/data/configuracion.service';
     NbCardModule,
     Ng2SmartTableModule,
     ToasterModule,
+    MatStepperModule,
   ],
   exports: [
   ],

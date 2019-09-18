@@ -3,6 +3,7 @@ export let DETALLE_MODIFICACION_FORM = {
     tipo_formulario: 'mini',
     alertas: true,
     modelo: 'detalleModificacion',
+    btn: 'GLOBAL.siguiente_abr',
     campos: [
         {
             etiqueta: 'input',
@@ -37,7 +38,7 @@ export let DETALLE_MODIFICACION_FORM = {
             nombre: 'Descripcion',
             label_i18n: 'descripcion',
             placeholder_i18n: 'descripcion',
-            requerido: false,
+            requerido: true,
             tipo: 'text',
         },
     ],

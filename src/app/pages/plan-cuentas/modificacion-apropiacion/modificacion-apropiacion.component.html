@@ -1,21 +1,20 @@
 <nb-card>
     <nb-card-body>
-        <div class="d-flex">
-            <nb-stepper #stepper class="mx-auto">
-                <nb-step [stepControl]="modificationDetail" label="{{'GLOBAL.detalle' | translate }}">
+        <div class="d-flex justify-content-center">
+            <mat-horizontal-stepper #stepper [linear]="linearMode" id="stepper" (selectionChange)="onStepChange($event)">
+                <mat-step label="{{'GLOBAL.detalle' | translate }}" [completed]="isDetalleCompleted">
                     <ngx-dinamicform [normalform]="formDetalle" [modeloData]="detalleMovimiento"
-                        (result)="validarForm($event)" [clean]="clean">
+                        (result)="detalleValidator($event, stepper)" [clean]="clean">
                     </ngx-dinamicform>
-                    <button class="btn btn-info mx-auto" nbButton
-                        nbStepperNext>{{'GLOBAL.siguiente_abr' | translate }}</button>
-                </nb-step>
-                <nb-step [stepControl]="apropiationDetail" label="{{'GLOBAL.enviar' | translate }}">
-                    swerw
-                </nb-step>
-                <nb-step [stepControl]="sendDetail" label="{{'APROPIACION.apropiaciones' | translate }}">
-                    fsdfs
-                </nb-step>
-            </nb-stepper>
+                </mat-step>
+                <mat-step label="{{'APROPIACION.apropiaciones' | translate }}" [completed]="step2Completed">
+                    sdd
+                </mat-step>
+                <mat-step label="{{'GLOBAL.enviar' | translate }}" [completed]="step2Completed">
+                        sdd
+                    </mat-step>
+            </mat-horizontal-stepper>
+            
         </div>
     </nb-card-body>
 </nb-card>
