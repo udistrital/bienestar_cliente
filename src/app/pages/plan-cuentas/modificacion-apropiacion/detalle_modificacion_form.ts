@@ -11,7 +11,7 @@ export let DETALLE_MODIFICACION_FORM = {
             label_i18n: 'numero_documento',
             placeholder_i18n: 'numero_documento',
             requerido: true,
-            tipo: 'text',
+            tipo: 'number',
         },
         {
             etiqueta: 'select',
