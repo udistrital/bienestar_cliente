@@ -1,0 +1,21 @@
+<nb-card>
+    <nb-card-body>
+        <div class="d-flex">
+            <nb-stepper #stepper class="mx-auto">
+                <nb-step [stepControl]="modificationDetail" label="{{'GLOBAL.detalle' | translate }}">
+                    <ngx-dinamicform [normalform]="formDetalle" [modeloData]="detalleMovimiento"
+                        (result)="validarForm($event)" [clean]="clean">
+                    </ngx-dinamicform>
+                    <button class="btn btn-info mx-auto" nbButton
+                        nbStepperNext>{{'GLOBAL.siguiente_abr' | translate }}</button>
+                </nb-step>
+                <nb-step [stepControl]="apropiationDetail" label="{{'GLOBAL.enviar' | translate }}">
+                    swerw
+                </nb-step>
+                <nb-step [stepControl]="sendDetail" label="{{'APROPIACION.apropiaciones' | translate }}">
+                    fsdfs
+                </nb-step>
+            </nb-stepper>
+        </div>
+    </nb-card-body>
+</nb-card>

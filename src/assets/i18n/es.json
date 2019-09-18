@@ -124,7 +124,12 @@
     "placeholder_descripcion": "Descripción",
     "placeholder_tipo_documento": "Tipo Documento",
     "placeholder_fecha_documento": "Fecha Documento",
-    "placeholder_numero_documento": "Numero Documento"
+    "placeholder_numero_documento": "Numero Documento",
+    "enviar": "Enviar",
+    "detalle": "Detalle",
+    "siguiente_abr": "Sig.",
+    "previo_abr": "Prev.",
+    "numero_oficio": "N° Oficio"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -153,9 +158,11 @@
     "egresos": "3 EGRESOS",
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
     "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
-    "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0"
+    "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
+    "apropiaciones": "Apropiaciones"
   },
   "MODIF": {
+    "detalle_modificacion": "Detalle de la Modificación",
     "modificacion_fuentes": "Modificación fuentes de financiamiento",
     "tipomod": "Tipo de modificacion",
     "tipofuente": "Tipo de fuente",

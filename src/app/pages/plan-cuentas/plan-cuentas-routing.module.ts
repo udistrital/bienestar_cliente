@@ -6,6 +6,7 @@ import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
+import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
 
 
 
@@ -33,6 +34,10 @@ const routes: Routes = [{
   path: 'fuentes',
   component: ListFuenteComponent,
 },
+{
+  path: 'modificacion-apropiacion',
+  component: ModificacionApropiacionComponent,
+},
 
 ];
 
@@ -47,5 +52,6 @@ export const routedComponents = [
   GestionPlanCuentasComponent,
   RubrosComponent,
   GestionApropiacionesComponent,
+  ModificacionApropiacionComponent,
   FsIconAComponent,
 ];
