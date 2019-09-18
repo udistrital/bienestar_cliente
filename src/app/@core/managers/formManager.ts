@@ -12,7 +12,7 @@ export class FormManager {
     }
     public static ConstruirForm(form: any, translate: TranslateService, tittle: string) {
         form.titulo = translate.instant(tittle);
-        form.btn = translate.instant('GLOBAL.guardar');
+        form.btn = form['btn'] ? translate.instant(form['btn']) : undefined;
         for (let i = 0; i < form.campos.length; i++) {
             form.campos[i].label = translate.instant('GLOBAL.' + form.campos[i].label_i18n);
             form.campos[i].placeholder = translate.instant('GLOBAL.placeholder_' + form.campos[i].label_i18n);
