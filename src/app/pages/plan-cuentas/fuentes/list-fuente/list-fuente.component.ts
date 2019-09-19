@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { FORM_FUENTE } from '../form-fuente';
-import { DependenciasComponent } from '../../dependencias/dependencias.component';
+
 @Component({
   selector: 'ngx-list-fuente',
   templateUrl: './list-fuente.component.html',
@@ -27,6 +27,8 @@ export class ListFuenteComponent implements OnInit {
   updateEntityFunction: (...params) => Observable<any>;
   createEntityFunction: (...params) => Observable<any>;
   isOnlyCrud: boolean;
+  listSettings: object;
+  auxcambiotab: boolean = false;
 
 
   listColumns: object;
@@ -71,6 +73,27 @@ export class ListFuenteComponent implements OnInit {
         }
       }
     };
+    this.listSettings = {
+      actions: {
+        add: true,
+        edit: false,
+        delete: false,
+        custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' }, { name: 'delete', title: '<i class="nb-trash"></i>' }, { name: 'other', title: '<i class="nb-shuffle"></i>' }],
+        position: 'left'
+      },
+      add: {
+        addButtonContent: '<i class="nb-plus"></i>',
+        createButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>'
+      },
+      mode: 'external',
+      columns: this.listColumns,
+    };
+  }
+
+  onChangeTab(estado) {
+    console.info(estado);
+    this.auxcambiotab = estado;
   }
 
 

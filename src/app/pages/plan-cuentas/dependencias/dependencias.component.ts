@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'ngx-dependencias',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DependenciasComponent implements OnInit {
 
+  @Output() auxcambiotab = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit() {
   }
 
+  activetab(tab): void {
+    if (tab === 'other') {
+      this.auxcambiotab.emit(false);
+    }
+  }
 }

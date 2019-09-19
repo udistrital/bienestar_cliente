@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import Swal from 'sweetalert2';
@@ -30,10 +30,12 @@ export class ListEntityComponent implements OnInit {
   @Input('updateConfirmMessage') updateConfirmMessage: string;
   @Input('createConfirmMessage') createConfirmMessage: string;
   @Input('isOnlyCrud') isOnlyCrud: boolean;
+  @Input('listSettings') listSettings: object;
 
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
+  @Output() auxcambiotab = new EventEmitter<boolean>();
 
   uid: any;
   cambiotab: boolean = false;
@@ -47,6 +49,7 @@ export class ListEntityComponent implements OnInit {
     // tslint:disable-next-line
     private rqManager: RequestManager,
   ) {
+    this.auxcambiotab.emit(false);
     // console.log('constructor');
   }
 
@@ -59,22 +62,27 @@ export class ListEntityComponent implements OnInit {
     });
   }
   cargarCampos() {
-    this.settings = {
-      actions: {
-        add: true,
-        edit: false,
-        delete: false,
-        custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' },{ name: 'delete', title: '<i class="nb-trash"></i>' },{ name: 'other', title: '<i class="nb-shuffle"></i>' }],
-        position: 'left'
-      },
-      add: {
-        addButtonContent: '<i class="nb-plus"></i>',
-        createButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>'
-      },
-      mode: 'external',
-      columns: this.listColumns,
-    };
+    if (this.listSettings !== undefined) {
+      this.settings = this.listSettings;
+    } else {
+      this.settings = {
+        actions: {
+          add: true,
+          edit: false,
+          delete: false,
+          custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' }, { name: 'delete', title: '<i class="nb-trash"></i>' }],
+          position: 'left'
+        },
+        add: {
+          addButtonContent: '<i class="nb-plus"></i>',
+          createButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>'
+        },
+        mode: 'external',
+        columns: this.listColumns,
+      };
+    }
+
   }
   useLanguage(language: string) {
     this.translate.use(language);
@@ -94,23 +102,24 @@ export class ListEntityComponent implements OnInit {
   onEdit(event): void {
     console.info(event);
     this.uid = event.data[this.uuidReadField];
-    this.activetab();
+    this.activetab('crud');
   }
-  
+
   onAddOther(event): void {
     console.info(event);
+    this.activetab('other');
   }
   onCustom(event): void {
     switch (event.action) {
       case 'edit':
         console.info(event);
-        this.onEdit(event)
+        this.onEdit(event);
         break;
       case 'delete':
-        this.onDelete(event)
+        this.onDelete(event);
         break;
       case 'other':
-        this.onAddOther(event)
+        this.onAddOther(event);
         break;
       default:
         break;
@@ -119,7 +128,7 @@ export class ListEntityComponent implements OnInit {
 
   onCreate(event): void {
     this.uid = null;
-    this.activetab();
+    this.activetab('crud');
   }
 
   onDelete(event): void {
@@ -145,9 +154,15 @@ export class ListEntityComponent implements OnInit {
     });
   }
 
-  activetab(): void {
-    this.cambiotab = !this.cambiotab;
+  activetab(tab): void {
+    if (tab === 'crud') {
+      this.cambiotab = !this.cambiotab;
+    } else if (tab === 'other') {
+      this.auxcambiotab.emit(true);
+    }
   }
+
+
 
   selectTab(event): void {
     if (event.tabTitle === this.translate.instant('GLOBAL.lista')) {

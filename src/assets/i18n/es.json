@@ -118,13 +118,19 @@
     "tipo_documento":"Tipo de documento",
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
+    "area_funcional": "Area Funcional",
+    "centro_gestor": "Centro Gestor",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
     "placeholder_descripcion": "Descripción",
     "placeholder_tipo_documento": "Tipo Documento",
     "placeholder_fecha_documento": "Fecha Documento",
-    "placeholder_numero_documento": "Numero Documento"
+    "placeholder_numero_documento": "Numero Documento",
+    "placeholder_vigencia": "Vigencia",
+    "placeholder_area_funcional": "",
+    "placeholder_centro_gestor": ""
+
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
