@@ -308,7 +308,7 @@
                             <mat-label>{{c.requerido?'* '+c.label:c.label}}:</mat-label>
                             <input matInput [(ngModel)]="c.valor" (ngModelChange)="validCampo(c)"
                                 [ngModelOptions]="{standalone: true}" type="{{c.tipo}}" id="{{c.nombre}}"
-                                [placeholder]="c.placeholder" [disabled]="c.deshabilitar" pattern="c.pattern || *"/>
+                                [placeholder]="c.placeholder" [disabled]="c.deshabilitar" pattern={{c.pattern}}/>
                                 <span matPrefix *ngIf="c.prefix">{{c.prefix.value}}</span>
                             <mat-hint class="text-danger">{{c.alerta}}</mat-hint>
                         </mat-form-field>

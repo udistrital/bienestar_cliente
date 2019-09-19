@@ -4,7 +4,8 @@
         {{ 'MENU.gestion_plan_cuentas.gestion_productos' | translate }}
     </nb-card-header>
     <nb-card-body>
-      <ngx-list-entity 
+      <ngx-list-entity
+      [isOnlyCrud]="isOnlyCrud" 
       [uuidReadFieldName]="uuidReadFieldName"
       [uuidDeleteFieldName]="uuidDeleteFieldName"
       [listColumns]="listColumns"
