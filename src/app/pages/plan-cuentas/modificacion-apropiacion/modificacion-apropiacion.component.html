@@ -2,15 +2,15 @@
     <nb-card-body>
         <div class="d-flex justify-content-center">
             <mat-horizontal-stepper #stepper [linear]="linearMode" id="stepper" (selectionChange)="onStepChange($event)">
-                <mat-step label="{{'GLOBAL.detalle' | translate }}" [completed]="isDetalleCompleted">
+                <mat-step label="{{'GLOBAL.detalle' | translate }}" [stepControl]="detalleValidationForm">
                     <ngx-dinamicform [normalform]="formDetalle" [modeloData]="detalleMovimiento"
-                        (result)="detalleValidator($event, stepper)" [clean]="clean">
+                        (result)="detalleValidator($event, stepper)" [formValidation]="formDetalleValidFlag" [clean]="clean">
                     </ngx-dinamicform>
                 </mat-step>
-                <mat-step label="{{'APROPIACION.apropiaciones' | translate }}" [completed]="step2Completed">
+                <mat-step label="{{'APROPIACION.apropiaciones' | translate }}">
                     sdd
                 </mat-step>
-                <mat-step label="{{'GLOBAL.enviar' | translate }}" [completed]="step2Completed">
+                <mat-step label="{{'GLOBAL.enviar' | translate }}">
                         sdd
                     </mat-step>
             </mat-horizontal-stepper>
