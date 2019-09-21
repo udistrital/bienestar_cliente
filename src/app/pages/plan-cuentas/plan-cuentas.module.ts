@@ -17,11 +17,11 @@ import { ComprobacionApropiacionInicialComponent } from './comprobacion-apropiac
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ApropiacionesComponent } from './apropiaciones/apropiaciones.component';
 import { ConsultaVigenciaComponent } from './consulta-vigencia/consulta-vigencia.component';
+import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ToasterModule, ToasterService } from 'angular2-toaster';
-import { CrudProductoComponent } from './productos/crud-producto/crud-producto.component';
 import { ConfiguracionService } from '../../@core/data/configuracion.service';
-
+import { DependenciasComponent } from './dependencias/dependencias.component';
 
 
 
@@ -32,8 +32,9 @@ import { ConfiguracionService } from '../../@core/data/configuracion.service';
     ComprobacionApropiacionInicialComponent,
     ApropiacionesComponent,
     ConsultaVigenciaComponent,
+    ListFuenteComponent,
     ListProductoComponent,
-    CrudProductoComponent,
+    DependenciasComponent,
   ],
   providers: [
     ConfiguracionService,
@@ -56,5 +57,6 @@ import { ConfiguracionService } from '../../@core/data/configuracion.service';
   ],
   exports: [
   ],
+  entryComponents: [ListFuenteComponent],
 })
 export class PlanCuentasModule { }

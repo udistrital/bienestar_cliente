@@ -7,7 +7,7 @@ import {
   NbSortRequest,
 } from '@nebular/theme';
 import { Observable } from 'rxjs';
-import { ArbolHelper } from '../../../helpers/arbol/arbolHelper';
+import { ArbolHelper } from '../../../@core/helpers/arbol/arbolHelper';
 
 
 

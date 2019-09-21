@@ -39,8 +39,11 @@ export class FuenteHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         fuenteData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = 2019;
+        fuenteData.Vigencia = fuenteData.Vigencia.vigencia;
         fuenteData.activo = true;
+        fuenteData.Codigo = fuenteData.Codigo.toString();
+        fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
+        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor;
         return this.rqManager.post(`fuente_financiamiento/`, fuenteData).pipe(
             map(
                 (res) => {
@@ -63,13 +66,16 @@ export class FuenteHelper {
      * @returns  <Observable> object updated information. undefined if the proccess has errors.
      */
     public fuenteUpdate(fuenteData) {
+        console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         fuenteData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = 2019;
+        fuenteData.Vigencia = fuenteData.Vigencia.vigencia;
         fuenteData.activo = true;
-        fuenteData.Id = fuenteData.Id;
-        return this.rqManager.put('fuente_financiamiento/', fuenteData , fuenteData.Id).pipe(
+        fuenteData.Codigo = fuenteData.Codigo.toString();
+        fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
+        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor;
+        return this.rqManager.put('fuente_financiamiento/', fuenteData , fuenteData.Codigo).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

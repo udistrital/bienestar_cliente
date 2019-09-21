@@ -5,6 +5,7 @@ import { GestionPlanCuentasComponent } from './gestion-plan-cuentas/gestion-plan
 import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 import { ListProductoComponent } from './productos/list-producto.component';
+import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 
 
 
@@ -28,6 +29,15 @@ const routes: Routes = [{
   path: 'productos',
   component: ListProductoComponent,
 },
+{
+  path: 'fuentes',
+  component: ListFuenteComponent,
+},
+{
+  path: '',
+  redirectTo: 'rubros',
+  pathMatch: 'full',
+}
 
 ];
 

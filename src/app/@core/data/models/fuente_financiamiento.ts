@@ -8,6 +8,8 @@ export class FuenteFinanciamiento {
     TipoFuente: string;
     ValorOriginal: number;
     ValorAcumulado: number;
+    NumeroDocumento: string;
+    TipoDocumento: string;
     Codigo: string;
     Rubros: Object;
 }

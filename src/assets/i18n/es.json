@@ -57,7 +57,7 @@
   "GLOBAL": {
     "gestion-titulo": "Gestión de",
     "consulta-vigencia-actual": "Consultar Vigencia Actual",
-    "preasignacion-apropiacion-inicial": "Preasignación de Apropiaciones Iniciales",
+    "preasignacion-apropiacion-inicial": "Preasignar Apropiaciones Vigencia",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
     "rubro": "Rubro",
     "dependencia": "Dependencia",
@@ -72,8 +72,7 @@
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
     "codigo": "Código",
-    "unidad-ejecutora": "Centro gestor",
-    "entidad": "Entidad",
+    "unidad-ejecutora": "Área Funcional",
     "descripcion": "Descripción",
     "detalle-apropiacion-inicial": "Detalle de la Apropiación Inicial",
     "pre-asignar-apropiacion-inicial": "Preasignar apropiación inicial",
@@ -115,9 +114,22 @@
     "resumen": "Resumen",
     "placeholder_resumen": "Ej: Resumen",
     "nombre": "Nombre",
+    "tipo_documento":"Tipo de documento",
+    "fecha_documento": "Fecha de documento",
+    "numero_documento": "Numero Documento",
+    "area_funcional": "Area Funcional",
+    "centro_gestor": "Centro Gestor",
+    "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
-    "placeholder_descripcion": "Descripción"
+    "placeholder_descripcion": "Descripción",
+    "placeholder_tipo_documento": "Tipo Documento",
+    "placeholder_fecha_documento": "Fecha Documento",
+    "placeholder_numero_documento": "Numero Documento",
+    "placeholder_vigencia": "Vigencia",
+    "placeholder_area_funcional": "",
+    "placeholder_centro_gestor": ""
+
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -132,14 +144,20 @@
     "add-dependencia": "Añadir dependencia",
     "remove-dependencia": "Quitar dependencia",
     "remove-rubro": "Quitar rubro",
-    "max_value_dep": "ERROR: Se ha superado el valor de las dependencias"
+    "max_value_dep": "ERROR: Se ha superado el valor de las dependencias",
+    "mensaje_actualizar": "¿ Actualizar Fuente de Financiamiento ?",
+    "confirmacion_actualizacion": "Fuente de Financiamiento Actualizada",
+    "mensaje_registrar": "¿ Crear Fuente de Financiamiento ?",
+    "confirmacion_creacion": "Fuente Registrada",
+    "mensaje_eliminar": "¿ Eliminar Fuente ?",
+    "confirmacion_eliminar": "Fuente Eliminada"
   },
   "APROPIACION": {
     "comprobacion": "Comprobación de la apropiacion inicial",
     "ingresos": " 2 INGRESOS",
-    "egresos": "3 EGRESOS",
+    "egresos": "3 GASTOS",
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
-    "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
+    "comprobacion-diferencia": "Existe una diferencia entre ingresos y gastos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0"
   },
   "MODIF": {

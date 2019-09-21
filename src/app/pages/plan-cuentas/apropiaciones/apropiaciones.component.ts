@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
-import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
-import { PopUpManager } from '../../../managers/popUpManager';
+import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { ApropiacionHelper } from '../../../helpers/apropiaciones/apropiacionHelper';
+import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { Observable } from 'rxjs';
 
 @Component({

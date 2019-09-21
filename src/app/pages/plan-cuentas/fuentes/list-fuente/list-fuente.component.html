@@ -1,0 +1,32 @@
+<div class="col-md-12 col-lg-12 ">
+  <nb-card>
+    <nb-card-header>
+        {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
+    </nb-card-header>
+    <nb-card-body>
+            <ngx-list-entity *ngIf="!auxcambiotab"
+            [listSettings]="listSettings"
+            [isOnlyCrud]="isOnlyCrud" 
+            [uuidReadFieldName]="uuidReadFieldName"
+            [uuidDeleteFieldName]="uuidDeleteFieldName"
+            [listColumns]="listColumns"
+            [deleteConfirmMessage]="deleteConfirmMessage"
+            [deleteMessage]="deleteMessage"
+            [loadDataFunction]="loadDataFunction"
+            [deleteDataFunction]="deleteDataFunction"
+            [formEntity]="formEntity"
+            [formTittle]="formTittle"
+            [updateMessage]="formTittle"
+            [createMessage]="formTittle"
+            [updateConfirmMessage]="updateConfirmMessage"
+            [createConfirmMessage]="createConfirmMessage"
+            [loadFormDataFunction]="loadFormDataFunction"
+            [updateEntityFunction]="updateEntityFunction"
+            [createEntityFunction]="createEntityFunction"
+            (eventChange)="onChange($event)"
+            (auxcambiotab)="onChangeTab($event)">
+          </ngx-list-entity>
+          <ngx-dependencias *ngIf="auxcambiotab" (auxcambiotab)="onChangeTab($event)"></ngx-dependencias>
+    </nb-card-body>
+  </nb-card>
+</div>

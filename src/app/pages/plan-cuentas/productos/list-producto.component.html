@@ -4,13 +4,26 @@
         {{ 'MENU.gestion_plan_cuentas.gestion_productos' | translate }}
     </nb-card-header>
     <nb-card-body>
-      <toaster-container [toasterconfig]="config"></toaster-container>
-        <ng2-smart-table *ngIf="!cambiotab" [settings]="settings" [source]="source" (delete)="onDelete($event)"
-          (rowSelect)="itemselec($event)" (edit)="onEdit($event)" (create)="onCreate($event)">
-        </ng2-smart-table>
-        <ngx-crud-producto *ngIf="cambiotab" [producto_id]="uid" (eventChange)="onChange($event)"></ngx-crud-producto>
-        <button *ngIf="cambiotab" (click)="activetab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-          {{ 'GLOBAL.regresar' | translate }}</button>
+      <ngx-list-entity
+      [isOnlyCrud]="isOnlyCrud" 
+      [uuidReadFieldName]="uuidReadFieldName"
+      [uuidDeleteFieldName]="uuidDeleteFieldName"
+      [listColumns]="listColumns"
+      [deleteConfirmMessage]="deleteConfirmMessage"
+      [deleteMessage]="deleteMessage"
+      [loadDataFunction]="loadDataFunction"
+      [deleteDataFunction]="deleteDataFunction"
+      [formEntity]="formEntity"
+      [formTittle]="formTittle"
+      [updateMessage]="formTittle"
+      [createMessage]="formTittle"
+      [updateConfirmMessage]="updateConfirmMessage"
+      [createConfirmMessage]="createConfirmMessage"
+      [loadFormDataFunction]="loadFormDataFunction"
+      [updateEntityFunction]="updateEntityFunction"
+      [createEntityFunction]="createEntityFunction"
+      (eventChange)="onChange($event)">
+    </ngx-list-entity>
     </nb-card-body>
   </nb-card>
 </div>

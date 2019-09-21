@@ -2,10 +2,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { FORM_INFO_RUBRO } from './form_info_rubro';
-import { RubroHelper } from '../../../helpers/rubros/rubroHelper';
-import { PopUpManager } from '../../../managers/popUpManager';
+import { RubroHelper } from '../../../@core/helpers/rubros/rubroHelper';
+import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { TranslateService } from '@ngx-translate/core';
-import { FormManager } from '../../../managers/formManager';
+import { FormManager } from '../../../@core/managers/formManager';
 import { NodoRubro } from '../../../@core/data/models/nodo_rubro';
 
 
