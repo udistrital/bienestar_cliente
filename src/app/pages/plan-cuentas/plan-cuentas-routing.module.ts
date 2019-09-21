@@ -33,6 +33,11 @@ const routes: Routes = [{
   path: 'fuentes',
   component: ListFuenteComponent,
 },
+{
+  path: '',
+  redirectTo: 'rubros',
+  pathMatch: 'full',
+}
 
 ];
 

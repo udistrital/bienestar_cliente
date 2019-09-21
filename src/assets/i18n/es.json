@@ -57,7 +57,7 @@
   "GLOBAL": {
     "gestion-titulo": "Gestión de",
     "consulta-vigencia-actual": "Consultar Vigencia Actual",
-    "preasignacion-apropiacion-inicial": "Preasignación de Apropiaciones Iniciales",
+    "preasignacion-apropiacion-inicial": "Preasignar Apropiaciones Vigencia",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
     "rubro": "Rubro",
     "dependencia": "Dependencia",
@@ -72,8 +72,7 @@
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
     "codigo": "Código",
-    "unidad-ejecutora": "Centro gestor",
-    "entidad": "Entidad",
+    "unidad-ejecutora": "Área Funcional",
     "descripcion": "Descripción",
     "detalle-apropiacion-inicial": "Detalle de la Apropiación Inicial",
     "pre-asignar-apropiacion-inicial": "Preasignar apropiación inicial",
@@ -156,9 +155,9 @@
   "APROPIACION": {
     "comprobacion": "Comprobación de la apropiacion inicial",
     "ingresos": " 2 INGRESOS",
-    "egresos": "3 EGRESOS",
+    "egresos": "3 GASTOS",
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
-    "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
+    "comprobacion-diferencia": "Existe una diferencia entre ingresos y gastos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0"
   },
   "MODIF": {

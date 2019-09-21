@@ -1,7 +1,7 @@
 @import '../@theme/styles/themes';
 :host {
 
-  background: nb-theme(background-basic-color-1);
+  background: nb-theme(slide-out-background);
 }
 @include nb-install-component() {
   ::ng-deep router-outlet + * {
