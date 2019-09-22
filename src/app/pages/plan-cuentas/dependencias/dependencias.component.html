@@ -1,3 +1,54 @@
-<p>dependencias works!</p>
+<div class="col-md-12 col-lg-12 col-xxxl-12">
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-xxxl-6">
+            <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [optionSelect]="optionView"></ngx-arbol>            
+          </div>
+          <div class="col-md-6 col-lg-6 col-xxxl-6" >
+            <nb-card accent="info" class="col-md-12" *ngIf="rubrosAsignados.length >0"  ><nb-card-body>
+
+
+              <!-- dependencias -->
+              <div class="col-md-12" *ngFor="let rubro of rubrosAsignados">
+                <div>
+                  <h5>{{'GLOBAL.rubro' | translate}}: {{rubro.Codigo}} {{rubro.Nombre}}</h5>
+                </div>
+                <div class="row form-group">
+                  <label for="" class="col-md-4">{{'GLOBAL.dependencia' | translate}}</label>
+                  <label for="valor" class="col-md-4 offset-1">{{'GLOBAL.valor' | translate}}</label>
+                </div>
+                <div *ngFor="let dependenciasAsignadas of rubro.Dependencias; let index = index">
+                  <label for="" class="col-md-3">
+                    <span class=".glyphicon .glyphicon-remove"></span>
+                  </label>
+                  <div class="row">
+                    <select [(ngModel)]="dependenciasAsignadas.Id"
+                    class="form-control col-sm-4 dropdown mr-auto">
+                    <option *ngFor="let dependencia of dependencias; let value = index;" [ngValue]="dependencia.Id" >{{dependencia.Nombre}}
+                    </option>
+                  </select>
+                  <input type="number" name="'dependenciasAsignadas.ValorDependencia' + index" id="" [(ngModel)]="dependenciasAsignadas.ValorDependencia" class="form-control col-sm-3 mr-auto">
+
+                  <button *ngIf="validarEdicionDependencias(rubro , dependenciasAsignadas, index)" (click)="entrandoEditar(dependenciasAsignadas)"
+                  class="btn btn-sm btn-success col-sm-2 ml-auto">{{'GLOBAL.editar' | translate}}</button>
+                  <button *ngIf="entrarEditar" (click)="editarDependencia($event.target.value, rubro, dependenciasAsignadas, index)"
+                  class="btn btn-sm btn-success col-sm-2 ml-auto">{{'GLOBAL.guardar' | translate}}</button>                                                               
+                  <button (click)="quitarDependencia($event, rubro, index)"
+                  class="btn btn-sm btn-danger col-sm-2 ml-auto">{{'GLOBAL.eliminar' | translate}}</button>
+
+                </div>
+                <div class="form-group mt-2">
+                  <button *ngIf="!entrarEditar && index == (rubro.Dependencias.length)-1" (click)="asignarDependencia($event.target.value, rubro, dependenciasAsignadas, index)"
+                  class="btn btn btn-primary col-sm-12 ">{{'MODIF.agregar-dependencia' | translate}}</button>                            
+                </div>
+              </div>
+              <div class="form-group mt-2">
+                <button
+                class="btn btn-outline-danger col-md-12 mt-1" (click)="quitarRubro(rubro)">{{'FUENTE_FINANCIAMIENTO.remove-rubro' | translate}}</button>
+              </div>                          
+            </div>
+          </nb-card-body></nb-card>              
+        </div>
+      </div>
+    </div>
 <button (click)="activetab('other')" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
     {{ "GLOBAL.regresar" | translate }}</button>
