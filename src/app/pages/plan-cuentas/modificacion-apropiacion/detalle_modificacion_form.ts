@@ -35,7 +35,7 @@ export let DETALLE_MODIFICACION_FORM = {
         {
             etiqueta: 'textarea',
             claseGrid: 'mx-auto col-lg-7 col-md-7 col-sm-7 col-xs-7',
-            nombre: 'Descripcion',
+            nombre: 'descripcion',
             label_i18n: 'descripcion',
             placeholder_i18n: 'descripcion',
             requerido: true,

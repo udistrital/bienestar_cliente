@@ -9,6 +9,7 @@ import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component
 import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
 import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
 import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
+import { ShowModificationResumeComponent } from './modificacion-apropiacion/show-modification-resume/show-modification-resume.component';
 
 
 
@@ -58,4 +59,5 @@ export const routedComponents = [
   FsIconAComponent,
   SetModificacionApropiacionComponent,
   ShowModificationAfectationComponent,
+  ShowModificationResumeComponent,
 ];

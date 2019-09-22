@@ -14,6 +14,7 @@ export class ShowModificationAfectationComponent implements OnInit, OnChanges {
     constructor() { }
     @Input() afectationData: Array<ModApropiationData>;
     @Output() afectationDataChange = new EventEmitter();
+    @Input() readonly: boolean = false;
     ngOnInit() { }
     public removeAprData(daprData: ModApropiationData) {
         this.afectationData = this.afectationData.filter(data => data !== daprData);

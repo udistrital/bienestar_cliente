@@ -12,7 +12,9 @@
                     </ngx-set-modificacion-apropiacion>
                 </mat-step>
                 <mat-step label="{{'GLOBAL.enviar' | translate }}">
-                        sdd
+                       <ngx-show-modification-resume [(modificationData)]="modifiactionFinalData">
+
+                       </ngx-show-modification-resume>
                     </mat-step>
             </mat-horizontal-stepper>
             

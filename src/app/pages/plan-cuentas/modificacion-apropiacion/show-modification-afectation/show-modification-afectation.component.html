@@ -9,7 +9,7 @@
             <br>
             <b>{{'GLOABAL.valor' | translate }} </b> : {{afetctaionItem.Valor}}
             <br>
-            <button class="btn btn-danger" (click)="removeAprData(afetctaionItem)" >{{'GLOBAL.eliminar' | translate }}</button>
+            <button *ngIf="!readonly" class="btn btn-danger" (click)="removeAprData(afetctaionItem)" >{{'GLOBAL.eliminar' | translate }}</button>
             <br>
             <hr>
             <br>
