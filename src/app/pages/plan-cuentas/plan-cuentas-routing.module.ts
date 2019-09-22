@@ -7,6 +7,8 @@ import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-a
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
+import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
+import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
 
 
 
@@ -54,4 +56,6 @@ export const routedComponents = [
   GestionApropiacionesComponent,
   ModificacionApropiacionComponent,
   FsIconAComponent,
+  SetModificacionApropiacionComponent,
+  ShowModificationAfectationComponent,
 ];

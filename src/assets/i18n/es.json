@@ -129,7 +129,9 @@
     "detalle": "Detalle",
     "siguiente_abr": "Sig.",
     "previo_abr": "Prev.",
-    "numero_oficio": "N° Oficio"
+    "numero_oficio": "N° Oficio",
+    "registro": "Registro",
+    "seleccionar": "Seleccionar"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

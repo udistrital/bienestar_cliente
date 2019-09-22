@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { DETALLE_MODIFICACION_FORM } from './detalle_modificacion_form';
 import { FormManager } from '../../../@core/managers/formManager';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,14 +21,20 @@ export class ModificacionApropiacionComponent implements OnInit {
     formDetalleValidFlag: boolean;
 
     detalleValidationForm: FormGroup;
+    setModValidationForm: FormGroup;
     previusStepIndex: number;
+    modifiactionFinalData: object;
     ngOnInit() {
         this.detalleValidationForm = new FormGroup({
+            valid: new FormControl(null, Validators.required),
+        });
+        this.setModValidationForm = new FormGroup({
             valid: new FormControl(null, Validators.required),
         });
         this.linearMode = true;
         this.formDetalleValidFlag = false;
         this.previusStepIndex = 0;
+        this.modifiactionFinalData = {};
     }
 
 
@@ -47,9 +53,15 @@ export class ModificacionApropiacionComponent implements OnInit {
             this.detalleValidationForm.patchValue({
                 valid: true
             });
+            this.modifiactionFinalData['detail'] = $event.data;
             this.stepper.next();
         } else {
-            this.stepper.selectedIndex = this.previusStepIndex;
+            this.detalleValidationForm.patchValue({
+                valid: null,
+            });
+            if (this.stepper.selectedIndex > this.previusStepIndex) {
+                this.stepper.selectedIndex = this.previusStepIndex;
+            }
         }
     }
 
@@ -60,10 +72,36 @@ export class ModificacionApropiacionComponent implements OnInit {
                 case 0:
                     this.formDetalleValidFlag = !this.formDetalleValidFlag;
                     break;
+                case 1:
+                    this.setSteppValidator(this.modifiactionFinalData['afectation']);
+                    break;
                 default:
                     break;
             }
         });
+    }
+
+    public setSteppValidator($event: Array<any> = []) {
+        setTimeout(() => {
+            if ($event) {
+                this.modifiactionFinalData['afectation'] = $event;
+                if ($event.length > 0) {
+                    console.log(this.modifiactionFinalData);
+                    this.setModValidationForm.patchValue({
+                        valid: true
+                    });
+                    this.stepper.next();
+                } else {
+                    this.setModValidationForm.patchValue({
+                        valid: null
+                    });
+                    if (this.stepper.selectedIndex > this.previusStepIndex) {
+                        this.stepper.selectedIndex = this.previusStepIndex;
+                    }
+                }
+            }
+        });
+
     }
 
 

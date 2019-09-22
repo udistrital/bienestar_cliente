@@ -1,0 +1,18 @@
+<nb-card>
+    <nb-card-body>
+        <div *ngFor="let afetctaionItem of afectationData">
+            <b>{{'MODIFICACION.tipo' | translate }} : {{afetctaionItem.Tipo.Label}}</b>
+            <br>
+            <b>{{'MODIFICACION.cuenta_credito' | translate }}</b> : {{afetctaionItem.CuentaCredito.Codigo}} / {{afetctaionItem.CuentaCredito.Nombre}}
+            <br>
+            <span  *ngIf="afetctaionItem.CuentaContraCredito"><b>{{'MODIFICACION.cuenta_contra_credito' | translate }}</b> : {{afetctaionItem.CuentaContraCredito.Codigo}} / {{afetctaionItem.CuentaContraCredito.Nombre}}</span>
+            <br>
+            <b>{{'GLOABAL.valor' | translate }} </b> : {{afetctaionItem.Valor}}
+            <br>
+            <button class="btn btn-danger" (click)="removeAprData(afetctaionItem)" >{{'GLOBAL.eliminar' | translate }}</button>
+            <br>
+            <hr>
+            <br>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -4,11 +4,12 @@
             <mat-horizontal-stepper #stepper [linear]="linearMode" id="stepper" (selectionChange)="onStepChange($event)">
                 <mat-step label="{{'GLOBAL.detalle' | translate }}" [stepControl]="detalleValidationForm">
                     <ngx-dinamicform [normalform]="formDetalle" [modeloData]="detalleMovimiento"
-                        (result)="detalleValidator($event, stepper)" [formValidation]="formDetalleValidFlag" [clean]="clean">
+                        (result)="detalleValidator($event, stepper)" [formValidation]="formDetalleValidFlag">
                     </ngx-dinamicform>
                 </mat-step>
-                <mat-step label="{{'APROPIACION.apropiaciones' | translate }}">
-                    sdd
+                <mat-step label="{{'APROPIACION.apropiaciones' | translate }}" [stepControl]="setModValidationForm">
+                    <ngx-set-modificacion-apropiacion (setStepValidationEvent)="setSteppValidator($event)">
+                    </ngx-set-modificacion-apropiacion>
                 </mat-step>
                 <mat-step label="{{'GLOBAL.enviar' | translate }}">
                         sdd
