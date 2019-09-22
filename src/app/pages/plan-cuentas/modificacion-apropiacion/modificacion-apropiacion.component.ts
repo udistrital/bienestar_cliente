@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DETALLE_MODIFICACION_FORM } from './detalle_modificacion_form';
 import { FormManager } from '../../../@core/managers/formManager';
 import { TranslateService } from '@ngx-translate/core';
@@ -86,7 +86,6 @@ export class ModificacionApropiacionComponent implements OnInit {
             if ($event) {
                 this.modifiactionFinalData['afectation'] = $event;
                 if ($event.length > 0) {
-                    console.log(this.modifiactionFinalData);
                     this.setModValidationForm.patchValue({
                         valid: true
                     });

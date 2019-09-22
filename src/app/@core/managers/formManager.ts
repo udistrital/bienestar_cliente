@@ -26,7 +26,7 @@ export class FormManager {
 
     /**
      * Builds group form: Set a Reactive Form Object
-     * @param fields here pass the fields' form to build. it follows the structure { key: boolean ...} the boolean indicates if field is required. 
+     * @param fields here pass the fields' form to build. it follows the structure { key: boolean ...} the boolean indicates if field is required.
      * @returns  FormGroup Object
      */
     public static BuildGroupForm(fields: object) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormManager } from '../../../../@core/managers/formManager';
 import { ModApropiacionHelper } from '../../../../@core/helpers/modApropiacionHelper';
@@ -34,7 +34,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
     accountTypeSelected: string;
     creditAccount: ArbolRubroApropiacionInterface;
     cnCreditAccount: ArbolRubroApropiacionInterface;
-    
+
 
     constructor() {
 
@@ -83,7 +83,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
         await this.cleanData();
     }
 
-    public async cleanData(){
+    public async cleanData() {
         this.showResumenTab = false;
         this.showAprSelection = false;
         this.cnCreditAccount = undefined;
