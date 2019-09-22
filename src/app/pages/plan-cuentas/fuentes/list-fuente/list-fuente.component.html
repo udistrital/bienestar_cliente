@@ -4,14 +4,9 @@
         {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
     </nb-card-header>
     <nb-card-body>
-      <!-- <toaster-container [toasterconfig]="config"></toaster-container>
-        <ng2-smart-table *ngIf="!cambiotab" [settings]="settings" [source]="source" (delete)="onDelete($event)"
-          (rowSelect)="itemselec($event)" (edit)="onEdit($event)" (create)="onCreate($event)">
-        </ng2-smart-table>
-        <ngx-crud-fuente *ngIf="cambiotab" [fuente_id]="uid" (eventChange)="onChange($event)"></ngx-crud-fuente>
-        <button *ngIf="cambiotab" (click)="activetab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-          {{ 'GLOBAL.regresar' | translate }}</button> -->
-            <ngx-list-entity 
+            <ngx-list-entity *ngIf="!auxcambiotab"
+            [listSettings]="listSettings"
+            [isOnlyCrud]="isOnlyCrud" 
             [uuidReadFieldName]="uuidReadFieldName"
             [uuidDeleteFieldName]="uuidDeleteFieldName"
             [listColumns]="listColumns"
@@ -28,8 +23,10 @@
             [loadFormDataFunction]="loadFormDataFunction"
             [updateEntityFunction]="updateEntityFunction"
             [createEntityFunction]="createEntityFunction"
-            (eventChange)="onChange($event)">
+            (eventChange)="onChange($event)"
+            (auxcambiotab)="onChangeTab($event)">
           </ngx-list-entity>
+          <ngx-dependencias *ngIf="auxcambiotab" (auxcambiotab)="onChangeTab($event)"></ngx-dependencias>
     </nb-card-body>
   </nb-card>
 </div>

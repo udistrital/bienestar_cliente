@@ -25,6 +25,7 @@ export class ListProductoComponent implements OnInit {
   createMessage: string;
   updateConfirmMessage: string;
   createConfirmMessage: string;
+  isOnlyCrud: boolean;
   loadFormDataFunction: (...params) => Observable<any>;
   updateEntityFunction: (...params) => Observable<any>;
   createEntityFunction: (...params) => Observable<any>;
@@ -38,7 +39,7 @@ export class ListProductoComponent implements OnInit {
   ngOnInit() {
     this.uuidReadFieldName = '_id';
     this.uuidDeleteFieldName = '_id';
-
+    this.isOnlyCrud = true;
     this.deleteConfirmMessage = 'PRODUCTO.confirmacion_actualizacion';
     this.deleteMessage = 'PRODUCTO.mensaje_eliminar';
     this.loadDataFunction = this.productoHelper.getProductos;

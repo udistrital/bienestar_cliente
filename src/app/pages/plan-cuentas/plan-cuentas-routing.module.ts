@@ -41,6 +41,11 @@ const routes: Routes = [{
   path: 'modificacion-apropiacion',
   component: ModificacionApropiacionComponent,
 },
+{
+  path: '',
+  redirectTo: 'rubros',
+  pathMatch: 'full',
+}
 
 ];
 

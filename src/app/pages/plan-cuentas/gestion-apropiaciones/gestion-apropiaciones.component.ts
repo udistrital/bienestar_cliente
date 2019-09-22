@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class GestionApropiacionesComponent implements OnInit {
   opcionSeleccionada: boolean;
   opcion: string;
+  vigencia: number;
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
@@ -29,6 +30,7 @@ export class GestionApropiacionesComponent implements OnInit {
 
     this.opcionSeleccionada = false;
     this.opcion = '';
+    this.vigencia = 2020;
   }
 
   ngOnInit() {}
