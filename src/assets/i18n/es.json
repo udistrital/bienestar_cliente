@@ -19,7 +19,7 @@
       "consulta-apropiaciones-iniciales": "Consulta de Apropiaciones I.",
       "registro-apropiaciones-iniciales": "Registro de Apropiaciones I."
     },
-    "gestion_plan_cuentas":{
+    "gestion_plan_cuentas": {
       "gestion_plan_cuentas": "Gestión Plan de Cuentas",
       "arbol": "Arbol",
       "consulta": "Consulta",
@@ -115,7 +115,7 @@
     "resumen": "Resumen",
     "placeholder_resumen": "Ej: Resumen",
     "nombre": "Nombre",
-    "tipo_documento":"Tipo de documento",
+    "tipo_documento": "Tipo de documento",
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
     "placeholder_valor": "Valor",
@@ -131,7 +131,10 @@
     "previo_abr": "Prev.",
     "numero_oficio": "N° Oficio",
     "registro": "Registro",
-    "seleccionar": "Seleccionar"
+    "seleccionar": "Seleccionar",
+    "tipo": "Tipo",
+    "agregar": "Agregar",
+    "saldo": "Saldo"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -186,7 +189,9 @@
     "valor-adicion": "Valor adición",
     "valor-reduccion": "Valor reducción",
     "quitar-dependencia": "Quitar Dependencia",
-    "traslado": "Traslado"
+    "traslado": "Traslado",
+    "cuenta_credito": "Cuenta Crédito",
+    "cuenta_contra_credito": "Cuenta Contra Crédito"
   },
   "PRODUCTO": {
     "mensaje_actualizar": "¿ Actualizar Producto ?",

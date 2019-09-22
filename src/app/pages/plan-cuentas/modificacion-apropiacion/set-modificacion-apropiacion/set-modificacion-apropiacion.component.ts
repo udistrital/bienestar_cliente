@@ -90,6 +90,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
         this.creditAccount = undefined;
         this.apropiacionValidator = FormManager.BuildGroupForm(this.apropiacionFormStruct);
         this.modValueForm = FormManager.BuildGroupForm(this.modValueFormStruct);
+        this.modValueForm.controls['credAccount'].disable();
         this.modTypes = await ModApropiacionHelper.getModTypes();
         this.accountTypeSelected = '';
 
@@ -100,6 +101,8 @@ export class SetModificacionApropiacionComponent implements OnInit {
                     this.modValueForm = FormManager.addFormControl(this.modValueForm, {
                         cnCredAccount: true,
                     });
+                    this.modValueForm.controls['cnCredAccount'].disable();
+
                 } else {
                     this.modValueForm.removeControl('cnCredAccount');
                     this.cnCreditAccount = undefined;

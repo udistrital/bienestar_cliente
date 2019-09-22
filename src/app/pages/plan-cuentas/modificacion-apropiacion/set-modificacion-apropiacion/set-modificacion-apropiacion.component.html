@@ -7,7 +7,7 @@
             <form [formGroup]="modValueForm" class="mod-registration-container">
 
               <mat-form-field floatLabel="always" class="mod-registration-input-item">
-                <mat-label>{{'MODIFICACION.tipo' | translate }}</mat-label>
+                <mat-label>{{'GLOBAL.tipo' | translate }}</mat-label>
                 <mat-select formControlName="modType">
                   <mat-option>
                     --Seleccionar--
@@ -22,23 +22,23 @@
 
               <mat-form-field class="mod-registration-input-item" *ngIf="modTypeSelected"
                 floatLabel="always">
-                <mat-label>{{'MODIFICACION.cuenta_credito' | translate }}</mat-label>
-                <input matInput [placeholder]="test" [disabled]="true" formControlName="credAccount"/>
+                <mat-label>{{'MODIF.cuenta_credito' | translate }}</mat-label>
+                <input matInput placeholder="{{'MODIF.cuenta_credito' | translate }}" formControlName="credAccount" disabled>
                 <span matPrefix><button class="selection-button" mat-button (click)="accountSelection('credito')">{{'GLOBAL.seleccionar' | translate }}</button></span>
                 <span *ngIf="creditAccount"><b>{{'GLOBAL.saldo' | translate }} : {{creditAccount.ApropiacionInicial}}</b></span>
               </mat-form-field>
 
               <mat-form-field class="mod-registration-input-item" floatLabel="always" *ngIf="modTypeSelected  && modTypeSelected['Params']['CuentaContraCredito']" >
-                <mat-label>{{'MODIFICACION.cuenta_contra_credito' | translate }}</mat-label>
-                <input matInput [placeholder]="test" [disabled]="true" [disabled]="true" formControlName="cnCredAccount"/>
+                <mat-label>{{'MODIF.cuenta_contra_credito' | translate }}</mat-label>
+                <input matInput placeholder="{{'MODIF.cuenta_contra_credito' | translate }}" formControlName="cnCredAccount" disabled>
                 <span matPrefix><button mat-button (click)="accountSelection('contraCredito')">{{'GLOBAL.seleccionar' | translate }}</button></span>
                 <span *ngIf="cnCreditAccount"><b>{{'GLOBAL.saldo' | translate }} : {{cnCreditAccount.ApropiacionInicial}}</b></span>
               </mat-form-field>
 
               <mat-form-field class="mod-registration-input-item" *ngIf="modTypeSelected"
                 floatLabel="always">
-                <mat-label>{{'GLOABAL.valor' | translate }}</mat-label>
-                <input matInput [placeholder]="test" type="number" formControlName="value"/>
+                <mat-label>{{'GLOBAL.valor' | translate }}</mat-label>
+                <input matInput placeholder="{{'GLOBAL.valor' | translate }}" type="number" formControlName="value"/>
                 <span matPrefix>$</span>
               </mat-form-field>
 
