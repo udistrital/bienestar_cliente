@@ -78,5 +78,8 @@ export class ListProductoComponent implements OnInit {
       },
     };
   }
+  onChange(event) {
+
+  }
 
 }

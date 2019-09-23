@@ -90,7 +90,9 @@ export class ListFuenteComponent implements OnInit {
       columns: this.listColumns,
     };
   }
+  onChange(event) {
 
+  }
   onChangeTab(estado) {
     console.info(estado);
     this.auxcambiotab = estado;
