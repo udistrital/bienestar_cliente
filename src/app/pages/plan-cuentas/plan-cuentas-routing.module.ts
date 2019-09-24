@@ -6,6 +6,7 @@ import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
+import { GestionCrpComponent } from './gestion-crp/gestion-crp.component';
 
 
 
@@ -37,6 +38,10 @@ const routes: Routes = [{
   path: '',
   redirectTo: 'rubros',
   pathMatch: 'full',
+},
+{
+  path: 'crp',
+  component: GestionCrpComponent,
 }
 
 ];
@@ -53,4 +58,5 @@ export const routedComponents = [
   RubrosComponent,
   GestionApropiacionesComponent,
   FsIconAComponent,
+  GestionCrpComponent,
 ];

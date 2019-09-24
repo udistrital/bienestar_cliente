@@ -22,6 +22,9 @@ import { ListProductoComponent } from './productos/list-producto.component';
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { ConfiguracionService } from '../../@core/data/configuracion.service';
 import { DependenciasComponent } from './dependencias/dependencias.component';
+import { SolicitudCrpComponent } from './solicitud-crp/solicitud-crp.component';
+import { ConsultaCrpComponent } from './consulta-crp/consulta-crp.component';
+import { GestionCrpComponent } from './gestion-crp/gestion-crp.component';
 
 
 
@@ -35,6 +38,9 @@ import { DependenciasComponent } from './dependencias/dependencias.component';
     ListFuenteComponent,
     ListProductoComponent,
     DependenciasComponent,
+    SolicitudCrpComponent,
+    ConsultaCrpComponent,
+    GestionCrpComponent,
   ],
   providers: [
     ConfiguracionService,

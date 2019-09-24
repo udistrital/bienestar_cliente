@@ -28,7 +28,8 @@
       "gestion_rubros": "Rubros Presupuestales",
       "gestion_apropiaciones": "Apropiaciones Iniciales",
       "gestion_fuentes": "Fuentes de Financiamiento",
-      "gestion_productos": "Productos"
+      "gestion_productos": "Productos",
+      "gestion_crp": "Gestión de CRP"
     },
     "auth": {
       "auth": "Autenticación",
@@ -57,6 +58,8 @@
   "GLOBAL": {
     "gestion-titulo": "Gestión de",
     "consulta-vigencia-actual": "Consultar Vigencia Actual",
+    "solicitud-crp": "Solicitar un CRP",
+    "consulta-crp": "Consultar CRPs",
     "preasignacion-apropiacion-inicial": "Preasignar Apropiaciones Vigencia",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
     "rubro": "Rubro",
