@@ -29,9 +29,9 @@ export let FORM_INFO_SOL_CRP = {
             tipo: 'TipoCompromiso',
             key: 'Tipo',
             opciones: [
-                { Tipo: "Resolución"},
-                { Tipo: "Oficio" },
-                { Tipo: "Acta" }
+                { Tipo: 'Resolución'},
+                { Tipo: 'Oficio' },
+                { Tipo: 'Acta' }
             ],
         },
         {
@@ -53,9 +53,9 @@ export let FORM_INFO_SOL_CRP = {
             tipo: 'TipoDocumento',
             key: 'Tipo',
             opciones: [
-                { Tipo: "Cédula de Ciudadanía"},
-                { Tipo: "Tarjeta de Identidad" },
-                { Tipo: "Cédula de Extranjería" }
+                { Tipo: 'Cédula de Ciudadanía'},
+                { Tipo: 'Tarjeta de Identidad' },
+                { Tipo: 'Cédula de Extranjería' }
             ],
         },
         {
@@ -77,7 +77,7 @@ export let FORM_INFO_SOL_CRP = {
             tipo: 'text',
         },
         {
-            etiqueta: 'mat-checkbox',
+            etiqueta: 'checkbox',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'montoTotal',
             label_i18n: 'Monto Total',
@@ -86,7 +86,7 @@ export let FORM_INFO_SOL_CRP = {
             tipo: 'checkbox',
         },
         {
-            etiqueta: 'mat-checkbox',
+            etiqueta: 'checkbox',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'montoParcial',
             label_i18n: 'Monto Parcial',
@@ -101,7 +101,7 @@ export let FORM_INFO_SOL_CRP = {
             label_i18n: 'Valor Parcial',
             placeholder_i18n: 'Valor Parcial',
             requerido: false,
+            deshabilitar: true,
             tipo: 'number',
-        },
-    ],
+        }],
 };

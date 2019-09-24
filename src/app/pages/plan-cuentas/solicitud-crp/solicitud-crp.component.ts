@@ -18,7 +18,7 @@ export class SolicitudCrpComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private popManager: PopUpManager,
-  ) { 
+  ) {
     this.formInfoSolCrp = FORM_INFO_SOL_CRP;
     this.construirForm();
 
