@@ -2,7 +2,7 @@ kind: pipeline
 name: cliente_deploy
 
 steps:
-  - name: buildA1
+  - name: nodejs-test
     image: node:12.6.0
     commands:
      - node --version
@@ -13,7 +13,8 @@ steps:
         - test
       event:
         - push
-  - name: nodejs
+
+  - name: nodejs-master
     image: node:12.6.0
     commands:
      - node --version
@@ -21,12 +22,11 @@ steps:
      - npm run build:prod
     when:
       branch:
-        - master
+      - master
       event:
-        - push
-        - pull_request
-  # upload app.zip to s3 bucket for CodePipline
-  - name: publish_s3-test
+      - push
+
+  - name: publish-s3-test
     image: plugins/s3
     settings:
       bucket: cliente-pruebas
@@ -40,11 +40,11 @@ steps:
       strip_prefix: dist/
     when:
       branch:
-        - test
+      - test
       event:
-        - push
-  # upload app.zip to s3 bucket for CodePipline
-  - name: publish_s3-master
+      - push
+
+  - name: publish-s3-master
     image: plugins/s3
     settings:
       bucket: cliente-prod
@@ -52,16 +52,16 @@ steps:
         from_secret: aws_access_key_id
       secret_key:
         from_secret: aws_secret_access_key
-        region: "us-east-1"
+        region: us-east-1
         source: dist/**/*
         target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
         strip_prefix: dist/
     when:
       branch:
-        - master
+      - master
       event:
-        - push
-  #Notify results to telegram
+      - push
+
   - name: NotifyTelegram
     image: appleboy/drone-telegram
     settings:
@@ -79,9 +79,9 @@ steps:
           <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a><code> By:{{commit.author}}</code>
         {{/success}}
     when:
-      status:
-        - success
-        - failure
       branch:
-        - master
-        - test
+      - master
+      - test
+      status:
+      - failure
+      - success
