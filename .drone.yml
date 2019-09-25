@@ -4,10 +4,8 @@ workspace:
   when:
       branch: [master, test]
       event: [push, pull_request]
-
 kind: pipeline
 name: cliente_deploy
-
 steps:
   - name: buildA1
     image: node:12.6.0
@@ -21,7 +19,6 @@ steps:
       event:
         - push
         - pull_request
-
   nodejs:
     image: node:12.6.0
     commands:
@@ -34,7 +31,6 @@ steps:
       event:
         - push
         - pull_request
-
   # upload app.zip to s3 bucket for CodePipline
   - name: publish_s3-test
     image: plugins/s3
@@ -53,7 +49,6 @@ steps:
         - test
       event:
         - push
-
   # upload app.zip to s3 bucket for CodePipline
   - name: publish_s3-master
     image: plugins/s3
@@ -72,7 +67,6 @@ steps:
         - master
       event:
         - push
-
   #Notify results to telegram
   - name: NotifyTelegram
     image: appleboy/drone-telegram
