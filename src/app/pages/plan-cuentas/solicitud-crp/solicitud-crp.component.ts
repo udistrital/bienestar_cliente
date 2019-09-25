@@ -4,6 +4,7 @@ import { SolicitudCrp } from '../../../@core/data/models/sol_crp';
 import { TranslateService } from '@ngx-translate/core';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { FormManager } from '../../../@core/managers/formManager';
+import { AdmAmazonHelper } from '../../../@core/helpers/administrativa/admAmazonHelper';
 @Component({
   selector: 'ngx-solicitud-crp',
   templateUrl: './solicitud-crp.component.html',
@@ -18,6 +19,7 @@ export class SolicitudCrpComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private popManager: PopUpManager,
+    private admAmazonHelper: AdmAmazonHelper
   ) {
     this.formInfoSolCrp = FORM_INFO_SOL_CRP;
     this.construirForm();
@@ -35,6 +37,8 @@ export class SolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
     this.info_solCrp = {} as SolicitudCrp;
+    this.loadOptionsTipoDocumento();
+
   }
 
   construirForm() {
@@ -60,5 +64,27 @@ export class SolicitudCrpComponent implements OnInit {
     } else {
       this.popManager.showErrorAlert('Datos Incompletos!');
     }
+  }
+
+
+
+  loadOptionsTipoDocumento(): void {
+    let tipoDocData: Array<any> = [];
+      this.admAmazonHelper.getAllTipoDocumento().subscribe(res=> {
+          if (res !== null) {
+            tipoDocData = res;
+          }
+          this.formInfoSolCrp.campos[ this.getIndexForm('TipoDocumento') ].opciones = tipoDocData;
+        });
+  }
+
+  getIndexForm(nombre: String): number {
+    for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
+      const element = this.formInfoSolCrp.campos[index];
+      if (element.nombre === nombre) {
+        return index
+      }
+    }
+    return 0;
   }
 }

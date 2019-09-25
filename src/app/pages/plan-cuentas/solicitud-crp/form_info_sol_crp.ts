@@ -51,12 +51,8 @@ export let FORM_INFO_SOL_CRP = {
             placeholder_i18n: 'Tipo de Documento',
             requerido: true,
             tipo: 'TipoDocumento',
-            key: 'Tipo',
-            opciones: [
-                { Tipo: 'Cédula de Ciudadanía'},
-                { Tipo: 'Tarjeta de Identidad' },
-                { Tipo: 'Cédula de Extranjería' }
-            ],
+            key: 'ValorParametro',
+            opciones: [],
         },
         {
             etiqueta: 'input',
@@ -73,7 +69,8 @@ export let FORM_INFO_SOL_CRP = {
             nombre: 'NombreBeneficiario',
             label_i18n: 'Nombre de Beneficiario',
             placeholder_i18n: 'Nombre de Beneficiario',
-            requerido: true,
+            requerido: false,
+            deshabilitar: true,
             tipo: 'text',
         },
         {
@@ -101,7 +98,6 @@ export let FORM_INFO_SOL_CRP = {
             label_i18n: 'Valor Parcial',
             placeholder_i18n: 'Valor Parcial',
             requerido: false,
-            deshabilitar: true,
             tipo: 'number',
         }],
 };
