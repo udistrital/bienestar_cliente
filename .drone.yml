@@ -18,7 +18,7 @@ steps:
         - test
       event:
         - push
-  nodejs:
+  - name: nodejs
     image: node:12.6.0
     commands:
      - node --version
