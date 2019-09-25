@@ -6,6 +6,10 @@ import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
+import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
+import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
+import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
+import { ShowModificationResumeComponent } from './modificacion-apropiacion/show-modification-resume/show-modification-resume.component';
 
 
 
@@ -34,6 +38,10 @@ const routes: Routes = [{
   component: ListFuenteComponent,
 },
 {
+  path: 'modificacion-apropiacion',
+  component: ModificacionApropiacionComponent,
+},
+{
   path: '',
   redirectTo: 'rubros',
   pathMatch: 'full',
@@ -52,5 +60,9 @@ export const routedComponents = [
   GestionPlanCuentasComponent,
   RubrosComponent,
   GestionApropiacionesComponent,
+  ModificacionApropiacionComponent,
   FsIconAComponent,
+  SetModificacionApropiacionComponent,
+  ShowModificationAfectationComponent,
+  ShowModificationResumeComponent,
 ];

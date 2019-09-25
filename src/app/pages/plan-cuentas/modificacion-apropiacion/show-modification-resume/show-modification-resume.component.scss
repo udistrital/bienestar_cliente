@@ -1,0 +1,15 @@
+.mod-registration-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.mod-registration-input-item{
+    flex-basis: 80%;
+}
+
+.botton-item {
+    flex-basis: 15%;
+}
