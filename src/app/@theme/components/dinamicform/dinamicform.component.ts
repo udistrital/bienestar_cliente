@@ -14,13 +14,19 @@ export class DinamicformComponent implements OnInit, OnChanges {
   @Input('normalform') normalform: any;
   @Input('modeloData') modeloData: any;
   @Input('clean') clean: boolean;
+  @Input()
+  set formValidation(check: boolean) {
+    if (check !== undefined) {
+      this.validForm();
+    }
+  }
   @Output() result: EventEmitter<any> = new EventEmitter();
   @Output() resultAux: EventEmitter<any> = new EventEmitter();
   @Output() resultSmart: EventEmitter<any> = new EventEmitter();
   @Output() interlaced: EventEmitter<any> = new EventEmitter();
   @Output() percentage: EventEmitter<any> = new EventEmitter();
   data: any;
-  @ViewChild(MatDatepicker, {static: true}) datepicker: MatDatepicker<Date>;
+  @ViewChild(MatDatepicker, { static: true }) datepicker: MatDatepicker<Date>;
 
   constructor(private sanitization: DomSanitizer) {
     this.data = {
@@ -256,7 +262,7 @@ export class DinamicformComponent implements OnInit, OnChanges {
 
     this.result.emit(this.data);
     if (this.data.valid)
-    this.percentage.emit(this.data.percentage);
+      this.percentage.emit(this.data.percentage);
     return this.data;
   }
 

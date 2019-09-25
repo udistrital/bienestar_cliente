@@ -1,0 +1,27 @@
+<nb-card>
+    <nb-card-body *ngIf="modificationData['detail']" class="mod-registration-container">
+        <div class="mod-registration-container">
+            <mat-form-field class="mod-registration-input-item" class="mod-registration-input-item">
+                <input matInput placeholder="{{'GLOBAL.numero_documento' | translate }}"
+                    value="{{modificationData['detail']['detalleModificacion']['nDocumento']}}" disabled="true">
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item">
+                <input matInput placeholder="{{'GLOBAL.tipo_documento' | translate }}"
+                    value="{{modificationData['detail']['detalleModificacion']['tipoDocumento']['Nombre'] }}"
+                    disabled="true">
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item">
+                <input matInput placeholder="{{'GLOBAL.fecha_documento' | translate }}"
+                    value="{{modificationData['detail']['detalleModificacion']['fDocumento'] | date}}" disabled="true">
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item">
+                <input matInput placeholder="{{'GLOBAL.descripcion' | translate }}"
+                    value="{{modificationData['detail']['detalleModificacion']['descripcion']}}" disabled="true">
+            </mat-form-field>
+            <ngx-show-modification-afectation class="mod-registration-input-item" [readonly]="readonly"
+                [(afectationData)]="modificationData['afectation']"></ngx-show-modification-afectation>
+        </div>
+        <button class="btn btn-success btn-sm botton-item">{{'GLOBAL.guardar' | translate }}</button>
+
+    </nb-card-body>
+</nb-card>
