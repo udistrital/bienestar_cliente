@@ -1,11 +1,6 @@
-workspace:
-  base: /go
-  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
-  when:
-      branch: [master, test]
-      event: [push, pull_request]
 kind: pipeline
 name: cliente_deploy
+
 steps:
   - name: buildA1
     image: node:12.6.0
