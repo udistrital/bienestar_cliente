@@ -1,8 +1,12 @@
-kind: pipeline
-name: cliente_deploy
+workspace:
+  base: /go
+  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
+  when:
+      branch: [master, test]
+      event: [push, pull_request]
 
-steps:
-  - name: nodejs-test
+pipeline:
+  nodejs-test:
     image: node:12.6.0
     commands:
      - node --version
@@ -13,8 +17,9 @@ steps:
         - test
       event:
         - push
+        - pull_request
 
-  - name: nodejs-master
+  nodejs-master:
     image: node:12.6.0
     commands:
      - node --version
@@ -25,8 +30,9 @@ steps:
       - master
       event:
       - push
+      - pull_request
 
-  - name: publish-s3-test
+  publish-s3-test:
     image: plugins/s3
     settings:
       bucket: cliente-pruebas
@@ -43,8 +49,9 @@ steps:
       - test
       event:
       - push
+      - pull_request
 
-  - name: publish-s3-master
+  publish-s3-master:
     image: plugins/s3
     settings:
       bucket: cliente-prod
@@ -61,8 +68,9 @@ steps:
       - master
       event:
       - push
+      - pull_request
 
-  - name: NotifyTelegram
+  NotifyTelegram:
     image: appleboy/drone-telegram
     settings:
       token:
@@ -85,3 +93,6 @@ steps:
       status:
       - failure
       - success
+      event:
+      - push
+      - pull_request
