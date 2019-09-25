@@ -18,7 +18,6 @@ steps:
         - test
       event:
         - push
-        - pull_request
   nodejs:
     image: node:12.6.0
     commands:
