@@ -1,12 +1,8 @@
-workspace:
-  base: /go
-  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
-  when:
-      branch: [master, test]
-      event: [push, pull_request]
+kind: pipeline
+name: cliente_deploy
 
-pipeline:
-  nodejs-test:
+steps:
+  - name: nodejs-test
     image: node:12.6.0
     commands:
      - node --version
@@ -19,7 +15,7 @@ pipeline:
         - push
         - pull_request
 
-  nodejs-master:
+  - name: nodejs-master
     image: node:12.6.0
     commands:
      - node --version
@@ -32,7 +28,7 @@ pipeline:
       - push
       - pull_request
 
-  publish-s3-test:
+  - name: publish-s3-test
     image: plugins/s3
     settings:
       bucket: cliente-pruebas
@@ -51,7 +47,7 @@ pipeline:
       - push
       - pull_request
 
-  publish-s3-master:
+  - name: publish-s3-master
     image: plugins/s3
     settings:
       bucket: cliente-prod
@@ -59,10 +55,10 @@ pipeline:
         from_secret: aws_access_key_id
       secret_key:
         from_secret: aws_secret_access_key
-        region: us-east-1
-        source: dist/**/*
-        target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-        strip_prefix: dist/
+      region: us-east-1
+      source: dist/**/*
+      target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+      strip_prefix: dist/
     when:
       branch:
       - master
@@ -70,7 +66,7 @@ pipeline:
       - push
       - pull_request
 
-  NotifyTelegram:
+  - name: NotifyTelegram
     image: appleboy/drone-telegram
     settings:
       token:
