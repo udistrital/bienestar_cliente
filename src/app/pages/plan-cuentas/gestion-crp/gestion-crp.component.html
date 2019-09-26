@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <nb-card>
+      <nb-card-header>Gestión de Certificados de Registro Presupuestal
+      </nb-card-header>
+      <div class="row">
+        <div class="col-md-12">
+        <nb-card-body>
+
+            <div class="col-12 col-sm-6 col-md-12">
+                    <div class="row" *ngIf="!opcionSeleccionada">
+                      <div class="card-col-6" class="secDashboard">
+                        <nb-card size="small" (click)="routeView('solicitud')">
+                          <nb-card-body >
+                              <div class="option-icon d-flex flex-column">
+                                <mat-icon  svgIcon="solicitud_crp" inline="true"></mat-icon>
+                                <h3>{{
+                                      "GLOBAL.solicitud-crp" | translate
+                                    }}
+                                </h3>
+                              </div>
+                          </nb-card-body>
+                        </nb-card>
+                      </div>
+                      <div class="card-col-6" class="secDashboard">
+                        <nb-card size="small"  (click)="routeView('consulta')">
+                          <nb-card-body >
+                              <div class="option-icon d-flex flex-column">
+                                <mat-icon  svgIcon="consulta_crp" inline="true"></mat-icon>
+                                <h3>{{
+                                      "GLOBAL.consulta-crp" | translate
+                                     }} -
+                                     {{ vigencia }}
+                                </h3>
+                              </div>
+                          </nb-card-body>
+                        </nb-card>
+                      </div>
+                    </div>
+                  </div>
+                      <div *ngIf="opcionSeleccionada && opcion=='solicitud'" class="row">
+                        <ngx-solicitud-crp></ngx-solicitud-crp>
+                      </div>
+                      <div *ngIf="opcionSeleccionada && opcion=='consulta'" class="row">
+                        <ngx-consulta-crp></ngx-consulta-crp>
+                      </div>
+
+        </nb-card-body>    
+        </div>
+            </div>
+            </nb-card>
