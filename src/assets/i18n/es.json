@@ -195,6 +195,12 @@
     "mensaje_eliminar": "¿ Eliminar Producto ?",
     "confirmacion_eliminar": "Producto Eliminado"
   },
+  "CDP": {
+    "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
+    "lista-cdp": "Lista certificados de disponibilidad presupuestal",
+    "n_solicitud": "N° Solicitud de CDP"
+  },
+
   "_id": "ID",
   "Nombre": "Nombre",
   "ApropiacionInicial": "Valor Apropiación Inicial",

@@ -6,7 +6,9 @@ import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
+import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
 import { GestionCrpComponent } from './gestion-crp/gestion-crp.component';
+
 
 
 
@@ -33,6 +35,10 @@ const routes: Routes = [{
 {
   path: 'fuentes',
   component: ListFuenteComponent,
+},
+{
+  path: 'solicitudcdp',
+  component: ListSolicitudCdpComponent,
 },
 {
   path: '',
