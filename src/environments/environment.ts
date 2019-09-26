@@ -9,7 +9,7 @@ export const environment = {
     PATH: 'https://documental.udistrital.edu.co/nuxeo/',
   },
   WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',
-  ADMINISTRATIVA_PRUEBAS_SERVICE: "https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/",
+  ADMINISTRATIVA_PRUEBAS_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/',
   PLAN_CUENTAS_MONGO_SERVICE: 'http://localhost:8082/v1/',
   OIKOS_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/oikos_api/v1/',
   CONFIGURACION_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/',

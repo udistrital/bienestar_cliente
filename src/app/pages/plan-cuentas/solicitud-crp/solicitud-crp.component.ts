@@ -56,8 +56,6 @@ export class SolicitudCrpComponent implements OnInit {
 
   }
 
-
-
   validarForm(event) {
     if (event.valid) {
 
@@ -70,10 +68,8 @@ export class SolicitudCrpComponent implements OnInit {
 
   loadOptionsTipoDocumento(): void {
     let tipoDocData: Array<any> = [];
-      this.admAmazonHelper.getAllTipoDocumento().subscribe(res=> {
-          if (res !== null) {
-            tipoDocData = res;
-          }
+      this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
+          if (res !== null) { tipoDocData = res; }
           this.formInfoSolCrp.campos[ this.getIndexForm('TipoDocumento') ].opciones = tipoDocData;
         });
   }
@@ -82,7 +78,7 @@ export class SolicitudCrpComponent implements OnInit {
     for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
       const element = this.formInfoSolCrp.campos[index];
       if (element.nombre === nombre) {
-        return index
+        return index;
       }
     }
     return 0;

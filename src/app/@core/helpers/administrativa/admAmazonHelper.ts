@@ -16,7 +16,7 @@ export class AdmAmazonHelper {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
         const params = {
             limit: -1,
-            ClaseParametro: "Tipo de Documento"
+            ClaseParametro: 'Tipo de Documento'
 
         };
         // call request manager for the tree's data.
