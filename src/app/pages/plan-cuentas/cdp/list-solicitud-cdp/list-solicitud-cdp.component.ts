@@ -7,6 +7,7 @@ import { getLocaleExtraDayPeriodRules } from '@angular/common';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
+import { VerSolicitudCdpComponent } from '../ver-solicitud-cdp/ver-solicitud-cdp.component';
 
 
 @Component({
@@ -24,12 +25,13 @@ export class ListSolicitudCdpComponent implements OnInit {
   settings: object;
   auxcambiotab: boolean = false;
   listColumns: object;
+  solicitudcdp: object;
 
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private translate: TranslateService,
     private cdpHelper: CDPHelper,
-    private rqManager: RequestManager) { }
+    private rqManager: RequestManager,) { }
 
   ngOnInit() {
     this.loadDataFunction = this.cdpHelper.getSolicitudesCDP;
@@ -55,13 +57,13 @@ export class ListSolicitudCdpComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
-        },
+        }
+      },
       consecutivo: {
-          title: this.translate.instant('CDP.n_solicitud'),
-          // type: 'string;',
-          valuePrepareFunction: value => {
-            return value;
-          }
+        title: this.translate.instant('CDP.n_solicitud'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
         }
       }
     };
@@ -71,7 +73,7 @@ export class ListSolicitudCdpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'other', title: '<div><i class="fas fa-eye"></i></div>' }],
+        custom: [{ name: 'ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)">ver</i></div>' }],
         position: 'right'
       },
       mode: 'external',
@@ -79,7 +81,7 @@ export class ListSolicitudCdpComponent implements OnInit {
     };
 
     this.loadData();
- 
+
 
   }
 
@@ -94,6 +96,21 @@ export class ListSolicitudCdpComponent implements OnInit {
         this.source.load([]);
       }
     });
+  }
+
+  verSolicitud(scdp) {
+    console.info(scdp)
+    this.solicitudcdp=scdp;
+  }
+
+  onCustom(event: any) {
+    switch(event.action) {
+      case "ver":
+        this.verSolicitud(event.data);
+    }
+    // this.actaSeleccionada = `${event.data.Id}`;
+    // this.estadoActaSeleccionada = `${event.data.Estado}`;
+    // this.accion = `${event.action}`;
   }
 
 

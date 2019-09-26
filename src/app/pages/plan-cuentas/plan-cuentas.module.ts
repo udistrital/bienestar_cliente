@@ -23,6 +23,7 @@ import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { ConfiguracionService } from '../../@core/data/configuracion.service';
 import { DependenciasComponent } from './dependencias/dependencias.component';
 import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
+import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
 
 
 
@@ -37,6 +38,7 @@ import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicit
     ListProductoComponent,
     DependenciasComponent,
     ListSolicitudCdpComponent,
+    VerSolicitudCdpComponent,
   ],
   providers: [
     ConfiguracionService,

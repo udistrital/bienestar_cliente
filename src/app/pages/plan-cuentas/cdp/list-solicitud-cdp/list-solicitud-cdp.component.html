@@ -4,14 +4,10 @@
             {{ 'CDP.solicitudes_cdp' | translate }}
         </nb-card-header>
         <nb-card-body>
-            <!-- <ngx-list-entity *ngIf="!auxcambiotab" [listSettings]="listSettings" [isOnlyCrud]="isOnlyCrud"
-                [uuidReadFieldName]="uuidReadFieldName" [listColumns]="listColumns"
-                [loadDataFunction]="loadDataFunction" [formTittle]="formTittle"
-                [loadFormDataFunction]="loadFormDataFunction">
-            </ngx-list-entity> -->
 
-            <ng2-smart-table *ngIf="!cambiotab " [settings]="settings" [source]="source">
+            <ng2-smart-table *ngIf="!cambiotab " [settings]="settings" [source]="source" (custom)="onCustom($event)">
             </ng2-smart-table>
+            <ngx-ver-solicitud-cdp [solicitudcdp]="solicitudcdp"></ngx-ver-solicitud-cdp>
 
         </nb-card-body>
     </nb-card>
