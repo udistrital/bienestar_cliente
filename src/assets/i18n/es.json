@@ -195,7 +195,8 @@
   "CDP": {
     "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
     "lista-cdp": "Lista certificados de disponibilidad presupuestal",
-    "n_solicitud": "N° Solicitud de CDP"
+    "n_solicitud": "N° Solicitud de CDP",
+    "detalle_solicitud_cdp": "Detalle de solicitud de CDP "
   },
 
   "_id": "ID",

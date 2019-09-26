@@ -1,2 +1,49 @@
+<div class="col-md-12 col-lg-12 ">
+    <nb-card>
+        <nb-card-header>
+            <legend>{{ 'CDP.detalle_solicitud_cdp' | translate }}</legend>
+            <legend *ngIf="solicitud"> {{solicitud.consecutivo}}</legend>
+        </nb-card-header>
+        <nb-card-body>
+            <pre>scdp{{solicitud | json}}</pre>
+            <pre>nes{{necesidad | json}}</pre>
+            <div class="container-fluid">
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-warning">
+                        <th width="15%">{{'GLOBAL.vigencia' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.centro_gestor' | translate}}</th>
+                        <th width="45%">{{'GLOBAL.entidad' | translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                    <thead class="bg-warning">
+                        <th >n solic cdp</th>
+                        <th >n necesi</th>
+                        <th >solic<th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="bg-warning">{{'NECESIDAD.objeto' | translate}}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-<pre>scdp{{solicitud | json}}</pre>
+                <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+                    {{ 'GLOBAL.regresar' | translate}}</button>
+            </div>
+
+
+        </nb-card-body>
+    </nb-card>
+</div>
