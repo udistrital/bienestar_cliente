@@ -2,13 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import 'style-loader!angular2-toaster/toaster.css';
-import { verifyHostBindings } from '@angular/compiler';
-import { getLocaleExtraDayPeriodRules } from '@angular/common';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
-import { RequestManager } from '../../../../@core/managers/requestManager';
-import { VerSolicitudCdpComponent } from '../ver-solicitud-cdp/ver-solicitud-cdp.component';
-
 
 @Component({
   selector: 'ngx-list-solicitud-cdp',
@@ -31,7 +26,7 @@ export class ListSolicitudCdpComponent implements OnInit {
 
   constructor(private translate: TranslateService,
     private cdpHelper: CDPHelper,
-    private rqManager: RequestManager,) { }
+    ) { }
 
   ngOnInit() {
     this.loadDataFunction = this.cdpHelper.getSolicitudesCDP;
@@ -87,9 +82,9 @@ export class ListSolicitudCdpComponent implements OnInit {
 
 
   loadData(): void {
-    this.loadDataFunction("").subscribe(res => {
+    this.loadDataFunction('').subscribe(res => {
       if (res !== null) {
-        console.info("res", res)
+        console.info('res', res);
         const data = <Array<any>>res;
         this.source.load(data);
       } else {
@@ -99,13 +94,13 @@ export class ListSolicitudCdpComponent implements OnInit {
   }
 
   verSolicitud(scdp) {
-    console.info(scdp)
-    this.solicitudcdp=scdp;
+    console.info(scdp);
+    this.solicitudcdp = scdp;
   }
 
   onCustom(event: any) {
-    switch(event.action) {
-      case "ver":
+    switch (event.action) {
+      case 'Ver':
         this.verSolicitud(event.data);
     }
     // this.actaSeleccionada = `${event.data.Id}`;

@@ -200,6 +200,13 @@
     "lista-cdp": "Lista certificados de disponibilidad presupuestal",
     "n_solicitud": "N° Solicitud de CDP"
   },
+  "CRP": {
+    "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
+    "lista-crp": "Lista Certificados de Registros Presupuestales",
+    "n_solicitud": "N° Solicitud de CRP",
+    "estado": "Estado"
+  },
+
 
   "_id": "ID",
   "Nombre": "Nombre",
