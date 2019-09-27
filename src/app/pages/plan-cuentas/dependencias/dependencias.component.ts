@@ -1,9 +1,12 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { FuenteFinanciamiento } from '../../../@core/data/models/fuente_financiamiento';
 import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
+import { FORM_VALUE_FUENTE } from '../fuentes/form-value-fuente';
 
 import { PopUpManager } from '../../../@core/managers/popUpManager';
+import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';
+import { debug } from 'util';
 @Component({
   selector: 'ngx-dependencias',
   templateUrl: './dependencias.component.html',
@@ -12,6 +15,7 @@ import { PopUpManager } from '../../../@core/managers/popUpManager';
 export class DependenciasComponent implements OnInit {
 
   @Output() auxcambiotab = new EventEmitter<boolean>();
+  @Input('infoinput') infoinput: any;
   formInfoFuente: any;
   rubroSeleccionado: any;
   optionView: string;
@@ -29,9 +33,13 @@ export class DependenciasComponent implements OnInit {
   rubrosAsociados: any = {};
   productosExample: any = [];
   vigenciaSel: any;
+  editValueFF: boolean;
+  formValueFuente: any;
   constructor(
+    private fuenteHelper: FuenteHelper,
     private dependenciaHelper: DependenciaHelper,
     private popManager: PopUpManager, ) {
+    this.editValueFF = false;
     this.vigenciaSel = '2020';
     this.entrarEditar = false;
     this.totalPermitido = true;
@@ -49,6 +57,7 @@ export class DependenciasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.formValueFuente = FORM_VALUE_FUENTE;
   }
 
   receiveMessage($event) {
@@ -56,6 +65,8 @@ export class DependenciasComponent implements OnInit {
       this.rubrosAsignados.filter(data => data.Codigo === $event.Codigo)
         .length === 0 && $event.Hijos.length === 0
     ) {
+      // this.fuenteHelper.getFuentes(this.infoinput.Codigo);
+      console.info(this.infoinput);
       $event['Dependencias'] = [{ Id: 0, ValorDependencia: 0 }];
       // $event['Productos'] = this.productosExample;
       // console.info($event);
@@ -115,10 +126,36 @@ export class DependenciasComponent implements OnInit {
     delete this.rubrosAsociados[prop];
     // console.info(this.rubrosAsociados);
   }
+  cambiarValorFuente() {
+      this.construirForm();
+      this.editValueFF = !this.editValueFF;
+  }
+  validarForm(event) {
+    console.info(event);
+    debug;
+    if (event.valid) {
+      this.infoinput.ValorOriginal = typeof event.data.FuenteFinanciamiento.ValorOriginal === 'undefined' ? undefined : event.data.FuenteFinanciamiento.ValorOriginal;
+      this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
+        if (res) {
+          this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
+          this.cambiarValorFuente();
+        }
+      });
+    } else {
+      this.popManager.showErrorAlert('Datos Incompletos!');
+    }
+  }
 
   activetab(tab): void {
     if (tab === 'other') {
       this.auxcambiotab.emit(false);
+    }
+  }
+
+  construirForm() {
+    for (let i = 0; i < this.formValueFuente.campos.length; i++) {
+      this.formValueFuente.campos[i].label = this.formValueFuente.campos[i].label_i18n;
+      this.formValueFuente.campos[i].placeholder = this.formValueFuente.campos[i].label_i18n;
     }
   }
 }
