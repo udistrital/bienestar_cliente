@@ -59,37 +59,37 @@ export class CDPHelper {
 
     }
 
-    public getNecesidad(idnecesidad) {
+    public getNecesidadAdm(id) {
         this.rqManager.setPath('ADMINISTRATIVA_SERVICE');
-        return this.rqManager.get(`necesidad/`).toPromise().then(
-            res_adm => {
-                if (res_adm['Type'] === 'error') {
-                    this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
-                    return undefined;
-                } else {
-                    return res_adm;
+        return this.rqManager.get(`necesidad/`).pipe(
+            map(
+                res_adm => {
+                    if (res_adm['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
+                        return undefined;
+                    } else {
+                        return res_adm.filter(n => n.Id === id)[0];
+                    }
                 }
-            }
-        ).then(
-            (res_adm) => {
-                const nec_adm = res_adm.filter(n => n.Id === idnecesidad)[0];
-                this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-                return this.rqManager.get(`necesidades/`).pipe(
-                    map(
-                        res_pc => {
-                            console.info('llegopc', res_pc);
-                            if (res_pc['Type'] === 'error') {
-                                this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
-                                return undefined;
-                            } else {
-                                res_pc = res_pc.filter(n => n.idAdministrativa === idnecesidad);
-                                console.info('getnes', { ...nec_adm, ...res_pc[0] });
-                                return { ...nec_adm, ...res_pc[0] };
-                            }
-                        }));
-            }
-        );
+            )
+        )
+    }
 
+    public getNecesidadPC(idnecesidad) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get(`necesidades/`).pipe(
+            map(
+                res_pc => {
+                    if (res_pc['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
+                        return undefined;
+                    } else {
+                        res_pc = res_pc.filter(n => n.idAdministrativa+'' === idnecesidad+'');
+                        return res_pc[0];
+                    }
+                }
+            )
+        );
 
     }
 
