@@ -1,43 +1,117 @@
 <div class="col-md-12 col-lg-12 ">
     <nb-card>
         <nb-card-header>
-            <legend>{{ 'CDP.detalle_solicitud_cdp' | translate }}</legend>
-            <legend *ngIf="solicitud"> {{solicitud.consecutivo}}</legend>
+            <legend *ngIf="solicitud">{{ 'CDP.detalle_solicitud_cdp' | translate }}:  {{solicitud.consecutivo}}</legend>
         </nb-card-header>
         <nb-card-body>
-            <pre>scdp{{solicitud | json}}</pre>
-            <pre>nes{{necesidad | json}}</pre>
+            <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
+            <pre>nes{{necesidad | json}}</pre> -->
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
                     <thead class="bg-warning">
                         <th width="15%">{{'GLOBAL.vigencia' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.centro_gestor' | translate}}</th>
-                        <th width="45%">{{'GLOBAL.entidad' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.unidad_ejecutora' | translate}}</th>
+                        <th width="45%">{{'GLOBAL.centro_gestor' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{necesidad.Vigencia}}</td>
+                            <td>{{solicitud.centroGestor}}</td>
+                            <td>{{solicitud.entidad}}</td>
                         </tr>
                     </tbody>
+
+                </table>
+                <table class="table table-hover table-bordered">
                     <thead class="bg-warning">
-                        <th >n solic cdp</th>
-                        <th >n necesi</th>
-                        <th >solic<th>
+                        <th>{{'CDP.n_sol_cdp' | translate}}</th>
+                        <th>{{'CDP.n_necesidad' | translate}}</th>
+                        <th>{{'CDP.solicitante' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{solicitud.consecutivo}}</td>
+                            <td>{{solicitud.necesidad}}</td>
+                            <td>dependencia solicitante</td>
                         </tr>
                         <tr>
                             <td class="bg-warning">{{'NECESIDAD.objeto' | translate}}</td>
-                            <td colspan="2"></td>
+                            <td colspan="2">{{necesidad.Objeto}}</td>
                         </tr>
                     </tbody>
                 </table>
+                <!-- apropiaciones -->
+                <table *ngFor="let ap of necesidad.apropiaciones" class="table table-hover table-bordered">
+                    <!-- rubro -->
+                    <thead class="bg-warning">
+                        <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.valor' | translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ap.codigo}} {{ap.nombre}}</td>
+                            <td>000</td>
+                        </tr>
+                    </tbody>
+                    <!-- metas y actividades si es de inversion -->
+                    <thead *ngIf="necesidad.TipoFinanciacionNecesidad.Id===1" class="bg-warning">
+                        <th width="60%">{{'GLOBAL.meta' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.valor' | translate}}</th>
+                    </thead>
+                    <tbody *ngIf="necesidad.TipoFinanciacionNecesidad.Id===1">
+                        <tr>
+                            <td>{{ap.metas[0].codigo}} {{ap.metas.nombre}}</td>
+                            <td>{{ap.metas[0].valor | currency: COP}}</td>
+                        </tr>
+                        <tr class="bg-warning">
+                            <td>{{'GLOBAL.actividades' | translate}}</td>
+                            <td></td>
+                        </tr>
+                        <tr *ngFor="let act of ap.metas[0].actividades">
+                            <td>{{act.codigo}} {{act.nombre}}</td>
+                            <td>{{act.valor | currency: COP }}</td>
+                        </tr>
+                    </tbody>
+                    <!-- fuentes -->
+                    <thead class="bg-warning">
+                        <th>{{'GLOBAL.fuente' | translate}}</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let f of ap.fuentes">
+                            <td>{{f.codigo}} {{f.nombre}}</td>
+                            <td>{{f.valor | currency: COP}}</td>
+                        </tr>
+                    </tbody>
+                    <!-- productos -->
+                    <thead class="bg-warning">
+                        <th>{{'GLOBAL.producto' | translate}}</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of ap.productos">
+                            <td>{{p.codigo}} {{p.nombre}}</td>
+                            <td>{{p.valor | currency: COP}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <!-- responsables y fecha -->
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-warning">
+                        <th width="33%">{{ 'CDP.fecha_solicitud' | translate }}</th>
+                        <th width="33%">{{ 'CDP.responsable' | translate }}</th>
+                        <th width="33%">{{ 'CDP.elaboro' | translate }}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{necesidad.FechaSolicitud | date}}</td>
+                            <td>responsable</td>
+                            <td>elaboró</td>
+                        </tr>
+                    </tbody>
+                </table>
+
 
                 <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
                     {{ 'GLOBAL.regresar' | translate}}</button>

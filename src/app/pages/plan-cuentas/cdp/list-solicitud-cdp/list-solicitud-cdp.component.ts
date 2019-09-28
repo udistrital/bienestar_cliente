@@ -86,7 +86,7 @@ export class ListSolicitudCdpComponent implements OnInit {
 
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
-      if (res !== null) {
+      if (res) {
         const data = <Array<any>>res;
         this.source.load(data);
       } else {

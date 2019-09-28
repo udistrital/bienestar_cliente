@@ -23,7 +23,7 @@ export class CDPHelper {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res.filter(e => e.infoCdp === null || e.infoCdp === {});
+                    return res ? res.filter(e => e.infoCdp === null || e.infoCdp === {}) : undefined;
                 },
             ),
         );
@@ -72,7 +72,7 @@ export class CDPHelper {
                     }
                 }
             )
-        )
+        );
     }
 
     public getNecesidadPC(idnecesidad) {
@@ -84,7 +84,7 @@ export class CDPHelper {
                         this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
                         return undefined;
                     } else {
-                        res_pc = res_pc.filter(n => n.idAdministrativa+'' === idnecesidad+'');
+                        res_pc = res_pc.filter(n => n.idAdministrativa + '' === idnecesidad + '');
                         return res_pc[0];
                     }
                 }

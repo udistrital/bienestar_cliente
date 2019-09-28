@@ -22,11 +22,11 @@ export class VerSolicitudCdpComponent implements OnInit {
 
   ngOnInit() {
     this.cdpHelper.getNecesidadAdm(this.solicitud['necesidad']).subscribe(res => {
-      let nec_adm = res;
-      this.cdpHelper.getNecesidadPC(this.solicitud['necesidad']).subscribe(res => {
-        this.necesidad = {...nec_adm, ...res};
-      })
-    })
+      const nec_adm = res;
+      this.cdpHelper.getNecesidadPC(this.solicitud['necesidad']).subscribe(nec_pc => {
+        this.necesidad = {...nec_adm, ...nec_pc};
+      });
+    });
   }
 
   cambioTab () {
