@@ -29,6 +29,22 @@ export class CDPHelper {
         );
 
     }
+
+    public getListaCDP(id?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('solicitudesCDP/' + id).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
+                        return undefined;
+                    }
+                    return res ? res.filter(e => e.infoCdp !== null && e.infoCdp.consecutivo && e.infoCdp.fechaExpedicion && e.infoCdp.estado) : undefined;
+                },
+            ),
+        );
+
+    }
     /**
        * CDP register
        * If the response has errors in the OAS API it should show a popup message with an error.

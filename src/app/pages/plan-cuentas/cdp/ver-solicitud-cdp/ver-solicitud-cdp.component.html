@@ -1,7 +1,7 @@
 <div class="col-md-12 col-lg-12 ">
     <nb-card>
         <nb-card-header>
-            <legend *ngIf="solicitud">{{ 'CDP.detalle_solicitud_cdp' | translate }}:  {{solicitud.consecutivo}}</legend>
+            <legend *ngIf="solicitud">{{ 'CDP.detalle_solicitud_cdp' | translate }}: {{solicitud.consecutivo}}</legend>
         </nb-card-header>
         <nb-card-body>
             <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
@@ -112,9 +112,15 @@
                     </tbody>
                 </table>
 
+                <div class="text-align: center;">
+                    <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+                        {{ 'GLOBAL.regresar' | translate}}</button>
+                    <button (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-info btn-sm"> 
+                        {{ 'CDP.expedir' | translate}}</button>
+                </div> 
 
-                <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-                    {{ 'GLOBAL.regresar' | translate}}</button>
+
+
             </div>
 
 

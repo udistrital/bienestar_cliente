@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 
 @Component({
   selector: 'ngx-ver-solicitud-cdp',
@@ -17,6 +18,7 @@ export class VerSolicitudCdpComponent implements OnInit {
     private cdpHelper: CDPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager,
+    private popManager: PopUpManager,
   ) {
    }
 
@@ -32,6 +34,16 @@ export class VerSolicitudCdpComponent implements OnInit {
   cambioTab () {
     this.eventChange.emit(false);
 
+  }
+
+  expedirCDP(consecutivo) {
+    this.popManager.showAlert('warning', 'Expedir CDP', '¿está seguro?')
+    .then((result) => {
+      if (result.value) {
+        console.info(`expedir CDP ${consecutivo}`);
+        // TODO usar el endpoint de expedir cdp cuando se implemente el mismo
+      }
+    });
   }
 
 }
