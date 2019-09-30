@@ -54,7 +54,7 @@ export class ApropiacionesComponent implements OnInit {
 
     this.apropiacionData = {
       Vigencia: 0,
-      ApropiacionInicial: 0,
+      ValorInicial: 0,
       ApropiacionAnterior: 0,
       Estado: '',
       Rubro: <Rubro>{},
@@ -84,7 +84,8 @@ export class ApropiacionesComponent implements OnInit {
         this.rubroSeleccionado.UnidadEjecutora,
         0,
       );
-      this.rubroSeleccionado.ApropiacionInicial = parseInt(this.rubroSeleccionado.ApropiacionInicial, 0);
+      this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
+      this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
     } else {
       this.isLeaf = false;
     }
@@ -135,11 +136,11 @@ export class ApropiacionesComponent implements OnInit {
     this.apropiacionData.UnidadEjecutora = typeof this.rubroSeleccionado.UnidadEjecutora === 'undefined' ? undefined : this.rubroSeleccionado.UnidadEjecutora;
     this.apropiacionData.Padre = typeof this.rubroSeleccionado.Padre === 'undefined' ? undefined : this.rubroSeleccionado.Padre;
     this.apropiacionData.Hijos = typeof this.rubroSeleccionado.Hijos === 'undefined' ? undefined : this.rubroSeleccionado.Hijos;
-    this.apropiacionData.ApropiacionInicial = typeof this.valorApropiacion === 'undefined' ? undefined : this.valorApropiacion;
-    this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ApropiacionInicial === 'undefined' ? undefined : this.rubroSeleccionado.ApropiacionInicial;
+    this.apropiacionData.ValorInicial = typeof this.valorApropiacion === 'undefined' ? undefined : this.valorApropiacion;
+    this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ValorInicial === 'undefined' ? 0 : this.rubroSeleccionado.ValorInicial;
     this.apropiacionData.Estado = 'registrada'; // Estado preasignado
 
-    console.table(this.apropiacionData);
+    console.table(this.rubroSeleccionado);
     if (this.vigenciaSel !== undefined) {
       this.apHelper.apropiacionRegister(this.apropiacionData).subscribe((res) => {
         if (res) {
