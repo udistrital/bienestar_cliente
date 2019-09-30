@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
 import { CRPHelper } from '../../../@core/helpers/crp/crpHelper';
+import { RequestManager } from '../../../@core/managers/requestManager';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class ConsultaCrpComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private translate: TranslateService,
-    private crpHelper: CRPHelper, ) { }
+    private crpHelper: CRPHelper,
+    private rqManager: RequestManager, ) { }
 
   ngOnInit() {
     this.loadDataFunction = this.crpHelper.getSolicitudesCRP;

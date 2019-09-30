@@ -204,7 +204,8 @@
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
     "n_solicitud": "N° Solicitud de CRP",
-    "estado": "Estado"
+    "estado": "Estado",
+    "solicitar-crp": "Solicitar Certificado de Registro Presupuestal"
   },
 
 
