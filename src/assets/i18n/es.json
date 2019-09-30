@@ -28,7 +28,8 @@
       "gestion_rubros": "Rubros Presupuestales",
       "gestion_apropiaciones": "Apropiaciones Iniciales",
       "gestion_fuentes": "Fuentes de Financiamiento",
-      "gestion_productos": "Productos"
+      "gestion_productos": "Productos",
+      "gestion_crp": "Gestión de CRP"
     },
     "auth": {
       "auth": "Autenticación",
@@ -57,6 +58,8 @@
   "GLOBAL": {
     "gestion-titulo": "Gestión de",
     "consulta-vigencia-actual": "Consultar Vigencia Actual",
+    "solicitud-crp": "Solicitar un CRP",
+    "consulta-crp": "Consultar CRPs",
     "preasignacion-apropiacion-inicial": "Preasignar Apropiaciones Vigencia",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
     "rubro": "Rubro",
@@ -206,6 +209,20 @@
     "mensaje_eliminar": "¿ Eliminar Producto ?",
     "confirmacion_eliminar": "Producto Eliminado"
   },
+  "CDP": {
+    "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
+    "lista-cdp": "Lista certificados de disponibilidad presupuestal",
+    "n_solicitud": "N° Solicitud de CDP"
+  },
+  "CRP": {
+    "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
+    "lista-crp": "Lista Certificados de Registros Presupuestales",
+    "n_solicitud": "N° Solicitud de CRP",
+    "estado": "Estado",
+    "solicitar-crp": "Solicitar Certificado de Registro Presupuestal"
+  },
+
+
   "_id": "ID",
   "Nombre": "Nombre",
   "ApropiacionInicial": "Valor Apropiación Inicial",
