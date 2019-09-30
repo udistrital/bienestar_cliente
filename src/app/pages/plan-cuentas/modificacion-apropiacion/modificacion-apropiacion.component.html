@@ -1,0 +1,23 @@
+<nb-card>
+    <nb-card-body>
+        <div class="d-flex justify-content-center">
+            <mat-horizontal-stepper #stepper [linear]="linearMode" id="stepper" (selectionChange)="onStepChange($event)">
+                <mat-step label="{{'GLOBAL.detalle' | translate }}" [stepControl]="detalleValidationForm">
+                    <ngx-dinamicform [normalform]="formDetalle" [modeloData]="detalleMovimiento"
+                        (result)="detalleValidator($event)" [formValidation]="formDetalleValidFlag">
+                    </ngx-dinamicform>
+                </mat-step>
+                <mat-step label="{{'APROPIACION.apropiaciones' | translate }}" [stepControl]="setModValidationForm">
+                    <ngx-set-modificacion-apropiacion (setStepValidationEvent)="setSteppValidator($event)">
+                    </ngx-set-modificacion-apropiacion>
+                </mat-step>
+                <mat-step label="{{'GLOBAL.guardar' | translate }}">
+                       <ngx-show-modification-resume [(modificationData)]="modifiactionFinalData">
+
+                       </ngx-show-modification-resume>
+                    </mat-step>
+            </mat-horizontal-stepper>
+            
+        </div>
+    </nb-card-body>
+</nb-card>

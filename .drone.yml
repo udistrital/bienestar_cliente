@@ -1,75 +1,94 @@
-workspace:
-  base: /go
-  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
-  when:
-      branch: [master, test]
-      event: [push, pull_request]
+kind: pipeline
+name: cliente_deploy
 
-pipeline:
-
-  # build and test the go program
-  nodejs:
+steps:
+  - name: nodejs-test
     image: node:12.6.0
     commands:
      - node --version
      - npm i
      - npm run build:test
     when:
-      branch: [test]
-      event: [push, pull_request]
-      
-  nodejs:  
+      branch:
+        - test
+      event:
+        - push
+        - pull_request
+
+  - name: nodejs-master
     image: node:12.6.0
     commands:
      - node --version
      - npm i
      - npm run build:prod
     when:
-      branch: [master]
-      event: [push, pull_request]
+      branch:
+      - master
+      event:
+      - push
+      - pull_request
 
-  # upload app.zip to s3 bucket for CodePipline
-  publish_s3:
+  - name: publish-s3-test
     image: plugins/s3
-    secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"    
-    bucket: "cliente-pruebas"
-    source: dist/**/*
-    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-    strip_prefix: dist/
+    settings:
+      bucket: cliente-pruebas
+      access_key:
+        from_secret: aws_access_key_id
+      secret_key:
+        from_secret: aws_secret_access_key
+      region: us-east-1
+      source: dist/**/*
+      target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+      strip_prefix: dist/
     when:
-      branch: [test]
-      event: [push, pull_request] 
-    
-  # upload app.zip to s3 bucket for CodePipline
-  publish_s3:
-    image: plugins/s3
-    secrets: [ aws_access_key_id, aws_secret_access_key ]
-    region: "us-east-1"    
-    bucket: "cliente-prod"
-    source: dist/**/*
-    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-    strip_prefix: dist/
-    when:
-      branch: [master]
-      event: [push, pull_request] 
+      branch:
+      - test
+      event:
+      - push
+      - pull_request
 
-  #Notify results to telegram
-  notify_telegram:
+  - name: publish-s3-master
+    image: plugins/s3
+    settings:
+      bucket: cliente-prod
+      access_key:
+        from_secret: aws_access_key_id
+      secret_key:
+        from_secret: aws_secret_access_key
+      region: us-east-1
+      source: dist/**/*
+      target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+      strip_prefix: dist/
+    when:
+      branch:
+      - master
+      event:
+      - push
+      - pull_request
+
+  - name: NotifyTelegram
     image: appleboy/drone-telegram
-    secrets: [ telegram_token, telegram_to ]
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_to
     format: html
     message: >
-      {{#success build.status}}
-        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
-        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-      {{else}}
-        <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
-        <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-      {{/success}}
+      {{#success build.status}} With Drone 1.0
+          <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
+          <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a><code> By:{{commit.author}}</code>
+        {{else}}
+          <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
+          <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a><code> By:{{commit.author}}</code>
+        {{/success}}
     when:
-      status: [success, failure]
-      branch: [master, test]
-      event: [push, pull_request]      
-  
-
+      branch:
+      - master
+      - test
+      status:
+      - failure
+      - success
+      event:
+      - push
+      - pull_request

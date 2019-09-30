@@ -8,6 +8,10 @@ import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
 import { GestionCrpComponent } from './gestion-crp/gestion-crp.component';
+import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
+import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
+import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
+import { ShowModificationResumeComponent } from './modificacion-apropiacion/show-modification-resume/show-modification-resume.component';
 
 
 
@@ -40,6 +44,10 @@ const routes: Routes = [{
   path: 'solicitudcdp',
   component: ListSolicitudCdpComponent,
 },
+ {
+  path: 'modificacion-apropiacion',
+  component: ModificacionApropiacionComponent,
+},
 {
   path: '',
   redirectTo: 'rubros',
@@ -63,6 +71,10 @@ export const routedComponents = [
   GestionPlanCuentasComponent,
   RubrosComponent,
   GestionApropiacionesComponent,
+  ModificacionApropiacionComponent,
   FsIconAComponent,
   GestionCrpComponent,
+  SetModificacionApropiacionComponent,
+  ShowModificationAfectationComponent,
+  ShowModificationResumeComponent,
 ];
