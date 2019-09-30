@@ -28,9 +28,11 @@ export class DependenciasComponent implements OnInit {
   showProduct: boolean;
   rubrosAsociados: any = {};
   productosExample: any = [];
+  vigenciaSel: any;
   constructor(
     private dependenciaHelper: DependenciaHelper,
     private popManager: PopUpManager, ) {
+    this.vigenciaSel = '2020';
     this.entrarEditar = false;
     this.totalPermitido = true;
     this.entrarAddProductos = false;
