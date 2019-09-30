@@ -20,7 +20,7 @@ interface EstructuraArbolRubros {
 interface EstructuraArbolRubrosApropiaciones {
   Codigo: string;
   Descripcion?: string;
-  ApropiacionInicial: number;
+  ValorInicial: number;
   Hijos?: EstructuraArbolRubrosApropiaciones[];
   Movimientos?: string[];
   Padre?: string;
@@ -105,7 +105,7 @@ export class ArbolComponent implements OnChanges {
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
-    this.defaultColumns = ['Nombre', 'ApropiacionInicial'];
+    this.defaultColumns = ['Nombre', 'ValorInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
     this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
