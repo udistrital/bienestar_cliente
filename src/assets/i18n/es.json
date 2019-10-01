@@ -68,6 +68,8 @@
     "fuente": "Fuente",
     "producto": "Producto",
     "productos": "Productos",
+    "meta": "Meta",
+    "actividades": "Actividades",
     "porcentaje": "Porcentaje %",
     "quitar_producto": "Quitar producto",
     "apropiacion-inicial": "Apropiacion inicial",
@@ -198,9 +200,22 @@
   },
   "CDP": {
     "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
-    "lista-cdp": "Lista certificados de disponibilidad presupuestal",
+    "lista_cdp": "Lista certificados de disponibilidad presupuestal",
     "n_solicitud": "N° Solicitud de CDP",
-    "detalle_solicitud_cdp": "Detalle de solicitud de CDP "
+    "detalle_solicitud_cdp": "Detalle de solicitud de CDP ",
+    "detalle_cdp": "Detalle de CDP ",
+    "n_sol_cdp": "N° de solicitud de CDP",
+    "n_necesidad": "N° de necesidad",
+    "solicitante": "Dependencia Solicitante",
+    "objeto": "Objeto",
+    "fecha_solicitud": "Fecha de solicitud",
+    "fecha_expedicion": "Fecha de expedición",
+    "responsable": "Responsable",
+    "elaboro": "Elaboró",
+    "expedir": "Expedir CDP",
+    "mostrar_pdf": "Mostrar documento en PDF",
+    "n_cdp": "Consecutivo CDP",
+    "estado_cdp": "Estado CDP"
   },
 
   "_id": "ID",

@@ -5,6 +5,7 @@ import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Component({
   selector: 'ngx-list-cdp',
   templateUrl: './list-cdp.component.html',
@@ -21,6 +22,7 @@ export class ListCdpComponent implements OnInit {
   cambiotab: boolean = false;
   listColumns: object;
   cdp: object;
+
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -56,11 +58,18 @@ export class ListCdpComponent implements OnInit {
           return value;
         }
       },
-      infoCdp: {
+      consecutivo_cdp: {
         title: this.translate.instant('CDP.n_cdp'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value.consecutivo;
+          return value;
+        }
+      },
+      estado_cdp: {
+        title: this.translate.instant('CDP.estado_cdp'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
         }
       },
     };
@@ -100,7 +109,11 @@ export class ListCdpComponent implements OnInit {
   }
   verCDP(cdp) {
     this.cdp = cdp;
-    // this.onCambiotab();
+    this.onCambiotab();
+  }
+
+  onCambiotab(): void {
+    this.cambiotab = !this.cambiotab ;
   }
 
 }
