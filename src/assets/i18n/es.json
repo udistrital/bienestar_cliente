@@ -19,7 +19,7 @@
       "consulta-apropiaciones-iniciales": "Consulta de Apropiaciones I.",
       "registro-apropiaciones-iniciales": "Registro de Apropiaciones I."
     },
-    "gestion_plan_cuentas":{
+    "gestion_plan_cuentas": {
       "gestion_plan_cuentas": "Gestión Plan de Cuentas",
       "arbol": "Arbol",
       "consulta": "Consulta",
@@ -63,6 +63,7 @@
     "preasignacion-apropiacion-inicial": "Preasignar Apropiaciones Vigencia",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
     "rubro": "Rubro",
+    "fuente_financiamiento": "Fuente de Financiamiento",
     "dependencia": "Dependencia",
     "valor": "Valor",
     "fuente": "Fuente",
@@ -120,7 +121,7 @@
     "resumen": "Resumen",
     "placeholder_resumen": "Ej: Resumen",
     "nombre": "Nombre",
-    "tipo_documento":"Tipo de documento",
+    "tipo_documento": "Tipo de documento",
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
     "area_funcional": "Area Funcional",
@@ -132,6 +133,16 @@
     "placeholder_tipo_documento": "Tipo Documento",
     "placeholder_fecha_documento": "Fecha Documento",
     "placeholder_numero_documento": "Numero Documento",
+    "enviar": "Enviar",
+    "detalle": "Detalle",
+    "siguiente_abr": "Sig.",
+    "previo_abr": "Prev.",
+    "numero_oficio": "N° Oficio",
+    "registro": "Registro",
+    "seleccionar": "Seleccionar",
+    "tipo": "Tipo",
+    "agregar": "Agregar",
+    "saldo": "Saldo",
     "placeholder_vigencia": "Vigencia",
     "placeholder_area_funcional": "",
     "placeholder_centro_gestor": ""
@@ -163,10 +174,12 @@
     "ingresos": " 2 INGRESOS",
     "egresos": "3 GASTOS",
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
-    "comprobacion-diferencia": "Existe una diferencia entre ingresos y gastos de: ",
-    "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0"
+    "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
+    "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
+    "apropiaciones": "Apropiaciones"
   },
   "MODIF": {
+    "detalle_modificacion": "Detalle de la Modificación",
     "modificacion_fuentes": "Modificación fuentes de financiamiento",
     "tipomod": "Tipo de modificacion",
     "tipofuente": "Tipo de fuente",
@@ -188,7 +201,9 @@
     "valor-adicion": "Valor adición",
     "valor-reduccion": "Valor reducción",
     "quitar-dependencia": "Quitar Dependencia",
-    "traslado": "Traslado"
+    "traslado": "Traslado",
+    "cuenta_credito": "Cuenta Crédito",
+    "cuenta_contra_credito": "Cuenta Contra Crédito"
   },
   "PRODUCTO": {
     "mensaje_actualizar": "¿ Actualizar Producto ?",
@@ -217,6 +232,14 @@
     "n_cdp": "Consecutivo CDP",
     "estado_cdp": "Estado CDP"
   },
+  "CRP": {
+    "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
+    "lista-crp": "Lista Certificados de Registros Presupuestales",
+    "n_solicitud": "N° Solicitud de CRP",
+    "estado": "Estado",
+    "solicitar-crp": "Solicitar Certificado de Registro Presupuestal"
+  },
+
 
   "_id": "ID",
   "Nombre": "Nombre",

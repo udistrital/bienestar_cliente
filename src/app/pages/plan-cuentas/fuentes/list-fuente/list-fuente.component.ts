@@ -32,6 +32,7 @@ export class ListFuenteComponent implements OnInit {
 
 
   listColumns: object;
+  fuenteInfo: any;
 
   constructor(
     private translate: TranslateService,
@@ -96,6 +97,9 @@ export class ListFuenteComponent implements OnInit {
   onChangeTab(estado) {
     console.info(estado);
     this.auxcambiotab = estado;
+  }
+  receiveMessage(event) {
+    this.fuenteInfo = event;
   }
 
 

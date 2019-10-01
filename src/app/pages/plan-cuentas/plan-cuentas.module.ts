@@ -21,6 +21,7 @@ import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { ConfiguracionService } from '../../@core/data/configuracion.service';
+import { MatStepperModule } from '@angular/material';
 import { DependenciasComponent } from './dependencias/dependencias.component';
 import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
 import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
@@ -67,6 +68,7 @@ import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
     NbCardModule,
     Ng2SmartTableModule,
     ToasterModule,
+    MatStepperModule,
   ],
   exports: [
   ],
