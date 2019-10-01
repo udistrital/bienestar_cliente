@@ -1,0 +1,46 @@
+.set-mod-value-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.value-registration-item{
+    order: 1;
+    flex: 40%;
+}
+
+.tree-view-item{
+    order: 2;
+    flex: 60%;
+}
+
+.mod-registration-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.mod-registration-input-item{
+    flex-basis: 80%;
+}
+
+.global-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.basic-op-item {
+    order: 1;
+    flex-basis: 100%;
+}
+
+.next-button-item {
+    order: 2;
+    flex-basis: 5%;
+}

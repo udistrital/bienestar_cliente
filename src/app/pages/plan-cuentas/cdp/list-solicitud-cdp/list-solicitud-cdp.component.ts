@@ -8,6 +8,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
 
 
 
+
 @Component({
   selector: 'ngx-list-solicitud-cdp',
   templateUrl: './list-solicitud-cdp.component.html',
@@ -30,6 +31,7 @@ export class ListSolicitudCdpComponent implements OnInit {
   constructor(private translate: TranslateService,
     private cdpHelper: CDPHelper,
     private rqManager: RequestManager, ) { }
+
 
   ngOnInit() {
     this.loadDataFunction = this.cdpHelper.getSolicitudesCDP;
@@ -96,6 +98,7 @@ export class ListSolicitudCdpComponent implements OnInit {
   }
 
   verSolicitud(scdp) {
+
     this.solicitudcdp = scdp;
     this.onCambiotab();
   }
