@@ -85,6 +85,8 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { SafeurlPipe } from './pipes/safeurl.pipe';
+import { PDFviewerComponent } from './components/pdfviewer/pdfviewer.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -113,6 +115,7 @@ const COMPONENTS = [
   DinamicformComponent,
   ListEntityComponent,
   CrudEntityComponent,
+  PDFviewerComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -120,6 +123,7 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+  SafeurlPipe
 ];
 
 const MAT_MODULES = [

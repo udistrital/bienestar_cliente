@@ -55,6 +55,7 @@ export class ArbolComponent implements OnChanges {
 
   sortColumn: string;
   sortDirection: NbSortDirection = NbSortDirection.NONE;
+  selectedIndex: any;
 
   constructor(
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
@@ -165,8 +166,15 @@ export class ArbolComponent implements OnChanges {
   }
 
   async onSelect(selectedItem: any) {
+    this.selectedIndex = selectedItem.data.Codigo;
     this.rubroSeleccionado.emit(selectedItem.data);
-    // console.info(selectedItem);
+  }
+
+  isSelected(selectedItem: any) {
+    if (this.selectedIndex === undefined) {
+      return false;
+    }
+    return this.selectedIndex === selectedItem.data.Codigo;
   }
 
   getShowOn(index: number) {

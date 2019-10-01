@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import 'style-loader!angular2-toaster/toaster.css';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
-
-
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
-  selector: 'ngx-list-solicitud-cdp',
-  templateUrl: './list-solicitud-cdp.component.html',
-  styleUrls: ['./list-solicitud-cdp.component.scss']
+  selector: 'ngx-list-cdp',
+  templateUrl: './list-cdp.component.html',
+  styleUrls: ['./list-cdp.component.scss']
 })
-export class ListSolicitudCdpComponent implements OnInit {
+export class ListCdpComponent implements OnInit {
 
   uuidReadFieldName: string;
   loadDataFunction: (...params) => Observable<any>;
@@ -24,18 +21,20 @@ export class ListSolicitudCdpComponent implements OnInit {
   settings: object;
   cambiotab: boolean = false;
   listColumns: object;
-  solicitudcdp: object;
+  cdp: object;
+
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private translate: TranslateService,
+  constructor(
+    private translate: TranslateService,
     private cdpHelper: CDPHelper,
-    private rqManager: RequestManager, ) { }
-
+    // tslint:disable-next-line
+    private rqManager: RequestManager,
+  ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.cdpHelper.getSolicitudesCDP;
-    this.rqManager = this.rqManager;
+    this.loadDataFunction = this.cdpHelper.getListaCDP;
 
     this.listColumns = {
       vigencia: {
@@ -59,13 +58,20 @@ export class ListSolicitudCdpComponent implements OnInit {
           return value;
         }
       },
-      consecutivo: {
-        title: this.translate.instant('CDP.n_solicitud'),
+      consecutivo_cdp: {
+        title: this.translate.instant('CDP.n_cdp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
-      }
+      },
+      estado_cdp: {
+        title: this.translate.instant('CDP.estado_cdp'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
+        }
+      },
     };
 
     this.settings = {
@@ -82,9 +88,7 @@ export class ListSolicitudCdpComponent implements OnInit {
 
     this.loadData();
 
-
   }
-
 
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
@@ -97,23 +101,19 @@ export class ListSolicitudCdpComponent implements OnInit {
     });
   }
 
-  verSolicitud(scdp) {
-
-    this.solicitudcdp = scdp;
-    this.onCambiotab();
-  }
-
   onCustom(event: any) {
     switch (event.action) {
       case 'ver':
-        this.verSolicitud(event.data);
+        this.verCDP(event.data);
     }
+  }
+  verCDP(cdp) {
+    this.cdp = cdp;
+    this.onCambiotab();
   }
 
   onCambiotab(): void {
     this.cambiotab = !this.cambiotab ;
   }
-
-
 
 }

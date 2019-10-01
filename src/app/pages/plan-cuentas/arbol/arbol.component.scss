@@ -4,6 +4,15 @@ button[nbTreeGridRowToggle] {
   padding: 0;
 }
 
+.table-row {
+  &.highlight{
+    background: lightblue;
+}
+  &:hover {
+    background: #e6e6e6;
+  }
+}
+
 .search-label {
   display: block;
 }
