@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GestionCrpComponent } from './gestion-crp.component';
+import { ListSolicitudCrpComponent } from './list-solicitud-crp.component';
 
-describe('GestionCrpComponent', () => {
-  let component: GestionCrpComponent;
-  let fixture: ComponentFixture<GestionCrpComponent>;
+describe('ConsultaCrpComponent', () => {
+  let component: ListSolicitudCrpComponent;
+  let fixture: ComponentFixture<ListSolicitudCrpComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GestionCrpComponent ]
+      declarations: [ ListSolicitudCrpComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GestionCrpComponent);
+    fixture = TestBed.createComponent(ListSolicitudCrpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

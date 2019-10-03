@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FORM_INFO_SOL_CRP } from './form_info_sol_crp';
-import { SolicitudCrp } from '../../../@core/data/models/sol_crp';
+import { SolicitudCrp } from '../../../../@core/data/models/sol_crp';
+import { FormManager } from '../../../../@core/managers/formManager';
+import { AdmAmazonHelper } from '../../../../@core/helpers/administrativa/admAmazonHelper';
 import { TranslateService } from '@ngx-translate/core';
-import { PopUpManager } from '../../../@core/managers/popUpManager';
-import { FormManager } from '../../../@core/managers/formManager';
-import { AdmAmazonHelper } from '../../../@core/helpers/administrativa/admAmazonHelper';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 @Component({
   selector: 'ngx-solicitud-crp',
   templateUrl: './solicitud-crp.component.html',
