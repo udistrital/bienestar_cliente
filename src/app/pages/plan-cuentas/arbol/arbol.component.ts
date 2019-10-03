@@ -1,7 +1,8 @@
-import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges, ViewChildren, ElementRef, Renderer2 } from '@angular/core';
 import {
   NbGetters,
   NbSortDirection,
+  NbTreeGridRowComponent,
   NbTreeGridDataSource,
   NbTreeGridDataSourceBuilder,
   NbSortRequest,
@@ -28,6 +29,7 @@ interface EstructuraArbolRubrosApropiaciones {
   Estado?: string;
   IsLeaf: boolean;
   expanded?: boolean;
+  isHighlighted?: boolean;
   data?: EstructuraArbolRubrosApropiaciones;
   children?: EstructuraArbolRubrosApropiaciones[];
 }
@@ -44,10 +46,13 @@ export class ArbolComponent implements OnChanges {
   @Input() vigencia: string;
   opcionSeleccionada: string;
   vigenciaSeleccionada: string;
+  @ViewChildren(NbTreeGridRowComponent, { read: ElementRef }) treeNodes: ElementRef[];
 
   update: any;
   customColumn = 'Codigo';
   defaultColumns = ['Nombre'];
+  hasListener: any[] = [];
+  oldHighlight: ElementRef;
 
   allColumns = [this.customColumn, ...this.defaultColumns];
   dataSource: NbTreeGridDataSource<EstructuraArbolRubros>;
@@ -55,9 +60,11 @@ export class ArbolComponent implements OnChanges {
 
   sortColumn: string;
   sortDirection: NbSortDirection = NbSortDirection.NONE;
-  selectedIndex: any;
+  idHighlight: any;
+  isSelected: boolean;
 
   constructor(
+    private renderer: Renderer2,
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private treeHelper: ArbolHelper) {
@@ -108,12 +115,12 @@ export class ArbolComponent implements OnChanges {
     this.defaultColumns = ['Nombre', 'ValorInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
-    this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
-      this.data = res;
-      this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
-    },
-    );
-  }
+      this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
+        this.data = res;
+        this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+      },
+      );
+    }
   }
 
   loadTreeApropiacionesEstado() {
@@ -165,16 +172,9 @@ export class ArbolComponent implements OnChanges {
     return NbSortDirection.NONE;
   }
 
-  async onSelect(selectedItem: any) {
-    this.selectedIndex = selectedItem.data.Codigo;
+  async onSelect(selectedItem: any, treegrid) {
+    this.idHighlight = treegrid.elementRef.nativeElement.getAttribute('data-picker');
     this.rubroSeleccionado.emit(selectedItem.data);
-  }
-
-  isSelected(selectedItem: any) {
-    if (this.selectedIndex === undefined) {
-      return false;
-    }
-    return this.selectedIndex === selectedItem.data.Codigo;
   }
 
   getShowOn(index: number) {
@@ -182,7 +182,27 @@ export class ArbolComponent implements OnChanges {
     const nextColumnStep = 100;
     return minWithForMultipleColumns + nextColumnStep * index;
   }
+
+  updateHighlight(newHighlight: ElementRef, row) {
+    this.oldHighlight && this.renderer.setStyle(this.oldHighlight.nativeElement, 'background', 'white');
+    if (row.Codigo === this.idHighlight) {
+      this.renderer.setStyle(newHighlight.nativeElement, 'background', 'lightblue');
+    }
+    this.oldHighlight = newHighlight;
+  }
+
+  validHighlight(selectedItem: any, treegrid) {
+    if (selectedItem.data.Codigo === this.idHighlight) {
+      this.updateHighlight(treegrid.elementRef, selectedItem.data);
+      return true;
+    }
+    return false;
+  }
+
 }
+
+
+
 @Component({
   selector: 'ngx-nb-fs-icon',
   template: `
