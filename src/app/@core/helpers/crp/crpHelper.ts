@@ -48,19 +48,22 @@ export class CRPHelper {
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.
        * If the response suceed, it returns the data of the updated object.
-       * @param crpData object to save in the DB
+       * @param solCrpData object to save in the DB
        * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
        */
-    public solCrpRegister(crpData) {
+    public solCrpRegister(solCrpData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        /*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-                cdpData.Organizacion = 1;
-                cdpData.Vigencia = cdpData.Vigencia.vigencia;
-                cdpData.activo = true;
-                cdpData.Codigo = cdpData.Codigo.toString();
-                cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
-                cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
-        return this.rqManager.post(`solicitudesCRP/`, crpData).pipe(
+        solCrpData.consecutivo = 1; // Tomar la unidad ejecutora del token cuando este definido.
+        solCrpData.consecutivoCdp = 1;
+        solCrpData.vigencia = solCrpData.Vigencia.vigencia;
+        solCrpData.beneficiario = "";
+        solCrpData.valor = "";
+        solCrpData.compromiso
+        solCrpData.activo = true;
+        solCrpData.Codigo = solCrpData.Codigo.toString();
+        solCrpData.NumeroDocumento = solCrpData.NumeroDocumento.toString();
+        solCrpData.TipoDocumento = solCrpData.TipoDocumento.Valor;
+        return this.rqManager.post(`solicitudesCRP/`, solCrpData).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

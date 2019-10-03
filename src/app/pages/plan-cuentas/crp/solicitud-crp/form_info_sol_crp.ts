@@ -12,12 +12,8 @@ export let FORM_INFO_SOL_CRP = {
             placeholder_i18n: 'Número de CDP',
             requerido: true,
             tipo: 'NumeroCDP',
-            key: 'Valor',
-            opciones: [
-                { Valor: 120 },
-                { Valor: 121 },
-                { Valor: 122 }
-            ],
+            key: 'consecutivo_cdp',
+            opciones: [],
         },
         {
             etiqueta: 'select',
@@ -74,22 +70,22 @@ export let FORM_INFO_SOL_CRP = {
             tipo: 'text',
         },
         {
-            etiqueta: 'checkbox',
+            etiqueta: 'radio',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'montoTotal',
             label_i18n: 'Monto Total',
             placeholder_i18n: 'Monto Total',
             requerido: true,
-            tipo: 'checkbox',
+            //tipo: 'radio',
         },
         {
-            etiqueta: 'checkbox',
+            etiqueta: 'radio',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'montoParcial',
             label_i18n: 'Monto Parcial',
             placeholder_i18n: 'Monto Parcial',
             requerido: true,
-            tipo: 'checkbox',
+            //tipo: 'radio',
         },
         {
             etiqueta: 'input',
