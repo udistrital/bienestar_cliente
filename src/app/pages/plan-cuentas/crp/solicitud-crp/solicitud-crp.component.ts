@@ -63,13 +63,14 @@ export class SolicitudCrpComponent implements OnInit {
 
   validarForm(event) {
     var today = new Date();
+    console.info(event);
     if (event.valid) {
       console.info(event);
-      this.solCrpData.ConsecutivoCDP = typeof event.data.NumeroCDP === 'undefined' ? undefined : event.data.NumeroCDP;
+      this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
       this.solCrpData.Vigencia = "2019";
-      this.solCrpData.Beneficiario = typeof event.data.TipoDocumento && event.data.NumeroDocumento === 'undefined' ? undefined : event.data.TipoDocumento+event.data.NumeroDocumento;
-      this.solCrpData.TipoCompromiso = typeof event.data.TipoCompromiso === 'undefined' ? undefined : event.data.TipoCompromiso;
-      this.solCrpData.NumeroCompromiso = typeof event.data.NumeroCompromiso === 'undefined' ? undefined : event.data.NumeroCompromiso;
+      this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura+event.data.SolicitudCRP.NumeroDocumento;
+      this.solCrpData.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Tipo  === 'undefined' ? undefined : 1;
+      this.solCrpData.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
 
       if (event.data.MontoParcial === true){
@@ -78,19 +79,19 @@ export class SolicitudCrpComponent implements OnInit {
         this.solCrpData.Valor = 0;
       }
 
-      console.info(this.solCrpData);
+      console.info(this.solCrpData, "hola");
 
-    //   this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
-    //     if (res) {
-    //       this.popManager.showSuccessAlert('Se registro la Solicitud de CRP correctamente!');
-    //       this.cleanForm();
-    //     }
-    //   });
-    // } else {
-    //   this.popManager.showErrorAlert('Datos Incompletos!');
-    // }
+      this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
+        if (res) {
+          this.popManager.showSuccessAlert('Se registro la Solicitud de CRP correctamente!');
+          this.cleanForm();
+        }
+      });
+    } else {
+      this.popManager.showErrorAlert('Datos Incompletos!');
+    }
   }
-}
+
 
 loadCDPInfo(): void {
   let cdpsConsecutivos : Array<any> = [];

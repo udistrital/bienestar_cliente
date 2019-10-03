@@ -53,17 +53,21 @@ export class CRPHelper {
        */
     public solCrpRegister(solCrpData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        solCrpData.consecutivo = 1; // Tomar la unidad ejecutora del token cuando este definido.
-        solCrpData.consecutivoCdp = 1;
-        solCrpData.vigencia = solCrpData.Vigencia.vigencia;
-        solCrpData.beneficiario = "";
-        solCrpData.valor = "";
-        solCrpData.compromiso
-        solCrpData.activo = true;
-        solCrpData.Codigo = solCrpData.Codigo.toString();
-        solCrpData.NumeroDocumento = solCrpData.NumeroDocumento.toString();
-        solCrpData.TipoDocumento = solCrpData.TipoDocumento.Valor;
-        return this.rqManager.post(`solicitudesCRP/`, solCrpData).pipe(
+        let objSolCrp = <any>{};
+        objSolCrp.consecutivo = 3; // Tomar la unidad ejecutora del token cuando este definido.
+        objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCdp;
+        objSolCrp.vigencia = solCrpData.Vigencia;
+        objSolCrp.beneficiario = solCrpData.Beneficiario;
+        objSolCrp.valor = solCrpData.Valor;
+        objSolCrp.compromiso= {
+            "numeroCompromiso" : solCrpData.NumeroCompromiso,
+            "tipoCompromiso" : solCrpData.TipoCompromiso
+        };
+        objSolCrp.activo = true;
+        objSolCrp.fechaCreacion = solCrpData.FechaCreacion;
+        objSolCrp.fechaModificacion = solCrpData.FechaCreacion;
+        console.info(objSolCrp);
+        return this.rqManager.post(`solicitudesCRP/`, objSolCrp).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
