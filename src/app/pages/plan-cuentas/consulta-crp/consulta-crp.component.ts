@@ -18,7 +18,7 @@ export class ConsultaCrpComponent implements OnInit {
   loadFormDataFunction: (...params) => Observable<any>;
   isOnlyCrud: boolean;
   settings: object;
-  auxcambiotab: boolean = false;
+  cambiotab: boolean = false;
   listColumns: object;
   solicitudcrp: object;
 
@@ -68,7 +68,7 @@ export class ConsultaCrpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'Ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)">ver</i></div>' }],
+        custom: [{ name: 'Ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)"></i></div>' }],
         position: 'right'
       },
       mode: 'external',
@@ -94,13 +94,19 @@ export class ConsultaCrpComponent implements OnInit {
   }
 
   verSolicitud(scrp) {
-    console.info(scrp);
     this.solicitudcrp = scrp;
+    console.info(this.solicitudcrp, "Ver ojito");
+    this.onCambiotab();
+  }
+
+  onCambiotab(): void {
+    this.cambiotab = !this.cambiotab ;
   }
 
   onCustom(event: any) {
+    
     switch (event.action) {
-      case 'ver':
+      case 'Ver':
         this.verSolicitud(event.data);
     }
     // this.actaSeleccionada = `${event.data.Id}`;

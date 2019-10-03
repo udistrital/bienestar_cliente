@@ -13,6 +13,8 @@ import { ModificacionApropiacionComponent } from './modificacion-apropiacion/mod
 import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
 import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
 import { ShowModificationResumeComponent } from './modificacion-apropiacion/show-modification-resume/show-modification-resume.component';
+import { SolicitudCrpComponent } from './solicitud-crp/solicitud-crp.component';
+import { ConsultaCrpComponent } from './consulta-crp/consulta-crp.component';
 
 
 
@@ -60,9 +62,22 @@ const routes: Routes = [{
   pathMatch: 'full',
 },
 {
+  path: 'gestion-crp',
+  component: GestionCrpComponent,
+}, 
+{
+  path: 'solicitudcrp',
+  component: SolicitudCrpComponent,
+},
+{
+  path: 'solicitudescrp',
+  component: ConsultaCrpComponent,
+},
+
+/* {
   path: 'crp',
   component: GestionCrpComponent,
-}
+} */
 
 ];
 

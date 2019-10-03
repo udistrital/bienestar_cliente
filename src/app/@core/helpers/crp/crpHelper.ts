@@ -28,6 +28,22 @@ export class CRPHelper {
         );
 
     }
+
+    public getInfoCDP(consecutivoCDP){
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('solicitudesCDP/').pipe(
+            map(
+                res_crp => {
+                    if (res_crp['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
+                        return undefined;
+                    } else {
+                        return res_crp.filter(n => n.infoCdp.consecutivo === consecutivoCDP)[0];
+                    }
+                }
+            )
+        );
+    }
     /**
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.

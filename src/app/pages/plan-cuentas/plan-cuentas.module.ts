@@ -29,6 +29,7 @@ import { SolicitudCrpComponent } from './solicitud-crp/solicitud-crp.component';
 import { ConsultaCrpComponent } from './consulta-crp/consulta-crp.component';
 import { GestionCrpComponent } from './gestion-crp/gestion-crp.component';
 import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
+import { VerSolicitudCrpComponent } from '../ver-solicitud-crp/ver-solicitud-crp.component';
 
 
 
@@ -49,6 +50,7 @@ import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
     ConsultaCrpComponent,
     GestionCrpComponent,
     ListCdpComponent,
+    VerSolicitudCrpComponent,
   ],
   providers: [
     ConfiguracionService,
