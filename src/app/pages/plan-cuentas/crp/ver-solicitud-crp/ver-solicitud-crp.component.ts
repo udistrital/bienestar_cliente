@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CRPHelper } from '../../@core/helpers/crp/crpHelper';
-import { RequestManager } from '../../@core/managers/requestManager';
-import { PopUpManager } from '../../@core/managers/popUpManager';
+import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
+import { RequestManager } from '../../../../@core/managers/requestManager';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
-import { CDPHelper } from '../../@core/helpers/cdp/cdpHelper';
+import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 
 @Component({
   selector: 'ngx-ver-solicitud-crp',
@@ -19,7 +19,7 @@ export class VerSolicitudCrpComponent implements OnInit {
   necesidad: any = {};
   cdpData: any = {};
   mostrandoPDF: boolean = false;
-  enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
+  enlacePDF: string = 'assets/images/crp-ejemplo.pdf';
   tituloPDF: string = '';
   constructor(
     private crpHelper: CRPHelper,
@@ -31,17 +31,14 @@ export class VerSolicitudCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.info(this.solicitud);
+
     this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-      const cdpInfo = resCdp;
-      console.info(cdpInfo, "On init");
+      const cdpInfo = resCdp;  
       this.cdpHelper.getNecesidadAdm(cdpInfo.necesidad).subscribe(res => {
         const nec_adm = res;
         this.cdpHelper.getNecesidadPC(cdpInfo.necesidad).subscribe(nec_pc => {
           this.necesidad = {...nec_adm, ...nec_pc};
           this.cdpData = cdpInfo;
-
-          console.info("Pa que highlighter si tu brillas sola :v ", this.necesidad , this.cdpData);
         });
       }); 
     })
@@ -57,7 +54,6 @@ export class VerSolicitudCrpComponent implements OnInit {
     this.popManager.showAlert('warning', 'Expedir CRP', '¿está seguro?')
     .then((result) => {
       if (result.value) {
-        console.info(`Expedir CRP ${consecutivo}`);
         this.router.navigate(['/pages/plan-cuentas/crp']);
         // TODO usar el endpoint de expedir cdp cuando se implemente el mismo
       }

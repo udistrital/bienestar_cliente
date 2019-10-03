@@ -240,7 +240,7 @@
     "n_sol_crp": "N° Solicitud de CRP",
     "estado": "Estado",
     "solicitar-crp": "Solicitar Certificado de Registro Presupuestal",
-    "detalle_solicitud_crp": "Detalle de solicitud de Certificado de Registro Presupuestal ",
+    "detalle_solicitud_crp": "Detalle de Solicitud de Certificado de Registro Presupuestal ",
     "n_cdp": "N° de Certificado de Disponibilidad Presupuestal",
     "solicitante": "Dependencia Solicitante",
     "objeto": "Objeto",
@@ -255,7 +255,8 @@
     "numero-compromiso": "Número de Compromiso",
     "tipo-id-contratista": "Tipo Id Contratista",
     "id-contratista": "Id Contratista",
-    "nombre-contratista": "Nombre Contratista"
+    "nombre-contratista": "Nombre Contratista",
+    "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
   },
 
 

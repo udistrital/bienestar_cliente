@@ -25,12 +25,11 @@ import { MatStepperModule } from '@angular/material';
 import { DependenciasComponent } from './dependencias/dependencias.component';
 import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
 import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
-import { SolicitudCrpComponent } from './solicitud-crp/solicitud-crp.component';
-import { ConsultaCrpComponent } from './consulta-crp/consulta-crp.component';
-import { GestionCrpComponent } from './gestion-crp/gestion-crp.component';
 import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
-import { VerSolicitudCrpComponent } from '../ver-solicitud-crp/ver-solicitud-crp.component';
-
+import { ListCrpComponent } from './crp/list-crp/list-crp.component';
+import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicitud-crp.component';
+import { VerSolicitudCrpComponent } from './crp/ver-solicitud-crp/ver-solicitud-crp.component';
+import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.component';
 
 
 @NgModule({
@@ -43,12 +42,11 @@ import { VerSolicitudCrpComponent } from '../ver-solicitud-crp/ver-solicitud-crp
     ListFuenteComponent,
     ListProductoComponent,
     DependenciasComponent,
-
+    ListCrpComponent,
     ListSolicitudCdpComponent,
+    ListSolicitudCrpComponent,
     VerSolicitudCdpComponent,
     SolicitudCrpComponent,
-    ConsultaCrpComponent,
-    GestionCrpComponent,
     ListCdpComponent,
     VerSolicitudCrpComponent,
   ],

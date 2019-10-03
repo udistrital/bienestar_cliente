@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
+import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
+import { RequestManager } from '../../../../@core/managers/requestManager';
 import { TranslateService } from '@ngx-translate/core';
-import { CRPHelper } from '../../../@core/helpers/crp/crpHelper';
-import { RequestManager } from '../../../@core/managers/requestManager';
+import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 
 
 @Component({
-  selector: 'ngx-consulta-crp',
-  templateUrl: './consulta-crp.component.html',
-  styleUrls: ['./consulta-crp.component.scss']
+  selector: 'ngx-list-crp',
+  templateUrl: './list-crp.component.html',
+  styleUrls: ['./list-crp.component.scss']
 })
-export class ConsultaCrpComponent implements OnInit {
+export class ListCrpComponent implements OnInit {
+
   uuidReadFieldName: string;
   loadDataFunction: (...params) => Observable<any>;
   formTittle: string;
@@ -20,21 +22,25 @@ export class ConsultaCrpComponent implements OnInit {
   settings: object;
   cambiotab: boolean = false;
   listColumns: object;
-  solicitudcrp: object;
+  crp: object;
+
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private translate: TranslateService,
+  constructor(
+    private translate: TranslateService,
+    private cdpHelper: CDPHelper,
     private crpHelper: CRPHelper,
-    private rqManager: RequestManager, ) { }
+    // tslint:disable-next-line
+    private rqManager: RequestManager,
+  ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
-
+    this.loadDataFunction = this.cdpHelper.getListaCDP;
 
     this.listColumns = {
       vigencia: {
-        title: this.translate.instant('GLOBAL.placeholder_vigencia'),
+        title: this.translate.instant('GLOBAL.vigencia'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -54,13 +60,20 @@ export class ConsultaCrpComponent implements OnInit {
           return value;
         }
       },
-      consecutivo: {
-        title: this.translate.instant('CRP.n_solicitud'),
+      consecutivo_cdp: {
+        title: this.translate.instant('CRP.n_crp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
-      }
+      },
+      estado_cdp: {
+        title: this.translate.instant('CRP.estado_crp'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
+        }
+      },
     };
 
     this.settings = {
@@ -68,7 +81,7 @@ export class ConsultaCrpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'Ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)"></i></div>' }],
+        custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
       mode: 'external',
@@ -77,14 +90,11 @@ export class ConsultaCrpComponent implements OnInit {
 
     this.loadData();
 
-
   }
-
 
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
-      if (res !== null) {
-        console.info('res', res);
+      if (res) {
         const data = <Array<any>>res;
         this.source.load(data);
       } else {
@@ -93,27 +103,19 @@ export class ConsultaCrpComponent implements OnInit {
     });
   }
 
-  verSolicitud(scrp) {
-    this.solicitudcrp = scrp;
-    console.info(this.solicitudcrp, "Ver ojito");
+  onCustom(event: any) {
+    switch (event.action) {
+      case 'ver':
+        this.verCRP(event.data);
+    }
+  }
+  verCRP(crp) {
+    this.crp = crp;
     this.onCambiotab();
   }
 
   onCambiotab(): void {
     this.cambiotab = !this.cambiotab ;
   }
-
-  onCustom(event: any) {
-    
-    switch (event.action) {
-      case 'Ver':
-        this.verSolicitud(event.data);
-    }
-    // this.actaSeleccionada = `${event.data.Id}`;
-    // this.estadoActaSeleccionada = `${event.data.Estado}`;
-    // this.accion = `${event.action}`;
-  }
-
-
 
 }

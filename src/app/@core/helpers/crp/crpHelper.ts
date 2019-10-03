@@ -4,14 +4,14 @@ import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class CRPHelper {
 
-  constructor(
-    private rqManager: RequestManager,
-    private pUpManager: PopUpManager,
-  ) {}
+    constructor(
+        private rqManager: RequestManager,
+        private pUpManager: PopUpManager,
+    ) { }
 
     public getSolicitudesCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
@@ -29,7 +29,7 @@ export class CRPHelper {
 
     }
 
-    public getInfoCDP(consecutivoCDP){
+    public getInfoCDP(consecutivoCDP) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('solicitudesCDP/').pipe(
             map(
@@ -38,7 +38,7 @@ export class CRPHelper {
                         this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
                         return undefined;
                     } else {
-                        return res_crp.filter(n => n.infoCdp.consecutivo === consecutivoCDP)[0];
+                        return res_crp.filter(n => n.infoCdp !== null && n.infoCdp.consecutivo === consecutivoCDP)[0];
                     }
                 }
             )
@@ -53,13 +53,13 @@ export class CRPHelper {
        */
     public solCrpRegister(crpData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-/*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-        cdpData.Organizacion = 1;
-        cdpData.Vigencia = cdpData.Vigencia.vigencia;
-        cdpData.activo = true;
-        cdpData.Codigo = cdpData.Codigo.toString();
-        cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
-        cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
+        /*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
+                cdpData.Organizacion = 1;
+                cdpData.Vigencia = cdpData.Vigencia.vigencia;
+                cdpData.activo = true;
+                cdpData.Codigo = cdpData.Codigo.toString();
+                cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
+                cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
         return this.rqManager.post(`solicitudesCRP/`, crpData).pipe(
             map(
                 (res) => {
@@ -84,14 +84,14 @@ export class CRPHelper {
     public solCrpUpdate(crpData) {
         console.info(crpData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-/*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-        cdpData.Organizacion = 1;
-        cdpData.Vigencia = cdpData.Vigencia.vigencia;
-        cdpData.activo = true;
-        cdpData.Codigo = cdpData.Codigo.toString();
-        cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
-        cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
-        return this.rqManager.put('solicitudesCRP/', crpData , crpData.Codigo).pipe(
+        /*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
+                cdpData.Organizacion = 1;
+                cdpData.Vigencia = cdpData.Vigencia.vigencia;
+                cdpData.activo = true;
+                cdpData.Codigo = cdpData.Codigo.toString();
+                cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
+                cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
+        return this.rqManager.put('solicitudesCRP/', crpData, crpData.Codigo).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

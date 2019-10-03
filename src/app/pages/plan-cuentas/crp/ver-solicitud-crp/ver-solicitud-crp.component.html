@@ -1,14 +1,14 @@
 <div class="col-md-12 col-lg-12 ">
     <nb-card *ngIf="mostrandoPDF===false" >
         <nb-card-header>
-            <legend *ngIf="solicitud&&!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}:
+            <legend >{{ 'CRP.detalle_solicitud_crp' | translate }}:
                 {{ solicitud.consecutivo }}</legend>
-            <legend *ngIf="solicitud&&expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.consecutivo }}
-            </legend>
+            <!-- <legend *ngIf="solicitud&&expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.infoCrp.consecutivo }}
+            </legend> -->
            
         </nb-card-header>
         <nb-card-body>
-                <p>Que se ha efectuado el Certificado de Registro Presupuestal para atender a compromisos así :</p>
+                <p>{{ 'CRP.solicitud-efectuada' | translate }}</p>
             <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
             <pre>nes{{necesidad | json}}</pre> -->
             <div class="container-fluid">
@@ -29,15 +29,13 @@
                 </table>
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
-                        <th *ngIf="!expedido">{{'CDP.n_cdp' | translate}}</th>
-                        <th *ngIf="expedido">{{'CDP.n_cdp' | translate}}</th>
+                        <th >{{'CDP.n_cdp' | translate}}</th>
                         <th>{{'CRP.tipo-compromiso' | translate}}</th>
                         <th>{{'CRP.numero-compromiso' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td *ngIf="!expedido">{{solicitud.infoCrp.consecutivo}}</td>
-                            <td *ngIf="expedido">{{solicitud.infoCrp.consecutivo}}</td>
+                            <td >{{solicitud.infoCrp.consecutivo}}</td>
                             <td>{{solicitud.compromiso.tipoCompromiso}}</td>
                             <td>{{solicitud.compromiso.numeroCompromiso}}</td>
                         </tr>
@@ -72,7 +70,7 @@
                     <tbody>
                         <tr>
                             <td>{{ap.codigo}} {{ap.nombre}}</td>
-                            <td class="moneyField">$000</td>
+                            <td class="moneyField">$0</td>
                         </tr>
                     </tbody>
                     <!-- metas y actividades si es de inversion -->
