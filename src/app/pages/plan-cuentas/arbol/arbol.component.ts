@@ -10,14 +10,6 @@ import {
 import { Observable } from 'rxjs';
 import { ArbolHelper } from '../../../@core/helpers/arbol/arbolHelper';
 
-
-
-interface EstructuraArbolRubros {
-  Nombre: string;
-  Codigo: string;
-  Descripcion: string;
-}
-
 interface EstructuraArbolRubrosApropiaciones {
   Codigo: string;
   Descripcion?: string;
@@ -55,7 +47,7 @@ export class ArbolComponent implements OnChanges {
   oldHighlight: ElementRef;
 
   allColumns = [this.customColumn, ...this.defaultColumns];
-  dataSource: NbTreeGridDataSource<EstructuraArbolRubros>;
+  dataSource: NbTreeGridDataSource<EstructuraArbolRubrosApropiaciones>;
   dataSource2: NbTreeGridDataSource<EstructuraArbolRubrosApropiaciones>;
 
   sortColumn: string;
@@ -65,7 +57,7 @@ export class ArbolComponent implements OnChanges {
 
   constructor(
     private renderer: Renderer2,
-    private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubros>,
+    private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private treeHelper: ArbolHelper) {
 
@@ -95,11 +87,15 @@ export class ArbolComponent implements OnChanges {
 
   private data: EstructuraArbolRubrosApropiaciones[];
   loadTreeRubros() {
-
+    const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? [] : node.children,
+      expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
+    };
     this.treeHelper.getFullArbol().subscribe((res) => {
 
       this.data = res;
-      this.dataSource = this.dataSourceBuilder.create(this.data);
+      this.dataSource = this.dataSourceBuilder.create(this.data, getters);
 
     });
   }
