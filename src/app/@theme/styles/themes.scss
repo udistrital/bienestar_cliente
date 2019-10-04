@@ -3,6 +3,8 @@
 // @nebular out of the box themes
 @import '~@nebular/theme/styles/themes';
 
+$nb-enabled-themes: (default, cosmic, corporate, kronos);
+
 $nb-themes: nb-register-theme((
   layout-padding-top: 2.25rem,
 
@@ -86,3 +88,25 @@ $nb-themes: nb-register-theme((
   slide-out-shadow-color: 0 4px 14px 0 #8f9bb3,
   slide-out-shadow-color-rtl: 0 4px 14px 0 #8f9bb3,
 ), dark, dark);
+
+$nb-themes: nb-register-theme((
+
+  color-primary-100: #faf7ff, // <- new primary color
+  color-primary-200: #f6f6ed,
+  color-primary-300: #f8f7c9,
+  color-primary-400: #ebe7af,
+  color-primary-500: #f9dba5,
+  color-primary-600: #f9dba5,
+  color-primary-700: #fcca59,
+  color-primary-800: #faad0b,
+  color-primary-900: #dd9900,
+  menu-background-color: #dd9900,
+  sidebar-background-color: #dd9900,
+  menu-item-hover-background-color: #dd9900,
+  menu-text-color: #ffff,
+  //background-basic-color-1: #dd9900,
+  context-menu-border-color: #0000,
+  text-basic-color: 	#101426,
+  text-disabled-color: #8f9bb3,
+  actions-icon-color:#faad0b,
+), kronos, default);

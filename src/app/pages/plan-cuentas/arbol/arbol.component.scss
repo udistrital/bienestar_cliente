@@ -46,3 +46,12 @@ button[nbTreeGridRowToggle] {
     width: 23%;
   }
 }
+
+
+.moneyField {
+  text-align: right;
+}
+
+.moneyField::before {
+  content:"$";
+}

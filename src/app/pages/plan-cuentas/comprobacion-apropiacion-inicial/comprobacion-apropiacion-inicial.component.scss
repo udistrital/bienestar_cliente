@@ -39,3 +39,12 @@
     color: green;
     font-size: 15px;
 }
+
+/* .moneyField::before {
+    content:"$";
+    
+} */
+
+.moneyField {
+    text-align: right;
+}

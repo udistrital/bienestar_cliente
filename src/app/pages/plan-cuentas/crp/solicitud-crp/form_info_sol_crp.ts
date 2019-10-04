@@ -12,12 +12,8 @@ export let FORM_INFO_SOL_CRP = {
             placeholder_i18n: 'Número de CDP',
             requerido: true,
             tipo: 'NumeroCDP',
-            key: 'Valor',
-            opciones: [
-                { Valor: 120 },
-                { Valor: 121 },
-                { Valor: 122 }
-            ],
+            key: 'consecutivo_cdp',
+            opciones: [],
         },
         {
             etiqueta: 'select',

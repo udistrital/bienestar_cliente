@@ -152,7 +152,7 @@ export class ArbolComponent implements OnChanges {
     }
   }
   updateTreeSignal($event) {
-    ('updated', $event);
+    console.info('updated', $event);
     this.loadTree();
   }
 

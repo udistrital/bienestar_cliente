@@ -48,19 +48,26 @@ export class CRPHelper {
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.
        * If the response suceed, it returns the data of the updated object.
-       * @param crpData object to save in the DB
+       * @param solCrpData object to save in the DB
        * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
        */
-    public solCrpRegister(crpData) {
+    public solCrpRegister(solCrpData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        /*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-                cdpData.Organizacion = 1;
-                cdpData.Vigencia = cdpData.Vigencia.vigencia;
-                cdpData.activo = true;
-                cdpData.Codigo = cdpData.Codigo.toString();
-                cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
-                cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
-        return this.rqManager.post(`solicitudesCRP/`, crpData).pipe(
+        let objSolCrp = <any>{};
+        objSolCrp.consecutivo = 3; // Tomar la unidad ejecutora del token cuando este definido.
+        objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCdp;
+        objSolCrp.vigencia = solCrpData.Vigencia;
+        objSolCrp.beneficiario = solCrpData.Beneficiario;
+        objSolCrp.valor = solCrpData.Valor;
+        objSolCrp.compromiso= {
+            "numeroCompromiso" : solCrpData.NumeroCompromiso,
+            "tipoCompromiso" : solCrpData.TipoCompromiso
+        };
+        objSolCrp.activo = true;
+        objSolCrp.fechaCreacion = solCrpData.FechaCreacion;
+        objSolCrp.fechaModificacion = solCrpData.FechaCreacion;
+        console.info(objSolCrp);
+        return this.rqManager.post(`solicitudesCRP/`, objSolCrp).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

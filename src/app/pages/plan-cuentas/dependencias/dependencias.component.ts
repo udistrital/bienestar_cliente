@@ -18,6 +18,7 @@ import { debug } from 'util';
 export class DependenciasComponent implements OnInit {
 
   @Output() auxcambiotab = new EventEmitter<boolean>();
+  @Output() eventChange = new EventEmitter();
   @Input('infoinput') infoinput: any;
   formInfoFuente: any;
   rubroSeleccionado: any;

@@ -62,6 +62,13 @@
     }
   }
 
+  .icono{
+    color:  #faad0b;
+  }
+
+  .usuario {
+    color: black;
+  }
   @include media-breakpoint-down(is) {
     nb-select {
       display: none;
