@@ -1,6 +1,9 @@
 import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { Observable } from 'rxjs';
+import { registerLocaleData } from '@angular/common';
+import locales from '@angular/common/locales/es-CO';
+registerLocaleData(locales, 'co');
 
 @Component({
   selector: 'ngx-comprobacion-apropiacion-inicial',
