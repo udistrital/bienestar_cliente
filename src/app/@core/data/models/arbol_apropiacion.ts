@@ -3,7 +3,7 @@ import { Rubro } from './rubro';
 export class ArbolApropiacion {
     Rubro: Rubro;
     Vigencia: number;
-    ApropiacionInicial: number;
+    ValorInicial: number;
     Estado: string;
     ApropiacionAnterior: number;
     Codigo: string;

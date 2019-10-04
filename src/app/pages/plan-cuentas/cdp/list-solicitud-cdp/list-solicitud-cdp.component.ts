@@ -4,6 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import 'style-loader!angular2-toaster/toaster.css';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
+import { RequestManager } from '../../../../@core/managers/requestManager';
+
+
+
 
 @Component({
   selector: 'ngx-list-solicitud-cdp',
@@ -18,7 +22,7 @@ export class ListSolicitudCdpComponent implements OnInit {
   loadFormDataFunction: (...params) => Observable<any>;
   isOnlyCrud: boolean;
   settings: object;
-  auxcambiotab: boolean = false;
+  cambiotab: boolean = false;
   listColumns: object;
   solicitudcdp: object;
 
@@ -26,11 +30,12 @@ export class ListSolicitudCdpComponent implements OnInit {
 
   constructor(private translate: TranslateService,
     private cdpHelper: CDPHelper,
-    ) { }
+    private rqManager: RequestManager, ) { }
+
 
   ngOnInit() {
     this.loadDataFunction = this.cdpHelper.getSolicitudesCDP;
-
+    this.rqManager = this.rqManager;
 
     this.listColumns = {
       vigencia: {
@@ -68,7 +73,7 @@ export class ListSolicitudCdpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)">ver</i></div>' }],
+        custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
       mode: 'external',
@@ -83,8 +88,7 @@ export class ListSolicitudCdpComponent implements OnInit {
 
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
-      if (res !== null) {
-        console.info('res', res);
+      if (res) {
         const data = <Array<any>>res;
         this.source.load(data);
       } else {
@@ -94,18 +98,20 @@ export class ListSolicitudCdpComponent implements OnInit {
   }
 
   verSolicitud(scdp) {
-    console.info(scdp);
+
     this.solicitudcdp = scdp;
+    this.onCambiotab();
   }
 
   onCustom(event: any) {
     switch (event.action) {
-      case 'Ver':
+      case 'ver':
         this.verSolicitud(event.data);
     }
-    // this.actaSeleccionada = `${event.data.Id}`;
-    // this.estadoActaSeleccionada = `${event.data.Estado}`;
-    // this.accion = `${event.action}`;
+  }
+
+  onCambiotab(): void {
+    this.cambiotab = !this.cambiotab ;
   }
 
 

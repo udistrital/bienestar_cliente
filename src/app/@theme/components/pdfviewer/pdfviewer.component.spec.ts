@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GestionCrpComponent } from './gestion-crp.component';
+import { PDFviewerComponent } from './pdfviewer.component';
 
-describe('GestionCrpComponent', () => {
-  let component: GestionCrpComponent;
-  let fixture: ComponentFixture<GestionCrpComponent>;
+describe('PDFviewerComponent', () => {
+  let component: PDFviewerComponent;
+  let fixture: ComponentFixture<PDFviewerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GestionCrpComponent ]
+      declarations: [ PDFviewerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GestionCrpComponent);
+    fixture = TestBed.createComponent(PDFviewerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

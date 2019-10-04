@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConsultaCrpComponent } from './consulta-crp.component';
+import { ListCrpComponent } from './list-crp.component';
 
-describe('ConsultaCrpComponent', () => {
-  let component: ConsultaCrpComponent;
-  let fixture: ComponentFixture<ConsultaCrpComponent>;
+describe('ListCrpComponent', () => {
+  let component: ListCrpComponent;
+  let fixture: ComponentFixture<ListCrpComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConsultaCrpComponent ]
+      declarations: [ ListCrpComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConsultaCrpComponent);
+    fixture = TestBed.createComponent(ListCrpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

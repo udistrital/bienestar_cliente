@@ -1,0 +1,14 @@
+<div *ngIf="!cambiotab" class="col-md-12 col-lg-12 ">
+        <nb-card>
+            <nb-card-header>
+                <legend>{{ 'CRP.lista-crp' | translate }}</legend>
+            </nb-card-header>
+            <nb-card-body>
+    
+                <ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustom($event)">
+                </ng2-smart-table>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <ngx-ver-solicitud-crp *ngIf="cambiotab" [solicitudcrp]="crp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-crp>
+    

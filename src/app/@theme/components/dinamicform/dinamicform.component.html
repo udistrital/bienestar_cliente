@@ -368,7 +368,7 @@
                                 [ngModelOptions]="{standalone: true}" [disabled]="c.deshabilitar">
                                 <mat-option>--Seleccionar--</mat-option>
                                 <mat-option *ngFor="let item of c.opciones" [value]="item">
-                                    {{c.key?item[c.key]:item | json}}
+                                    {{c.key?item[c.key]:item[c.show_field]}}
                                 </mat-option>
                             </mat-select>
                             <mat-hint class="text-danger">{{c.alerta}}</mat-hint>
