@@ -1,0 +1,20 @@
+<div class="container-fluid">
+<nb-card>
+    <nb-card-header>
+        Solicitud de Certificado de Registro Presupuestal
+    </nb-card-header>
+
+    <nb-card-body>
+        <ngx-dinamicform [normalform]="formInfoSolCrp" [modeloData]="info_solCrp" (result)="validarForm($event)"
+            [clean]="clean">
+        </ngx-dinamicform>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-success btn-block" >
+                    {{'GLOBAL.cancelar' | translate }}
+                </button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card> 
+</div>

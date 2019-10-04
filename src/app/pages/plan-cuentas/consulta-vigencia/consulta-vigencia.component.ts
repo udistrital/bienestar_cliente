@@ -16,13 +16,13 @@ export class ConsultaVigenciaComponent implements OnInit {
   vigenciaSel: any;
   clean = false;
   opcion: string;
-  VigenciaActual = '2020';
+  VigenciaActual = '2019';
   optionView: string;
   balanceado: boolean;
 
   constructor(
   ) {
-    this.vigenciaSel = '2020';
+    this.vigenciaSel = '2019';
     this.optionView = 'ApropiacionesEstado';
 
     this.rubroSeleccionado = {

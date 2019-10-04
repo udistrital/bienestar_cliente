@@ -6,10 +6,17 @@ import { RubrosComponent } from './rubros/rubros.component';
 import { GestionApropiacionesComponent } from './gestion-apropiaciones/gestion-apropiaciones.component';
 import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
+import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
+import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
 import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
 import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
 import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
 import { ShowModificationResumeComponent } from './modificacion-apropiacion/show-modification-resume/show-modification-resume.component';
+import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.component';
+import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicitud-crp.component';
+import { ListCrpComponent } from './crp/list-crp/list-crp.component';
+
+
 
 
 
@@ -38,14 +45,35 @@ const routes: Routes = [{
   component: ListFuenteComponent,
 },
 {
+  path: 'solicitudcdp',
+  component: ListSolicitudCdpComponent,
+},
+ {
   path: 'modificacion-apropiacion',
   component: ModificacionApropiacionComponent,
+},
+{
+  path: 'cdp',
+  component: ListCdpComponent,
+},
+{
+  path: 'crp',
+  component: ListCrpComponent,
 },
 {
   path: '',
   redirectTo: 'rubros',
   pathMatch: 'full',
-}
+},
+{
+  path: 'form-solicitudcrp',
+  component: SolicitudCrpComponent,
+},
+{
+  path: 'solicitudcrp',
+  component: ListSolicitudCrpComponent,
+},
+
 
 ];
 

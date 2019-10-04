@@ -23,8 +23,14 @@ import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { ConfiguracionService } from '../../@core/data/configuracion.service';
 import { MatStepperModule } from '@angular/material';
 import { DependenciasComponent } from './dependencias/dependencias.component';
-
-
+import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
+import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
+import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
+import { ListCrpComponent } from './crp/list-crp/list-crp.component';
+import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicitud-crp.component';
+import { VerSolicitudCrpComponent } from './crp/ver-solicitud-crp/ver-solicitud-crp.component';
+import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.component';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 @NgModule({
   declarations: [
@@ -36,6 +42,13 @@ import { DependenciasComponent } from './dependencias/dependencias.component';
     ListFuenteComponent,
     ListProductoComponent,
     DependenciasComponent,
+    ListCrpComponent,
+    ListSolicitudCdpComponent,
+    ListSolicitudCrpComponent,
+    VerSolicitudCdpComponent,
+    SolicitudCrpComponent,
+    ListCdpComponent,
+    VerSolicitudCrpComponent,
   ],
   providers: [
     ConfiguracionService,
@@ -56,6 +69,7 @@ import { DependenciasComponent } from './dependencias/dependencias.component';
     Ng2SmartTableModule,
     ToasterModule,
     MatStepperModule,
+    CurrencyMaskModule,
   ],
   exports: [
   ],

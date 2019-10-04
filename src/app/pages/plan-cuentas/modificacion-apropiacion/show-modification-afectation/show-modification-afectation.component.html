@@ -7,7 +7,7 @@
             <br>
             <span  *ngIf="afetctaionItem.CuentaContraCredito"><b>{{'MODIF.cuenta_contra_credito' | translate }}</b> : {{afetctaionItem.CuentaContraCredito.Codigo}} / {{afetctaionItem.CuentaContraCredito.Nombre}}</span>
             <br>
-            <b>{{'GLOBAL.valor' | translate }} </b> : {{afetctaionItem.Valor}}
+            <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afetctaionItem.Valor}} </span> 
             <br>
             <button *ngIf="!readonly" class="btn btn-danger" (click)="removeAprData(afetctaionItem)" >{{'GLOBAL.eliminar' | translate }}</button>
             <br>

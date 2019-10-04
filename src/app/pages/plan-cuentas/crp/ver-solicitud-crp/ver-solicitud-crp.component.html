@@ -1,0 +1,149 @@
+<div class="col-md-12 col-lg-12 ">
+    <nb-card *ngIf="mostrandoPDF===false" >
+        <nb-card-header>
+            <legend >{{ 'CRP.detalle_solicitud_crp' | translate }}:
+                {{ solicitud.consecutivo }}</legend>
+            <!-- <legend *ngIf="solicitud&&expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.infoCrp.consecutivo }}
+            </legend> -->
+           
+        </nb-card-header>
+        <nb-card-body>
+                <p>{{ 'CRP.solicitud-efectuada' | translate }}</p>
+            <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
+            <pre>nes{{necesidad | json}}</pre> -->
+            <div class="container-fluid">
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-kronos">
+                        <th width="15%">{{'GLOBAL.entidad' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.unidad-ejecutora' | translate}}</th>
+                        <th width="45%">{{'GLOBAL.vigencia' | translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{cdpData.entidad}}</td>
+                            <td>{{cdpData.centroGestor}}</td>
+                            <td>{{solicitud.vigencia}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-kronos">
+                        <th >{{'CDP.n_cdp' | translate}}</th>
+                        <th>{{'CRP.tipo-compromiso' | translate}}</th>
+                        <th>{{'CRP.numero-compromiso' | translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td >{{solicitud.infoCrp.consecutivo}}</td>
+                            <td>{{solicitud.compromiso.tipoCompromiso}}</td>
+                            <td>{{solicitud.compromiso.numeroCompromiso}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
+                            <td colspan="2">{{necesidad.Objeto}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-kronos">
+                        <th width="15%">{{'CRP.tipo-id-contratista' | translate}}</th>
+                        <th width="40%">{{'CRP.id-contratista' | translate}}</th>
+                        <th width="45%">{{'CRP.nombre-contratista' | translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{solicitud.beneficiario}}</td>
+                            <td>{{solicitud.beneficiario}}</td>
+                            <td>{{solicitud.entidad}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <!-- apropiaciones -->
+                <table *ngFor="let ap of necesidad.apropiaciones" class="table table-hover table-bordered">
+                    <!-- rubro -->
+                    <thead class="bg-kronos">
+                        <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.valor' | translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ap.codigo}} {{ap.nombre}}</td>
+                            <td class="moneyField">$0</td>
+                        </tr>
+                    </tbody>
+                    <!-- metas y actividades si es de inversion -->
+                    <thead *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1" class="bg-kronos">
+                        <th width="60%">{{'GLOBAL.meta' | translate}}</th>
+                        <th ></th>
+                    </thead>
+                    <tbody *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1">
+                        <tr>
+                            <td>{{ap.metas[0].codigo}} {{ap.metas.nombre}}</td>
+                            <td class="moneyField">{{ap.metas[0].valor | currency: COP}}</td>
+                        </tr>
+                        <tr class="bg-kronos">
+                            <td>{{'GLOBAL.actividades' | translate}}</td>
+                            <td></td>
+                        </tr>
+                        <tr *ngFor="let act of ap.metas[0].actividades">
+                            <td>{{act.codigo}} {{act.nombre}}</td>
+                            <td class="moneyField">{{act.valor | currency: COP }}</td>
+                        </tr>
+                    </tbody>
+                    <!-- fuentes -->
+                    <thead class="bg-kronos">
+                        <th>{{'GLOBAL.fuente' | translate}}</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let f of ap.fuentes">
+                            <td>{{f.codigo}} {{f.nombre}}</td>
+                            <td class="moneyField">{{f.valor | currency: COP}}</td>
+                        </tr>
+                    </tbody>
+                    <!-- productos -->
+                    <thead class="bg-kronos">
+                        <th>{{'GLOBAL.producto' | translate}}</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of ap.productos">
+                            <td>{{p.codigo}} {{p.nombre}}</td>
+                            <td class="moneyField">{{p.valor | currency: COP}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <!-- responsables y fecha -->
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-kronos">
+                        <th width="33%" *ngIf="!expedido">{{ 'CDP.fecha_solicitud' | translate }}</th>
+                        <th width="33%" *ngIf="expedido">{{ 'CDP.fecha_expedicion' | translate }}</th>
+                        <th width="33%">{{ 'CDP.responsable' | translate }}</th>
+                        <th width="33%">{{ 'CDP.elaboro' | translate }}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td *ngIf="!expedido">{{necesidad.FechaSolicitud | date}}</td>
+                            <td *ngIf="expedido">Oct 2, 2019</td>
+                            <td>Usuario que expide</td>
+                            <td>Usuario que elabora</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-align: center;">
+                    <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+                        {{ 'GLOBAL.regresar' | translate}}</button>
+                    <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-info btn-sm">
+                        {{ 'CDP.expedir' | translate}}</button>
+                    <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
+                        {{ 'CDP.mostrar_pdf' | translate}}</button>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+    <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF" (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
+</div>

@@ -6,15 +6,15 @@
 
     <input nbInput [nbFilterInput]="dataSource" id="search" class="search-input" />
 
-    <table [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
+    <table  [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
       <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-      <tr (click)="onSelect(row)" nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+      <tr #nebularTree class="table-row" [class.highlight]="validHighlight(row, nebularTree)" (click)="onSelect(row, nebularTree);" nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns" [attr.data-picker]="row.data.Codigo"></tr>
 
       <ng-container [nbTreeGridColumnDef]="customColumn">
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)" *nbTreeGridHeaderCellDef>
           {{ customColumn }}
         </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+        <td  nbTreeGridCell *nbTreeGridCellDef="let row">
           <!-- <nb-fs-icon [kind]="row.data.kind" [expanded]="row.expanded"></nb-fs-icon> -->
           <span [ngClass]="{
               'nb-chevron-down': row.expanded,
@@ -48,7 +48,7 @@
 
     <table [nbTreeGrid]="dataSource2" [nbSort]="dataSource2" (sort)="updateSort($event)">
       <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-      <tr (click)="onSelect(row)" nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+      <tr #nebularTree class="table-row" [class.highlight]="validHighlight(row, nebularTree)" (click)="onSelect(row, nebularTree);" nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns" [attr.data-picker]="row.data.Codigo"></tr>
 
       <ng-container [nbTreeGridColumnDef]="customColumn">
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)" *nbTreeGridHeaderCellDef>
@@ -69,7 +69,7 @@
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
           {{ column | translate}}
         </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+        <td [class.moneyField]="index === 1" nbTreeGridCell *nbTreeGridCellDef="let row">
           {{ row.data[column] || "-" }}
         </td>
       </ng-container>

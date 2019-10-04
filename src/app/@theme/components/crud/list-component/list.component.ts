@@ -36,6 +36,7 @@ export class ListEntityComponent implements OnInit {
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
   @Output() auxcambiotab = new EventEmitter<boolean>();
+  @Output() infooutput = new EventEmitter<any>();
 
   uid: any;
   cambiotab: boolean = false;
@@ -107,6 +108,7 @@ export class ListEntityComponent implements OnInit {
 
   onAddOther(event): void {
     console.info(event);
+    this.infooutput.emit(event.data);
     this.activetab('other');
   }
   onCustom(event): void {
@@ -179,7 +181,7 @@ export class ListEntityComponent implements OnInit {
     }
   }
   itemselec(event): void {
-    // console.log('afssaf');
+     // console.info(event);
   }
 
 

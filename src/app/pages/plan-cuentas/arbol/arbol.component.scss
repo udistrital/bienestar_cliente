@@ -4,6 +4,12 @@ button[nbTreeGridRowToggle] {
   padding: 0;
 }
 
+.table-row {
+  &:hover {
+    background: #e6e6e6;
+  }
+}
+
 .search-label {
   display: block;
 }
@@ -39,4 +45,13 @@ button[nbTreeGridRowToggle] {
   .nb-column-items {
     width: 23%;
   }
+}
+
+
+.moneyField {
+  text-align: right;
+}
+
+.moneyField::before {
+  content:"$";
 }
