@@ -46,6 +46,7 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { KRONOS_THEME } from './styles/theme.kronos';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import {
@@ -87,6 +88,7 @@ import {
 } from '@angular/material';
 import { SafeurlPipe } from './pipes/safeurl.pipe';
 import { PDFviewerComponent } from './components/pdfviewer/pdfviewer.component';
+
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -169,10 +171,10 @@ const MAT_MODULES = [
 const NB_THEME_PROVIDERS = [
   ...NbThemeModule.forRoot(
     {
-      name: 'default',
+      name: 'kronos',
       // name: 'ud',
     },
-    [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
+    [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME, KRONOS_THEME],
   ).providers,
   ...NbSidebarModule.forRoot().providers,
   ...NbMenuModule.forRoot().providers,

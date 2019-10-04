@@ -69,7 +69,7 @@
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
           {{ column | translate}}
         </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+        <td [class.moneyField]="index === 1" nbTreeGridCell *nbTreeGridCellDef="let row">
           {{ row.data[column] || "-" }}
         </td>
       </ng-container>

@@ -40,6 +40,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       value: 'corporate',
       name: 'Corporate',
     },
+    {
+      value: 'kronos',
+      name: 'KRONOS',
+    },
   ];
 
   currentTheme = 'default';

@@ -1,5 +1,5 @@
-export const UD_THEME = {
-  name: 'ud',
+export const KRONOS_THEME = {
+  name: 'kronos',
   base: 'default',
   variables: {
 

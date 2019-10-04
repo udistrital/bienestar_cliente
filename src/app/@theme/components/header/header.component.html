@@ -11,17 +11,17 @@
 </div>
 
 <div class="header-container">
-  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+<!--   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
     <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
-  </nb-select>
+  </nb-select> -->
   <nb-actions size="small">
     <nb-action class="control-item">
-      <nb-search type="rotate-layout"></nb-search>
+      <nb-search class="icono" type="rotate-layout"></nb-search>
     </nb-action>
     <nb-action [hidden]="!liveTokenValue" class="control-item" icon="email-outline"></nb-action>
-    <nb-action class="control-item" icon="bell-outline" ></nb-action>
-    <nb-action class="control-item" icon="globe-outline"></nb-action>
-    <nb-action class="control-item idioma" [hidden]="true">
+    <nb-action class="icono control-item" icon="bell-outline" ></nb-action>
+    <nb-action class="icono control-item" icon="globe-outline"></nb-action>
+    <nb-action class="icono control-item idioma" [hidden]="true">
       <select #langSelect (change)="translate.use(langSelect.value)" class="form-control select">
         <option *ngFor="let lang of translate.getLangs()" class="form-control" [value]="lang"
         [selected]="lang === translate.currentLang">{{ lang }}</option>
@@ -31,7 +31,7 @@
       <div class="dropdown ghost-dropdown">
         <div class="btn-with-icon-example">
           <button type="button" class="btn btn-success btn-with-icon login " (click)="login()">
-            <i class="nb-user"></i>
+            <i class="nb-user icono"></i>
             <!-- <span>{{ 'HOME.LOGIN' | translate }}</span> -->
             <span>Iniciar sesión</span>
           </button>
@@ -40,8 +40,8 @@
     </nb-action>
         <nb-action [hidden]="!liveTokenValue">
           <div class="dropdown ghost-dropdown" ngbDropdown>
-            <button type="button" class="btn btn-success user" type="button" ngbDropdownToggle>
-              <i class="nb-person"></i> {{username}}
+            <button type="button" class="btn user" type="button" ngbDropdownToggle>
+              <i class="nb-person icono"></i> <span class="usuario">{{username}}</span>
             </button>
             <ul class="dropdown-menu" ngbDropdownMenu>
               <!-- <li class="dropdown-item" (click)="logout()">{{ 'HOME.LOGOUT' | translate }}</li> -->
