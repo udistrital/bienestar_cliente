@@ -3,6 +3,9 @@ import { Rubro } from '../../../@core/data/models/rubro';
 import { FuenteFinanciamiento } from '../../../@core/data/models/fuente_financiamiento';
 import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 import { FORM_VALUE_FUENTE } from '../fuentes/form-value-fuente';
+import { registerLocaleData } from '@angular/common';
+import locales from '@angular/common/locales/es-CO';
+registerLocaleData(locales, 'co');
 
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';

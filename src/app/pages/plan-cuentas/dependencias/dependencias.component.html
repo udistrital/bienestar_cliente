@@ -3,6 +3,7 @@
     <div *ngIf="!editValueFF" class="col-md-12 col-lg-12 col-xxxl-12">
         <label for="valorfuente" class="form-control-label">
             <h6>{{'GLOBAL.valor' | translate}} {{ 'GLOBAL.fuente_financiamiento' | translate }} : <span class="moneyField"> {{infoinput.ValorOriginal| currency:'COP'}} </span> </h6>
+
         </label>
         <button  (click)="cambiarValorFuente()"
         class="btn btn btn-primary col-sm-12 ">{{'GLOBAL.actualizar' | translate}}</button> 
