@@ -70,7 +70,7 @@
                     <div class="form-group row">
                       <label for="inputEmail1" class="col-sm-6 col-form-label">Valor Apropiación Inicial</label>
                       <div class="col-sm-6">
-                        <input type="number" min="1" step="any" class="form-control moneyField" id="inputApropiacionI"
+                        <input currencyMask type="text" min="1" step="any" class="form-control" id="inputApropiacionI"
                           placeholder="$" value="{{
                               rubroSeleccionado.ApropiacionInicial 
                             }}" [(ngModel)]="valorApropiacion" />

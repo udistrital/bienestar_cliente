@@ -2,7 +2,7 @@
   <div class="row">
     <div *ngIf="!editValueFF" class="col-md-12 col-lg-12 col-xxxl-12">
         <label for="valorfuente" class="form-control-label">
-            <h6>{{'GLOBAL.valor' | translate}} {{ 'GLOBAL.fuente_financiamiento' | translate }} : {{infoinput.ValorOriginal| currency:'COP':'symbol'}} </h6>
+            <h6>{{'GLOBAL.valor' | translate}} {{ 'GLOBAL.fuente_financiamiento' | translate }} : <span class="moneyField"> {{infoinput.ValorOriginal| currency:'COP'}} </span> </h6>
         </label>
         <button  (click)="cambiarValorFuente()"
         class="btn btn btn-primary col-sm-12 ">{{'GLOBAL.actualizar' | translate}}</button> 
@@ -41,7 +41,7 @@
                     <option *ngFor="let dependencia of dependencias; let value = index;" [ngValue]="dependencia.Id" >{{dependencia.Nombre}}
                     </option>
                   </select>
-                  <input type="number" name="'dependenciasAsignadas.ValorDependencia' + index" id="" [(ngModel)]="dependenciasAsignadas.ValorDependencia" class="form-control col-sm-3 mr-auto">
+                  <input currencyMask type="text" name="'dependenciasAsignadas.ValorDependencia' + index" id="" [(ngModel)]="dependenciasAsignadas.ValorDependencia" class="form-control col-sm-3 mr-auto">
 
                   <button *ngIf="validarEdicionDependencias(rubro , dependenciasAsignadas, index)" (click)="entrandoEditar(dependenciasAsignadas)"
                   class="btn btn-sm btn-success col-sm-2 ml-auto">{{'GLOBAL.editar' | translate}}</button>

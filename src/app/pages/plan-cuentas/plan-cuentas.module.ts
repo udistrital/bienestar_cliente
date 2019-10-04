@@ -30,7 +30,7 @@ import { ListCrpComponent } from './crp/list-crp/list-crp.component';
 import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicitud-crp.component';
 import { VerSolicitudCrpComponent } from './crp/ver-solicitud-crp/ver-solicitud-crp.component';
 import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.component';
-
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 @NgModule({
   declarations: [
@@ -69,6 +69,7 @@ import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.compone
     Ng2SmartTableModule,
     ToasterModule,
     MatStepperModule,
+    CurrencyMaskModule,
   ],
   exports: [
   ],
