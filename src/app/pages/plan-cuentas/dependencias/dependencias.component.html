@@ -2,7 +2,7 @@
   <div class="row">
     <div *ngIf="!editValueFF" class="col-md-12 col-lg-12 col-xxxl-12">
         <label for="valorfuente" class="form-control-label">
-            <h6>{{'GLOBAL.valor' | translate}} {{ 'GLOBAL.fuente_financiamiento' | translate }} : {{infoinput.ValorOriginal| currency:'COP':'symbol'}} </h6>
+            <h6>{{'GLOBAL.valor' | translate}} {{ 'GLOBAL.fuente_financiamiento' | translate }} : {{infoinput.ValorOriginal| currency:'COP':'symbol':'4.2-2':'co'}} </h6>
         </label>
         <button  (click)="cambiarValorFuente()"
         class="btn btn btn-primary col-sm-12 ">{{'GLOBAL.actualizar' | translate}}</button> 
