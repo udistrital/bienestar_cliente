@@ -5,11 +5,11 @@
     <div class="row">
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-xxxl-6">
+          <div class="col-md-8 col-lg-8 col-xxxl-8">
             <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
               [optionSelect]="optionView"> </ngx-arbol>
           </div>
-          <div class="col-md-6 col-lg-6 col-xxxl-6">
+          <div class="col-md-4 col-lg-4 col-xxxl-4">
             <mat-tab-group>
               <mat-tab label="{{'GLOBAL.rubro' | translate }}">
                 <nb-card *ngIf="insertarRubro">

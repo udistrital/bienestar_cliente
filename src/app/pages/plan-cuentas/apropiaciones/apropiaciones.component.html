@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-xxxl-6">
+          <div class="col-md-8 col-lg-8 col-xxxl-8">
             <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
               [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
             <ngx-comprobacion-apropiacion-inicial (comprobacion)='checkComprobacion($event)' [vigencia]="vigenciaSel"
@@ -22,7 +22,7 @@
             </div>
           </div>
 
-          <div *ngIf="isLeaf" class="col-md-6 col-lg-6 col-xxxl-6">
+          <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
             <div class="container-fluid">
               <nb-card>
                 <nb-card-header>{{
