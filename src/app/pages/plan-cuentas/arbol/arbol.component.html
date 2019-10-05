@@ -14,7 +14,7 @@
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)" *nbTreeGridHeaderCellDef>
           {{ customColumn }}
         </th>
-        <td  nbTreeGridCell *nbTreeGridCellDef="let row">
+        <td class="aligned-code" nbTreeGridCell *nbTreeGridCellDef="let row">
           <!-- <nb-fs-icon [kind]="row.data.kind" [expanded]="row.expanded"></nb-fs-icon> -->
           <span [ngClass]="{
               'nb-chevron-down': row.expanded,
@@ -54,7 +54,7 @@
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)" *nbTreeGridHeaderCellDef>
           {{ customColumn | translate }}
         </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+        <td class="aligned-code" nbTreeGridCell *nbTreeGridCellDef="let row">
           <!-- <nb-fs-icon [kind]="row.data.kind" [expanded]="row.expanded"></nb-fs-icon> -->
           <span [ngClass]="{
               'nb-chevron-down': row.expanded,
