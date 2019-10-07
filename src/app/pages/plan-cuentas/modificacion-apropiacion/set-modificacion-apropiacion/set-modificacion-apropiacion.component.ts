@@ -4,6 +4,7 @@ import { FormManager } from '../../../../@core/managers/formManager';
 import { ModApropiacionHelper } from '../../../../@core/helpers/modApropiacionHelper';
 import { ModType, ModApropiationData } from '../../../../@core/interfaces/modificationInterface';
 import { ArbolRubroApropiacionInterface } from '../../../../@core/interfaces/arbolRubroApropiacionInterface';
+import { TypeGeneral } from '../../../../@core/interfaces/TypeGeneralInterface';
 
 @Component({
     selector: 'ngx-set-modificacion-apropiacion',
@@ -25,23 +26,26 @@ export class SetModificacionApropiacionComponent implements OnInit {
         value: true,
     };
 
-    modTypes: Array<any>;
+    modTypes: Array<TypeGeneral>;
     apropiacionValidator: FormGroup;
     showResumenTab: boolean;
     showAprSelection: boolean;
     modValueForm: FormGroup;
-    modTypeSelected: ModType;
+    modTypeSelected: TypeGeneral;
     accountTypeSelected: string;
     creditAccount: ArbolRubroApropiacionInterface;
     cnCreditAccount: ArbolRubroApropiacionInterface;
 
 
-    constructor() {
+    constructor(private modHelper: ModApropiacionHelper) {
 
     }
     async ngOnInit() {
         await this.cleanData();
         this.aprAfectation = [];
+        this.modHelper.getModTypes().subscribe((res) => {
+            this.modTypes = res;
+        });
 
     }
 
@@ -91,13 +95,15 @@ export class SetModificacionApropiacionComponent implements OnInit {
         this.apropiacionValidator = FormManager.BuildGroupForm(this.apropiacionFormStruct);
         this.modValueForm = FormManager.BuildGroupForm(this.modValueFormStruct);
         this.modValueForm.controls['credAccount'].disable();
-        this.modTypes = await ModApropiacionHelper.getModTypes();
         this.accountTypeSelected = '';
 
-        this.modValueForm.controls['modType'].valueChanges.subscribe((selected: ModType) => {
+        this.modValueForm.controls['modType'].valueChanges.subscribe((selected: TypeGeneral) => {
+            if (selected.Parametros) {
+                selected.Parametros = JSON.parse(selected.Parametros);
+            }
             this.modTypeSelected = selected;
             if (this.modTypeSelected) {
-                if (selected.Params['CuentaContraCredito']) {
+                if (selected.Parametros['CuentaContraCredito']) {
                     this.modValueForm = FormManager.addFormControl(this.modValueForm, {
                         cnCredAccount: true,
                     });

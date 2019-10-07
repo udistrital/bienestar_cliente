@@ -16,4 +16,9 @@ export class ShowModificationResumeComponent implements OnInit, OnChanges {
     constructor() { }
 
     ngOnInit() { }
+
+    saveModification() {
+        console.table(this.modificationData);
+        console.info(JSON.stringify(this.modificationData));
+    }
 }

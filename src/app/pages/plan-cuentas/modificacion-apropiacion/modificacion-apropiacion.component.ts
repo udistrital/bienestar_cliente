@@ -53,7 +53,7 @@ export class ModificacionApropiacionComponent implements OnInit {
             this.detalleValidationForm.patchValue({
                 valid: true
             });
-            this.modifiactionFinalData['detail'] = $event.data;
+            this.modifiactionFinalData['detail'] = $event.data['detalleModificacion'];
             this.stepper.next();
         } else {
             this.detalleValidationForm.patchValue({

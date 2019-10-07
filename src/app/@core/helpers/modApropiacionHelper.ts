@@ -1,42 +1,17 @@
-import { ModType } from '../interfaces/modificationInterface';
+import { RequestManager } from '../managers/requestManager';
+import { TypeGeneral } from '../interfaces/TypeGeneralInterface';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+    providedIn: 'root',
+})
 export class ModApropiacionHelper {
-    public static async getModTypes() {
-        let modTypes: Array<ModType>;
-        modTypes = [
-            {
-                Id: 0,
-                Nombre: 'traslado',
-                Label: 'Traslado',
-                Params: {
-                    CuentaContraCredito: true,
-                },
-            },
-            {
-                Id: 1,
-                Nombre: 'adicion',
-                Label: 'Adición',
-                Params: {
-                    CuentaContraCredito: false,
-                },
-            },
-            {
-                Id: 2,
-                Nombre: 'reduccion',
-                Label: 'Reducción',
-                Params: {
-                    CuentaContraCredito: false,
-                },
-            },
-            {
-                Id: 3,
-                Nombre: 'suspension',
-                Label: 'Suspensión',
-                Params: {
-                    CuentaContraCredito: false,
-                },
-            },
-        ];
-        return modTypes;
+    constructor(private rqManager: RequestManager) {
+        this.rqManager.setPath('MOVIMIENTOS_CRUD_SERVICE');
+    }
+
+    public getModTypes(): Observable<Array<TypeGeneral>> {
+        return this.rqManager.get(`tipo_movimiento`);
     }
 }
