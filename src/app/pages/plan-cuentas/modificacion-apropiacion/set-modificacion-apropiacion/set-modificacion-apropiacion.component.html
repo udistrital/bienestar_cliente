@@ -38,7 +38,7 @@
               <mat-form-field class="mod-registration-input-item" *ngIf="modTypeSelected"
                 floatLabel="always">
                 <mat-label>{{'GLOBAL.valor' | translate }}</mat-label>
-                <input matInput currencyMask placeholder="{{'GLOBAL.valor' | translate }}" class="moneyField" type="number" formControlName="value"/>
+                <input matInput currencyMask placeholder="{{'GLOBAL.valor' | translate }}" class="moneyField" type="text" formControlName="value"/>
                 <span matPrefix>$</span>
               </mat-form-field>
 
