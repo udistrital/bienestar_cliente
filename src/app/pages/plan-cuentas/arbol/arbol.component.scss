@@ -10,7 +10,7 @@ button[nbTreeGridRowToggle] {
   }
 
 }
-:host /deep/ table tr td {
+:host ::ng-deep table tr td {
   padding: -0.125rem 1.25rem !important;
   font-size: 12px !important;
 }
