@@ -3,20 +3,20 @@
         <div class="mod-registration-container">
             <mat-form-field class="mod-registration-input-item" class="mod-registration-input-item">
                 <input matInput placeholder="{{'GLOBAL.numero_documento' | translate }}"
-                    value="{{modificationData['detail']['nDocumento']}}" disabled="true">
+                    value="{{modificationData['detail']['NumeroDocumento']}}" disabled="true">
             </mat-form-field>
             <mat-form-field class="mod-registration-input-item">
                 <input matInput placeholder="{{'GLOBAL.tipo_documento' | translate }}"
-                    value="{{modificationData['detail']['tipoDocumento']['Nombre'] }}"
+                    value="{{modificationData['detail']['TipoDocumento']['Nombre'] }}"
                     disabled="true">
             </mat-form-field>
             <mat-form-field class="mod-registration-input-item">
                 <input matInput placeholder="{{'GLOBAL.fecha_documento' | translate }}"
-                    value="{{modificationData['detail']['fDocumento'] | date}}" disabled="true">
+                    value="{{modificationData['detail']['FechaDocumento'] | date}}" disabled="true">
             </mat-form-field>
             <mat-form-field class="mod-registration-input-item">
                 <input matInput placeholder="{{'GLOBAL.descripcion' | translate }}"
-                    value="{{modificationData['detail']['descripcion']}}" disabled="true">
+                    value="{{modificationData['detail']['Descripcion']}}" disabled="true">
             </mat-form-field>
             <ngx-show-modification-afectation class="mod-registration-input-item" [readonly]="readonly"
                 [(afectationData)]="modificationData['afectation']"></ngx-show-modification-afectation>

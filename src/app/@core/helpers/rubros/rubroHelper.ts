@@ -84,7 +84,6 @@ export class RubroHelper {
     public rubroRegister(rubroData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         rubroData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
-        console.table(rubroData);
         return this.rqManager.post('arbol_rubro', rubroData).pipe(
             map(
                 (res) => {

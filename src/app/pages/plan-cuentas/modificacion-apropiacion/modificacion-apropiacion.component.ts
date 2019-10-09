@@ -44,7 +44,7 @@ export class ModificacionApropiacionComponent implements OnInit {
         private docHelper: DocumentHelper,
     ) {
         this.formDetalle = FormManager.ConstruirForm(DETALLE_MODIFICACION_FORM, this.translate, this.translate.instant('MODIF.detalle_modificacion'));
-        const tipoDocumentoIndex = FormManager.getIndexForm(this.formDetalle, 'tipoDocumento');
+        const tipoDocumentoIndex = FormManager.getIndexForm(this.formDetalle, 'TipoDocumento');
         this.formDetalle['campos'][tipoDocumentoIndex]['opciones'] = this.docHelper.getDocumentType();
     }
 
