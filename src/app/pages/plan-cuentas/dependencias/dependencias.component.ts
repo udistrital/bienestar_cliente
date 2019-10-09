@@ -87,7 +87,7 @@ export class DependenciasComponent implements OnInit {
     this.rubrosAsignados.filter(data => {
       data === rubro;
       data['Dependencias'].push({ Id: 0, ValorDependencia: 0 });
-    });1
+    });
     console.info(dependencias);
     this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
     this.entrarEditar = true;
@@ -98,14 +98,15 @@ export class DependenciasComponent implements OnInit {
 
   guardarValorFuenteRubro() {
 
-      this.infoinput.Rubros[this.rubroSeleccionado.Codigo].ValorTotal = typeof this.rubroSeleccionado.ValorFuenteRubro === 'undefined' ? undefined : this.rubroSeleccionado.ValorFuenteRubro;
-      this.infoinput.ValorOriginal = this.infoinput.ValorOriginal === 'undefined' ? undefined : this.infoinput.ValorOriginal- this.rubroSeleccionado.ValorFuenteRubro;
-      this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
-        if (res) {
-          this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
-          this.cambiarValorFuente();
-        }
-      });
+    this.infoinput.Rubros[this.rubroSeleccionado.Codigo].ValorTotal =
+      typeof this.rubroSeleccionado.ValorFuenteRubro === 'undefined' ? undefined : this.rubroSeleccionado.ValorFuenteRubro;
+    this.infoinput.ValorOriginal = this.infoinput.ValorOriginal === 'undefined' ? undefined : this.infoinput.ValorOriginal - this.rubroSeleccionado.ValorFuenteRubro;
+    this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
+      if (res) {
+        this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
+        this.cambiarValorFuente();
+      }
+    });
 
   }
   editarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
@@ -134,7 +135,7 @@ export class DependenciasComponent implements OnInit {
 
     switch (tipo) {
       case 'valor_fuente_rubro':
-        this.entrarEditar = true;  
+        this.entrarEditar = true;
         break;
       case 'dependencia':
         break;
@@ -151,8 +152,8 @@ export class DependenciasComponent implements OnInit {
     // console.info(this.rubrosAsociados);
   }
   cambiarValorFuente() {
-      this.construirForm();
-      this.editValueFF = !this.editValueFF;
+    this.construirForm();
+    this.editValueFF = !this.editValueFF;
   }
   validarForm(event) {
     console.info(event);
