@@ -70,6 +70,7 @@ export class DependenciasComponent implements OnInit {
         .length === 0 && $event.Hijos.length === 0
     ) {
       // this.fuenteHelper.getFuentes(this.infoinput.Codigo);
+      this.rubroSeleccionado = <Rubro>$event;
       console.info(this.infoinput);
       $event['Dependencias'] = [{ Id: 0, ValorDependencia: 0 }];
       // $event['Productos'] = this.productosExample;
@@ -94,6 +95,20 @@ export class DependenciasComponent implements OnInit {
     this.entrarAddProductos = true;
     console.info(this.rubrosAsociados);
   }
+
+  guardarValorFuenteRubro() {
+
+    this.infoinput.Rubros[this.rubroSeleccionado.Codigo].ValorTotal =
+      typeof this.rubroSeleccionado.ValorFuenteRubro === 'undefined' ? undefined : this.rubroSeleccionado.ValorFuenteRubro;
+    this.infoinput.ValorOriginal = this.infoinput.ValorOriginal === 'undefined' ? undefined : this.infoinput.ValorOriginal - this.rubroSeleccionado.ValorFuenteRubro;
+    this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
+      if (res) {
+        this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
+        this.cambiarValorFuente();
+      }
+    });
+
+  }
   editarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
     console.info(dependencias);
     this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
@@ -110,15 +125,21 @@ export class DependenciasComponent implements OnInit {
       this.popManager.showErrorAlert('Valor Excedido Apropiación' + ' para el Rubro ' + rubro.Nombre);
     }
   }
-  validarEdicionDependencias(rubro: Rubro, dependencias: any, index: number) {
-    if (this.rubrosAsociados[rubro.Codigo].Dependencias[index] === undefined) {
+  validarEdicion(rubro: any) {
+    if (rubro.Codigo.ValorFuenteApropiacion === undefined) {
       return false;
     }
-    return !this.entrarEditar && this.rubrosAsociados[rubro.Codigo].Dependencias[index].Id > 0;
+    return !this.entrarEditar && rubro.Codigo.ValorFuenteApropiacion > 0;
   }
-  entrandoEditar(dep) {
-    this.dependenciaSeleccionada = dep;
-    this.entrarEditar = true;
+  entrandoEditar(tipo: string) {
+
+    switch (tipo) {
+      case 'valor_fuente_rubro':
+        this.entrarEditar = true;
+        break;
+      case 'dependencia':
+        break;
+    }
   }
   quitarRubro(rubro: Rubro) {
     this.rubrosAsignados = this.rubrosAsignados.filter(p => {
@@ -131,8 +152,8 @@ export class DependenciasComponent implements OnInit {
     // console.info(this.rubrosAsociados);
   }
   cambiarValorFuente() {
-      this.construirForm();
-      this.editValueFF = !this.editValueFF;
+    this.construirForm();
+    this.editValueFF = !this.editValueFF;
   }
   validarForm(event) {
     console.info(event);
