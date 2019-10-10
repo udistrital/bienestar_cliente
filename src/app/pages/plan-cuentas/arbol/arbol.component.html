@@ -74,7 +74,13 @@
           {{ column | translate}}
         </th>
         <td [class.moneyField]="index === 1" nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data[column] || "-" }}
+          <div *ngIf="index !== 1">
+            {{ row.data[column] || "-" }}
+          </div>
+          <div *ngIf="index === 1">
+              {{ row.data[column] | currency:'COP':'symbol':'4.2-2':'co' }}
+
+          </div>
         </td>
       </ng-container>
     </table>

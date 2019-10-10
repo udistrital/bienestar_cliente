@@ -9,6 +9,9 @@ import {
 } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { ArbolHelper } from '../../../@core/helpers/arbol/arbolHelper';
+import { registerLocaleData } from '@angular/common';
+import locales from '@angular/common/locales/es-CO';
+registerLocaleData(locales, 'co');
 
 interface EstructuraArbolRubrosApropiaciones {
   Codigo: string;
@@ -126,7 +129,7 @@ export class ArbolComponent implements OnChanges {
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
-    this.defaultColumns = ['Nombre', 'ApropiacionInicial', 'Estado'];
+    this.defaultColumns = ['Nombre', 'ValorInicial'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
       console.info(this.vigenciaSeleccionada);
