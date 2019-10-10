@@ -18,11 +18,11 @@
       <tbody>
         <tr>
           <td><p class="rubro">{{ "APROPIACION.ingresos" | translate }}</p></td>
-          <td><p class="ingresos">{{ingresos | currency:'COP':'symbol':'4.2-2':'co'}}</p></td>
+          <td><p class="moneyField ingresos">{{ingresos | currency:'COP':'symbol':'4.2-2':'co'}}</p></td>
         </tr>
         <tr>
           <td><p class="rubro">{{ "APROPIACION.egresos" | translate }}</p></td>
-          <td><p class=egresos>{{egresos | currency:'COP':'symbol':'4.2-2':'co'}}</p></td>
+          <td><p class="moneyField egresos">{{egresos | currency:'COP':'symbol':'4.2-2':'co'}}</p></td>
 
         </tr>
       </tbody>
@@ -30,7 +30,7 @@
           <td colspan="2"><p class="correcto">{{ "APROPIACION.comprobacion-igualdad" | translate }}</p></td>
       </tr>
       <tr *ngIf="!balanceado">
-          <td *ngIf="ingresos-egresos !== 0" colspan="2"><p class="error">{{ "APROPIACION.comprobacion-diferencia" | translate }}{{diferencia}}</p></td>
+          <td *ngIf="ingresos-egresos !== 0" colspan="2"><p class="moneyField error">{{ "APROPIACION.comprobacion-diferencia" | translate }}{{diferencia | currency:'COP':'symbol':'4.2-2':'co'}}</p></td>
           <td *ngIf="ingresos-egresos === 0" colspan="2"><p class="error">{{ "APROPIACION.comprobacion-diferencia-cero" | translate }}</p></td>
       </tr>
     </table>

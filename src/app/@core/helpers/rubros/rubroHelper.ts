@@ -89,7 +89,11 @@ export class RubroHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Registrar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+                        if (res['Message'] !== '') {
+                            this.pUpManager.showErrorAlert(res['Message']);
+                        } else {
+                            this.pUpManager.showErrorAlert('No Se Pudo Registrar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+                        }
                         return undefined;
                     }
                     return res;
@@ -113,7 +117,11 @@ export class RubroHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+                        if (res['Message'] !== '') {
+                            this.pUpManager.showErrorAlert(res['Message']);
+                        } else {
+                            this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro');
+                        }
                         return undefined;
                     }
                     return res;
@@ -138,7 +146,11 @@ export class RubroHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+                        if (res['Message'] !== '') {
+                            this.pUpManager.showErrorAlert(res['Message']);
+                        } else {
+                            this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro');
+                        }
                         return undefined;
                     }
                     return res;

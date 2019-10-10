@@ -19,6 +19,13 @@ export class ConsultaVigenciaComponent implements OnInit {
   VigenciaActual = '2019';
   optionView: string;
   balanceado: boolean;
+  vigencias: any[] = [
+    { vigencia: 2020 },
+    { vigencia: 2019 },
+    { vigencia: 2018 },
+    { vigencia: 2017 },
+    { vigencia: 2016 },
+  ];
 
   constructor(
   ) {
@@ -42,6 +49,12 @@ export class ConsultaVigenciaComponent implements OnInit {
 
 
   ngOnInit() {
+  }
+
+  onSelect(selectedItem: any) {
+    this.vigenciaSel = selectedItem;
+    // this.eventChange.emit(true);
+    console.info(this.vigenciaSel);
   }
 
   receiveMessage($event) {
