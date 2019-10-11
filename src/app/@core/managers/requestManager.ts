@@ -84,7 +84,7 @@ export class RequestManager {
    * @returns Observable<any>
    */
   put(endpoint, element, id) {
-    console.info(JSON.stringify(element))
+    console.info(JSON.stringify(element));
     return this.http.put<any>(`${this.path}${endpoint}${id}`, JSON.stringify(element), this.httpOptions).pipe(
       catchError(this.errManager.handleError),
     );
