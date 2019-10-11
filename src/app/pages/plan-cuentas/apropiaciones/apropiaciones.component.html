@@ -1,10 +1,8 @@
 <div class="container-fluid">
   <nb-card>
     <nb-card-header>
-      Gestión de Preasignación Inicial
-      <nb-select id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="VigenciaActual">
-        <nb-option *ngFor="let v of vigencias" [value]="v" (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
-      </nb-select>
+      Gestión de Preasignación Inicial -
+      <strong>{{ "GLOBAL.vigencia" | translate }}: {{VigenciaActual}}</strong>
     </nb-card-header>
     <div class="row">
       <div class="col-md-12">

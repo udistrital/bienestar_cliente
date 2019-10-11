@@ -11,27 +11,27 @@
   <div class="row" *ngIf="!opcionSeleccionada">
     <div class="card-col-4" class="secDashboard">
       <nb-card size="small" (click)="routeView('apropiacion')">
-        <nb-card-body >
+        <nb-card-body>
             <div class="option-icon d-flex flex-column">
               <mat-icon  svgIcon="consulta_apropiacion" inline="true"></mat-icon>
-              <h3>{{
+              <h4>{{
                     "GLOBAL.consulta-vigencia-actual" | translate
                   }}
-              </h3>
+              </h4>
             </div>
         </nb-card-body>
       </nb-card>
     </div>
     <div class="card-col-4" class="secDashboard">
       <nb-card size="small"  (click)="routeView('preasignacion')">
-        <nb-card-body >
+        <nb-card-body>
             <div class="option-icon d-flex flex-column">
               <mat-icon  svgIcon="preasignacion" inline="true"></mat-icon>
-              <h3>{{
+              <h4>{{
                     "GLOBAL.preasignacion-apropiacion-inicial" | translate
                    }} -
                    {{ vigencia }}
-              </h3>
+              </h4>
             </div>
         </nb-card-body>
       </nb-card>
