@@ -30,6 +30,7 @@ export class ListCrpComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private cdpHelper: CDPHelper,
+    // tslint:disable-next-line
     private crpHelper: CRPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager,
