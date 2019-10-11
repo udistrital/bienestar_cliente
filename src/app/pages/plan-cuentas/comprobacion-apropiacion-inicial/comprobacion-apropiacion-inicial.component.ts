@@ -29,7 +29,7 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   actualizar() {
     this.apHelper.getRootsBalance(parseInt(this.vigencia, 0)).subscribe(comprobacion => {
       this.ingresos = comprobacion['totalIngresos'];
-      this.egresos = comprobacion['totalEgresos'];
+      this.egresos = comprobacion['totalGastos'];
       this.balanceado = comprobacion['balanceado'];
       this.diferencia = Math.abs(this.ingresos - this.egresos);
       this.comprobacion.emit(this.balanceado);
