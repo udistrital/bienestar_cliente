@@ -53,15 +53,15 @@ export class CRPHelper {
        */
     public solCrpRegister(solCrpData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        let objSolCrp = <any>{};
+        const objSolCrp = <any>{};
         objSolCrp.consecutivo = 3; // Tomar la unidad ejecutora del token cuando este definido.
         objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCdp;
         objSolCrp.vigencia = solCrpData.Vigencia;
         objSolCrp.beneficiario = solCrpData.Beneficiario;
         objSolCrp.valor = solCrpData.Valor;
-        objSolCrp.compromiso= {
-            "numeroCompromiso" : solCrpData.NumeroCompromiso,
-            "tipoCompromiso" : solCrpData.TipoCompromiso
+        objSolCrp.compromiso = {
+            'numeroCompromiso': solCrpData.NumeroCompromiso,
+            'tipoCompromiso': solCrpData.TipoCompromiso
         };
         objSolCrp.activo = true;
         objSolCrp.fechaCreacion = solCrpData.FechaCreacion;

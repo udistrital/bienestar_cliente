@@ -62,24 +62,26 @@ export class SolicitudCrpComponent implements OnInit {
   }
 
   validarForm(event) {
-    var today = new Date();
+    // tslint:disable-next-line
+    const today = new Date();
     console.info(event);
     if (event.valid) {
       console.info(event);
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
-      this.solCrpData.Vigencia = "2019";
-      this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura+event.data.SolicitudCRP.NumeroDocumento;
-      this.solCrpData.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Tipo  === 'undefined' ? undefined : 1;
+      this.solCrpData.Vigencia = '2019';
+      this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
+        && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura + event.data.SolicitudCRP.NumeroDocumento;
+      this.solCrpData.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Tipo === 'undefined' ? undefined : 1;
       this.solCrpData.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
 
-      if (event.data.MontoParcial === true){
+      if (event.data.MontoParcial === true) {
         this.solCrpData.Valor = typeof event.data.ValorParcial === 'undefined' ? undefined : event.data.ValorParcial;
       } else {
         this.solCrpData.Valor = 0;
       }
 
-      console.info(this.solCrpData, "hola");
+      console.info(this.solCrpData, 'hola');
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
@@ -93,22 +95,22 @@ export class SolicitudCrpComponent implements OnInit {
   }
 
 
-loadCDPInfo(): void {
-  let cdpsConsecutivos : Array<any> = [];
-  this.cdpHelper.getListaCDP('').subscribe(res => {
-    if(res!= null) {
-      console.info(res);
-      cdpsConsecutivos = res;
-    }
-    this.formInfoSolCrp.campos[ this.getIndexForm('NumeroCDP') ].opciones = cdpsConsecutivos;
-  })
-}
+  loadCDPInfo(): void {
+    let cdpsConsecutivos: Array<any> = [];
+    this.cdpHelper.getListaCDP('').subscribe(res => {
+      if (res != null) {
+        console.info(res);
+        cdpsConsecutivos = res;
+      }
+      this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].opciones = cdpsConsecutivos;
+    });
+  }
   loadOptionsTipoDocumento(): void {
     let tipoDocData: Array<any> = [];
-      this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
-          if (res !== null) { tipoDocData = res; }
-          this.formInfoSolCrp.campos[ this.getIndexForm('TipoDocumento') ].opciones = tipoDocData;
-        });
+    this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
+      if (res !== null) { tipoDocData = res; }
+      this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
+    });
   }
 
   getIndexForm(nombre: String): number {
