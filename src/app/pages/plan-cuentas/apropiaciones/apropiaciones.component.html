@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <nb-card>
     <nb-card-header>
-      Gestión de Preasignación Inicial -
+      {{"APROPIACION.title_gestion_preasignacion" | translate }} -
       <strong>{{ "GLOBAL.vigencia" | translate }}: {{VigenciaActual}}</strong>
     </nb-card-header>
     <div class="row">
@@ -19,7 +19,6 @@
               </button>
             </div>
           </div>
-
           <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
             <div class="container-fluid">
               <nb-card>
@@ -38,7 +37,6 @@
                       <input type="text" class="form-control" placeholder="Codigo" [value]="rubroSeleccionado.Codigo"
                       readonly />
                     </div>
-                    
                     <div class="form-group">
                       <label>{{
                         "GLOBAL.unidad-ejecutora" | translate
@@ -69,7 +67,7 @@
                         <label>Valor Apropiación Inicial</label>
                         <input currencyMask type="text" min="1" step="any" class="form-control moneyField" id="inputApropiacionI"
                           placeholder="$" value="{{
-                              rubroSeleccionado.ApropiacionInicial 
+                              rubroSeleccionado.ApropiacionInicial
                             }}" [(ngModel)]="valorApropiacion" />
                       <div class="spacingValorAp">
                         <button type="submit" class="btn btn-info btn-block" (click)="preAsignarApropiacion()">
@@ -79,13 +77,10 @@
                             }}
                         </button>
                       </div>
-          
                     </div>
                   </div>
-
                 </nb-card-body>
               </nb-card>
-          
             </div>
           </div>
         </div>

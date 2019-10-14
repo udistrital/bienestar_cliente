@@ -187,7 +187,8 @@
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
     "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
-    "apropiaciones": "Apropiaciones"
+    "apropiaciones": "Apropiaciones",
+    "title_gestion_preasignacion":"Gestión de Preasignación Inicial"
   },
   "MODIF": {
     "detalle_modificacion": "Detalle de la Modificación",
