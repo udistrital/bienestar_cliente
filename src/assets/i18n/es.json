@@ -269,16 +269,16 @@
     "nombre-contratista": "Nombre Contratista",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
   },
-  "FOOTER":{
+  "FOOTER": {
     "dias_disponibilidad": "Lunes a Viernes",
     "horario": "8am a 5pm",
-    "OAS_sistema": "Sistema Integrado de Informática y Telecomunicaciones",
-    "Telefono": "323 93 00",
-    "Extension": "Ext. 1112",
-    "Direccion": "Cra. 8 # 40 - 78",
-    "Piso": "Piso 1",
+    "oas_sistema": "Sistema Integrado de Informática y Telecomunicaciones",
+    "telefono": "323 93 00",
+    "extension": "Ext. 1112",
+    "direccion": "Cra. 8 # 40 - 78",
+    "piso": "Piso 1",
     "correo": "computo@udistrital.edu.co",
-    "OAS": "Oficina Asesora de Sistemas",
+    "oficina": "Oficina Asesora de Sistemas"
   },
   "_id": "ID",
   "Nombre": "Nombre",

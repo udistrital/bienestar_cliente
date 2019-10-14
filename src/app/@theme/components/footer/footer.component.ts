@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./footer.component.scss'],
   templateUrl: './footer.component.html',
 })
+
 export class FooterComponent {
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -45,9 +46,13 @@ export class FooterComponent {
         'presupuesto/../assets/images/pin-outline.svg'
         )
       );
+    //translate.setDefaultLang('es');
+    translate.use('es');
+    //this.translate.use(this.translate.getBrowserLang());
   }
   ngOnInit(): void {
     this.translate.setDefaultLang('es');
     this.translate.use(this.translate.getBrowserLang());
   }
 }
+
