@@ -30,54 +30,58 @@ export class RubrosComponent implements OnInit {
     { vigencia: 2017 },
     { vigencia: 2016 },
   ];
+  AreaFuncional: any;
+  CentroGestor: any;
   VigenciaActual = 0;
   listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
-
+  
   optionView: string;
   @Output() eventChange = new EventEmitter();
   constructor(
     private translate: TranslateService,
     private rbHelper: RubroHelper,
     private popManager: PopUpManager,
-  ) {
-    this.optionView = 'Rubros';
-    this.editandoRubro = false;
-    this.formInfoRubro = FORM_INFO_RUBRO;
-    this.construirForm();
-    this.rubroSeleccionado = {
-    };
-    this.rubroData = {
-      Nombre: '',
-      Descripcion: '',
-      Codigo: '',
-      Hijos: null,
-      Padre: '',
-      UnidadEjecutora: '',
-    };
-  }
-
-  ngOnInit() {
-    this.info_rubro = {} as Rubro;
-  }
-
-
-
-  construirForm() {
-    this.formInfoRubro.btn = this.translate.instant('GLOBAL.guardar');
-    for (let i = 0; i < this.formInfoRubro.campos.length; i++) {
-      this.formInfoRubro.campos[i].label = this.formInfoRubro.campos[i].label_i18n;
-      this.formInfoRubro.campos[i].placeholder = this.formInfoRubro.campos[i].label_i18n;
+    ) {
+      this.optionView = 'Rubros';
+      this.editandoRubro = false;
+      this.formInfoRubro = FORM_INFO_RUBRO;
+      this.construirForm();
+      this.rubroSeleccionado = {
+      };
+      this.rubroData = {
+        Nombre: '',
+        Descripcion: '',
+        Codigo: '',
+        Hijos: null,
+        Padre: '',
+        UnidadEjecutora: '',
+      };
     }
-  }
-
-  receiveMessage($event) {
-    this.rubroSeleccionado = <Rubro>$event;
-    if (this.rubroSeleccionado.Hijos.length === 0) {
-      this.productos = true;
-    } else {
-      this.productos = false;
+    
+    ngOnInit() {
+      this.info_rubro = {} as Rubro;
     }
-    this.rubroSeleccionado.UnidadEjecutora = parseInt(this.rubroSeleccionado.UnidadEjecutora, 0);
+    
+    
+    
+    construirForm() {
+      this.formInfoRubro.btn = this.translate.instant('GLOBAL.guardar');
+      for (let i = 0; i < this.formInfoRubro.campos.length; i++) {
+        this.formInfoRubro.campos[i].label = this.formInfoRubro.campos[i].label_i18n;
+        this.formInfoRubro.campos[i].placeholder = this.formInfoRubro.campos[i].label_i18n;
+      }
+    }
+    
+    receiveMessage($event) {
+      this.rubroSeleccionado = <Rubro>$event;
+      if (this.rubroSeleccionado.Hijos.length === 0) {
+        this.productos = true;
+      } else {
+        this.productos = false;
+      }
+      this.CentroGestor = '230';
+      this.AreaFuncional = '0' + this.rubroSeleccionado.UnidadEjecutora + '-Rector';
+      this.rubroSeleccionado.UnidadEjecutora = parseInt(this.rubroSeleccionado.UnidadEjecutora, 0);
 
     const data = {
       RubroPadre: this.rubroSeleccionado.Codigo,
