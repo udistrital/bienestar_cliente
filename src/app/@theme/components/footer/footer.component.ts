@@ -1,7 +1,9 @@
+import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'ngx-footer',
@@ -46,9 +48,8 @@ export class FooterComponent {
         'presupuesto/../assets/images/pin-outline.svg'
         )
       );
-    //translate.setDefaultLang('es');
+    translate.setDefaultLang('es');
     translate.use('es');
-    //this.translate.use(this.translate.getBrowserLang());
   }
   ngOnInit(): void {
     this.translate.setDefaultLang('es');
