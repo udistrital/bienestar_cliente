@@ -4,7 +4,6 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'ngx-footer',
   styleUrls: ['./footer.component.scss'],
@@ -46,14 +45,9 @@ export class FooterComponent {
       'pin-outline',
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'presupuesto/../assets/images/pin-outline.svg'
-        )
-      );
-    translate.setDefaultLang('es');
-    translate.use('es');
-  }
-  ngOnInit(): void {
-    this.translate.setDefaultLang('es');
-    this.translate.use(this.translate.getBrowserLang());
+      )
+    );
+    translate.use(translate.getBrowserLang());
   }
 }
 
