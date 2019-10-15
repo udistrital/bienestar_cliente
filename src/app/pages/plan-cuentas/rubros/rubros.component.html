@@ -53,10 +53,13 @@
 
                       <div class="form-group">
                         <label>{{'GLOBAL.unidad-ejecutora' | translate }}</label>
-                        <input name="ue_rubro_seleccionado" type="number" class="form-control"
-                          [(ngModel)]="rubroSeleccionado.UnidadEjecutora" [readonly]="!editandoRubro" />
+                        <input name="ue_rubro_seleccionado" type="text" class="form-control" 
+                          [value]="AreaFuncional || ''" [readonly]="!editandoRubro" />
                       </div>
-
+                      <div class="form-group">
+                          <label>{{ "GLOBAL.centro_gestor" | translate }}</label>
+                          <input [value]="CentroGestor || ''" type="text" class="form-control" placeholder="" [readonly]="!editandoRubro" />
+                      </div>
                       <div class="form-group">
                         <label>{{'GLOBAL.nombre-rubro' | translate }}</label>
                         <input name="nombre_rubro_seleccionado" type="text" class="form-control"
