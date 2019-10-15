@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-footer',
@@ -10,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class FooterComponent {
   constructor(
     private matIconRegistry: MatIconRegistry,
+    private translate: TranslateService,
     private domSanitizer: DomSanitizer,
   ) {
     this.matIconRegistry.addSvgIcon(
@@ -43,6 +45,6 @@ export class FooterComponent {
         'presupuesto/../assets/images/pin-outline.svg'
       )
     );
-      }
-
+    translate.use(translate.getBrowserLang());
+  }
 }
