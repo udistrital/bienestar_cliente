@@ -23,7 +23,7 @@ export class ModApropiacionHelper {
 
     public modRegister(modificationData: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        modificationData.detail.CentroGestor = '1';
+        modificationData.detail.CentroGestor = '1'; // Tomer del TOKEN.
         console.table(modificationData);
         console.info(JSON.stringify(modificationData));
         return this.rqManager.post('modificacion_apropiacion', modificationData).pipe(

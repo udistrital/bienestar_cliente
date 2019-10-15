@@ -21,7 +21,7 @@ export class ShowModificationResumeComponent implements OnInit, OnChanges {
     ngOnInit() { }
 
     saveModification() {
-       
+
         this.modApropiacionHelper.modRegister(this.modificationData).subscribe(res => {
             if (res) {
                 this.popUpManager.showSuccessAlert('Movimiento Registrado Correctamente');

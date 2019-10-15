@@ -76,6 +76,9 @@ export class SetModificacionApropiacionComponent implements OnInit {
     }
 
     public async addModToList() {
+        const modType = this.modValueForm.value['modType'];
+
+        modType['Parametros'] = modType['Parametros'] ? JSON.stringify(modType['Parametros']) : undefined;
         const currentAprData: ModApropiationData = {
             Tipo: this.modValueForm.value['modType'],
             CuentaCredito: this.creditAccount,

@@ -94,9 +94,7 @@ export class ModificacionApropiacionComponent implements OnInit {
                     this.setModValidationForm.patchValue({
                         valid: null
                     });
-                    if (this.stepper.selectedIndex > this.previusStepIndex) {
-                        this.stepper.selectedIndex = this.previusStepIndex;
-                    }
+
                 }
             }
         });
