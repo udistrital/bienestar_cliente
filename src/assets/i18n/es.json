@@ -40,7 +40,7 @@
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
       "cdp": "C.Disponibilidad Presupuestal"
-    },    
+    },
     "auth": {
       "auth": "Autenticación",
       "login": "Iniciar sesión",
@@ -187,7 +187,8 @@
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
     "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
-    "apropiaciones": "Apropiaciones"
+    "apropiaciones": "Apropiaciones",
+    "title_gestion_preasignacion":"Gestión de Preasignación Inicial"
   },
   "MODIF": {
     "detalle_modificacion": "Detalle de la Modificación",
@@ -267,6 +268,17 @@
     "id-contratista": "Id Contratista",
     "nombre-contratista": "Nombre Contratista",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
+  },
+  "FOOTER": {
+    "dias_disponibilidad": "Lunes a Viernes",
+    "horario": "8am a 5pm",
+    "oas_sistema": "Sistema Integrado de Informática y Telecomunicaciones",
+    "telefono": "323 93 00",
+    "extension": "Ext. 1112",
+    "direccion": "Cra. 8 # 40 - 78",
+    "piso": "Piso 1",
+    "correo": "computo@udistrital.edu.co",
+    "oficina": "Oficina Asesora de Sistemas"
   },
   "_id": "ID",
   "Nombre": "Nombre",

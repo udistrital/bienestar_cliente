@@ -73,9 +73,9 @@ steps:
         from_secret: telegram_token
       to:
         from_secret: telegram_to
-    format: html
-    message: >
-      {{#success build.status}}
+      format: html
+      message: >
+        {{#success build.status}}
           <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
           <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
           <code> By:{{commit.author}}</code>
@@ -91,6 +91,3 @@ steps:
       status:
       - failure
       - success
-      event:
-      - push
-      - pull_request
