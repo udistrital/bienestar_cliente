@@ -26,6 +26,8 @@ export class ConsultaVigenciaComponent implements OnInit {
     { vigencia: 2017 },
     { vigencia: 2016 },
   ];
+  CentroGestor: string;
+  AreaFuncional: string;
 
   constructor(
   ) {
@@ -59,9 +61,11 @@ export class ConsultaVigenciaComponent implements OnInit {
 
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
-    // console.info(this.rubroSeleccionado);
+    console.info(this.rubroSeleccionado);
     this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
     this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
+    this.CentroGestor = '230';
+    this.AreaFuncional = '0' + this.rubroSeleccionado.UnidadEjecutora + '-Rector';
     this.rubroSeleccionado.UnidadEjecutora = parseInt(
       this.rubroSeleccionado.UnidadEjecutora,
       0,
