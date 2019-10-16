@@ -26,10 +26,20 @@
       "registro": "Registro",
       "comprobacion-apropiacion-inicial": "Comprobacion AI",
       "gestion_rubros": "Rubros Presupuestales",
-      "gestion_apropiaciones": "Apropiaciones Iniciales",
+      "gestion_apropiaciones": "Preasignación Inicial",
       "gestion_fuentes": "Fuentes de Financiamiento",
-      "gestion_productos": "Productos",
-      "gestion_crp": "Gestión de CRP"
+      "gestion_productos": "Productos"
+    },
+    "gestion_crp": {
+      "gestion_crp": "Gestión de CRP",
+      "solicitud_crp": "Solicitud CRP",
+      "crp": "C.Registro Presupuestal"
+    },
+
+    "gestion_cdp": {
+      "gestion_cdp": "Gestión de CDP",
+      "solicitud_cdp": "Solicitud CDP",
+      "cdp": "C.Disponibilidad Presupuestal"
     },
     "auth": {
       "auth": "Autenticación",
@@ -88,6 +98,7 @@
     "buscar": "Buscar",
     "registrar-rubro": "Registrar rubro",
     "add-nodo": "Añadir nodo",
+    "add-grupo": "Crear Grupo",
     "operacion_exitosa": "Operación Exitosa",
     "info": "Info",
     "aceptar": "Aceptar",
@@ -147,7 +158,6 @@
     "placeholder_vigencia": "Vigencia",
     "placeholder_area_funcional": "",
     "placeholder_centro_gestor": ""
-
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -177,7 +187,8 @@
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
     "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
-    "apropiaciones": "Apropiaciones"
+    "apropiaciones": "Apropiaciones",
+    "title_gestion_preasignacion":"Gestión de Preasignación Inicial"
   },
   "MODIF": {
     "detalle_modificacion": "Detalle de la Modificación",
@@ -258,8 +269,17 @@
     "nombre-contratista": "Nombre Contratista",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
   },
-
-
+  "FOOTER": {
+    "dias_disponibilidad": "Lunes a Viernes",
+    "horario": "8am a 5pm",
+    "oas_sistema": "Sistema Integrado de Informática y Telecomunicaciones",
+    "telefono": "323 93 00",
+    "extension": "Ext. 1112",
+    "direccion": "Cra. 8 # 40 - 78",
+    "piso": "Piso 1",
+    "correo": "computo@udistrital.edu.co",
+    "oficina": "Oficina Asesora de Sistemas"
+  },
   "_id": "ID",
   "Nombre": "Nombre",
   "ApropiacionInicial": "Valor Apropiación Inicial",

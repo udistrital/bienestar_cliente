@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col-md-8 col-lg-8 col-xxxl-8">
             <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
-              [optionSelect]="optionView"> </ngx-arbol>
+            [optionSelect]="optionView"> </ngx-arbol>
           </div>
           <div class="col-md-4 col-lg-4 col-xxxl-4">
             <mat-tab-group>
@@ -18,30 +18,34 @@
                   </nb-card-header>
                   <nb-card-body>
                     <ngx-dinamicform [normalform]="formInfoRubro" [modeloData]="info_rubro"
-                      (result)="validarForm($event)" [clean]="clean">
-                    </ngx-dinamicform>
-                    <div class="row">
-                      <div class="col">
-                        <button type="submit" class="btn btn-success btn-block" (click)="aniadirNodo()">
-                          {{'GLOBAL.cancelar' | translate }}
-                        </button>
-                      </div>
-                      <div class="col">
-                        <button type="submit" class="btn btn-success btn-block" (click)="cleanForm()">
-                          {{'GLOBAL.limpiar' | translate }}
-                        </button>
-                      </div>
+                    (result)="validarForm($event)" [clean]="clean">
+                  </ngx-dinamicform>
+                  <div class="row">
+                    <div class="col">
+                      <button type="submit" class="btn btn-success btn-block" (click)="aniadirNodo()">
+                        {{'GLOBAL.cancelar' | translate }}
+                      </button>
                     </div>
-                  </nb-card-body>
-                </nb-card>
+                    <div class="col">
+                      <button type="submit" class="btn btn-success btn-block" (click)="cleanForm()">
+                        {{'GLOBAL.limpiar' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </nb-card-body>
+              </nb-card>
+              
+              <!-- form detalle rubro -->
+              
+              <nb-card *ngIf="!insertarRubro">
 
-                <!-- form detalle rubro -->
-
-                <nb-card *ngIf="!insertarRubro">
-                  <nb-card-header>{{'GLOBAL.detalle-rubro' | translate }}</nb-card-header>
-                  <nb-card-body>
-                    <form>
-                      <div class="form-group">
+                <nb-card-header>
+                  <button type="submit" class="btn btn-success btn-block" (click)="cleanForm(); aniadirNodo();">
+                    {{'GLOBAL.add-grupo' | translate }}
+                  </button>{{'GLOBAL.detalle-rubro' | translate }}</nb-card-header>
+                <nb-card-body>
+                  <form>
+                    <div class="form-group">
                         <label>{{'GLOBAL.codigo-rubro' | translate }}</label>
                         <input name="codigo_rubro_seleccionado" type="text" class="form-control"
                           [value]="rubroSeleccionado.Codigo || ''" disabled />
@@ -49,10 +53,13 @@
 
                       <div class="form-group">
                         <label>{{'GLOBAL.unidad-ejecutora' | translate }}</label>
-                        <input name="ue_rubro_seleccionado" type="number" class="form-control"
-                          [(ngModel)]="rubroSeleccionado.UnidadEjecutora" [readonly]="!editandoRubro" />
+                        <input name="ue_rubro_seleccionado" type="text" class="form-control" 
+                          [value]="AreaFuncional || ''" [readonly]="!editandoRubro" />
                       </div>
-
+                      <div class="form-group">
+                          <label>{{ "GLOBAL.centro_gestor" | translate }}</label>
+                          <input [value]="CentroGestor || ''" type="text" class="form-control" placeholder="" [readonly]="!editandoRubro" />
+                      </div>
                       <div class="form-group">
                         <label>{{'GLOBAL.nombre-rubro' | translate }}</label>
                         <input name="nombre_rubro_seleccionado" type="text" class="form-control"

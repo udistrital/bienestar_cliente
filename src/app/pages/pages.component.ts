@@ -79,12 +79,13 @@ export class PagesComponent implements OnInit {
                 } else {
                   this.object = {
                     title: this.dataMenu[i].Nombre,
-                    icon: '',
+                    icon: 'file-text',
                     link: this.dataMenu[i].Url,
                     home: false,
                     key: this.dataMenu[i].Nombre,
                     children: [],
                   };
+                  console.info(this.dataMenu[i]);
                 }
                 if (i === 0) {
                   this.object.title = 'Dashboard';

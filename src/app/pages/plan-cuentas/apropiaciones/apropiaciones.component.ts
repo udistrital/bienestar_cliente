@@ -32,6 +32,8 @@ export class ApropiacionesComponent implements OnInit {
     { vigencia: 2016 },
   ];
   balanceado: boolean;
+  AreaFuncional: string;
+  CentroGestor: string;
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -80,6 +82,8 @@ export class ApropiacionesComponent implements OnInit {
       // console.info(this.rubroSeleccionado);
       this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
       this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
+      this.CentroGestor = '230';
+      this.AreaFuncional = '0' + this.rubroSeleccionado.UnidadEjecutora + '-Rector';
       this.rubroSeleccionado.UnidadEjecutora = parseInt(
         this.rubroSeleccionado.UnidadEjecutora,
         0,

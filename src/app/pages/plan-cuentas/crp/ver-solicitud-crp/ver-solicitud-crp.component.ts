@@ -33,31 +33,31 @@ export class VerSolicitudCrpComponent implements OnInit {
   ngOnInit() {
 
     this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-      const cdpInfo = resCdp;  
+      const cdpInfo = resCdp;
       this.cdpHelper.getNecesidadAdm(cdpInfo.necesidad).subscribe(res => {
         const nec_adm = res;
         this.cdpHelper.getNecesidadPC(cdpInfo.necesidad).subscribe(nec_pc => {
-          this.necesidad = {...nec_adm, ...nec_pc};
+          this.necesidad = { ...nec_adm, ...nec_pc };
           this.cdpData = cdpInfo;
         });
-      }); 
-    })
+      });
+    });
 
   }
 
 
-  cambioTab () {
+  cambioTab() {
     this.eventChange.emit(false);
   }
 
   expedirCRP(consecutivo) {
     this.popManager.showAlert('warning', 'Expedir CRP', '¿está seguro?')
-    .then((result) => {
-      if (result.value) {
-        this.router.navigate(['/pages/plan-cuentas/crp']);
-        // TODO usar el endpoint de expedir cdp cuando se implemente el mismo
-      }
-    });
+      .then((result) => {
+        if (result.value) {
+          this.router.navigate(['/pages/plan-cuentas/crp']);
+          // TODO usar el endpoint de expedir cdp cuando se implemente el mismo
+        }
+      });
   }
 
   mostrarPDF(consecutivo) {

@@ -88,7 +88,8 @@ import {
 } from '@angular/material';
 import { SafeurlPipe } from './pipes/safeurl.pipe';
 import { PDFviewerComponent } from './components/pdfviewer/pdfviewer.component';
-
+import { SharedModule } from '../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -181,8 +182,8 @@ const NB_THEME_PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES, Ng2SmartTableModule],
-  exports: [CommonModule, FormsModule, ReactiveFormsModule, ...PIPES, ...COMPONENTS, ...MAT_MODULES],
+  imports: [SharedModule, CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES, Ng2SmartTableModule],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, ...PIPES, ...COMPONENTS, ...MAT_MODULES],
   declarations: [...COMPONENTS, ...PIPES, DinamicformComponent, ListEntityComponent, CrudEntityComponent],
 })
 export class ThemeModule {

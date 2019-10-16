@@ -7,9 +7,9 @@
       {{
         "GLOBAL.vigencia" | translate
       }}
-      {{
-        vigenciaSel
-      }}             
+      <nb-select id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="VigenciaActual">
+        <nb-option *ngFor="let v of vigencias" [value]="v" (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
+      </nb-select>                   
     </nb-card-header>
     <div class="row">
       <div class="col-md-12">
@@ -42,12 +42,12 @@
                       <label>{{
                           "GLOBAL.unidad-ejecutora" | translate
                         }}</label>
-                      <input type="text" class="form-control" placeholder="Centro Gestor"
-                        [value]="rubroSeleccionado.UnidadEjecutora" readonly />
+                      <input type="text" class="form-control" placeholder=""
+                        [value]="AreaFuncional || ''" readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.centro_gestor" | translate }}</label>
-                      <input type="text" class="form-control" placeholder="centro_gestor" readonly />
+                      <input [value]="CentroGestor || ''" type="text" class="form-control" placeholder="" readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.descripcion" | translate }}</label>

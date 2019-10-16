@@ -26,6 +26,7 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   constructor(private translate: TranslateService,
     private crpHelper: CRPHelper,
+    // tslint:disable-next-line
     private rqManager: RequestManager, ) { }
 
   ngOnInit() {
@@ -98,11 +99,11 @@ export class ListSolicitudCrpComponent implements OnInit {
   }
 
   onCambiotab(): void {
-    this.cambiotab = !this.cambiotab ;
+    this.cambiotab = !this.cambiotab;
   }
 
   onCustom(event: any) {
-    
+
     switch (event.action) {
       case 'Ver':
         this.verSolicitud(event.data);
