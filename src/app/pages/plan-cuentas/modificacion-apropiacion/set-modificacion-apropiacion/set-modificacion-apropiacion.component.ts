@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormManager } from '../../../../@core/managers/formManager';
 import { ModApropiacionHelper } from '../../../../@core/helpers/modApropiacionHelper';
-import { ModType, ModApropiationData } from '../../../../@core/interfaces/modificationInterface';
+import { ModApropiationData } from '../../../../@core/interfaces/modificationInterface';
 import { ArbolRubroApropiacionInterface } from '../../../../@core/interfaces/arbolRubroApropiacionInterface';
 import { TypeGeneral } from '../../../../@core/interfaces/TypeGeneralInterface';
 
