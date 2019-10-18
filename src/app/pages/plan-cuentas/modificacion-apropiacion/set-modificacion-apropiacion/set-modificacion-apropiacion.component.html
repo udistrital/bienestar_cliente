@@ -46,15 +46,18 @@
             </form>
           </div>
           <div class="tree-view-item" *ngIf="showAprSelection">
-            <ngx-arbol (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="'2019'"
+            <ngx-arbol (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="vigenciaActual"
               [optionSelect]="'ApropiacionesEstado'"></ngx-arbol>
           </div>
         </div>
       </nb-tab>
       <nb-tab tabTitle="{{'GLOBAL.resumen' | translate }}" *ngIf="aprAfectation && aprAfectation.length > 0">
-        <ngx-show-modification-afectation [(afectationData)]="aprAfectation" (afectationDataChange)="getDataEvent()"></ngx-show-modification-afectation>
+        <ngx-show-modification-afectation [(afectationData)]="aprAfectation" (afectationDataChange)="getDataEvent(false)"></ngx-show-modification-afectation>
+        <ngx-comprobacion-apropiacion-inicial [afectationData]="aprAfectation" (comprobacion)='checkComprobacion($event)' [vigencia]="vigenciaActual"
+              [updateSignal]="eventChange">
+            </ngx-comprobacion-apropiacion-inicial>
       </nb-tab>
     </nb-tabset>
-    <button [disabled]="!aprAfectation || aprAfectation.length === 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent()">{{'GLOBAL.siguiente_abr' | translate }}</button>
+    <button [disabled]="!balanceado || !aprAfectation || aprAfectation.length === 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent(true)">{{'GLOBAL.siguiente_abr' | translate }}</button>
   </nb-card-body>
 </nb-card>

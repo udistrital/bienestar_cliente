@@ -15,7 +15,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
     @Input() aprAfectation: Array<ModApropiationData>;
     @Output() aprAfectationChange: EventEmitter<Array<ModApropiationData>> = new EventEmitter();
     @Output() setStepValidationEvent: EventEmitter<any> = new EventEmitter();
-
+    @Output() eventChange = new EventEmitter();
     apropiacionFormStruct: any = {
         valid: true,
     };
@@ -35,6 +35,8 @@ export class SetModificacionApropiacionComponent implements OnInit {
     accountTypeSelected: string;
     creditAccount: ArbolRubroApropiacionInterface;
     cnCreditAccount: ArbolRubroApropiacionInterface;
+    balanceado: boolean = false;
+    vigenciaActual: number;
 
 
     constructor(private modHelper: ModApropiacionHelper) {
@@ -87,6 +89,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
         };
 
         this.aprAfectation.push(currentAprData);
+        this.eventChange.emit(true);
         await this.cleanData();
     }
 
@@ -99,7 +102,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
         this.modValueForm = FormManager.BuildGroupForm(this.modValueFormStruct);
         this.modValueForm.controls['credAccount'].disable();
         this.accountTypeSelected = '';
-
+        this.vigenciaActual = 2019;
         this.modValueForm.controls['modType'].valueChanges.subscribe((selected: TypeGeneral) => {
             if (selected.Parametros) {
                 selected.Parametros = JSON.parse(selected.Parametros);
@@ -121,7 +124,20 @@ export class SetModificacionApropiacionComponent implements OnInit {
 
     }
 
-    public getDataEvent() {
-        this.setStepValidationEvent.emit(this.aprAfectation);
+    public getDataEvent(changeStep) {
+        this.setStepValidationEvent.emit({
+            afectation: this.aprAfectation,
+            balanced: this.balanceado,
+            changeStep,
+        });
+    }
+
+    checkComprobacion(event: boolean) {
+        this.balanceado = event;
+        this.setStepValidationEvent.emit({
+            afectation: this.aprAfectation,
+            balanced: this.balanceado,
+            changeStep: false,
+        });
     }
 }

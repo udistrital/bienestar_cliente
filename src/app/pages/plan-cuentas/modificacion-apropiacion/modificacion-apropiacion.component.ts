@@ -24,6 +24,7 @@ export class ModificacionApropiacionComponent implements OnInit {
     setModValidationForm: FormGroup;
     previusStepIndex: number;
     modifiactionFinalData: object;
+    checkAfectationFinalData: object;
     ngOnInit() {
         this.detalleValidationForm = new FormGroup({
             valid: new FormControl(null, Validators.required),
@@ -73,7 +74,7 @@ export class ModificacionApropiacionComponent implements OnInit {
                     this.formDetalleValidFlag = !this.formDetalleValidFlag;
                     break;
                 case 1:
-                    this.setSteppValidator(this.modifiactionFinalData['afectation']);
+                    this.setSteppValidator(this.checkAfectationFinalData);
                     break;
                 default:
                     break;
@@ -81,21 +82,28 @@ export class ModificacionApropiacionComponent implements OnInit {
         });
     }
 
-    public setSteppValidator($event: Array<any> = []) {
+    public setSteppValidator($event: object) {
         setTimeout(() => {
             if ($event) {
-                this.modifiactionFinalData['afectation'] = $event;
-                if ($event.length > 0) {
-                    this.setModValidationForm.patchValue({
-                        valid: true
-                    });
-                    this.stepper.next();
-                } else {
-                    this.setModValidationForm.patchValue({
-                        valid: null
-                    });
+                this.checkAfectationFinalData = $event;
+                console.table(this.checkAfectationFinalData);
+                if (this.checkAfectationFinalData['afectation']) {
+                    this.modifiactionFinalData['afectation'] = this.checkAfectationFinalData['afectation'];
+                    if (this.checkAfectationFinalData['afectation'].length > 0 && this.checkAfectationFinalData['balanced'] && this.checkAfectationFinalData['balanced'] === true) {
+                        this.setModValidationForm.patchValue({
+                            valid: true
+                        });
+                        if (this.checkAfectationFinalData['changeStep']) {
+                            this.stepper.next();
+                        }
+                    } else {
+                        this.setModValidationForm.patchValue({
+                            valid: null
+                        });
 
+                    }
                 }
+
             }
         });
 
