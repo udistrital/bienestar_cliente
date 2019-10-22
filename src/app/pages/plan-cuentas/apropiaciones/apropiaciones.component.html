@@ -21,6 +21,8 @@
           </div>
 
           <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
+              <mat-tab-group>
+                  <mat-tab label="{{'GLOBAL.rubro' | translate }}">
             <div class="container-fluid">
               <nb-card>
                 <nb-card-header>{{
@@ -59,6 +61,19 @@
                 </nb-card-body>
               </nb-card>
             </div>
+          </mat-tab>
+          <mat-tab *ngIf="productos" label="{{'GLOBAL.productos' | translate }}">
+              <!-- productos -->
+
+              <div class="row" *ngIf="true">
+                <div class="col-md-12">
+                  <ngx-productos-rubro [productosAsignados]="listaProductosAsignados"
+                    (cambioListaProductosAsignados)="cambioProductosAsignados($event)"></ngx-productos-rubro>
+                  <!-- <pre>{{listaProductosAsignados | json}}</pre> -->
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
             <div class="container-fluid">
               <nb-card>
                 <nb-card-header>{{ "GLOBAL.detalle-apropiacion-inicial" | translate }}

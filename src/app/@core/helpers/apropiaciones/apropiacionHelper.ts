@@ -57,6 +57,33 @@ export class ApropiacionHelper {
 
 
     }
+    /**
+       * Apropiacion Producto update
+       * If the response has errors in the OAS API it should show a popup message with an error.
+       * If the response suceed, it returns the data of the updated object.
+       * @param apropiacionData object to save in the DB
+       * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+       */
+    public apropiacionProductoUpdate(apropiacionData) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
+        apropiacionData.Organizacion = '1';
+        console.info(apropiacionData.Vigencia);
+
+        return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
+            apropiacionData).pipe(
+                map(
+                    (res) => {
+                        if (res['Type'] === 'error') {
+                            this.pUpManager.showErrorAlert('No se pudo actualizar la información del producto al rubro seleccionado.');
+                            return undefined;
+                        }
+                        return res;
+                    },
+                ),
+            );
+
+    }
 
     /**
        * Apropiacion Inicial Update

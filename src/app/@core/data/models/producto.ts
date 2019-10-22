@@ -4,4 +4,5 @@ export class Producto {
     Descripcion: string;
     FechaCreacion: string;
     FechaModificacion: string;
+    Porcentaje: number;
 }

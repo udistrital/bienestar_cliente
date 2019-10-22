@@ -28,7 +28,8 @@
       "gestion_rubros": "Rubros Presupuestales",
       "gestion_apropiaciones": "Preasignación Inicial",
       "gestion_fuentes": "Fuentes de Financiamiento",
-      "gestion_productos": "Productos"
+      "gestion_productos": "Productos",
+      "gestion_modificaciones_apropiaciones":  "Modificaciones Presupuestales"
     },
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
