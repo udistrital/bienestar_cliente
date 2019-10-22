@@ -6,7 +6,7 @@ export class FuenteFinanciamiento {
     FechaModificacion: Date;
     Activo: boolean = true;
     TipoFuente: string;
-    ValorOriginal: number;
+    ValorInicial: number;
     ValorAcumulado: number;
     NumeroDocumento: string;
     TipoDocumento: string;

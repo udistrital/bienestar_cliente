@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { HttpErrorManager } from './errorManager';
-
 /**
  * This class manage the http connections with internal REST services. Use the response format {
  *  Code: 'xxxxx',
@@ -109,6 +108,12 @@ export class RequestManager {
    * @returns Observable<any>
    */
   delete(endpoint, id) {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
+      }),
+    };
     return this.http.delete<any>(`${this.path}${endpoint}/${id}`, this.httpOptions).pipe(
       catchError(this.errManager.handleError),
     );

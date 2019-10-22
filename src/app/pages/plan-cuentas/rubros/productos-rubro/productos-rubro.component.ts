@@ -1,4 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { Producto } from '../../../../@core/data/models/producto';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -17,6 +21,7 @@ export class ProductosRubroComponent implements OnInit {
 
   entrarEditar: boolean;
   editando: boolean;
+  isValidFormSubmitted = null;
 
   // comunicacion:
 
@@ -29,9 +34,16 @@ export class ProductosRubroComponent implements OnInit {
   }
   @Output() cambioListaProductosAsignados = new EventEmitter<any[]>();
 
+  minNum = 0;
+  maxNum = 100;
+  
+  productForm = this.formBuilder.group({
+    porcentaje: ['', [Validators.required, Validators.min(this.minNum), Validators.max(this.maxNum)]]
+  });
+  
+  producto = new Producto();
 
-
-  constructor() {
+  constructor(private formBuilder: FormBuilder, private apHelper: ApropiacionHelper,) {
     this.editando = false;
     this.entrarEditar = false;
     this.productos = [{ id: 1, Nombre: 'p1' }, { id: 2, Nombre: 'p2' }, { id: 2, Nombre: 'p3' }, { id: 2, Nombre: 'p4' }];
@@ -51,13 +63,14 @@ export class ProductosRubroComponent implements OnInit {
 
 
   agregarProducto() {
+    console.info(this.productForm.get('porcentaje').value);
     if (this.listaProductosAsignados.filter(
       (prod) => {
         return (JSON.stringify(prod.producto) === JSON.stringify(this.productoSeleccionado.producto));
       }).length === 0) {
       this.listaProductosAsignados.push({
         producto: this.productoSeleccionado.producto,
-        porcentaje: this.productoSeleccionado.porcentaje,
+        porcentaje: this.productForm.get('porcentaje').value,
       });
       this.cambioListaProductosAsignados.emit(this.listaProductosAsignados);
     } else alert('el producto ya esta asignado');
@@ -76,7 +89,7 @@ export class ProductosRubroComponent implements OnInit {
       (prod) => {
         if (prod === this.productoSeleccionado) {
           prod.producto = this.productoSeleccionado.producto;
-          prod.porcentaje = this.productoSeleccionado.porcentaje;
+          prod.porcentaje = this.productForm.get('porcentaje').value;
         }
       },
     );
@@ -110,5 +123,20 @@ export class ProductosRubroComponent implements OnInit {
     }
 
   }
+  get porcentaje() {
+    return this.productForm.get('porcentaje');
+ }
 
+
+onFormSubmit() {
+  this.isValidFormSubmitted = false;
+  if (this.productForm.invalid) {
+     return;
+  }
+  this.isValidFormSubmitted = true;
+  this.producto = this.productForm.value;
+  // this.apHelper.apropiacionProductoUpdate(this.producto);
+  this.producto = new Producto();
+  this.productForm.reset();
+}
 }
