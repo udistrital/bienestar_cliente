@@ -24,6 +24,8 @@ export class ApropiacionesComponent implements OnInit {
   opcion: string;
   VigenciaActual = '2020';
   optionView: string;
+  productos: boolean = false;
+  listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
   vigencias: any[] = [
     { vigencia: 2020 },
     { vigencia: 2019 },
@@ -90,8 +92,10 @@ export class ApropiacionesComponent implements OnInit {
       );
       this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
       this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
+      this.productos = true;
     } else {
       this.isLeaf = false;
+      this.productos = false;
     }
   }
 
@@ -168,6 +172,9 @@ export class ApropiacionesComponent implements OnInit {
 
   checkComprobacion(event: boolean) {
     this.balanceado = event;
+  }
+  cambioProductosAsignados(productosAsignados: any[]) {
+    this.listaProductosAsignados = productosAsignados;
   }
 
 }

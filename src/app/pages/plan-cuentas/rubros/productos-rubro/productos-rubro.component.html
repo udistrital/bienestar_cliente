@@ -40,19 +40,24 @@
           <input *ngIf="entrarEditar" type="text" class="form-control" [value]="productoSeleccionado.producto.Nombre || ''" disabled />
         </td>
         <td>
-          <input type="number" name="porcentajeAsignado" min="1" max="100" id="porcentajeAsignado" class="form-control"
-            onkeydown="return false" [(ngModel)]="productoSeleccionado.porcentaje"></td>
-        <td>
-          <button *ngIf="!entrarEditar" (click)="agregarProducto($event)"
-            class="btn btn-outline-primary col-md-12">{{'RUBRO.add-producto' | translate}}</button>
-          <button *ngIf="entrarEditar" (click)="editarProducto()"
+          <form [formGroup]="productForm" (submit)="onFormSubmit()">
+            <input formControlName="porcentaje" type="number" name="porcentajeAsignado" id="porcentajeAsignado" class="form-control"
+            >
+            <npx-control-messages [control]="productForm.get('porcentaje')"></npx-control-messages>
+          </form>
+          </td>
+          <td>
+            <button *ngIf="!entrarEditar" (click)="agregarProducto()"
+            class="btn btn-outline-primary col-md-12" [disabled]="!productForm.valid">{{'RUBRO.add-producto' | translate}}</button>
+            <button *ngIf="entrarEditar" (click)="editarProducto()"
             class="btn btn-outline-success col-md-12">{{'RUBRO.edit-producto' | translate}}</button>
-
-        </td>
+            
+          </td>
       </tr>
     </tbody>
 
   </table>
+
   <!-- <pre>{{listaProductosAsignados | json}}</pre>-----------------------------
   <pre>{{productoSeleccionado | json}}</pre> -->
 
