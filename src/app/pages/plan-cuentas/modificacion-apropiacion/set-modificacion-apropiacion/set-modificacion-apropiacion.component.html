@@ -13,7 +13,7 @@
                     --Seleccionar--
                   </mat-option>
                   <mat-option *ngFor="let modType of modTypes" [value]="modType">
-                    {{modType.Label}}
+                    {{modType.Nombre}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -28,7 +28,7 @@
                 <span *ngIf="creditAccount"><b>{{'GLOBAL.saldo' | translate }} : {{creditAccount.ApropiacionInicial}}</b></span>
               </mat-form-field>
 
-              <mat-form-field class="mod-registration-input-item" floatLabel="always" *ngIf="modTypeSelected  && modTypeSelected['Params']['CuentaContraCredito']" >
+              <mat-form-field class="mod-registration-input-item" floatLabel="always" *ngIf="modTypeSelected  && modTypeSelected['Parametros'] && modTypeSelected['Parametros']['CuentaContraCredito']" >
                 <mat-label>{{'MODIF.cuenta_contra_credito' | translate }}</mat-label>
                 <input matInput placeholder="{{'MODIF.cuenta_contra_credito' | translate }}" formControlName="cnCredAccount" disabled>
                 <span matPrefix><button mat-button (click)="accountSelection('contraCredito')">{{'GLOBAL.seleccionar' | translate }}</button></span>
@@ -39,7 +39,6 @@
                 floatLabel="always">
                 <mat-label>{{'GLOBAL.valor' | translate }}</mat-label>
                 <input matInput currencyMask placeholder="{{'GLOBAL.valor' | translate }}" class="moneyField" type="text" formControlName="value"/>
-                <span matPrefix>$</span>
               </mat-form-field>
 
               <button mat-button class="mod-registration-input-item button-success" type="submit" (click)="addModToList()" [disabled]="!modValueForm.valid">{{'GLOBAL.agregar' | translate }}</button>
@@ -47,15 +46,18 @@
             </form>
           </div>
           <div class="tree-view-item" *ngIf="showAprSelection">
-            <ngx-arbol (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="'2019'"
+            <ngx-arbol (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="vigenciaActual"
               [optionSelect]="'ApropiacionesEstado'"></ngx-arbol>
           </div>
         </div>
       </nb-tab>
       <nb-tab tabTitle="{{'GLOBAL.resumen' | translate }}" *ngIf="aprAfectation && aprAfectation.length > 0">
-        <ngx-show-modification-afectation [(afectationData)]="aprAfectation" (afectationDataChange)="getDataEvent()"></ngx-show-modification-afectation>
+        <ngx-show-modification-afectation [(afectationData)]="aprAfectation" (afectationDataChange)="getDataEvent(false)"></ngx-show-modification-afectation>
+        <ngx-comprobacion-apropiacion-inicial [afectationData]="aprAfectation" (comprobacion)='checkComprobacion($event)' [vigencia]="vigenciaActual"
+              [updateSignal]="eventChange">
+            </ngx-comprobacion-apropiacion-inicial>
       </nb-tab>
     </nb-tabset>
-    <button [disabled]="!aprAfectation || aprAfectation.length === 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent()">{{'GLOBAL.siguiente_abr' | translate }}</button>
+    <button [disabled]="!balanceado || !aprAfectation || aprAfectation.length === 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent(true)">{{'GLOBAL.siguiente_abr' | translate }}</button>
   </nb-card-body>
 </nb-card>

@@ -20,6 +20,7 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   @Output() comprobacion = new EventEmitter();
   @Input() vigencia: string;
   @Input() updateSignal: Observable<string[]>;
+  @Input() afectationData: any;
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -27,7 +28,10 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   }
 
   actualizar() {
-    this.apHelper.getRootsBalance(parseInt(this.vigencia, 0)).subscribe(comprobacion => {
+    const afectationObject = {
+      Afectation: this.afectationData,
+    };
+    this.apHelper.getRootsBalance(parseInt(this.vigencia, 0), afectationObject).subscribe(comprobacion => {
       this.ingresos = comprobacion['totalIngresos'];
       this.egresos = comprobacion['totalGastos'];
       this.balanceado = comprobacion['balanceado'];
@@ -37,17 +41,21 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   }
 
   ngOnChanges(changes) {
-    if (changes['updateSignal'] && this.updateSignal) {
+    console.info('changeeeee', changes);
 
+    if (changes['updateSignal'] && this.updateSignal) {
       this.updateSignal.subscribe(() => {
         this.actualizar();
       });
     }
+    if (changes['afectationData']) {
+      this.afectationData = changes['afectationData'].currentValue;
+      this.actualizar();
+    }
     if (changes.vigencia !== undefined) {
       if (changes.vigencia.currentValue !== undefined) {
-        console.info(changes.vigencia.currentValue);
-          this.vigencia = changes.vigencia.currentValue;
-          this.actualizar();
+        this.vigencia = changes.vigencia.currentValue;
+        this.actualizar();
       }
     }
   }
