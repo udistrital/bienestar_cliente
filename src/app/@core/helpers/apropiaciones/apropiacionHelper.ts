@@ -122,9 +122,10 @@ export class ApropiacionHelper {
 
 
 
-    public getRootsBalance(vigencia: number) {
+    public getRootsBalance(vigencia: number, afectationObj?: any) {
         const unidadEjecutora = 1;
-        return this.rqManager.get(`arbol_rubro_apropiacion/comprobar_balance/${unidadEjecutora.toString()}/${vigencia}`);
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.post(`modificacion_apropiacion/simulacion_afectacion_modificacion/${unidadEjecutora.toString()}/${vigencia}`, afectationObj);
 
     }
 

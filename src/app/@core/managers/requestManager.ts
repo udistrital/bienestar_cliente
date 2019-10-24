@@ -73,6 +73,16 @@ export class RequestManager {
   post(endpoint, element) {
     return this.http.post<any>(`${this.path}${endpoint}`, element, this.httpOptions).pipe(
       catchError(this.errManager.handleError),
+      map(
+        (res) => {
+
+          if (res && res.hasOwnProperty('Body')) {
+            return res['Body'];
+          } else {
+            return res;
+          }
+        },
+      ),
     );
   }
 
