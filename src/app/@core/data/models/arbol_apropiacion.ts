@@ -1,4 +1,5 @@
 import { Rubro } from './rubro';
+import { Producto } from './producto';
 
 export class ArbolApropiacion {
     Rubro: Rubro;
@@ -12,4 +13,5 @@ export class ArbolApropiacion {
     UnidadEjecutora: string;
     Padre: string;
     Hijos: Array<string>;
+    Productos: Array<Producto>;
 }

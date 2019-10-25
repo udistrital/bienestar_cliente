@@ -4,7 +4,7 @@ import { ValidationService } from '../../../@core/data/validators.service';
 
 @Component({
   selector: 'npx-control-messages',
-  template: `<div *ngIf="errorMessage !== null"></div>`
+  template: `<div *ngIf="errorMessage !== null" class="alert alert-danger">{{errorMessage}}</div>`
 })
 export class ControlMessages {
   

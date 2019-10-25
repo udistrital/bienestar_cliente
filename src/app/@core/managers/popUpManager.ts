@@ -49,6 +49,15 @@ export class PopUpManager {
         });
     }
 
+    public showSuccessTemplate(template) {
+        Swal.fire({
+            type: 'success',
+            title: this.translate.instant('GLOBAL.operacion_exitosa'),
+            html: template,
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        });
+    }
+
     public showErrorAlert(text) {
         Swal.fire({
             type: 'error',

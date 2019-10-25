@@ -1,11 +1,12 @@
 <div class="col-md-12">
   <h3>Productos</h3>
+  <npx-control-messages [control]="productForm.get('porcentaje')"></npx-control-messages>
   <!-- para cada uno de los productos asignados -->
   <table class="table table-hover">
     <thead class="thead-dark">
       <th scope="col">{{'GLOBAL.producto' | translate}}</th>
       <th scope="col">{{'GLOBAL.porcentaje' | translate}}</th>
-      <th scope="col">{{'RUBRO.edit-producto' | translate}}</th>
+      <th scope="col">{{'GLOBAL.editar' | translate}}</th>
       <th scope="col">{{'GLOBAL.quitar_producto' | translate}}</th>
     </thead>
     <tbody>
@@ -43,14 +44,13 @@
           <form [formGroup]="productForm" (submit)="onFormSubmit()">
             <input formControlName="porcentaje" type="number" name="porcentajeAsignado" id="porcentajeAsignado" class="form-control"
             >
-            <npx-control-messages [control]="productForm.get('porcentaje')"></npx-control-messages>
           </form>
           </td>
           <td>
             <button *ngIf="!entrarEditar" (click)="agregarProducto()"
-            class="btn btn-outline-primary col-md-12" [disabled]="!productForm.valid">{{'RUBRO.add-producto' | translate}}</button>
+            class="btn btn-outline-primary col-md-12" [disabled]="!productForm.valid"> {{'RUBRO.add-producto' | translate}}</button>
             <button *ngIf="entrarEditar" (click)="editarProducto()"
-            class="btn btn-outline-success col-md-12">{{'RUBRO.edit-producto' | translate}}</button>
+            class="btn btn-outline-success col-md-12"[disabled]="!productForm.valid"> {{'RUBRO.edit-producto' | translate}}</button>
             
           </td>
       </tr>

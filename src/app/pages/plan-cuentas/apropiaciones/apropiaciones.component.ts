@@ -25,7 +25,10 @@ export class ApropiacionesComponent implements OnInit {
   VigenciaActual = '2020';
   optionView: string;
   productos: boolean = false;
-  listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
+  habilitarProductos: boolean = false;
+/*   listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
+ */  
+  listaProductosAsignados = [];
   vigencias: any[] = [
     { vigencia: 2020 },
     { vigencia: 2019 },
@@ -68,6 +71,7 @@ export class ApropiacionesComponent implements OnInit {
       UnidadEjecutora: '',
       Padre: '',
       Hijos: [],
+      Productos: []
     };
 
   }
@@ -80,7 +84,7 @@ export class ApropiacionesComponent implements OnInit {
   receiveMessage($event) {
     if ($event.Hijos.length === 0) {
       this.isLeaf = true;
-      this.rubroSeleccionado = <Rubro>$event;
+      this.rubroSeleccionado = <ArbolApropiacion>$event;
       // console.info(this.rubroSeleccionado);
       this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
       this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
@@ -92,10 +96,11 @@ export class ApropiacionesComponent implements OnInit {
       );
       this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
       this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
-      this.productos = true;
+      /* this.productos = true; */
+      this.listaProductosAsignados = this.rubroSeleccionado.Productos;
     } else {
       this.isLeaf = false;
-      this.productos = false;
+      /* this.productos = false; */
     }
   }
 
