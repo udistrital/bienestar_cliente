@@ -101,17 +101,6 @@
                   </nb-card-body>
                 </nb-card>
               </mat-tab>
-              <mat-tab *ngIf="productos" label="{{'GLOBAL.productos' | translate }}">
-                <!-- productos -->
-
-                <div class="row" *ngIf="true">
-                  <div class="col-md-12">
-                    <ngx-productos-rubro [productosAsignados]="listaProductosAsignados"
-                      (cambioListaProductosAsignados)="cambioProductosAsignados($event)"></ngx-productos-rubro>
-                    <!-- <pre>{{listaProductosAsignados | json}}</pre> -->
-                  </div>
-                </div>
-              </mat-tab>
             </mat-tab-group>
 
 
