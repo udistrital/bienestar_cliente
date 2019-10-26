@@ -15,6 +15,7 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   ingresos: number;
   egresos: number;
   balanceado: boolean;
+  approved: boolean;
   diferencia: number;
   // entradas y salidas
   @Output() comprobacion = new EventEmitter();
@@ -36,7 +37,11 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
       this.egresos = comprobacion['totalGastos'];
       this.balanceado = comprobacion['balanceado'];
       this.diferencia = Math.abs(this.ingresos - this.egresos);
-      this.comprobacion.emit(this.balanceado);
+      this.approved = comprobacion['approved'];
+      this.comprobacion.emit({
+        balanceado: this.balanceado,
+        approved: this.approved,
+      });
     });
   }
 

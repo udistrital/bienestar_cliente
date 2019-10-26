@@ -26,8 +26,8 @@ export class ApropiacionesComponent implements OnInit {
   optionView: string;
   productos: boolean = false;
   habilitarProductos: boolean = false;
-/*   listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
- */  
+  /*   listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
+   */
   listaProductosAsignados = [];
   vigencias: any[] = [
     { vigencia: 2020 },
@@ -37,6 +37,7 @@ export class ApropiacionesComponent implements OnInit {
     { vigencia: 2016 },
   ];
   balanceado: boolean;
+  allApproved: boolean;
   AreaFuncional: string;
   CentroGestor: string;
 
@@ -85,7 +86,7 @@ export class ApropiacionesComponent implements OnInit {
     if ($event.Hijos.length === 0) {
       this.isLeaf = true;
       this.rubroSeleccionado = <ArbolApropiacion>$event;
-      // console.info(this.rubroSeleccionado);
+      // console.table(this.rubroSeleccionado);
       this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
       this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
       this.CentroGestor = '230';
@@ -95,7 +96,7 @@ export class ApropiacionesComponent implements OnInit {
         0,
       );
       this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
-      this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
+      this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
       /* this.productos = true; */
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
     } else {
@@ -175,8 +176,9 @@ export class ApropiacionesComponent implements OnInit {
     console.info(this.vigenciaSel);
   }
 
-  checkComprobacion(event: boolean) {
-    this.balanceado = event;
+  checkComprobacion(event: { balanceado: boolean, approved: boolean }) {
+    this.balanceado = event.balanceado;
+    this.allApproved = event.approved;
   }
   cambioProductosAsignados(productosAsignados: any[]) {
     this.listaProductosAsignados = productosAsignados;
