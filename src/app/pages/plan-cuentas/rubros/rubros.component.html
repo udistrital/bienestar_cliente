@@ -91,7 +91,7 @@
                           </button>
                         </div>
                         <div class="col">
-                          <button *ngIf="rubroSeleccionado.Codigo" type="submit" class="btn btn-danger btn-block"
+                          <button [disabled]="rubroSeleccionado.Bloqueado" *ngIf="rubroSeleccionado.Codigo" type="submit" class="btn btn-danger btn-block"
                             (click)="deleteRubro()">
                             {{'GLOBAL.eliminar' | translate }}
                           </button>
