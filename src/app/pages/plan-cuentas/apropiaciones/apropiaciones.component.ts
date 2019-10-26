@@ -159,7 +159,7 @@ export class ApropiacionesComponent implements OnInit {
       this.apHelper.apropiacionRegister(this.apropiacionData).subscribe((res) => {
         if (res) {
           this.popManager.showSuccessAlert('Se registro la preasignación de apropiación correctamente!');
-          this.cleanForm();
+          // this.cleanForm();
           this.eventChange.emit(true);
         }
       });
