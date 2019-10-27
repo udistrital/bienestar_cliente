@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
+import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { CommonHelper } from '../../../@core/helpers/commonHelper';
 
 @Component({
   selector: 'ngx-consulta-vigencia',
@@ -19,17 +21,13 @@ export class ConsultaVigenciaComponent implements OnInit {
   VigenciaActual = '2019';
   optionView: string;
   balanceado: boolean;
-  vigencias: any[] = [
-    { vigencia: 2020 },
-    { vigencia: 2019 },
-    { vigencia: 2018 },
-    { vigencia: 2017 },
-    { vigencia: 2016 },
-  ];
+  vigencias: any[];
   CentroGestor: string;
   AreaFuncional: string;
 
   constructor(
+    private apHelper: ApropiacionHelper,
+    private commonHelper: CommonHelper,
   ) {
     this.vigenciaSel = '2019';
     this.optionView = 'ApropiacionesEstado';
@@ -51,6 +49,16 @@ export class ConsultaVigenciaComponent implements OnInit {
 
 
   ngOnInit() {
+    this.apHelper.getVigenciasList().subscribe(res => {
+      if (res) {
+        this.vigencias = res;
+      }
+    });
+    this.commonHelper.geCurrentVigencia().subscribe(res => {
+      if (res) {
+        this.vigenciaSel = res + '';
+      }
+    });
   }
 
   onSelect(selectedItem: any) {

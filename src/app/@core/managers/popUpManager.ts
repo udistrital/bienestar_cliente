@@ -40,10 +40,10 @@ export class PopUpManager {
         });
     }
 
-    public showSuccessAlert(text) {
+    public showSuccessAlert(text, tittle?) {
         Swal.fire({
             type: 'success',
-            title: this.translate.instant('GLOBAL.operacion_exitosa'),
+            title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
         });
