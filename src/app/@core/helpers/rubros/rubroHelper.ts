@@ -87,14 +87,8 @@ export class RubroHelper {
         return this.rqManager.post('arbol_rubro', rubroData).pipe(
             map(
                 (res) => {
-                    console.log(res);
-                    
                     if (res['Type'] === 'error') {
-                        if (res['Message'] !== '') {
-                            this.pUpManager.showErrorAlert(res['Message']);
-                        } else {
-                            this.pUpManager.showErrorAlert('No Se Pudo Registrar El rubro, Compruebe que no exista un rubro con el mismo Código.');
-                        }
+                        this.pUpManager.showErrorAlert('No se Pudo registrar el rubro, compruebe que no exista un rubro con el mismo código o que este código sea admitido.');
                         return undefined;
                     }
                     return res;
@@ -118,11 +112,9 @@ export class RubroHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        if (res['Message'] !== '') {
-                            this.pUpManager.showErrorAlert(res['Message']);
-                        } else {
-                            this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro');
-                        }
+
+                        this.pUpManager.showErrorAlert('No se pudo eliminar el rubro');
+
                         return undefined;
                     }
                     return res;

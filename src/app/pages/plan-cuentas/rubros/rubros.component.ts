@@ -34,7 +34,7 @@ export class RubrosComponent implements OnInit {
   CentroGestor: any;
   VigenciaActual = 0;
   listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
-
+  lastAddedNodeCode: string = '';
   optionView: string;
   @Output() eventChange = new EventEmitter();
   constructor(
@@ -120,7 +120,7 @@ export class RubrosComponent implements OnInit {
       this.rubroData.Padre = typeof this.rubroSeleccionado.Codigo === 'undefined' ? '' : String(this.rubroSeleccionado.Codigo);
       this.rbHelper.rubroRegister(this.rubroData).subscribe((res) => {
         if (res) {
-          this.popManager.showSuccessAlert('Se registro el Rubro correctamente!');
+          this.popManager.showSuccessAlert('Se registró el rubro de manera exitosa.', 'GLOBAL.rubro_registrado');
           this.cleanForm();
           this.eventChange.emit(true);
         }
@@ -133,13 +133,19 @@ export class RubrosComponent implements OnInit {
 
   deleteRubro() {
     const id = <string>this.rubroSeleccionado.Codigo;
-    this.rbHelper.rubroDelete(id).subscribe((res) => {
-      if (res) {
-        this.popManager.showSuccessAlert('Se Eliminó el Rubro correctamente!');
-        this.cleanForm();
-        this.eventChange.emit(true);
-      }
-    });
+    this.popManager.showAlert('warning', 'Eliminar rubro', 'esta seguro?')
+      .then((result) => {
+        if (result.value) {
+          this.rbHelper.rubroDelete(id).subscribe((res) => {
+            if (res) {
+              this.popManager.showSuccessAlert('Se eliminó el rubro de manera exitosa', 'GLOBAL.rubro_eliminado');
+              this.cleanForm();
+              this.eventChange.emit(true);
+            }
+          });
+        }
+      },
+      );
   }
 
   editRubro() {

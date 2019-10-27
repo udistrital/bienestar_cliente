@@ -91,7 +91,7 @@
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
     "codigo": "Código",
-    "unidad-ejecutora": "Área Funcional",
+    "unidad-ejecutora": "Área funcional",
     "descripcion": "Descripción",
     "detalle-apropiacion-inicial": "Detalle de la Apropiación Inicial",
     "pre-asignar-apropiacion-inicial": "Preasignar apropiación inicial",
@@ -158,7 +158,9 @@
     "saldo": "Saldo",
     "placeholder_vigencia": "Vigencia",
     "placeholder_area_funcional": "",
-    "placeholder_centro_gestor": ""
+    "placeholder_centro_gestor": "",
+    "rubro_registrado": "Rubro registrado",
+    "rubro_eliminado": "Rubro eliminado"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

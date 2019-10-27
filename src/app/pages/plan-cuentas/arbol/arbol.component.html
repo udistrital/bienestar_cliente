@@ -4,7 +4,7 @@
       "GLOBAL.buscar" | translate
     }}</label>
 
-    <input nbInput [nbFilterInput]="dataSource" id="search" class="search-input" />
+    <input nbInput [nbFilterInput]="dataSource" id="search" class="search-input" [(ngModel)]="searchValue"  />
 
     <table  [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
       <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
@@ -44,7 +44,7 @@
       "GLOBAL.buscar" | translate
     }}</label>
 
-    <input nbInput [nbFilterInput]="dataSource2" id="search" class="search-input" />
+    <input nbInput [nbFilterInput]="dataSource2" id="search" class="search-input" [(ngModel)]="searchValue" />
 
     <table [nbTreeGrid]="dataSource2" [nbSort]="dataSource2" (sort)="updateSort($event)">
       <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
@@ -73,11 +73,15 @@
         <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
           {{ column | translate}}
         </th>
-        <td [class.moneyField]="index === 1" nbTreeGridCell *nbTreeGridCellDef="let row">
-          <div *ngIf="index !== 1">
+        <td [class.moneyField]="index === 1 || index === 2" nbTreeGridCell *nbTreeGridCellDef="let row">
+          <div *ngIf="index !== 1 && index !== 2">
             {{ row.data[column] || "-" }}
           </div>
           <div *ngIf="index === 1">
+              {{ row.data[column] | currency:'COP':'symbol':'4.2-2':'co' }}
+
+          </div>
+          <div *ngIf="index === 2">
               {{ row.data[column] | currency:'COP':'symbol':'4.2-2':'co' }}
 
           </div>
