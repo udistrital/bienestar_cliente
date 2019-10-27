@@ -87,6 +87,8 @@ export class RubroHelper {
         return this.rqManager.post('arbol_rubro', rubroData).pipe(
             map(
                 (res) => {
+                    console.log(res);
+                    
                     if (res['Type'] === 'error') {
                         if (res['Message'] !== '') {
                             this.pUpManager.showErrorAlert(res['Message']);

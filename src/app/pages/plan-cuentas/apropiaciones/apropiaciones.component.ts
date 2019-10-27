@@ -3,6 +3,7 @@ import { Rubro } from '../../../@core/data/models/rubro';
 import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
+import { CommonHelper } from '../../../@core/helpers/commonHelper';
 
 @Component({
   selector: 'ngx-apropiaciones',
@@ -43,6 +44,7 @@ export class ApropiacionesComponent implements OnInit {
 
   constructor(
     private apHelper: ApropiacionHelper,
+    private commonHelper: CommonHelper,
     private popManager: PopUpManager,
   ) {
     this.vigenciaSel = '2020';
@@ -79,7 +81,11 @@ export class ApropiacionesComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.commonHelper.geCurrentVigencia(1).subscribe(res => {
+      if (res) {
+        this.vigenciaSel = res + '';
+      }
+    });
   }
 
   receiveMessage($event) {
@@ -113,7 +119,7 @@ export class ApropiacionesComponent implements OnInit {
           this.apHelper.apropiacionApprove({ UnidadEjecutora: '1', Vigencia: this.vigenciaSel }).subscribe((res) => {
             if (res) {
               this.popManager.showSuccessAlert('Aprobación exitosa para la apropiación ' + this.vigenciaSel);
-              this.cleanForm();
+              this.cleanForm(true);
               this.eventChange.emit(true);
             }
           });
@@ -124,7 +130,7 @@ export class ApropiacionesComponent implements OnInit {
   }
 
 
-  cleanForm() {
+  cleanForm(full?: boolean) {
     this.clean = !this.clean;
     this.rubroSeleccionado = {
       Id: 0,
@@ -139,7 +145,9 @@ export class ApropiacionesComponent implements OnInit {
     };
     this.apropiacionData = <ArbolApropiacion>{};
     this.valorApropiacion = 0;
-
+    if (full) {
+      this.isLeaf = false;
+    }
   }
 
   preAsignarApropiacion() {
