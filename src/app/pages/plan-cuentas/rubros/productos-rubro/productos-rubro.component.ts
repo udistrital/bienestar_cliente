@@ -152,9 +152,11 @@ export class ProductosRubroComponent implements OnInit {
   }
   getPorcentajeAsignado(): number {
     let val: number = 0;
-    Object.keys(this.listaProductosAsignados).forEach((key)=> {
-      val += this.listaProductosAsignados[key].porcentaje;
-  });
+    if (this.listaProductosAsignados !== undefined) {
+      Object.keys(this.listaProductosAsignados).forEach((key) => {
+        val += this.listaProductosAsignados[key].porcentaje;
+      });
+    }
     return val;
   }
   entrandoEditar(producto: any) {
