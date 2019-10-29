@@ -26,9 +26,6 @@ export class ApropiacionesComponent implements OnInit {
   VigenciaActual = '2020';
   optionView: string;
   productos: boolean = false;
-  habilitarProductos: boolean = false;
-  /*   listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
-   */
   listaProductosAsignados = [];
   vigencias: any[] = [
     { vigencia: 2020 },
@@ -102,12 +99,14 @@ export class ApropiacionesComponent implements OnInit {
         0,
       );
       this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
-      this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
-      /* this.productos = true; */
+
+      this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
+      this.productos = true; 
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
+      console.info(this.listaProductosAsignados);
     } else {
       this.isLeaf = false;
-      /* this.productos = false; */
+      this.productos = false; 
     }
   }
 

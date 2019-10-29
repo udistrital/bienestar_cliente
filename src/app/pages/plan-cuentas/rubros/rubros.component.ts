@@ -23,7 +23,6 @@ export class RubrosComponent implements OnInit {
   formInfoRubro: any;
   rubroData: NodoRubro;
   editandoRubro: boolean;
-  productos: boolean = false;
 
   vigencias: any[] = [
     { vigencia: 2019 },
@@ -33,7 +32,6 @@ export class RubrosComponent implements OnInit {
   AreaFuncional: any;
   CentroGestor: any;
   VigenciaActual = 0;
-  listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
   lastAddedNodeCode: string = '';
   optionView: string;
   @Output() eventChange = new EventEmitter();
@@ -74,11 +72,6 @@ export class RubrosComponent implements OnInit {
 
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
-    if (this.rubroSeleccionado.Hijos.length === 0) {
-      this.productos = true;
-    } else {
-      this.productos = false;
-    }
     this.CentroGestor = '230';
     this.AreaFuncional = '0' + this.rubroSeleccionado.UnidadEjecutora + '-Rector';
     this.rubroSeleccionado.UnidadEjecutora = parseInt(this.rubroSeleccionado.UnidadEjecutora, 0);
@@ -173,7 +166,4 @@ export class RubrosComponent implements OnInit {
 
   }
 
-  cambioProductosAsignados(productosAsignados: any[]) {
-    this.listaProductosAsignados = productosAsignados;
-  }
 }
