@@ -75,7 +75,11 @@ export class ApropiacionHelper {
                 map(
                     (res) => {
                         if (res['Type'] === 'error') {
-                            this.pUpManager.showErrorAlert('No se pudo actualizar la información del producto al rubro seleccionado.');
+                            if (res['Message'] !== '') {
+                                this.pUpManager.showErrorAlert(res['Message']);
+                            } else {
+                                this.pUpManager.showErrorAlert('No se pudo actualizar la información del producto al rubro seleccionado.');
+                            }
                             return undefined;
                         }
                         return res;
