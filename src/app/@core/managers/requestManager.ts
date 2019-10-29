@@ -38,7 +38,7 @@ export class RequestManager {
   /**
    * Perform a GET http request
    * @param endpoint service's end-point
-   * @param params (an Key, Value object with que query params for the request)
+   * @param params (a Key, Value object with que query params for the request)
    * @returns Observable<any>
    */
   get(endpoint, params?) {
@@ -54,7 +54,7 @@ export class RequestManager {
       map(
         (res) => {
 
-          if (res && res.hasOwnProperty('Body')) {
+          if (res && res.hasOwnProperty('Body') && res['Type'] !== 'error') {
             return res['Body'];
           } else {
             return res;
@@ -76,7 +76,7 @@ export class RequestManager {
       map(
         (res) => {
 
-          if (res && res.hasOwnProperty('Body')) {
+          if (res && res.hasOwnProperty('Body') && res['Type'] !== 'error') {
             return res['Body'];
           } else {
             return res;

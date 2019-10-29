@@ -39,6 +39,7 @@ export class ArbolComponent implements OnChanges {
   @Input() updateSignal: Observable<string[]>;
   @Input() optionSelect: string;
   @Input() vigencia: string;
+  @Input() externalSearch: string;
   opcionSeleccionada: string;
   vigenciaSeleccionada: string;
   @ViewChildren(NbTreeGridRowComponent, { read: ElementRef }) treeNodes: ElementRef[];
@@ -57,6 +58,7 @@ export class ArbolComponent implements OnChanges {
   sortDirection: NbSortDirection = NbSortDirection.NONE;
   idHighlight: any;
   isSelected: boolean;
+  searchValue: string;
 
   constructor(
     private renderer: Renderer2,
@@ -83,6 +85,9 @@ export class ArbolComponent implements OnChanges {
       this.updateSignal.subscribe(() => {
         this.loadTree();
       });
+    }
+    if (changes['externalSearch'] && changes['externalSearch'].currentValue) {
+      this.searchValue = changes['externalSearch'].currentValue;
     }
   }
 
@@ -129,7 +134,7 @@ export class ArbolComponent implements OnChanges {
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
-    this.defaultColumns = ['Nombre', 'ValorInicial'];
+    this.defaultColumns = ['Nombre', 'ValorInicial', 'ValorActual'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
       console.info(this.vigenciaSeleccionada);

@@ -14,7 +14,7 @@
               [updateSignal]="eventChange">
             </ngx-comprobacion-apropiacion-inicial>
             <div class="col-md-12 spacingValorAp">
-              <button *ngIf="balanceado" type="submit" style="margin-bottom: 3%;" class="btn btn-success btn-block" (click)="aprobarApropiacion()">
+              <button *ngIf="balanceado" type="submit" style="margin-bottom: 3%;" class="btn btn-success btn-block" (click)="aprobarApropiacion()" [disabled]="allApproved">
                 {{ "GLOBAL.aprobar-apropiacion-inicial" | translate }}
               </button>
             </div>
@@ -80,12 +80,12 @@
                   <div class="row formPreasignacion">
                     <div class="form-group">
                         <label>Valor Apropiación Inicial</label>
-                        <input currencyMask type="text" min="1" step="any" class="form-control moneyField" id="inputApropiacionI"
+                        <input currencyMask type="text" min="1" step="any" class="form-control moneyField" [disabled]="rubroSeleccionado.Estado === 'aprobada'" id="inputApropiacionI"
                           placeholder="$" value="{{
                               rubroSeleccionado.ApropiacionInicial
                             }}" [(ngModel)]="valorApropiacion" />
                       <div class="spacingValorAp">
-                        <button type="submit" class="btn btn-info btn-block" (click)="preAsignarApropiacion()">
+                        <button type="submit" class="btn btn-info btn-block" (click)="preAsignarApropiacion()" [disabled]="rubroSeleccionado.Estado === 'aprobada'">
                           {{
                               "GLOBAL.pre-asignar-apropiacion-inicial"
                                 | translate

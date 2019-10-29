@@ -133,4 +133,21 @@ export class ApropiacionHelper {
 
     }
 
+    public getVigenciasList() {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        const unidadEjecutora = 1;
+        return this.rqManager.get(`vigencia/apropiacion/` + unidadEjecutora).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager
+                            .showErrorAlert('No se puede obtener la información de las vigencias  ');
+                        return undefined;
+                    }
+                    return res;
+                }
+            )
+        );
+    }
+
 }
