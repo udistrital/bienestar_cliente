@@ -19,7 +19,8 @@ export class ProductosRubroComponent implements OnInit {
 
   productos: any = [];
   productoSeleccionado: any = [];
-  listaProductosAsignados: any[];
+  listaProductosAsignados: any = {};
+  listaProductosAsignadosObj: any = {};
   vigenciaSel: any;
   entrarEditar: boolean;
   editando: boolean;
@@ -58,6 +59,7 @@ export class ProductosRubroComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
 
   getProductByRubro() {
@@ -75,77 +77,92 @@ export class ProductosRubroComponent implements OnInit {
   }
 
   agregarProducto() {
-    console.info(this.rubro);
-    console.info(this.productForm.get('porcentaje').value);
     this.rubro.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
+    console.info(this.productForm.get('porcentaje').value);
     if (this.listaProductosAsignados === undefined) {
-      this.listaProductosAsignados = [];
+      this.listaProductosAsignados = {};
     }
-    if (this.listaProductosAsignados.filter(
-      (prod) => {
-        return (JSON.stringify(prod.producto) === JSON.stringify(this.productoSeleccionado.producto));
-      }).length === 0) {
-      this.listaProductosAsignados.push({
-        producto: this.productoSeleccionado.producto,
-        porcentaje: this.productForm.get('porcentaje').value,
-      });
+    console.info(this.productoSeleccionado);
+    if (!this.listaProductosAsignados.hasOwnProperty(this.productoSeleccionado.key._id)) {
+      this.rubro.Productos = this.listaProductosAsignados;
+      this.construirObjProductos(this.productoSeleccionado.key, this.productForm.get('porcentaje').value)
       this.rubro.Productos = this.listaProductosAsignados;
       this.apHelper.apropiacionProductoUpdate(this.rubro).subscribe((res) => {
         if (res) {
           this.popUpManager.showSuccessAlert('Se actualizarón los productos correctamente!');
         }
-      });         
+        else {
+          this.deleteObjProductos(this.productoSeleccionado.key);
+        }
+      });
       this.cambioListaProductosAsignados.emit(this.listaProductosAsignados);
     } else this.popUpManager.showErrorAlert('el producto ya esta asignado');
   }
 
+  construirObjProductos(producto, porcentaje) {
+    const newProp = {
+      [producto._id]: {
+        nombre: producto.Nombre, porcentaje: porcentaje
+      }
+    };
+    const newObj = { ...this.listaProductosAsignados, ...newProp };
+    this.listaProductosAsignados = newObj;
+  }
+  deleteObjProductos(producto) {
+    console.info(producto);
+    const { [producto._id]: _, ...newObj } = this.listaProductosAsignados;
+    this.listaProductosAsignados = newObj;
+  }
+  updateObjProductos(id, porcentaje) {
+    this.listaProductosAsignados[id] = { ...this.listaProductosAsignados[id], porcentaje: porcentaje }
+  }
   eliminarProducto($event, producto: any) {
-    this.listaProductosAsignados = this.listaProductosAsignados.filter((p) => {
-      return JSON.stringify(p) !== JSON.stringify(producto);
+    this.rubro.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
+    producto._id = producto.key;
+    this.deleteObjProductos(producto);
+    this.rubro.Productos = this.listaProductosAsignados;
+    this.apHelper.apropiacionProductoUpdate(this.rubro).subscribe((res) => {
+      if (res) {
+        this.popUpManager.showSuccessAlert('Se retiró el producto de la distribución correctamente!');
+      }
     });
     this.cambioListaProductosAsignados.emit(this.listaProductosAsignados);
   }
 
   editarProducto() {
+    this.rubro.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
     this.editando = true;
-    this.listaProductosAsignados.map(
-      (prod) => {
-        if (prod === this.productoSeleccionado) {
-          prod.producto = this.productoSeleccionado.producto;
-          prod.porcentaje = this.productForm.get('porcentaje').value;
-        }
-      },
-    );
+    this.updateObjProductos(this.productoSeleccionado.key, this.productForm.get('porcentaje').value);
     this.editando = false;
     this.entrarEditar = false;
+    this.rubro.Productos = this.listaProductosAsignados;
+    this.apHelper.apropiacionProductoUpdate(this.rubro).subscribe((res) => {
+      if (res) {
+        this.popUpManager.showSuccessAlert('Se actualizarón los productos correctamente!');
+      }
+      else {
+        this.deleteObjProductos(this.productoSeleccionado);
+      }
+    });
     this.cambioListaProductosAsignados.emit(this.listaProductosAsignados);
     this.productoSeleccionado = {
       producto: this.productos[0],
       porcentaje: 0,
     };
   }
-
+  getPorcentajeAsignado(): number {
+    let val: number = 0;
+    Object.keys(this.listaProductosAsignados).forEach((key)=> {
+      val += this.listaProductosAsignados[key].porcentaje;
+  });
+    return val;
+  }
   entrandoEditar(producto: any) {
     this.productoSeleccionado = producto;
+    console.info(this.productoSeleccionado);
     this.entrarEditar = true;
   }
 
-  getPorcentajeAsignado(): number {
-    let val: number = 0;
-    this.listaProductosAsignados.map((p) => {
-      val += p.porcentaje;
-    });
-    return val;
-  }
-
-  verificar100(producto?: any): boolean {
-    if (producto) {
-      return (this.getPorcentajeAsignado() + producto.porcentaje <= 100);
-    } else {
-      return (this.getPorcentajeAsignado() <= 100);
-    }
-
-  }
   get porcentaje() {
     return this.productForm.get('porcentaje');
   }

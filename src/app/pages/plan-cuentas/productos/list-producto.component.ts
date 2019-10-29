@@ -40,7 +40,7 @@ export class ListProductoComponent implements OnInit {
     this.uuidReadFieldName = '_id';
     this.uuidDeleteFieldName = '_id';
     this.isOnlyCrud = true;
-    this.deleteConfirmMessage = 'PRODUCTO.confirmacion_actualizacion';
+    this.deleteConfirmMessage = 'PRODUCTO.confirmacion_eliminar';
     this.deleteMessage = 'PRODUCTO.mensaje_eliminar';
     this.loadDataFunction = this.productoHelper.getProductos;
     this.deleteDataFunction = this.productoHelper.productoDelete;

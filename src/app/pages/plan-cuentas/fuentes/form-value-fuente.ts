@@ -18,5 +18,53 @@ export let FORM_VALUE_FUENTE = {
                  value: '',
              },
          },
+         {
+            etiqueta: 'select',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            nombre: 'Vigencia',
+            label_i18n: 'vigencia',
+            placeholder_i18n: 'vigencia',
+            requerido: true,
+            tipo: 'Vigencia',
+            key: 'vigencia',
+            opciones: [
+            ],
+        },
+        {
+            etiqueta: 'input',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            nombre: 'NumeroDocumento',
+            label_i18n: 'numero_documento',
+            placeholder_i18n: 'numero_documento',
+            requerido: true,
+            pattern: '^[A-Za-z0-9_]{1,10}$',
+            tipo: 'text',
+            prefix: {
+                value: '',
+            },
+        },
+        {
+            etiqueta: 'select',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            nombre: 'TipoDocumento',
+            label_i18n: 'tipo_documento',
+            placeholder_i18n: 'tipo_documento',
+            requerido: true,
+            tipo: 'TipoDocumento',
+            key: 'Valor',
+            opciones: [
+                { Id:1, Valor: 'ACTA' },
+                { Id:2, Valor: 'RESOLUCION' },
+                { Id:3, Valor: 'CONTRATO' },
+            ],
+        },
+        {
+            etiqueta: 'mat-date',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            nombre: 'FechaCreacion',
+            label_i18n: 'fecha_documento',
+            placeholder_i18n: 'fecha_documento',
+            requerido: true,
+        }                 
     ],
 };
