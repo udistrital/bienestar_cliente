@@ -37,7 +37,7 @@ export class ProductosRubroComponent implements OnInit {
   }
   @Output() cambioListaProductosAsignados = new EventEmitter<any[]>();
 
-  minNum = 0;
+  minNum = 0.01;
   maxNum = 100;
 
   productForm = this.formBuilder.group({

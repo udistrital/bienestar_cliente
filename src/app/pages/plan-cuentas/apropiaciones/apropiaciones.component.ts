@@ -89,7 +89,6 @@ export class ApropiacionesComponent implements OnInit {
     if ($event.Hijos.length === 0) {
       this.isLeaf = true;
       this.rubroSeleccionado = <ArbolApropiacion>$event;
-      // console.table(this.rubroSeleccionado);
       this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
       this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
       this.CentroGestor = '230';
@@ -101,9 +100,10 @@ export class ApropiacionesComponent implements OnInit {
       this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
 
       this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
-      this.productos = true; 
+      if (this.rubroSeleccionado.Estado === 'registrada') {
+        this.productos = true; 
+      }
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
-      console.info(this.listaProductosAsignados);
     } else {
       this.isLeaf = false;
       this.productos = false; 
