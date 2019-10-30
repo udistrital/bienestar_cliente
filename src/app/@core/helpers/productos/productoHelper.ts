@@ -45,14 +45,6 @@ export class ProductoHelper {
         return this.rqManager.post('producto', productoData).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        if (res['Message'] !== '') {
-                            this.pUpManager.showErrorAlert(res['Message']);
-                        } else {
-                            this.pUpManager.showErrorAlert('No se pudo registrar el producto, compruebe que no exista un producto con el mismo Código.');
-                        }
-                        return undefined;                        
-                    }
                     return res;
                 },
             ),
@@ -98,14 +90,6 @@ export class ProductoHelper {
         return this.rqManager.put('producto/', productoData, productoData._id).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        if (res['Message'] !== '') {
-                            this.pUpManager.showErrorAlert(res['Message']);
-                        } else {
-                            this.pUpManager.showErrorAlert('No se pudo actualizar el producto, compruebe que no exista un producto con el mismo Código.');
-                        }
-                        return undefined;                          
-                    }
                     return res;
                 },
             ),
