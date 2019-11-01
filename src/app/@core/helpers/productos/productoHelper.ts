@@ -62,7 +62,7 @@ export class ProductoHelper {
      */
     public productoDelete(id: number) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.delete('producto/', id).pipe(
+        return this.rqManager.delete('producto', id).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
