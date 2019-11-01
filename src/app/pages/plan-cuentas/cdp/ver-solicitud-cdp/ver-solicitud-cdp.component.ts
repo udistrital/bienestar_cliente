@@ -15,6 +15,7 @@ export class VerSolicitudCdpComponent implements OnInit {
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
   necesidad: any = {};
+  TrNecesidad: any = {};
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
@@ -29,11 +30,14 @@ export class VerSolicitudCdpComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.cdpHelper.getNecesidadAdm(this.solicitud['necesidad']).subscribe(res => {
-      const nec_adm = res;
-      this.cdpHelper.getNecesidadPC(this.solicitud['necesidad']).subscribe(nec_pc => {
-        this.necesidad = {...nec_adm, ...nec_pc};
-      });
+    // this.cdpHelper.getNecesidadAdm(this.solicitud['necesidad']).subscribe(res => {
+    //   const nec_adm = res;
+    //   this.cdpHelper.getNecesidadPC(this.solicitud['necesidad']).subscribe(nec_pc => {
+    //     this.necesidad = {...nec_adm, ...nec_pc};
+    //   });
+    // });
+    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(res => {
+      this.TrNecesidad = res;
     });
   }
 

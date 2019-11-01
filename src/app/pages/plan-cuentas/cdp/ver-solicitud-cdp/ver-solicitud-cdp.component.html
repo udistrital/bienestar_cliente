@@ -18,7 +18,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{necesidad.Vigencia}}</td>
+                            <td>{{TrNecesidad.Necesidad.Vigencia}}</td>
                             <td>{{solicitud.centroGestor}}</td>
                             <td>{{solicitud.entidad}}</td>
                         </tr>
@@ -36,17 +36,17 @@
                         <tr>
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
                             <td *ngIf="expedido">{{solicitud.consecutivo_cdp}}</td>
-                            <td>{{solicitud.necesidad}}</td>
-                            <td>dependencia solicitante</td>
+                            <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
+                            <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.JefeDepSolicitanteId}}</td>
                         </tr>
                         <tr>
                             <td class="bg-warning">{{'CDP.objeto' | translate}}</td>
-                            <td colspan="2">{{necesidad.Objeto}}</td>
+                            <td colspan="2">{{TrNecesidad.Necesidad.Objeto}}</td>
                         </tr>
                     </tbody>
                 </table>
                 <!-- apropiaciones -->
-                <table *ngFor="let ap of necesidad.apropiaciones" class="table table-hover table-bordered">
+                <table *ngFor="let rubro of TrNecesidad.Rubros" class="table table-hover table-bordered">
                     <!-- rubro -->
                     <thead class="bg-warning">
                         <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
@@ -54,27 +54,29 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ap.codigo}} {{ap.nombre}}</td>
+                            <td>{{rubro.RubroId}} {{rubro.InfoRubro.Nombre}}</td>
                             <td class="moneyField">$000</td>
+                            <!-- TODO calcular valor rubro -->
                         </tr>
                     </tbody>
                     <!-- metas y actividades si es de inversion -->
-                    <thead *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1" class="bg-warning">
+                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1" class="bg-warning">
                         <th width="60%">{{'GLOBAL.meta' | translate}}</th>
                         <th ></th>
                     </thead>
-                    <tbody *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1">
+                    <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
                         <tr>
-                            <td>{{ap.metas[0].codigo}} {{ap.metas.nombre}}</td>
-                            <td class="moneyField">{{ap.metas[0].valor | currency: COP}}</td>
+                            <!-- TODO traer nombre meta -->
+                            <td>{{rubro.Metas[0].MetaId}} </td>
+                            <td class="moneyField">{{rubro.metas[0].valor | currency: COP}}</td>
                         </tr>
                         <tr class="bg-warning">
                             <td>{{'GLOBAL.actividades' | translate}}</td>
                             <td></td>
                         </tr>
-                        <tr *ngFor="let act of ap.metas[0].actividades">
-                            <td>{{act.codigo}} {{act.nombre}}</td>
-                            <td class="moneyField">{{act.valor | currency: COP }}</td>
+                        <tr *ngFor="let act of rubro.Metas[0].Actividades">
+                            <td>{{act.ActividadId}} {{act.Nombre}}</td>
+                            <td class="moneyField">{{act.Valor | currency: COP }}</td>
                         </tr>
                     </tbody>
                     <!-- fuentes -->
@@ -83,7 +85,7 @@
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let f of ap.fuentes">
+                        <tr *ngFor="let f of rubro.Fuentes">
                             <td>{{f.codigo}} {{f.nombre}}</td>
                             <td class="moneyField">{{f.valor | currency: COP}}</td>
                         </tr>
@@ -94,7 +96,7 @@
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let p of ap.productos">
+                        <tr *ngFor="let p of rubro.Productos">
                             <td>{{p.codigo}} {{p.nombre}}</td>
                             <td class="moneyField">{{p.valor | currency: COP}}</td>
                         </tr>
@@ -111,7 +113,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td *ngIf="!expedido">{{necesidad.FechaSolicitud | date}}</td>
+                            <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date}}</td>
                             <td *ngIf="expedido">{{solicitud.fecha_cdp | date}}</td>
                             <td>responsable</td>
                             <td>elaboró</td>
@@ -131,4 +133,7 @@
         </nb-card-body>
     </nb-card>
     <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF" (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
+</div>
+<div>
+    <pre>{{TrNecesidad | json}}</pre>
 </div>
