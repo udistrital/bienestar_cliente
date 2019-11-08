@@ -14,6 +14,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
 export class ListEntityComponent implements OnInit {
   // Local Inputs ...
   @Input('uuidReadFieldName') uuidReadField: string;
+  @Input('paramsFieldsName') paramsFieldsName: object;
   @Input('uuidDeleteFieldName') uuidDeleteField: string;
   @Input('listColumns') listColumns: object;
 
@@ -91,7 +92,7 @@ export class ListEntityComponent implements OnInit {
 
   loadData(): void {
 
-    this.loadDataFunction('').subscribe(res => {
+    this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
@@ -144,7 +145,7 @@ export class ListEntityComponent implements OnInit {
     };
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
-        this.deleteDataFunction(event.data[this.uuidDeleteField]).subscribe(res => {
+        this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
           if (res !== null) {
             this.loadData();
             this.popUpManager.showSuccessAlert(
@@ -181,7 +182,7 @@ export class ListEntityComponent implements OnInit {
     }
   }
   itemselec(event): void {
-     // console.info(event);
+    // console.info(event);
   }
 
 
