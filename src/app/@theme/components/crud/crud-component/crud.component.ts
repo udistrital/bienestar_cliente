@@ -38,7 +38,11 @@ export class CrudEntityComponent implements OnInit {
   ) {
 
   }
-
+  ngOnChanges(changes) {
+    if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
+      this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+    }
+  }
   ngOnInit() {
     this.formEntity = FormManager.ConstruirForm(
       this.formEntity,

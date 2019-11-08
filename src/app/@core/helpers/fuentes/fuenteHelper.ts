@@ -41,13 +41,13 @@ export class FuenteHelper {
        */
     public fuenteRegister(fuenteData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        fuenteData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
+/*         fuenteData.UnidadEjecutora = '1'; */ // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = fuenteData.Vigencia.vigencia;
+        /* fuenteData.Vigencia = fuenteData.Vigencia; */
         fuenteData.activo = true;
-        fuenteData.Codigo = fuenteData.Codigo.toString();
+       /*  fuenteData.Codigo = fuenteData.Codigo.toString();
         fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
-        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor;
+        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor; */
         return this.rqManager.post(`fuente_financiamiento/`, fuenteData).pipe(
             map(
                 (res) => {
@@ -72,13 +72,13 @@ export class FuenteHelper {
     public fuenteUpdate(fuenteData) {
         console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        fuenteData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
+/*         fuenteData.UnidadEjecutora = '1'; */ // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = fuenteData.Vigencia.vigencia;
+/*         fuenteData.Vigencia = fuenteData.Vigencia; */
         fuenteData.activo = true;
-        fuenteData.Codigo = fuenteData.Codigo.toString();
+/*         fuenteData.Codigo = fuenteData.Codigo.toString();
         fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
-        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor;
+        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor; */
         return this.rqManager.put('fuente_financiamiento/', fuenteData, fuenteData.Codigo + '/' + fuenteData.Vigencia + '/' + fuenteData.UnidadEjecutora).pipe(
             map(
                 (res) => {
