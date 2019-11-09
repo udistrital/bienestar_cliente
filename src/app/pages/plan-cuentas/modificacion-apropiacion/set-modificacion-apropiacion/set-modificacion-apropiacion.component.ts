@@ -133,7 +133,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
     }
 
     checkComprobacion(event: boolean) {
-        this.balanceado = event;
+        this.balanceado = event['balanceado'];
         this.setStepValidationEvent.emit({
             afectation: this.aprAfectation,
             balanced: this.balanceado,
