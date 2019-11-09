@@ -90,7 +90,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
 
         this.aprAfectation.push(currentAprData);
         this.eventChange.emit(true);
-        await this.cleanData();
+
     }
 
     public async cleanData() {
@@ -132,8 +132,11 @@ export class SetModificacionApropiacionComponent implements OnInit {
         });
     }
 
-    checkComprobacion(event: boolean) {
+    async checkComprobacion(event: boolean) {
         this.balanceado = event['balanceado'];
+        if (event['clean'] && event['clean'] === true) {
+            await this.cleanData();
+        }
         this.setStepValidationEvent.emit({
             afectation: this.aprAfectation,
             balanced: this.balanceado,
