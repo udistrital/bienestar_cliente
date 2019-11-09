@@ -13,6 +13,7 @@ export let DETALLE_MODIFICACION_FORM = {
             placeholder_i18n: 'numero_documento',
             requerido: true,
             tipo: 'number',
+            min: 1,
         },
         {
             etiqueta: 'select',
