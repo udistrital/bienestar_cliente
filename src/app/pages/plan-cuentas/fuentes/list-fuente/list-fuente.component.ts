@@ -38,6 +38,7 @@ export class ListFuenteComponent implements OnInit {
 
   listColumns: object;
   fuenteInfo: any;
+  disabledVigencia: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -45,7 +46,7 @@ export class ListFuenteComponent implements OnInit {
     private apHelper: ApropiacionHelper,
     private commonHelper: CommonHelper,
   ) {
-    this.vigenciaSel = '2020';
+    this.vigenciaSel = '0';
   }
 
   ngOnInit() {
@@ -137,13 +138,21 @@ export class ListFuenteComponent implements OnInit {
     return 0;
   }
   onChangeTab(estado) {
-    console.info(estado);
+    this.disabledVigencia = estado;
     this.auxcambiotab = estado;
+  }
+  onFirstTab(estado){
+    this.disabledVigencia = estado;
   }
   receiveMessage(event) {
     this.fuenteInfo = event;
   }
   
+  onSelect(selectedItem: any) {
+    this.vigenciaSel = selectedItem;
+    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
+    // this.eventChange.emit(true);
+  }
   
   
 }
