@@ -45,9 +45,6 @@ export class FuenteHelper {
         fuenteData.Organizacion = 1;
         /* fuenteData.Vigencia = fuenteData.Vigencia; */
         fuenteData.activo = true;
-       /*  fuenteData.Codigo = fuenteData.Codigo.toString();
-        fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
-        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor; */
         return this.rqManager.post(`fuente_financiamiento/`, fuenteData).pipe(
             map(
                 (res) => {

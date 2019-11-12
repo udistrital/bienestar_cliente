@@ -161,13 +161,18 @@ export class DependenciasComponent implements OnInit {
   }
   validarForm(event) {
     console.info(event);
+    console.info(this.infoinput);
     if (event.valid) {
-      this.infoinput.Vigencia = event.data.FuenteFinanciamiento.Vigencia.vigencia === 'undefined' ? undefined : event.data.FuenteFinanciamiento.Vigencia.vigencia;
-      this.infoinput.UnidadEjecutora = this.infoinput.UnidadEjecutora === 'undefined' ? undefined : this.infoinput.UnidadEjecutora;      
+      this.infoinput.Vigencia = event.data.FuenteFinanciamiento.Vigencia.vigencia === 'undefined' ? undefined : event.data.FuenteFinanciamiento.Vigencia.vigencia; 
       this.infoinput.ValorInicial = typeof event.data.FuenteFinanciamiento.ValorInicial === 'undefined' ? undefined : event.data.FuenteFinanciamiento.ValorInicial;
+      this.infoinput.UnidadEjecutora = typeof this.infoinput.UnidadEjecutora === 'undefined' ? undefined : this.infoinput.UnidadEjecutora;
+      this.infoinput.NumeroDocumento = typeof event.data.FuenteFinanciamiento.NumeroDocumento === 'undefined'? undefined: event.data.FuenteFinanciamiento.NumeroDocumento;
+      this.infoinput.TipoDocumento = typeof event.data.FuenteFinanciamiento.TipoDocumento.Nombre === 'undefined'? undefined: event.data.FuenteFinanciamiento.TipoDocumento.Nombre;
+      console.info(this.infoinput); 
       this.fuenteHelper.fuenteRegister(this.infoinput).subscribe((res) => {
         if (res) {
           this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
+          this.activetab('other');
           this.cambiarValorFuente();
         }
       });

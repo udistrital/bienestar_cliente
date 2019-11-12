@@ -4,6 +4,7 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
+import { PlanAdquisicionHelper  } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
 
 @Component({
   selector: 'ngx-apropiaciones',
@@ -38,10 +39,12 @@ export class ApropiacionesComponent implements OnInit {
   allApproved: boolean;
   AreaFuncional: string;
   CentroGestor: string;
+  planAdquisicionesRubro: any;
 
   constructor(
     private apHelper: ApropiacionHelper,
     private commonHelper: CommonHelper,
+    private planAdHelper: PlanAdquisicionHelper,
     private popManager: PopUpManager,
   ) {
     this.vigenciaSel = '2020';
@@ -83,6 +86,7 @@ export class ApropiacionesComponent implements OnInit {
         this.vigenciaSel = res + '';
       }
     });
+    this.showPlanAdquisicion('2019','388');
   }
 
   receiveMessage($event) {
@@ -104,12 +108,21 @@ export class ApropiacionesComponent implements OnInit {
         this.productos = true; 
       }
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
+      this.showPlanAdquisicion('2019','388');
     } else {
       this.isLeaf = false;
       this.productos = false; 
     }
   }
 
+  showPlanAdquisicion(vigenciaaux, rubroaux) {
+    this.planAdHelper.getPlanAdquisicionByRubro(vigenciaaux + '/' + rubroaux).subscribe((res) => {
+      if(res) {
+        this.planAdquisicionesRubro = res;
+        console.info(this.planAdquisicionesRubro);
+      }
+    });
+  }
 
   aprobarApropiacion() {
     this.popManager.showAlert('warning', 'Aprobar Apropiación', 'esta seguro?')

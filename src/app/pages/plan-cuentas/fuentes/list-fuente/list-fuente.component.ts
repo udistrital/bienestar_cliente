@@ -151,9 +151,7 @@ export class ListFuenteComponent implements OnInit {
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
     this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
-    
     // this.eventChange.emit(true);
-    console.info(this.vigenciaSel);
   }
   
   

@@ -69,6 +69,7 @@ export class ListEntityComponent implements OnInit {
   ngOnChanges(changes) {
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+      this.loadData();
     }
   }
   cargarCampos() {
