@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
+import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { CommonHelper } from '../../../../@core/helpers/commonHelper';
 import { FORM_FUENTE } from '../form-fuente';
 
 @Component({
@@ -12,6 +14,7 @@ import { FORM_FUENTE } from '../form-fuente';
 })
 export class ListFuenteComponent implements OnInit {
   uuidReadFieldName: string;
+  paramsFieldsName: object;
   uuidDeleteFieldName: string;
   deleteConfirmMessage: string;
   deleteMessage: string;
@@ -23,6 +26,8 @@ export class ListFuenteComponent implements OnInit {
   createMessage: string;
   updateConfirmMessage: string;
   createConfirmMessage: string;
+  vigenciaSel: any;
+  vigencias: any[];
   loadFormDataFunction: (...params) => Observable<any>;
   updateEntityFunction: (...params) => Observable<any>;
   createEntityFunction: (...params) => Observable<any>;
@@ -33,16 +38,31 @@ export class ListFuenteComponent implements OnInit {
 
   listColumns: object;
   fuenteInfo: any;
+  disabledVigencia: boolean = false;
 
   constructor(
     private translate: TranslateService,
-    private fuenteHelper: FuenteHelper
+    private fuenteHelper: FuenteHelper,
+    private apHelper: ApropiacionHelper,
+    private commonHelper: CommonHelper,
   ) {
+    this.vigenciaSel = '0';
   }
 
   ngOnInit() {
+    this.apHelper.getVigenciasList().subscribe(res => {
+      if (res) {
+        this.vigencias = res;
+      }
+    });
+    this.commonHelper.geCurrentVigencia().subscribe(res => {
+      if (res) {
+        this.vigenciaSel = res + '';
+      }
+    });
     this.isOnlyCrud = false;
     this.uuidReadFieldName = 'Codigo';
+    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
     this.uuidDeleteFieldName = 'Codigo';
     this.deleteConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_actualizacion';
     this.deleteMessage = 'FUENTE_FINANCIAMIENTO.mensaje_eliminar';
@@ -118,13 +138,21 @@ export class ListFuenteComponent implements OnInit {
     return 0;
   }
   onChangeTab(estado) {
-    console.info(estado);
+    this.disabledVigencia = estado;
     this.auxcambiotab = estado;
+  }
+  onFirstTab(estado){
+    this.disabledVigencia = estado;
   }
   receiveMessage(event) {
     this.fuenteInfo = event;
   }
   
+  onSelect(selectedItem: any) {
+    this.vigenciaSel = selectedItem;
+    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
+    // this.eventChange.emit(true);
+  }
   
   
 }

@@ -71,6 +71,15 @@
                 </div>
               </div>
             </mat-tab>
+          <mat-tab *ngIf="planAdquisicionesRubro" label="{{'GLOBAL.fuentes' | translate }}">
+              <!-- productos -->
+
+              <div class="row" *ngIf="true">
+                <div class="col-md-12">
+                  <pre>{{planAdquisicionesRubro | json}}</pre>
+                </div>
+              </div>
+            </mat-tab>
           </mat-tab-group>
             <div [hidden]="rubroSeleccionado.Estado === 'aprobada'" class="container-fluid">
               <nb-card>

@@ -16,6 +16,7 @@ export class CrudEntityComponent implements OnInit {
   @Input('entitiId') entitiId: any;
   @Input('formEntity') formEntity: any;
   @Input('formTittle') formTittle: string;
+  @Input('paramsFieldsName') paramsFieldsName: object;
   @Input('updateMessage') updateMessage: string;
   @Input('createMessage') createMessage: string;
   @Input('updateConfirmMessage') updateConfirmMessage: string;
@@ -37,7 +38,11 @@ export class CrudEntityComponent implements OnInit {
   ) {
 
   }
-
+  ngOnChanges(changes) {
+    if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
+      this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+    }
+  }
   ngOnInit() {
     this.formEntity = FormManager.ConstruirForm(
       this.formEntity,
@@ -60,7 +65,7 @@ export class CrudEntityComponent implements OnInit {
 
   public loadData(): void {
     if (this.entitiId) {
-      this.loadFormData(this.entitiId).subscribe(res => {
+      this.loadFormData(this.entitiId, this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
         if (res !== null) {
           this.entityInfo = res;
         }
@@ -116,7 +121,6 @@ export class CrudEntityComponent implements OnInit {
           if (res['Type'] === 'error') {
             this.popUpManager.showErrorAlert(res['Message']);
           } else {
-            console.info(res)
             this.entityInfo = res;
             this.eventChange.emit(true);
             this.popUpManager.showSuccessAlert(
