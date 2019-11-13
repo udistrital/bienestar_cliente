@@ -43,6 +43,7 @@ export class SolicitudCrpComponent implements OnInit {
     this.info_solCrp = {} as SolicitudCrp;
     this.loadOptionsTipoDocumento();
     this.loadCDPInfo();
+    this.loadOptionsCompromisos();
 
   }
 
@@ -105,12 +106,24 @@ export class SolicitudCrpComponent implements OnInit {
       this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].opciones = cdpsConsecutivos;
     });
   }
+
   loadOptionsTipoDocumento(): void {
     let tipoDocData: Array<any> = [];
     this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
       if (res !== null) { tipoDocData = res; }
       this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
     });
+  }
+
+  loadOptionsCompromisos(): void {
+    let tipoCompromisosData : Array<any> = [];
+    this.crpHelper.getCompromisos().subscribe(res => {
+      if (res != null) {
+        console.info(res, "datos Compromisos xd");
+        tipoCompromisosData = res;
+      }
+      this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
+    })
   }
 
   getIndexForm(nombre: String): number {

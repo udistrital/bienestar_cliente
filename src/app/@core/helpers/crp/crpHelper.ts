@@ -44,6 +44,19 @@ export class CRPHelper {
             )
         );
     }
+
+
+    public getCompromisos() {
+        this.rqManager.setPath('CORE_SERVICE');
+        return this.rqManager.get('tipo_documento/').pipe(
+            map(
+                res_tCompromiso => {
+                    console.info(res_tCompromiso);
+                        return res_tCompromiso.filter(n => n.DominioTipoDocumento !== null && n.DominioTipoDocumento.Id === 4);
+                    }
+            )
+        );
+    }
     /**
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.
