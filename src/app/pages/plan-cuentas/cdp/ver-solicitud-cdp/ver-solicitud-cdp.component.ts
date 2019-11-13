@@ -15,6 +15,7 @@ export class VerSolicitudCdpComponent implements OnInit {
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
   necesidad: any = {};
+  TrNecesidad: any;
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
@@ -29,11 +30,33 @@ export class VerSolicitudCdpComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.cdpHelper.getNecesidadAdm(this.solicitud['necesidad']).subscribe(res => {
-      const nec_adm = res;
-      this.cdpHelper.getNecesidadPC(this.solicitud['necesidad']).subscribe(nec_pc => {
-        this.necesidad = {...nec_adm, ...nec_pc};
-      });
+    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(res => {
+      this.TrNecesidad = res;
+      if(this.TrNecesidad.Rubros) {
+        this.TrNecesidad.Rubros.forEach(rubro => {
+          rubro.MontoParcial=0
+          if(rubro.Metas) {
+            rubro.Metas.forEach(meta => {
+              if(meta.Actividades) {
+                meta.Actividades.forEach(act => {
+                  if(act.FuentesActividad) {
+                    act.FuentesActividad.forEach(fuente=> {
+                      rubro.MontoParcial+=fuente.MontoParcial
+                    });
+                  }
+                });
+              }
+            });
+          }
+          if(rubro.Fuentes) {
+            rubro.Fuentes.forEach(fuente => {
+              rubro.MontoParcial+=fuente.MontoParcial
+            });
+            
+          }
+
+        });
+      }
     });
   }
 
@@ -42,12 +65,18 @@ export class VerSolicitudCdpComponent implements OnInit {
   }
 
   expedirCDP(consecutivo) {
-    this.popManager.showAlert('warning', 'Expedir CDP', '¿está seguro?')
+    this.popManager.showAlert('warning', `Expedir CDP ${consecutivo}`, '¿está seguro?')
     .then((result) => {
       if (result.value) {
-        console.info(`expedir CDP ${consecutivo}`);
-        this.router.navigate(['/pages/plan-cuentas/cdp']);
-        // TODO usar el endpoint de expedir cdp cuando se implemente el mismo
+        this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
+          console.info(res)
+          if(res) {
+            this.popManager.showSuccessAlert(`Se expidió con exito el CDP ${res.infoCdp.consecutivo}`)
+            this.router.navigate(['/pages/plan-cuentas/cdp']);
+          }
+          
+        })
+
       }
     });
   }
