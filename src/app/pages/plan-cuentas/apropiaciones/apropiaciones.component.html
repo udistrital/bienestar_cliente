@@ -76,7 +76,10 @@
 
               <div class="row" *ngIf="true">
                 <div class="col-md-12">
-                  <pre>{{planAdquisicionesRubro | json}}</pre>
+                    <nb-card *ngFor="let actividad of planAdquisicionesRubro.metas.actividades">
+                      <pre>{{actividad | json}}</pre>
+                  </nb-card>
+                 
                 </div>
               </div>
             </mat-tab>

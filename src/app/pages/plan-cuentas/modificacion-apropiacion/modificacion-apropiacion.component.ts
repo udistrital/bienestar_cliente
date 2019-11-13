@@ -86,10 +86,10 @@ export class ModificacionApropiacionComponent implements OnInit {
         setTimeout(() => {
             if ($event) {
                 this.checkAfectationFinalData = $event;
-                console.table(this.checkAfectationFinalData);
                 if (this.checkAfectationFinalData['afectation']) {
                     this.modifiactionFinalData['afectation'] = this.checkAfectationFinalData['afectation'];
                     if (this.checkAfectationFinalData['afectation'].length > 0 && this.checkAfectationFinalData['balanced'] && this.checkAfectationFinalData['balanced'] === true) {
+                        
                         this.setModValidationForm.patchValue({
                             valid: true
                         });
