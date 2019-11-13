@@ -6,19 +6,19 @@
             <legend *ngIf="solicitud&&expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.consecutivo_cdp}}
             </legend>
         </nb-card-header>
-        <nb-card-body>
+        <nb-card-body *ngIf="TrNecesidad">
             <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
             <pre>nes{{necesidad | json}}</pre> -->
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
-                    <thead class="bg-warning">
+                    <thead class="bg-kronos">
                         <th width="15%">{{'GLOBAL.vigencia' | translate}}</th>
                         <th width="40%">{{'GLOBAL.unidad-ejecutora' | translate}}</th>
                         <th width="45%">{{'GLOBAL.centro_gestor' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{necesidad.Vigencia}}</td>
+                            <td>{{TrNecesidad.Necesidad.Vigencia}}</td>
                             <td>{{solicitud.centroGestor}}</td>
                             <td>{{solicitud.entidad}}</td>
                         </tr>
@@ -26,7 +26,7 @@
 
                 </table>
                 <table class="table table-hover table-bordered">
-                    <thead class="bg-warning">
+                    <thead class="bg-kronos">
                         <th *ngIf="!expedido">{{'CDP.n_sol_cdp' | translate}}</th>
                         <th *ngIf="expedido">{{'CDP.n_cdp' | translate}}</th>
                         <th>{{'CDP.n_necesidad' | translate}}</th>
@@ -36,74 +36,76 @@
                         <tr>
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
                             <td *ngIf="expedido">{{solicitud.consecutivo_cdp}}</td>
-                            <td>{{solicitud.necesidad}}</td>
-                            <td>dependencia solicitante</td>
+                            <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
+                            <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.JefeDepSolicitanteId}}</td>
                         </tr>
                         <tr>
-                            <td class="bg-warning">{{'CDP.objeto' | translate}}</td>
-                            <td colspan="2">{{necesidad.Objeto}}</td>
+                            <td class="bg-kronos">{{'CDP.objeto' | translate}}</td>
+                            <td colspan="2">{{TrNecesidad.Necesidad.Objeto}}</td>
                         </tr>
                     </tbody>
                 </table>
                 <!-- apropiaciones -->
-                <table *ngFor="let ap of necesidad.apropiaciones" class="table table-hover table-bordered">
+                <table *ngFor="let rubro of TrNecesidad.Rubros" class="table table-hover table-bordered">
                     <!-- rubro -->
-                    <thead class="bg-warning">
+                    <thead class="bg-kronos">
                         <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
                         <th width="40%">{{'GLOBAL.valor' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ap.codigo}} {{ap.nombre}}</td>
-                            <td class="moneyField">$000</td>
+                            <td>{{rubro.RubroId}} {{rubro.InfoRubro.Nombre}}</td>
+                            <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
+                            <!-- TODO calcular valor rubro -->
                         </tr>
                     </tbody>
                     <!-- metas y actividades si es de inversion -->
-                    <thead *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1" class="bg-warning">
-                        <th width="60%">{{'GLOBAL.meta' | translate}}</th>
-                        <th ></th>
+                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1" class="bg-kronos">
+                        <th colspan="2">{{'GLOBAL.meta' | translate}}</th>
                     </thead>
-                    <tbody *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1">
+                    <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
                         <tr>
-                            <td>{{ap.metas[0].codigo}} {{ap.metas.nombre}}</td>
-                            <td class="moneyField">{{ap.metas[0].valor | currency: COP}}</td>
+                            <!-- TODO traer nombre meta -->
+                            <td>{{rubro.Metas[0].MetaId}} </td>
                         </tr>
-                        <tr class="bg-warning">
+                        <tr class="bg-kronos">
                             <td>{{'GLOBAL.actividades' | translate}}</td>
-                            <td></td>
+                            <td>{{'GLOBAL.fuentes' | translate}}</td>
                         </tr>
-                        <tr *ngFor="let act of ap.metas[0].actividades">
-                            <td>{{act.codigo}} {{act.nombre}}</td>
-                            <td class="moneyField">{{act.valor | currency: COP }}</td>
+                        <tr *ngFor="let act of rubro.Metas[0].Actividades">
+                            <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} {{act.Nombre}}</td>
+                            <td *ngFor="let f of act.FuentesActividad" >
+                                <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
+                                <p class="moneyField">{{f.MontoParcial | currency: COP }}</p></td>
                         </tr>
                     </tbody>
                     <!-- fuentes -->
-                    <thead class="bg-warning">
+                    <thead class="bg-kronos" *ngIf="rubro.Fuentes">
                         <th>{{'GLOBAL.fuente' | translate}}</th>
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let f of ap.fuentes">
-                            <td>{{f.codigo}} {{f.nombre}}</td>
-                            <td class="moneyField">{{f.valor | currency: COP}}</td>
+                        <tr *ngFor="let f of rubro.Fuentes">
+                            <td>{{f.FuenteId}}-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a></td>
+                            <td class="moneyField">{{f.MontoParcial | currency: COP}}</td>
                         </tr>
                     </tbody>
                     <!-- productos -->
-                    <thead class="bg-warning">
-                        <th>{{'GLOBAL.producto' | translate}}</th>
-                        <th></th>
+                    <thead class="bg-kronos" *ngIf="rubro.Productos">
+                        <th colspan="2">{{'GLOBAL.producto' | translate}}</th>
+            
                     </thead>
                     <tbody>
-                        <tr *ngFor="let p of ap.productos">
-                            <td>{{p.codigo}} {{p.nombre}}</td>
-                            <td class="moneyField">{{p.valor | currency: COP}}</td>
+                        <tr *ngFor="let p of rubro.Productos">
+                            <td colspan="2">{{p.ProductoId}} {{p.InfoProducto.Nombre}}</td>
+                            <!-- <td class="moneyField">{{p.valor | currency: COP}}</td> -->
                         </tr>
                     </tbody>
 
                 </table>
                 <!-- responsables y fecha -->
                 <table class="table table-hover table-bordered">
-                    <thead class="bg-warning">
+                    <thead class="bg-kronos">
                         <th width="33%" *ngIf="!expedido">{{ 'CDP.fecha_solicitud' | translate }}</th>
                         <th width="33%" *ngIf="expedido">{{ 'CDP.fecha_expedicion' | translate }}</th>
                         <th width="33%">{{ 'CDP.responsable' | translate }}</th>
@@ -111,7 +113,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td *ngIf="!expedido">{{necesidad.FechaSolicitud | date}}</td>
+                            <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date}}</td>
                             <td *ngIf="expedido">{{solicitud.fecha_cdp | date}}</td>
                             <td>responsable</td>
                             <td>elaboró</td>
@@ -132,3 +134,6 @@
     </nb-card>
     <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF" (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
 </div>
+<!-- <div>
+    <pre>{{TrNecesidad | json}}</pre>
+</div> -->
