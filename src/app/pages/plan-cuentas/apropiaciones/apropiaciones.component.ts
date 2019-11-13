@@ -4,7 +4,7 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
-import { PlanAdquisicionHelper  } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
+import { PlanAdquisicionHelper } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
 
 @Component({
   selector: 'ngx-apropiaciones',
@@ -86,7 +86,7 @@ export class ApropiacionesComponent implements OnInit {
         this.vigenciaSel = res + '';
       }
     });
-    this.showPlanAdquisicion('2019','388');
+    this.showPlanAdquisicion('2019', '388');
   }
 
   receiveMessage($event) {
@@ -103,21 +103,31 @@ export class ApropiacionesComponent implements OnInit {
       );
       this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
 
-      this.valorApropiacion =  this.rubroSeleccionado.ValorInicial;
+      this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
       if (this.rubroSeleccionado.Estado === 'registrada') {
-        this.productos = true; 
+        this.productos = true;
       }
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
-      this.showPlanAdquisicion('2019','388');
+      console.info(this.rubroSeleccionado.Codigo);
+
+      var newstr = this.getLastLevel(/([^-]+)$/, this.rubroSeleccionado.Codigo)
+      console.info(newstr);
+      this.showPlanAdquisicion('2019', newstr);
     } else {
       this.isLeaf = false;
-      this.productos = false; 
+      this.productos = false;
     }
   }
 
+  getLastLevel(regex, str) {
+    let m
+    if ((m = regex.exec(str)) !== null) {
+      return m[0];
+    }
+  }
   showPlanAdquisicion(vigenciaaux, rubroaux) {
     this.planAdHelper.getPlanAdquisicionByRubro(vigenciaaux + '/' + rubroaux).subscribe((res) => {
-      if(res) {
+      if (res) {
         this.planAdquisicionesRubro = res;
         console.info(this.planAdquisicionesRubro);
       }
