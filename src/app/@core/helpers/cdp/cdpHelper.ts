@@ -57,7 +57,7 @@ export class CDPHelper {
                     }
                     return res ?
                         res.filter(
-                            e => e.infoCdp !== null && e.infoCdp.consecutivo && e.infoCdp.fechaExpedicion && e.infoCdp.estado).map(
+                            e => e.infoCdp !== null).map(
                                 e => {
                                     return {
                                         ...e,
@@ -129,23 +129,49 @@ export class CDPHelper {
     * @param id en caso de que se desee consultar una necesidad especifica
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-   public getFullNecesidad(idnecesidad) {
-    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-    return this.rqManager.get(`necesidad/getfullnecesidad/`+idnecesidad).pipe(
-        map(
-            res_mid => {
-                if (res_mid.status > 300) {
-                    this.pUpManager.showErrorAlert('Error al obtener la necesidad');
-                    return undefined;
-                } else {
-                    return res_mid;
+    public getFullNecesidad(idnecesidad) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`necesidad/getfullnecesidad/` + idnecesidad).pipe(
+            map(
+                res_mid => {
+                    if (res_mid.status > 300) {
+                        this.pUpManager.showErrorAlert('Error al obtener la necesidad');
+                        return undefined;
+                    } else {
+                        return res_mid;
+                    }
                 }
-            }
-        )
-    );
+            )
+        );
 
 
-   }
+    }
+    /**
+    * expedir CDP
+    * dispara la funcion para expedicion del CDP
+    * inforcdp si  todo ok, alerta si falla.
+    * @param id identificador de solicitud de cdp
+    * @returns  <Observable> objeto creado en la solicitud de cdp. undefined if the request has errors
+    */
+    public expedirCDP(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`cdp/expedirCDP/` + id).pipe(
+            map(
+                res_mid => {
+                    if (res_mid.status > 300) {
+                        this.pUpManager.showErrorAlert('Error al expedir CDP');
+                        return undefined;
+                    } else {
+                        return res_mid;
+                    }
+                }
+            )
+        );
+
+
+    }
+
+
     /**
     * get jefe dependencia
     * consulta los jefes de dependencia por ID para devolver la info de la persona
@@ -153,9 +179,9 @@ export class CDPHelper {
     * @param id identificador del jefe de dependencia
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-   public getJefeDependencia(id) {
-       
-   }
+    public getJefeDependencia(id) {
+
+    }
 
 
 
