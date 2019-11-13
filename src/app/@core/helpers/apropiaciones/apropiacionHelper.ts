@@ -1,6 +1,6 @@
 import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 
 @Injectable({
@@ -129,7 +129,26 @@ export class ApropiacionHelper {
     public getRootsBalance(vigencia: number, afectationObj?: any) {
         const unidadEjecutora = 1;
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.post(`modificacion_apropiacion/simulacion_afectacion_modificacion/${unidadEjecutora.toString()}/${vigencia}`, afectationObj);
+        return this.rqManager.post(`modificacion_apropiacion/simulacion_afectacion_modificacion/${unidadEjecutora.toString()}/${vigencia}`, afectationObj).pipe(
+            map(
+                (res) => {
+                    console.log('res', res);
+                    
+                    if (res['Type'] === 'error') {
+                        this.pUpManager
+                            .showErrorAlert(res['Body']);
+                        return undefined;
+                    }
+                    return res;
+                }
+            ),
+            catchError(
+                err => {
+                    console.log('err', err);
+                    return undefined;
+                }
+            )
+        );
 
     }
 
