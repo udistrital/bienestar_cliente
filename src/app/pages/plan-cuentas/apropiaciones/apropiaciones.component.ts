@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
 import { PlanAdquisicionHelper } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
+import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 
 @Component({
   selector: 'ngx-apropiaciones',
@@ -40,12 +42,15 @@ export class ApropiacionesComponent implements OnInit {
   AreaFuncional: string;
   CentroGestor: string;
   planAdquisicionesRubro: any;
+  paramsFieldsName: object;
 
   constructor(
     private apHelper: ApropiacionHelper,
+    private fuenteHelper: FuenteHelper,
     private commonHelper: CommonHelper,
     private planAdHelper: PlanAdquisicionHelper,
     private popManager: PopUpManager,
+    private dependenciaHelper: DependenciaHelper,
   ) {
     this.vigenciaSel = '2020';
     this.optionView = 'Apropiaciones';
@@ -86,7 +91,7 @@ export class ApropiacionesComponent implements OnInit {
         this.vigenciaSel = res + '';
       }
     });
-    this.showPlanAdquisicion('2019', '388');
+    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
   }
 
   receiveMessage($event) {
@@ -128,8 +133,23 @@ export class ApropiacionesComponent implements OnInit {
   showPlanAdquisicion(vigenciaaux, rubroaux) {
     this.planAdHelper.getPlanAdquisicionByRubro(vigenciaaux + '/' + rubroaux).subscribe((res) => {
       if (res) {
-        this.planAdquisicionesRubro = res;
-        console.info(this.planAdquisicionesRubro);
+        this.planAdquisicionesRubro = res.metas.actividades;
+        this.planAdquisicionesRubro.map((item) => {
+          if (item.fuente_financiamiento !== null) {
+            this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1}).subscribe((res) => {
+              if(res.Body !== null) {
+                item.fuente_financiamiento_nombre = res.Nombre;
+              }
+              item.valor_actividad = parseFloat(item.valor_actividad); 
+              item.valor_fuente_financiamiento = parseFloat(item.valor_fuente_financiamiento);
+            });
+            this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
+              if(res.Body !== null) {
+                item.dependencia = res.Nombre;
+              }
+            });
+          }
+        })
       }
     });
   }
