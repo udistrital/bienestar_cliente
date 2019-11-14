@@ -26,10 +26,6 @@ export class DependenciasComponent implements OnInit {
   info_fuente: FuenteFinanciamiento;
   clean = false;
   rubrosAsignados: any = [];
-/*   dependencias: any = [];
-  dependenciasAsociadas: any = {};
-  dependenciasAsignadas: any;
-  dependenciaSeleccionada: any = []; */
   entrarEditar: boolean;
   totalPermitido: boolean;
   entrarAddProductos: boolean;
@@ -49,14 +45,7 @@ export class DependenciasComponent implements OnInit {
     this.entrarAddProductos = false;
     this.showProduct = false;
     this.optionView = 'Apropiaciones';
-/*     this.dependenciaHelper.get().subscribe((res: any) => {
-      console.info(res);
-      this.dependencias = res;
-    });
-    this.dependenciaSeleccionada[0] = {
-      Id: 0,
-      ValorDependencia: 0,
-    }; */
+
   }
 
   ngOnInit() {
@@ -88,17 +77,6 @@ export class DependenciasComponent implements OnInit {
     }
   }
 
-/*   asignarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
-    this.rubrosAsignados.filter(data => {
-      data === rubro;
-      data['Dependencias'].push({ Id: 0, ValorDependencia: 0 });
-    });
-    this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
-    this.entrarEditar = true;
-    this.validarLimiteApropiacion(rubro);
-    this.entrarAddProductos = true;
-  } */
-
   guardarValorFuenteRubro() {
     this.infoinput.Rubros[this.rubroSeleccionado.Codigo].ValorTotal =
       typeof this.rubroSeleccionado.ValorFuenteRubro === 'undefined' ? undefined : this.rubroSeleccionado.ValorFuenteRubro;
@@ -111,22 +89,6 @@ export class DependenciasComponent implements OnInit {
     });
 
   }
-/*   editarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
-    console.info(dependencias);
-    this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
-    this.entrarEditar = false;
-    this.validarLimiteApropiacion(rubro);
-    console.info(this.rubrosAsociados);
-  } */
-/*   validarLimiteApropiacion(rubro: Rubro) {
-    const totalDep = this.rubrosAsociados[rubro.Codigo].Dependencias.reduce(
-      (total, dep) => total + (dep.ValorDependencia || 0), 0);
-    this.totalPermitido = totalDep <= rubro.ApropiacionInicial;
-    console.info(totalDep);
-    if (!this.totalPermitido) {
-      this.popManager.showErrorAlert('Valor Excedido Apropiación' + ' para el Rubro ' + rubro.Nombre);
-    }
-  } */
   validarEdicion(rubro: any) {
     if (rubro.Codigo.ValorFuenteApropiacion === undefined) {
       return false;
