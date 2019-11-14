@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { FuenteFinanciamiento } from '../../../@core/data/models/fuente_financiamiento';
-import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 import { FORM_VALUE_FUENTE } from '../fuentes/form-value-fuente';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
@@ -27,10 +26,10 @@ export class DependenciasComponent implements OnInit {
   info_fuente: FuenteFinanciamiento;
   clean = false;
   rubrosAsignados: any = [];
-  dependencias: any = [];
+/*   dependencias: any = [];
   dependenciasAsociadas: any = {};
   dependenciasAsignadas: any;
-  dependenciaSeleccionada: any = [];
+  dependenciaSeleccionada: any = []; */
   entrarEditar: boolean;
   totalPermitido: boolean;
   entrarAddProductos: boolean;
@@ -42,7 +41,6 @@ export class DependenciasComponent implements OnInit {
   formValueFuente: any;
   constructor(
     private fuenteHelper: FuenteHelper,
-    private dependenciaHelper: DependenciaHelper,
     private popManager: PopUpManager, ) {
     this.editValueFF = false;
     this.vigenciaSel = '2020';
@@ -51,14 +49,14 @@ export class DependenciasComponent implements OnInit {
     this.entrarAddProductos = false;
     this.showProduct = false;
     this.optionView = 'Apropiaciones';
-    this.dependenciaHelper.get().subscribe((res: any) => {
+/*     this.dependenciaHelper.get().subscribe((res: any) => {
       console.info(res);
       this.dependencias = res;
     });
     this.dependenciaSeleccionada[0] = {
       Id: 0,
       ValorDependencia: 0,
-    };
+    }; */
   }
 
   ngOnInit() {
@@ -90,7 +88,7 @@ export class DependenciasComponent implements OnInit {
     }
   }
 
-  asignarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
+/*   asignarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
     this.rubrosAsignados.filter(data => {
       data === rubro;
       data['Dependencias'].push({ Id: 0, ValorDependencia: 0 });
@@ -99,7 +97,7 @@ export class DependenciasComponent implements OnInit {
     this.entrarEditar = true;
     this.validarLimiteApropiacion(rubro);
     this.entrarAddProductos = true;
-  }
+  } */
 
   guardarValorFuenteRubro() {
     this.infoinput.Rubros[this.rubroSeleccionado.Codigo].ValorTotal =
@@ -113,14 +111,14 @@ export class DependenciasComponent implements OnInit {
     });
 
   }
-  editarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
+/*   editarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
     console.info(dependencias);
     this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
     this.entrarEditar = false;
     this.validarLimiteApropiacion(rubro);
     console.info(this.rubrosAsociados);
-  }
-  validarLimiteApropiacion(rubro: Rubro) {
+  } */
+/*   validarLimiteApropiacion(rubro: Rubro) {
     const totalDep = this.rubrosAsociados[rubro.Codigo].Dependencias.reduce(
       (total, dep) => total + (dep.ValorDependencia || 0), 0);
     this.totalPermitido = totalDep <= rubro.ApropiacionInicial;
@@ -128,7 +126,7 @@ export class DependenciasComponent implements OnInit {
     if (!this.totalPermitido) {
       this.popManager.showErrorAlert('Valor Excedido Apropiación' + ' para el Rubro ' + rubro.Nombre);
     }
-  }
+  } */
   validarEdicion(rubro: any) {
     if (rubro.Codigo.ValorFuenteApropiacion === undefined) {
       return false;
