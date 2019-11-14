@@ -8,7 +8,7 @@
             {{
               "GLOBAL.vigencia" | translate
             }}
-            <nb-select id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="vigenciaSel">
+            <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="vigenciaSel">
               <nb-option [value]="vigenciaSel" (click)="onSelect(0)">Sin Vigencia</nb-option>
               <nb-option *ngFor="let v of vigencias" [value]="v" (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
             </nb-select>

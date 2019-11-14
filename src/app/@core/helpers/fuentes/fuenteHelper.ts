@@ -70,6 +70,7 @@ export class FuenteHelper {
         console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
 /*         fuenteData.UnidadEjecutora = '1'; */ // Tomar la unidad ejecutora del token cuando este definido.
+        fuenteData.UnidadEjecutora = '1';
         fuenteData.Organizacion = 1;
 /*         fuenteData.Vigencia = fuenteData.Vigencia; */
         fuenteData.activo = true;
