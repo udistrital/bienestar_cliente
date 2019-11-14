@@ -7,6 +7,9 @@ import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
 import { PlanAdquisicionHelper } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
 import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
+import { registerLocaleData } from '@angular/common';
+import locales from '@angular/common/locales/es-CO';
+registerLocaleData(locales, 'co');
 
 @Component({
   selector: 'ngx-apropiaciones',
@@ -135,12 +138,12 @@ export class ApropiacionesComponent implements OnInit {
       if (res) {
         this.planAdquisicionesRubro = res.metas.actividades;
         this.planAdquisicionesRubro.map((item) => {
+          item.valor_actividad = parseFloat(item.valor_actividad); 
           if (item.fuente_financiamiento !== null) {
             this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1}).subscribe((res) => {
               if(res.Body !== null) {
                 item.fuente_financiamiento_nombre = res.Nombre;
               }
-              item.valor_actividad = parseFloat(item.valor_actividad); 
               item.valor_fuente_financiamiento = parseFloat(item.valor_fuente_financiamiento);
             });
             this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
@@ -148,6 +151,9 @@ export class ApropiacionesComponent implements OnInit {
                 item.dependencia = res.Nombre;
               }
             });
+          }else{
+
+            item.valor_fuente_financiamiento = 0;
           }
         })
       }
