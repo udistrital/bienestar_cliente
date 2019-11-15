@@ -108,12 +108,12 @@
                       <ul>
                         <li><strong>Actividad:</strong> {{actividad.actividad}}
                           <ul>
-                            <li><strong>Valor Actividad:</strong> {{actividad.valor_actividad?actividad.valor_actividad:0}}</li>
+                            <li><strong>Valor Actividad:</strong> {{actividad.valor_actividad | currency:'COP':'symbol':'4.2-2':'co'}}</li>
                             <li><strong>Meta:</strong> {{actividad.meta}}</li>
-                            <li *ngIf="actividad.fuente_financiamiento"><strong>Fuente Financiamiento: </strong><span> {{actividad.fuente_financiamiento}}</span> - {{actividad.fuente_financiamiento_nombre}}
+                            <li><strong>Fuente Financiamiento: </strong><span> {{actividad.fuente_financiamiento}}</span> - {{actividad.fuente_financiamiento_nombre?actividad.fuente_financiamiento_nombre:'No Asignada'}}
                               <ul>
                                 <li><strong>Dependencia:</strong> {{actividad.dependencia}}</li>
-                                <li><strong>Valor fuente:</strong> {{actividad.valor_fuente_financiamiento?actividad.valor_fuente_financiamiento:0}}</li>
+                                <li><strong>Valor fuente:</strong> {{actividad.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
                               </ul>
                             </li>
 
