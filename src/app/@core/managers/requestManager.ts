@@ -51,6 +51,7 @@ export class RequestManager {
 
     }
     this.httpOptions.params = queryParams;
+    console.info(`${this.path}${endpoint}`, this.httpOptions)
     return this.http.get<any>(`${this.path}${endpoint}`, this.httpOptions).pipe(
       map(
         (res) => {

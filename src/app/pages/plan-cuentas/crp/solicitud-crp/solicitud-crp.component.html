@@ -5,7 +5,7 @@
     </nb-card-header>
 
     <nb-card-body>
-        <ngx-dinamicform [normalform]="formInfoSolCrp" [modeloData]="info_solCrp" (result)="validarForm($event)"
+        <ngx-dinamicform [normalform]="formInfoSolCrp" [modeloData]="info_solCrp" (resultAux)="button($event)" (result)="validarForm($event)"
             [clean]="clean">
         </ngx-dinamicform>
         <div class="row">
