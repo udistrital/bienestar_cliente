@@ -9,9 +9,16 @@ steps:
       - npm run test
     when:
       branch:
-        - unit-test
-      event:
-        - pull_request
+        - dev
+
+  - name:  pruebas-linter
+    image: node:12.6.0
+    commands:
+      - npm i
+      - npm run lint
+    when:
+      branch:
+        - dev
 
   - name: nodejs-test
     image: node:12.6.0
