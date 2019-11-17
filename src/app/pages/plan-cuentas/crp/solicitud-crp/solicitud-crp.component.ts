@@ -17,6 +17,7 @@ export class SolicitudCrpComponent implements OnInit {
   clean = false;
   formInfoSolCrp: any;
   solCrpData: SolicitudCrp;
+  router: any;
 
   constructor(
     private translate: TranslateService,
@@ -68,7 +69,6 @@ export class SolicitudCrpComponent implements OnInit {
     // tslint:disable-next-line
     const today = new Date();
     if (event.valid) {
-      console.info(event.data , "esta es la data");
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
       this.solCrpData.Vigencia = '2019';
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
@@ -83,12 +83,18 @@ export class SolicitudCrpComponent implements OnInit {
         this.solCrpData.Valor = 0;
       }
 
-      console.info(this.solCrpData, 'hola');
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
-          this.popManager.showSuccessAlert('Se registro la Solicitud de CRP correctamente!');
           this.cleanForm();
+          this.popManager.showAlert('sucess', 'Solicitud de CDP Registrada', 'La solicitud N° ha sido registrada')
+            .then((result) => {
+              if (result.value) {
+                this.router.navigate(['/pages/plan-cuentas/solicitudcrp']);
+
+              }
+            });
+
         }
       });
     } else {
@@ -101,7 +107,6 @@ export class SolicitudCrpComponent implements OnInit {
     let cdpsConsecutivos: Array<any> = [];
     this.cdpHelper.getListaCDP('').subscribe(res => {
       if (res != null) {
-        console.info(res);
         cdpsConsecutivos = res;
       }
       this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].opciones = cdpsConsecutivos;
@@ -109,11 +114,8 @@ export class SolicitudCrpComponent implements OnInit {
   }
 
   button(event: any) {
-    console.info(event);
     let vda = undefined;
     this.crpHelper.getInfoNaturalJuridica(event.data.NumeroDocumento).subscribe((res) => {
-      console.info(res, "locuras locas");
-
       this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = res[0].NomProveedor;
     })
 
@@ -131,7 +133,6 @@ export class SolicitudCrpComponent implements OnInit {
     let tipoCompromisosData: Array<any> = [];
     this.crpHelper.getCompromisos().subscribe(res => {
       if (res != null) {
-        console.info(res, 'datos Compromisos xd');
         tipoCompromisosData = res;
       }
       this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;

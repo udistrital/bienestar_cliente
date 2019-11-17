@@ -85,7 +85,6 @@ export class PagesComponent implements OnInit {
                     key: this.dataMenu[i].Nombre,
                     children: [],
                   };
-                  console.info(this.dataMenu[i]);
                 }
                 if (i === 0) {
                   this.object.title = 'Dashboard';

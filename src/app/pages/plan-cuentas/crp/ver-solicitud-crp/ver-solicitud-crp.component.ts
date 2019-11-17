@@ -16,13 +16,15 @@ export class VerSolicitudCrpComponent implements OnInit {
   @Input('solicitudcrp') solicitud: object;
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
-  necesidad: any = {};
-  cdpData: any = {};
+  cdpInfo: any = {};
+  TrNecesidad: any;
   beneficiario: any = {};
   objetoNecesidad: any = {};
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/crp-ejemplo.pdf';
   tituloPDF: string = '';
+  areas = [{ Id: 1, Nombre: 'Rector' }, { Id: 2, Nombre: 'Convenios' }];
+  area: any;
   constructor(
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
@@ -33,27 +35,58 @@ export class VerSolicitudCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cargarInfoDetalle();
-  }
-
-  cargarInfoDetalle() {
     if (this.solicitud != undefined) {
       this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-        const cdpInfo = resCdp;
+        this.cdpInfo = resCdp;
 
-        if (cdpInfo != undefined) {
-          this.crpHelper.getFullNecesidad(cdpInfo.necesidad).subscribe(res_mid => {
-            this.necesidad = res_mid;
-            this.cdpData = cdpInfo
-            this.beneficiario = this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario']);
-            if (this.necesidad != undefined) {
-             this.objetoNecesidad = this.necesidad.Necesidad.Objeto;
+        this.area = this.areas.filter(i => {
+          return i.Id === this.cdpInfo.centroGestor;
+        }
+        )
+
+        if (this.cdpInfo) {
+          this.cdpHelper.getFullNecesidad(this.cdpInfo.necesidad).subscribe(res => {
+            this.TrNecesidad = res;
+            if (this.TrNecesidad.Rubros) {
+              this.TrNecesidad.Rubros.forEach(rubro => {
+                rubro.MontoParcial = 0
+                if (rubro.Metas) {
+                  rubro.Metas.forEach(meta => {
+                    if (meta.Actividades) {
+                      meta.Actividades.forEach(act => {
+                        if (act.FuentesActividad) {
+                          act.FuentesActividad.forEach(fuente => {
+                            rubro.MontoParcial += fuente.MontoParcial
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+                if (rubro.Fuentes) {
+                  rubro.Fuentes.forEach(fuente => {
+                    rubro.MontoParcial += fuente.MontoParcial
+                  });
+
+                }
+
+              });
             }
+
+            if (this.TrNecesidad) {
+              this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
+            }
+
+            this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario'].substring(2)).subscribe(respuesta => {
+              this.beneficiario = respuesta[0];
+            });
+
           });
         }
       });
-    }          
+    }
   }
+
 
 
   cambioTab() {

@@ -50,7 +50,6 @@ export class RequestManager {
 
     }
     this.httpOptions.params = queryParams;
-    console.info(`${this.path}${endpoint}`, this.httpOptions)
     return this.http.get<any>(`${this.path}${endpoint}`, this.httpOptions).pipe(
       map(
         (res) => {
@@ -94,7 +93,6 @@ export class RequestManager {
    * @returns Observable<any>
    */
   put(endpoint, element, id) {
-    console.info(JSON.stringify(element));
     return this.http.put<any>(`${this.path}${endpoint}${id}`, JSON.stringify(element), this.httpOptions).pipe(
       catchError(this.errManager.handleError),
     );

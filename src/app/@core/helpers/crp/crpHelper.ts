@@ -7,6 +7,7 @@ import { PopUpManager } from '../../managers/popUpManager';
     providedIn: 'root',
 })
 export class CRPHelper {
+    router: any;
 
     constructor(
         private rqManager: RequestManager,
@@ -54,7 +55,6 @@ export class CRPHelper {
         return this.rqManager.get('tipo_documento/').pipe(
             map(
                 res_tCompromiso => {
-                    console.info(res_tCompromiso);
                     return res_tCompromiso.filter(n => n.DominioTipoDocumento !== null && n.DominioTipoDocumento.Id === 4);
                 }
             )
@@ -82,15 +82,17 @@ export class CRPHelper {
         objSolCrp.activo = true;
         objSolCrp.fechaCreacion = solCrpData.FechaCreacion;
         objSolCrp.fechaModificacion = solCrpData.FechaCreacion;
-        console.info(objSolCrp);
         return this.rqManager.post(`solicitudesCRP/`, objSolCrp).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo registrar el CRP');
                         return undefined;
+                    } else {
+
+                        return res;
                     }
-                    return res;
+
                 },
             ),
         );
@@ -105,15 +107,7 @@ export class CRPHelper {
      * @returns  <Observable> object updated information. undefined if the proccess has errors.
      */
     public solCrpUpdate(crpData) {
-        console.info(crpData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        /*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-                cdpData.Organizacion = 1;
-                cdpData.Vigencia = cdpData.Vigencia.vigencia;
-                cdpData.activo = true;
-                cdpData.Codigo = cdpData.Codigo.toString();
-                cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
-                cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
         return this.rqManager.put('solicitudesCRP/', crpData, crpData.Codigo).pipe(
             map(
                 (res) => {
@@ -152,7 +146,7 @@ export class CRPHelper {
      * @param id of the provider
      * @returns  Object
      */
-    public getInfoNaturalJuridica(id){
+    public getInfoNaturalJuridica(id) {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
         return this.rqManager.get('informacion_proveedor/?query=NumDocumento:' + id).pipe(
             map(
@@ -165,22 +159,7 @@ export class CRPHelper {
                     }
                 }
             ));
-            }
-        
-        
-        
-        
-    //     subscribe(res => {
-    //         if (res != undefined) {
-    //             console.info(res[0])
-    //             return res[0];
-    //         } else {
-    //             this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
-    //             return {};
-    //         }
-    //     });
-
-    // }
+    }
 
 
 }
