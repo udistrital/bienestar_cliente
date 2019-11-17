@@ -40,9 +40,23 @@
 
   - Linter
   ```bash
+  # Angular linter
+  npm run lint
+
+  # run linter and auto fix
+  npm run lint:fix
+
+  # run linter on styles
+  npm run lint:styles
+
+  # run lint UI
+  npm run lint:ci
   ```
   - Pruebas unitarias
   ```bash
+  # Angular linter
+  npm run lint
+
   ```
 
 <summary><h2> :pick: Dependencias Utilizadas</h2></summary>
