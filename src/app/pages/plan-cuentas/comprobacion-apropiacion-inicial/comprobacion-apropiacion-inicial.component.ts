@@ -48,7 +48,9 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
           clean: true,
         });
       } else {
-        this.afectationData.pop();
+        if (this.afectationData && this.afectationData.length > 0) {
+          this.afectationData.pop();
+        }
         this.comprobacion.emit({
           balanceado: this.balanceado,
           approved: this.approved,
