@@ -52,10 +52,13 @@
   # run lint UI
   npm run lint:ci
   ```
-  - Pruebas unitarias
+  - Pruebas unitarias powered by Jest
   ```bash
-  # Angular linter
-  npm run lint
+  # run unit test
+  npm run test
+
+  # Runt linter + unit test
+  npm run test:ui
 
   ```
 
