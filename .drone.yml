@@ -10,6 +10,9 @@ steps:
     when:
       branch:
         - dev
+      event:
+        - push
+        - pull_request
 
   - name: nodejs-test
     image: node:12.6.0
