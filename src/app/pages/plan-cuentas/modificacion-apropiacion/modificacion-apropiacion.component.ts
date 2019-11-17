@@ -89,7 +89,6 @@ export class ModificacionApropiacionComponent implements OnInit {
                 if (this.checkAfectationFinalData['afectation']) {
                     this.modifiactionFinalData['afectation'] = this.checkAfectationFinalData['afectation'];
                     if (this.checkAfectationFinalData['afectation'].length > 0 && this.checkAfectationFinalData['balanced'] && this.checkAfectationFinalData['balanced'] === true) {
-                        
                         this.setModValidationForm.patchValue({
                             valid: true
                         });
