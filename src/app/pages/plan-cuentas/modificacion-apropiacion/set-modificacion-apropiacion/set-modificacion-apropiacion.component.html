@@ -57,6 +57,6 @@
             </ngx-comprobacion-apropiacion-inicial>
       </nb-tab>
     </nb-tabset>
-    <button [disabled]="!balanceado || !aprAfectation || aprAfectation.length === 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent(true)">{{'GLOBAL.siguiente' | translate }}</button>
+    <button *ngIf="balanceado && aprAfectation && aprAfectation.length > 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent(true)">{{'GLOBAL.siguiente' | translate }}</button>
   </nb-card-body>
 </nb-card>
