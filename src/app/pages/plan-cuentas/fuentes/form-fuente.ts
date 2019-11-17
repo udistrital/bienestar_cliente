@@ -44,9 +44,6 @@ export let FORM_FUENTE = {
             tipo: 'Vigencia',
             key: 'vigencia',
             opciones: [
-                { vigencia: 2020 },
-                { vigencia: 2019 },
-                { vigencia: 2018 },
             ],
         },
         {
@@ -115,9 +112,9 @@ export let FORM_FUENTE = {
             tipo: 'TipoDocumento',
             key: 'Valor',
             opciones: [
-                { Valor: 'ACTA' },
-                { Valor: 'RESOLUCION' },
-                { Valor: 'CONTRATO' },
+                { Id:1, Valor: 'ACTA' },
+                { Id:2, Valor: 'RESOLUCION' },
+                { Id:3, Valor: 'CONTRATO' },
             ],
         },
         {

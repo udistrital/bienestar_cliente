@@ -1,10 +1,8 @@
 <div class="container-fluid">
   <nb-card>
     <nb-card-header>
-      Gestión de Preasignación Inicial
-      <nb-select id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="VigenciaActual">
-        <nb-option *ngFor="let v of vigencias" [value]="v" (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
-      </nb-select>
+      {{"APROPIACION.title_gestion_preasignacion" | translate }} -
+      <strong>{{ "GLOBAL.vigencia" | translate }}: {{VigenciaActual}}</strong>
     </nb-card-header>
     <div class="row">
       <div class="col-md-12">
@@ -16,47 +14,14 @@
               [updateSignal]="eventChange">
             </ngx-comprobacion-apropiacion-inicial>
             <div class="col-md-12 spacingValorAp">
-              <button *ngIf="balanceado" type="submit" style="margin-bottom: 3%;" class="btn btn-success btn-block" (click)="aprobarApropiacion()">
+              <button *ngIf="balanceado" type="submit" style="margin-bottom: 3%;" class="btn btn-success btn-block" (click)="aprobarApropiacion()" [hidden]="allApproved">
                 {{ "GLOBAL.aprobar-apropiacion-inicial" | translate }}
               </button>
             </div>
           </div>
-
           <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
-            <div class="container-fluid">
-              <nb-card>
-                <nb-card-header>{{ "GLOBAL.detalle-apropiacion-inicial" | translate }}
-                </nb-card-header>
-                <nb-card-body>
-                  <div class="row formPreasignacion">
-                    <div class="form-group">
-                        <label>Valor Apropiación Inicial</label>
-                        <input currencyMask type="text" min="1" step="any" class="form-control moneyField" id="inputApropiacionI"
-                          placeholder="$" value="{{
-                              rubroSeleccionado.ApropiacionInicial 
-                            }}" [(ngModel)]="valorApropiacion" />
-                      <div class="spacingValorAp">
-                        <button type="submit" class="btn btn-info btn-block" (click)="preAsignarApropiacion()">
-                          {{
-                              "GLOBAL.pre-asignar-apropiacion-inicial"
-                                | translate
-                            }}
-                        </button>
-                      </div>
-  
-                    </div>
-                  </div>
-                  <form>
-                    <div class="row botonesApI">
-                      <div class="col"></div>
-  
-                      <div class="col"></div>
-                    </div>
-                  </form>
-                </nb-card-body>
-              </nb-card>
-  
-            </div>
+              <mat-tab-group>
+                  <mat-tab label="{{'GLOBAL.rubro' | translate }}">
             <div class="container-fluid">
               <nb-card>
                 <nb-card-header>{{
@@ -67,31 +32,68 @@
                     <div class="form-group">
                       <label>{{ "GLOBAL.nombre-rubro" | translate }}</label>
                       <input type="text" class="form-control" placeholder="Nombre" [value]="rubroSeleccionado.Nombre"
-                        readonly />
+                      readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.codigo-rubro" | translate }}</label>
                       <input type="text" class="form-control" placeholder="Codigo" [value]="rubroSeleccionado.Codigo"
-                        readonly />
+                      readonly />
                     </div>
-
                     <div class="form-group">
                       <label>{{
-                          "GLOBAL.unidad-ejecutora" | translate
-                        }}</label>
-                      <input type="text" class="form-control" placeholder="Centro Gestor"
-                        [value]="rubroSeleccionado.UnidadEjecutora" readonly />
+                        "GLOBAL.unidad-ejecutora" | translate
+                      }}</label>
+                      <input type="text" class="form-control" placeholder="Area Funcional"
+                      [value]="AreaFuncional || ''" readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.centro_gestor" | translate }}</label>
-                      <input type="text" class="form-control" placeholder="centro_gestor" readonly />
+                      <input [value]="CentroGestor || ''" type="text" class="form-control" placeholder="centro_gestor" readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.descripcion" | translate }}</label>
                       <textarea class="form-control" placeholder="Descripción" [value]="rubroSeleccionado.Descripcion"
-                        readonly></textarea>
+                      readonly></textarea>
                     </div>
                   </form>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </mat-tab>
+          <mat-tab *ngIf="productos " label="{{'GLOBAL.productos' | translate }}">
+              <!-- productos -->
+
+              <div class="row" *ngIf="true">
+                <div class="col-md-12">
+                  <ngx-productos-rubro [productosAsignados]="listaProductosAsignados" [rubroInfo]="rubroSeleccionado"
+                    (cambioListaProductosAsignados)="cambioProductosAsignados($event)"></ngx-productos-rubro>
+                  <!-- <pre>{{listaProductosAsignados | json}}</pre> -->
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+            <div [hidden]="rubroSeleccionado.Estado === 'aprobada'" class="container-fluid">
+              <nb-card>
+                <nb-card-header>{{ "GLOBAL.detalle-apropiacion-inicial" | translate }}
+                </nb-card-header>
+                <nb-card-body>
+                  <div class="row formPreasignacion">
+                    <div class="form-group">
+                        <label>Valor Apropiación Inicial</label>
+                        <input currencyMask type="text" min="1" step="any" class="form-control moneyField" id="inputApropiacionI"
+                          placeholder="$" value="{{
+                              rubroSeleccionado.ApropiacionInicial
+                            }}" [(ngModel)]="valorApropiacion" />
+                      <div class="spacingValorAp">
+                        <button type="submit" class="btn btn-info btn-block" (click)="preAsignarApropiacion()" >
+                          {{
+                              "GLOBAL.pre-asignar-apropiacion-inicial"
+                                | translate
+                            }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </nb-card-body>
               </nb-card>
             </div>

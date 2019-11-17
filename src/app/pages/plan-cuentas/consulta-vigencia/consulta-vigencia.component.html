@@ -7,19 +7,19 @@
       {{
         "GLOBAL.vigencia" | translate
       }}
-      {{
-        vigenciaSel
-      }}             
+      <nb-select id="select_vigencia" placeholder={{vigenciaSel}} hero status="info" [(ngModel)]="VigenciaActual">
+        <nb-option *ngFor="let v of vigencias" [value]="v" (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
+      </nb-select>                   
     </nb-card-header>
     <div class="row">
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-xxxl-6">
+          <div class="col-md-8 col-lg-8 col-xxxl-8">
             <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
               [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
           </div>
 
-          <div class="col-md-6 col-lg-6 col-xxxl-6">
+          <div class="col-md-4 col-lg-4 col-xxxl-4">
             <div class="container-fluid">
               <nb-card>
                 <nb-card-header>{{
@@ -42,12 +42,12 @@
                       <label>{{
                           "GLOBAL.unidad-ejecutora" | translate
                         }}</label>
-                      <input type="text" class="form-control" placeholder="Centro Gestor"
-                        [value]="rubroSeleccionado.UnidadEjecutora" readonly />
+                      <input type="text" class="form-control" placeholder=""
+                        [value]="AreaFuncional || ''" readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.centro_gestor" | translate }}</label>
-                      <input type="text" class="form-control" placeholder="centro_gestor" readonly />
+                      <input [value]="CentroGestor || ''" type="text" class="form-control" placeholder="" readonly />
                     </div>
                     <div class="form-group">
                       <label>{{ "GLOBAL.descripcion" | translate }}</label>

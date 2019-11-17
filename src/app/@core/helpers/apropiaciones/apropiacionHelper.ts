@@ -57,6 +57,37 @@ export class ApropiacionHelper {
 
 
     }
+    /**
+       * Apropiacion Producto update
+       * If the response has errors in the OAS API it should show a popup message with an error.
+       * If the response suceed, it returns the data of the updated object.
+       * @param apropiacionData object to save in the DB
+       * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+       */
+    public apropiacionProductoUpdate(apropiacionData) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
+        apropiacionData.Organizacion = '1';
+        console.info(apropiacionData.Vigencia);
+
+        return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
+            apropiacionData).pipe(
+                map(
+                    (res) => {
+                        if (res['Type'] === 'error') {
+                            if (res['Message'] !== '') {
+                                this.pUpManager.showErrorAlert(res['Message']);
+                            } else {
+                                this.pUpManager.showErrorAlert('No se pudo actualizar la información del producto al rubro seleccionado.');
+                            }
+                            return undefined;
+                        }
+                        return res;
+                    },
+                ),
+            );
+
+    }
 
     /**
        * Apropiacion Inicial Update
@@ -95,10 +126,28 @@ export class ApropiacionHelper {
 
 
 
-    public getRootsBalance(vigencia: number) {
+    public getRootsBalance(vigencia: number, afectationObj?: any) {
         const unidadEjecutora = 1;
-        return this.rqManager.get(`arbol_rubro_apropiacion/comprobar_balance/${unidadEjecutora.toString()}/${vigencia}`);
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.post(`modificacion_apropiacion/simulacion_afectacion_modificacion/${unidadEjecutora.toString()}/${vigencia}`, afectationObj);
 
+    }
+
+    public getVigenciasList() {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        const unidadEjecutora = 1;
+        return this.rqManager.get(`vigencia/apropiacion/` + unidadEjecutora).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager
+                            .showErrorAlert('No se puede obtener la información de las vigencias  ');
+                        return undefined;
+                    }
+                    return res;
+                }
+            )
+        );
     }
 
 }

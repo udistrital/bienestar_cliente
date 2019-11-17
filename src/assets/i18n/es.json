@@ -28,7 +28,8 @@
       "gestion_rubros": "Rubros Presupuestales",
       "gestion_apropiaciones": "Preasignación Inicial",
       "gestion_fuentes": "Fuentes de Financiamiento",
-      "gestion_productos": "Productos"
+      "gestion_productos": "Productos",
+      "gestion_modificaciones_apropiaciones":  "Modificaciones Presupuestales"
     },
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
@@ -40,7 +41,7 @@
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
       "cdp": "C.Disponibilidad Presupuestal"
-    },    
+    },
     "auth": {
       "auth": "Autenticación",
       "login": "Iniciar sesión",
@@ -90,7 +91,7 @@
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
     "codigo": "Código",
-    "unidad-ejecutora": "Área Funcional",
+    "unidad-ejecutora": "Área funcional",
     "descripcion": "Descripción",
     "detalle-apropiacion-inicial": "Detalle de la Apropiación Inicial",
     "pre-asignar-apropiacion-inicial": "Preasignar apropiación inicial",
@@ -157,7 +158,9 @@
     "saldo": "Saldo",
     "placeholder_vigencia": "Vigencia",
     "placeholder_area_funcional": "",
-    "placeholder_centro_gestor": ""
+    "placeholder_centro_gestor": "",
+    "rubro_registrado": "Rubro registrado",
+    "rubro_eliminado": "Rubro eliminado"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -168,7 +171,7 @@
     "edit-producto": "Editar producto"
   },
   "FUENTE_FINANCIAMIENTO": {
-    "asignar_fuente": "Asignar Fuente",
+    "guardar_fuente": "Editar Fuente",
     "add-dependencia": "Añadir dependencia",
     "remove-dependencia": "Quitar dependencia",
     "remove-rubro": "Quitar rubro",
@@ -187,7 +190,8 @@
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
     "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
-    "apropiaciones": "Apropiaciones"
+    "apropiaciones": "Apropiaciones",
+    "title_gestion_preasignacion":"Gestión de Preasignación Inicial"
   },
   "MODIF": {
     "detalle_modificacion": "Detalle de la Modificación",
@@ -267,6 +271,17 @@
     "id-contratista": "Id Contratista",
     "nombre-contratista": "Nombre Contratista",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
+  },
+  "FOOTER": {
+    "dias_disponibilidad": "Lunes a Viernes",
+    "horario": "8am a 5pm",
+    "oas_sistema": "Sistema Integrado de Informática y Telecomunicaciones",
+    "telefono": "323 93 00",
+    "extension": "Ext. 1112",
+    "direccion": "Cra. 8 # 40 - 78",
+    "piso": "Piso 1",
+    "correo": "computo@udistrital.edu.co",
+    "oficina": "Oficina Asesora de Sistemas"
   },
   "_id": "ID",
   "Nombre": "Nombre",

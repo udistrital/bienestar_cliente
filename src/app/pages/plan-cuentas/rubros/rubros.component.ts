@@ -23,16 +23,16 @@ export class RubrosComponent implements OnInit {
   formInfoRubro: any;
   rubroData: NodoRubro;
   editandoRubro: boolean;
-  productos: boolean = false;
 
   vigencias: any[] = [
     { vigencia: 2019 },
     { vigencia: 2017 },
     { vigencia: 2016 },
   ];
+  AreaFuncional: any;
+  CentroGestor: any;
   VigenciaActual = 0;
-  listaProductosAsignados = [{ producto: { id: 1, Nombre: 'p1' }, porcentaje: 50 }, { producto: { id: 2, Nombre: 'p2' }, porcentaje: 30 }];
-
+  lastAddedNodeCode: string = '';
   optionView: string;
   @Output() eventChange = new EventEmitter();
   constructor(
@@ -72,11 +72,8 @@ export class RubrosComponent implements OnInit {
 
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
-    if (this.rubroSeleccionado.Hijos.length === 0) {
-      this.productos = true;
-    } else {
-      this.productos = false;
-    }
+    this.CentroGestor = '230';
+    this.AreaFuncional = '0' + this.rubroSeleccionado.UnidadEjecutora + '-Rector';
     this.rubroSeleccionado.UnidadEjecutora = parseInt(this.rubroSeleccionado.UnidadEjecutora, 0);
 
     const data = {
@@ -116,7 +113,7 @@ export class RubrosComponent implements OnInit {
       this.rubroData.Padre = typeof this.rubroSeleccionado.Codigo === 'undefined' ? '' : String(this.rubroSeleccionado.Codigo);
       this.rbHelper.rubroRegister(this.rubroData).subscribe((res) => {
         if (res) {
-          this.popManager.showSuccessAlert('Se registro el Rubro correctamente!');
+          this.popManager.showSuccessAlert('Se registró el rubro de manera exitosa.', 'GLOBAL.rubro_registrado');
           this.cleanForm();
           this.eventChange.emit(true);
         }
@@ -128,14 +125,20 @@ export class RubrosComponent implements OnInit {
   onSelect(selectedItem: any) { }
 
   deleteRubro() {
-    const id = <string>this.rubroSeleccionado.Codigo ;
-    this.rbHelper.rubroDelete(id).subscribe((res) => {
-      if (res) {
-        this.popManager.showSuccessAlert('Se Eliminó el Rubro correctamente!');
-        this.cleanForm();
-        this.eventChange.emit(true);
-      }
-    });
+    const id = <string>this.rubroSeleccionado.Codigo;
+    this.popManager.showAlert('warning', 'Eliminar rubro', 'esta seguro?')
+      .then((result) => {
+        if (result.value) {
+          this.rbHelper.rubroDelete(id).subscribe((res) => {
+            if (res) {
+              this.popManager.showSuccessAlert('Se eliminó el rubro de manera exitosa', 'GLOBAL.rubro_eliminado');
+              this.cleanForm();
+              this.eventChange.emit(true);
+            }
+          });
+        }
+      },
+      );
   }
 
   editRubro() {
@@ -163,7 +166,4 @@ export class RubrosComponent implements OnInit {
 
   }
 
-  cambioProductosAsignados(productosAsignados: any[]) {
-    this.listaProductosAsignados = productosAsignados;
-  }
 }

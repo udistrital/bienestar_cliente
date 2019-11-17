@@ -40,11 +40,20 @@ export class PopUpManager {
         });
     }
 
-    public showSuccessAlert(text) {
+    public showSuccessAlert(text, tittle?) {
+        Swal.fire({
+            type: 'success',
+            title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
+            text: text,
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        });
+    }
+
+    public showSuccessTemplate(template) {
         Swal.fire({
             type: 'success',
             title: this.translate.instant('GLOBAL.operacion_exitosa'),
-            text: text,
+            html: template,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
         });
     }

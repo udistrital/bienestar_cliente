@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
+import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { CommonHelper } from '../../../@core/helpers/commonHelper';
 
 @Component({
   selector: 'ngx-consulta-vigencia',
@@ -19,8 +21,13 @@ export class ConsultaVigenciaComponent implements OnInit {
   VigenciaActual = '2019';
   optionView: string;
   balanceado: boolean;
+  vigencias: any[];
+  CentroGestor: string;
+  AreaFuncional: string;
 
   constructor(
+    private apHelper: ApropiacionHelper,
+    private commonHelper: CommonHelper,
   ) {
     this.vigenciaSel = '2019';
     this.optionView = 'ApropiacionesEstado';
@@ -42,13 +49,31 @@ export class ConsultaVigenciaComponent implements OnInit {
 
 
   ngOnInit() {
+    this.apHelper.getVigenciasList().subscribe(res => {
+      if (res) {
+        this.vigencias = res;
+      }
+    });
+    this.commonHelper.geCurrentVigencia().subscribe(res => {
+      if (res) {
+        this.vigenciaSel = res + '';
+      }
+    });
+  }
+
+  onSelect(selectedItem: any) {
+    this.vigenciaSel = selectedItem;
+    // this.eventChange.emit(true);
+    console.info(this.vigenciaSel);
   }
 
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
-    // console.info(this.rubroSeleccionado);
+    console.info(this.rubroSeleccionado);
     this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
     this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
+    this.CentroGestor = '230';
+    this.AreaFuncional = '0' + this.rubroSeleccionado.UnidadEjecutora + '-Rector';
     this.rubroSeleccionado.UnidadEjecutora = parseInt(
       this.rubroSeleccionado.UnidadEjecutora,
       0,

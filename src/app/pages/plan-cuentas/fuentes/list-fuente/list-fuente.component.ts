@@ -38,7 +38,6 @@ export class ListFuenteComponent implements OnInit {
     private translate: TranslateService,
     private fuenteHelper: FuenteHelper
   ) {
-
   }
 
   ngOnInit() {
@@ -50,7 +49,7 @@ export class ListFuenteComponent implements OnInit {
     this.loadDataFunction = this.fuenteHelper.getFuentes;
     this.deleteDataFunction = this.fuenteHelper.fuenteDelete;
     this.formEntity = FORM_FUENTE;
-    this.formTittle = 'FUENTE_FINANCIAMIENTO.asignar_fuente';
+    this.formTittle = 'FUENTE_FINANCIAMIENTO.guardar_fuente';
     this.updateMessage = 'FUENTE_FINANCIAMIENTO.mensaje_actualizar';
     this.createMessage = 'FUENTE_FINANCIAMIENTO.mensaje_registrar';
     this.updateConfirmMessage = 'FUENTE_FINANCIAMIENTO.confirmacion_actualizacion';
@@ -66,8 +65,15 @@ export class ListFuenteComponent implements OnInit {
           return value;
         }
       },
-      Descripcion: {
-        title: this.translate.instant('GLOBAL.descripcion'),
+      Codigo: {
+        title: this.translate.instant('GLOBAL.codigo'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
+        }
+      },
+      Vigencia: {
+        title: this.translate.instant('GLOBAL.vigencia'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -90,9 +96,26 @@ export class ListFuenteComponent implements OnInit {
       mode: 'external',
       columns: this.listColumns,
     };
+    this.loadOptionsVigencia();
   }
   onChange(event) {
-
+    
+  }
+  loadOptionsVigencia(): void {
+    let aplicacion: Array<any> = [
+      { Id: 1, vigencia: 2018 },
+      { Id: 2, vigencia: 2019 },
+      { Id: 3, vigencia: 2020 }];
+      this.formEntity.campos[this.getIndexForm('Vigencia')].opciones = aplicacion;
+    }
+    getIndexForm(nombre: String): number {
+      for (let index = 0; index < this.formEntity.campos.length; index++) {
+        const element = this.formEntity.campos[index];
+        if (element.nombre === nombre) {
+          return index
+      }
+    }
+    return 0;
   }
   onChangeTab(estado) {
     console.info(estado);
@@ -101,7 +124,7 @@ export class ListFuenteComponent implements OnInit {
   receiveMessage(event) {
     this.fuenteInfo = event;
   }
-
-
-
+  
+  
+  
 }

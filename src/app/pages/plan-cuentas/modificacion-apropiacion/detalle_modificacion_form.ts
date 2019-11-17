@@ -8,7 +8,7 @@ export let DETALLE_MODIFICACION_FORM = {
         {
             etiqueta: 'input',
             claseGrid: 'mx-auto col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'nDocumento',
+            nombre: 'NumeroDocumento',
             label_i18n: 'numero_documento',
             placeholder_i18n: 'numero_documento',
             requerido: true,
@@ -17,7 +17,7 @@ export let DETALLE_MODIFICACION_FORM = {
         {
             etiqueta: 'select',
             claseGrid: 'mx-auto col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'tipoDocumento',
+            nombre: 'TipoDocumento',
             label_i18n: 'tipo_documento',
             placeholder_i18n: 'tipo_documento',
             requerido: true,
@@ -27,7 +27,7 @@ export let DETALLE_MODIFICACION_FORM = {
         {
             etiqueta: 'mat-date',
             claseGrid: 'mx-auto col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'fDocumento',
+            nombre: 'FechaDocumento',
             label_i18n: 'fecha_documento',
             placeholder_i18n: 'fecha_documento',
             requerido: true,
@@ -35,7 +35,7 @@ export let DETALLE_MODIFICACION_FORM = {
         {
             etiqueta: 'textarea',
             claseGrid: 'mx-auto col-lg-7 col-md-7 col-sm-7 col-xs-7',
-            nombre: 'descripcion',
+            nombre: 'Descripcion',
             label_i18n: 'descripcion',
             placeholder_i18n: 'descripcion',
             requerido: true,

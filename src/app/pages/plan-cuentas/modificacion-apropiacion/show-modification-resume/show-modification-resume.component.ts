@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { ModApropiacionHelper } from '../../../../@core/helpers/modApropiacionHelper';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 
 @Component({
     selector: 'ngx-show-modification-resume',
@@ -13,7 +15,17 @@ export class ShowModificationResumeComponent implements OnInit, OnChanges {
     @Input() modificationData: any;
     @Output() modificationDataChange: EventEmitter<any> = new EventEmitter();
     readonly = true;
-    constructor() { }
+    constructor(private modApropiacionHelper: ModApropiacionHelper,
+        private popUpManager: PopUpManager) { }
 
     ngOnInit() { }
+
+    saveModification() {
+
+        this.modApropiacionHelper.modRegister(this.modificationData).subscribe(res => {
+            if (res) {
+                this.popUpManager.showSuccessAlert('Movimiento Registrado Correctamente');
+            }
+        });
+    }
 }

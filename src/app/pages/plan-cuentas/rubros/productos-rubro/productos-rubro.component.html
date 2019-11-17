@@ -1,23 +1,23 @@
 <div class="col-md-12">
   <h3>Productos</h3>
+  <npx-control-messages [control]="productForm.get('porcentaje')"></npx-control-messages>
   <!-- para cada uno de los productos asignados -->
   <table class="table table-hover">
     <thead class="thead-dark">
       <th scope="col">{{'GLOBAL.producto' | translate}}</th>
       <th scope="col">{{'GLOBAL.porcentaje' | translate}}</th>
-      <th scope="col">{{'RUBRO.edit-producto' | translate}}</th>
+      <th scope="col">{{'GLOBAL.editar' | translate}}</th>
       <th scope="col">{{'GLOBAL.quitar_producto' | translate}}</th>
     </thead>
     <tbody>
       <!-- lista para cada uno de los productos ya asignados para el rubro -->
-      <tr *ngFor="let p of listaProductosAsignados;let indice=index;">
+      <tr *ngFor="let p of listaProductosAsignados| keyvalue;let indice=index;">
         <td>
-          <input type="text" class="form-control" [value]="p.producto.Nombre || ''" disabled />
+          <input type="text" class="form-control" [value]="p.value.nombre || ''" disabled />
         </td>
         <td>
           <input type="number" name="porcentaje" min="1" max="100" id="porcentaje" class="form-control"
-            onkeydown="return false" [(ngModel)]="p.porcentaje"
-             disabled>
+            onkeydown="return false" [(ngModel)]="p.value.porcentaje" disabled>
         </td>
         <td>
           <button *ngIf="!entrarEditar" type="submit" class="btn btn-success" (click)="entrandoEditar(p)">
@@ -33,26 +33,37 @@
       </tr>
       <tr>
         <td>
-          <select *ngIf="!entrarEditar" [(ngModel)]="productoSeleccionado.producto" class="form-control  dropdown">
+          <select *ngIf="!entrarEditar" [(ngModel)]="productoSeleccionado.key" class="form-control  dropdown">
             <option *ngFor="let prod of productos;" [ngValue]="prod">{{prod.Nombre}}
             </option>
           </select>
-          <input *ngIf="entrarEditar" type="text" class="form-control" [value]="productoSeleccionado.producto.Nombre || ''" disabled />
+          <input *ngIf="entrarEditar" type="text" class="form-control" [value]="productoSeleccionado.value.nombre || ''"
+            disabled />
         </td>
         <td>
-          <input type="number" name="porcentajeAsignado" min="1" max="100" id="porcentajeAsignado" class="form-control"
-            onkeydown="return false" [(ngModel)]="productoSeleccionado.porcentaje"></td>
+          <form [formGroup]="productForm" (submit)="onFormSubmit()">
+            <input formControlName="porcentaje" type="number" name="porcentajeAsignado" id="porcentajeAsignado"
+              class="form-control">
+          </form>
+        </td>
         <td>
-          <button *ngIf="!entrarEditar" (click)="agregarProducto($event)"
-            class="btn btn-outline-primary col-md-12">{{'RUBRO.add-producto' | translate}}</button>
-          <button *ngIf="entrarEditar" (click)="editarProducto()"
-            class="btn btn-outline-success col-md-12">{{'RUBRO.edit-producto' | translate}}</button>
+          <button *ngIf="!entrarEditar" (click)="agregarProducto()" class="btn btn-outline-primary col-md-12"
+            [disabled]="!productForm.valid"> {{'RUBRO.add-producto' | translate}}</button>
+          <button *ngIf="entrarEditar" (click)="editarProducto()" class="btn btn-outline-success col-md-12"
+            [disabled]="!productForm.valid"> {{'RUBRO.edit-producto' | translate}}</button>
 
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td>Total Distribuido:</td>
+        <td>{{getPorcentajeAsignado()}} % </td>
+      </tr>
+    </tfoot>
 
   </table>
+
   <!-- <pre>{{listaProductosAsignados | json}}</pre>-----------------------------
   <pre>{{productoSeleccionado | json}}</pre> -->
 

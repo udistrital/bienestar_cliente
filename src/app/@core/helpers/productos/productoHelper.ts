@@ -45,10 +45,6 @@ export class ProductoHelper {
         return this.rqManager.post('producto', productoData).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Registrar El producto, Compruebe que no exista un producto con el mismo Código.');
-                        return undefined;
-                    }
                     return res;
                 },
             ),
@@ -70,7 +66,7 @@ export class ProductoHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Eliminar El producto, Compruebe que no exista un producto con el mismo Código.');
+                        this.pUpManager.showErrorAlert('No se pudo eliminar el producto, compruebe que no exista un producto con el mismo Código.');
                         return undefined;
                     }
                     return res;
@@ -94,10 +90,6 @@ export class ProductoHelper {
         return this.rqManager.put('producto/', productoData, productoData._id).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar El producto, Compruebe que no exista un producto con el mismo Código.');
-                        return undefined;
-                    }
                     return res;
                 },
             ),

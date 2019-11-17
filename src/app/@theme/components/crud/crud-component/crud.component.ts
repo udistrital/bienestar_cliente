@@ -84,13 +84,17 @@ export class CrudEntityComponent implements OnInit {
       if (willDelete.value) {
         this.entityInfo = entityData;
         this.updateEntityFunction(this.entityInfo).subscribe(res => {
-          this.loadData();
-          this.eventChange.emit(true);
-          this.popUpManager.showSuccessAlert(
-            this.translate.instant(
-              this.updateConfirmMessage
-            )
-          );
+          if (res['Type'] === 'error') {
+            this.popUpManager.showErrorAlert(res['Message']);
+          } else {
+            this.loadData();
+            this.eventChange.emit(true);
+            this.popUpManager.showSuccessAlert(
+              this.translate.instant(
+                this.updateConfirmMessage
+              )
+            );
+          }
         });
       }
     });
@@ -109,13 +113,18 @@ export class CrudEntityComponent implements OnInit {
       if (willDelete.value) {
         this.entityInfo = entity;
         this.createEntityFunction(this.entityInfo).subscribe(res => {
-          this.entityInfo = res;
-          this.eventChange.emit(true);
-          this.popUpManager.showSuccessAlert(
-            this.translate.instant(
-              this.createConfirmMessage
-            )
-          );
+          if (res['Type'] === 'error') {
+            this.popUpManager.showErrorAlert(res['Message']);
+          } else {
+            console.info(res)
+            this.entityInfo = res;
+            this.eventChange.emit(true);
+            this.popUpManager.showSuccessAlert(
+              this.translate.instant(
+                this.createConfirmMessage
+              )
+            );
+          }
         });
       }
     });

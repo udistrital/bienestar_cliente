@@ -84,12 +84,11 @@ export class RubroHelper {
     public rubroRegister(rubroData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         rubroData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
-        // console.info(rubroData);
         return this.rqManager.post('arbol_rubro', rubroData).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Registrar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+                        this.pUpManager.showErrorAlert('No se Pudo registrar el rubro, compruebe que no exista un rubro con el mismo código o que este código sea admitido.');
                         return undefined;
                     }
                     return res;
@@ -113,7 +112,9 @@ export class RubroHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+
+                        this.pUpManager.showErrorAlert('No se pudo eliminar el rubro');
+
                         return undefined;
                     }
                     return res;
@@ -138,7 +139,11 @@ export class RubroHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar El rubro, Compruebe que no exista un rubro con el mismo Código.');
+                        if (res['Message'] !== '') {
+                            this.pUpManager.showErrorAlert(res['Message']);
+                        } else {
+                            this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro');
+                        }
                         return undefined;
                     }
                     return res;

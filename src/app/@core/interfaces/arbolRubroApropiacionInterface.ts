@@ -2,6 +2,8 @@ export interface ArbolRubroApropiacionInterface {
   Codigo: string;
   Descripcion?: string;
   ApropiacionInicial: number;
+  ValorInicial?: number;
+  ValorActual?: number;
   Hijos?: ArbolRubroApropiacionInterface[];
   Movimientos?: string[];
   Padre?: string;
