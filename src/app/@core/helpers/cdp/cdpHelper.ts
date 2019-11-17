@@ -122,6 +122,29 @@ export class CDPHelper {
 
     }
 
+      /**
+    * get nece adm
+    * consulta las necesidades desde administrativa
+    * necesidad si  todo ok, alerta si falla.
+    * @param id en caso de que se desee consultar una necesidad especifica
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+   public getFullNecesidad(id) {
+    this.rqManager.setPath('NECESIDADES_CRUD_SERVICE');
+    return this.rqManager.get(`necesidad/getfullnecesidad/`+id).pipe(
+        map(
+            res_adm => {
+                if (res_adm['Type'] === 'error') {
+                    this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
+                    return undefined;
+                } else {
+                    console.info(res_adm);
+                }
+            }
+        )
+    );
+}
+
     /**
     * get necesidad mid
     * consulta las necesidades desde plan cuentas mid

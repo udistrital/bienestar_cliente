@@ -18,6 +18,8 @@ export class VerSolicitudCrpComponent implements OnInit {
   @Output() eventChange = new EventEmitter();
   necesidad: any = {};
   cdpData: any = {};
+  beneficiario: any = {};
+  objetoNecesidad: any = {};
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/crp-ejemplo.pdf';
   tituloPDF: string = '';
@@ -31,18 +33,26 @@ export class VerSolicitudCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.cargarInfoDetalle();
+  }
 
-    this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-      const cdpInfo = resCdp;
-      this.cdpHelper.getNecesidadAdm(cdpInfo.necesidad).subscribe(res => {
-        const nec_adm = res;
-        this.cdpHelper.getNecesidadPC(cdpInfo.necesidad).subscribe(nec_pc => {
-          this.necesidad = { ...nec_adm, ...nec_pc };
-          this.cdpData = cdpInfo;
-        });
+  cargarInfoDetalle() {
+    if (this.solicitud != undefined) {
+      this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
+        const cdpInfo = resCdp;
+
+        if (cdpInfo != undefined) {
+          this.crpHelper.getFullNecesidad(cdpInfo.necesidad).subscribe(res_mid => {
+            this.necesidad = res_mid;
+            this.cdpData = cdpInfo
+            this.beneficiario = this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario']);
+            if (this.necesidad != undefined) {
+             this.objetoNecesidad = this.necesidad.Necesidad.Objeto;
+            }
+          });
+        }
       });
-    });
-
+    }          
   }
 
 

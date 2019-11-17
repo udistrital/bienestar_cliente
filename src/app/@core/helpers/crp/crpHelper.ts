@@ -15,14 +15,17 @@ export class CRPHelper {
 
     public getSolicitudesCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+
         return this.rqManager.get('solicitudesCRP/' + id).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los crps');
                         return undefined;
+                    } else {
+                        return res;
                     }
-                    return res;
+
                 },
             ),
         );
@@ -44,6 +47,19 @@ export class CRPHelper {
             )
         );
     }
+
+
+    public getCompromisos() {
+        this.rqManager.setPath('CORE_SERVICE');
+        return this.rqManager.get('tipo_documento/').pipe(
+            map(
+                res_tCompromiso => {
+                    console.info(res_tCompromiso);
+                    return res_tCompromiso.filter(n => n.DominioTipoDocumento !== null && n.DominioTipoDocumento.Id === 4);
+                }
+            )
+        );
+    }
     /**
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.
@@ -54,14 +70,14 @@ export class CRPHelper {
     public solCrpRegister(solCrpData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         const objSolCrp = <any>{};
-        objSolCrp.consecutivo = 3; // Tomar la unidad ejecutora del token cuando este definido.
-        objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCdp;
+        objSolCrp.consecutivo = 4; // Tomar la unidad ejecutora del token cuando este definido.
+        objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCDP;
         objSolCrp.vigencia = solCrpData.Vigencia;
         objSolCrp.beneficiario = solCrpData.Beneficiario;
         objSolCrp.valor = solCrpData.Valor;
         objSolCrp.compromiso = {
-            'numeroCompromiso': solCrpData.NumeroCompromiso,
-            'tipoCompromiso': solCrpData.TipoCompromiso
+            'numeroCompromiso': solCrpData.Compromiso.NumeroCompromiso,
+            'tipoCompromiso': solCrpData.Compromiso.TipoCompromiso
         };
         objSolCrp.activo = true;
         objSolCrp.fechaCreacion = solCrpData.FechaCreacion;
@@ -101,6 +117,7 @@ export class CRPHelper {
         return this.rqManager.put('solicitudesCRP/', crpData, crpData.Codigo).pipe(
             map(
                 (res) => {
+
                     if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No Se Pudo Actualizar el CRP, Compruebe que no exista un crp con el mismo Código.');
                         return undefined;
@@ -112,6 +129,58 @@ export class CRPHelper {
 
     }
 
+
+    public getFullNecesidad(idnecesidad) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`necesidad/getfullnecesidad/` + idnecesidad).pipe(
+            map(
+                res_mid => {
+                    if (res_mid.status > 300) {
+                        this.pUpManager.showErrorAlert('Error al obtener la necesidad');
+                        return undefined;
+                    } else {
+                        return res_mid;
+                    }
+                }
+            ));
+    }
+
+    /**
+     * getInfoNaturalJuridica
+     * If the response has errors in the OAS API it should show a popup message with an error.
+     * If the response is successs, it returns the data of the updated object.
+     * @param id of the provider
+     * @returns  Object
+     */
+    public getInfoNaturalJuridica(id){
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('informacion_proveedor/?query=NumDocumento:' + id).pipe(
+            map(
+                res_persona => {
+                    if (res_persona.status > 300) {
+                        this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
+                        return undefined;
+                    } else {
+                        return res_persona;
+                    }
+                }
+            ));
+            }
+        
+        
+        
+        
+    //     subscribe(res => {
+    //         if (res != undefined) {
+    //             console.info(res[0])
+    //             return res[0];
+    //         } else {
+    //             this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
+    //             return {};
+    //         }
+    //     });
+
+    // }
 
 
 }

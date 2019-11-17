@@ -35,13 +35,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td >{{solicitud.infoCrp.consecutivo}}</td>
+                            <td >{{cdpData.consecutivo}}</td>
                             <td>{{solicitud.compromiso.tipoCompromiso}}</td>
                             <td>{{solicitud.compromiso.numeroCompromiso}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
-                            <td colspan="2">{{necesidad.Objeto}}</td>
+                            <td colspan="2">{{ objetoNecesidad }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -55,7 +55,7 @@
                         <tr>
                             <td>{{solicitud.beneficiario}}</td>
                             <td>{{solicitud.beneficiario}}</td>
-                            <td>{{solicitud.entidad}}</td>
+                            <td>{{beneficiario.NomProveedor}}</td>
                         </tr>
                     </tbody>
 

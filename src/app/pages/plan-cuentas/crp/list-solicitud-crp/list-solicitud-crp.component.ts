@@ -31,7 +31,7 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
     this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
-
+    this.crpHelper.getFullNecesidad(56);
 
     this.listColumns = {
       vigencia: {

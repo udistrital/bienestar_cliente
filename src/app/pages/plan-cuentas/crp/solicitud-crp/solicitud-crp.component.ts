@@ -33,8 +33,10 @@ export class SolicitudCrpComponent implements OnInit {
       Vigencia: '',
       Beneficiario: '',
       Valor: undefined,
-      NumeroCompromiso: undefined,
-      TipoCompromiso: undefined,
+      Compromiso: {
+        NumeroCompromiso: undefined,
+        TipoCompromiso: undefined,
+      },
       FechaCreacion: undefined
     };
   }
@@ -43,6 +45,7 @@ export class SolicitudCrpComponent implements OnInit {
     this.info_solCrp = {} as SolicitudCrp;
     this.loadOptionsTipoDocumento();
     this.loadCDPInfo();
+    this.loadOptionsCompromisos();
 
   }
 
@@ -64,19 +67,18 @@ export class SolicitudCrpComponent implements OnInit {
   validarForm(event) {
     // tslint:disable-next-line
     const today = new Date();
-    console.info(event);
     if (event.valid) {
-      console.info(event);
+      console.info(event.data , "esta es la data");
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
       this.solCrpData.Vigencia = '2019';
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
         && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura + event.data.SolicitudCRP.NumeroDocumento;
-      this.solCrpData.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Tipo === 'undefined' ? undefined : 1;
-      this.solCrpData.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
+      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : 1;
+      this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
 
-      if (event.data.MontoParcial === true) {
-        this.solCrpData.Valor = typeof event.data.ValorParcial === 'undefined' ? undefined : event.data.ValorParcial;
+      if (event.data.SolicitudCRP.MontoCRP.Id === 1) {
+        this.solCrpData.Valor = typeof event.data.SolicitudCRP.ValorParcial === 'undefined' ? undefined : event.data.SolicitudCRP.ValorParcial;
       } else {
         this.solCrpData.Valor = 0;
       }
@@ -105,11 +107,34 @@ export class SolicitudCrpComponent implements OnInit {
       this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].opciones = cdpsConsecutivos;
     });
   }
+
+  button(event: any) {
+    console.info(event);
+    let vda = undefined;
+    this.crpHelper.getInfoNaturalJuridica(event.data.NumeroDocumento).subscribe((res) => {
+      console.info(res, "locuras locas");
+
+      this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = res[0].NomProveedor;
+    })
+
+  }
+
   loadOptionsTipoDocumento(): void {
     let tipoDocData: Array<any> = [];
     this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
       if (res !== null) { tipoDocData = res; }
       this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
+    });
+  }
+
+  loadOptionsCompromisos(): void {
+    let tipoCompromisosData: Array<any> = [];
+    this.crpHelper.getCompromisos().subscribe(res => {
+      if (res != null) {
+        console.info(res, 'datos Compromisos xd');
+        tipoCompromisosData = res;
+      }
+      this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
     });
   }
 
