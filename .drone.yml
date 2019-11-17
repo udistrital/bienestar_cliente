@@ -10,7 +10,7 @@ steps:
       - npm run test
     when:
       branch:
-        - dev
+        - unit
 
   - name:  pruebas-linter
     image: node:12.6.0
@@ -19,7 +19,7 @@ steps:
       - npm run lint
     when:
       branch:
-        - dev
+        - unit
 
   - name: nodejs-test
     image: node:12.6.0
