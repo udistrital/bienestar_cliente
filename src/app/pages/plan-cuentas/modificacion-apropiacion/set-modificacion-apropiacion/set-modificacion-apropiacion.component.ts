@@ -5,6 +5,7 @@ import { ModApropiacionHelper } from '../../../../@core/helpers/modApropiacionHe
 import { ModApropiationData } from '../../../../@core/interfaces/modificationInterface';
 import { ArbolRubroApropiacionInterface } from '../../../../@core/interfaces/arbolRubroApropiacionInterface';
 import { TypeGeneral } from '../../../../@core/interfaces/TypeGeneralInterface';
+import { CommonHelper } from '../../../../@core/helpers/commonHelper';
 
 @Component({
     selector: 'ngx-set-modificacion-apropiacion',
@@ -37,9 +38,10 @@ export class SetModificacionApropiacionComponent implements OnInit {
     cnCreditAccount: ArbolRubroApropiacionInterface;
     balanceado: boolean = false;
     vigenciaActual: number;
+    selectedType: any;
 
-
-    constructor(private modHelper: ModApropiacionHelper) {
+    constructor(private modHelper: ModApropiacionHelper,
+        private comnHelper: CommonHelper) {
 
     }
     async ngOnInit() {
@@ -50,6 +52,8 @@ export class SetModificacionApropiacionComponent implements OnInit {
         });
 
     }
+
+
 
     public accountSelection(account: string) {
         this.accountTypeSelected = account;
@@ -78,11 +82,11 @@ export class SetModificacionApropiacionComponent implements OnInit {
     }
 
     public async addModToList() {
-        const modType = this.modValueForm.value['modType'];
+        const modType = JSON.parse(JSON.stringify(this.modValueForm.value['modType']));
 
         modType['Parametros'] = modType['Parametros'] ? JSON.stringify(modType['Parametros']) : undefined;
         const currentAprData: ModApropiationData = {
-            Tipo: this.modValueForm.value['modType'],
+            Tipo: modType,
             CuentaCredito: this.creditAccount,
             CuentaContraCredito: this.cnCreditAccount ? this.cnCreditAccount : undefined,
             Valor: this.modValueForm.value['value']
@@ -90,10 +94,10 @@ export class SetModificacionApropiacionComponent implements OnInit {
 
         this.aprAfectation.push(currentAprData);
         this.eventChange.emit(true);
-
     }
 
     public async cleanData() {
+        this.selectedType = undefined;
         this.showResumenTab = false;
         this.showAprSelection = false;
         this.cnCreditAccount = undefined;
@@ -102,7 +106,9 @@ export class SetModificacionApropiacionComponent implements OnInit {
         this.modValueForm = FormManager.BuildGroupForm(this.modValueFormStruct);
         this.modValueForm.controls['credAccount'].disable();
         this.accountTypeSelected = '';
-        this.vigenciaActual = 2019;
+        this.comnHelper.geCurrentVigencia().subscribe(res => {
+            this.vigenciaActual = res;
+        });
         this.modValueForm.controls['modType'].valueChanges.subscribe((selected: TypeGeneral) => {
             if (selected.Parametros) {
                 selected.Parametros = JSON.parse(selected.Parametros);
