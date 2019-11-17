@@ -2,14 +2,15 @@ kind: pipeline
 name: cliente_deploy
 
 steps:
-  - name:  prueba-unitarias
+
+  - name: prueba-unitarias
     image: node:12.6.0
     commands:
       - npm i
       - npm run test
     when:
       branch:
-        - unit-test
+        - dev
       event:
         - pull_request
 
