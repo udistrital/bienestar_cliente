@@ -13,12 +13,22 @@ export class FuenteHelper {
         private rqManager: RequestManager,
         private pUpManager: PopUpManager,
     ) { }
-
+    /**
+       * getFuentes
+       * If the response has errors in the OAS API it should show a popup message with an error.
+       * If the response suceed, it returns the data of the object.
+       * @param id object to get in the DB
+       * @param param object with the params to get in the DB
+       * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+       */
     public getFuentes(id?: any, params?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         if (params) {
             this.query_params = id ? id + '/' + params.Vigencia + '/' + params.UnidadEjecutora : params.Vigencia + '/' + params.UnidadEjecutora;
         }
-        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        else {
+            this.query_params = '0/1';
+        }
         return this.rqManager.get('fuente_financiamiento/' + this.query_params).pipe(
             map(
                 (res) => {
