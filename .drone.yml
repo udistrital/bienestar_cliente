@@ -1,6 +1,7 @@
 kind: pipeline
 name: cliente_deploy
 
+steps:
   - name: nodejs-test
     image: node:12.6.0
     commands:
