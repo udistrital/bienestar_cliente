@@ -3,6 +3,8 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 import { Observable } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
+import { catchError } from 'rxjs/operators';
+import { PopUpManager } from '../../../@core/managers/popUpManager';
 registerLocaleData(locales, 'co');
 
 @Component({
@@ -21,10 +23,11 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   @Output() comprobacion = new EventEmitter();
   @Input() vigencia: string;
   @Input() updateSignal: Observable<string[]>;
-  @Input() afectationData: any;
+  @Input() afectationData: Array<any>;
 
   constructor(
     private apHelper: ApropiacionHelper,
+    private popUpManag: PopUpManager,
   ) {
   }
 
@@ -33,15 +36,27 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
       Afectation: this.afectationData,
     };
     this.apHelper.getRootsBalance(parseInt(this.vigencia, 0), afectationObject).subscribe(comprobacion => {
-      this.ingresos = comprobacion['totalIngresos'];
-      this.egresos = comprobacion['totalGastos'];
-      this.balanceado = comprobacion['balanceado'];
-      this.diferencia = Math.abs(this.ingresos - this.egresos);
-      this.approved = comprobacion['approved'];
-      this.comprobacion.emit({
-        balanceado: this.balanceado,
-        approved: this.approved,
-      });
+      if (comprobacion) {
+        this.ingresos = comprobacion['totalIngresos'];
+        this.egresos = comprobacion['totalGastos'];
+        this.balanceado = comprobacion['balanceado'];
+        this.diferencia = Math.abs(this.ingresos - this.egresos);
+        this.approved = comprobacion['approved'];
+        this.comprobacion.emit({
+          balanceado: this.balanceado,
+          approved: this.approved,
+          clean: true,
+        });
+      } else {
+        if (this.afectationData && this.afectationData.length > 0) {
+          this.afectationData.pop();
+        }
+        this.comprobacion.emit({
+          balanceado: this.balanceado,
+          approved: this.approved,
+          clean: false,
+        });
+      }
     });
   }
 
