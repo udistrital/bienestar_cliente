@@ -37,7 +37,7 @@ export class ListEntityComponent implements OnInit {
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
   @Output() auxcambiotab = new EventEmitter<boolean>();
-  @Output() crudcambiotab = new EventEmitter<boolean>() ;
+  @Output() crudcambiotab = new EventEmitter<boolean>();
   @Output() infooutput = new EventEmitter<any>();
 
   uid: any;
@@ -65,12 +65,33 @@ export class ListEntityComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.cargarCampos();
     });
+    this.filtrarLista();
   }
   ngOnChanges(changes) {
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
       this.loadData();
     }
+  }
+  filtrarLista() {
+    this.source.onChanged().subscribe((change) => {
+
+      if (change.action === 'filter') {
+        /*        console.info(change);
+               console.info(change.filter.filters); */
+        change.filter.filters.map((item) => {
+          if (item.field == 'Vigencia' &&
+            (item.search.length === 4 || item.search === '0')) {
+            this.paramsFieldsName = { Vigencia: item.search, UnidadEjecutora: 1 }
+            this.loadData();
+          }
+        })
+
+        // Do whatever you want with the filter event
+
+      }
+    });
+
   }
   cargarCampos() {
     if (this.listSettings !== undefined) {
@@ -82,7 +103,7 @@ export class ListEntityComponent implements OnInit {
           edit: false,
           delete: false,
           custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' }, { name: 'delete', title: '<i class="nb-trash"></i>' }],
-          position: 'left'
+          position: 'right'
         },
         add: {
           addButtonContent: '<i class="nb-plus"></i>',

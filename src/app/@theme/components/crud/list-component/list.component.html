@@ -1,3 +1,5 @@
+<button *ngIf="cambiotab" (click)="activetab('crud')" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+  {{ regresarLabel }}</button>
 
 
       
@@ -18,7 +20,5 @@
           [createEntityFunction]="createEntityFunction"
           (eventChange)="onChange($event)">
         </ngx-crud-entity>
-        <button *ngIf="cambiotab" (click)="activetab('crud')" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-          {{ regresarLabel }}</button>
 
           
