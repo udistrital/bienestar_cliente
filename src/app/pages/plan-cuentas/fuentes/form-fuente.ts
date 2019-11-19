@@ -35,25 +35,14 @@ export let FORM_FUENTE = {
             }
         },
         {
-            etiqueta: 'select',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'Vigencia',
-            label_i18n: 'vigencia',
-            placeholder_i18n: 'vigencia',
-            requerido: true,
-            tipo: 'Vigencia',
-            key: 'vigencia',
-            opciones: [
-            ],
-        },
-        {
             etiqueta: 'input',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'Codigo',
             label_i18n: 'codigo',
+            deshabilitar: false,
             placeholder_i18n: 'codigo',
             requerido: true,
-            pattern: '^[A-Za-z0-9_]{1,10}$',
+            length: '10',
             tipo: 'text',
             prefix: {
                 value: '',
@@ -68,18 +57,6 @@ export let FORM_FUENTE = {
             requerido: true,
             tipo: 'text',
         },
-        // {
-        //     etiqueta: 'input',
-        //     claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
-        //     nombre: 'ValorOriginal',
-        //     label_i18n: 'valor',
-        //     placeholder_i18n: '$',
-        //     requerido: true,
-        //     tipo: 'number',
-        //     prefix: {
-        //         value: '',
-        //     },
-        // },
         {
             etiqueta: 'textarea',
             claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
@@ -88,42 +65,6 @@ export let FORM_FUENTE = {
             placeholder_i18n: 'descripcion',
             requerido: true,
             tipo: 'text',
-        },
-        {
-            etiqueta: 'input',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'NumeroDocumento',
-            label_i18n: 'numero_documento',
-            placeholder_i18n: 'numero_documento',
-            requerido: true,
-            pattern: '^[A-Za-z0-9_]{1,10}$',
-            tipo: 'text',
-            prefix: {
-                value: '',
-            },
-        },
-        {
-            etiqueta: 'select',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'TipoDocumento',
-            label_i18n: 'tipo_documento',
-            placeholder_i18n: 'tipo_documento',
-            requerido: true,
-            tipo: 'TipoDocumento',
-            key: 'Valor',
-            opciones: [
-                { Id:1, Valor: 'ACTA' },
-                { Id:2, Valor: 'RESOLUCION' },
-                { Id:3, Valor: 'CONTRATO' },
-            ],
-        },
-        {
-            etiqueta: 'mat-date',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'FechaCreacion',
-            label_i18n: 'fecha_documento',
-            placeholder_i18n: 'fecha_documento',
-            requerido: true,
-        },
+        }
     ],
 };

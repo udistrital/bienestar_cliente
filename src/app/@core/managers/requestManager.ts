@@ -49,6 +49,11 @@ export class RequestManager {
       }
 
     }
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json'
+      }),
+    };
     this.httpOptions.params = queryParams;
     return this.http.get<any>(`${this.path}${endpoint}`, this.httpOptions).pipe(
       map(
