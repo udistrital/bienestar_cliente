@@ -14,13 +14,13 @@
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
-                        <th width="15%">{{'GLOBAL.entidad' | translate}}</th>
+                        <th width="50%">{{'GLOBAL.entidad' | translate}}</th>
                         <th width="40%">{{'GLOBAL.unidad-ejecutora' | translate}}</th>
-                        <th width="45%">{{'GLOBAL.vigencia' | translate}}</th>
+                        <th width="10%">{{'GLOBAL.vigencia' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{cdpInfo.entidad}}</td>
+                            <td *ngIf="entidad">{{entidad[0].Nombre}}</td>
                             <td *ngIf="area">{{area[0].Nombre}}</td>
                             <td>{{solicitud.vigencia}}</td>
                         </tr>
@@ -36,7 +36,7 @@
                     <tbody>
                         <tr>
                             <td>{{cdpInfo.consecutivo}}</td>
-                            <td>{{solicitud.compromiso.tipoCompromiso}}</td>
+                            <td *ngIf="tCompromiso">{{tCompromiso.Nombre}}</td>
                             <td>{{solicitud.compromiso.numeroCompromiso}}</td>
                         </tr>
                         <tr>
@@ -53,8 +53,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{solicitud.beneficiario}}</td>
-                            <td>{{solicitud.beneficiario}}</td>
+                            <td>{{tipoID}}</td>
+                            <td>{{doc}}</td>
                             <td>{{beneficiario.NomProveedor}}</td>
                         </tr>
                     </tbody>
@@ -130,7 +130,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td *ngIf="!expedido">{{TrNecesidad.FechaSolicitud | date}}</td>
+                            <td *ngIf="!expedido">{{TrNecesidad.FechaCreacion | date}}</td>
                             <td *ngIf="expedido">Oct 2, 2019</td>
                             <td>Usuario que expide</td>
                             <td>Usuario que elabora</td>
@@ -141,8 +141,8 @@
                 <div class="text-align: center;">
                     <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
                         {{ 'GLOBAL.regresar' | translate}}</button>
-                    <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-info btn-sm">
-                        {{ 'CDP.expedir' | translate}}</button>
+                    <button *ngIf="!expedido" (click)="expedirCRP(solicitud.consecutivo)" class="btn btn-info btn-sm">
+                        {{ 'CRP.expedir' | translate}}</button>
                     <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)"
                         class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>

@@ -60,6 +60,17 @@ export class CRPHelper {
             )
         );
     }
+
+    public getCompromiso(id){
+        this.rqManager.setPath('CORE_SERVICE');
+        return this.rqManager.get('tipo_documento/'+id).pipe(
+            map(
+                res_tCompromiso => {
+                    return res_tCompromiso;
+                }
+            )
+        );
+    }
     /**
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.
@@ -68,21 +79,18 @@ export class CRPHelper {
        * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
        */
     public solCrpRegister(solCrpData) {
-        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         const objSolCrp = <any>{};
-        objSolCrp.consecutivo = 4; // Tomar la unidad ejecutora del token cuando este definido.
         objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCDP;
         objSolCrp.vigencia = solCrpData.Vigencia;
         objSolCrp.beneficiario = solCrpData.Beneficiario;
-        objSolCrp.valor = solCrpData.Valor;
+        objSolCrp.monto = solCrpData.Valor;
         objSolCrp.compromiso = {
             'numeroCompromiso': solCrpData.Compromiso.NumeroCompromiso,
             'tipoCompromiso': solCrpData.Compromiso.TipoCompromiso
         };
-        objSolCrp.activo = true;
-        objSolCrp.fechaCreacion = solCrpData.FechaCreacion;
-        objSolCrp.fechaModificacion = solCrpData.FechaCreacion;
-        return this.rqManager.post(`solicitudesCRP/`, objSolCrp).pipe(
+
+        return this.rqManager.post(`crp/solicitarCRP/`, objSolCrp).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -160,6 +168,31 @@ export class CRPHelper {
                 }
             ));
     }
+
+     /**
+    * expedir CRP
+    * dispara la funcion para expedicion del CRP
+    * inforcdp si  todo ok, alerta si falla.
+    * @param id identificador de solicitud de crp
+    * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
+    */
+   public expedirCRP(id) {
+    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+    return this.rqManager.get(`crp/expedirCRP/` + id).pipe(
+        map(
+            res_mid => {
+                if (res_mid.status > 300) {
+                    this.pUpManager.showErrorAlert('Error al expedir CRP');
+                    return undefined;
+                } else {
+                    return res_mid;
+                }
+            }
+        )
+    );
+
+
+}
 
 
 }

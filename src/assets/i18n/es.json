@@ -267,9 +267,9 @@
     "estado_crp": "Estado CRP",
     "tipo-compromiso": "Tipo de Compromiso",
     "numero-compromiso": "Número de Compromiso",
-    "tipo-id-contratista": "Tipo Id Contratista",
-    "id-contratista": "Id Contratista",
-    "nombre-contratista": "Nombre Contratista",
+    "tipo-id-contratista": "Tipo ID Beneficiario",
+    "id-contratista": "ID Beneficiario",
+    "nombre-contratista": "Nombre Beneficiario",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
   },
   "FOOTER": {

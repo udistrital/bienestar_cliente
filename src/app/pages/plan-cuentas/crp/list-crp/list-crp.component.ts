@@ -116,7 +116,7 @@ export class ListCrpComponent implements OnInit {
   }
 
   onCambiotab(): void {
-    this.cambiotab = !this.cambiotab;
+    this.cambiotab = !this.cambiotab ;
   }
 
 }

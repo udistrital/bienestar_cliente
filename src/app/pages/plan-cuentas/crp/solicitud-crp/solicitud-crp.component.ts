@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
+import { Router } from '@angular/router';
 @Component({
   selector: 'ngx-solicitud-crp',
   templateUrl: './solicitud-crp.component.html',
@@ -17,14 +18,14 @@ export class SolicitudCrpComponent implements OnInit {
   clean = false;
   formInfoSolCrp: any;
   solCrpData: SolicitudCrp;
-  router: any;
 
   constructor(
     private translate: TranslateService,
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
     private popManager: PopUpManager,
-    private admAmazonHelper: AdmAmazonHelper
+    private admAmazonHelper: AdmAmazonHelper,
+    private router: Router,
   ) {
     this.formInfoSolCrp = FORM_INFO_SOL_CRP;
     this.construirForm();
@@ -69,11 +70,12 @@ export class SolicitudCrpComponent implements OnInit {
     // tslint:disable-next-line
     const today = new Date();
     if (event.valid) {
+      console.info(event.data.SolicitudCRP.TipoCompromiso.Id)
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
       this.solCrpData.Vigencia = '2019';
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
         && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura + event.data.SolicitudCRP.NumeroDocumento;
-      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : 1;
+      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id=== 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
       this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
 
@@ -86,12 +88,11 @@ export class SolicitudCrpComponent implements OnInit {
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
-          this.cleanForm();
-          this.popManager.showAlert('sucess', 'Solicitud de CDP Registrada', 'La solicitud N° ha sido registrada')
+       console.info(res)
+          this.popManager.showAlert('success', 'Solicitud de CDP Registrada', 'La solicitud N° '+ res.consecutivo +' ha sido registrada')
             .then((result) => {
               if (result.value) {
                 this.router.navigate(['/pages/plan-cuentas/solicitudcrp']);
-
               }
             });
 

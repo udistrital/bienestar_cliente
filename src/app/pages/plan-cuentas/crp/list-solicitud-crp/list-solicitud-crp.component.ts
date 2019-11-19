@@ -4,7 +4,6 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
-import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 
 
 @Component({
@@ -27,13 +26,12 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   constructor(private translate: TranslateService,
     private crpHelper: CRPHelper,
-    private cdpHelper: CDPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager, ) { }
 
   ngOnInit() {
     this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
-    this.crpHelper.getFullNecesidad(56);
+
 
     this.listColumns = {
       vigencia: {
@@ -87,16 +85,6 @@ export class ListSolicitudCrpComponent implements OnInit {
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
       if (res !== null) {
-        // console.info(res)
-        // const data = Array<any>();
-        // res.forEach(element => {
-        //   this.cdpHelper.getListaCDP(element.consecutivoCdp).subscribe(res2 => {
-        //     let objCdp = {"CRP": res , "CDP": res2}
-        //     data.push(objCdp);
-        //   })
-        // });
-
-        // console.info(data)
         const data = <Array<any>>res;
         this.source.load(data);
       } else {
@@ -120,9 +108,7 @@ export class ListSolicitudCrpComponent implements OnInit {
       case 'Ver':
         this.verSolicitud(event.data);
     }
-    // this.actaSeleccionada = `${event.data.Id}`;
-    // this.estadoActaSeleccionada = `${event.data.Estado}`;
-    // this.accion = `${event.action}`;
+
   }
 
 
