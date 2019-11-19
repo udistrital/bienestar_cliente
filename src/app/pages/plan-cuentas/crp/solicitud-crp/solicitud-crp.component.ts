@@ -70,7 +70,6 @@ export class SolicitudCrpComponent implements OnInit {
     // tslint:disable-next-line
     const today = new Date();
     if (event.valid) {
-      console.info(event.data.SolicitudCRP.TipoCompromiso.Id)
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
       this.solCrpData.Vigencia = '2019';
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
@@ -88,7 +87,6 @@ export class SolicitudCrpComponent implements OnInit {
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
-       console.info(res)
           this.popManager.showAlert('success', 'Solicitud de CDP Registrada', 'La solicitud N° '+ res.consecutivo +' ha sido registrada')
             .then((result) => {
               if (result.value) {

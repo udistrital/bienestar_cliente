@@ -37,7 +37,7 @@ export class ListCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.cdpHelper.getListaCDP;
+    this.loadDataFunction = this.crpHelper.getListaCRP;
 
     this.listColumns = {
       vigencia: {
@@ -61,14 +61,14 @@ export class ListCrpComponent implements OnInit {
           return value;
         }
       },
-      consecutivo_cdp: {
+      consecutivo_crp: {
         title: this.translate.instant('CRP.n_crp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      estado_cdp: {
+      estado_crp: {
         title: this.translate.instant('CRP.estado_crp'),
         // type: 'string;',
         valuePrepareFunction: value => {

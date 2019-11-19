@@ -1,8 +1,10 @@
 <div class="col-md-12 col-lg-12 ">
     <nb-card *ngIf="mostrandoPDF===false">
         <nb-card-header>
-            <legend>{{ 'CRP.detalle_solicitud_crp' | translate }}:
+            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}:
                 {{ solicitud.consecutivo }}</legend>
+                <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}:
+                    {{ solicitud.infoCrp.consecutivo }}</legend>
             <!-- <legend *ngIf="solicitud&&expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.infoCrp.consecutivo }}
             </legend> -->
 
@@ -37,7 +39,7 @@
                         <tr>
                             <td>{{cdpInfo.consecutivo}}</td>
                             <td *ngIf="tCompromiso">{{tCompromiso.Nombre}}</td>
-                            <td>{{solicitud.compromiso.numeroCompromiso}}</td>
+                            <td *ngIf="solicitud">{{solicitud.compromiso.numeroCompromiso}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
@@ -141,9 +143,9 @@
                 <div class="text-align: center;">
                     <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
                         {{ 'GLOBAL.regresar' | translate}}</button>
-                    <button *ngIf="!expedido" (click)="expedirCRP(solicitud.consecutivo)" class="btn btn-info btn-sm">
+                    <button *ngIf="!expedido && solicitud.crpInfo===null" (click)="expedirCRP(solicitud.consecutivo)" class="btn btn-info btn-sm">
                         {{ 'CRP.expedir' | translate}}</button>
-                    <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)"
+                    <button *ngIf="expedido && solicitud.crpInfo!==null" (click)="mostrarPDF(solicitud.consecutivo_cdp)"
                         class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>
