@@ -16,11 +16,21 @@ export class VerSolicitudCrpComponent implements OnInit {
   @Input('solicitudcrp') solicitud: object;
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
-  necesidad: any = {};
-  cdpData: any = {};
+  cdpInfo: any = {};
+  TrNecesidad: any;
+  beneficiario: any = {};
+  tipoID: string;
+  doc: string;
+  objetoNecesidad: any = {};
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/crp-ejemplo.pdf';
   tituloPDF: string = '';
+  areas = [{ Id: 1, Nombre: 'Rector' }, { Id: 2, Nombre: 'Convenios' }];
+  entidades = [{ Id: 1, Nombre: 'Universidad Distrital Francisco José de Caldas' }];
+  area: any;
+  entidad: any;
+  tCompromiso: any;
+  r = /\d+/;
   constructor(
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
@@ -31,31 +41,95 @@ export class VerSolicitudCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.solicitud != undefined) {
+      if (this.solicitud['infoCrp'] !== null) {
+        this.expedido = true;
+      }else{
+        this.expedido = false;
+      }
+
+      this.crpHelper.getCompromiso(this.solicitud['compromiso']['tipoCompromiso']).subscribe(resC => {
+        this.tCompromiso = resC;
+      });
+    }
+
+    this.doc = this.solicitud['beneficiario'].match(this.r);
+    this.tipoID = this.solicitud['beneficiario'].match(/[a-zA-Z]+/g);
+
 
     this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-      const cdpInfo = resCdp;
-      this.cdpHelper.getNecesidadAdm(cdpInfo.necesidad).subscribe(res => {
-        const nec_adm = res;
-        this.cdpHelper.getNecesidadPC(cdpInfo.necesidad).subscribe(nec_pc => {
-          this.necesidad = { ...nec_adm, ...nec_pc };
-          this.cdpData = cdpInfo;
+      this.cdpInfo = resCdp;
+
+      if (this.cdpInfo) {
+        console.info(this.cdpInfo, "CDP INFO")
+        this.area = this.areas.filter(i => {
+          return i.Id === this.cdpInfo.centroGestor;
         });
-      });
+
+        this.entidad = this.entidades.filter(j => {
+          return j.Id === this.cdpInfo.entidad;
+        });
+
+
+        this.cdpHelper.getFullNecesidad(this.cdpInfo.necesidad).subscribe(res => {
+          this.TrNecesidad = res;
+          if (this.TrNecesidad.Rubros) {
+            this.TrNecesidad.Rubros.forEach(rubro => {
+              rubro.MontoParcial = 0
+              if (rubro.Metas) {
+                rubro.Metas.forEach(meta => {
+                  if (meta.Actividades) {
+                    meta.Actividades.forEach(act => {
+                      if (act.FuentesActividad) {
+                        act.FuentesActividad.forEach(fuente => {
+                          rubro.MontoParcial += fuente.MontoParcial
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+              if (rubro.Fuentes) {
+                rubro.Fuentes.forEach(fuente => {
+                  rubro.MontoParcial += fuente.MontoParcial
+                });
+
+              }
+
+            });
+          }
+
+          if (this.TrNecesidad) {
+            this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
+          }
+
+          this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario'].match(this.r)).subscribe(respuesta => {
+            this.beneficiario = respuesta[0];
+
+
+          });
+
+        });
+      }
     });
-
   }
-
 
   cambioTab() {
     this.eventChange.emit(false);
   }
 
   expedirCRP(consecutivo) {
-    this.popManager.showAlert('warning', 'Expedir CRP', '¿está seguro?')
+    this.popManager.showAlert('warning', `Expedir CRP ${consecutivo}`, '¿está seguro?')
       .then((result) => {
         if (result.value) {
-          this.router.navigate(['/pages/plan-cuentas/crp']);
-          // TODO usar el endpoint de expedir cdp cuando se implemente el mismo
+          this.crpHelper.expedirCRP(this.solicitud["_id"]).subscribe(res => {
+            if (res) {
+              this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${res.infoCrp.consecutivo}`)
+              this.router.navigate(['/pages/plan-cuentas/crp']);
+            }
+
+          })
+
         }
       });
   }

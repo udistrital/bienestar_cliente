@@ -27,32 +27,32 @@ export class VerSolicitudCdpComponent implements OnInit {
     private popManager: PopUpManager,
     private router: Router,
   ) {
-   }
+  }
 
   ngOnInit() {
     this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(res => {
       this.TrNecesidad = res;
-      if(this.TrNecesidad.Rubros) {
+      if (this.TrNecesidad.Rubros) {
         this.TrNecesidad.Rubros.forEach(rubro => {
-          rubro.MontoParcial=0
-          if(rubro.Metas) {
+          rubro.MontoParcial = 0
+          if (rubro.Metas) {
             rubro.Metas.forEach(meta => {
-              if(meta.Actividades) {
+              if (meta.Actividades) {
                 meta.Actividades.forEach(act => {
-                  if(act.FuentesActividad) {
-                    act.FuentesActividad.forEach(fuente=> {
-                      rubro.MontoParcial+=fuente.MontoParcial
+                  if (act.FuentesActividad) {
+                    act.FuentesActividad.forEach(fuente => {
+                      rubro.MontoParcial += fuente.MontoParcial
                     });
                   }
                 });
               }
             });
           }
-          if(rubro.Fuentes) {
+          if (rubro.Fuentes) {
             rubro.Fuentes.forEach(fuente => {
-              rubro.MontoParcial+=fuente.MontoParcial
+              rubro.MontoParcial += fuente.MontoParcial
             });
-            
+
           }
 
         });
@@ -60,25 +60,24 @@ export class VerSolicitudCdpComponent implements OnInit {
     });
   }
 
-  cambioTab () {
+  cambioTab() {
     this.eventChange.emit(false);
   }
 
   expedirCDP(consecutivo) {
     this.popManager.showAlert('warning', `Expedir CDP ${consecutivo}`, '¿está seguro?')
-    .then((result) => {
-      if (result.value) {
-        this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
-          console.info(res)
-          if(res) {
-            this.popManager.showSuccessAlert(`Se expidió con exito el CDP ${res.infoCdp.consecutivo}`)
-            this.router.navigate(['/pages/plan-cuentas/cdp']);
-          }
-          
-        })
+      .then((result) => {
+        if (result.value) {
+          this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
+            if (res) {
+              this.popManager.showSuccessAlert(`Se expidió con exito el CDP ${res.infoCdp.consecutivo}`)
+              this.router.navigate(['/pages/plan-cuentas/cdp']);
+            }
 
-      }
-    });
+          })
+
+        }
+      });
   }
 
   mostrarPDF(consecutivo) {

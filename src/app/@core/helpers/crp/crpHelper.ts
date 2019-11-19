@@ -7,6 +7,7 @@ import { PopUpManager } from '../../managers/popUpManager';
     providedIn: 'root',
 })
 export class CRPHelper {
+    router: any;
 
     constructor(
         private rqManager: RequestManager,
@@ -15,6 +16,25 @@ export class CRPHelper {
 
     public getSolicitudesCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+
+        return this.rqManager.get('solicitudesCRP/' + id).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar los crps');
+                        return undefined;
+                    } else {
+                        return res;
+                    }
+
+                },
+            ),
+        );
+
+    }
+
+    public getListaCRP(id?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('solicitudesCRP/' + id).pipe(
             map(
                 (res) => {
@@ -22,7 +42,20 @@ export class CRPHelper {
                         this.pUpManager.showErrorAlert('No se pudo consultar los crps');
                         return undefined;
                     }
-                    return res;
+                    return res ?
+
+                        res.filter(
+                            e => e.infoCrp !== null).map(
+                                e => {
+                                    return {
+                                        ...e,
+                                        consecutivo_crp: e.infoCrp.consecutivo,
+                                        estado_crp: e.infoCrp.estado,
+                                        fecha_crp: e.infoCrp.fechaExpedicion,
+                                    };
+                                }
+                            )
+                        : undefined;
                 },
             ),
         );
@@ -44,6 +77,29 @@ export class CRPHelper {
             )
         );
     }
+
+
+    public getCompromisos() {
+        this.rqManager.setPath('CORE_SERVICE');
+        return this.rqManager.get('tipo_documento/').pipe(
+            map(
+                res_tCompromiso => {
+                    return res_tCompromiso.filter(n => n.DominioTipoDocumento !== null && n.DominioTipoDocumento.Id === 4);
+                }
+            )
+        );
+    }
+
+    public getCompromiso(id){
+        this.rqManager.setPath('CORE_SERVICE');
+        return this.rqManager.get('tipo_documento/'+id).pipe(
+            map(
+                res_tCompromiso => {
+                    return res_tCompromiso;
+                }
+            )
+        );
+    }
     /**
        * CRP register
        * If the response has errors in the OAS API it should show a popup message with an error.
@@ -52,29 +108,28 @@ export class CRPHelper {
        * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
        */
     public solCrpRegister(solCrpData) {
-        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         const objSolCrp = <any>{};
-        objSolCrp.consecutivo = 3; // Tomar la unidad ejecutora del token cuando este definido.
-        objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCdp;
+        objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCDP;
         objSolCrp.vigencia = solCrpData.Vigencia;
         objSolCrp.beneficiario = solCrpData.Beneficiario;
-        objSolCrp.valor = solCrpData.Valor;
+        objSolCrp.monto = solCrpData.Valor;
         objSolCrp.compromiso = {
-            'numeroCompromiso': solCrpData.NumeroCompromiso,
-            'tipoCompromiso': solCrpData.TipoCompromiso
+            'numeroCompromiso': solCrpData.Compromiso.NumeroCompromiso,
+            'tipoCompromiso': solCrpData.Compromiso.TipoCompromiso
         };
-        objSolCrp.activo = true;
-        objSolCrp.fechaCreacion = solCrpData.FechaCreacion;
-        objSolCrp.fechaModificacion = solCrpData.FechaCreacion;
-        console.info(objSolCrp);
-        return this.rqManager.post(`solicitudesCRP/`, objSolCrp).pipe(
+
+        return this.rqManager.post(`crp/solicitarCRP/`, objSolCrp).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo registrar el CRP');
                         return undefined;
+                    } else {
+
+                        return res;
                     }
-                    return res;
+
                 },
             ),
         );
@@ -89,18 +144,11 @@ export class CRPHelper {
      * @returns  <Observable> object updated information. undefined if the proccess has errors.
      */
     public solCrpUpdate(crpData) {
-        console.info(crpData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        /*         cdpData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
-                cdpData.Organizacion = 1;
-                cdpData.Vigencia = cdpData.Vigencia.vigencia;
-                cdpData.activo = true;
-                cdpData.Codigo = cdpData.Codigo.toString();
-                cdpData.NumeroDocumento = cdpData.NumeroDocumento.toString();
-                cdpData.TipoDocumento = cdpData.TipoDocumento.Valor; */
         return this.rqManager.put('solicitudesCRP/', crpData, crpData.Codigo).pipe(
             map(
                 (res) => {
+
                     if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No Se Pudo Actualizar el CRP, Compruebe que no exista un crp con el mismo Código.');
                         return undefined;
@@ -112,6 +160,53 @@ export class CRPHelper {
 
     }
 
+
+    /**
+     * getInfoNaturalJuridica
+     * If the response has errors in the OAS API it should show a popup message with an error.
+     * If the response is successs, it returns the data of the updated object.
+     * @param id of the provider
+     * @returns  Object
+     */
+    public getInfoNaturalJuridica(id) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('informacion_proveedor/?query=NumDocumento:' + id).pipe(
+            map(
+                res_persona => {
+                    if (res_persona.status > 300) {
+                        this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
+                        return undefined;
+                    } else {
+                        return res_persona;
+                    }
+                }
+            ));
+    }
+
+     /**
+    * expedir CRP
+    * dispara la funcion para expedicion del CRP
+    * inforcdp si  todo ok, alerta si falla.
+    * @param id identificador de solicitud de crp
+    * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
+    */
+   public expedirCRP(id) {
+    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+    return this.rqManager.get(`crp/expedirCRP/` + id).pipe(
+        map(
+            res_mid => {
+                if (res_mid.status > 300) {
+                    this.pUpManager.showErrorAlert('Error al expedir CRP');
+                    return undefined;
+                } else {
+                    return res_mid;
+                }
+            }
+        )
+    );
+
+
+}
 
 
 }

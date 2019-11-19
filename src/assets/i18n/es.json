@@ -34,13 +34,13 @@
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
       "solicitud_crp": "Solicitud CRP",
-      "crp": "C.Registro Presupuestal"
+      "crp": "Certificado Registro Presupuestal"
     },
 
     "gestion_cdp": {
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
-      "cdp": "C.Disponibilidad Presupuestal"
+      "cdp": "Certificado Disponibilidad Presupuestal"
     },
     "auth": {
       "auth": "Autenticación",
@@ -257,7 +257,7 @@
     "estado": "Estado",
     "solicitar-crp": "Solicitar Certificado de Registro Presupuestal",
     "detalle_solicitud_crp": "Detalle de Solicitud de Certificado de Registro Presupuestal ",
-    "n_cdp": "N° de Certificado de Disponibilidad Presupuestal",
+    "n_crp": "N° de Certificado de Registro Presupuestal",
     "solicitante": "Dependencia Solicitante",
     "objeto": "Objeto",
     "fecha_solicitud": "Fecha de solicitud",
@@ -269,9 +269,9 @@
     "estado_crp": "Estado CRP",
     "tipo-compromiso": "Tipo de Compromiso",
     "numero-compromiso": "Número de Compromiso",
-    "tipo-id-contratista": "Tipo Id Contratista",
-    "id-contratista": "Id Contratista",
-    "nombre-contratista": "Nombre Contratista",
+    "tipo-id-contratista": "Tipo ID Beneficiario",
+    "id-contratista": "ID Beneficiario",
+    "nombre-contratista": "Nombre Beneficiario",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
   },
   "FOOTER": {
