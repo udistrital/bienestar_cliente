@@ -132,21 +132,6 @@ export class CRPHelper {
     }
 
 
-    public getFullNecesidad(idnecesidad) {
-        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.get(`necesidad/getfullnecesidad/` + idnecesidad).pipe(
-            map(
-                res_mid => {
-                    if (res_mid.status > 300) {
-                        this.pUpManager.showErrorAlert('Error al obtener la necesidad');
-                        return undefined;
-                    } else {
-                        return res_mid;
-                    }
-                }
-            ));
-    }
-
     /**
      * getInfoNaturalJuridica
      * If the response has errors in the OAS API it should show a popup message with an error.

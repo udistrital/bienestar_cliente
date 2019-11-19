@@ -42,10 +42,11 @@ export class VerSolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
     if (this.solicitud != undefined) {
-
+      if (this.solicitud['infoCrp']!== null){
+        this.expedido = false;
+      }
       this.crpHelper.getCompromiso(this.solicitud['compromiso']['tipoCompromiso']).subscribe(resC => {
         this.tCompromiso = resC;
-        console.info(this.tCompromiso);
       });
     
       this.doc = this.solicitud['beneficiario'].match(this.r)
