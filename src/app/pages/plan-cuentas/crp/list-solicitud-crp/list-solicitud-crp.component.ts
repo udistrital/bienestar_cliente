@@ -49,14 +49,14 @@ export class ListSolicitudCrpComponent implements OnInit {
         }
       },
       entidad: {
-        title: this.translate.instant('GLOBAL.unidad-ejecutora'),
+        title: this.translate.instant('GLOBAL.entidad'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
       consecutivo: {
-        title: this.translate.instant('CRP.n_solicitud'),
+        title: this.translate.instant('CRP.n_sol_crp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -108,9 +108,7 @@ export class ListSolicitudCrpComponent implements OnInit {
       case 'Ver':
         this.verSolicitud(event.data);
     }
-    // this.actaSeleccionada = `${event.data.Id}`;
-    // this.estadoActaSeleccionada = `${event.data.Estado}`;
-    // this.accion = `${event.action}`;
+
   }
 
 

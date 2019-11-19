@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
+import { Router } from '@angular/router';
 @Component({
   selector: 'ngx-solicitud-crp',
   templateUrl: './solicitud-crp.component.html',
@@ -23,7 +24,8 @@ export class SolicitudCrpComponent implements OnInit {
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
     private popManager: PopUpManager,
-    private admAmazonHelper: AdmAmazonHelper
+    private admAmazonHelper: AdmAmazonHelper,
+    private router: Router,
   ) {
     this.formInfoSolCrp = FORM_INFO_SOL_CRP;
     this.construirForm();
@@ -33,8 +35,10 @@ export class SolicitudCrpComponent implements OnInit {
       Vigencia: '',
       Beneficiario: '',
       Valor: undefined,
-      NumeroCompromiso: undefined,
-      TipoCompromiso: undefined,
+      Compromiso: {
+        NumeroCompromiso: undefined,
+        TipoCompromiso: undefined,
+      },
       FechaCreacion: undefined
     };
   }
@@ -43,6 +47,7 @@ export class SolicitudCrpComponent implements OnInit {
     this.info_solCrp = {} as SolicitudCrp;
     this.loadOptionsTipoDocumento();
     this.loadCDPInfo();
+    this.loadOptionsCompromisos();
 
   }
 
@@ -64,29 +69,31 @@ export class SolicitudCrpComponent implements OnInit {
   validarForm(event) {
     // tslint:disable-next-line
     const today = new Date();
-    console.info(event);
     if (event.valid) {
-      console.info(event);
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
       this.solCrpData.Vigencia = '2019';
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
         && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura + event.data.SolicitudCRP.NumeroDocumento;
-      this.solCrpData.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Tipo === 'undefined' ? undefined : 1;
-      this.solCrpData.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
+      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id=== 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
+      this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
 
-      if (event.data.MontoParcial === true) {
-        this.solCrpData.Valor = typeof event.data.ValorParcial === 'undefined' ? undefined : event.data.ValorParcial;
+      if (event.data.SolicitudCRP.MontoCRP.Id === 1) {
+        this.solCrpData.Valor = typeof event.data.SolicitudCRP.ValorParcial === 'undefined' ? undefined : event.data.SolicitudCRP.ValorParcial;
       } else {
         this.solCrpData.Valor = 0;
       }
 
-      console.info(this.solCrpData, 'hola');
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
-          this.popManager.showSuccessAlert('Se registro la Solicitud de CRP correctamente!');
-          this.cleanForm();
+          this.popManager.showAlert('success', 'Solicitud de CDP Registrada', 'La solicitud N° '+ res.consecutivo +' ha sido registrada')
+            .then((result) => {
+              if (result.value) {
+                this.router.navigate(['/pages/plan-cuentas/solicitudcrp']);
+              }
+            });
+
         }
       });
     } else {
@@ -99,17 +106,35 @@ export class SolicitudCrpComponent implements OnInit {
     let cdpsConsecutivos: Array<any> = [];
     this.cdpHelper.getListaCDP('').subscribe(res => {
       if (res != null) {
-        console.info(res);
         cdpsConsecutivos = res;
       }
       this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].opciones = cdpsConsecutivos;
     });
   }
+
+  button(event: any) {
+    let vda = undefined;
+    this.crpHelper.getInfoNaturalJuridica(event.data.NumeroDocumento).subscribe((res) => {
+      this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = res[0].NomProveedor;
+    })
+
+  }
+
   loadOptionsTipoDocumento(): void {
     let tipoDocData: Array<any> = [];
     this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
       if (res !== null) { tipoDocData = res; }
       this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
+    });
+  }
+
+  loadOptionsCompromisos(): void {
+    let tipoCompromisosData: Array<any> = [];
+    this.crpHelper.getCompromisos().subscribe(res => {
+      if (res != null) {
+        tipoCompromisosData = res;
+      }
+      this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
     });
   }
 

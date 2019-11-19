@@ -23,7 +23,7 @@ export class ListCrpComponent implements OnInit {
   cambiotab: boolean = false;
   listColumns: object;
   crp: object;
-
+  estados = [{Id:1, Estado:"Saldo Parcialmente Comprometido"},{Id:2, Estado:"Saldo Parcialmente Ejecutado"}]
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -37,7 +37,7 @@ export class ListCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.cdpHelper.getListaCDP;
+    this.loadDataFunction = this.crpHelper.getListaCRP;
 
     this.listColumns = {
       vigencia: {
@@ -55,23 +55,28 @@ export class ListCrpComponent implements OnInit {
         }
       },
       entidad: {
-        title: this.translate.instant('GLOBAL.unidad-ejecutora'),
+        title: this.translate.instant('GLOBAL.entidad'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      consecutivo_cdp: {
-        title: this.translate.instant('CRP.n_crp'),
+      consecutivo_crp: {
+        title: this.translate.instant('CRP.n_cdp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      estado_cdp: {
-        title: this.translate.instant('CRP.estado_crp'),
+      estado_crp: {
+        title: this.translate.instant('CRP.estado'),
         // type: 'string;',
         valuePrepareFunction: value => {
+          value = this.estados.filter(element => {
+            return element.Id === value;
+          })
+          value = value.Estado;
+          console.info(value, "lala")
           return value;
         }
       },
@@ -96,6 +101,7 @@ export class ListCrpComponent implements OnInit {
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
+        console.info(res);
         const data = <Array<any>>res;
         this.source.load(data);
       } else {
