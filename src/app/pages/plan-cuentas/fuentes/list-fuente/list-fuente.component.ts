@@ -105,11 +105,11 @@ export class ListFuenteComponent implements OnInit {
           add: true,
           edit: false,
           delete: false,
-          custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' }, { name: 'delete', title: '<i nbTooltip="eliminar" nbTooltipPlacement="top" class="nb-trash"></i>' }, { name: 'other', title: '<i nbTooltip="Agregar Vigencia" nbTooltipPlacement="top" class="nb-shuffle"></i>' }],
+          custom: [{ name: 'edit', title: '<i title="editar" class="nb-edit"></i>' }, { name: 'delete', title: '<i title="eliminar" class="nb-trash"></i>' }, { name: 'other', title: '<i title="Agregar Vigencia" class="nb-tables"></i>' }],
           position: 'right'
         },
         add: {
-          addButtonContent: '<i class="nb-plus"></i>',
+          addButtonContent: '<i title="Nueva Fuente" class="nb-plus"></i>',
           createButtonContent: '<i class="nb-checkmark"></i>',
           cancelButtonContent: '<i class="nb-close"></i>'
         },
