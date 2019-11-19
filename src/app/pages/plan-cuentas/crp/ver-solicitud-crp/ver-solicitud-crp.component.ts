@@ -42,74 +42,77 @@ export class VerSolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
     if (this.solicitud != undefined) {
-      if (this.solicitud['infoCrp']!== null){
+      if (this.solicitud['infoCrp'] !== null) {
+        this.expedido = true;
+      }else{
         this.expedido = false;
       }
+
       this.crpHelper.getCompromiso(this.solicitud['compromiso']['tipoCompromiso']).subscribe(resC => {
         this.tCompromiso = resC;
       });
-    
-      this.doc = this.solicitud['beneficiario'].match(this.r)
-      this.tipoID = this.solicitud['beneficiario'].match(/[a-zA-Z]+/g);
-
-
-      this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-        this.cdpInfo = resCdp;       
-
-        if (this.cdpInfo) {
-          this.area = this.areas.filter(i => {
-            return i.Id === this.cdpInfo.centroGestor;
-          });
-  
-          this.entidad = this.entidades.filter(j => {
-            return j.Id === this.cdpInfo.entidad;
-          });
-        
-          
-          this.cdpHelper.getFullNecesidad(this.cdpInfo.necesidad).subscribe(res => {
-            this.TrNecesidad = res;
-            if (this.TrNecesidad.Rubros) {
-              this.TrNecesidad.Rubros.forEach(rubro => {
-                rubro.MontoParcial = 0
-                if (rubro.Metas) {
-                  rubro.Metas.forEach(meta => {
-                    if (meta.Actividades) {
-                      meta.Actividades.forEach(act => {
-                        if (act.FuentesActividad) {
-                          act.FuentesActividad.forEach(fuente => {
-                            rubro.MontoParcial += fuente.MontoParcial
-                          });
-                        }
-                      });
-                    }
-                  });
-                }
-                if (rubro.Fuentes) {
-                  rubro.Fuentes.forEach(fuente => {
-                    rubro.MontoParcial += fuente.MontoParcial
-                  });
-
-                }
-
-              });
-            }
-
-            if (this.TrNecesidad) {
-              this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
-            }
-            this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario'].match(this.r)).subscribe(respuesta => {
-              this.beneficiario = respuesta[0];
-            
-              
-            });
-
-          });
-        }
-      });
     }
+
+    this.doc = this.solicitud['beneficiario'].match(this.r);
+    this.tipoID = this.solicitud['beneficiario'].match(/[a-zA-Z]+/g);
+
+
+    this.crpHelper.getInfoCDP(this.solicitud['consecutivoCdp']).subscribe(resCdp => {
+      this.cdpInfo = resCdp;
+
+      if (this.cdpInfo) {
+        console.info(this.cdpInfo, "CDP INFO")
+        this.area = this.areas.filter(i => {
+          return i.Id === this.cdpInfo.centroGestor;
+        });
+
+        this.entidad = this.entidades.filter(j => {
+          return j.Id === this.cdpInfo.entidad;
+        });
+
+
+        this.cdpHelper.getFullNecesidad(this.cdpInfo.necesidad).subscribe(res => {
+          this.TrNecesidad = res;
+          if (this.TrNecesidad.Rubros) {
+            this.TrNecesidad.Rubros.forEach(rubro => {
+              rubro.MontoParcial = 0
+              if (rubro.Metas) {
+                rubro.Metas.forEach(meta => {
+                  if (meta.Actividades) {
+                    meta.Actividades.forEach(act => {
+                      if (act.FuentesActividad) {
+                        act.FuentesActividad.forEach(fuente => {
+                          rubro.MontoParcial += fuente.MontoParcial
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+              if (rubro.Fuentes) {
+                rubro.Fuentes.forEach(fuente => {
+                  rubro.MontoParcial += fuente.MontoParcial
+                });
+
+              }
+
+            });
+          }
+
+          if (this.TrNecesidad) {
+            this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
+          }
+
+          this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario'].match(this.r)).subscribe(respuesta => {
+            this.beneficiario = respuesta[0];
+
+
+          });
+
+        });
+      }
+    });
   }
-
-
 
   cambioTab() {
     this.eventChange.emit(false);

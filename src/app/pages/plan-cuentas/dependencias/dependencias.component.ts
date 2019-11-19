@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { FuenteFinanciamiento } from '../../../@core/data/models/fuente_financiamiento';
-import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 import { FORM_VALUE_FUENTE } from '../fuentes/form-value-fuente';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
@@ -20,16 +19,13 @@ export class DependenciasComponent implements OnInit {
   @Output() auxcambiotab = new EventEmitter<boolean>();
   @Output() eventChange = new EventEmitter();
   @Input('infoinput') infoinput: any;
+  @Input('paramsFieldsName') paramsFieldsName: object;
   formInfoFuente: any;
   rubroSeleccionado: any;
   optionView: string;
   info_fuente: FuenteFinanciamiento;
   clean = false;
   rubrosAsignados: any = [];
-  dependencias: any = [];
-  dependenciasAsociadas: any = {};
-  dependenciasAsignadas: any;
-  dependenciaSeleccionada: any = [];
   entrarEditar: boolean;
   totalPermitido: boolean;
   entrarAddProductos: boolean;
@@ -41,7 +37,6 @@ export class DependenciasComponent implements OnInit {
   formValueFuente: any;
   constructor(
     private fuenteHelper: FuenteHelper,
-    private dependenciaHelper: DependenciaHelper,
     private popManager: PopUpManager, ) {
     this.editValueFF = false;
     this.vigenciaSel = '2020';
@@ -50,20 +45,19 @@ export class DependenciasComponent implements OnInit {
     this.entrarAddProductos = false;
     this.showProduct = false;
     this.optionView = 'Apropiaciones';
-    this.dependenciaHelper.get().subscribe((res: any) => {
-      console.info(res);
-      this.dependencias = res;
-    });
-    this.dependenciaSeleccionada[0] = {
-      Id: 0,
-      ValorDependencia: 0,
-    };
+
   }
 
   ngOnInit() {
     this.formValueFuente = FORM_VALUE_FUENTE;
+    this.construirForm();
+    console.info(this.infoinput);
   }
-
+  ngOnChanges(changes) {
+    if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
+      this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+    }
+  }
   receiveMessage($event) {
     if (
       this.rubrosAsignados.filter(data => data.Codigo === $event.Codigo)
@@ -83,24 +77,10 @@ export class DependenciasComponent implements OnInit {
     }
   }
 
-  asignarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
-    this.rubrosAsignados.filter(data => {
-      data === rubro;
-      data['Dependencias'].push({ Id: 0, ValorDependencia: 0 });
-    });
-    console.info(dependencias);
-    this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
-    this.entrarEditar = true;
-    this.validarLimiteApropiacion(rubro);
-    this.entrarAddProductos = true;
-    console.info(this.rubrosAsociados);
-  }
-
   guardarValorFuenteRubro() {
-
     this.infoinput.Rubros[this.rubroSeleccionado.Codigo].ValorTotal =
       typeof this.rubroSeleccionado.ValorFuenteRubro === 'undefined' ? undefined : this.rubroSeleccionado.ValorFuenteRubro;
-    this.infoinput.ValorOriginal = this.infoinput.ValorOriginal === 'undefined' ? undefined : this.infoinput.ValorOriginal - this.rubroSeleccionado.ValorFuenteRubro;
+      this.infoinput.ValorInicial = this.infoinput.ValorInicial === 'undefined' ? undefined : this.infoinput.ValorInicial - this.rubroSeleccionado.ValorFuenteRubro;
     this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
       if (res) {
         this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
@@ -108,22 +88,6 @@ export class DependenciasComponent implements OnInit {
       }
     });
 
-  }
-  editarDependencia($event: any, rubro: Rubro, dependencias: any, index: number) {
-    console.info(dependencias);
-    this.rubrosAsociados[rubro.Codigo].Dependencias[index] = dependencias;
-    this.entrarEditar = false;
-    this.validarLimiteApropiacion(rubro);
-    console.info(this.rubrosAsociados);
-  }
-  validarLimiteApropiacion(rubro: Rubro) {
-    const totalDep = this.rubrosAsociados[rubro.Codigo].Dependencias.reduce(
-      (total, dep) => total + (dep.ValorDependencia || 0), 0);
-    this.totalPermitido = totalDep <= rubro.ApropiacionInicial;
-    console.info(totalDep);
-    if (!this.totalPermitido) {
-      this.popManager.showErrorAlert('Valor Excedido Apropiación' + ' para el Rubro ' + rubro.Nombre);
-    }
   }
   validarEdicion(rubro: any) {
     if (rubro.Codigo.ValorFuenteApropiacion === undefined) {
@@ -157,12 +121,18 @@ export class DependenciasComponent implements OnInit {
   }
   validarForm(event) {
     console.info(event);
-    debug;
+    console.info(this.infoinput);
     if (event.valid) {
-      this.infoinput.ValorOriginal = typeof event.data.FuenteFinanciamiento.ValorOriginal === 'undefined' ? undefined : event.data.FuenteFinanciamiento.ValorOriginal;
-      this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
+      this.infoinput.Vigencia = event.data.FuenteFinanciamiento.Vigencia.vigencia === 'undefined' ? undefined : event.data.FuenteFinanciamiento.Vigencia.vigencia; 
+      this.infoinput.ValorInicial = typeof event.data.FuenteFinanciamiento.ValorInicial === 'undefined' ? undefined : event.data.FuenteFinanciamiento.ValorInicial;
+      this.infoinput.UnidadEjecutora = typeof this.infoinput.UnidadEjecutora === 'undefined' ? undefined : this.infoinput.UnidadEjecutora;
+      this.infoinput.NumeroDocumento = typeof event.data.FuenteFinanciamiento.NumeroDocumento === 'undefined'? undefined: event.data.FuenteFinanciamiento.NumeroDocumento;
+      this.infoinput.TipoDocumento = typeof event.data.FuenteFinanciamiento.TipoDocumento.Nombre === 'undefined'? undefined: event.data.FuenteFinanciamiento.TipoDocumento.Nombre;
+      console.info(this.infoinput); 
+      this.fuenteHelper.fuenteRegister(this.infoinput).subscribe((res) => {
         if (res) {
           this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
+          this.activetab('other');
           this.cambiarValorFuente();
         }
       });
@@ -177,10 +147,30 @@ export class DependenciasComponent implements OnInit {
     }
   }
 
+  loadOptionsVigencia(): void {
+    let aplicacion: Array<any> = [
+      { Id: 1, vigencia: 2018 },
+      { Id: 2, vigencia: 2019 },
+      { Id: 3, vigencia: 2020 }];
+      this.formValueFuente.campos[this.getIndexForm('Vigencia')].opciones = aplicacion;
+    }
+    getIndexForm(nombre: String): number {
+      for (let index = 0; index < this.formValueFuente.campos.length; index++) {
+        const element = this.formValueFuente.campos[index];
+        if (element.nombre === nombre) {
+          return index
+      }
+    }
+    return 0;
+  } 
+
   construirForm() {
+    this.loadOptionsVigencia();
     for (let i = 0; i < this.formValueFuente.campos.length; i++) {
       this.formValueFuente.campos[i].label = this.formValueFuente.campos[i].label_i18n;
       this.formValueFuente.campos[i].placeholder = this.formValueFuente.campos[i].label_i18n;
     }
   }
 }
+
+

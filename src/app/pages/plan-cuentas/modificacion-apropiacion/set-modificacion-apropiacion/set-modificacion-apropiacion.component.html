@@ -8,7 +8,7 @@
 
               <mat-form-field floatLabel="always" class="mod-registration-input-item">
                 <mat-label>{{'GLOBAL.tipo' | translate }}</mat-label>
-                <mat-select formControlName="modType">
+                <mat-select formControlName="modType" [(value)]="selectedType">
                   <mat-option>
                     --Seleccionar--
                   </mat-option>
@@ -27,8 +27,7 @@
                 <span matPrefix><button class="selection-button" mat-button (click)="accountSelection('credito')">{{'GLOBAL.seleccionar' | translate }}</button></span>
                 <span *ngIf="creditAccount"><b>{{'GLOBAL.saldo' | translate }} : {{creditAccount.ValorActual | currency:'COP':'symbol':'4.2-2':'co' }}</b></span>
               </mat-form-field>
-
-              <mat-form-field class="mod-registration-input-item" floatLabel="always" *ngIf="modTypeSelected  && modTypeSelected['Parametros'] && modTypeSelected['Parametros']['CuentaContraCredito']" >
+              <mat-form-field class="mod-registration-input-item" *ngIf="modTypeSelected  && modTypeSelected['Parametros'] && modTypeSelected['Parametros']['CuentaContraCredito']" >
                 <mat-label>{{'MODIF.cuenta_contra_credito' | translate }}</mat-label>
                 <input matInput placeholder="{{'MODIF.cuenta_contra_credito' | translate }}" formControlName="cnCredAccount" disabled>
                 <span matPrefix><button mat-button (click)="accountSelection('contraCredito')">{{'GLOBAL.seleccionar' | translate }}</button></span>
@@ -58,6 +57,6 @@
             </ngx-comprobacion-apropiacion-inicial>
       </nb-tab>
     </nb-tabset>
-    <button [disabled]="!balanceado || !aprAfectation || aprAfectation.length === 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent(true)">{{'GLOBAL.siguiente_abr' | translate }}</button>
+    <button *ngIf="balanceado && aprAfectation && aprAfectation.length > 0" class="btn btn-success btn-sm next-button-item" (click)="getDataEvent(true)">{{'GLOBAL.siguiente' | translate }}</button>
   </nb-card-body>
 </nb-card>

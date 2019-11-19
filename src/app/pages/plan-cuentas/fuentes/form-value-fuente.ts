@@ -1,6 +1,6 @@
 export let FORM_VALUE_FUENTE = {
 
-    tipo_formulario: 'mini',
+    tipo_formulario: 'currency',
     titulo: 'Valor Fuente Financiamiento',
     btn: 'Guardar',
     alertas: true,
@@ -11,9 +11,10 @@ export let FORM_VALUE_FUENTE = {
              claseGrid: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
              nombre: 'ValorInicial',
              label_i18n: 'valor',
-             placeholder_i18n: '$',
+             placeholder_i18n: 'valor',
              requerido: true,
-             tipo: 'number',
+             tipo: 'text',
+             enabledcurrency: true,
              prefix: {
                  value: '',
              },
@@ -39,6 +40,7 @@ export let FORM_VALUE_FUENTE = {
             requerido: true,
             pattern: '^[A-Za-z0-9_]{1,10}$',
             tipo: 'text',
+            enabledcurrency: false,
             prefix: {
                 value: '',
             },
@@ -51,11 +53,11 @@ export let FORM_VALUE_FUENTE = {
             placeholder_i18n: 'tipo_documento',
             requerido: true,
             tipo: 'TipoDocumento',
-            key: 'Valor',
+            key: 'Nombre',
             opciones: [
-                { Id:1, Valor: 'ACTA' },
-                { Id:2, Valor: 'RESOLUCION' },
-                { Id:3, Valor: 'CONTRATO' },
+                { Id:1, Nombre: 'ACTA' },
+                { Id:2, Nombre: 'RESOLUCION' },
+                { Id:3, Nombre: 'CONTRATO' },
             ],
         },
         {

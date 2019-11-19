@@ -14,6 +14,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
 export class ListEntityComponent implements OnInit {
   // Local Inputs ...
   @Input('uuidReadFieldName') uuidReadField: string;
+  @Input('paramsFieldsName') paramsFieldsName: object;
   @Input('uuidDeleteFieldName') uuidDeleteField: string;
   @Input('listColumns') listColumns: object;
 
@@ -36,20 +37,23 @@ export class ListEntityComponent implements OnInit {
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
   @Output() auxcambiotab = new EventEmitter<boolean>();
+  @Output() crudcambiotab = new EventEmitter<boolean>();
   @Output() infooutput = new EventEmitter<any>();
 
   uid: any;
-  cambiotab: boolean = false;
   settings: any;
   regresarLabel: string;
 
   source: LocalDataSource = new LocalDataSource();
+  cambiotab: boolean;
   constructor(
     private translate: TranslateService,
     private popUpManager: PopUpManager,
     // tslint:disable-next-line
     private rqManager: RequestManager,
   ) {
+    this.cambiotab = false;
+    this.crudcambiotab.emit(false);
     this.auxcambiotab.emit(false);
     // console.log('constructor');
   }
@@ -61,6 +65,33 @@ export class ListEntityComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.cargarCampos();
     });
+    this.filtrarLista();
+  }
+  ngOnChanges(changes) {
+    if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
+      this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+      this.loadData();
+    }
+  }
+  filtrarLista() {
+    this.source.onChanged().subscribe((change) => {
+
+      if (change.action === 'filter') {
+        /*        console.info(change);
+               console.info(change.filter.filters); */
+        change.filter.filters.map((item) => {
+          if (item.field == 'Vigencia' &&
+            (item.search.length === 4 || item.search === '0')) {
+            this.paramsFieldsName = { Vigencia: item.search, UnidadEjecutora: 1 }
+            this.loadData();
+          }
+        })
+
+        // Do whatever you want with the filter event
+
+      }
+    });
+
   }
   cargarCampos() {
     if (this.listSettings !== undefined) {
@@ -72,7 +103,7 @@ export class ListEntityComponent implements OnInit {
           edit: false,
           delete: false,
           custom: [{ name: 'edit', title: '<i class="nb-edit"></i>' }, { name: 'delete', title: '<i class="nb-trash"></i>' }],
-          position: 'left'
+          position: 'right'
         },
         add: {
           addButtonContent: '<i class="nb-plus"></i>',
@@ -91,7 +122,7 @@ export class ListEntityComponent implements OnInit {
 
   loadData(): void {
 
-    this.loadDataFunction('').subscribe(res => {
+    this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);
@@ -100,9 +131,15 @@ export class ListEntityComponent implements OnInit {
       }
     });
   }
+  IsFuente(event) {
+    if (event.data.ValorInicial !== undefined) {
+      this.formEntity.campos[this.getIndexForm('Codigo')].deshabilitar = true;
+    }
+  }
   onEdit(event): void {
     console.info(event);
     this.uid = event.data[this.uuidReadField];
+    this.IsFuente(event)
     this.activetab('crud');
   }
 
@@ -129,6 +166,7 @@ export class ListEntityComponent implements OnInit {
   }
 
   onCreate(event): void {
+    this.formEntity.campos[this.getIndexForm('Codigo')].deshabilitar = false;
     this.uid = null;
     this.activetab('crud');
   }
@@ -144,7 +182,7 @@ export class ListEntityComponent implements OnInit {
     };
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
-        this.deleteDataFunction(event.data[this.uuidDeleteField]).subscribe(res => {
+        this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
           if (res !== null) {
             this.loadData();
             this.popUpManager.showSuccessAlert(
@@ -159,6 +197,7 @@ export class ListEntityComponent implements OnInit {
   activetab(tab): void {
     if (tab === 'crud') {
       this.cambiotab = !this.cambiotab;
+      this.crudcambiotab.emit(this.cambiotab);
     } else if (tab === 'other') {
       this.auxcambiotab.emit(true);
     }
@@ -168,9 +207,11 @@ export class ListEntityComponent implements OnInit {
 
   selectTab(event): void {
     if (event.tabTitle === this.translate.instant('GLOBAL.lista')) {
+      this.crudcambiotab.emit(false);
       this.cambiotab = false;
     } else {
       this.cambiotab = true;
+      this.crudcambiotab.emit(true);
     }
   }
 
@@ -178,11 +219,20 @@ export class ListEntityComponent implements OnInit {
     if (event) {
       this.loadData();
       this.cambiotab = !this.cambiotab;
+      this.crudcambiotab.emit(this.cambiotab);
     }
   }
   itemselec(event): void {
-     // console.info(event);
+    // console.info(event);
   }
-
+  getIndexForm(nombre: String): number {
+    for (let index = 0; index < this.formEntity.campos.length; index++) {
+      const element = this.formEntity.campos[index];
+      if (element.nombre === nombre) {
+        return index
+      }
+    }
+    return 0;
+  }
 
 }
