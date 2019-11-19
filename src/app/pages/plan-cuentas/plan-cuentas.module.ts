@@ -10,6 +10,7 @@ import {
   NbTabsetModule,
   NbStepperModule,
   NbCardModule,
+  NbTooltipModule,
   NbCheckboxModule } from '@nebular/theme';
 
 import { ProductosRubroComponent } from './rubros/productos-rubro/productos-rubro.component';
@@ -60,6 +61,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     CommonModule,
     PlanCuentasRoutingModule,
     NbTreeGridModule,
+    NbTooltipModule,
     NbSelectModule,
     NbAlertModule,
     NbCheckboxModule,

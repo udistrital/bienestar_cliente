@@ -15,6 +15,7 @@ import {
   NbCardModule,
 } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -184,7 +185,7 @@ const NB_THEME_PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [SharedModule, CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES, Ng2SmartTableModule],
+  imports: [SharedModule, CommonModule, FormsModule, ReactiveFormsModule, ...NB_MODULES, ...MAT_MODULES, Ng2SmartTableModule, CurrencyMaskModule],
   exports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, ...PIPES, ...COMPONENTS, ...MAT_MODULES],
   declarations: [...COMPONENTS, ...PIPES, DinamicformComponent, ListEntityComponent, CrudEntityComponent],
 })

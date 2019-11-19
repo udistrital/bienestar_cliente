@@ -1,3 +1,5 @@
+<button *ngIf="cambiotab" (click)="activetab('crud')" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+  {{ regresarLabel }}</button>
 
 
       
@@ -8,6 +10,7 @@
           [entitiId]="uid"
           [formEntity]="formEntity"
           [formTittle]="formTittle"
+          [paramsFieldsName]="paramsFieldsName"
           [updateMessage]="updateMessage"
           [createMessage]="createMessage"
           [updateConfirmMessage]="updateConfirmMessage"
@@ -17,7 +20,5 @@
           [createEntityFunction]="createEntityFunction"
           (eventChange)="onChange($event)">
         </ngx-crud-entity>
-        <button *ngIf="cambiotab" (click)="activetab('crud')" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-          {{ regresarLabel }}</button>
 
           

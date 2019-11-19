@@ -3,7 +3,7 @@ export let DETALLE_MODIFICACION_FORM = {
     tipo_formulario: 'mini',
     alertas: true,
     modelo: 'detalleModificacion',
-    btn: 'GLOBAL.siguiente_abr',
+    btn: 'GLOBAL.siguiente',
     campos: [
         {
             etiqueta: 'input',
@@ -12,7 +12,7 @@ export let DETALLE_MODIFICACION_FORM = {
             label_i18n: 'numero_documento',
             placeholder_i18n: 'numero_documento',
             requerido: true,
-            tipo: 'number',
+            tipo: 'text',
         },
         {
             etiqueta: 'select',

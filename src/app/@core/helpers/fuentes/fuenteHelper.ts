@@ -4,18 +4,32 @@ import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class FuenteHelper {
 
-  constructor(
-    private rqManager: RequestManager,
-    private pUpManager: PopUpManager,
-  ) {}
-
-    public getFuentes(id?: any) {
+    query_params: String;
+    constructor(
+        private rqManager: RequestManager,
+        private pUpManager: PopUpManager,
+    ) { }
+    /**
+       * getFuentes
+       * If the response has errors in the OAS API it should show a popup message with an error.
+       * If the response suceed, it returns the data of the object.
+       * @param id object to get in the DB
+       * @param param object with the params to get in the DB
+       * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+       */
+    public getFuentes(id?: any, params?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('fuente_financiamiento/' + id).pipe(
+        if (params) {
+            this.query_params = id ? id + '/' + params.Vigencia + '/' + params.UnidadEjecutora : params.Vigencia + '/' + params.UnidadEjecutora;
+        }
+        else {
+            this.query_params = '0/1';
+        }
+        return this.rqManager.get('fuente_financiamiento/' + this.query_params).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -37,13 +51,10 @@ export class FuenteHelper {
        */
     public fuenteRegister(fuenteData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        fuenteData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
+        fuenteData.UnidadEjecutora = '1';  // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = fuenteData.Vigencia.vigencia;
+        /* fuenteData.Vigencia = fuenteData.Vigencia; */
         fuenteData.activo = true;
-        fuenteData.Codigo = fuenteData.Codigo.toString();
-        fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
-        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor;
         return this.rqManager.post(`fuente_financiamiento/`, fuenteData).pipe(
             map(
                 (res) => {
@@ -68,14 +79,14 @@ export class FuenteHelper {
     public fuenteUpdate(fuenteData) {
         console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        fuenteData.UnidadEjecutora = 1; // Tomar la unidad ejecutora del token cuando este definido.
+        fuenteData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
-        fuenteData.Vigencia = fuenteData.Vigencia.vigencia;
+/*         fuenteData.Vigencia = fuenteData.Vigencia; */
         fuenteData.activo = true;
-        fuenteData.Codigo = fuenteData.Codigo.toString();
+/*         fuenteData.Codigo = fuenteData.Codigo.toString();
         fuenteData.NumeroDocumento = fuenteData.NumeroDocumento.toString();
-        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor;
-        return this.rqManager.put('fuente_financiamiento/', fuenteData , fuenteData.Codigo).pipe(
+        fuenteData.TipoDocumento = fuenteData.TipoDocumento.Valor; */
+        return this.rqManager.put('fuente_financiamiento/', fuenteData, fuenteData.Codigo + '/' + fuenteData.Vigencia + '/' + fuenteData.UnidadEjecutora).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -96,9 +107,12 @@ export class FuenteHelper {
      * @param id the id of the object to remove in the DB.
      * @returns  <Observable> object with api response. undefined if the proccess has errors
      */
-    public fuenteDelete(id: number) {
+    public fuenteDelete(id: number, params?: any) {
+        if (params) {
+            this.query_params = '/' + params.Vigencia + '/' + params.UnidadEjecutora;
+        }
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.delete('fuente_financiamiento/', id).pipe(
+        return this.rqManager.delete('fuente_financiamiento', id.toString() + this.query_params).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
