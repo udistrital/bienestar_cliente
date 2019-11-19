@@ -34,13 +34,13 @@
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
       "solicitud_crp": "Solicitud CRP",
-      "crp": "C.Registro Presupuestal"
+      "crp": "Certificado Registro Presupuestal"
     },
 
     "gestion_cdp": {
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
-      "cdp": "C.Disponibilidad Presupuestal"
+      "cdp": "Certificado Disponibilidad Presupuestal"
     },
     "auth": {
       "auth": "Autenticación",
