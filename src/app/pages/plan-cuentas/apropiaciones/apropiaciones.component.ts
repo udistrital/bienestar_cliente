@@ -46,6 +46,10 @@ export class ApropiacionesComponent implements OnInit {
   CentroGestor: string;
   planAdquisicionesRubro: any;
   paramsFieldsName: object;
+  totalValorActividades: number;
+  diferenciaActividadApropiacion: number;
+  totalValorFuentes: number;
+  diferenciaFuentesApropiacion: number;
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -94,7 +98,7 @@ export class ApropiacionesComponent implements OnInit {
         this.vigenciaSel = res + '';
       }
     });
-    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
+    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1 };
   }
 
   receiveMessage($event) {
@@ -118,17 +122,16 @@ export class ApropiacionesComponent implements OnInit {
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
       console.info(this.rubroSeleccionado.Codigo);
 
-      var newstr = this.getLastLevel(/([^-]+)$/, this.rubroSeleccionado.Codigo)
-      console.info(newstr);
-      this.showPlanAdquisicion('2019', newstr);
+      this.showPlanAdquisicion('2019', this.getLastLevel(this.rubroSeleccionado.Codigo));
     } else {
       this.isLeaf = false;
       this.productos = false;
     }
   }
 
-  getLastLevel(regex, str) {
-    let m
+  getLastLevel(str) {
+    let m;
+    let regex = /([^-]+)$/;
     if ((m = regex.exec(str)) !== null) {
       return m[0];
     }
@@ -138,26 +141,60 @@ export class ApropiacionesComponent implements OnInit {
       if (res) {
         this.planAdquisicionesRubro = res.metas.actividades;
         this.planAdquisicionesRubro.map((item) => {
-          item.valor_actividad = parseFloat(item.valor_actividad); 
+          item.valor_fuente_presupuesto = parseFloat('0');
+          item.valor_actividad = parseFloat(item.valor_actividad);
+
           if (item.fuente_financiamiento !== null) {
-            this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1}).subscribe((res) => {
-              if(res.Body !== null) {
+            this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1 }).subscribe((res) => {
+              if (res.Body !== null) {
                 item.fuente_financiamiento_nombre = res.Nombre;
+                item.valor_fuente_presupuesto = parseFloat(res.ValorInicial);
               }
-              item.valor_fuente_financiamiento = parseFloat(item.valor_fuente_financiamiento);
+              item.valor_dependencia = parseFloat(item.valor_fuente_financiamiento);
+              this.calcularDiferenciaFuentesApropiacion(this.planAdquisicionesRubro);
             });
             this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
-              if(res.Body !== null) {
+              if (res.Body !== null) {
                 item.dependencia = res.Nombre;
               }
             });
-          }else{
-
-            item.valor_fuente_financiamiento = 0;
+          } else {
+            item.valor_dependencia = 0;
           }
         })
+        this.calcularDiferenciaActividadApropiacion(this.planAdquisicionesRubro);
       }
     });
+  }
+
+  calcularDiferenciaActividadApropiacion(plan) {
+    const cleanActividades = this.eliminarDuplicados(plan, "actividad_id");
+    this.totalValorActividades = cleanActividades.reduce((sum, current) => sum + current.valor_actividad, 0);
+    if (this.rubroSeleccionado.ValorInicial < this.totalValorActividades) {
+      this.diferenciaActividadApropiacion = this.totalValorActividades - this.rubroSeleccionado.ValorInicial;
+      }
+  }
+  
+  calcularDiferenciaFuentesApropiacion(plan) {
+    const cleanFuentes = this.eliminarDuplicados(plan, "fuente_financiamiento");
+    this.totalValorFuentes = cleanFuentes.reduce((sum, current) => sum + current.valor_fuente_presupuesto, 0);
+    if (this.rubroSeleccionado.ValorInicial < this.totalValorFuentes) {
+      this.diferenciaFuentesApropiacion = this.totalValorFuentes - this.rubroSeleccionado.ValorInicial;
+    }
+  }
+
+  eliminarDuplicados(arr, comp) {
+
+    const unique = arr
+      .map(e => e[comp])
+
+      // store the keys of the unique objects
+      .map((e, i, final) => final.indexOf(e) === i && i)
+
+      // eliminate the dead keys & store unique objects
+      .filter(e => arr[e]).map(e => arr[e]);
+
+    return unique;
   }
 
   aprobarApropiacion() {
@@ -217,6 +254,7 @@ export class ApropiacionesComponent implements OnInit {
           this.popManager.showSuccessAlert('Se registro la preasignación de apropiación correctamente!');
           // this.cleanForm();
           this.eventChange.emit(true);
+          this.showPlanAdquisicion('2019', this.getLastLevel(this.rubroSeleccionado.Codigo));
         }
       });
     } else {

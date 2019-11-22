@@ -183,7 +183,11 @@
     "mensaje_registrar": "¿ Crear Fuente de Financiamiento ?",
     "confirmacion_creacion": "Fuente Registrada",
     "mensaje_eliminar": "¿ Eliminar Fuente ?",
-    "confirmacion_eliminar": "Fuente Eliminada"
+    "confirmacion_eliminar": "Fuente Eliminada",
+    "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: "
+  },
+  "ACTIVIDAD":{
+    "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
   },
   "APROPIACION": {
     "comprobacion": "Comprobación de la apropiacion inicial",
