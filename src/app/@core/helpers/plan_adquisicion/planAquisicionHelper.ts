@@ -12,8 +12,6 @@ export class PlanAdquisicionHelper {
         private pUpManager: PopUpManager,
       ) { }
 
-
-
     public getPlanAdquisicionByRubro(query?: any) {
         this.rqManager.setPath('PLAN_ADQUISICION_SERVICE');
         return this.rqManager.get('plan_adquisiciones_rubro/' + query).pipe(
@@ -28,6 +26,22 @@ export class PlanAdquisicionHelper {
             ),
         );
 
+    }
+
+    // getPlanAdquisicionByDependencia obtiene la información del plan de adquisiciones con una vigencia y una dependencia
+    public getPlanAdquisicionByDependencia(vigencia: string, dependencia: string) {
+        this.rqManager.setPath('PLAN_ADQUISICION_SERVICE');
+        return this.rqManager.get('plan_adquisiciones/' + vigencia + '/' + dependencia).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el plan de adquisición');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
     }
 
 
