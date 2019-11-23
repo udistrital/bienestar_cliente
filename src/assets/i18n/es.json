@@ -162,7 +162,10 @@
     "placeholder_area_funcional": "",
     "placeholder_centro_gestor": "",
     "rubro_registrado": "Rubro registrado",
-    "rubro_eliminado": "Rubro eliminado"
+    "rubro_eliminado": "Rubro eliminado",
+    "asignar-nueva-apropiacion-inicial": "Asignar Nueva Apropiación",
+    "asignar-apropiacion-inicial": "Asignar Apropiación",
+    "regresar-consulta-apropiacion": "Consulta apropiación actual"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

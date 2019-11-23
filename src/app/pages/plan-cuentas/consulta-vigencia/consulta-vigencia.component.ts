@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Rubro } from '../../../@core/data/models/rubro';
 import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
+import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
+import { PopUpManager } from '../../../@core/managers/popUpManager';
 
 @Component({
   selector: 'ngx-consulta-vigencia',
@@ -14,6 +16,7 @@ export class ConsultaVigenciaComponent implements OnInit {
   @Output() eventChange = new EventEmitter();
   vigenciaChange: string;
   rubroSeleccionado: any;
+  apropiacionData: ArbolApropiacion;
   valorApropiacion: number;
   vigenciaSel: any;
   clean = false;
@@ -24,14 +27,20 @@ export class ConsultaVigenciaComponent implements OnInit {
   vigencias: any[];
   CentroGestor: string;
   AreaFuncional: string;
+  viewOption: string;
 
   constructor(
     private apHelper: ApropiacionHelper,
     private commonHelper: CommonHelper,
+    private popManager: PopUpManager,
   ) {
     this.vigenciaSel = '2019';
     this.optionView = 'ApropiacionesEstado';
 
+    this.cleanAprData();
+  }
+
+  cleanAprData() {
     this.rubroSeleccionado = {
       Id: 0,
       Codigo: '',
@@ -43,11 +52,21 @@ export class ConsultaVigenciaComponent implements OnInit {
       UnidadEjecutora: null,
       _id: '',
     };
-
-
+    this.apropiacionData = {
+      Vigencia: 0,
+      ValorInicial: 0,
+      ApropiacionAnterior: 0,
+      Estado: '',
+      Rubro: <Rubro>{},
+      Codigo: '',
+      Nombre: '',
+      Descripcion: '',
+      UnidadEjecutora: '',
+      Padre: '',
+      Hijos: [],
+      Productos: []
+    };
   }
-
-
   ngOnInit() {
     this.apHelper.getVigenciasList().subscribe(res => {
       if (res) {
@@ -67,6 +86,11 @@ export class ConsultaVigenciaComponent implements OnInit {
     console.info(this.vigenciaSel);
   }
 
+  changeView(viewOptionValue: string) {
+    this.optionView = viewOptionValue;
+    this.cleanAprData();
+  }
+
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
     console.info(this.rubroSeleccionado);
@@ -78,7 +102,36 @@ export class ConsultaVigenciaComponent implements OnInit {
       this.rubroSeleccionado.UnidadEjecutora,
       0,
     );
-    this.rubroSeleccionado.ApropiacionInicial = parseInt(this.rubroSeleccionado.ApropiacionInicial, 0);
+    this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
+    this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
+  }
+
+  preAsignarApropiacion() {
+    this.apropiacionData.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
+    this.apropiacionData.Codigo = typeof this.rubroSeleccionado.Codigo === 'undefined' ? undefined : this.rubroSeleccionado.Codigo;
+    this.apropiacionData.Nombre = typeof this.rubroSeleccionado.Nombre === 'undefined' ? undefined : this.rubroSeleccionado.Nombre;
+    this.apropiacionData.Descripcion = typeof this.rubroSeleccionado.Descripcion === 'undefined' ? undefined : this.rubroSeleccionado.Descripcion;
+    this.apropiacionData.UnidadEjecutora = typeof this.rubroSeleccionado.UnidadEjecutora === 'undefined' ? undefined : this.rubroSeleccionado.UnidadEjecutora;
+    this.apropiacionData.Padre = typeof this.rubroSeleccionado.Padre === 'undefined' ? undefined : this.rubroSeleccionado.Padre;
+    this.apropiacionData.Hijos = typeof this.rubroSeleccionado.Hijos === 'undefined' ? undefined : this.rubroSeleccionado.Hijos;
+    this.apropiacionData.ValorInicial = typeof this.valorApropiacion === 'undefined' ? undefined : this.valorApropiacion;
+    this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ValorInicial === 'undefined' ? 0 : this.rubroSeleccionado.ValorInicial;
+    this.apropiacionData.Estado = 'registrada'; // Estado preasignado
+
+    console.table(this.rubroSeleccionado);
+    if (this.vigenciaSel !== undefined) {
+      this.apHelper.apropiacionRegister(this.apropiacionData).subscribe((res) => {
+        if (res) {
+          this.popManager.showSuccessAlert('Se registro la apropiación correctamente!');
+          // this.cleanForm();
+          this.eventChange.emit(true);
+          this.cleanAprData();
+        }
+      });
+    } else {
+      this.popManager.showErrorAlert('Seleccione una vigencia.');
+    }
+
 
   }
 }
