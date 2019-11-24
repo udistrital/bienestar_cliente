@@ -165,7 +165,8 @@
     "rubro_eliminado": "Rubro eliminado",
     "asignar-nueva-apropiacion-inicial": "Asignar Nueva Apropiación",
     "asignar-apropiacion-inicial": "Asignar Apropiación",
-    "regresar-consulta-apropiacion": "Consulta apropiación actual"
+    "regresar-consulta-apropiacion": "Consulta apropiación actual",
+    "fecha_registro": "Fecha de registro"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

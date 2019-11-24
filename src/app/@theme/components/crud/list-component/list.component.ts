@@ -32,13 +32,15 @@ export class ListEntityComponent implements OnInit {
   @Input('createConfirmMessage') createConfirmMessage: string;
   @Input('isOnlyCrud') isOnlyCrud: boolean;
   @Input('listSettings') listSettings: object;
-
+  @Input('externalCreate') externalCreate: boolean;
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
   @Output() auxcambiotab = new EventEmitter<boolean>();
   @Output() crudcambiotab = new EventEmitter<boolean>();
+  @Output() externalTabActivator = new EventEmitter<string>();
   @Output() infooutput = new EventEmitter<any>();
+  externalTabACtive: boolean = true;
 
   uid: any;
   settings: any;
@@ -68,10 +70,12 @@ export class ListEntityComponent implements OnInit {
     this.filtrarLista();
   }
   ngOnChanges(changes) {
+    
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
       this.loadData();
     }
+
   }
   filtrarLista() {
     this.source.onChanged().subscribe((change) => {
@@ -166,9 +170,13 @@ export class ListEntityComponent implements OnInit {
   }
 
   onCreate(event): void {
-    this.formEntity.campos[this.getIndexForm('Codigo')].deshabilitar = false;
-    this.uid = null;
-    this.activetab('crud');
+    if (!this.externalCreate) {
+      this.formEntity.campos[this.getIndexForm('Codigo')].deshabilitar = false;
+      this.uid = null;
+      this.activetab('crud');
+    } else {
+      this.activetab('external-create');
+    }
   }
 
   onDelete(event): void {
@@ -200,6 +208,10 @@ export class ListEntityComponent implements OnInit {
       this.crudcambiotab.emit(this.cambiotab);
     } else if (tab === 'other') {
       this.auxcambiotab.emit(true);
+      this.externalTabActivator.emit(tab);
+    } else {
+      this.externalTabACtive = true;
+      this.externalTabActivator.emit(tab);
     }
   }
 

@@ -32,6 +32,7 @@ import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicit
 import { VerSolicitudCrpComponent } from './crp/ver-solicitud-crp/ver-solicitud-crp.component';
 import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { ListModificacionApropiacionComponent } from './consulta-modificacion-apropiacion/list-modificacion-apropiacion.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     SolicitudCrpComponent,
     ListCdpComponent,
     VerSolicitudCrpComponent,
+    ListModificacionApropiacionComponent,
   ],
   providers: [
     ConfiguracionService,

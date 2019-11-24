@@ -25,6 +25,7 @@ export class ModificacionApropiacionComponent implements OnInit {
     previusStepIndex: number;
     modifiactionFinalData: object;
     checkAfectationFinalData: object;
+    clean: boolean = false;
     ngOnInit() {
         this.detalleValidationForm = new FormGroup({
             valid: new FormControl(null, Validators.required),
@@ -36,6 +37,20 @@ export class ModificacionApropiacionComponent implements OnInit {
         this.formDetalleValidFlag = false;
         this.previusStepIndex = 0;
         this.modifiactionFinalData = {};
+    }
+
+    ngOnDestroy() {
+        this.detalleValidationForm = new FormGroup({
+            valid: new FormControl(null, Validators.required),
+        });
+        this.setModValidationForm = new FormGroup({
+            valid: new FormControl(null, Validators.required),
+        });
+        this.linearMode = true;
+        this.formDetalleValidFlag = false;
+        this.previusStepIndex = 0;
+        this.modifiactionFinalData = {};
+        this.clean = true;
     }
 
 
@@ -107,6 +122,9 @@ export class ModificacionApropiacionComponent implements OnInit {
         });
 
     }
+
+   
+
 
 
 }
