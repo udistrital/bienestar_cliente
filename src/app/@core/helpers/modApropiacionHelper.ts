@@ -53,4 +53,19 @@ export class ModApropiacionHelper {
             ),
         );
     }
+
+    public getModificacionesAfectation(docPresUUID?: any, params?: {vigencia: string, cg: string}){
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get(`movimiento/${params.vigencia}/${params.cg}/${docPresUUID}`).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert(this.translate.instant('mod_apr_error'));
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
 }

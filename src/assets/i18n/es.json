@@ -166,7 +166,12 @@
     "asignar-nueva-apropiacion-inicial": "Asignar Nueva Apropiación",
     "asignar-apropiacion-inicial": "Asignar Apropiación",
     "regresar-consulta-apropiacion": "Consulta apropiación actual",
-    "fecha_registro": "Fecha de registro"
+    "fecha_registro": "Fecha de registro",
+    "traslado": "Traslado",
+    "traslado_destino": "Traslado",
+    "reduccion": "Reducción",
+    "suspension": "Suspensión",
+    "adicion": "Adición"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

@@ -47,7 +47,7 @@
           <button *ngIf="localtabACtived" (click)="auxcambiotab = false; localtabACtived = false; createTab = false; viewTab = false" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
             Regresar</button>
           <ngx-modificacion-apropiacion *ngIf="createTab"></ngx-modificacion-apropiacion>
-          <ngx-show-modificacion-apropiacion [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
+          <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
     </nb-card-body>
   </nb-card>
 </div>
