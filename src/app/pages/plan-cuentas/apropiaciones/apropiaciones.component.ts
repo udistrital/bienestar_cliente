@@ -120,8 +120,6 @@ export class ApropiacionesComponent implements OnInit {
         this.productos = true;
       }
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
-      console.info(this.rubroSeleccionado.Codigo);
-
       this.showPlanAdquisicion('2019', this.getLastLevel(this.rubroSeleccionado.Codigo));
     } else {
       this.isLeaf = false;
