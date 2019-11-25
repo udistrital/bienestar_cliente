@@ -7,7 +7,7 @@ export let DETALLE_MODIFICACION_FORM = {
     campos: [
         {
             etiqueta: 'input',
-            claseGrid: 'mx-auto col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'mx-auto col-lg-8 col-md-8 col-sm-8 col-xs-8',
             nombre: 'NumeroDocumento',
             label_i18n: 'numero_documento',
             placeholder_i18n: 'numero_documento',
@@ -16,7 +16,7 @@ export let DETALLE_MODIFICACION_FORM = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'mx-auto col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'mx-auto col-lg-8 col-md-8 col-sm-8 col-xs-8',
             nombre: 'TipoDocumento',
             label_i18n: 'tipo_documento',
             placeholder_i18n: 'tipo_documento',
@@ -26,15 +26,24 @@ export let DETALLE_MODIFICACION_FORM = {
         },
         {
             etiqueta: 'mat-date',
-            claseGrid: 'mx-auto col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'mx-auto col-lg-8 col-md-8 col-sm-8 col-xs-8',
             nombre: 'FechaDocumento',
             label_i18n: 'fecha_documento',
             placeholder_i18n: 'fecha_documento',
             requerido: true,
         },
         {
+            etiqueta: 'input',
+            claseGrid: 'mx-auto col-lg-8 col-md-8 col-sm-8 col-xs-8',
+            nombre: 'OrganismoEmisor',
+            label_i18n: 'organismo_emisor',
+            placeholder_i18n: 'organismo_emisor',
+            requerido: true,
+            tipo: 'text',
+        },
+        {
             etiqueta: 'textarea',
-            claseGrid: 'mx-auto col-lg-7 col-md-7 col-sm-7 col-xs-7',
+            claseGrid: 'mx-auto col-lg-8 col-md-8 col-sm-8 col-xs-8',
             nombre: 'Descripcion',
             label_i18n: 'descripcion',
             placeholder_i18n: 'descripcion',

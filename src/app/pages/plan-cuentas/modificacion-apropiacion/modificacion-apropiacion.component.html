@@ -4,15 +4,16 @@
             <mat-horizontal-stepper #stepper [linear]="linearMode" id="stepper" (selectionChange)="onStepChange($event)">
                 <mat-step label="{{'GLOBAL.detalle' | translate }}" [stepControl]="detalleValidationForm">
                     <ngx-dinamicform [normalform]="formDetalle" [modeloData]="detalleMovimiento"
-                        (result)="detalleValidator($event)" >
+                        (result)="detalleValidator($event)" [clean]="clean" >
                     </ngx-dinamicform>
                 </mat-step>
                 <mat-step label="{{'APROPIACION.apropiaciones' | translate }}" [stepControl]="setModValidationForm">
+                    
                     <ngx-set-modificacion-apropiacion (setStepValidationEvent)="setSteppValidator($event)">
                     </ngx-set-modificacion-apropiacion>
                 </mat-step>
                 <mat-step label="{{'GLOBAL.guardar' | translate }}">
-                       <ngx-show-modification-resume [(modificationData)]="modifiactionFinalData">
+                       <ngx-show-modification-resume (saved)="onSaved($event)" [(modificationData)]="modifiactionFinalData">
 
                        </ngx-show-modification-resume>
                     </mat-step>
