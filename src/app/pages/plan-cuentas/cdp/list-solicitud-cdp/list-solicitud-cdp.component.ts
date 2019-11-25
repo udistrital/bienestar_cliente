@@ -8,7 +8,6 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
 
 
 
-
 @Component({
   selector: 'ngx-list-solicitud-cdp',
   templateUrl: './list-solicitud-cdp.component.html',
@@ -43,6 +42,13 @@ export class ListSolicitudCdpComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
+        }
+      },
+      tipoFinanciacion: {
+        title: this.translate.instant('CDP.tipo_financiacion'),
+        valuePrepareFunction: (value: object) => {
+        
+          return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : "algo";
         }
       },
       centroGestor: {
@@ -85,12 +91,18 @@ export class ListSolicitudCdpComponent implements OnInit {
 
   }
 
-
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
         const data = <Array<any>>res;
-        this.source.load(data);
+        this.cdpHelper.getAllNecesidades('limit=-1&fields=Id,TipoFinanciacionNecesidadId&query=EstadoNecesidadId.CodigoAbreviacionn:CS').subscribe(resNecesidades => {
+          let necesidades: object = {};
+          if (resNecesidades) {
+            resNecesidades.forEach((necesidad: object) => necesidades[necesidad['Id']] = necesidad)
+            res.forEach((obj: object) => obj['tipoFinanciacion'] = necesidades[obj['necesidad']])
+            this.source.load(data);
+          }
+        })
       } else {
         this.source.load([]);
       }

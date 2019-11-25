@@ -31,12 +31,35 @@ export class CDPHelper {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res ? res.filter(e => e.infoCdp === null || e.infoCdp === {}) : undefined;
+                    return res ? res.filter(e => e.infoCdp === null || e.infoCdp === "") : undefined;
                 },
             ),
         );
 
     }
+
+    /**
+    * getNecesidades
+    * Consulta todas las necesidades
+    * @param query La consulta enviada al api
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+
+    public getAllNecesidades(query?: Object) {
+        this.rqManager.setPath('NECESIDADES_CRUD_SERVICE');
+        return this.rqManager.get('necesidad?'+query).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar las necesidades');
+                        return undefined;
+                    }
+                    return res;
+                }
+            )
+        )
+    }
+
 
     /**
     * CDP get
