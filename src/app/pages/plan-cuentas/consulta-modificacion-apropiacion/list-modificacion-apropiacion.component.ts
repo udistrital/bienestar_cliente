@@ -167,4 +167,15 @@ export class ListModificacionApropiacionComponent implements OnInit {
     this.modificationDataSelected = $event;
   }
 
+  returnToList(){
+    this.auxcambiotab = false; 
+    this.localtabACtived = false; 
+    this.createTab = false; 
+    this.viewTab = false
+  }
+
+  onSaved($event) {
+    this.returnToList();
+  }
+
 }

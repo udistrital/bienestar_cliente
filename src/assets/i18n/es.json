@@ -171,7 +171,9 @@
     "traslado_destino": "Traslado",
     "reduccion": "Reducción",
     "suspension": "Suspensión",
-    "adicion": "Adición"
+    "adicion": "Adición",
+    "organismo_emisor": "Organismo emisor",
+    "placeholder_organismo_emisor": "Organismo emisor"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

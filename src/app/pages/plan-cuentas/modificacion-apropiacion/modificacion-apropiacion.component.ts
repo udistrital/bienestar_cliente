@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DETALLE_MODIFICACION_FORM } from './detalle_modificacion_form';
 import { FormManager } from '../../../@core/managers/formManager';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +13,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ModificacionApropiacionComponent implements OnInit {
     @ViewChild('stepper', { static: true }) stepper: MatStepper;
-
     formDetalle: object;
     detalleMovimiento: any;
 
@@ -26,6 +25,8 @@ export class ModificacionApropiacionComponent implements OnInit {
     modifiactionFinalData: object;
     checkAfectationFinalData: object;
     clean: boolean = false;
+    @Output() saved: EventEmitter<boolean> = new EventEmitter();
+
     ngOnInit() {
         this.detalleValidationForm = new FormGroup({
             valid: new FormControl(null, Validators.required),
@@ -123,7 +124,9 @@ export class ModificacionApropiacionComponent implements OnInit {
 
     }
 
-   
+    onSaved($event) {
+        this.saved.emit(true);
+    }
 
 
 

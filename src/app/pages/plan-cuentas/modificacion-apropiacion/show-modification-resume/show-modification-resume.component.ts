@@ -14,6 +14,7 @@ export class ShowModificationResumeComponent implements OnInit, OnChanges {
     }
     @Input() modificationData: any;
     @Output() modificationDataChange: EventEmitter<any> = new EventEmitter();
+    @Output() saved: EventEmitter<boolean> = new EventEmitter();
     readonly = true;
     constructor(private modApropiacionHelper: ModApropiacionHelper,
         private popUpManager: PopUpManager) { }
@@ -25,6 +26,7 @@ export class ShowModificationResumeComponent implements OnInit, OnChanges {
         this.modApropiacionHelper.modRegister(this.modificationData).subscribe(res => {
             if (res) {
                 this.popUpManager.showSuccessAlert(res);
+                this.saved.emit(true);
             }
         });
     }

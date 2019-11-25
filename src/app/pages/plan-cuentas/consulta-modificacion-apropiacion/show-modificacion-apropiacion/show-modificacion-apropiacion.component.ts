@@ -17,7 +17,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     readonly = true;
     settings: object;
     listColumns: object;
-    source: Array<any>
+    source: Array<any>;
 
     constructor(private modApropiacionHelper: ModApropiacionHelper,
         private translate: TranslateService,

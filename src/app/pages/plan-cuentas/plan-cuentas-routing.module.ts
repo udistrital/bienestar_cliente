@@ -52,7 +52,7 @@ const routes: Routes = [{
 },
  {
   path: 'modificacion-apropiacion',
-  component: ModificacionApropiacionComponent,
+  component: ListModificacionApropiacionComponent,
 },
 {
   path: 'cdp',
