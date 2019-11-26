@@ -90,9 +90,9 @@ export class CRPHelper {
         );
     }
 
-    public getCompromiso(id){
+    public getCompromiso(id) {
         this.rqManager.setPath('CORE_SERVICE');
-        return this.rqManager.get('tipo_documento/'+id).pipe(
+        return this.rqManager.get('tipo_documento/' + id).pipe(
             map(
                 res_tCompromiso => {
                     return res_tCompromiso;
@@ -183,30 +183,113 @@ export class CRPHelper {
             ));
     }
 
-     /**
-    * expedir CRP
-    * dispara la funcion para expedicion del CRP
-    * inforcdp si  todo ok, alerta si falla.
-    * @param id identificador de solicitud de crp
-    * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
-    */
-   public expedirCRP(id) {
-    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-    return this.rqManager.get(`crp/expedirCRP/` + id).pipe(
-        map(
-            res_mid => {
-                if (res_mid.status > 300) {
-                    this.pUpManager.showErrorAlert('Error al expedir CRP');
-                    return undefined;
-                } else {
-                    return res_mid;
+    /**
+   * expedir CRP
+   * dispara la funcion para expedicion del CRP
+   * inforcdp si  todo ok, alerta si falla.
+   * @param id identificador de solicitud de crp
+   * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
+   */
+    public expedirCRP(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`crp/expedirCRP/` + id).pipe(
+            map(
+                res_mid => {
+                    if (res_mid.status > 300) {
+                        this.pUpManager.showErrorAlert('Error al expedir CRP');
+                        return undefined;
+                    } else {
+                        return res_mid;
+                    }
                 }
+            )
+        );
+
+
+    }
+
+    /**
+      * Contratos Get
+      * If the response has errors in the OAS API it should show a popup message with an error.
+      * If the response is successs, it returns the object's data.
+      * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+      */
+    public getContratoSuscrito(contrato, vigencia) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('contrato_suscrito/?query=Vigencia:' + vigencia+',NumeroContrato.Id:'+contrato).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el contrato suscrito');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getContratoDisponibilidad(contrato){
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('contrato_disponibilidad/?query=NumeroContrato:'+contrato).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el contrato disponibilidad');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getContratoGeneral(contrato){
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('contrato_general/?query=NumeroContrato:'+contrato).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el contrato general');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getInfoContrato(contrato, vigencia){
+        var objContrato = {};
+        this.getContratoSuscrito(contrato,vigencia).subscribe(resCS => {
+            console.info(resCS, "Este es el contrato suscrito")
+            if(resCS){
+                this.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD =>{// se obtiene la información del CDP de ese contrato
+                    console.info(resCD, "Este es el contrato disponibilidad")
+                    if(resCD){
+                        this.getContratoGeneral(resCD[0].NumeroContrato).subscribe(resCG =>{
+                            console.info(resCG, "Este es el contrato general")
+                            if(resCG){
+                                this.getInfoNaturalJuridica(resCG[0].Contratista).subscribe(resIP =>{
+                                    console.info(resIP, "Info de Proveedor")
+                                    if(resIP){
+
+                                    }
+                                })
+                            }
+                        })
+                    }
+                } 
+                    
+                ) 
+
             }
-        )
-    );
+        })
+    }
+    
 
 
 }
 
 
-}
+

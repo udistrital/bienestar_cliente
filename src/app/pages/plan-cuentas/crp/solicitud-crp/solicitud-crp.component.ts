@@ -48,6 +48,7 @@ export class SolicitudCrpComponent implements OnInit {
     this.loadOptionsTipoDocumento();
     this.loadCDPInfo();
     this.loadOptionsCompromisos();
+    this.crpHelper.getInfoContrato(4094, 2019);
 
   }
 
@@ -74,7 +75,7 @@ export class SolicitudCrpComponent implements OnInit {
       this.solCrpData.Vigencia = '2019';
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
         && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura + event.data.SolicitudCRP.NumeroDocumento;
-      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id=== 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
+      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
       this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
 
@@ -87,7 +88,7 @@ export class SolicitudCrpComponent implements OnInit {
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
-          this.popManager.showAlert('success', 'Solicitud de CDP Registrada', 'La solicitud N° '+ res.consecutivo +' ha sido registrada')
+          this.popManager.showAlert('success', 'Solicitud de CDP Registrada', 'La solicitud N° ' + res.consecutivo + ' ha sido registrada')
             .then((result) => {
               if (result.value) {
                 this.router.navigate(['/pages/plan-cuentas/solicitudcrp']);

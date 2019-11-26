@@ -1,19 +1,19 @@
 export let FORM_INFO_SOL_CRP = {
 
-    tipo_formulario: 'mini',
+    tipo_formulario: 'currency',
     alertas: true,
     modelo: 'SolicitudCRP',
     campos: [
         {
             etiqueta: 'select',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
-            nombre: 'NumeroCDP',
-            label_i18n: 'Número de CDP',
-            placeholder_i18n: 'Número de CDP',
+            nombre: 'Vigencia',
+            label_i18n: 'Vigencia',
+            placeholder_i18n: 'Vigencia',
             requerido: true,
-            tipo: 'NumeroCDP',
-            key: 'consecutivo_cdp',
-            opciones: [],
+            tipo: 'text',
+            key: 'valor',
+            opciones: [{Id:1,valor:'2018'},{Id:2,valor:'2019'},{Id:3, valor:'2020'}],
         },
         {
             etiqueta: 'select',
@@ -74,7 +74,7 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-6 col-xs-6',
             nombre: 'MontoCRP',
             label_i18n: 'Monto del CRP',
             placeholder_i18n: 'Monto del CRP',
@@ -85,11 +85,25 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'col-lg-6 col-md-6 col-sm-6 col-xs-6',
             nombre: 'ValorParcial',
             label_i18n: 'Valor Parcial',
             placeholder_i18n: 'Valor Parcial',
             requerido: false,
-            tipo: 'number',
-        }],
+            tipo: 'text',
+            enabledcurrency: true,
+            prefix: {
+                value: '',
+            },
+        },
+        {
+            etiqueta: 'label',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            nombre: 'FechaInicioV',
+            label_i18n: 'Fecha Inicio Vigencia',
+            placeholder_i18n: 'Valor Parcial',
+            requerido: true,
+            tipo: 'text',
+        }
+    ],
 };

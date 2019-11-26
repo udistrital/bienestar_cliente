@@ -80,12 +80,11 @@ export class CDPHelper {
         return this.rqManager.get('solicitudesCDP/?query=infoCdp.consecutivo:' + id).pipe(
             map(
                 (res) => {
-                    console.info(res)
+
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    console.info(res,"RITMO")
                     return res ;
                 },
             ),
