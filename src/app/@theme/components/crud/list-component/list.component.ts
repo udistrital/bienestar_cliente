@@ -191,11 +191,13 @@ export class ListEntityComponent implements OnInit {
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
         this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
-          if (res !== null) {
+          if (res['Type'] === 'error') {
+            this.popUpManager.showErrorAlert(res['Message']);
+          } else {
             this.loadData();
             this.popUpManager.showSuccessAlert(
               this.translate.instant(this.deleteConfirmMessage)
-            );
+              );
           }
         });
       }
