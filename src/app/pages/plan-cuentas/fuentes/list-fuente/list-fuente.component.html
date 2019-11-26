@@ -1,5 +1,5 @@
 <div class="col-md-12 col-lg-12 ">
-  <nb-card>
+  <nb-card status="warning">
     <nb-card-header>
         {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
         <div *ngIf="!disabledVigencia">
@@ -14,8 +14,11 @@
             </nb-select>
           </div>
         </div>
-    </nb-card-header>
-    <nb-card-body>
+      </nb-card-header>
+      <nb-card-body>
+      <div *ngIf="!disabledVigencia">
+          {{ 'FUENTE_FINANCIAMIENTO.descripcion' | translate }}
+        </div>
             <ngx-list-entity *ngIf="!auxcambiotab"
             [listSettings]="listSettings"
             [isOnlyCrud]="isOnlyCrud" 
