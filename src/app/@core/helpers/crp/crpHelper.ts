@@ -2,6 +2,7 @@ import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
+import { CDPHelper } from '../cdp/cdpHelper';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ export class CRPHelper {
     constructor(
         private rqManager: RequestManager,
         private pUpManager: PopUpManager,
+        private cdpHelper: CDPHelper,
     ) { }
 
     public getSolicitudesCRP(id?: any) {
@@ -32,6 +34,7 @@ export class CRPHelper {
         );
 
     }
+
 
     public getListaCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
@@ -76,6 +79,24 @@ export class CRPHelper {
                 }
             )
         );
+    }
+
+    public getInfoCRP(id?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        var ObjN: object;
+        var TrCDP: object;
+        var TrSolcrp: object;
+        this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).subscribe(async res => {
+            TrSolcrp = res[0];
+            await this.cdpHelper.getCDP(TrSolcrp['consecutivoCdp']).subscribe(async res2 => {
+                TrCDP = res2[0];
+                await this.cdpHelper.getFullNecesidad(TrCDP["necesidad"]).toPromise().then(res => { ObjN = res });
+                return [TrSolcrp,TrCDP,ObjN];
+            });
+
+        });
+
+
     }
 
 
@@ -216,7 +237,7 @@ export class CRPHelper {
       */
     public getContratoSuscrito(contrato, vigencia) {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
-        return this.rqManager.get('contrato_suscrito/?query=Vigencia:' + vigencia+',NumeroContrato.Id:'+contrato).pipe(
+        return this.rqManager.get('contrato_suscrito/?query=Vigencia:' + vigencia + ',NumeroContrato.Id:' + contrato).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -229,9 +250,9 @@ export class CRPHelper {
         );
     }
 
-    public getContratoDisponibilidad(contrato){
+    public getContratoDisponibilidad(contrato) {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
-        return this.rqManager.get('contrato_disponibilidad/?query=NumeroContrato:'+contrato).pipe(
+        return this.rqManager.get('contrato_disponibilidad/?query=NumeroContrato:' + contrato).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -244,9 +265,9 @@ export class CRPHelper {
         );
     }
 
-    public getContratoGeneral(contrato){
+    public getContratoGeneral(contrato) {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
-        return this.rqManager.get('contrato_general/?query=NumeroContrato:'+contrato).pipe(
+        return this.rqManager.get('contrato_general/?query=NumeroContrato:' + contrato).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -259,34 +280,34 @@ export class CRPHelper {
         );
     }
 
-    public getInfoContrato(contrato, vigencia){
+    public getInfoContrato(contrato, vigencia) {
         var objContrato = {};
-        this.getContratoSuscrito(contrato,vigencia).subscribe(resCS => {
+        this.getContratoSuscrito(contrato, vigencia).subscribe(resCS => {
             console.info(resCS, "Este es el contrato suscrito")
-            if(resCS){
-                this.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD =>{// se obtiene la información del CDP de ese contrato
+            if (resCS) {
+                this.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD => {// se obtiene la información del CDP de ese contrato
                     console.info(resCD, "Este es el contrato disponibilidad")
-                    if(resCD){
-                        this.getContratoGeneral(resCD[0].NumeroContrato).subscribe(resCG =>{
+                    if (resCD) {
+                        this.getContratoGeneral(resCD[0].NumeroContrato).subscribe(resCG => {
                             console.info(resCG, "Este es el contrato general")
-                            if(resCG){
-                                this.getInfoNaturalJuridica(resCG[0].Contratista).subscribe(resIP =>{
+                            if (resCG) {
+                                this.getInfoNaturalJuridica(resCG[0].Contratista).subscribe(resIP => {
                                     console.info(resIP, "Info de Proveedor")
-                                    if(resIP){
+                                    if (resIP) {
 
                                     }
                                 })
                             }
                         })
                     }
-                } 
-                    
-                ) 
+                }
+
+                )
 
             }
         })
     }
-    
+
 
 
 }

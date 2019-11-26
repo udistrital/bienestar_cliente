@@ -74,9 +74,11 @@ export class CDPHelper {
 
     }
 
+   
+
     public getCDP(id) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        
+
         return this.rqManager.get('solicitudesCDP/?query=infoCdp.consecutivo:' + id).pipe(
             map(
                 (res) => {
@@ -85,7 +87,7 @@ export class CDPHelper {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res ;
+                    return res;
                 },
             ),
         );

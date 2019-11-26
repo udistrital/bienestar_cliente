@@ -4,6 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
+import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 
 
 @Component({
@@ -26,10 +27,12 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   constructor(private translate: TranslateService,
     private crpHelper: CRPHelper,
+    private cdpHelper: CDPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager, ) { }
 
   ngOnInit() {
+ 
     this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
 
 
@@ -83,6 +86,33 @@ export class ListSolicitudCrpComponent implements OnInit {
 
 
   loadData(): void {
+    
+    this.loadDataFunction('').subscribe(res => {
+      if (res) {
+        const data2 = <Array<any>>res;
+        const data = [];
+
+        data2.forEach(element => {
+          var elCrp= {crp: undefined, cdp:undefined, nec: undefined};
+          this.cdpHelper.getCDP(element.consecutivo).subscribe(resCdp => {
+            this.cdpHelper.getFullNecesidad(resCdp[0].necesidad).subscribe(resNec => {
+              if(resNec){
+                // res.forEach((obj: object) => obj['tipoFinanciacion'] = necesidades[obj['necesidad']])
+                data.push({element, resCdp,resNec});
+              }
+            
+
+            })
+          })
+          
+        })
+console.info(data)
+        this.source.load(data);
+        console.info(this.source)
+      }
+   
+    });
+
     this.loadDataFunction('').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
@@ -91,6 +121,11 @@ export class ListSolicitudCrpComponent implements OnInit {
         this.source.load([]);
       }
     });
+  }
+
+  loadCRPData () {
+    var a = this.crpHelper.getInfoCRP(1);
+    console.info(a, "chipsi");
   }
 
   verSolicitud(scrp) {
