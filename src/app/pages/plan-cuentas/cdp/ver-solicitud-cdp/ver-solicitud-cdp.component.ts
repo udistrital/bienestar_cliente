@@ -3,6 +3,7 @@ import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
 import { CoreHelper } from '../../../../@core/helpers/core/coreHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
+import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
@@ -39,6 +40,7 @@ export class VerSolicitudCdpComponent implements OnInit {
     private planAdquisicionHelper: PlanAdquisicionHelper,
     private coreHelper: CoreHelper,
     private dependenciaHelper: DependenciaHelper,
+    private movimientosHelper: MovimientosHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager,
     private popManager: PopUpManager,
@@ -51,14 +53,17 @@ export class VerSolicitudCdpComponent implements OnInit {
     this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(async res => {
       this.TrNecesidad = res;
 
+      this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
+      this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
+
+      console.info(this.areaFuncional)
+      console.info(this.centroGestor)
+
       let jefe_dependencia: object;
       await this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"]).toPromise().then(res => { jefe_dependencia = res });
       await this.getInfoDependencia(jefe_dependencia["DependenciaId"]).toPromise().then(res => { this.dependenciaSoliciante = res });
       await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
       
-
-      this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
-      this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
 
       if (this.TrNecesidad.Rubros) {
         this.TrNecesidad.Rubros.forEach(rubro => {
@@ -117,16 +122,48 @@ export class VerSolicitudCdpComponent implements OnInit {
     this.popManager.showAlert('warning', `Expedir CDP ${consecutivo}`, 'continuar')
       .then((result) => {
         if (result.value) {
-          this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
+          let movimiento = this.construirDatosMovimiento();
+          this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
             if (res) {
-              this.popManager.showSuccessAlert(`Se expidió con éxito el CDP ${res.infoCdp.consecutivo}`)
-              this.router.navigate(['/pages/plan-cuentas/cdp']);
+              this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`)
             }
-
-          })
+          });
+          // this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
+          //   if (res) {
+          //     this.popManager.showSuccessAlert(`Se expidió con éxito el CDP ${res.infoCdp.consecutivo}`)
+          //     this.router.navigate(['/pages/plan-cuentas/cdp']);
+          //   }
+          // });
 
         }
       });
+  }
+
+  private construirDatosMovimiento(): object {
+    var movimiento = {
+      Data: this.solicitud,
+      Tipo: "cdp",
+      Vigencia: 2019,
+      CentroGestor: String(this.centroGestor["Id"]),
+      AfectacionMovimiento: []
+    };
+
+    this.TrNecesidad["Rubros"].forEach((rubro: object) => {
+      movimiento.AfectacionMovimiento.push(
+        {
+          MovimientoProcesoExternoId: {
+              TipoMovimientoId: {
+                  Id: 7,
+                  Acronimo: "cdp"
+              }
+          },
+          DocumentoPadre: rubro["RubroId"],
+          Valor: rubro["MontoParcial"],
+          Descripcion: this.TrNecesidad["Necesidad"]["Objeto"]
+        }
+      )
+    });
+    return movimiento;
   }
 
   mostrarPDF(consecutivo) {
