@@ -262,7 +262,8 @@
     "expedir": "Expedir CDP",
     "mostrar_pdf": "Mostrar documento en PDF",
     "n_cdp": "Consecutivo CDP",
-    "estado_cdp": "Estado CDP"
+    "estado_cdp": "Estado CDP",
+    "tipo_financiacion": "Tipo de Financiación"
   },
   "CRP": {
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
