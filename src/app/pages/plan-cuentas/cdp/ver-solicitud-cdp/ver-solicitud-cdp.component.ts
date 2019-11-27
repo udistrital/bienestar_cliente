@@ -26,8 +26,8 @@ export class VerSolicitudCdpComponent implements OnInit {
   enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
 
-  areas = [{ Id: 1, Nombre: 'Rector' }, { Id: 2, Nombre: 'Convenios' }];
-  entidades = [{ Id: 1, Nombre: 'Universidad Distrital Francisco José de Caldas' }];
+  areas = { "1": 'Rector', "2": 'Convenios' };
+  entidades = {"1": 'Universidad Distrital Francisco José de Caldas' };
 
   areaFuncional: object;
   centroGestor: object;
@@ -53,17 +53,17 @@ export class VerSolicitudCdpComponent implements OnInit {
     this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(async res => {
       this.TrNecesidad = res;
 
-      this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
-      this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
-
-      console.info(this.areaFuncional)
-      console.info(this.centroGestor)
 
       let jefe_dependencia: object;
       await this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"]).toPromise().then(res => { jefe_dependencia = res });
       await this.getInfoDependencia(jefe_dependencia["DependenciaId"]).toPromise().then(res => { this.dependenciaSoliciante = res });
       await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
       
+      this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
+      this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
+
+      console.info(this.areaFuncional)
+      console.info(this.centroGestor)
 
       if (this.TrNecesidad.Rubros) {
         this.TrNecesidad.Rubros.forEach(rubro => {
