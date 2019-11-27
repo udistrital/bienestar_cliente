@@ -46,9 +46,7 @@ export class SolicitudCrpComponent implements OnInit {
   ngOnInit() {
     this.info_solCrp = {} as SolicitudCrp;
     this.loadOptionsTipoDocumento();
-    this.loadCDPInfo();
     this.loadOptionsCompromisos();
-    this.crpHelper.getInfoContrato(4094, 2019);
 
   }
 
@@ -113,39 +111,62 @@ export class SolicitudCrpComponent implements OnInit {
     });
   }
 
-  button(event: any) {
-    let vda = undefined;
-    this.crpHelper.getInfoNaturalJuridica(event.data.NumeroDocumento).subscribe((res) => {
-      this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = res[0].NomProveedor;
-    })
+  // button(event: any) {
+  //   let vda: object;
+  //   var p = new Promise((resolve, reject) => { vda = this.crpHelper.getInfoContrato(event.data.NumeroCompromiso, event.data.Vigencia.valor); this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = vda['NumeroCdp']; resolve(); });
+  //   console.info(p)
+  //   return p;
 
-  }
 
-  loadOptionsTipoDocumento(): void {
-    let tipoDocData: Array<any> = [];
-    this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
-      if (res !== null) { tipoDocData = res; }
-      this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
-    });
-  }
+  //   //await this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = vda['NumeroCdp'];
+  //   // this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = vda.NombreBeneficiario;
+  //   // this.formInfoSolCrp.campos[this.getIndexForm('NumeroDocumento')].valor = vda.DocBeneficiario;
 
-  loadOptionsCompromisos(): void {
-    let tipoCompromisosData: Array<any> = [];
-    this.crpHelper.getCompromisos().subscribe(res => {
-      if (res != null) {
-        tipoCompromisosData = res;
+  // }
+
+  button(event: any): Promise<any> {
+    let vda: any;
+    return new Promise((resolve, reject) => {
+
+      vda = this.crpHelper.getInfoContrato(event.data.NumeroCompromiso, event.data.Vigencia.valor);
+      if (Object.keys(vda).length > 0) {
+
+       
+        resolve(true);
+      } else {
+        vda = {};
+        reject({ status: 404 });
       }
-      this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
     });
+    this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = vda['NumeroCdp'];
+    console.info(vda)
   }
 
-  getIndexForm(nombre: String): number {
-    for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
-      const element = this.formInfoSolCrp.campos[index];
-      if (element.nombre === nombre) {
-        return index;
-      }
+    loadOptionsTipoDocumento(): void {
+      let tipoDocData: Array < any > =[];
+      this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
+        if (res !== null) { tipoDocData = res; }
+        this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
+      });
     }
-    return 0;
+
+    loadOptionsCompromisos(): void {
+      let tipoCompromisosData: Array < any > =[];
+      this.crpHelper.getCompromisos().subscribe(res => {
+        if (res != null) {
+          tipoCompromisosData = res;
+        }
+        this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
+      });
+    }
+
+    getIndexForm(nombre: String): number {
+      for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
+        const element = this.formInfoSolCrp.campos[index];
+        if (element.nombre === nombre) {
+          return index;
+        }
+      }
+      return 0;
+    }
   }
-}

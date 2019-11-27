@@ -88,10 +88,13 @@ export class CRPHelper {
         var TrSolcrp: object;
         this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).subscribe(async res => {
             TrSolcrp = res[0];
+            console.info(TrSolcrp['consecutivoCdp'])
             await this.cdpHelper.getCDP(TrSolcrp['consecutivoCdp']).subscribe(async res2 => {
+                console.info(res2)
                 TrCDP = res2[0];
                 await this.cdpHelper.getFullNecesidad(TrCDP["necesidad"]).toPromise().then(res => { ObjN = res });
-                return [TrSolcrp,TrCDP,ObjN];
+                console.info(TrSolcrp, TrCDP, ObjN)
+                return [TrSolcrp, TrCDP, ObjN];
             });
 
         });
@@ -204,6 +207,22 @@ export class CRPHelper {
             ));
     }
 
+    public getContratista(id) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('informacion_proveedor/' + id).pipe(
+            map(
+                res_persona => {
+                    if (res_persona.status > 300) {
+                        this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
+                        return undefined;
+                    } else {
+                        return res_persona;
+                    }
+                }
+            ));
+    }
+
+
     /**
    * expedir CRP
    * dispara la funcion para expedicion del CRP
@@ -265,9 +284,9 @@ export class CRPHelper {
         );
     }
 
-    public getContratoGeneral(contrato) {
+    public getContratoGeneral(contrato, vigencia) {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
-        return this.rqManager.get('contrato_general/?query=NumeroContrato:' + contrato).pipe(
+        return this.rqManager.get('contrato_general/?query=ContratoSuscrito.NumeroContrato:' + contrato + ',ContratoSuscrito.Vigencia:' + vigencia).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -280,32 +299,35 @@ export class CRPHelper {
         );
     }
 
-    public getInfoContrato(contrato, vigencia) {
-        var objContrato = {};
+    public getInfoContrato(contrato, vigencia): object {
+        var objContrato = { NumeroContrato: undefined, Vigencia: undefined, NumeroCdp: undefined, NombreBeneficiario: undefined, DocBeneficiario: undefined };
         this.getContratoSuscrito(contrato, vigencia).subscribe(resCS => {
-            console.info(resCS, "Este es el contrato suscrito")
-            if (resCS) {
+            if (resCS[0]) {
+                objContrato.NumeroContrato = resCS[0].NumeroContrato.Id;
+                objContrato.Vigencia = resCS[0].Vigencia;
                 this.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD => {// se obtiene la información del CDP de ese contrato
-                    console.info(resCD, "Este es el contrato disponibilidad")
-                    if (resCD) {
-                        this.getContratoGeneral(resCD[0].NumeroContrato).subscribe(resCG => {
-                            console.info(resCG, "Este es el contrato general")
-                            if (resCG) {
-                                this.getInfoNaturalJuridica(resCG[0].Contratista).subscribe(resIP => {
-                                    console.info(resIP, "Info de Proveedor")
-                                    if (resIP) {
+                    if (resCD[0]) {
+                        objContrato.NumeroCdp = resCD[0].NumeroCdp;
+                        this.getContratoGeneral(resCD[0].NumeroContrato, resCD[0].Vigencia).subscribe(resCG => {
 
+                            if (resCG) {
+                                this.getContratista(resCG[0].Contratista).subscribe(resIP => {
+                                    if (resIP) {
+                                        objContrato.NombreBeneficiario = resIP.NomProveedor;
+                                        objContrato.DocBeneficiario = resIP.NumDocumento;
+                                        console.info(objContrato)
+                                        return objContrato;
                                     }
                                 })
                             }
                         })
                     }
-                }
-
-                )
-
+                })
+            }else{
+                return[]
             }
         })
+        return objContrato;
     }
 
 

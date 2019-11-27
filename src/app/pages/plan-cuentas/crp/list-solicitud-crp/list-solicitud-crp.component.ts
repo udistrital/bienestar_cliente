@@ -32,11 +32,19 @@ export class ListSolicitudCrpComponent implements OnInit {
     private rqManager: RequestManager, ) { }
 
   ngOnInit() {
- 
+    //this.crpHelper.getInfoCRP(1);
+    this.crpHelper.getInfoContrato(458,2017);
     this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
 
 
     this.listColumns = {
+      consecutivo: {
+        title: this.translate.instant('CRP.n_sol_crp'),
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
+        }
+      },
       vigencia: {
         title: this.translate.instant('GLOBAL.placeholder_vigencia'),
         // type: 'string;',
@@ -48,18 +56,23 @@ export class ListSolicitudCrpComponent implements OnInit {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          return "Rector";
         }
       },
       entidad: {
         title: this.translate.instant('GLOBAL.entidad'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          // if(value===1){
+          //   return "Universidad Distrital FJC"
+          // }else{
+          //   return value;
+          // }
+          return "Universidad Distrital FJC";
         }
       },
-      consecutivo: {
-        title: this.translate.instant('CRP.n_sol_crp'),
+      financiacion: {
+        title: this.translate.instant('CRP.financiacion'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -86,33 +99,6 @@ export class ListSolicitudCrpComponent implements OnInit {
 
 
   loadData(): void {
-    
-    this.loadDataFunction('').subscribe(res => {
-      if (res) {
-        const data2 = <Array<any>>res;
-        const data = [];
-
-        data2.forEach(element => {
-          var elCrp= {crp: undefined, cdp:undefined, nec: undefined};
-          this.cdpHelper.getCDP(element.consecutivo).subscribe(resCdp => {
-            this.cdpHelper.getFullNecesidad(resCdp[0].necesidad).subscribe(resNec => {
-              if(resNec){
-                // res.forEach((obj: object) => obj['tipoFinanciacion'] = necesidades[obj['necesidad']])
-                data.push({element, resCdp,resNec});
-              }
-            
-
-            })
-          })
-          
-        })
-console.info(data)
-        this.source.load(data);
-        console.info(this.source)
-      }
-   
-    });
-
     this.loadDataFunction('').subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
@@ -122,6 +108,7 @@ console.info(data)
       }
     });
   }
+
 
   loadCRPData () {
     var a = this.crpHelper.getInfoCRP(1);
