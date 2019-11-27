@@ -31,7 +31,7 @@ export class CDPHelper {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res ? res.filter(e => e.infoCdp === null || e.infoCdp === "") : undefined;
+                    return res;
                 },
             ),
         );
