@@ -22,8 +22,8 @@
                     <tbody>
                         <tr>
                             <td>{{TrNecesidad.Necesidad.Vigencia}}</td>
-                            <td>{{centroGestor.Nombre}}</td>
-                            <td>{{areaFuncional.Nombre}}</td>
+                            <td>{{centroGestor}}</td>
+                            <td>{{areaFuncional}}</td>
                         </tr>
                     </tbody>
 
@@ -40,7 +40,7 @@
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
                             <td *ngIf="expedido">{{solicitud.consecutivo_cdp}}</td>
                             <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
-                            <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.JefeDepSolicitanteId}}</td>
+                            <td>{{dependenciaSoliciante.Nombre}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos">{{'CDP.objeto' | translate}}</td>
