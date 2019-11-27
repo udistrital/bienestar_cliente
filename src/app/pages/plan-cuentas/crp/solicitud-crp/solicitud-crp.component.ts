@@ -70,9 +70,8 @@ export class SolicitudCrpComponent implements OnInit {
     const today = new Date();
     if (event.valid) {
       this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
-      this.solCrpData.Vigencia = '2019';
-      this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.TipoDocumento.Abreviatura
-        && event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.TipoDocumento.Abreviatura + event.data.SolicitudCRP.NumeroDocumento;
+      this.solCrpData.Vigencia = typeof event.data.SolicitudCRP.Vigencia.valor === 'undefined' ? undefined : event.data.SolicitudCRP.Vigencia.valor;
+      this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroDocumento;
       this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
       this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
@@ -111,62 +110,55 @@ export class SolicitudCrpComponent implements OnInit {
     });
   }
 
-  // button(event: any) {
-  //   let vda: object;
-  //   var p = new Promise((resolve, reject) => { vda = this.crpHelper.getInfoContrato(event.data.NumeroCompromiso, event.data.Vigencia.valor); this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = vda['NumeroCdp']; resolve(); });
-  //   console.info(p)
-  //   return p;
-
-
-  //   //await this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = vda['NumeroCdp'];
-  //   // this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = vda.NombreBeneficiario;
-  //   // this.formInfoSolCrp.campos[this.getIndexForm('NumeroDocumento')].valor = vda.DocBeneficiario;
-
-  // }
-
-  button(event: any): Promise<any> {
-    let vda: any;
-    return new Promise((resolve, reject) => {
-
-      vda = this.crpHelper.getInfoContrato(event.data.NumeroCompromiso, event.data.Vigencia.valor);
-      if (Object.keys(vda).length > 0) {
-
-       
-        resolve(true);
+  button(event: any) {
+    this.crpHelper.getContratoSuscrito(event.data.NumeroCompromiso, event.data.Vigencia.valor).subscribe(resCS => {
+      if (resCS[0]) {
+        this.crpHelper.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD => {// se obtiene la información del CDP de ese contrato
+          if (resCD[0]) {
+            this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = resCD[0].NumeroCdp;
+            this.crpHelper.getContratoGeneral(resCD[0].NumeroContrato, resCD[0].Vigencia).subscribe(resCG => {
+              if (resCG) {
+                this.crpHelper.getContratista(resCG[0].Contratista).subscribe(resIP => {
+                  if (resIP) {
+                    this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = resIP.NomProveedor;
+                    this.formInfoSolCrp.campos[this.getIndexForm('NumeroDocumento')].valor = resIP.NumDocumento;
+                  }
+                });
+              }
+            });
+          }
+        });
       } else {
-        vda = {};
-        reject({ status: 404 });
+        console.info("faié");
       }
     });
-    this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = vda['NumeroCdp'];
-    console.info(vda)
   }
 
-    loadOptionsTipoDocumento(): void {
-      let tipoDocData: Array < any > =[];
-      this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
-        if (res !== null) { tipoDocData = res; }
-        this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
-      });
-    }
+  loadOptionsTipoDocumento(): void {
+    let tipoDocData: Array<any> = [];
+    this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
+      if (res !== null) { tipoDocData = res; }
+      this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
+    });
+  }
 
-    loadOptionsCompromisos(): void {
-      let tipoCompromisosData: Array < any > =[];
-      this.crpHelper.getCompromisos().subscribe(res => {
-        if (res != null) {
-          tipoCompromisosData = res;
-        }
-        this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
-      });
-    }
-
-    getIndexForm(nombre: String): number {
-      for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
-        const element = this.formInfoSolCrp.campos[index];
-        if (element.nombre === nombre) {
-          return index;
-        }
+  loadOptionsCompromisos(): void {
+    let tipoCompromisosData: Array<any> = [];
+    this.crpHelper.getCompromisos().subscribe(res => {
+      if (res != null) {
+        tipoCompromisosData = res;
       }
-      return 0;
-    }
+      this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
+    });
   }
+
+  getIndexForm(nombre: String): number {
+    for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
+      const element = this.formInfoSolCrp.campos[index];
+      if (element.nombre === nombre) {
+        return index;
+      }
+    }
+    return 0;
+  }
+}

@@ -252,6 +252,7 @@
   "CRP": {
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
+    "financiacion": "Financiación",
     "detalle_crp": "Detalle de Certificado de Registro Presupuestal",
     "n_sol_crp": "N° Solicitud de CRP",
     "estado": "Estado",

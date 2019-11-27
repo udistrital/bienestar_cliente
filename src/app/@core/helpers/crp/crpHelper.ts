@@ -315,7 +315,7 @@ export class CRPHelper {
                                     if (resIP) {
                                         objContrato.NombreBeneficiario = resIP.NomProveedor;
                                         objContrato.DocBeneficiario = resIP.NumDocumento;
-                                        console.info(objContrato)
+                                        // console.info(objContrato)
                                         return objContrato;
                                     }
                                 })

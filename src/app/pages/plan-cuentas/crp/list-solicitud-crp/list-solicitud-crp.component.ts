@@ -56,6 +56,12 @@ export class ListSolicitudCrpComponent implements OnInit {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
         valuePrepareFunction: value => {
+          // if(value===1){
+          //   return "Rector"
+          // }else{
+          //   return value;
+          // }
+
           return "Rector";
         }
       },
