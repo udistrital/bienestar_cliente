@@ -25,12 +25,12 @@ export class MovimientosHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         return this.rqManager.post('movimiento', data).pipe(
             map(
-                (res) => {
-                    if (res === 'error') {
+                (res: object) => {
+                    if (res["Type"] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo expedir el CDP');
                         return undefined;
                     }
-                    return res ? res.filter(e => e.infoCdp === null || e.infoCdp === "") : undefined;
+                    return res;
                 },
             ),
         );

@@ -119,13 +119,14 @@ export class VerSolicitudCdpComponent implements OnInit {
   }
 
   expedirCDP(consecutivo) {
-    this.popManager.showAlert('warning', `Expedir CDP ${consecutivo}`, 'continuar')
+    this.popManager.showAlert('warning', `Expedir la solicitud de CDP ${consecutivo}`, 'continuar')
       .then((result) => {
         if (result.value) {
           let movimiento = this.construirDatosMovimiento();
           this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
             if (res) {
               this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`)
+              this.router.navigate(['/pages/plan-cuentas/cdp']);
             }
           });
           // this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
@@ -141,7 +142,7 @@ export class VerSolicitudCdpComponent implements OnInit {
 
   private construirDatosMovimiento(): object {
     var movimiento = {
-      Data: this.solicitud,
+      Data: { "solicitud_cdp": this.solicitud["_id"] },
       Tipo: "cdp",
       Vigencia: 2019,
       CentroGestor: String(this.centroGestor["Id"]),
