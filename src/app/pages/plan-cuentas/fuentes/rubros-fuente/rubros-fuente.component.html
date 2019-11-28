@@ -1,0 +1,28 @@
+<nb-card>
+
+    <label for="valorfuente" class="form-control-label">
+        <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
+                {{infoinput.ValorInicial| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
+    </label>
+
+    <div *ngFor="let item of planAdquisicionesFuente">
+
+        <ul>
+            <li><strong>Rubro:</strong><span>
+                    {{item.rubro.Nombre}}</span> ( {{item.rubro.Codigo}} )
+                <ul>
+                    <li><strong>Apropiación Inicial:</strong>
+                        {{item.rubro.ValorInicial | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                        <ul>
+                            <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
+                            <li><strong>Valor Dependencia:</strong>
+                                {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                        </ul>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="!planAdquisicionesFuente">
+        <nb-alert outline="danger">No hay información asociada para esta fuente de financiamiento</nb-alert>
+    </div>
+</nb-card>
