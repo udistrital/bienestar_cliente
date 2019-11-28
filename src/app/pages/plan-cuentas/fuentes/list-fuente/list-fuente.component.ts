@@ -34,7 +34,9 @@ export class ListFuenteComponent implements OnInit {
   isOnlyCrud: boolean;
   listSettings: object;
   auxcambiotab: boolean = false;
-
+  createTab: boolean = false;
+  localtabActived: boolean = false;
+  viewTab: boolean = false;
 
   listColumns: object;
   fuenteInfo: any;
@@ -105,7 +107,11 @@ export class ListFuenteComponent implements OnInit {
           add: true,
           edit: false,
           delete: false,
-          custom: [{ name: 'edit', title: '<i title="editar" class="nb-edit"></i>' }, { name: 'delete', title: '<i title="eliminar" class="nb-trash"></i>' }, { name: 'other', title: '<i title="Agregar Vigencia" class="nb-tables"></i>' }],
+          custom: [
+            { name: 'edit', title: '<i title="editar" class="nb-edit"></i>' }, 
+            { name: 'delete', title: '<i title="eliminar" class="nb-trash"></i>' },
+            { name: 'other', title: '<i title="Agregar Vigencia" class="nb-tables"></i>' },
+            {name:'rubros-fuente', title: '<i title="Ver distribución" class="ion ion-eye" ></i>'}],
           position: 'right'
         },
         add: {
@@ -150,6 +156,27 @@ export class ListFuenteComponent implements OnInit {
     this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
     // this.eventChange.emit(true);
   }
-  
+  onExternalTabActivator($event: string) {
+    if ($event === 'external-create') {
+      this.auxcambiotab = true;
+      this.createTab = true;
+      this.localtabActived = true;
+    } else if ($event === 'other'){
+      this.viewTab = false;
+      this.localtabActived = true;
+    } else {
+      this.disabledVigencia = true;
+      this.localtabActived = true;
+      this.viewTab = true;
+    }
+
+  }
+  returnToList(){
+    this.disabledVigencia = false;
+    this.auxcambiotab = false; 
+    this.localtabActived = false; 
+    this.createTab = false; 
+    this.viewTab = false
+  }
   
 }
