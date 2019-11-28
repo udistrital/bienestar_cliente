@@ -127,6 +127,8 @@
                 <div class="text-center">
                     <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-success col-md-6">
                         {{ 'CDP.expedir' | translate}}</button>
+                    <button *ngIf="!expedido" (click)="rechazarSolicitud()" class="btn btn-danger col-md-6">
+                        {{ 'CDP.rechazar_solicitud_cdp' | translate}}</button>
                     <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>

@@ -30,19 +30,46 @@ export class PopUpManager {
         this.toast.show(message, this.translate.instant('GLOBAL.info'), { status, duration });
     }
 
-    public showAlert(status, title, text) {
+    public showAlert(status: any, title: string, text: string) {
         return Swal.fire({
             type: status,
             title: title,
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
             showCancelButton: true,
+            cancelButtonText: this.translate.instant('GLOBAL.cancelar')
+        });
+    }
+
+    public showAlertInput(status: any, title: string, text: string, text_validtador: string, input: any) {
+        return Swal.fire({
+            type: status,
+            title: title,
+            text: text,
+            input: input,
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            showCancelButton: true,
+            cancelButtonText: this.translate.instant('GLOBAL.cancelar'),
+            inputValidator: (value) => {
+                if (!value) {
+                  return text_validtador;
+                }
+              }
         });
     }
 
     public showSuccessAlert(text, tittle?) {
         Swal.fire({
             type: 'success',
+            title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
+            text: text,
+            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        });
+    }
+
+    public showInfoAlert(text: string, tittle?: string) {
+        Swal.fire({
+            type: 'info',
             title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -64,6 +91,7 @@ export class PopUpManager {
             title: this.translate.instant('GLOBAL.error'),
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            cancelButtonText: this.translate.instant('GLOBAL.cancelar')
         });
     }
 }
