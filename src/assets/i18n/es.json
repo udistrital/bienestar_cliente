@@ -185,6 +185,7 @@
     "edit-producto": "Editar producto"
   },
   "FUENTE_FINANCIAMIENTO": {
+    "descripcion": "En esta sección podrá agregar, modificar, eliminar y asignar una fuente a distintas vigencias, así como el filtrado de las fuentes mencionadas",
     "guardar_fuente": "Editar Fuente",
     "add-dependencia": "Añadir dependencia",
     "remove-dependencia": "Quitar dependencia",

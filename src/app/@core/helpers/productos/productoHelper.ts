@@ -65,10 +65,6 @@ export class ProductoHelper {
         return this.rqManager.delete('producto', id).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo eliminar el producto, compruebe que no exista un producto con el mismo Código.');
-                        return undefined;
-                    }
                     return res;
                 },
             ),

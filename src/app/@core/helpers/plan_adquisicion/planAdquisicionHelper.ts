@@ -44,5 +44,21 @@ export class PlanAdquisicionHelper {
         );
     }
 
+    // getPlanAdquisicionByFuente obtiene la información del plan de adquisiciones con una vigencia y una fuente
+    public getPlanAdquisicionByFuente(vigencia: string, fuente: string) {
+        this.rqManager.setPath('PLAN_ADQUISICION_SERVICE');
+        return this.rqManager.get('plan_adquisiciones_rubros_fuente/' + vigencia + '/' + fuente).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el plan de adquisición');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
 
 }

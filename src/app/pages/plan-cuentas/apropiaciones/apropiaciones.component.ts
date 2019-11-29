@@ -5,7 +5,7 @@ import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
-import { PlanAdquisicionHelper } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
+import { PlanAdquisicionHelper } from '../../../@core/helpers/plan_adquisicion/planAdquisicionHelper';
 import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
@@ -120,20 +120,13 @@ export class ApropiacionesComponent implements OnInit {
         this.productos = true;
       }
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
-      this.showPlanAdquisicion('2019', this.getLastLevel(this.rubroSeleccionado.Codigo));
+      this.showPlanAdquisicion('2019', this.rubroSeleccionado.Codigo);
     } else {
       this.isLeaf = false;
       this.productos = false;
     }
   }
 
-  getLastLevel(str) {
-    let m;
-    let regex = /([^-]+)$/;
-    if ((m = regex.exec(str)) !== null) {
-      return m[0];
-    }
-  }
   showPlanAdquisicion(vigenciaaux, rubroaux) {
     this.planAdHelper.getPlanAdquisicionByRubro(vigenciaaux + '/' + rubroaux).subscribe((res) => {
       if (res) {
@@ -252,7 +245,7 @@ export class ApropiacionesComponent implements OnInit {
           this.popManager.showSuccessAlert('Se registro la preasignación de apropiación correctamente!');
           // this.cleanForm();
           this.eventChange.emit(true);
-          this.showPlanAdquisicion('2019', this.getLastLevel(this.rubroSeleccionado.Codigo));
+          this.showPlanAdquisicion('2019', this.rubroSeleccionado.Codigo);
         }
       });
     } else {
