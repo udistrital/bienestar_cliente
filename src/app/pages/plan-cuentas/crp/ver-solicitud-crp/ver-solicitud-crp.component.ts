@@ -48,7 +48,7 @@ export class VerSolicitudCrpComponent implements OnInit {
   ngOnInit() {
     if (this.solicitud != undefined) {
       this.crpHelper.getInfoCDP(this.solicitud['vigencia'],this.solicitud['consecutivoCdp']).subscribe(resCdp1 => {
-        if (resCdp1.estado=== "expedido") {
+        if (resCdp1.estado=== "expedido") { //validacion de expedicion
           this.expedido = true;
         }else{
           this.expedido = false;
@@ -66,16 +66,11 @@ export class VerSolicitudCrpComponent implements OnInit {
 
 
     this.crpHelper.getInfoCDP(this.solicitud['vigencia'],this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-      console.info("aqui paso algo?")
       this.cdpInfo = resCdp;
-      console.info("aqui paso maybe?")
-      console.info(resCdp)
 
       if (this.cdpInfo) {
-        console.info(this.cdpInfo.Data, "CDP INFO")
 
         this.crpHelper.getInfoCdpPC(this.cdpInfo.Data.solicitud_cdp).subscribe(res => {
-          console.info(res)
           this.solCdpInfo = res;
           this.area = this.areas.filter(i => {
             return i.Id === this.solCdpInfo.centroGestor;
@@ -90,16 +85,13 @@ export class VerSolicitudCrpComponent implements OnInit {
           this.cdpHelper.getFullNecesidad(this.solCdpInfo.necesidad).subscribe(async res => {
           
             this.TrNecesidad = res;
-            console.info(this.TrNecesidad)
-            await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], 122).toPromise().then(res => {console.info(res,"Meas"); this.actividades = res });
-            console.info(this.TrNecesidad)
+            await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], 122).toPromise().then(res => {this.actividades = res });
             if (this.TrNecesidad.Rubros) {
               this.TrNecesidad.Rubros.forEach(rubro => {
                 rubro.MontoParcial = 0
                 if (rubro.Metas) {
                   rubro.Metas.forEach(meta => {
                     meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
-                    console.info(meta["InfoMeta"])
                     if (meta.Actividades) {
                       meta.Actividades.forEach(act => {
                         act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
@@ -113,7 +105,6 @@ export class VerSolicitudCrpComponent implements OnInit {
                   });
                 }
                 if (rubro.Fuentes) {
-                  console.info(rubro.Fuentes)
                   rubro.Fuentes.forEach(fuente => {
                     rubro.MontoParcial += fuente.MontoParcial
                   });
