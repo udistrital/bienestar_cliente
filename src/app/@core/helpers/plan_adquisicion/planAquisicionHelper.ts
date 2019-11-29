@@ -34,7 +34,6 @@ export class PlanAdquisicionHelper {
         return this.rqManager.get('plan_adquisiciones/' + vigencia + '/' + dependencia).pipe(
             map(
                 (res) => {
-                    console.info(res, "JSON MARZ")
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar el plan de adquisición');
                         return undefined;
