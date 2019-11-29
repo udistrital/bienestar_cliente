@@ -70,7 +70,6 @@ export class CRPHelper {
         return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=data.consecutivo_cdp:'+consecutivoCDP+",tipo:cdp,estado:expedido").pipe(
             map(
                 res_crp => {
-                    console.info(res_crp)
                     if (res_crp['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
                         return undefined;
@@ -87,7 +86,6 @@ export class CRPHelper {
         return this.rqManager.get('solicitudesCDP/'+id).pipe(
             map(
                 res_crp => {
-                    console.info(res_crp)
                     if (res_crp['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
                         return undefined;
@@ -106,12 +104,9 @@ export class CRPHelper {
         var TrSolcrp: object;
         this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).subscribe(async res => {
             TrSolcrp = res[0];
-            console.info(TrSolcrp['consecutivoCdp'])
             await this.cdpHelper.getCDP(TrSolcrp['consecutivoCdp']).subscribe(async res2 => {
-                console.info(res2)
                 TrCDP = res2[0];
                 await this.cdpHelper.getFullNecesidad(TrCDP["necesidad"]).toPromise().then(res => { ObjN = res });
-                console.info(TrSolcrp, TrCDP, ObjN)
                 return [TrSolcrp, TrCDP, ObjN];
             });
 
@@ -150,7 +145,6 @@ export class CRPHelper {
        * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
        */
     public solCrpRegister(solCrpData) {
-        console.info(solCrpData)
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         const objSolCrp = <any>{};
         objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCDP;
@@ -334,7 +328,6 @@ export class CRPHelper {
                                     if (resIP) {
                                         objContrato.NombreBeneficiario = resIP.NomProveedor;
                                         objContrato.DocBeneficiario = resIP.NumDocumento;
-                                        // console.info(objContrato)
                                         return objContrato;
                                     }
                                 })
