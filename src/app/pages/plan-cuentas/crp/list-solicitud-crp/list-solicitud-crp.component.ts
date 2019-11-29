@@ -118,7 +118,7 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   loadCRPData () {
     var a = this.crpHelper.getInfoCRP(1);
-    console.info(a, "chipsi");
+
   }
 
   verSolicitud(scrp) {

@@ -76,7 +76,6 @@ export class ListCrpComponent implements OnInit {
             return element.Id === value;
           })
           value = value.Estado;
-          console.info(value, "lala")
           return value;
         }
       },
@@ -101,7 +100,6 @@ export class ListCrpComponent implements OnInit {
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
-        console.info(res);
         const data = <Array<any>>res;
         this.source.load(data);
       } else {

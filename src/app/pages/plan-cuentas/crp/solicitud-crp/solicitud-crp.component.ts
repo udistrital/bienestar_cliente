@@ -129,7 +129,7 @@ export class SolicitudCrpComponent implements OnInit {
           }
         });
       } else {
-        console.info("faié");
+
       }
     });
   }
