@@ -65,16 +65,34 @@ export class CRPHelper {
 
     }
 
-    public getInfoCDP(consecutivoCDP) {
+    public getInfoCDP(vigencia,consecutivoCDP) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/').pipe(
+        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=data.consecutivo_cdp:'+consecutivoCDP+",tipo:cdp,estado:expedido").pipe(
             map(
                 res_crp => {
+                    console.info(res_crp)
                     if (res_crp['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
                         return undefined;
                     } else {
-                        return res_crp.filter(n => n.infoCdp !== null && n.infoCdp.consecutivo === consecutivoCDP)[0];
+                        return res_crp[0];
+                    }
+                }
+            )
+        );
+    }
+
+    public getInfoCdpPC(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('solicitudesCDP/'+id).pipe(
+            map(
+                res_crp => {
+                    console.info(res_crp)
+                    if (res_crp['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
+                        return undefined;
+                    } else {
+                        return res_crp
                     }
                 }
             )
@@ -132,6 +150,7 @@ export class CRPHelper {
        * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
        */
     public solCrpRegister(solCrpData) {
+        console.info(solCrpData)
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         const objSolCrp = <any>{};
         objSolCrp.consecutivoCdp = solCrpData.ConsecutivoCDP;

@@ -69,7 +69,7 @@ export class SolicitudCrpComponent implements OnInit {
     // tslint:disable-next-line
     const today = new Date();
     if (event.valid) {
-      this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP.consecutivo_cdp;
+      this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP;
       this.solCrpData.Vigencia = typeof event.data.SolicitudCRP.Vigencia.valor === 'undefined' ? undefined : event.data.SolicitudCRP.Vigencia.valor;
       this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroDocumento;
       this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;

@@ -33,8 +33,9 @@
     },
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
-      "solicitud_crp": "Solicitud CRP",
-      "crp": "Certificado Registro Presupuestal"
+      "solicitud_crp": "Solicitudes de CRP",
+      "solicitar_crp": "Solicitar CRP",
+      "crp": "Certificados de Registro Presupuestal"
     },
 
     "gestion_cdp": {
