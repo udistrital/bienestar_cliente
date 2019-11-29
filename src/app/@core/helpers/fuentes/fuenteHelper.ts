@@ -77,7 +77,6 @@ export class FuenteHelper {
      * @returns  <Observable> object updated information. undefined if the proccess has errors.
      */
     public fuenteUpdate(fuenteData) {
-        console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         fuenteData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;

@@ -28,7 +28,6 @@ export class DocumentoPresupuestalHelper {
         return this.rqManager.get('documento_presupuestal/'+vigencia+'/'+centroGestor+'/'+tipo).pipe(
             map(
                 (res: object[]) => {
-                    console.info(res)
                     if (res.length === 0) {
                         return 1;
                     } else {
