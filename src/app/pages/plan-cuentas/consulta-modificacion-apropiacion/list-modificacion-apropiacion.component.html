@@ -1,7 +1,7 @@
 <div class="col-md-12 col-lg-12 ">
   <nb-card>
     <nb-card-header>
-        {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
+        {{ 'MENU.gestion_plan_cuentas.gestion_modificaciones_apropiaciones' | translate }}
         <div *ngIf="!disabledVigencia">
 
           <div align="right">
@@ -9,13 +9,14 @@
               "GLOBAL.vigencia" | translate
             }}
             <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
-              <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option>
+              <!-- <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option> -->
               <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
             </nb-select>
           </div>
         </div>
     </nb-card-header>
     <nb-card-body>
+        
             <ngx-list-entity *ngIf="!auxcambiotab"
             [listSettings]="listSettings"
             [isOnlyCrud]="isOnlyCrud" 
@@ -38,10 +39,15 @@
             [createEntityFunction]="createEntityFunction"
             (infooutput)="receiveMessage($event)"
             (eventChange)="onChange($event)"
-            (crudcambiotab)="onFirstTab($event)"
-            (auxcambiotab)="onChangeTab($event)">
+            (auxcambiotab)="onChangeTab($event)"
+            [externalCreate]="externalCreate"
+            (externalTabActivator)="onExternalTabActivator($event)"
+            >
           </ngx-list-entity>
-          <ngx-dependencias  [paramsFieldsName] ="paramsFieldsName" *ngIf="auxcambiotab" [infoinput]="fuenteInfo" (auxcambiotab)="onChangeTab($event)"></ngx-dependencias>
+          <button *ngIf="localtabACtived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+            Regresar</button>
+          <ngx-modificacion-apropiacion (saved)="onSaved($event)" *ngIf="createTab"></ngx-modificacion-apropiacion>
+          <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
     </nb-card-body>
   </nb-card>
 </div>

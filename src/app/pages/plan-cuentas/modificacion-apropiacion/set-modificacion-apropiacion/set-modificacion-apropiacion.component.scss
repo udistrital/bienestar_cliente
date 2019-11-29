@@ -48,3 +48,23 @@
 .moneyField{
     text-align: right;
 }
+
+.fieldseter {
+    display: flow-root;
+    -moz-padding-start: 1rem;
+    -moz-padding-end: 1rem;
+    -moz-padding-after: 1rem;
+
+    -webkit-margin-start: 1rem;
+    -webkit-margin-end: 1rem;
+    -webkit-padding-before: 1rem;
+    -webkit-padding-start: 1rem;
+    -webkit-padding-end: 1rem;
+    -webkit-padding-after: 1rem;
+
+    min-width: -moz-min-content;
+    border-width: 2px;
+    border-radius: 0.4rem;
+    border-style: groove;
+    border-color: nb-theme(color-success);
+  }

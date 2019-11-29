@@ -92,7 +92,7 @@
     "nombre-rubro": "Nombre del rubro",
     "codigo-rubro": "Código del rubro",
     "codigo": "Código",
-    "unidad-ejecutora": "Área funcional",
+    "unidad-ejecutora": "Centro Gestor",
     "descripcion": "Descripción",
     "detalle-apropiacion-inicial": "Detalle de la Apropiación Inicial",
     "pre-asignar-apropiacion-inicial": "Preasignar apropiación inicial",
@@ -162,7 +162,18 @@
     "placeholder_area_funcional": "",
     "placeholder_centro_gestor": "",
     "rubro_registrado": "Rubro registrado",
-    "rubro_eliminado": "Rubro eliminado"
+    "rubro_eliminado": "Rubro eliminado",
+    "asignar-nueva-apropiacion-inicial": "Asignar Nueva Apropiación",
+    "asignar-apropiacion-inicial": "Asignar Apropiación",
+    "regresar-consulta-apropiacion": "Consulta apropiación actual",
+    "fecha_registro": "Fecha de registro",
+    "traslado": "Traslado",
+    "traslado_destino": "Traslado",
+    "reduccion": "Reducción",
+    "suspension": "Suspensión",
+    "adicion": "Adición",
+    "organismo_emisor": "Organismo emisor",
+    "placeholder_organismo_emisor": "Organismo emisor"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -183,7 +194,11 @@
     "mensaje_registrar": "¿ Crear Fuente de Financiamiento ?",
     "confirmacion_creacion": "Fuente Registrada",
     "mensaje_eliminar": "¿ Eliminar Fuente ?",
-    "confirmacion_eliminar": "Fuente Eliminada"
+    "confirmacion_eliminar": "Fuente Eliminada",
+    "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: "
+  },
+  "ACTIVIDAD":{
+    "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
   },
   "APROPIACION": {
     "comprobacion": "Comprobación de la apropiacion inicial",
@@ -247,7 +262,9 @@
     "expedir": "Expedir CDP",
     "mostrar_pdf": "Mostrar documento en PDF",
     "n_cdp": "Consecutivo CDP",
-    "estado_cdp": "Estado CDP"
+    "estado_cdp": "Estado CDP",
+    "tipo_financiacion": "Tipo de Financiación",
+    "rechazar_solicitud_cdp": "Rechazar solicitud"
   },
   "CRP": {
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",

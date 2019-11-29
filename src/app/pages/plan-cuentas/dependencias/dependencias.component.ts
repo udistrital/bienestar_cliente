@@ -125,6 +125,7 @@ export class DependenciasComponent implements OnInit {
     if (event.valid) {
       this.infoinput.Vigencia = event.data.FuenteFinanciamiento.Vigencia.vigencia === 'undefined' ? undefined : event.data.FuenteFinanciamiento.Vigencia.vigencia; 
       this.infoinput.ValorInicial = typeof event.data.FuenteFinanciamiento.ValorInicial === 'undefined' ? undefined : event.data.FuenteFinanciamiento.ValorInicial;
+      this.infoinput.ValorActual = typeof event.data.FuenteFinanciamiento.ValorInicial === 'undefined' ? undefined : event.data.FuenteFinanciamiento.ValorInicial;
       this.infoinput.UnidadEjecutora = typeof this.infoinput.UnidadEjecutora === 'undefined' ? undefined : this.infoinput.UnidadEjecutora;
       this.infoinput.NumeroDocumento = typeof event.data.FuenteFinanciamiento.NumeroDocumento === 'undefined'? undefined: event.data.FuenteFinanciamiento.NumeroDocumento;
       this.infoinput.TipoDocumento = typeof event.data.FuenteFinanciamiento.TipoDocumento.Nombre === 'undefined'? undefined: event.data.FuenteFinanciamiento.TipoDocumento.Nombre;

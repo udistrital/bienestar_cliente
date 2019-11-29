@@ -1,5 +1,10 @@
 <div class="col-md-12 col-lg-12 ">
+    <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+        {{ 'GLOBAL.regresar' | translate}}
+    </button>
     <nb-card *ngIf="mostrandoPDF===false" >
+        <div>
+        </div>
         <nb-card-header>
             <legend *ngIf="solicitud&&!expedido">{{ 'CDP.detalle_solicitud_cdp' | translate }}:
                 {{solicitud.consecutivo}}</legend>
@@ -7,20 +12,18 @@
             </legend>
         </nb-card-header>
         <nb-card-body *ngIf="TrNecesidad">
-            <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
-            <pre>nes{{necesidad | json}}</pre> -->
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
                         <th width="15%">{{'GLOBAL.vigencia' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.unidad-ejecutora' | translate}}</th>
-                        <th width="45%">{{'GLOBAL.centro_gestor' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.entidad' | translate}}</th>
+                        <th width="45%">{{'GLOBAL.area_funcional' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
                             <td>{{TrNecesidad.Necesidad.Vigencia}}</td>
-                            <td>{{solicitud.centroGestor}}</td>
-                            <td>{{solicitud.entidad}}</td>
+                            <td>{{centroGestor}}</td>
+                            <td>{{areaFuncional}}</td>
                         </tr>
                     </tbody>
 
@@ -37,7 +40,7 @@
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
                             <td *ngIf="expedido">{{solicitud.consecutivo_cdp}}</td>
                             <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
-                            <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.JefeDepSolicitanteId}}</td>
+                            <td>{{dependenciaSoliciante.Nombre}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos">{{'CDP.objeto' | translate}}</td>
@@ -49,8 +52,8 @@
                 <table *ngFor="let rubro of TrNecesidad.Rubros" class="table table-hover table-bordered">
                     <!-- rubro -->
                     <thead class="bg-kronos">
-                        <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.valor' | translate}}</th>
+                        <th width="50%">{{'GLOBAL.rubro' | translate}}</th>
+                        <th width="50%">{{'GLOBAL.valor' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
@@ -64,16 +67,16 @@
                         <th colspan="2">{{'GLOBAL.meta' | translate}}</th>
                     </thead>
                     <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
-                        <tr>
-                            <!-- TODO traer nombre meta -->
+                        <tr colspan="2">
                             <td>{{rubro.Metas[0].MetaId}} </td>
+                            <td>{{rubro.Metas[0].InfoMeta[0].meta}}</td>
                         </tr>
                         <tr class="bg-kronos">
                             <td>{{'GLOBAL.actividades' | translate}}</td>
                             <td>{{'GLOBAL.fuentes' | translate}}</td>
                         </tr>
                         <tr *ngFor="let act of rubro.Metas[0].Actividades">
-                            <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} {{act.Nombre}}</td>
+                            <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td>
                             <td *ngFor="let f of act.FuentesActividad" >
                                 <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
                                 <p class="moneyField">{{f.MontoParcial | currency: COP }}</p></td>
@@ -86,7 +89,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let f of rubro.Fuentes">
-                            <td>{{f.FuenteId}}-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a></td>
+                            <td>{{f.FuenteId}} - <a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a></td>
                             <td class="moneyField">{{f.MontoParcial | currency: COP}}</td>
                         </tr>
                     </tbody>
@@ -97,7 +100,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let p of rubro.Productos">
-                            <td colspan="2">{{p.ProductoId}} {{p.InfoProducto.Nombre}}</td>
+                            <td colspan="2">{{p.InfoProducto.Nombre}}</td>
                             <!-- <td class="moneyField">{{p.valor | currency: COP}}</td> -->
                         </tr>
                     </tbody>
@@ -121,11 +124,11 @@
                     </tbody>
                 </table>
 
-                <div class="text-align: center;">
-                    <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-                        {{ 'GLOBAL.regresar' | translate}}</button>
-                    <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-info btn-sm">
+                <div class="text-center">
+                    <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-success col-md-6">
                         {{ 'CDP.expedir' | translate}}</button>
+                    <!-- <button *ngIf="!expedido" (click)="rechazarSolicitud()" class="btn btn-danger col-md-6">
+                        {{ 'CDP.rechazar_solicitud_cdp' | translate}}</button> -->
                     <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>
@@ -134,6 +137,3 @@
     </nb-card>
     <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF" (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
 </div>
-<!-- <div>
-    <pre>{{TrNecesidad | json}}</pre>
-</div> -->

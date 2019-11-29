@@ -3,7 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     align-content: space-around;
 }
 
@@ -12,7 +12,7 @@
   }
 
 .cards-items {
-    flex-basis: 45%;
+    flex-basis: 80%;
     margin: auto;
 }
 

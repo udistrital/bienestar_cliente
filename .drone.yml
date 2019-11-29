@@ -13,7 +13,6 @@ steps:
         - test
       event:
         - push
-        - pull_request
 
   - name: nodejs-master
     image: node:12.6.0
@@ -26,7 +25,6 @@ steps:
       - master
       event:
       - push
-      - pull_request
 
   - name: publish-s3-test
     image: plugins/s3
@@ -45,7 +43,6 @@ steps:
       - test
       event:
       - push
-      - pull_request
 
   - name: publish-s3-master
     image: plugins/s3
@@ -64,7 +61,6 @@ steps:
       - master
       event:
       - push
-      - pull_request
 
   - name: NotifyTelegram
     image: appleboy/drone-telegram

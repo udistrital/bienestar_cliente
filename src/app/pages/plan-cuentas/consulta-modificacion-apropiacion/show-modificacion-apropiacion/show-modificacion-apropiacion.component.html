@@ -1,0 +1,70 @@
+<nb-card>
+  <nb-card-body
+    *ngIf="modificationData['Data']"
+    class="mod-registration-container"
+  >
+    <div class="mod-registration-container">
+      <mat-form-field
+        class="mod-registration-input-item"
+        class="mod-registration-input-item"
+      >
+        <input
+          matInput
+          placeholder="{{ 'GLOBAL.numero_documento' | translate }}"
+          value="{{ modificationData['Data']['numero_documento'] }}"
+          disabled="true"
+        />
+      </mat-form-field>
+      <mat-form-field class="mod-registration-input-item">
+        <input
+          matInput
+          placeholder="{{ 'GLOBAL.tipo_documento' | translate }}"
+          value="{{ modificationData['Data']['tipo_documento']['Nombre'] }}"
+          disabled="true"
+        />
+      </mat-form-field>
+      <mat-form-field class="mod-registration-input-item">
+        <input
+          matInput
+          placeholder="{{ 'GLOBAL.fecha_documento' | translate }}"
+          value="{{ modificationData['Data']['fecha_documento'] | date }}"
+          disabled="true"
+        />
+      </mat-form-field>
+      <mat-form-field class="mod-registration-input-item">
+        <input
+          matInput
+          placeholder="{{ 'GLOBAL.organismo_emisor' | translate }}"
+          value="{{ modificationData['Data']['organismo_emisor'] }}"
+          disabled="true"
+        />
+      </mat-form-field>
+      <mat-form-field class="mod-registration-input-item">
+        <input
+          matInput
+          placeholder="{{ 'GLOBAL.descripcion' | translate }}"
+          value="{{ modificationData['Data']['descripcion_documento'] }}"
+          disabled="true"
+        />
+      </mat-form-field>
+      <mat-form-field class="mod-registration-input-item" floatLabel="always">
+        <mat-label>{{ "GLOBAL.valor" | translate }}</mat-label>
+        <input
+          matInput
+          currencyMask
+          placeholder="{{ 'GLOBAL.valor' | translate }}"
+          class="moneyField"
+          type="text"
+          value="{{
+            modificationData['ValorInicial']
+              | currency: 'COP':'symbol':'4.2-2':'co'
+          }}"
+          disabled
+        />
+      </mat-form-field>
+      <br>
+      <ng2-smart-table class="mod-registration-input-item" [settings]="settings" [source]="source"> </ng2-smart-table>
+    </div>
+
+  </nb-card-body>
+</nb-card>
