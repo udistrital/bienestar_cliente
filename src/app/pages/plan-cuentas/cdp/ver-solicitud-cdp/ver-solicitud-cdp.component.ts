@@ -5,10 +5,10 @@ import { CoreHelper } from '../../../../@core/helpers/core/coreHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
 import { NecesidadesHelper } from '../../../../@core/helpers/necesidades/necesidadesHelper';
+import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
-import { async } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -46,11 +46,10 @@ export class VerSolicitudCdpComponent implements OnInit {
     private dependenciaHelper: DependenciaHelper,
     private movimientosHelper: MovimientosHelper,
     private necesidadesHelper: NecesidadesHelper,
-    private rqManager: RequestManager,
+    private documentoPresuestalHelper: DocumentoPresupuestalHelper,
     private popManager: PopUpManager,
     private router: Router,
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(async res => {
@@ -112,30 +111,24 @@ export class VerSolicitudCdpComponent implements OnInit {
     this.popManager.showAlert('warning', `Expedir la solicitud de CDP ${consecutivo}`, 'continuar')
       .then((result) => {
         if (result.value) {
-          let movimiento = this.construirDatosMovimiento();
-          this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
-            if (res) {
-              this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`)
-              this.router.navigate(['/pages/plan-cuentas/cdp']);
-            }
+          this.construirDatosMovimiento().then(movimiento => {
+            this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
+              if (res) {
+                this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`)
+                this.router.navigate(['/pages/plan-cuentas/cdp']);
+              }
+            });
           });
-          // this.cdpHelper.expedirCDP(this.solicitud["_id"]).subscribe(res => {
-          //   if (res) {
-          //     this.popManager.showSuccessAlert(`Se expidió con éxito el CDP ${res.infoCdp.consecutivo}`)
-          //     this.router.navigate(['/pages/plan-cuentas/cdp']);
-          //   }
-          // });
-
         }
       });
   }
 
-  private construirDatosMovimiento(): object {
+  private async construirDatosMovimiento(): Promise<object> {
     var movimiento = {
       Data: { "solicitud_cdp": this.solicitud["_id"] },
       Tipo: "cdp",
       Vigencia: 2019,
-      CentroGestor: String(this.centroGestor["Id"]),
+      CentroGestor: String(this.solicitud["centroGestor"]),
       AfectacionMovimiento: []
     };
 
@@ -154,8 +147,14 @@ export class VerSolicitudCdpComponent implements OnInit {
         }
       )
     });
+    await this.documentoPresuestalHelper.GetAllDocumentoPresupuestalByTipo(
+      String(this.TrNecesidad["Necesidad"]["Vigencia"]),
+      String(this.solicitud["centroGestor"]),
+      "cdp").toPromise().then(res => {
+        movimiento.Data["consecutivo_cdp"] = res;
+      });
     return movimiento;
-  }
+  };
 
   rechazarSolicitud() {
     this.popManager.showAlertInput('warning', `Rechazar solicitud de CDP`, 
