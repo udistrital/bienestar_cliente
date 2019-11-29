@@ -4,7 +4,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
-import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
+import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicion/planAdquisicionHelper';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -35,6 +35,30 @@ export class CRPHelper {
 
     }
 
+ /**
+   * expedir CRP
+   * dispara la funcion para expedicion del CRP
+   * inforcdp si  todo ok, alerta si falla.
+   * @param id identificador de solicitud de crp
+   * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
+   */
+  public getFullCRP() {
+    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+    return this.rqManager.get(`crp/getFullCrp/`).pipe(
+        map(
+            res_mid => {
+                if (res_mid.status > 300) {
+                    this.pUpManager.showErrorAlert('Error al listar CRP');
+                    return undefined;
+                } else {
+                    return res_mid;
+                }
+            }
+        )
+    );
+
+
+}
 
     public getListaCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
