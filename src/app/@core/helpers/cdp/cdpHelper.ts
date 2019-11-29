@@ -79,14 +79,22 @@ export class CDPHelper {
                         return undefined;
                     }
                     return res ?
-                        res.filter(
-                            e => e.infoCdp !== null).map(
+                        // res.filter(
+                        //     e => e.infoCdp !== null).map(
+                        //         e => {
+                        //             return {
+                        //                 ...e,
+                        //                 consecutivo_cdp: e.infoCdp.consecutivo,
+                        //                 estado_cdp: e.infoCdp.estado,
+                        //                 fecha_cdp: e.infoCdp.fechaExpedicion,
+                        //             };
+                        //         }
+                        //     )
+                        // : undefined;
+                        res.map(
                                 e => {
                                     return {
                                         ...e,
-                                        consecutivo_cdp: e.infoCdp.consecutivo,
-                                        estado_cdp: e.infoCdp.estado,
-                                        fecha_cdp: e.infoCdp.fechaExpedicion,
                                     };
                                 }
                             )
@@ -97,19 +105,20 @@ export class CDPHelper {
 
     }
 
+   
+
     public getCDP(id) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        
-        return this.rqManager.get('solicitudesCDP/?query=infoCdp.consecutivo:' + id).pipe(
+
+        return this.rqManager.get('solicitudesCDP/?query=consecutivo:' + id).pipe(
             map(
                 (res) => {
-                    console.info(res)
+
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    console.info(res,"RITMO")
-                    return res ;
+                    return res;
                 },
             ),
         );
