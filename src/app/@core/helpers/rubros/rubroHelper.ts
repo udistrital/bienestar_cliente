@@ -134,7 +134,7 @@ export class RubroHelper {
      */
     public rubroUpdate(rubroData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        // console.info(rubroData);
+
         return this.rqManager.put('arbol_rubro/', rubroData, rubroData.Codigo).pipe(
             map(
                 (res) => {
