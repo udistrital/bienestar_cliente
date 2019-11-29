@@ -81,7 +81,7 @@ export class ListSolicitudCrpComponent implements OnInit {
         title: this.translate.instant('CRP.financiacion'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          return "Inversión";
         }
       }
     };
@@ -117,7 +117,7 @@ export class ListSolicitudCrpComponent implements OnInit {
 
 
   loadCRPData () {
-    var a = this.crpHelper.getInfoCRP(1);
+    var a = this.crpHelper.getFullCRP()
 
   }
 
