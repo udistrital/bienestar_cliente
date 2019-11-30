@@ -41,7 +41,7 @@
                 <span *ngIf="creditAccount"><b>{{'GLOBAL.saldo' | translate }} : {{creditAccount.ApropiacionInicial}}</b></span>
               </mat-form-field>
 
-              <mat-form-field class="mod-registration-input-item" floatLabel="always" *ngIf="modTypeSelected  && modTypeSelected['Params']['CuentaContraCredito']" >
+              <mat-form-field class="mod-registration-input-item" floatLabel="always" *ngIf="modTypeSelected  && modTypeSelected['Parametros']['CuentaContraCredito']" >
                 <mat-label>{{'MODIF.cuenta_contra_credito' | translate }}</mat-label>
                 <input currencyMask matInput type="text" placeholder="{{'MODIF.cuenta_contra_credito' | translate }}" formControlName="cnCredAccount" disabled>
                 <span matPrefix><button mat-button (click)="accountSelection('contraCredito')">{{'GLOBAL.seleccionar' | translate }}</button></span>
