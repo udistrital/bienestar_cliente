@@ -41,7 +41,8 @@
     "gestion_cdp": {
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
-      "cdp": "Certificado Disponibilidad Presupuestal"
+      "cdp": "Certificado Disponibilidad Presupuestal",
+      "cdp_acronimo": "CDP"
     },
     "auth": {
       "auth": "Autenticación",
