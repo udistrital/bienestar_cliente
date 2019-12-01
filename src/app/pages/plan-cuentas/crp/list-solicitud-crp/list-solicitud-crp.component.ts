@@ -34,11 +34,11 @@ export class ListSolicitudCrpComponent implements OnInit {
   ngOnInit() {
     //this.crpHelper.getInfoCRP(1);
     this.crpHelper.getInfoContrato(458,2017);
-    this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
+    this.loadDataFunction = this.crpHelper.getFullCRP;
 
 
     this.listColumns = {
-      consecutivo: {
+      solicitudCrp: {
         title: this.translate.instant('CRP.n_sol_crp'),
         // type: 'string;',
         valuePrepareFunction: value => {
@@ -56,32 +56,29 @@ export class ListSolicitudCrpComponent implements OnInit {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          // if(value===1){
-          //   return "Rector"
-          // }else{
-          //   return value;
-          // }
-
-          return "Rector";
+          if(value==1){
+            return "Rector"
+          }else{
+            return value;
+          }
         }
       },
       entidad: {
         title: this.translate.instant('GLOBAL.entidad'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          // if(value===1){
-          //   return "Universidad Distrital FJC"
-          // }else{
-          //   return value;
-          // }
           return "Universidad Distrital FJC";
         }
       },
-      financiacion: {
+      necesidadFinanciacion: {
         title: this.translate.instant('CRP.financiacion'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return "Inversión";
+          if(value==1){
+            return "Inversión"
+          }else{
+            return "Funcionamiento";
+          }
         }
       }
     };

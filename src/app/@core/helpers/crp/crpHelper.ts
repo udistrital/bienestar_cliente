@@ -35,6 +35,26 @@ export class CRPHelper {
 
     }
 
+    public getSolicitudCRP(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+
+        return this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).pipe(
+            map(
+                (res) => {
+                    console.info("res" , res)
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar los crps');
+                        return undefined;
+                    } else {
+                        console.info(res)
+                        return res;
+                    }
+
+                },
+            ),
+        );
+
+    }
  /**
    * expedir CRP
    * dispara la funcion para expedicion del CRP
@@ -238,7 +258,8 @@ export class CRPHelper {
                         this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
                         return undefined;
                     } else {
-                        return res_persona;
+                        console.info(res_persona, "We go?")
+                        return res_persona[0];
                     }
                 }
             ));
