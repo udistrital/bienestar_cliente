@@ -41,7 +41,7 @@ export class ModApropiacionHelper {
 
     public getAllModificacionesApr(id?: any, params?: {vigencia: string, cg: string}){
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get(`documento_presupuestal/${params.vigencia}/${params.cg}/modificacion`).pipe(
+        return this.rqManager.get(`documento_presupuestal/${params.vigencia}/${params.cg}/modificacion_presupuestal`).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
