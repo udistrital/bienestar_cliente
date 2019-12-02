@@ -269,6 +269,7 @@
     "rechazar_solicitud_cdp": "Rechazar solicitud"
   },
   "CRP": {
+    "crp": "Certificado de Registro Presupuestal",
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
     "financiacion": "Financiación",

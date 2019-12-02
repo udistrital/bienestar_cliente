@@ -73,9 +73,8 @@ console.table(this.solicitudc)
           this.doc = this.solicitudc['beneficiario'].match(this.r);
           this.tipoID = this.solicitudc['beneficiario'].match(/[a-zA-Z]+/g);
           this.crpHelper.getInfoNaturalJuridica(this.doc).subscribe(respuesta => {
-            console.info(respuesta,"End")
+            console.table(respuesta)
             this.beneficiario = respuesta.NomProveedor;
-            this.beneficiario = respuesta[0];
 
           });
 

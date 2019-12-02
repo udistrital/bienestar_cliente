@@ -40,6 +40,7 @@ export class ListSolicitudCrpComponent implements OnInit {
     this.listColumns = {
       solicitudCrp: {
         title: this.translate.instant('CRP.n_sol_crp'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -47,6 +48,7 @@ export class ListSolicitudCrpComponent implements OnInit {
       },
       vigencia: {
         title: this.translate.instant('GLOBAL.placeholder_vigencia'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -54,6 +56,7 @@ export class ListSolicitudCrpComponent implements OnInit {
       },
       centroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           if(value==1){
@@ -65,6 +68,7 @@ export class ListSolicitudCrpComponent implements OnInit {
       },
       entidad: {
         title: this.translate.instant('GLOBAL.entidad'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return "Universidad Distrital FJC";
@@ -88,7 +92,7 @@ export class ListSolicitudCrpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'Ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)"></i></div>' }],
+        custom:  [{ name: 'Ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
       mode: 'external',
