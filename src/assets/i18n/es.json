@@ -140,7 +140,7 @@
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
     "area_funcional": "Area Funcional",
-    "centro_gestor": "Centro Gestor",
+    "centro_gestor": "Área Funcional",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
@@ -269,6 +269,7 @@
     "rechazar_solicitud_cdp": "Rechazar solicitud"
   },
   "CRP": {
+    "crp": "Certificado de Registro Presupuestal",
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
     "financiacion": "Financiación",
