@@ -21,6 +21,7 @@ export class VerSolicitudCrpComponent implements OnInit {
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
   cdpInfo: any = {};
+  solicitudc: any = {};
   solCdpInfo: any = {};
   TrNecesidad: any;
   beneficiario: any = {};
@@ -49,88 +50,108 @@ export class VerSolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
     if (this.solicitud != undefined) {
-      this.crpHelper.getInfoCDP(this.solicitud['vigencia'],this.solicitud['consecutivoCdp']).subscribe(resCdp1 => {
-        if (resCdp1.estado=== "expedido") { //validacion de expedicion
-          this.expedido = true;
-        }else{
-          this.expedido = false;
-        }
-  
-      });
 
-      this.crpHelper.getCompromiso(this.solicitud['compromiso']['tipoCompromiso']).subscribe(resC => {
-        this.tCompromiso = resC;
-      });
-    }
+      this.crpHelper.getSolicitudCRP(this.solicitud['solicitudCrp']).subscribe(resp => {
 
-    this.doc = this.solicitud['beneficiario'].match(this.r);
-    this.tipoID = this.solicitud['beneficiario'].match(/[a-zA-Z]+/g);
+        this.solicitudc = resp[0];
 
+        if (this.solicitudc) {
+console.table(this.solicitudc)
+          this.crpHelper.getInfoCDP(this.solicitudc['vigencia'], this.solicitudc['consecutivoCdp']).subscribe(resCdp1 => {
+            if (resCdp1.estado === "expedido") { //validacion de expedicion
+              this.expedido = true;
+            } else {
+              this.expedido = false;
+            }
 
-    this.crpHelper.getInfoCDP(this.solicitud['vigencia'],this.solicitud['consecutivoCdp']).subscribe(resCdp => {
-      this.cdpInfo = resCdp;
-
-      if (this.cdpInfo) {
-
-        this.crpHelper.getInfoCdpPC(this.cdpInfo.Data.solicitud_cdp).subscribe(res => {
-          this.solCdpInfo = res;
-          this.area = this.areas.filter(i => {
-            return i.Id === this.solCdpInfo.centroGestor;
           });
-  
-          this.entidad = this.entidades.filter(j => {
-            return j.Id === this.solCdpInfo.entidad;
+
+          this.crpHelper.getCompromiso(this.solicitudc['compromiso'].tipoCompromiso).subscribe(resC => {
+            this.tCompromiso = resC;
           });
-  
-   
-  
-          this.cdpHelper.getFullNecesidad(this.solCdpInfo.necesidad).subscribe(async res => {
-          
-            this.TrNecesidad = res;
-            await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], 122).toPromise().then(res => {this.actividades = res });
-            if (this.TrNecesidad.Rubros) {
-              this.TrNecesidad.Rubros.forEach(rubro => {
-                rubro.MontoParcial = 0
-                if (rubro.Metas) {
-                  rubro.Metas.forEach(meta => {
-                    meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
-                    if (meta.Actividades) {
-                      meta.Actividades.forEach(act => {
-                        act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
-                        if (act.FuentesActividad) {
-                          act.FuentesActividad.forEach(fuente => {
-                            rubro.MontoParcial += fuente.MontoParcial
+
+          this.doc = this.solicitudc['beneficiario'].match(this.r);
+          this.tipoID = this.solicitudc['beneficiario'].match(/[a-zA-Z]+/g);
+          this.crpHelper.getInfoNaturalJuridica(this.doc).subscribe(respuesta => {
+            console.table(respuesta)
+            this.beneficiario = respuesta.NomProveedor;
+
+          });
+
+          this.crpHelper.getInfoCDP(this.solicitudc['vigencia'], this.solicitudc['consecutivoCdp']).subscribe(resCdp => {
+            this.cdpInfo = resCdp;
+
+            if (this.cdpInfo) {
+
+              this.crpHelper.getInfoCdpPC(this.cdpInfo.Data.solicitud_cdp).subscribe(res => {
+                this.solCdpInfo = res;
+                this.area = this.areas.filter(i => {
+                  return i.Id === this.solCdpInfo.centroGestor;
+                });
+
+                this.entidad = this.entidades.filter(j => {
+                  return j.Id === this.solCdpInfo.entidad;
+                });
+
+
+
+                this.cdpHelper.getFullNecesidad(this.solCdpInfo.necesidad).subscribe(async res2 => {
+                  this.TrNecesidad = res2;
+
+                  if (this.TrNecesidad) {
+                    this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
+                    await this.getInfoMeta(this.TrNecesidad["Necesidad"].Vigencia, 122).toPromise().then(res => { console.info(this.actividades);this.actividades = res });
+                    if (this.TrNecesidad.Rubros) {
+                      this.TrNecesidad.Rubros.forEach(rubro => {
+                        rubro.MontoParcial = 0
+                        if (rubro.Metas) {
+                          rubro.Metas.forEach(meta => {
+                            meta["InfoMeta"] = this.actividades["metas"].actividades.filter(actividad => actividad["meta_id"] === meta["MetaId"]);
+                            if (meta.Actividades) {
+                              meta.Actividades.forEach(act => {
+                                act["InfoActividad"] = this.actividades["metas"].actividades.filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
+                                if (act.FuentesActividad) {
+                                  act.FuentesActividad.forEach(fuente => {
+                                    rubro.MontoParcial += fuente.MontoParcial
+                                  });
+                                }
+                              });
+                            }
                           });
                         }
+                        if (rubro.Fuentes) {
+                          rubro.Fuentes.forEach(fuente => {
+                            rubro.MontoParcial += fuente.MontoParcial
+                          });
+
+                        }
+
                       });
                     }
-                  });
-                }
-                if (rubro.Fuentes) {
-                  rubro.Fuentes.forEach(fuente => {
-                    rubro.MontoParcial += fuente.MontoParcial
-                  });
-  
-                }
-  
-              });
+
+
+                  }
+
+
+
+                });
+              })
+
             }
-  
-            if (this.TrNecesidad) {
-              this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
-            }
-  
-            this.crpHelper.getInfoNaturalJuridica(this.solicitud['beneficiario'].match(this.r)).subscribe(respuesta => {
-              this.beneficiario = respuesta[0];
-  
-  
-            });
-  
           });
-        })
- 
-      }
-    });
+      
+        }
+      })
+
+
+
+
+    }
+
+
+
+
+
   }
 
   getInfoMeta(vigencia: Number, dependencia: Number): Observable<any> {

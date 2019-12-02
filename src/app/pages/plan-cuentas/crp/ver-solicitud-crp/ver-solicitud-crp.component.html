@@ -1,30 +1,26 @@
 <div class="col-md-12 col-lg-12 ">
-    <nb-card *ngIf="mostrandoPDF===false">
+    <nb-card status="warning" *ngIf="mostrandoPDF===false">
         <nb-card-header>
-            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}:
-                {{ solicitud.consecutivo }}</legend>
-            <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}:
-                {{ solicitud.infoCrp.consecutivo }}</legend>
-            <!-- <legend *ngIf="solicitud&&expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.infoCrp.consecutivo }}
-            </legend> -->
-
+            {{ 'CRP.crp' | translate }}
         </nb-card-header>
         <nb-card-body>
+            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}:
+                {{ solicitudc.consecutivo }}</legend>
+            <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}:
+                {{ solicitudc.infoCrp.consecutivo }}</legend>
             <p>{{ 'CRP.solicitud-efectuada' | translate }}</p>
-            <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
-            <pre>nes{{necesidad | json}}</pre> -->
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
                         <th width="50%">{{'GLOBAL.entidad' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.unidad-ejecutora' | translate}}</th>
+                        <th width="40%">{{'CRP.centro-gestor' | translate}}</th>
                         <th width="10%">{{'GLOBAL.vigencia' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
                             <td *ngIf="entidad">{{entidad[0].Nombre}}</td>
                             <td *ngIf="area">{{area[0].Nombre}}</td>
-                            <td>{{solicitud.vigencia}}</td>
+                            <td>{{solicitudc.vigencia}}</td>
                         </tr>
                     </tbody>
 
@@ -39,7 +35,7 @@
                         <tr>
                             <td *ngIf="cdpInfo.Data">{{cdpInfo.Data.consecutivo_cdp}}</td>
                             <td *ngIf="tCompromiso">{{tCompromiso.Nombre}}</td>
-                            <td *ngIf="solicitud">{{solicitud.compromiso.numeroCompromiso}}</td>
+                            <td *ngIf="solicitudc.compromiso">{{solicitudc.compromiso.numeroCompromiso}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
@@ -55,7 +51,7 @@
                     <tbody>
                         <tr>
                             <td>{{doc}}</td>
-                            <td>{{beneficiario.NomProveedor}}</td>
+                            <td *ngIf="beneficiario">{{beneficiario}}</td>
                         </tr>
                     </tbody>
 
@@ -70,7 +66,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{rubro.RubroId}} - <span *ngIf="rubro.InfoRubro">{{rubro.InfoRubro.Nombre}}</span> </td>
+                                <td>{{rubro.RubroId}} - <span *ngIf="rubro.InfoRubro">{{rubro.InfoRubro.Nombre}}</span>
+                                </td>
                                 <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
                                 <!-- TODO calcular valor rubro -->
                             </tr>
@@ -82,7 +79,8 @@
                         <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
                             <tr>
                                 <!-- TODO traer nombre meta -->
-                                <td *ngIf="rubro.Metas[0].InfoMeta">{{rubro.Metas[0].MetaId}} - {{rubro.Metas[0].InfoMeta[0].meta}}</td>
+                                <td *ngIf="rubro.Metas[0].InfoMeta">{{rubro.Metas[0].MetaId}} -
+                                    {{rubro.Metas[0].InfoMeta[0].meta}}</td>
                                 <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
                             </tr>
                             <tr class="bg-kronos">
@@ -90,7 +88,8 @@
                                 <th>{{'GLOBAL.fuentes' | translate}}</th>
                             </tr>
                             <tr *ngFor="let act of rubro.Metas[0].Actividades">
-                                <td rowspan="act.FuentesActividad.lenght" *ngIf="act.InfoActividad">{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td>
+                                <td rowspan="act.FuentesActividad.lenght" *ngIf="act.InfoActividad">{{act.ActividadId}}
+                                    - {{act.InfoActividad[0].actividad}}</td>
                                 <td *ngFor="let f of act.FuentesActividad">
                                     <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
                                     <p class="moneyField">{{f.MontoParcial | currency: COP }}</p>
@@ -131,7 +130,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td *ngIf="!expedido">{{solicitud.fechaCreacion | date}}</td>
+                                <td *ngIf="!expedido">{{solicitudc.fechaCreacion | date:'dd/MM/yyyy'}} </td>
                                 <td *ngIf="expedido">Oct 2, 2019</td>
                                 <td>Usuario que expide</td>
                                 <td>Usuario que elabora</td>
@@ -142,12 +141,13 @@
                 <div class="text-center">
                     <button (click)="cambioTab()" class="btn btn-info col-md-4"> <i class="nb-arrow-dropleft"></i>
                         {{ 'GLOBAL.regresar' | translate}}</button>
-    
-                        <button *ngIf="!expedido && solicitud.infoCrp===null" (click)="expedirCRP(solicitud.consecutivo)" class="btn btn-success col-md-4">
-                            {{ 'CRP.expedir' | translate}}</button>
 
-                    <button *ngIf="expedido && solicitud.infoCrp" (click)="mostrarPDF(solicitud.consecutivo_cdp)"
-                    class="btn btn-warning col-md-4">
+                    <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo)"
+                        class="btn btn-success col-md-4">
+                        {{ 'CRP.expedir' | translate}}</button>
+
+                    <button *ngIf="expedido && solicitudc.infoCrp" (click)="mostrarPDF(solicitudc.consecutivo_cdp)"
+                        class="btn btn-warning col-md-4">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>
             </div>
