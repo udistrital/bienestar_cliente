@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicion/planAdquisicionHelper';
+import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { registerLocaleData } from '@angular/common';
@@ -16,7 +16,7 @@ export class RubrosFuenteComponent implements OnInit {
   @Input('infoinput') infoinput: any;
   planAdquisicionesFuente: any;
 
-  constructor(private planAdHelper: PlanAdquisicionHelper, private dependenciaHelper: DependenciaHelper, private apHelper: ApropiacionHelper) { }
+  constructor(private fuenteHelper: FuenteHelper, private dependenciaHelper: DependenciaHelper, private apHelper: ApropiacionHelper) { }
 
   ngOnInit() {
     this.loadInfoFuente();
@@ -24,10 +24,10 @@ export class RubrosFuenteComponent implements OnInit {
 
   loadInfoFuente() {
     // retirar cuando se tenga la vigencia 2020 de la bodega del plan de adquisiciones y dejar this.infoinput.Vigencia
-    this.planAdHelper.getPlanAdquisicionByFuente('2019', this.infoinput.Codigo).subscribe((res) => {
+    this.fuenteHelper.getPlanAdquisicionByFuente('2019', this.infoinput.Codigo).subscribe((res) => {
       if (res) {
-        this.planAdquisicionesFuente = res.fuente_financiamiento.rubros;
-        this.planAdquisicionesFuente.map((item) => {
+        this.planAdquisicionesFuente = res.fuente_financiamiento;
+        this.planAdquisicionesFuente.rubros.map((item) => {
           this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
             if (res.Body !== null) {
               item.dependencia = res.Nombre;

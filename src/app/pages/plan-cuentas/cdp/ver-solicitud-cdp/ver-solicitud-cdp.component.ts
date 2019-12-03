@@ -32,10 +32,6 @@ export class VerSolicitudCdpComponent implements OnInit {
 
   areaFuncional: object;
   centroGestor: object;
-
-  actividades: object[];
-  dependenciaSoliciante: object;
-
   estadoNecesidadRechazada: object;
 
   constructor(
@@ -51,42 +47,51 @@ export class VerSolicitudCdpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(async res => {
+    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(res => {
       this.TrNecesidad = res;
 
       this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
       this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
 
-      let jefe_dependencia: object;
-      await this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"]).toPromise().then(res => { jefe_dependencia = res });
-      await this.getInfoDependencia(jefe_dependencia["DependenciaId"]).toPromise().then(res => { this.dependenciaSoliciante = res });
-      await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
+      this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"])
+        .pipe(
+          mergeMap(res => this.getInfoDependencia(res["DependenciaId"]))
+        ).pipe(
+          mergeMap(res => { 
+            this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["DependenciaSolicitante"] = res;
+            return this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], res["Id"]);
+          })
+        )
+        .subscribe(res => {
+        let actividades = res;
 
-      if (this.TrNecesidad.Rubros) {
-        this.TrNecesidad.Rubros.forEach(rubro => {
-          rubro.MontoParcial = 0
-          if (rubro.Metas) {
-            rubro.Metas.forEach(meta => {
-              meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
-              if (meta.Actividades) {
-                meta.Actividades.forEach(act => {
-                  act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
-                  if (act.FuentesActividad) {
-                    act.FuentesActividad.forEach(fuente => {
-                      rubro.MontoParcial += fuente.MontoParcial
-                    });
-                  }
-                });
-              }
-            });
-          }
-          if (rubro.Fuentes) {
-            rubro.Fuentes.forEach(fuente => {
-              rubro.MontoParcial += fuente.MontoParcial
-            });
-          }
-        });
-      }
+        if (this.TrNecesidad.Rubros) {
+          this.TrNecesidad.Rubros.forEach(rubro => {
+            rubro.MontoParcial = 0
+            if (rubro.Metas) { 
+              rubro.Metas.forEach(meta => {
+                meta["InfoMeta"] = actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
+                if (meta.Actividades) {
+                  meta.Actividades.forEach(act => {
+                    act["InfoActividad"] = actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
+                    if (act.FuentesActividad) {
+                      act.FuentesActividad.forEach(fuente => {
+                        rubro.MontoParcial += fuente.MontoParcial
+                      });
+                    }
+                  });
+                }
+              });
+            }
+            if (rubro.Fuentes) {
+              rubro.Fuentes.forEach(fuente => {
+                rubro.MontoParcial += fuente.MontoParcial
+              });
+            }
+          });
+        }
+      });
+      
     });
   }
 
@@ -113,13 +118,18 @@ export class VerSolicitudCdpComponent implements OnInit {
         if (result.value) {
 
           let movimiento = this.construirDatosMovimiento();
+          let consecutivoExpedido: number;
           this.movimientosHelper.postMovimiento(movimiento).pipe(
-            mergeMap(() => this.cdpHelper.expedirCDP(this.solicitud["_id"] ))).subscribe(res => {
-                if (res) {
-                  this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`);
-                  this.router.navigate(['/pages/plan-cuentas/cdp']);
-              }
-            });
+            mergeMap(res => {
+              consecutivoExpedido = res['Consecutivo'];
+              return this.cdpHelper.expedirCDP(this.solicitud["_id"]);
+            })
+          ).subscribe(res => {
+            if (res) {
+              this.popManager.showSuccessAlert(`Se expidió con éxito el CDP Nº ${consecutivoExpedido}`);
+              this.router.navigate(['/pages/plan-cuentas/cdp']);
+            }
+          });
         }
       });
   }
@@ -211,12 +221,12 @@ export class VerSolicitudCdpComponent implements OnInit {
     let vigencia = this.solicitud["vigencia"];
 
     this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).pipe(
-      mergeMap(documentoP => this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, documentoP["_id"])
+      mergeMap(documentoP => this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, documentoP[0]["_id"])
         .pipe(
           switchMap(movimientoD => {
 
             let movimiento = {
-              Data: { "cdp": documentoP["_id"] },
+              Data: { "cdp": documentoP[0]["_id"] },
               Tipo: tipoAnulacion,
               Vigencia: Number(this.solicitud['vigencia']),
               CentroGestor: String(this.solicitud["centroGestor"]),
@@ -233,12 +243,13 @@ export class VerSolicitudCdpComponent implements OnInit {
                   Descripcion: "anulación parcial del cdp"
               }]
             };
-    
             return this.movimientosHelper.postMovimiento(movimiento);
           }
         )))).subscribe(res => {
+
           if(res) {
             this.popManager.showSuccessAlert('Se realizó la anulación del CDP');
+            this.router.navigate(['/pages/plan-cuentas/cdp']);
           }
       }); 
   }

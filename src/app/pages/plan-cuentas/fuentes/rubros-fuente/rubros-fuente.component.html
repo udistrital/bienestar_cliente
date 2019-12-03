@@ -1,28 +1,62 @@
 <nb-card>
-
+    <h5>
+        {{'FUENTE_FINANCIAMIENTO.consulta_rubros_fuente' | translate }}
+    </h5>
     <label for="valorfuente" class="form-control-label">
         <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
                 {{infoinput.ValorInicial| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
     </label>
+    <ng-container *ngIf="!planAdquisicionesFuente; then planAdquisicionesOff; else planAdquisicionesOn">
+    </ng-container>
+    <ng-template #planAdquisicionesOff>
+        <nb-alert outline="danger">No hay información asociada para esta fuente de financiamiento</nb-alert>
+    </ng-template>
+    <ng-template #planAdquisicionesOn>
+        <div *ngFor="let item of planAdquisicionesFuente.rubros">
 
-    <div *ngFor="let item of planAdquisicionesFuente">
-
-        <ul>
-            <li><strong>Rubro:</strong><span>
-                    {{item.rubro.Nombre}}</span> ( {{item.rubro.Codigo}} )
-                <ul>
-                    <li><strong>Apropiación Inicial:</strong>
-                        {{item.rubro.ValorInicial | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+            <ul *ngIf="item.rubro.Codigo">
+                <li><strong>Rubro:</strong><span>
+                        {{item.rubro.Nombre}}</span> ( {{item.rubro.Codigo}} )
+                    <ul>
+                        <li><strong>Apropiación Inicial:</strong>
+                            {{item.rubro.ValorInicial | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                        <ul>
+                            <li><strong>Meta:</strong> {{item.meta}}</li>
+                        </ul>
                         <ul>
                             <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
                             <li><strong>Valor Dependencia:</strong>
                                 {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
                         </ul>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div *ngIf="!planAdquisicionesFuente">
-        <nb-alert outline="danger">No hay información asociada para esta fuente de financiamiento</nb-alert>
-    </div>
+                    </ul>
+                </li>
+            </ul>
+            <ul *ngIf="!item.rubro.Codigo">
+                <li> El rubro <span>
+                        <strong>{{item.rubro}}</strong></span> no esta creado para la vigencia
+                    <strong>{{infoinput.Vigencia}}</strong>,
+                    por favor crearlo
+                    <ul>
+                        <li><strong>Apropiación Inicial:</strong>
+                            No existe, por favor crearla</li>
+                        <ul>
+                            <li><strong>Meta:</strong> {{item.meta}}</li>
+                        </ul>
+                        <ul>
+                            <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
+                            <li><strong>Valor Dependencia:</strong>
+                                {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                        </ul>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <nb-alert outline="success">
+            <div class="moneyField">
+                {{'FUENTE_FINANCIAMIENTO.saldo_fuente' | translate }}
+                {{planAdquisicionesFuente.total_saldo_fuente | currency:'COP':'symbol':'4.2-2':'co'}}
+            </div>
+        </nb-alert>
+    </ng-template>
+
 </nb-card>

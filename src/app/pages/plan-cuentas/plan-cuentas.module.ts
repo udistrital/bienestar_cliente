@@ -11,6 +11,7 @@ import {
   NbStepperModule,
   NbCardModule,
   NbTooltipModule,
+  NbRadioModule,
   NbCheckboxModule } from '@nebular/theme';
 
 import { ProductosRubroComponent } from './rubros/productos-rubro/productos-rubro.component';
@@ -67,6 +68,7 @@ import { RubrosFuenteComponent } from './fuentes/rubros-fuente/rubros-fuente.com
     NbTreeGridModule,
     NbTooltipModule,
     NbSelectModule,
+    NbRadioModule,
     NbAlertModule,
     NbCheckboxModule,
     NbTabsetModule,

@@ -28,11 +28,10 @@ export class DocumentoPresupuestalHelper {
         return this.rqManager.get('documento_presupuestal/'+vigencia+'/'+centroGestor+'/'+tipo).pipe(
             map(
                 (res: object[]) => {
-                    if (res.length === 0) {
-                        return 1;
-                    } else {
-                        return res.length + 1;
-                    } 
+                    if (res['Type'] === 'error') {
+                        return undefined;
+                    }
+                    return res;
                 },
             ),
         );
@@ -49,10 +48,10 @@ export class DocumentoPresupuestalHelper {
         return this.rqManager.get('documento_presupuestal/'+vigencia+'/'+centroGestor+'?query='+query).pipe(
             map(
                 (res: object[]) => {
-                    if (!res[0]["_id"]) {
+                    if (res['Type'] === 'error') {
                         return undefined;
                     } 
-                    return res[0];
+                    return res;
                 },
             ),
         );
