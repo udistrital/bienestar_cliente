@@ -50,7 +50,7 @@ export class ListSolicitudCdpComponent implements OnInit {
       tipoFinanciacion: {
         title: this.translate.instant('CDP.tipo_financiacion'),
         valuePrepareFunction: (value: object) => {
-          return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : "algo";
+          return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : '';
         }
       },
       centroGestor: {
@@ -65,6 +65,12 @@ export class ListSolicitudCdpComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value: string) => {
           return this.areas[value];
+        }
+      },
+      consecutivoNecesidad: {
+        title: this.translate.instant('CDP.n_necesidad'),
+        valuePrepareFunction: value => {
+          return value;
         }
       },
       consecutivo: {
@@ -97,11 +103,16 @@ export class ListSolicitudCdpComponent implements OnInit {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
         const data = <Array<any>>res;
-        this.cdpHelper.getAllNecesidades('limit=-1&fields=Id,TipoFinanciacionNecesidadId&query=EstadoNecesidadId.CodigoAbreviacionn:CS').subscribe(resNecesidades => {
+        this.cdpHelper.getAllNecesidades('limit=-1&fields=Id,TipoFinanciacionNecesidadId,ConsecutivoNecesidad&query=EstadoNecesidadId.CodigoAbreviacionn:CS').subscribe(resNecesidades => {
           let necesidades: object = {};
           if (resNecesidades) {
-            resNecesidades.forEach((necesidad: object) => necesidades[necesidad['Id']] = necesidad)
-            res.forEach((obj: object) => obj['tipoFinanciacion'] = necesidades[obj['necesidad']])
+            resNecesidades.forEach((necesidad: object) => necesidades[necesidad['Id']] = necesidad);
+            res.forEach((obj: object) => { 
+              if (necesidades[obj['necesidad']]) {
+                obj['consecutivoNecesidad'] = necesidades[obj['necesidad']]['ConsecutivoNecesidad'];
+                obj['tipoFinanciacion'] = necesidades[obj['necesidad']];
+              }
+            });
             this.source.load(data);
           }
         })
