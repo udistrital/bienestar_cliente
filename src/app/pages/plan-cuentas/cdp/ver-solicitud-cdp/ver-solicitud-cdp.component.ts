@@ -201,11 +201,7 @@ export class VerSolicitudCdpComponent implements OnInit {
         let centroGestor =  String(this.solicitud["centroGestor"]);
         let vigencia = this.solicitud["vigencia"];
         this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).subscribe(res => {
-          if (res["ValorActual"] === res["ValorInicial"]) {
-            this.expedirMovimientoAnulacion(tipoAnulacion, res["ValorActual"]);
-          } else {
-            this.popManager.showErrorAlert('No es posible hacer la anulación total del CDP');
-          }
+          this.expedirMovimientoAnulacion(tipoAnulacion, res["ValorActual"]);
       });
     }
   }
