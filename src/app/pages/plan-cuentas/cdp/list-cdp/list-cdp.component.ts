@@ -101,8 +101,8 @@ export class ListCdpComponent implements OnInit {
           let documentos = {};
           listaDocumentos.forEach((documento: object) => documentos[documento["Data"]["solicitud_cdp"]] = documento);
           res.forEach((cdp: object) => {
-            cdp['consecutivo'] = documentos[cdp['_id']]['Consecutivo']
-            cdp['estado'] = documentos[cdp['_id']]['Estado']
+            cdp['consecutivo'] = documentos[cdp['_id']]['Consecutivo'];
+            cdp['estado'] = documentos[cdp['_id']]['Estado'];
           });
           this.source.load(data);
         });

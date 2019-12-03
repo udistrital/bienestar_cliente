@@ -118,13 +118,18 @@ export class VerSolicitudCdpComponent implements OnInit {
         if (result.value) {
 
           let movimiento = this.construirDatosMovimiento();
+          let consecutivoExpedido: number;
           this.movimientosHelper.postMovimiento(movimiento).pipe(
-            mergeMap(() => this.cdpHelper.expedirCDP(this.solicitud["_id"] ))).subscribe(res => {
-                if (res) {
-                  this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`);
-                  this.router.navigate(['/pages/plan-cuentas/cdp']);
-              }
-            });
+            mergeMap(res => {
+              consecutivoExpedido = res['Consecutivo'];
+              return this.cdpHelper.expedirCDP(this.solicitud["_id"]);
+            })
+          ).subscribe(res => {
+            if (res) {
+              this.popManager.showSuccessAlert(`Se expidió con éxito el CDP Nº ${consecutivoExpedido}`);
+              this.router.navigate(['/pages/plan-cuentas/cdp']);
+            }
+          });
         }
       });
   }
@@ -216,12 +221,12 @@ export class VerSolicitudCdpComponent implements OnInit {
     let vigencia = this.solicitud["vigencia"];
 
     this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).pipe(
-      mergeMap(documentoP => this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, documentoP["_id"])
+      mergeMap(documentoP => this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, documentoP[0]["_id"])
         .pipe(
           switchMap(movimientoD => {
 
             let movimiento = {
-              Data: { "cdp": documentoP["_id"] },
+              Data: { "cdp": documentoP[0]["_id"] },
               Tipo: tipoAnulacion,
               Vigencia: Number(this.solicitud['vigencia']),
               CentroGestor: String(this.solicitud["centroGestor"]),
@@ -238,12 +243,13 @@ export class VerSolicitudCdpComponent implements OnInit {
                   Descripcion: "anulación parcial del cdp"
               }]
             };
-    
             return this.movimientosHelper.postMovimiento(movimiento);
           }
         )))).subscribe(res => {
+
           if(res) {
             this.popManager.showSuccessAlert('Se realizó la anulación del CDP');
+            this.router.navigate(['/pages/plan-cuentas/cdp']);
           }
       }); 
   }
