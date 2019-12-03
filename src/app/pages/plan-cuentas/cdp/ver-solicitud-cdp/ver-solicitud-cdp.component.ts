@@ -61,17 +61,17 @@ export class VerSolicitudCdpComponent implements OnInit {
       let jefe_dependencia: object;
       await this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"]).toPromise().then(res => { jefe_dependencia = res });
       await this.getInfoDependencia(jefe_dependencia["DependenciaId"]).toPromise().then(res => { this.dependenciaSoliciante = res });
-      // await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
+      await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
 
       if (this.TrNecesidad.Rubros) {
         this.TrNecesidad.Rubros.forEach(rubro => {
           rubro.MontoParcial = 0
           if (rubro.Metas) {
             rubro.Metas.forEach(meta => {
-              // meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
+              meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
               if (meta.Actividades) {
                 meta.Actividades.forEach(act => {
-                  // act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
+                  act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
                   if (act.FuentesActividad) {
                     act.FuentesActividad.forEach(fuente => {
                       rubro.MontoParcial += fuente.MontoParcial
