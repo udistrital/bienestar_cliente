@@ -6,7 +6,6 @@ import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHe
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
 import { NecesidadesHelper } from '../../../../@core/helpers/necesidades/necesidadesHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
-import { RequestManager } from '../../../../@core/managers/requestManager';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -199,7 +198,15 @@ export class VerSolicitudCdpComponent implements OnInit {
       const { value : valorAnulacion } = await this.popManager.showAlertInput('warning', 'Valor de la anulación', 'Ingrese el valor de la anulación', 'Debe ingresar un valor', 'text');
       this.expedirMovimientoAnulacion(tipoAnulacion, parseFloat(valorAnulacion));
     } else {
-      // empty, this is where the full anulation is going to be
+        let centroGestor =  String(this.solicitud["centroGestor"]);
+        let vigencia = this.solicitud["vigencia"];
+        this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).subscribe(res => {
+          if (res["ValorActual"] === res["ValorInicial"]) {
+            this.expedirMovimientoAnulacion(tipoAnulacion, res["ValorActual"]);
+          } else {
+            this.popManager.showErrorAlert('No es posible hacer la anulación total del CDP');
+          }
+      });
     }
   }
 
