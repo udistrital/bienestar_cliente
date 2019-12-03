@@ -33,8 +33,9 @@
     },
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
-      "solicitud_crp": "Solicitud CRP",
-      "crp": "Certificado Registro Presupuestal"
+      "solicitud_crp": "Solicitudes de CRP",
+      "solicitar_crp": "Solicitar CRP",
+      "crp": "Certificados de Registro Presupuestal"
     },
 
     "gestion_cdp": {
@@ -140,7 +141,7 @@
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
     "area_funcional": "Area Funcional",
-    "centro_gestor": "Centro Gestor",
+    "centro_gestor": "Área Funcional",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
@@ -268,11 +269,15 @@
     "mostrar_pdf": "Mostrar documento en PDF",
     "n_cdp": "Consecutivo CDP",
     "estado_cdp": "Estado CDP",
-    "tipo_financiacion": "Tipo de Financiación"
+    "tipo_financiacion": "Tipo de Financiación",
+    "rechazar_solicitud_cdp": "Rechazar solicitud",
+    "anular_cdp": "Anular CDP"
   },
   "CRP": {
+    "crp": "Certificado de Registro Presupuestal",
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
+    "financiacion": "Financiación",
     "detalle_crp": "Detalle de Certificado de Registro Presupuestal",
     "n_sol_crp": "N° Solicitud de CRP",
     "estado": "Estado",

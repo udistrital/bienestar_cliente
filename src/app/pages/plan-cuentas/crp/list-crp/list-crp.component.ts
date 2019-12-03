@@ -42,6 +42,7 @@ export class ListCrpComponent implements OnInit {
     this.listColumns = {
       vigencia: {
         title: this.translate.instant('GLOBAL.vigencia'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -49,6 +50,7 @@ export class ListCrpComponent implements OnInit {
       },
       centroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -56,13 +58,15 @@ export class ListCrpComponent implements OnInit {
       },
       entidad: {
         title: this.translate.instant('GLOBAL.entidad'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
       consecutivo_crp: {
-        title: this.translate.instant('CRP.n_cdp'),
+        title: this.translate.instant('CRP.n_crp'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
@@ -70,13 +74,13 @@ export class ListCrpComponent implements OnInit {
       },
       estado_crp: {
         title: this.translate.instant('CRP.estado'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           value = this.estados.filter(element => {
             return element.Id === value;
           })
           value = value.Estado;
-          console.info(value, "lala")
           return value;
         }
       },
@@ -101,7 +105,6 @@ export class ListCrpComponent implements OnInit {
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
-        console.info(res);
         const data = <Array<any>>res;
         this.source.load(data);
       } else {
