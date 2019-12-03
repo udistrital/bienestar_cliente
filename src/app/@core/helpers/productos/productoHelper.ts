@@ -41,7 +41,7 @@ export class ProductoHelper {
      */
     public productoRegister(productoData) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        console.info(productoData);
+
         return this.rqManager.post('producto', productoData).pipe(
             map(
                 (res) => {
@@ -65,10 +65,6 @@ export class ProductoHelper {
         return this.rqManager.delete('producto', id).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo eliminar el producto, compruebe que no exista un producto con el mismo Código.');
-                        return undefined;
-                    }
                     return res;
                 },
             ),

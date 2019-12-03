@@ -1,22 +1,23 @@
 <div class="col-md-12 col-lg-12 ">
-  <nb-card>
+  <nb-card status="warning">
     <nb-card-header>
         {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
-        <div *ngIf="!disabledVigencia">
-
+      </nb-card-header>
+      <nb-card-body>
+      <div *ngIf="!disabledVigencia">
+          {{ 'FUENTE_FINANCIAMIENTO.descripcion' | translate }}
           <div align="right">
-            {{
-              "GLOBAL.vigencia" | translate
-            }}
-            <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
-              <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option>
-              <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
-            </nb-select>
-          </div>
+              {{
+                "GLOBAL.vigencia" | translate
+              }}
+              <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
+                <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option>
+                <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
+              </nb-select>
+            </div>
         </div>
-    </nb-card-header>
-    <nb-card-body>
-            <ngx-list-entity *ngIf="!auxcambiotab"
+        
+            <ngx-list-entity *ngIf="!auxcambiotab && !viewTab"
             [listSettings]="listSettings"
             [isOnlyCrud]="isOnlyCrud" 
             [uuidReadFieldName]="uuidReadFieldName"
@@ -39,9 +40,17 @@
             (infooutput)="receiveMessage($event)"
             (eventChange)="onChange($event)"
             (crudcambiotab)="onFirstTab($event)"
-            (auxcambiotab)="onChangeTab($event)">
+            (auxcambiotab)="onChangeTab($event)"
+            (externalTabActive)="onChangeExternalTab($event)"
+            (externalTabActivator)="onExternalTabActivator($event)"
+            >
           </ngx-list-entity>
-          <ngx-dependencias  [paramsFieldsName] ="paramsFieldsName" *ngIf="auxcambiotab" [infoinput]="fuenteInfo" (auxcambiotab)="onChangeTab($event)"></ngx-dependencias>
+          <button *ngIf="localtabActived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+            {{
+              "GLOBAL.regresar" | translate
+            }}</button>
+          <ngx-dependencias  [paramsFieldsName] ="paramsFieldsName" *ngIf="auxcambiotab" [infoinput]="fuenteInfo" ></ngx-dependencias>
+          <ngx-rubros-fuente  *ngIf="viewTab" [infoinput]="fuenteInfo" ></ngx-rubros-fuente>
     </nb-card-body>
   </nb-card>
 </div>

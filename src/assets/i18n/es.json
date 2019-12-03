@@ -33,8 +33,9 @@
     },
     "gestion_crp": {
       "gestion_crp": "Gestión de CRP",
-      "solicitud_crp": "Solicitud CRP",
-      "crp": "Certificado Registro Presupuestal"
+      "solicitud_crp": "Solicitudes de CRP",
+      "solicitar_crp": "Solicitar CRP",
+      "crp": "Certificados de Registro Presupuestal"
     },
 
     "gestion_cdp": {
@@ -139,7 +140,7 @@
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
     "area_funcional": "Area Funcional",
-    "centro_gestor": "Centro Gestor",
+    "centro_gestor": "Área Funcional",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
@@ -184,6 +185,7 @@
     "edit-producto": "Editar producto"
   },
   "FUENTE_FINANCIAMIENTO": {
+    "descripcion": "En esta sección podrá agregar, modificar, eliminar y asignar una fuente a distintas vigencias, así como el filtrado de las fuentes mencionadas",
     "guardar_fuente": "Editar Fuente",
     "add-dependencia": "Añadir dependencia",
     "remove-dependencia": "Quitar dependencia",
@@ -271,6 +273,7 @@
     "parcial_comprometido": "Parcialmente comprometido"
   },
   "CRP": {
+    "crp": "Certificado de Registro Presupuestal",
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
     "financiacion": "Financiación",

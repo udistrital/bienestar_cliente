@@ -40,7 +40,7 @@ export class ListEntityComponent implements OnInit {
   @Output() crudcambiotab = new EventEmitter<boolean>();
   @Output() externalTabActivator = new EventEmitter<string>();
   @Output() infooutput = new EventEmitter<any>();
-  externalTabACtive: boolean = true;
+  externalTabActive: boolean = true;
 
   uid: any;
   settings: any;
@@ -150,7 +150,7 @@ export class ListEntityComponent implements OnInit {
   onAddOther(event): void {
     console.info(event);
     this.infooutput.emit(event.data);
-    this.activetab('other');
+    this.activetab(event.action);
   }
   onCustom(event): void {
     switch (event.action) {
@@ -165,6 +165,7 @@ export class ListEntityComponent implements OnInit {
         this.onAddOther(event);
         break;
       default:
+        this.onAddOther(event);
         break;
     }
   }
@@ -191,11 +192,13 @@ export class ListEntityComponent implements OnInit {
     Swal.fire(opt).then(willDelete => {
       if (willDelete.value) {
         this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
-          if (res !== null) {
+          if (res['Type'] === 'error') {
+            this.popUpManager.showErrorAlert(res['Message']);
+          } else {
             this.loadData();
             this.popUpManager.showSuccessAlert(
               this.translate.instant(this.deleteConfirmMessage)
-            );
+              );
           }
         });
       }
@@ -210,7 +213,7 @@ export class ListEntityComponent implements OnInit {
       this.auxcambiotab.emit(true);
       this.externalTabActivator.emit(tab);
     } else {
-      this.externalTabACtive = true;
+      this.externalTabActive = true;
       this.externalTabActivator.emit(tab);
     }
   }

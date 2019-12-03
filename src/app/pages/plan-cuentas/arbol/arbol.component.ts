@@ -96,8 +96,8 @@ export class ArbolComponent implements OnChanges {
   private data: EstructuraArbolRubrosApropiaciones[];
   loadTreeRubros() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
-      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? [] : node.children,
+      dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || null,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.treeHelper.getFullArbol().subscribe((res) => {
@@ -112,7 +112,7 @@ export class ArbolComponent implements OnChanges {
   loadTreeApropiaciones() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
       dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? [] : node.children,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
@@ -130,7 +130,7 @@ export class ArbolComponent implements OnChanges {
   loadTreeApropiacionesEstado() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
       dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => typeof node.children === 'undefined' ? [] : node.children,
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
@@ -220,6 +220,7 @@ export class ArbolComponent implements OnChanges {
 })
 export class FsIconAComponent {
   @Input() kind: string;
+
   @Input() expanded: boolean;
 
   isDir(): boolean {

@@ -35,6 +35,48 @@ export class CRPHelper {
 
     }
 
+    public getSolicitudCRP(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+
+        return this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar los crps');
+                        return undefined;
+                    } else {
+                        return res;
+                    }
+
+                },
+            ),
+        );
+
+    }
+ /**
+   * expedir CRP
+   * dispara la funcion para expedicion del CRP
+   * inforcdp si  todo ok, alerta si falla.
+   * @param id identificador de solicitud de crp
+   * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
+   */
+  public getFullCRP() {
+    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+    return this.rqManager.get(`crp/getFullCrp/`).pipe(
+        map(
+            res_mid => {
+                if (res_mid.status > 300) {
+                    this.pUpManager.showErrorAlert('Error al listar CRP');
+                    return undefined;
+                } else {
+                    return res_mid;
+                }
+            }
+        )
+    );
+
+
+}
 
     public getListaCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
@@ -65,16 +107,34 @@ export class CRPHelper {
 
     }
 
-    public getInfoCDP(consecutivoCDP) {
+    
+
+    public getInfoCDP(vigencia,consecutivoCDP) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/').pipe(
+        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=data.consecutivo_cdp:'+consecutivoCDP+",tipo:cdp,estado:expedido").pipe(
             map(
                 res_crp => {
                     if (res_crp['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
                         return undefined;
                     } else {
-                        return res_crp.filter(n => n.infoCdp !== null && n.infoCdp.consecutivo === consecutivoCDP)[0];
+                        return res_crp[0];
+                    }
+                }
+            )
+        );
+    }
+
+    public getInfoCdpPC(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('solicitudesCDP/'+id).pipe(
+            map(
+                res_crp => {
+                    if (res_crp['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
+                        return undefined;
+                    } else {
+                        return res_crp
                     }
                 }
             )
@@ -88,12 +148,9 @@ export class CRPHelper {
         var TrSolcrp: object;
         this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).subscribe(async res => {
             TrSolcrp = res[0];
-            console.info(TrSolcrp['consecutivoCdp'])
             await this.cdpHelper.getCDP(TrSolcrp['consecutivoCdp']).subscribe(async res2 => {
-                console.info(res2)
                 TrCDP = res2[0];
                 await this.cdpHelper.getFullNecesidad(TrCDP["necesidad"]).toPromise().then(res => { ObjN = res });
-                console.info(TrSolcrp, TrCDP, ObjN)
                 return [TrSolcrp, TrCDP, ObjN];
             });
 
@@ -201,7 +258,7 @@ export class CRPHelper {
                         this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
                         return undefined;
                     } else {
-                        return res_persona;
+                        return res_persona[0];
                     }
                 }
             ));
@@ -315,7 +372,6 @@ export class CRPHelper {
                                     if (resIP) {
                                         objContrato.NombreBeneficiario = resIP.NomProveedor;
                                         objContrato.DocBeneficiario = resIP.NumDocumento;
-                                        // console.info(objContrato)
                                         return objContrato;
                                     }
                                 })

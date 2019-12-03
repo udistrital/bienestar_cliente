@@ -59,7 +59,7 @@ export class FuenteHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo registrar la Fuente de Financiamiento');
+                        this.pUpManager.showErrorAlert(res['Message']);
                         return undefined;
                     }
                     return res;
@@ -77,7 +77,6 @@ export class FuenteHelper {
      * @returns  <Observable> object updated information. undefined if the proccess has errors.
      */
     public fuenteUpdate(fuenteData) {
-        console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         fuenteData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
@@ -115,10 +114,6 @@ export class FuenteHelper {
         return this.rqManager.delete('fuente_financiamiento', id.toString() + this.query_params).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Eliminar La fuente, Compruebe que no exista una fuente con el mismo Código.');
-                        return undefined;
-                    }
                     return res;
                 },
             ),
