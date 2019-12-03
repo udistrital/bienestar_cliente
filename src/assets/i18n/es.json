@@ -266,7 +266,8 @@
     "n_cdp": "Consecutivo CDP",
     "estado_cdp": "Estado CDP",
     "tipo_financiacion": "Tipo de Financiación",
-    "rechazar_solicitud_cdp": "Rechazar solicitud"
+    "rechazar_solicitud_cdp": "Rechazar solicitud",
+    "anular_cdp": "Anular CDP"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",
