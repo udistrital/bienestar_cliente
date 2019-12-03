@@ -47,7 +47,6 @@ export class ListSolicitudCdpComponent implements OnInit {
       tipoFinanciacion: {
         title: this.translate.instant('CDP.tipo_financiacion'),
         valuePrepareFunction: (value: object) => {
-        
           return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : "algo";
         }
       },

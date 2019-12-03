@@ -6,9 +6,9 @@
         <div>
         </div>
         <nb-card-header>
-            <legend *ngIf="solicitud&&!expedido">{{ 'CDP.detalle_solicitud_cdp' | translate }}:
+            <legend *ngIf="solicitud && !expedido">{{ 'CDP.detalle_solicitud_cdp' | translate }}:
                 {{solicitud.consecutivo}}</legend>
-            <legend *ngIf="solicitud&&expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.consecutivo_cdp}}
+            <legend *ngIf="solicitud && expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.consecutivo_cdp}}
             </legend>
         </nb-card-header>
         <nb-card-body *ngIf="TrNecesidad">
@@ -40,7 +40,7 @@
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
                             <td *ngIf="expedido">{{solicitud.consecutivo_cdp}}</td>
                             <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
-                            <td>{{dependenciaSoliciante.Nombre}}</td>
+                            <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.DependenciaSolicitante.Nombre}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos">{{'CDP.objeto' | translate}}</td>
@@ -77,7 +77,6 @@
                         </tr>
                         <tr *ngFor="let act of rubro.Metas[0].Actividades">
                             <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td>
-                            <!-- <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}}</td> -->
                             <td *ngFor="let f of act.FuentesActividad" >
                                 <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
                                 <p class="moneyField">{{f.MontoParcial | currency: COP }}</p></td>
