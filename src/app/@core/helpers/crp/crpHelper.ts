@@ -2,6 +2,7 @@ import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
+import { CDPHelper } from '../cdp/cdpHelper';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ export class CRPHelper {
     constructor(
         private rqManager: RequestManager,
         private pUpManager: PopUpManager,
+        private cdpHelper: CDPHelper,
     ) { }
 
     public getSolicitudesCRP(id?: any) {
@@ -32,6 +34,7 @@ export class CRPHelper {
         );
 
     }
+
 
     public getListaCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
@@ -78,6 +81,27 @@ export class CRPHelper {
         );
     }
 
+    public getInfoCRP(id?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        var ObjN: object;
+        var TrCDP: object;
+        var TrSolcrp: object;
+        this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).subscribe(async res => {
+            TrSolcrp = res[0];
+            console.info(TrSolcrp['consecutivoCdp'])
+            await this.cdpHelper.getCDP(TrSolcrp['consecutivoCdp']).subscribe(async res2 => {
+                console.info(res2)
+                TrCDP = res2[0];
+                await this.cdpHelper.getFullNecesidad(TrCDP["necesidad"]).toPromise().then(res => { ObjN = res });
+                console.info(TrSolcrp, TrCDP, ObjN)
+                return [TrSolcrp, TrCDP, ObjN];
+            });
+
+        });
+
+
+    }
+
 
     public getCompromisos() {
         this.rqManager.setPath('CORE_SERVICE');
@@ -90,9 +114,9 @@ export class CRPHelper {
         );
     }
 
-    public getCompromiso(id){
+    public getCompromiso(id) {
         this.rqManager.setPath('CORE_SERVICE');
-        return this.rqManager.get('tipo_documento/'+id).pipe(
+        return this.rqManager.get('tipo_documento/' + id).pipe(
             map(
                 res_tCompromiso => {
                     return res_tCompromiso;
@@ -183,30 +207,132 @@ export class CRPHelper {
             ));
     }
 
-     /**
-    * expedir CRP
-    * dispara la funcion para expedicion del CRP
-    * inforcdp si  todo ok, alerta si falla.
-    * @param id identificador de solicitud de crp
-    * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
-    */
-   public expedirCRP(id) {
-    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-    return this.rqManager.get(`crp/expedirCRP/` + id).pipe(
-        map(
-            res_mid => {
-                if (res_mid.status > 300) {
-                    this.pUpManager.showErrorAlert('Error al expedir CRP');
-                    return undefined;
-                } else {
-                    return res_mid;
+    public getContratista(id) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('informacion_proveedor/' + id).pipe(
+            map(
+                res_persona => {
+                    if (res_persona.status > 300) {
+                        this.pUpManager.showErrorAlert('No se encuentra un beneficiario con ese número de identificación');
+                        return undefined;
+                    } else {
+                        return res_persona;
+                    }
                 }
+            ));
+    }
+
+
+    /**
+   * expedir CRP
+   * dispara la funcion para expedicion del CRP
+   * inforcdp si  todo ok, alerta si falla.
+   * @param id identificador de solicitud de crp
+   * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
+   */
+    public expedirCRP(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`crp/expedirCRP/` + id).pipe(
+            map(
+                res_mid => {
+                    if (res_mid.status > 300) {
+                        this.pUpManager.showErrorAlert('Error al expedir CRP');
+                        return undefined;
+                    } else {
+                        return res_mid;
+                    }
+                }
+            )
+        );
+
+
+    }
+
+    /**
+      * Contratos Get
+      * If the response has errors in the OAS API it should show a popup message with an error.
+      * If the response is successs, it returns the object's data.
+      * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+      */
+    public getContratoSuscrito(contrato, vigencia) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('contrato_suscrito/?query=Vigencia:' + vigencia + ',NumeroContrato.Id:' + contrato).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el contrato suscrito');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getContratoDisponibilidad(contrato) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('contrato_disponibilidad/?query=NumeroContrato:' + contrato).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el contrato disponibilidad');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getContratoGeneral(contrato, vigencia) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('contrato_general/?query=ContratoSuscrito.NumeroContrato:' + contrato + ',ContratoSuscrito.Vigencia:' + vigencia).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el contrato general');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getInfoContrato(contrato, vigencia): object {
+        var objContrato = { NumeroContrato: undefined, Vigencia: undefined, NumeroCdp: undefined, NombreBeneficiario: undefined, DocBeneficiario: undefined };
+        this.getContratoSuscrito(contrato, vigencia).subscribe(resCS => {
+            if (resCS[0]) {
+                objContrato.NumeroContrato = resCS[0].NumeroContrato.Id;
+                objContrato.Vigencia = resCS[0].Vigencia;
+                this.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD => {// se obtiene la información del CDP de ese contrato
+                    if (resCD[0]) {
+                        objContrato.NumeroCdp = resCD[0].NumeroCdp;
+                        this.getContratoGeneral(resCD[0].NumeroContrato, resCD[0].Vigencia).subscribe(resCG => {
+
+                            if (resCG) {
+                                this.getContratista(resCG[0].Contratista).subscribe(resIP => {
+                                    if (resIP) {
+                                        objContrato.NombreBeneficiario = resIP.NomProveedor;
+                                        objContrato.DocBeneficiario = resIP.NumDocumento;
+                                        // console.info(objContrato)
+                                        return objContrato;
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }else{
+                return[]
             }
-        )
-    );
+        })
+        return objContrato;
+    }
+
 
 
 }
 
 
-}
+
