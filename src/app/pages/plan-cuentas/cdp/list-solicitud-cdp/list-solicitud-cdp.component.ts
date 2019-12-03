@@ -25,6 +25,9 @@ export class ListSolicitudCdpComponent implements OnInit {
   listColumns: object;
   solicitudcdp: object;
 
+  areas = { "1": 'Rector', "2": 'Convenios' };
+  centros = {"1": 'Universidad Distrital Francisco José de Caldas' };
+
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private translate: TranslateService,
@@ -50,18 +53,18 @@ export class ListSolicitudCdpComponent implements OnInit {
           return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : "algo";
         }
       },
+      entidad: {
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        // type: 'string;',
+        valuePrepareFunction: (value: string) => {
+          return this.areas[value];
+        }
+      },
       centroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
-        valuePrepareFunction: value => {
-          return value;
-        }
-      },
-      entidad: {
-        title: this.translate.instant('GLOBAL.unidad-ejecutora'),
-        // type: 'string;',
-        valuePrepareFunction: value => {
-          return value;
+        valuePrepareFunction: (value: string) => {
+          return this.centros[value];
         }
       },
       consecutivo: {

@@ -265,7 +265,10 @@
     "estado_cdp": "Estado CDP",
     "tipo_financiacion": "Tipo de Financiación",
     "rechazar_solicitud_cdp": "Rechazar solicitud",
-    "anular_cdp": "Anular CDP"
+    "anular_cdp": "Anular CDP",
+    "total_comprometido": "Totalmente comprometido",
+    "expedido": "Expedido",
+    "parcial_comprometido": "Parcialmente comprometido"
   },
   "CRP": {
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
