@@ -10,7 +10,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-ver-solicitud-cdp',
@@ -110,20 +110,22 @@ export class VerSolicitudCdpComponent implements OnInit {
   expedirCDP(consecutivo) {
     this.popManager.showAlert('warning', `Expedir la solicitud de CDP ${consecutivo}`, 'continuar')
       .then((result) => {
+
         if (result.value) {
-          this.construirDatosMovimiento().then(movimiento => {
-            this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
-              if (res) {
-                this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`)
-                this.router.navigate(['/pages/plan-cuentas/cdp']);
+
+          let movimiento = this.construirDatosMovimiento();
+          this.movimientosHelper.postMovimiento(movimiento).pipe(
+            mergeMap(() => this.cdpHelper.expedirCDP(this.solicitud["_id"] ))).subscribe(res => {
+                if (res) {
+                  this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`);
+                  this.router.navigate(['/pages/plan-cuentas/cdp']);
               }
             });
-          });
         }
       });
   }
 
-  private async construirDatosMovimiento(): Promise<object> {
+  private construirDatosMovimiento(): object {
     var movimiento = {
       Data: { "solicitud_cdp": this.solicitud["_id"] },
       Tipo: "cdp",
@@ -137,7 +139,7 @@ export class VerSolicitudCdpComponent implements OnInit {
         {
           MovimientoProcesoExternoId: {
               TipoMovimientoId: {
-                  Id: 7,
+                  Id: 6,
                   Acronimo: "cdp"
               }
           },
@@ -147,12 +149,6 @@ export class VerSolicitudCdpComponent implements OnInit {
         }
       )
     });
-    await this.documentoPresuestalHelper.GetAllDocumentoPresupuestalByTipo(
-      String(this.TrNecesidad["Necesidad"]["Vigencia"]),
-      String(this.solicitud["centroGestor"]),
-      "cdp").toPromise().then(res => {
-        movimiento.Data["consecutivo_cdp"] = res;
-      });
     return movimiento;
   };
 
@@ -188,6 +184,60 @@ export class VerSolicitudCdpComponent implements OnInit {
   mostrarPDF(consecutivo) {
     this.tituloPDF = `Certificado de disponibilidad presupuestal N° ${consecutivo}`;
     this.mostrandoPDF = !this.mostrandoPDF;
+  }
+
+  async anularCdp() {
+    const { value: tipoAnulacion } = await this.popManager.showAlertRadio(
+      'Seleccione el tipo de anulación', 
+      {
+        'anul_p_cdp': 'Anulación parcial',
+        'anul_t_cdp': 'Anulación total'
+      },
+      'Seleccione una opción');
+    
+    if (tipoAnulacion === 'anul_p_cdp') {
+      const { value : valorAnulacion } = await this.popManager.showAlertInput('warning', 'Valor de la anulación', 'Ingrese el valor de la anulación', 'Debe ingresar un valor', 'text');
+      this.expedirMovimientoAnulacion(tipoAnulacion, parseFloat(valorAnulacion));
+    } else {
+      // empty, this is where the full anulation is going to be
+    }
+  }
+
+  private expedirMovimientoAnulacion(tipoAnulacion: string, valor: number) {
+    let centroGestor =  String(this.solicitud["centroGestor"]);
+    let vigencia = this.solicitud["vigencia"];
+
+    this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).pipe(
+      mergeMap(documentoP => this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, documentoP["_id"])
+        .pipe(
+          switchMap(movimientoD => {
+
+            let movimiento = {
+              Data: { "cdp": documentoP["_id"] },
+              Tipo: tipoAnulacion,
+              Vigencia: Number(this.solicitud['vigencia']),
+              CentroGestor: String(this.solicitud["centroGestor"]),
+              AfectacionMovimiento: [
+                {
+                  MovimientoProcesoExternoId: {
+                    TipoMovimientoId: {
+                        Id: 8,
+                        Acronimo: tipoAnulacion
+                    }
+                  },
+                  DocumentoPadre: movimientoD[0]["_id"],
+                  Valor: valor,
+                  Descripcion: "anulación parcial del cdp"
+              }]
+            };
+    
+            return this.movimientosHelper.postMovimiento(movimiento);
+          }
+        )))).subscribe(res => {
+          if(res) {
+            this.popManager.showSuccessAlert('Se realizó la anulación del CDP');
+          }
+      }); 
   }
 
 }
