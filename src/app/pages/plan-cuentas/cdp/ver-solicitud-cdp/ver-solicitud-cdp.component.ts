@@ -32,10 +32,6 @@ export class VerSolicitudCdpComponent implements OnInit {
 
   areaFuncional: object;
   centroGestor: object;
-
-  actividades: object[];
-  dependenciaSoliciante: object;
-
   estadoNecesidadRechazada: object;
 
   constructor(
@@ -51,42 +47,51 @@ export class VerSolicitudCdpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(async res => {
+    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(res => {
       this.TrNecesidad = res;
 
       this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
       this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
 
-      let jefe_dependencia: object;
-      await this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"]).toPromise().then(res => { jefe_dependencia = res });
-      await this.getInfoDependencia(jefe_dependencia["DependenciaId"]).toPromise().then(res => { this.dependenciaSoliciante = res });
-      await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
+      this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"])
+        .pipe(
+          mergeMap(res => this.getInfoDependencia(res["DependenciaId"]))
+        ).pipe(
+          mergeMap(res => { 
+            this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["DependenciaSolicitante"] = res;
+            return this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], res["Id"]);
+          })
+        )
+        .subscribe(res => {
+        let actividades = res;
 
-      if (this.TrNecesidad.Rubros) {
-        this.TrNecesidad.Rubros.forEach(rubro => {
-          rubro.MontoParcial = 0
-          if (rubro.Metas) {
-            rubro.Metas.forEach(meta => {
-              meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
-              if (meta.Actividades) {
-                meta.Actividades.forEach(act => {
-                  act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
-                  if (act.FuentesActividad) {
-                    act.FuentesActividad.forEach(fuente => {
-                      rubro.MontoParcial += fuente.MontoParcial
-                    });
-                  }
-                });
-              }
-            });
-          }
-          if (rubro.Fuentes) {
-            rubro.Fuentes.forEach(fuente => {
-              rubro.MontoParcial += fuente.MontoParcial
-            });
-          }
-        });
-      }
+        if (this.TrNecesidad.Rubros) {
+          this.TrNecesidad.Rubros.forEach(rubro => {
+            rubro.MontoParcial = 0
+            if (rubro.Metas) { 
+              rubro.Metas.forEach(meta => {
+                meta["InfoMeta"] = actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
+                if (meta.Actividades) {
+                  meta.Actividades.forEach(act => {
+                    act["InfoActividad"] = actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
+                    if (act.FuentesActividad) {
+                      act.FuentesActividad.forEach(fuente => {
+                        rubro.MontoParcial += fuente.MontoParcial
+                      });
+                    }
+                  });
+                }
+              });
+            }
+            if (rubro.Fuentes) {
+              rubro.Fuentes.forEach(fuente => {
+                rubro.MontoParcial += fuente.MontoParcial
+              });
+            }
+          });
+        }
+      });
+      
     });
   }
 

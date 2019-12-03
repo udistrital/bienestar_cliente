@@ -140,8 +140,8 @@
     "tipo_documento": "Tipo de documento",
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero Documento",
-    "area_funcional": "Area Funcional",
-    "centro_gestor": "Área Funcional",
+    "area_funcional": "Área funcional",
+    "centro_gestor": "Centro gestor",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
@@ -271,7 +271,10 @@
     "estado_cdp": "Estado CDP",
     "tipo_financiacion": "Tipo de Financiación",
     "rechazar_solicitud_cdp": "Rechazar solicitud",
-    "anular_cdp": "Anular CDP"
+    "anular_cdp": "Anular CDP",
+    "total_comprometido": "Totalmente comprometido",
+    "expedido": "Expedido",
+    "parcial_comprometido": "Parcialmente comprometido"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",

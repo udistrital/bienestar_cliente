@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
-
+import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -24,13 +24,15 @@ export class ListCdpComponent implements OnInit {
   listColumns: object;
   cdp: object;
 
+  centros = { "1": 'Rector', "2": 'Convenios' };
+  areas = {"1": 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private translate: TranslateService,
     private cdpHelper: CDPHelper,
-    // tslint:disable-next-line
+    private documentoPresupuestal: DocumentoPresupuestalHelper,
     private rqManager: RequestManager,
   ) { }
 
@@ -48,29 +50,29 @@ export class ListCdpComponent implements OnInit {
       centroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
-        valuePrepareFunction: value => {
-          return value;
+        valuePrepareFunction: (value: string) => {
+          return this.centros[value];
         }
       },
       entidad: {
-        title: this.translate.instant('GLOBAL.unidad-ejecutora'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
         // type: 'string;',
-        valuePrepareFunction: value => {
-          return value;
+        valuePrepareFunction: (value: string) => {
+          return this.areas[value];
         }
       },
-      consecutivo_cdp: {
+      consecutivo: {
         title: this.translate.instant('CDP.n_cdp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      estado_cdp: {
+      estado: {
         title: this.translate.instant('CDP.estado_cdp'),
         // type: 'string;',
-        valuePrepareFunction: value => {
-          return value;
+        valuePrepareFunction: (value: string) => {
+          return this.translate.instant('CDP.'+value);
         }
       },
     };
@@ -95,7 +97,15 @@ export class ListCdpComponent implements OnInit {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
         const data = <Array<any>>res;
-        this.source.load(data);
+        this.documentoPresupuestal.get('2019', '1', 'tipo:cdp').subscribe(listaDocumentos => {
+          let documentos = {};
+          listaDocumentos.forEach((documento: object) => documentos[documento["Data"]["solicitud_cdp"]] = documento);
+          res.forEach((cdp: object) => {
+            cdp['consecutivo'] = documentos[cdp['_id']]['Consecutivo']
+            cdp['estado'] = documentos[cdp['_id']]['Estado']
+          });
+          this.source.load(data);
+        });
       } else {
         this.source.load([]);
       }
