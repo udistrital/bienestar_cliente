@@ -30,7 +30,7 @@ export class DocumentoPresupuestalHelper {
                 (res: object[]) => {
                     if (res['Type'] === 'error') {
                         return undefined;
-                    } 
+                    }
                     return res;
                 },
             ),

@@ -24,8 +24,8 @@ export class ListCdpComponent implements OnInit {
   listColumns: object;
   cdp: object;
 
-  areas = { "1": 'Rector', "2": 'Convenios' };
-  centros = {"1": 'Universidad Distrital Francisco José de Caldas' };
+  centros = { "1": 'Rector', "2": 'Convenios' };
+  areas = {"1": 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -47,18 +47,18 @@ export class ListCdpComponent implements OnInit {
           return value;
         }
       },
-      entidad: {
-        title: this.translate.instant('GLOBAL.area_funcional'),
-        // type: 'string;',
-        valuePrepareFunction: (value: string) => {
-          return this.areas[value];
-        }
-      },
       centroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
         valuePrepareFunction: (value: string) => {
           return this.centros[value];
+        }
+      },
+      entidad: {
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        // type: 'string;',
+        valuePrepareFunction: (value: string) => {
+          return this.areas[value];
         }
       },
       consecutivo: {
