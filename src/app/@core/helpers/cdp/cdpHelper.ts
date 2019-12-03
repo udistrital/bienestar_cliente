@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 
-
 @Injectable({
     providedIn: 'root',
 })
@@ -15,16 +14,17 @@ export class CDPHelper {
     ) { }
 
     /**
-   * CDP get solicitudes
-   * consulta las solicitudes de CDP (no se ha expedido doc)
-   * lista de SCDP si todo ok, alerta si falla.
-   * @param id en caso de que se desee consultar una solicitud especifica
-   * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
-   */
-
-    public getSolicitudesCDP(id?: any) {
+    * getSolicitudesCdp
+    * Consulta todas las solicitudes de CDP
+    * lista de solicitudes de CDP si todo ok, alerta si falla.
+    * @param estado el estado en que se requiere el cdp, por defecto trae los que están en estado "solicitado"
+    * @param id en caso de que se desee consultar una solicitud especifica 
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+    public getSolicitudesCDP(id?: string, estado ='sol') {
+        let query = id ? id : '?query=estado.acronimo:'+estado;
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/' + id).pipe(
+        return this.rqManager.get('solicitudesCDP/' + query).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -44,7 +44,6 @@ export class CDPHelper {
     * @param query La consulta enviada al api
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-
     public getAllNecesidades(query?: Object) {
         this.rqManager.setPath('NECESIDADES_CRUD_SERVICE');
         return this.rqManager.get('necesidad?'+query).pipe(
@@ -70,27 +69,16 @@ export class CDPHelper {
     */
 
     public getListaCDP(id?: any) {
+        let query = id ? id : '?query=estado.acronimo:exp';
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/' + id).pipe(
+        return this.rqManager.get('solicitudesCDP/' + query).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res ?
-                        res.filter(
-                            e => e.infoCdp !== null).map(
-                                e => {
-                                    return {
-                                        ...e,
-                                        consecutivo_cdp: e.infoCdp.consecutivo,
-                                        estado_cdp: e.infoCdp.estado,
-                                        fecha_cdp: e.infoCdp.fechaExpedicion,
-                                    };
-                                }
-                            )
-                        : undefined;
+                    return res;
                 },
             ),
         );

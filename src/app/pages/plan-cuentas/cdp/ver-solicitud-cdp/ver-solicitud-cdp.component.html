@@ -69,14 +69,15 @@
                     <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
                         <tr colspan="2">
                             <td>{{rubro.Metas[0].MetaId}} </td>
-                            <td>{{rubro.Metas[0].InfoMeta[0].meta}}</td>
+                            <!-- <td>{{rubro.Metas[0].InfoMeta[0].meta}}</td> -->
                         </tr>
                         <tr class="bg-kronos">
                             <td>{{'GLOBAL.actividades' | translate}}</td>
                             <td>{{'GLOBAL.fuentes' | translate}}</td>
                         </tr>
                         <tr *ngFor="let act of rubro.Metas[0].Actividades">
-                            <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td>
+                            <!-- <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td> -->
+                            <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}}</td>
                             <td *ngFor="let f of act.FuentesActividad" >
                                 <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
                                 <p class="moneyField">{{f.MontoParcial | currency: COP }}</p></td>
@@ -131,6 +132,8 @@
                         {{ 'CDP.rechazar_solicitud_cdp' | translate}}</button> -->
                     <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
+                    <button *ngIf="expedido" (click)="anularCdp()" class="btn btn-danger">
+                            {{ 'CDP.anular_cdp' | translate}}</button>
                 </div>
             </div>
         </nb-card-body>

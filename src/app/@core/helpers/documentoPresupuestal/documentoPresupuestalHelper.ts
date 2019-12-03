@@ -38,4 +38,24 @@ export class DocumentoPresupuestalHelper {
             ),
         );
     }
+
+    /**
+    * get
+    * Get por defecto de documento_presupuestal
+    * @param query Consulta con la cual se hace el get, es opcional, si no se envía se devuelven todos los registros
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+    public get(vigencia: string, centroGestor: string, query?: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('documento_presupuestal/'+vigencia+'/'+centroGestor+'?query='+query).pipe(
+            map(
+                (res: object[]) => {
+                    if (!res[0]["_id"]) {
+                        return undefined;
+                    } 
+                    return res[0];
+                },
+            ),
+        );
+    }
 }
