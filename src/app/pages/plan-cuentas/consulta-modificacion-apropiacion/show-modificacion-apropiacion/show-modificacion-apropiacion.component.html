@@ -27,7 +27,7 @@
         <input
           matInput
           placeholder="{{ 'GLOBAL.fecha_documento' | translate }}"
-          value="{{ modificationData['Data']['fecha_documento'] | date }}"
+          value="{{ modificationData['Data']['fecha_documento'] | date: 'yyyy-MM-dd' }}"
           disabled="true"
         />
       </mat-form-field>

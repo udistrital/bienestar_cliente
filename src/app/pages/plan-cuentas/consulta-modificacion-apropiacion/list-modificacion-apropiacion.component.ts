@@ -76,7 +76,17 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
       TipoDocumento: {
         title: this.translate.instant('GLOBAL.tipo_documento'),
-        valuePrepareFunction: (cell, row) =>  row.Data.tipo_documento.Nombre,
+        valuePrepareFunction: (value, row) => {
+          value = row.Data.tipo_documento.Nombre;
+          return row.Data.tipo_documento.Nombre
+        },
+        filterFunction(value?: any, search?: string): boolean {
+          return CommonHelper.Ng2CustomFilterFunction(value, search, 'Nombre');
+        },
+        filter: true,
+        compareFunction: (direction: any, a: any, b: any) => {
+          return CommonHelper.Ng2CompareFunction(direction, a, b, 'Nombre');
+        },
       },
 
       Data: {
@@ -84,6 +94,13 @@ export class ListModificacionApropiacionComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value) => {
           return value.numero_documento;
+        },
+        filterFunction(value?: any, search?: string): boolean {
+          return CommonHelper.Ng2CustomFilterFunction(value, search, 'numero_documento');
+        },
+        filter: true,
+        compareFunction: (direction: any, a: any, b: any) => {
+          return CommonHelper.Ng2CompareFunction(direction, a, b, 'numero_documento');
         },
       },
       FechaDocumento: {
@@ -102,6 +119,11 @@ export class ListModificacionApropiacionComponent implements OnInit {
           return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
         },
       },
+      CentroGestor: {
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        // type: 'string;',
+        valuePrepareFunction: (value) => value,
+      }
     };
 
     this.listSettings = {
@@ -157,20 +179,20 @@ export class ListModificacionApropiacionComponent implements OnInit {
       this.auxcambiotab = true;
       this.createTab = true;
       this.localtabACtived = true;
-    } else if ($event === 'other'){
+    } else if ($event === 'other') {
       this.viewTab = true;
       this.localtabACtived = true;
     }
   }
 
-  receiveMessage($event){
+  receiveMessage($event) {
     this.modificationDataSelected = $event;
   }
 
-  returnToList(){
-    this.auxcambiotab = false; 
-    this.localtabACtived = false; 
-    this.createTab = false; 
+  returnToList() {
+    this.auxcambiotab = false;
+    this.localtabACtived = false;
+    this.createTab = false;
     this.viewTab = false
   }
 
