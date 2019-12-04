@@ -7,10 +7,12 @@ import {
   NbTreeGridDataSourceBuilder,
   NbSortRequest,
 } from '@nebular/theme';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { ArbolHelper } from '../../../@core/helpers/arbol/arbolHelper';
+import { RubroHelper } from '../../../@core/helpers/rubros/rubroHelper';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
+
 registerLocaleData(locales, 'co');
 
 interface EstructuraArbolRubrosApropiaciones {
@@ -64,7 +66,8 @@ export class ArbolComponent implements OnChanges {
     private renderer: Renderer2,
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
     private dataSourceBuilder2: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
-    private treeHelper: ArbolHelper) {
+    private treeHelper: ArbolHelper,
+    private rubroHelper: RubroHelper) {
 
   }
   ngOnChanges(changes) {
@@ -100,11 +103,22 @@ export class ArbolComponent implements OnChanges {
       childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
-    this.treeHelper.getFullArbol().subscribe((res) => {
+    // this.treeHelper.getFullArbol().subscribe((res) => {
 
-      this.data = res;
+    //   this.data = res;
+    //   this.dataSource = this.dataSourceBuilder.create(this.data, getters);
+
+    // });
+
+    forkJoin(
+      {
+        root_2: this.rubroHelper.getArbol('2'),
+        root_3: this.rubroHelper.getArbol('3'),
+      }
+    ).
+    subscribe((res) => {
+      this.data = res.root_2.concat(res.root_3);
       this.dataSource = this.dataSourceBuilder.create(this.data, getters);
-
     });
   }
 
@@ -149,18 +163,18 @@ export class ArbolComponent implements OnChanges {
   }
 
   loadTree() {
-    // console.info(this.opcionSeleccionada);
-    // console.info(this.optionSelect);
     if (this.opcionSeleccionada === 'Rubros') {
       this.loadTreeRubros();
+      console.info('árbol de rubros');
     } else if (this.opcionSeleccionada === 'Apropiaciones') {
       this.loadTreeApropiaciones();
+      console.info('árbol de apropiaciones');
     } else if (this.opcionSeleccionada === 'ApropiacionesEstado') {
+      console.info('árbol de apropiaciones estado');
       this.loadTreeApropiacionesEstado();
     }
   }
   updateTreeSignal($event) {
-    console.info('updated', $event);
     this.loadTree();
   }
 
