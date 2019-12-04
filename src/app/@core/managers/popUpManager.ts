@@ -58,6 +58,19 @@ export class PopUpManager {
         });
     }
 
+    public showAlertRadio(title: string, options: any, text_validator?: string) {
+        return Swal.fire({
+            title: title,
+            input: 'radio',
+            inputOptions: options,
+            inputValidator: (value) => {
+                if (!value) {
+                    return text_validator;
+                }
+            }
+        });
+    }
+
     public showSuccessAlert(text, tittle?) {
         Swal.fire({
             type: 'success',

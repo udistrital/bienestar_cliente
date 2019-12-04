@@ -75,6 +75,7 @@
     "consulta-crp": "Consultar CRPs",
     "preasignacion-apropiacion-inicial": "Preasignar Apropiaciones Vigencia",
     "titulo-apropiacion-inicial": "Comprobación de Apropiación Inicial",
+    "seleccionar_modificacion": "Seleccionar Modificación",
     "rubro": "Rubro",
     "fuente_financiamiento": "Fuente de Financiamiento",
     "dependencia": "Dependencia",
@@ -198,6 +199,9 @@
     "confirmacion_creacion": "Fuente Registrada",
     "mensaje_eliminar": "¿ Eliminar Fuente ?",
     "confirmacion_eliminar": "Fuente Eliminada",
+    "saldo_fuente": "Saldo de la Fuente: ",
+    "agregar_vigencia": "Agregar vigencia para la fuente: ",
+    "consulta_rubros_fuente": "Consulta de rubros por fuente: ",
     "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: "
   },
   "ACTIVIDAD":{
@@ -267,9 +271,14 @@
     "n_cdp": "Consecutivo CDP",
     "estado_cdp": "Estado CDP",
     "tipo_financiacion": "Tipo de Financiación",
-    "rechazar_solicitud_cdp": "Rechazar solicitud"
+    "rechazar_solicitud_cdp": "Rechazar solicitud",
+    "anular_cdp": "Anular CDP",
+    "total_comprometido": "Totalmente comprometido",
+    "expedido": "Expedido",
+    "parcial_comprometido": "Parcialmente comprometido"
   },
   "CRP": {
+    "crp": "Certificado de Registro Presupuestal",
     "solicitudes_crp": "Lista de Solicitudes de Certificado de Registro Presupuestal",
     "lista-crp": "Lista Certificados de Registros Presupuestales",
     "financiacion": "Financiación",

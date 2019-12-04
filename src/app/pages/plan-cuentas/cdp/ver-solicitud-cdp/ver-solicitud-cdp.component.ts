@@ -6,11 +6,10 @@ import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHe
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
 import { NecesidadesHelper } from '../../../../@core/helpers/necesidades/necesidadesHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
-import { RequestManager } from '../../../../@core/managers/requestManager';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-ver-solicitud-cdp',
@@ -33,10 +32,6 @@ export class VerSolicitudCdpComponent implements OnInit {
 
   areaFuncional: object;
   centroGestor: object;
-
-  actividades: object[];
-  dependenciaSoliciante: object;
-
   estadoNecesidadRechazada: object;
 
   constructor(
@@ -52,42 +47,51 @@ export class VerSolicitudCdpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(async res => {
+    this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).subscribe(res => {
       this.TrNecesidad = res;
 
       this.areaFuncional = this.areas[this.TrNecesidad["Necesidad"]["AreaFuncional"]];
       this.centroGestor = this.entidades[this.solicitud["centroGestor"]];
 
-      let jefe_dependencia: object;
-      await this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"]).toPromise().then(res => { jefe_dependencia = res });
-      await this.getInfoDependencia(jefe_dependencia["DependenciaId"]).toPromise().then(res => { this.dependenciaSoliciante = res });
-      await this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], this.dependenciaSoliciante["Id"]).toPromise().then(res => { this.actividades = res });
+      this.getInfoJefeDepdencia(this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["JefeDepSolicitanteId"])
+        .pipe(
+          mergeMap(res => this.getInfoDependencia(res["DependenciaId"]))
+        ).pipe(
+          mergeMap(res => { 
+            this.TrNecesidad["Necesidad"]["DependenciaNecesidadId"]["DependenciaSolicitante"] = res;
+            return this.getInfoMeta(this.TrNecesidad["Necesidad"]["Vigencia"], res["Id"]);
+          })
+        )
+        .subscribe(res => {
+        let actividades = res;
 
-      if (this.TrNecesidad.Rubros) {
-        this.TrNecesidad.Rubros.forEach(rubro => {
-          rubro.MontoParcial = 0
-          if (rubro.Metas) {
-            rubro.Metas.forEach(meta => {
-              meta["InfoMeta"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
-              if (meta.Actividades) {
-                meta.Actividades.forEach(act => {
-                  act["InfoActividad"] = this.actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
-                  if (act.FuentesActividad) {
-                    act.FuentesActividad.forEach(fuente => {
-                      rubro.MontoParcial += fuente.MontoParcial
-                    });
-                  }
-                });
-              }
-            });
-          }
-          if (rubro.Fuentes) {
-            rubro.Fuentes.forEach(fuente => {
-              rubro.MontoParcial += fuente.MontoParcial
-            });
-          }
-        });
-      }
+        if (this.TrNecesidad.Rubros) {
+          this.TrNecesidad.Rubros.forEach(rubro => {
+            rubro.MontoParcial = 0
+            if (rubro.Metas) { 
+              rubro.Metas.forEach(meta => {
+                meta["InfoMeta"] = actividades["metas"]["actividades"].filter(actividad => actividad["meta_id"] === meta["MetaId"]);
+                if (meta.Actividades) {
+                  meta.Actividades.forEach(act => {
+                    act["InfoActividad"] = actividades["metas"]["actividades"].filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
+                    if (act.FuentesActividad) {
+                      act.FuentesActividad.forEach(fuente => {
+                        rubro.MontoParcial += fuente.MontoParcial
+                      });
+                    }
+                  });
+                }
+              });
+            }
+            if (rubro.Fuentes) {
+              rubro.Fuentes.forEach(fuente => {
+                rubro.MontoParcial += fuente.MontoParcial
+              });
+            }
+          });
+        }
+      });
+      
     });
   }
 
@@ -110,20 +114,27 @@ export class VerSolicitudCdpComponent implements OnInit {
   expedirCDP(consecutivo) {
     this.popManager.showAlert('warning', `Expedir la solicitud de CDP ${consecutivo}`, 'continuar')
       .then((result) => {
+
         if (result.value) {
-          this.construirDatosMovimiento().then(movimiento => {
-            this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
-              if (res) {
-                this.popManager.showSuccessAlert(`Se expidió con éxito el CDP`)
-                this.router.navigate(['/pages/plan-cuentas/cdp']);
-              }
-            });
+
+          let movimiento = this.construirDatosMovimiento();
+          let consecutivoExpedido: number;
+          this.movimientosHelper.postMovimiento(movimiento).pipe(
+            mergeMap(res => {
+              consecutivoExpedido = res['Consecutivo'];
+              return this.cdpHelper.expedirCDP(this.solicitud["_id"]);
+            })
+          ).subscribe(res => {
+            if (res) {
+              this.popManager.showSuccessAlert(`Se expidió con éxito el CDP Nº ${consecutivoExpedido}`);
+              this.router.navigate(['/pages/plan-cuentas/cdp']);
+            }
           });
         }
       });
   }
 
-  private async construirDatosMovimiento(): Promise<object> {
+  private construirDatosMovimiento(): object {
     var movimiento = {
       Data: { "solicitud_cdp": this.solicitud["_id"] },
       Tipo: "cdp",
@@ -137,7 +148,7 @@ export class VerSolicitudCdpComponent implements OnInit {
         {
           MovimientoProcesoExternoId: {
               TipoMovimientoId: {
-                  Id: 7,
+                  Id: 6,
                   Acronimo: "cdp"
               }
           },
@@ -147,12 +158,6 @@ export class VerSolicitudCdpComponent implements OnInit {
         }
       )
     });
-    await this.documentoPresuestalHelper.GetAllDocumentoPresupuestalByTipo(
-      String(this.TrNecesidad["Necesidad"]["Vigencia"]),
-      String(this.solicitud["centroGestor"]),
-      "cdp").toPromise().then(res => {
-        movimiento.Data["consecutivo_cdp"] = res;
-      });
     return movimiento;
   };
 
@@ -188,6 +193,65 @@ export class VerSolicitudCdpComponent implements OnInit {
   mostrarPDF(consecutivo) {
     this.tituloPDF = `Certificado de disponibilidad presupuestal N° ${consecutivo}`;
     this.mostrandoPDF = !this.mostrandoPDF;
+  }
+
+  async anularCdp() {
+    const { value: tipoAnulacion } = await this.popManager.showAlertRadio(
+      'Seleccione el tipo de anulación', 
+      {
+        'anul_p_cdp': 'Anulación parcial',
+        'anul_t_cdp': 'Anulación total'
+      },
+      'Seleccione una opción');
+    
+    if (tipoAnulacion === 'anul_p_cdp') {
+      const { value : valorAnulacion } = await this.popManager.showAlertInput('warning', 'Valor de la anulación', 'Ingrese el valor de la anulación', 'Debe ingresar un valor', 'text');
+      this.expedirMovimientoAnulacion(tipoAnulacion, parseFloat(valorAnulacion));
+    } else {
+        let centroGestor =  String(this.solicitud["centroGestor"]);
+        let vigencia = this.solicitud["vigencia"];
+        this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).subscribe(res => {
+          this.expedirMovimientoAnulacion(tipoAnulacion, res["ValorActual"]);
+      });
+    }
+  }
+
+  private expedirMovimientoAnulacion(tipoAnulacion: string, valor: number) {
+    let centroGestor =  String(this.solicitud["centroGestor"]);
+    let vigencia = this.solicitud["vigencia"];
+
+    this.documentoPresuestalHelper.get(vigencia, centroGestor, 'data.solicitud_cdp:'+this.solicitud["_id"]).pipe(
+      mergeMap(documentoP => this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, documentoP[0]["_id"])
+        .pipe(
+          switchMap(movimientoD => {
+
+            let movimiento = {
+              Data: { "cdp": documentoP[0]["_id"] },
+              Tipo: tipoAnulacion,
+              Vigencia: Number(this.solicitud['vigencia']),
+              CentroGestor: String(this.solicitud["centroGestor"]),
+              AfectacionMovimiento: [
+                {
+                  MovimientoProcesoExternoId: {
+                    TipoMovimientoId: {
+                        Id: 8,
+                        Acronimo: tipoAnulacion
+                    }
+                  },
+                  DocumentoPadre: movimientoD[0]["_id"],
+                  Valor: valor,
+                  Descripcion: "anulación parcial del cdp"
+              }]
+            };
+            return this.movimientosHelper.postMovimiento(movimiento);
+          }
+        )))).subscribe(res => {
+
+          if(res) {
+            this.popManager.showSuccessAlert('Se realizó la anulación del CDP');
+            this.router.navigate(['/pages/plan-cuentas/cdp']);
+          }
+      }); 
   }
 
 }

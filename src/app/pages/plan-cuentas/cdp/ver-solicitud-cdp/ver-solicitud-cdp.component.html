@@ -6,9 +6,9 @@
         <div>
         </div>
         <nb-card-header>
-            <legend *ngIf="solicitud&&!expedido">{{ 'CDP.detalle_solicitud_cdp' | translate }}:
+            <legend *ngIf="solicitud && !expedido">{{ 'CDP.detalle_solicitud_cdp' | translate }}:
                 {{solicitud.consecutivo}}</legend>
-            <legend *ngIf="solicitud&&expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.consecutivo_cdp}}
+            <legend *ngIf="solicitud && expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.consecutivo_cdp}}
             </legend>
         </nb-card-header>
         <nb-card-body *ngIf="TrNecesidad">
@@ -40,7 +40,7 @@
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
                             <td *ngIf="expedido">{{solicitud.consecutivo_cdp}}</td>
                             <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
-                            <td>{{dependenciaSoliciante.Nombre}}</td>
+                            <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.DependenciaSolicitante.Nombre}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos">{{'CDP.objeto' | translate}}</td>
@@ -131,6 +131,8 @@
                         {{ 'CDP.rechazar_solicitud_cdp' | translate}}</button> -->
                     <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
+                    <button *ngIf="expedido" (click)="anularCdp()" class="btn btn-danger">
+                            {{ 'CDP.anular_cdp' | translate}}</button>
                 </div>
             </div>
         </nb-card-body>

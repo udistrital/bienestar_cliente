@@ -25,6 +25,11 @@ export class ModificacionApropiacionComponent implements OnInit {
     modifiactionFinalData: object;
     checkAfectationFinalData: object;
     clean: boolean = false;
+    options = [
+        { value: 'apropiacion', label: 'Apropiación' },
+        { value: 'fuente', label: 'Fuente de Financiamiento' }
+      ];
+      option = { value:'', label: ''};
     @Output() saved: EventEmitter<boolean> = new EventEmitter();
 
     ngOnInit() {
@@ -90,6 +95,8 @@ export class ModificacionApropiacionComponent implements OnInit {
                     this.formDetalleValidFlag = !this.formDetalleValidFlag;
                     break;
                 case 1:
+                    console.info('option');
+                case 2:
                     this.setSteppValidator(this.checkAfectationFinalData);
                     break;
                 default:
@@ -128,6 +135,9 @@ export class ModificacionApropiacionComponent implements OnInit {
         this.saved.emit(true);
     }
 
+    public nextStep() {
+        this.stepper.next();
+    }
 
 
 }
