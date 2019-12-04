@@ -33,12 +33,10 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
 
             Tipo: {
                 title: this.translate.instant('GLOBAL.tipo'),
-                // type: 'string;',
                 valuePrepareFunction: (value) => this.translate.instant('GLOBAL.' + value),
             },
             CuentaCredito: {
                 title: this.translate.instant('MODIF.cuenta_credito'),
-                // type: 'string;',
                 type: 'html',
                 valuePrepareFunction: function (value) {
                     return `<div class="customformat"> ` + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + `</div>`;
@@ -46,12 +44,14 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
             },
             CuentaContraCredito: {
                 title: this.translate.instant('MODIF.cuenta_contra_credito'),
-                // type: 'string;',
                 type: 'html',
                 valuePrepareFunction: function (value) {
                     return `<div class="customformat"> ` + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + `</div>`;
                 },
-                // valuePrepareFunction: (value) => new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co'),
+            },
+            CDP: {
+                title: this.translate.instant('MENU.gestion_cdp.cdp_acronimo'),
+                valuePrepareFunction: (value) => value,
             },
         };
 
@@ -85,6 +85,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                         Tipo: mov['Tipo'],
                         CuentaContraCredito: mov['ValorInicial'],
                         CuentaCredito: 0,
+                        CDP: mov['DocumentsGenerated']? mov['DocumentsGenerated'][0]['Consecutivo'] : ''
                     };
                 } else {
                     movFormated = {
@@ -92,6 +93,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                         Tipo: mov['Tipo'],
                         CuentaContraCredito: 0,
                         CuentaCredito: mov['ValorInicial'],
+                        CDP: 'N/A'
                     };
                 }
                 data.push(movFormated);
