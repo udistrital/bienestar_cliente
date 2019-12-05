@@ -79,7 +79,6 @@ export class ArbolComponent implements OnChanges {
     }
     if (changes.vigencia !== undefined) {
       if (changes.vigencia.currentValue !== undefined) {
-        console.info(changes.vigencia.currentValue);
         this.vigenciaSeleccionada = changes.vigencia.currentValue;
         this.loadTree();
       }
@@ -103,13 +102,6 @@ export class ArbolComponent implements OnChanges {
       childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
-    // this.treeHelper.getFullArbol().subscribe((res) => {
-
-    //   this.data = res;
-    //   this.dataSource = this.dataSourceBuilder.create(this.data, getters);
-
-    // });
-
     forkJoin(
       {
         root_2: this.rubroHelper.getArbol('2'),
@@ -151,12 +143,9 @@ export class ArbolComponent implements OnChanges {
     this.defaultColumns = ['Nombre', 'ValorInicial', 'ValorActual'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
-      console.info(this.vigenciaSeleccionada);
       this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
         this.data = res;
-        console.info(this.data);
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
-        console.info(this.dataSource2);
       },
       );
     }
@@ -165,12 +154,9 @@ export class ArbolComponent implements OnChanges {
   loadTree() {
     if (this.opcionSeleccionada === 'Rubros') {
       this.loadTreeRubros();
-      console.info('árbol de rubros');
     } else if (this.opcionSeleccionada === 'Apropiaciones') {
       this.loadTreeApropiaciones();
-      console.info('árbol de apropiaciones');
     } else if (this.opcionSeleccionada === 'ApropiacionesEstado') {
-      console.info('árbol de apropiaciones estado');
       this.loadTreeApropiacionesEstado();
     }
   }
