@@ -25,8 +25,8 @@ export class ListSolicitudCdpComponent implements OnInit {
   listColumns: object;
   solicitudcdp: object;
 
-  centros = { "1": 'Rector', "2": 'Convenios' };
-  areas = {"1": 'Universidad Distrital Francisco José de Caldas' };
+  areas = { "1": 'Rector', "2": 'Convenios' };
+  centros = {"1": 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 

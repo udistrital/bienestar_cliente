@@ -83,7 +83,7 @@
                         </tr>
                     </tbody>
                     <!-- fuentes -->
-                    <thead class="bg-kronos" *ngIf="rubro.Fuentes">
+                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.CodigoAbreviacion===F" class="bg-kronos">
                         <th>{{'GLOBAL.fuente' | translate}}</th>
                         <th></th>
                     </thead>
@@ -94,7 +94,7 @@
                         </tr>
                     </tbody>
                     <!-- productos -->
-                    <thead class="bg-kronos" *ngIf="rubro.Productos">
+                    <thead class="bg-kronos" *ngIf="rubro.Productos.length>0">
                         <th colspan="2">{{'GLOBAL.producto' | translate}}</th>
             
                     </thead>
