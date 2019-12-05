@@ -35,6 +35,7 @@ import { SolicitudCrpComponent } from './crp/solicitud-crp/solicitud-crp.compone
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ListModificacionApropiacionComponent } from './consulta-modificacion-apropiacion/list-modificacion-apropiacion.component';
 import { RubrosFuenteComponent } from './fuentes/rubros-fuente/rubros-fuente.component';
+import { SetModificacionFuenteComponent } from './modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { RubrosFuenteComponent } from './fuentes/rubros-fuente/rubros-fuente.com
     VerSolicitudCrpComponent,
     ListModificacionApropiacionComponent,
     RubrosFuenteComponent,
+    SetModificacionFuenteComponent,
   ],
   providers: [
     ConfiguracionService,

@@ -1,0 +1,57 @@
+<nb-card>
+    <nb-card-body class="global-container">
+<!--         <legend align="center">
+            <small>Registro de movimientos de la modificación en la fuente</small>
+          </legend> -->
+          <nb-alert status="warning">Modificación de fuentes</nb-alert>
+          <br>
+      <nb-tabset class="basic-op-item">
+        
+        <nb-tab tabTitle="{{ 'GLOBAL.registro' | translate }}">
+          <div class="set-mod-value-container">
+            <div class="value-registration-item">
+              <form
+                [formGroup]="modValueForm"
+                class="mod-registration-container form-horizontal"
+              >
+                <mat-form-field
+                  floatLabel="always"
+                  class="mod-registration-input-item"
+                >
+                  <mat-label>{{ "GLOBAL.tipo" | translate }}</mat-label>
+                  <mat-select formControlName="modType" [(value)]="selectedType">
+                    <mat-option>
+                      --Seleccionar--
+                    </mat-option>
+                    <mat-option
+                      *ngFor="let modType of modTypes"
+                      [value]="modType"
+                    >
+                      {{ modType.Nombre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </div>
+          </div>
+        </nb-tab>
+        <nb-tab
+          tabTitle="{{ 'GLOBAL.resumen' | translate }}"
+          *ngIf="movAfectation && movAfectation.length > 0"
+        >
+          <ngx-show-modification-afectation
+            [(afectationData)]="movAfectation"
+            (afectationDataChange)="getDataEvent(false)"
+          ></ngx-show-modification-afectation>
+        </nb-tab>
+      </nb-tabset>
+      <button
+        *ngIf="movAfectation && movAfectation.length > 0"
+        class="btn btn-success btn-sm next-button-item"
+        (click)="getDataEvent(true)"
+      >
+        {{ "GLOBAL.siguiente" | translate }}
+      </button>
+    </nb-card-body>
+  </nb-card>
+  
