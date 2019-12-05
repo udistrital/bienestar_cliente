@@ -30,9 +30,11 @@ export class VerSolicitudCdpComponent implements OnInit {
   tituloPDF: string = '';
   username: string;
   responsable: string;
+  fechaExpedicion: Date;
+  valorActual: number;
+  valorInicial: Number;
   areas = { "1": 'Rector', "2": 'Convenios' };
   entidades = {"1": 'Universidad Distrital Francisco José de Caldas' };
-
   areaFuncional: object;
   centroGestor: object;
   estadoNecesidadRechazada: object;
@@ -101,10 +103,7 @@ export class VerSolicitudCdpComponent implements OnInit {
 
     this.dependenciaHelper.get('', 'query=Nombre__contains:PRESUPUESTO')
       .pipe(
-        mergeMap(res =>  {
-          console.info("res dependencia: ", res)
-          return this.coreHelper.getJefeDependenciaByDependencia(res[0]["Id"]) }
-        )
+        mergeMap(res =>  this.coreHelper.getJefeDependenciaByDependencia(res[0]["Id"]))
       )
       .pipe (
         mergeMap(res =>  {

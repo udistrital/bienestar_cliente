@@ -274,7 +274,9 @@
     "anular_cdp": "Anular CDP",
     "total_comprometido": "Totalmente comprometido",
     "expedido": "Expedido",
-    "parcial_comprometido": "Parcialmente comprometido"
+    "parcial_comprometido": "Parcialmente comprometido",
+    "valor_actual": "Valor actual",
+    "valor_inicial": "Valor inicial"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",
