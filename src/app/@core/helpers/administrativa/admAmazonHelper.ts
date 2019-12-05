@@ -1,5 +1,6 @@
 import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -21,5 +22,17 @@ export class AdmAmazonHelper {
         };
         // call request manager for the tree's data.
         return this.rqManager.get('parametro_estandar/?query=ClaseParametro:Tipo%20Documento&limit=-1', params);
+    }
+
+    /**
+     * get
+     * @param id id de la persona natural
+     * @returns  objeto persona natural
+     */
+    public getPersonaNatural(id: string) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('informacion_persona_natural/'+id).pipe(
+            map(res => res)
+        );
     }
 }

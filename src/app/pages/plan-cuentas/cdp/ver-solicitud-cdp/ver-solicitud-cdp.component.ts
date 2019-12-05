@@ -4,12 +4,14 @@ import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicio
 import { CoreHelper } from '../../../../@core/helpers/core/coreHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
+import { AdmAmazonHelper } from '../../../../@core/helpers/administrativa/admAmazonHelper';
 import { NecesidadesHelper } from '../../../../@core/helpers/necesidades/necesidadesHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, mergeMap } from 'rxjs/operators';
+import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_autentication.service';
 
 @Component({
   selector: 'ngx-ver-solicitud-cdp',
@@ -26,10 +28,13 @@ export class VerSolicitudCdpComponent implements OnInit {
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
-
+  username: string;
+  responsable: string;
+  fechaExpedicion: Date;
+  valorActual: number;
+  valorInicial: Number;
   areas = { "1": 'Rector', "2": 'Convenios' };
   entidades = {"1": 'Universidad Distrital Francisco José de Caldas' };
-
   areaFuncional: object;
   centroGestor: object;
   estadoNecesidadRechazada: object;
@@ -44,6 +49,8 @@ export class VerSolicitudCdpComponent implements OnInit {
     private documentoPresuestalHelper: DocumentoPresupuestalHelper,
     private popManager: PopUpManager,
     private router: Router,
+    private implicitAutenticationService : ImplicitAutenticationService,
+    private admAmazonHelper: AdmAmazonHelper
   ) { }
 
   ngOnInit() {
@@ -93,6 +100,28 @@ export class VerSolicitudCdpComponent implements OnInit {
       });
       
     });
+
+    this.dependenciaHelper.get('', 'query=Nombre__contains:PRESUPUESTO')
+      .pipe(
+        mergeMap(res =>  this.coreHelper.getJefeDependenciaByDependencia(res[0]["Id"]))
+      )
+      .pipe (
+        mergeMap(res =>  {
+          console.info("res jefe dependencia: ", res)
+          this.responsable = res;
+          return this.admAmazonHelper.getPersonaNatural(res["TerceroId"]) }
+        )
+      )
+    .subscribe(res => {
+      if (typeof(res) === 'object') {
+        this.responsable = res;
+      }
+      console.info("tercero: ", res);
+    });
+
+    if (this.implicitAutenticationService.live()) {
+      this.username = (this.implicitAutenticationService.getPayload()).sub;
+    }
   }
 
   getInfoMeta(vigencia: Number, dependencia: Number): Observable<any> {
