@@ -4,6 +4,7 @@ import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicio
 import { CoreHelper } from '../../../../@core/helpers/core/coreHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
+import { AdmAmazonHelper } from '../../../../@core/helpers/administrativa/admAmazonHelper';
 import { NecesidadesHelper } from '../../../../@core/helpers/necesidades/necesidadesHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
@@ -28,6 +29,7 @@ export class VerSolicitudCdpComponent implements OnInit {
   enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
   username: string;
+  responsable: string;
   areas = { "1": 'Rector', "2": 'Convenios' };
   entidades = {"1": 'Universidad Distrital Francisco José de Caldas' };
 
@@ -45,7 +47,8 @@ export class VerSolicitudCdpComponent implements OnInit {
     private documentoPresuestalHelper: DocumentoPresupuestalHelper,
     private popManager: PopUpManager,
     private router: Router,
-    private implicitAutenticationService : ImplicitAutenticationService
+    private implicitAutenticationService : ImplicitAutenticationService,
+    private admAmazonHelper: AdmAmazonHelper
   ) { }
 
   ngOnInit() {
@@ -94,6 +97,27 @@ export class VerSolicitudCdpComponent implements OnInit {
         }
       });
       
+    });
+
+    this.dependenciaHelper.get('', 'query=Nombre__contains:PRESUPUESTO')
+      .pipe(
+        mergeMap(res =>  {
+          console.info("res dependencia: ", res)
+          return this.coreHelper.getJefeDependenciaByDependencia(res[0]["Id"]) }
+        )
+      )
+      .pipe (
+        mergeMap(res =>  {
+          console.info("res jefe dependencia: ", res)
+          this.responsable = res;
+          return this.admAmazonHelper.getPersonaNatural(res["TerceroId"]) }
+        )
+      )
+    .subscribe(res => {
+      if (typeof(res) === 'object') {
+        this.responsable = res;
+      }
+      console.info("tercero: ", res);
     });
 
     if (this.implicitAutenticationService.live()) {

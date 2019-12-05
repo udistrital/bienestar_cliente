@@ -118,7 +118,7 @@
                         <tr>
                             <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date}}</td>
                             <td *ngIf="expedido">{{solicitud.fecha_cdp | date}}</td>
-                            <td>responsable</td>
+                            <td>{{ responsable[0].TerceroId }} <br>JEFE DE LA SECCIÓN DE PRESUPUESTO</td>
                             <td>{{ username }}</td>
                         </tr>
                     </tbody>
