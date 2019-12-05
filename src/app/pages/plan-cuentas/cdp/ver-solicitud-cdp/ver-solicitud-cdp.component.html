@@ -119,7 +119,7 @@
                             <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date}}</td>
                             <td *ngIf="expedido">{{solicitud.fecha_cdp | date}}</td>
                             <td>responsable</td>
-                            <td>elaboró</td>
+                            <td>{{ username }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -131,8 +131,8 @@
                         {{ 'CDP.rechazar_solicitud_cdp' | translate}}</button> -->
                     <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
-                    <button *ngIf="expedido" (click)="anularCdp()" class="btn btn-danger">
-                            {{ 'CDP.anular_cdp' | translate}}</button>
+                    <!-- <button *ngIf="expedido" (click)="anularCdp()" class="btn btn-danger">
+                            {{ 'CDP.anular_cdp' | translate}}</button> -->
                 </div>
             </div>
         </nb-card-body>

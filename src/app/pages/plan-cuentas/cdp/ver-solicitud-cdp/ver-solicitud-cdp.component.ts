@@ -10,6 +10,7 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, mergeMap } from 'rxjs/operators';
+import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_autentication.service';
 
 @Component({
   selector: 'ngx-ver-solicitud-cdp',
@@ -26,7 +27,7 @@ export class VerSolicitudCdpComponent implements OnInit {
   mostrandoPDF: boolean = false;
   enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
-
+  username: string;
   areas = { "1": 'Rector', "2": 'Convenios' };
   entidades = {"1": 'Universidad Distrital Francisco José de Caldas' };
 
@@ -44,6 +45,7 @@ export class VerSolicitudCdpComponent implements OnInit {
     private documentoPresuestalHelper: DocumentoPresupuestalHelper,
     private popManager: PopUpManager,
     private router: Router,
+    private implicitAutenticationService : ImplicitAutenticationService
   ) { }
 
   ngOnInit() {
@@ -93,6 +95,10 @@ export class VerSolicitudCdpComponent implements OnInit {
       });
       
     });
+
+    if (this.implicitAutenticationService.live()) {
+      this.username = (this.implicitAutenticationService.getPayload()).sub;
+    }
   }
 
   getInfoMeta(vigencia: Number, dependencia: Number): Observable<any> {
