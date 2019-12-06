@@ -27,4 +27,20 @@ export class CoreHelper {
             ),
         );
     }
+
+        // getJefeDependenciaByDependencia obtiene el jefe de dependencia por el id de la dependencia
+        public getJefeDependenciaByDependencia(id_dependencia: string) {
+            this.rqManager.setPath('CORE_AMAZON_SERVICE');
+            return this.rqManager.get('jefe_dependencia?query=DependenciaId:' + id_dependencia).pipe(
+                map(
+                    (res) => {
+                        if (res === 'error') {
+                            this.pUpManager.showErrorAlert('No se pudo consultar el jefe de dependencia');
+                            return undefined;
+                        }
+                        return res;
+                    },
+                ),
+            );
+        }
 }

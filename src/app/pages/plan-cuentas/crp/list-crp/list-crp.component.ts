@@ -49,7 +49,7 @@ export class ListCrpComponent implements OnInit {
         }
       },
       centroGestor: {
-        title: this.translate.instant('GLOBAL.centro_gestor'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
         filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
@@ -57,7 +57,7 @@ export class ListCrpComponent implements OnInit {
         }
       },
       entidad: {
-        title: this.translate.instant('GLOBAL.entidad'),
+        title: this.translate.instant('GLOBAL.centro_gestor'),
         filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {

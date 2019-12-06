@@ -36,4 +36,32 @@ export class CommonHelper {
         );
     }
 
+    public static Ng2CustomFilterFunction(contact?: any, search?: string, filterFiled?: string): boolean{
+            let match = true;
+
+            Object.keys(contact).map(u => contact[filterFiled]).filter(it => {
+
+              match = it.toLowerCase().includes(search);
+            });
+  
+            if (match || search === '') {
+              return true;
+            } else {
+              return false
+            }
+    }
+
+    public static Ng2CompareFunction (direction: any, a: any, b: any, filterFiled: string){
+            let first = typeof a[filterFiled] === 'string' ? a[filterFiled].toLowerCase(): a[filterFiled];
+            let second = typeof b[filterFiled] === 'string' ? b[filterFiled].toLowerCase(): b[filterFiled];
+  
+            if (first < second) {
+              return -1 * direction;
+            }
+            if (first > second) {
+              return direction;
+            }
+            return 0;
+          }
+
 }
