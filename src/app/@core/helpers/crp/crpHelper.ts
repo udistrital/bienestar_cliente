@@ -61,22 +61,20 @@ export class CRPHelper {
    * @returns  <Observable> objeto creado en la solicitud de crp. undefined if the request has errors
    */
   public getFullCRP() {
-    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-    return this.rqManager.get(`crp/getFullCrp/`).pipe(
-        map(
-            res_mid => {
-                if (res_mid.status > 300) {
-                    this.pUpManager.showErrorAlert('Error al listar CRP');
-                    return undefined;
-                } else {
-                    return res_mid;
+      this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`crp/getFullCrp/`).pipe(
+            map(
+                res_mid => {
+                    if (res_mid.status > 300) {
+                        this.pUpManager.showErrorAlert('Error al listar CRP');
+                        return undefined;
+                    } else {
+                        return res_mid;
+                    }
                 }
-            }
-        )
-    );
-
-
-}
+            )
+        );
+    }
 
     public getListaCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
@@ -111,7 +109,7 @@ export class CRPHelper {
 
     public getInfoCDP(vigencia,consecutivoCDP) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=data.consecutivo_cdp:'+consecutivoCDP+",tipo:cdp,estado:expedido").pipe(
+        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=consecutivo:'+consecutivoCDP+",tipo:cdp,estado:expedido").pipe(
             map(
                 res_crp => {
                     if (res_crp['Type'] === 'error') {
@@ -199,6 +197,7 @@ export class CRPHelper {
             'numeroCompromiso': solCrpData.Compromiso.NumeroCompromiso,
             'tipoCompromiso': solCrpData.Compromiso.TipoCompromiso
         };
+        objSolCrp.fechaFinalVigencia = solCrpData.FechaFinalVigencia;
 
         return this.rqManager.post(`crp/solicitarCRP/`, objSolCrp).pipe(
             map(
