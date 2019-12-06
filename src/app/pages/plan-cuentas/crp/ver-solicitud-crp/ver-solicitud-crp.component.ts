@@ -194,7 +194,7 @@ console.table(this.solicitudc)
               }
           },
           DocumentoPadre: this.solicitud["movimiento_cdp"][0],
-          Valor: rubro["MontoParcial"],
+          Valor: this.solicitud["valor"],
           Descripcion: this.TrNecesidad["Necesidad"]["Objeto"]
         }
       )
