@@ -7,4 +7,5 @@ export class SolicitudCrp {
     Valor: number;
     Compromiso: Compromiso;
     FechaCreacion: Date;
+    FechaFinalVigencia: Date;
 }
