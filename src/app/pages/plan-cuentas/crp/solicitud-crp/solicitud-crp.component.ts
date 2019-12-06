@@ -39,7 +39,8 @@ export class SolicitudCrpComponent implements OnInit {
         NumeroCompromiso: undefined,
         TipoCompromiso: undefined,
       },
-      FechaCreacion: undefined
+      FechaCreacion: undefined,
+      FechaFinalVigencia: undefined
     };
   }
 
