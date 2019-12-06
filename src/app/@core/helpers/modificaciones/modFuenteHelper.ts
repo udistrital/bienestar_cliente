@@ -18,7 +18,7 @@ export class ModFuenteHelper {
 
     public getModTypes(): Observable<Array<TypeGeneral>> {
         this.rqManager.setPath('MOVIMIENTOS_CRUD_SERVICE');
-        return this.rqManager.get(`tipo_movimiento/`);
+        return this.rqManager.get(`tipo_movimiento/?limit=-1`);
     }
 
     public modRegister(modificationData: any) {

@@ -33,6 +33,7 @@ export class ListEntityComponent implements OnInit {
   @Input('isOnlyCrud') isOnlyCrud: boolean;
   @Input('listSettings') listSettings: object;
   @Input('externalCreate') externalCreate: boolean;
+  @Input('viewItemSelected') viewItemSelected: boolean;
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
@@ -138,6 +139,10 @@ export class ListEntityComponent implements OnInit {
   IsFuente(event) {
     if (event.data.ValorInicial !== undefined) {
       this.formEntity.campos[this.getIndexForm('Codigo')].deshabilitar = true;
+      this.paramsFieldsName["Vigencia"] = event.data.Vigencia;
+      if(event.data.Vigencia == "sin vigencia asignada"){
+        this.paramsFieldsName["Vigencia"] = "0";
+      }
     }
   }
   onEdit(event): void {
@@ -145,6 +150,10 @@ export class ListEntityComponent implements OnInit {
     this.uid = event.data[this.uuidReadField];
     this.IsFuente(event)
     this.activetab('crud');
+  }
+
+  emitItemSelected(event){
+    this.infooutput.emit(event.data);
   }
 
   onAddOther(event): void {

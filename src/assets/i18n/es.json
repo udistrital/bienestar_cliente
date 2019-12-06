@@ -201,7 +201,8 @@
     "saldo_fuente": "Saldo de la Fuente: ",
     "agregar_vigencia": "Agregar vigencia para la fuente: ",
     "consulta_rubros_fuente": "Consulta de rubros por fuente: ",
-    "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: "
+    "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: ",
+    "select_fuente": "Seleccione una fuente de financiamiento"
   },
   "ACTIVIDAD":{
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
@@ -241,7 +242,9 @@
     "quitar-dependencia": "Quitar Dependencia",
     "traslado": "Traslado",
     "cuenta_credito": "Cuenta Crédito",
-    "cuenta_contra_credito": "Cuenta Contra Crédito"
+    "cuenta_contra_credito": "Cuenta Contra Crédito",
+    "fuente_origen": "Fuente Origen",
+    "fuente_destino": "Fuente Destino"
   },
   "PRODUCTO": {
     "mensaje_actualizar": "¿ Actualizar Producto ?",
