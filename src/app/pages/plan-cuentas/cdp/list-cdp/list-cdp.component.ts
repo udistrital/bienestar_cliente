@@ -5,6 +5,8 @@ import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 import { TranslateService } from '@ngx-translate/core';
+import { mergeMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -37,42 +39,53 @@ export class ListCdpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.cdpHelper.getListaCDP;
+    this.loadDataFunction = this.documentoPresupuestal.GetAllDocumentoPresupuestalByTipo;
 
     this.listColumns = {
       vigencia: {
         title: this.translate.instant('GLOBAL.vigencia'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          return 2019;
         }
       },
-      centroGestor: {
+      CentroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         // type: 'string;',
+        // valuePrepareFunction: (value: string) => {
+        //   return this.centros[value];
+        // }
         valuePrepareFunction: (value: string) => {
-          return this.centros[value];
+          return "Rector";
         }
       },
       entidad: {
+        // title: this.translate.instant('GLOBAL.area_funcional'),
+        // // type: 'string;',
+        // valuePrepareFunction: (value: string) => {
+        //   return this.areas[value];
+        // }
+
         title: this.translate.instant('GLOBAL.area_funcional'),
         // type: 'string;',
         valuePrepareFunction: (value: string) => {
-          return this.areas[value];
+          return "Universidad Distritral Francisco José de Caldas";
         }
+
       },
-      consecutivo: {
+      Consecutivo: {
         title: this.translate.instant('CDP.n_cdp'),
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      estado: {
+      Estado: {
         title: this.translate.instant('CDP.estado_cdp'),
         // type: 'string;',
         valuePrepareFunction: (value: string) => {
-          return this.translate.instant('CDP.'+value);
+          // return this.translate.instant('CDP.'+value);
+          return value;
         }
       },
     };
@@ -94,13 +107,19 @@ export class ListCdpComponent implements OnInit {
   }
 
   loadData(): void {
-    this.loadDataFunction('').subscribe(res => {
+    forkJoin(
+      {
+        data_function: this.loadDataFunction('2019', '1', 'cdp'),
+        query : this.documentoPresupuestal.GetAllDocumentoPresupuestalByTipo('2019', '1', 'cdp_modificacion') // FLAAG
+      }
+    ).subscribe(res => {
       if (res) {
-        const data = <Array<any>>res;
+        let dataAll = res.data_function.concat(res.query);
+        const data = <Array<any>>dataAll;
         this.documentoPresupuestal.get('2019', '1', 'tipo:cdp').subscribe(listaDocumentos => {
           let documentos = {};
           listaDocumentos.forEach((documento: object) => documentos[documento["Data"]["solicitud_cdp"]] = documento);
-          res.forEach((cdp: object) => {
+          dataAll.forEach((cdp: object) => {
             cdp['expedido'] = true;
             cdp['fecha_expedicion'] = documentos[cdp['_id']]['FechaRegistro'];
             cdp['valor_actual'] = documentos[cdp['_id']]['ValorActual'];
@@ -108,10 +127,8 @@ export class ListCdpComponent implements OnInit {
             cdp['consecutivo'] = documentos[cdp['_id']]['Consecutivo'];
             cdp['estado'] = documentos[cdp['_id']]['Estado'];
           });
-          this.source.load(data);
-        });
-      } else {
-        this.source.load([]);
+        })
+        this.source.load(data);
       }
     });
   }
