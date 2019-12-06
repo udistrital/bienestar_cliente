@@ -293,6 +293,7 @@
     "objeto": "Objeto",
     "fecha_solicitud": "Fecha de solicitud",
     "fecha_expedicion": "Fecha de expedición",
+    "fecha_vigencia": "Fecha final de vigencia",
     "responsable": "Responsable",
     "elaboro": "Elaboró",
     "expedir": "Expedir CRP",
