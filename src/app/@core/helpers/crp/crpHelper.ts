@@ -109,7 +109,7 @@ export class CRPHelper {
 
     public getInfoCDP(vigencia,consecutivoCDP) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=consecutivo:'+consecutivoCDP+",tipo:cdp,estado:expedido").pipe(
+        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=consecutivo:'+consecutivoCDP+",tipo:cdp").pipe(
             map(
                 res_crp => {
                     if (res_crp['Type'] === 'error') {
