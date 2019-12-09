@@ -39,7 +39,8 @@ export class SolicitudCrpComponent implements OnInit {
         NumeroCompromiso: undefined,
         TipoCompromiso: undefined,
       },
-      FechaCreacion: undefined
+      FechaCreacion: undefined,
+      FechaFinalVigencia: undefined
     };
   }
 
@@ -75,6 +76,7 @@ export class SolicitudCrpComponent implements OnInit {
       this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
       this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
+      this.solCrpData.FechaFinalVigencia = typeof event.data.SolicitudCRP.FechaFinalVigencia === 'undefined' ? undefined : event.data.SolicitudCRP.FechaFinalVigencia;
 
       if (event.data.SolicitudCRP.MontoCRP.Id === 1) {
         this.solCrpData.Valor = typeof event.data.SolicitudCRP.ValorParcial === 'undefined' ? undefined : event.data.SolicitudCRP.ValorParcial;

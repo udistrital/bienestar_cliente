@@ -41,7 +41,8 @@
     "gestion_cdp": {
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
-      "cdp": "Certificado Disponibilidad Presupuestal"
+      "cdp": "Certificado Disponibilidad Presupuestal",
+      "cdp_acronimo": "CDP"
     },
     "auth": {
       "auth": "Autenticación",
@@ -139,16 +140,16 @@
     "nombre": "Nombre",
     "tipo_documento": "Tipo de documento",
     "fecha_documento": "Fecha de documento",
-    "numero_documento": "Numero Documento",
-    "area_funcional": "Área funcional",
+    "numero_documento": "Numero documento",
+    "area_funcional": "Area funcional",
     "centro_gestor": "Centro gestor",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
     "placeholder_descripcion": "Descripción",
-    "placeholder_tipo_documento": "Tipo Documento",
-    "placeholder_fecha_documento": "Fecha Documento",
-    "placeholder_numero_documento": "Numero Documento",
+    "placeholder_tipo_documento": "Tipo documento",
+    "placeholder_fecha_documento": "Fecha documento",
+    "placeholder_numero_documento": "Numero documento",
     "enviar": "Enviar",
     "detalle": "Detalle",
     "siguiente_abr": "Sig.",
@@ -242,10 +243,10 @@
     "valor-reduccion": "Valor reducción",
     "quitar-dependencia": "Quitar Dependencia",
     "traslado": "Traslado",
-    "cuenta_credito": "Cuenta Crédito",
-    "cuenta_contra_credito": "Cuenta Contra Crédito",
     "fuente_origen": "Fuente Origen",
-    "fuente_destino": "Fuente Destino"
+    "fuente_destino": "Fuente Destino",
+    "cuenta_credito": "Cuenta crédito",
+    "cuenta_contra_credito": "Cuenta contra crédito"
   },
   "PRODUCTO": {
     "mensaje_actualizar": "¿ Actualizar Producto ?",
@@ -278,7 +279,9 @@
     "anular_cdp": "Anular CDP",
     "total_comprometido": "Totalmente comprometido",
     "expedido": "Expedido",
-    "parcial_comprometido": "Parcialmente comprometido"
+    "parcial_comprometido": "Parcialmente comprometido",
+    "valor_actual": "Valor actual",
+    "valor_inicial": "Valor inicial"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",
@@ -295,6 +298,7 @@
     "objeto": "Objeto",
     "fecha_solicitud": "Fecha de solicitud",
     "fecha_expedicion": "Fecha de expedición",
+    "fecha_vigencia": "Fecha final de vigencia",
     "responsable": "Responsable",
     "elaboro": "Elaboró",
     "expedir": "Expedir CRP",

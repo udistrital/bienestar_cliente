@@ -74,8 +74,16 @@ export let FORM_INFO_SOL_CRP = {
             tipo: 'text',
         },
         {
+            etiqueta: 'mat-date',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            nombre: 'FechaFinalVigencia',
+            label_i18n: 'Fecha final de vigencia',
+            placeholder_i18n: 'Fecha final de vigencia',
+            requerido: true,
+        },
+        {
             etiqueta: 'select',
-            claseGrid: 'col-lg-6 col-md-6 col-sm-6 col-xs-6',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'MontoCRP',
             label_i18n: 'Monto del CRP',
             placeholder_i18n: 'Monto del CRP',
@@ -86,7 +94,7 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-lg-6 col-md-6 col-sm-6 col-xs-6',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'ValorParcial',
             label_i18n: 'Valor Parcial',
             placeholder_i18n: 'Valor Parcial',
