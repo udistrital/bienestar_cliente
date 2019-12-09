@@ -39,7 +39,7 @@ export class ModApropiacionHelper {
         );
     }
 
-    public getAllModificacionesApr(id?: any, params?: {vigencia: string, cg: string}){
+    public getAllModificacionesApr(id?: any, params?: { vigencia: string, cg: string }) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         return this.rqManager.get(`modificacion_apropiacion/${params.vigencia}/${params.cg}`).pipe(
             map(
@@ -54,9 +54,9 @@ export class ModApropiacionHelper {
         );
     }
 
-    public getModificacionesAfectation(docPresUUID?: any, params?: {vigencia: string, cg: string}){
+    public getModificacionesAfectation(docPresUUID?: any, params?: { vigencia: string, cg: string }, query?: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get(`movimiento/${params.vigencia}/${params.cg}/${docPresUUID}`).pipe(
+        return this.rqManager.get(`movimiento/${params.vigencia}/${params.cg}/${docPresUUID}${query ? '?' + query : ''}`).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

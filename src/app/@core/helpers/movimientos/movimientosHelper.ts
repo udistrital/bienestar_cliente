@@ -27,7 +27,7 @@ export class MovimientosHelper {
             map(
                 (res: object) => {
                     if (res["Type"] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo expedir el CDP');
+                        this.pUpManager.showErrorAlert('No se pudo expedir el Documento');
                         return undefined;
                     }
                     return res;
@@ -44,17 +44,18 @@ export class MovimientosHelper {
     * @param id id del documento presupuetal vinculado al movimiento
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-   public getByDocumentoPresupuestal(vigencia: string, centroGestor: string, id: string) {
-    this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-    return this.rqManager.get('movimiento/'+vigencia+'/'+centroGestor+'/'+id).pipe(
-        map(
-            (res: object) => {
-                if (res["Type"] === 'error') {
-                    return undefined;
-                }
-                return res;
-            },
-        ),
-    );
-}
+    public getByDocumentoPresupuestal(vigencia: string, centroGestor: string, id: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('movimiento/' + vigencia + '/' + centroGestor + '/' + id).pipe(
+            map(
+                (res: object) => {
+                    if (res["Type"] === 'error') {
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
 }
