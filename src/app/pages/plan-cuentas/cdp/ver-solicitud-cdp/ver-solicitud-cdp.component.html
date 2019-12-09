@@ -63,10 +63,10 @@
                         </tr>
                     </tbody>
                     <!-- metas y actividades si es de inversion -->
-                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1" class="bg-kronos">
+                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.CodigoAbreviacion==='I'" class="bg-kronos">
                         <th colspan="2">{{'GLOBAL.meta' | translate}}</th>
                     </thead>
-                    <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
+                    <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.CodigoAbreviacion==='I'">
                         <tr colspan="2">
                             <td>{{rubro.Metas[0].MetaId}} </td>
                             <td>{{rubro.Metas[0].InfoMeta[0].meta}}</td>
@@ -76,14 +76,14 @@
                             <td>{{'GLOBAL.fuentes' | translate}}</td>
                         </tr>
                         <tr *ngFor="let act of rubro.Metas[0].Actividades">
-                            <td rowspan="act.FuentesActividad.lenght" >{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td>
+                            <td (rowspan)="act.FuentesActividad.lenght" >{{act.ActividadId}} - {{act.InfoActividad[0].actividad}}</td>
                             <td *ngFor="let f of act.FuentesActividad" >
                                 <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
                                 <p class="moneyField">{{f.MontoParcial | currency: COP }}</p></td>
                         </tr>
                     </tbody>
                     <!-- fuentes -->
-                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.CodigoAbreviacion===F" class="bg-kronos">
+                    <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.CodigoAbreviacion==='F'" class="bg-kronos">
                         <th>{{'GLOBAL.fuente' | translate}}</th>
                         <th></th>
                     </thead>
@@ -131,7 +131,7 @@
                         <tr>
                             <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date:'dd/MM/yyyy'}}</td>
                             <td *ngIf="expedido">{{solicitud.fecha_expedicion | date:'dd/MM/yyyy'}}</td>
-                            <td>{{ responsable[0].TerceroId }} <br>JEFE DE LA SECCIÓN DE PRESUPUESTO</td>
+                            <td>{{responsable}} <br>JEFE SECCIÓN DE PRESUPUESTO</td>
                             <td>{{ username }}</td>
                         </tr>
                     </tbody>
