@@ -1,0 +1,79 @@
+<nb-card>
+  <nb-card-body class="global-container">
+    <!--         <legend align="center">
+            <small>Registro de movimientos de la modificación en la fuente</small>
+          </legend> -->
+    <nb-alert status="warning">Modificación de fuentes</nb-alert>
+    <br>
+    <nb-tabset class="basic-op-item">
+
+      <nb-tab tabTitle="{{ 'GLOBAL.registro' | translate }}">
+        <div class="set-mod-value-container">
+          <div class="value-registration-item">
+            <form [formGroup]="modValueForm" class="mod-registration-container form-horizontal">
+              <mat-form-field floatLabel="always" class="mod-registration-input-item">
+                <mat-label>{{ "GLOBAL.tipo" | translate }}</mat-label>
+                <mat-select formControlName="modType" [(value)]="selectedType">
+                  <mat-option>
+                    --Seleccionar--
+                  </mat-option>
+                  <mat-option *ngFor="let modType of modTypes" [value]="modType">
+                    {{ modType.Nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="mod-registration-input-item" *ngIf="modTypeSelected" floatLabel="always">
+                <mat-label>{{'MODIF.fuente_origen' | translate }}</mat-label>
+                <input matInput placeholder="{{'MODIF.fuente_origen' | translate }}"
+                  formControlName="movimientoOrigen" disabled>
+                <span matPrefix><button class="selection-button" mat-button
+                    (click)="sourceSelection('origen')">{{'GLOBAL.seleccionar' | translate }}</button></span>
+                <div class="moneyField" *ngIf="movOrigen"><b>{{'GLOBAL.saldo' | translate }} :
+                    {{movOrigen.ValorActual | currency: "COP":"symbol":"4.2-2":"co"}}</b></div>
+              </mat-form-field>
+
+              <mat-form-field class="mod-registration-input-item" floatLabel="always"
+                *ngIf="modTypeSelected && modTypeSelected['Parametros'] && modTypeSelected['Parametros']['MovimientoDestino']">
+                <mat-label>{{'MODIF.fuente_destino' | translate }}</mat-label>
+                <input matInput placeholder="{{'MODIF.fuente_destino' | translate }}"
+                  formControlName="movimientoDestino" disabled>
+                <span matPrefix><button mat-button
+                    (click)="sourceSelection('destino')">{{'GLOBAL.seleccionar' | translate }}</button></span>
+                <div class="moneyField" *ngIf="movDestino"><b>{{'GLOBAL.saldo' | translate }} :
+                    {{movDestino.ValorActual | currency: "COP":"symbol":"4.2-2":"co"}}</b></div>
+              </mat-form-field>
+
+              <mat-form-field class="mod-registration-input-item" *ngIf="modTypeSelected" floatLabel="always">
+                <mat-label>{{'GLOBAL.valor' | translate }}</mat-label>
+                <input matInput currencyMask type="text" placeholder="{{'GLOBAL.valor' | translate }}"
+                  class="moneyField" formControlName="value" />
+                <span matPrefix>$</span>
+              </mat-form-field>
+
+              <button mat-button class="mod-registration-input-item button-success" type="submit"
+                (click)="addModToList()" [disabled]="!modValueForm.valid">
+                {{ "GLOBAL.agregar" | translate }}
+              </button>
+            </form>
+          </div>
+          <div class="tree-view-item" *ngIf="showMovSelection">
+            <ngx-list-fuente
+            (fuenteSeleccionada)="selectFuenteElemntEvent($event)"
+            [viewItemSelected]="viewItemSelected">
+            </ngx-list-fuente>
+          </div>
+          <div *ngIf="desfaseSaldo > 0"> <nb-alert outline="danger">{{ infoSaldoSuperado}} {{desfaseSaldo}}</nb-alert> </div>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="{{ 'GLOBAL.resumen' | translate }}" *ngIf="movAfectation && movAfectation.length > 0">
+        <ngx-show-modification-fuente [(afectationData)]="movAfectation"
+          (afectationDataChange)="getDataEvent(false)"></ngx-show-modification-fuente>
+      </nb-tab>
+    </nb-tabset>
+    <button *ngIf="movAfectation && movAfectation.length > 0" class="btn btn-success btn-sm next-button-item"
+      (click)="getDataEvent(true)">
+      {{ "GLOBAL.siguiente" | translate }}
+    </button>
+  </nb-card-body>
+</nb-card>

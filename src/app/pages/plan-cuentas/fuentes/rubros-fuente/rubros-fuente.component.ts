@@ -23,24 +23,30 @@ export class RubrosFuenteComponent implements OnInit {
   }
 
   loadInfoFuente() {
-    // retirar cuando se tenga la vigencia 2020 de la bodega del plan de adquisiciones y dejar this.infoinput.Vigencia
-    this.fuenteHelper.getPlanAdquisicionByFuente('2019', this.infoinput.Codigo).subscribe((res) => {
-      if (res) {
-        this.planAdquisicionesFuente = res.fuente_financiamiento;
-        this.planAdquisicionesFuente.rubros.map((item) => {
-          this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
-            if (res.Body !== null) {
-              item.dependencia = res.Nombre;
-            }
+
+    if(this.infoinput.Vigencia > 0){
+
+      this.fuenteHelper.getPlanAdquisicionByFuente('2019', this.infoinput.Codigo).subscribe((res) => {
+        if (res) {
+          this.planAdquisicionesFuente = res.fuente_financiamiento;
+          this.planAdquisicionesFuente.totalPlanAdquisiciones = res.fuente_financiamiento.total_saldo_fuente;
+          this.planAdquisicionesFuente.totalSaldoFuente = this.planAdquisicionesFuente.totalPlanAdquisiciones - this.infoinput.ValorActual;
+          this.planAdquisicionesFuente.rubros.map((item) => {
+            this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
+              if (res.Body !== null) {
+                item.dependencia = res.Nombre;
+              }
+            });
+            this.apHelper.getFullArbolByNode(item.rubro, this.infoinput.Vigencia).subscribe((res) => {
+              if(res){
+                item.rubro = res[0].data;             
+              }             
           });
-          this.apHelper.getFullArbolByNode(item.rubro, this.infoinput.Vigencia).subscribe((res) => {
-            if(res){
-              item.rubro = res[0].data;             
-            }             
-        });
-        })
-      }
-    })
+          })
+        }
+      })
+    }
+    // retirar cuando se tenga la vigencia 2020 de la bodega del plan de adquisiciones y dejar this.infoinput.Vigencia
 
   }
 

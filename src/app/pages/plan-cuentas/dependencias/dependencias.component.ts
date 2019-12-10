@@ -133,6 +133,7 @@ export class DependenciasComponent implements OnInit {
       this.fuenteHelper.fuenteRegister(this.infoinput).subscribe((res) => {
         if (res) {
           this.popManager.showSuccessAlert('Se actualizo la Fuente correctamente!');
+          this.auxcambiotab.emit(false);
           this.activetab('other');
           this.cambiarValorFuente();
         }

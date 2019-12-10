@@ -53,8 +53,12 @@
         </div>
         <nb-alert outline="success">
             <div class="moneyField">
+                {{'FUENTE_FINANCIAMIENTO.total_plan_ad' | translate }}
+                {{planAdquisicionesFuente.totalPlanAdquisiciones | currency:'COP':'symbol':'4.2-2':'co'}}
+            </div>
+            <div class="moneyField">
                 {{'FUENTE_FINANCIAMIENTO.saldo_fuente' | translate }}
-                {{planAdquisicionesFuente.total_saldo_fuente | currency:'COP':'symbol':'4.2-2':'co'}}
+                {{planAdquisicionesFuente.totalSaldoFuente | currency:'COP':'symbol':'4.2-2':'co'}}
             </div>
         </nb-alert>
     </ng-template>

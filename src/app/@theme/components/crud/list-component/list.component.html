@@ -4,7 +4,7 @@
 
       
         <ng2-smart-table *ngIf="!cambiotab " [settings]="settings" [source]="source"
-          (rowSelect)="itemselec($event)" (custom)="onCustom($event)" (create)="onCreate($event)">
+          (rowSelect)="itemselec($event)" (userRowSelect)="emitItemSelected($event)"	(custom)="onCustom($event)" (create)="onCreate($event)">
         </ng2-smart-table>
         <ngx-crud-entity *ngIf="cambiotab" 
           [entitiId]="uid"
