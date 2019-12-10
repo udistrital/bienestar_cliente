@@ -29,6 +29,8 @@ export class RubrosFuenteComponent implements OnInit {
       this.fuenteHelper.getPlanAdquisicionByFuente('2019', this.infoinput.Codigo).subscribe((res) => {
         if (res) {
           this.planAdquisicionesFuente = res.fuente_financiamiento;
+          this.planAdquisicionesFuente.totalPlanAdquisiciones = res.fuente_financiamiento.total_saldo_fuente;
+          this.planAdquisicionesFuente.totalSaldoFuente = this.planAdquisicionesFuente.totalPlanAdquisiciones - this.infoinput.ValorActual;
           this.planAdquisicionesFuente.rubros.map((item) => {
             this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
               if (res.Body !== null) {

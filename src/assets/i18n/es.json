@@ -203,7 +203,8 @@
     "agregar_vigencia": "Agregar vigencia para la fuente: ",
     "consulta_rubros_fuente": "Consulta de rubros por fuente: ",
     "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: ",
-    "select_fuente": "Seleccione una fuente de financiamiento"
+    "select_fuente": "Seleccione una fuente de financiamiento",
+    "total_plan_ad": "Total Plan de Adquisiciones: "
   },
   "ACTIVIDAD":{
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
