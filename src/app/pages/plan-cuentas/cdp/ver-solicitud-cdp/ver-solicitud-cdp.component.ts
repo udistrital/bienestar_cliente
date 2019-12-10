@@ -25,19 +25,19 @@ export class VerSolicitudCdpComponent implements OnInit {
   @Output() eventChange = new EventEmitter();
   necesidad: any = {};
   TrNecesidad: any;
-  mostrandoPDF: boolean = false;
-  enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
   tituloPDF: string = '';
   username: string;
   responsable: string;
-  fechaExpedicion: Date;
   valorActual: number;
-  valorInicial: Number;
-  areas = { '1': 'Rector', '2': 'Convenios' };
-  entidades = {'1': 'Universidad Distrital Francisco José de Caldas' };
+  valorInicial: number;
+  fechaExpedicion: Date;
   areaFuncional: object;
   centroGestor: object;
   estadoNecesidadRechazada: object;
+  mostrandoPDF: boolean = false;
+  areas = { '1': 'Rector', '2': 'Convenios' };
+  entidades = {'1': 'Universidad Distrital Francisco José de Caldas' };
+  enlacePDF: string = 'assets/images/cdp_ejemplo.pdf';
 
   constructor(
     private cdpHelper: CDPHelper,
@@ -60,7 +60,7 @@ export class VerSolicitudCdpComponent implements OnInit {
         trNecesidad = res;
 
         this.areaFuncional = this.areas[trNecesidad['Necesidad']['AreaFuncional']];
-        this.centroGestor = this.entidades[this.solicitud['centroGestor']];
+        this.centroGestor = this.solicitud['centroGestor'] ? this.entidades[this.solicitud['centroGestor']] : this.entidades[this.solicitud['CentroGestor']];
         return this.getInfoJefeDepdencia(trNecesidad['Necesidad']['DependenciaNecesidadId']['JefeDepSolicitanteId']);
       })
     ).pipe(

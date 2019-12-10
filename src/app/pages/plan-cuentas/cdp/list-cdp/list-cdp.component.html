@@ -10,4 +10,5 @@
         </nb-card-body>
     </nb-card>
 </div>
-<ngx-ver-solicitud-cdp *ngIf="cambiotab" [solicitudcdp]="cdp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-cdp>
+<ngx-ver-solicitud-cdp *ngIf="cambiotab && !modPresupuestal" [solicitudcdp]="cdp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-cdp>
+<ngx-show-modificacion-apropiacion [vigencia]="cdp.Vigencia" [modificationData]="cdp" (eventChange)="cambiotab=$event" *ngIf="cambiotab && modPresupuestal"></ngx-show-modificacion-apropiacion>

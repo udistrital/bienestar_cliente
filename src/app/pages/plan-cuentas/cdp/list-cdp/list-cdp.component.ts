@@ -16,15 +16,16 @@ import { forkJoin } from 'rxjs';
 })
 export class ListCdpComponent implements OnInit {
 
-  uuidReadFieldName: string;
   loadDataFunction: (...params) => Observable<any>;
-  formTittle: string;
   loadFormDataFunction: (...params) => Observable<any>;
+  uuidReadFieldName: string;
+  formTittle: string;
   isOnlyCrud: boolean;
   settings: object;
-  cambiotab: boolean = false;
   listColumns: object;
   cdp: object;
+  cambiotab: boolean = false;
+  modPresupuestal: boolean; // Modificación presupuestal
 
   centros = { '1': 'Rector', '2': 'Convenios' };
   areas = {'1': 'Universidad Distrital Francisco José de Caldas' };
@@ -117,6 +118,18 @@ export class ListCdpComponent implements OnInit {
   }
 
   onCustom(event: any) {
+    if (event.data.necesidad) {
+      this.modPresupuestal = false;
+    } else {
+      this.modPresupuestal = true;
+      event.data['NumeroDocumento'] = event.data.Data.numero_documento;
+      event.data['TipoDocumento'] = event.data.Data.tipo_documento.Nombre;
+      event.data['FechaDocumento'] = event.data.Data.fecha_documento;
+      event.data['OrganismoEmisor'] = event.data.Data.organismo_emisor;
+      event.data['Descripcion'] = event.data.Data.descripcion_documento;
+      event.data['FechaDocumento'] = event.data.Data.fecha_documento;
+    }
+
     switch (event.action) {
       case 'ver':
         this.verCDP(event.data);

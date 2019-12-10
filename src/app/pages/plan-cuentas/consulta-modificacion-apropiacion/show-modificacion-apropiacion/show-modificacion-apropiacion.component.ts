@@ -14,6 +14,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     }
     @Input() modificationData: any;
     @Input() vigencia: any;
+    @Output() eventChange = new EventEmitter();
     readonly = true;
     settings: object;
     listColumns: object;
@@ -101,6 +102,10 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
 
             this.source = data;
 
-        })
+        });
+    }
+
+    cambioTab() {
+        this.eventChange.emit(false);
     }
 }
