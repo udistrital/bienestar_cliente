@@ -202,7 +202,11 @@ export class ListEntityComponent implements OnInit {
       if (willDelete.value) {
         this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
           if (res['Type'] === 'error') {
-            this.popUpManager.showErrorAlert(res['Message']);
+            if( res['Message']){
+              this.popUpManager.showErrorAlert(res['Message']);
+            } else {
+              this.popUpManager.showErrorAlert(res['Body']);
+            }
           } else {
             this.loadData();
             this.popUpManager.showSuccessAlert(
