@@ -25,8 +25,8 @@ export class ListSolicitudCdpComponent implements OnInit {
   listColumns: object;
   solicitudcdp: object;
 
-  areas = { "1": 'Rector', "2": 'Convenios' };
-  centros = {"1": 'Universidad Distrital Francisco José de Caldas' };
+  areas = { '1': 'Rector', '2': 'Convenios' };
+  centros = {'1': 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -42,41 +42,43 @@ export class ListSolicitudCdpComponent implements OnInit {
     this.listColumns = {
       vigencia: {
         title: this.translate.instant('GLOBAL.vigencia'),
-        // type: 'string;',
-        valuePrepareFunction: value => {
+        filter: true,
+        valuePrepareFunction: (value: any) => {
           return value;
         }
       },
       tipoFinanciacion: {
         title: this.translate.instant('CDP.tipo_financiacion'),
+        filter: true,
         valuePrepareFunction: (value: object) => {
           return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : '';
         }
       },
       centroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
-        // type: 'string;',
+        filter: true,
         valuePrepareFunction: (value: string) => {
           return this.centros[value];
         }
       },
       entidad: {
         title: this.translate.instant('GLOBAL.area_funcional'),
-        // type: 'string;',
+        filter: true,
         valuePrepareFunction: (value: string) => {
           return this.areas[value];
         }
       },
       consecutivoNecesidad: {
         title: this.translate.instant('CDP.n_necesidad'),
-        valuePrepareFunction: value => {
+        filter: true,
+        valuePrepareFunction: (value: any) => {
           return value;
         }
       },
       consecutivo: {
         title: this.translate.instant('CDP.n_solicitud'),
-        // type: 'string;',
-        valuePrepareFunction: value => {
+        filter: true,
+        valuePrepareFunction: (value: any) => {
           return value;
         }
       }
@@ -93,21 +95,19 @@ export class ListSolicitudCdpComponent implements OnInit {
       mode: 'external',
       columns: this.listColumns,
     };
-
     this.loadData();
-
-
   }
 
   loadData(): void {
     this.loadDataFunction('').subscribe(res => {
       if (res) {
         const data = <Array<any>>res;
-        this.cdpHelper.getAllNecesidades('limit=-1&fields=Id,TipoFinanciacionNecesidadId,ConsecutivoNecesidad&query=EstadoNecesidadId.CodigoAbreviacionn:CS').subscribe(resNecesidades => {
-          let necesidades: object = {};
+        this.cdpHelper.getAllNecesidades('limit=-1&fields=Id,TipoFinanciacionNecesidadId,ConsecutivoNecesidad&query=EstadoNecesidadId.CodigoAbreviacionn:CS')
+        .subscribe(resNecesidades => {
+          const necesidades: object = {};
           if (resNecesidades) {
             resNecesidades.forEach((necesidad: object) => necesidades[necesidad['Id']] = necesidad);
-            res.forEach((obj: object) => { 
+            res.forEach((obj: object) => {
               if (necesidades[obj['necesidad']]) {
                 obj['consecutivoNecesidad'] = necesidades[obj['necesidad']]['ConsecutivoNecesidad'];
                 obj['tipoFinanciacion'] = necesidades[obj['necesidad']];
@@ -115,16 +115,16 @@ export class ListSolicitudCdpComponent implements OnInit {
             });
             this.source.load(data);
           }
-        })
+        });
       } else {
         this.source.load([]);
       }
     });
   }
 
-  verSolicitud(scdp) {
-
+  verSolicitud(scdp: object) {
     this.solicitudcdp = scdp;
+    console.info(scdp);
     this.onCambiotab();
   }
 
@@ -138,7 +138,4 @@ export class ListSolicitudCdpComponent implements OnInit {
   onCambiotab(): void {
     this.cambiotab = !this.cambiotab ;
   }
-
-
-
 }
