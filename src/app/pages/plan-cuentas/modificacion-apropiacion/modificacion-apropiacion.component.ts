@@ -95,7 +95,7 @@ export class ModificacionApropiacionComponent implements OnInit {
                     this.formDetalleValidFlag = !this.formDetalleValidFlag;
                     break;
                 case 1:
-                    console.info('option');
+                    console.info($event);
                 case 2:
                     this.setSteppValidator(this.checkAfectationFinalData);
                     break;

@@ -1,7 +1,7 @@
 <nb-card>
     <nb-card-body *ngIf="modificationData['detail']" class="mod-registration-container">
             <legend align="center">
-                    <small>Reesumen de la modificación</small>
+                    <small>Resumen de la modificación</small>
                   </legend>
                   <br>
         <div class="mod-registration-container">
@@ -26,8 +26,10 @@
                 <input matInput placeholder="{{'GLOBAL.descripcion' | translate }}"
                     value="{{modificationData['detail']['Descripcion']}}" disabled="true">
             </mat-form-field>
-            <ngx-show-modification-afectation class="mod-registration-input-item" [readonly]="readonly"
+            <ngx-show-modification-afectation *ngIf="optionMod.value =='apropiacion' " class="mod-registration-input-item" [readonly]="readonly"
                 [(afectationData)]="modificationData['afectation']"></ngx-show-modification-afectation>
+            <ngx-show-modification-fuente *ngIf="optionMod.value =='fuente' " class="mod-registration-input-item" [readonly]="readonly"
+                [(afectationData)]="modificationData['afectation']"></ngx-show-modification-fuente>
         </div>
         <button class="btn btn-success btn-sm botton-item" (click)="saveModification()">{{'GLOBAL.guardar' | translate }}</button>
 
