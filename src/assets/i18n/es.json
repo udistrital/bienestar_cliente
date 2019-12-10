@@ -261,6 +261,8 @@
     "confirmacion_eliminar": "Producto Eliminado"
   },
   "CDP": {
+    "cdp": "CDP",
+    "cdp_modificacion": "CDP modificación presupuestal",
     "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
     "lista_cdp": "Lista certificados de disponibilidad presupuestal",
     "n_solicitud": "N° Solicitud de CDP",
@@ -283,6 +285,7 @@
     "anular_cdp": "Anular CDP",
     "total_comprometido": "Totalmente comprometido",
     "expedido": "Expedido",
+    "registrada": "Expedido",
     "parcial_comprometido": "Parcialmente comprometido",
     "valor_actual": "Valor actual",
     "valor_inicial": "Valor inicial"
