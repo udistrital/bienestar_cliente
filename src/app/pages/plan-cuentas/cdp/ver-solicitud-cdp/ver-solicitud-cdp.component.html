@@ -8,7 +8,7 @@
         <nb-card-header>
             <legend *ngIf="solicitud && !expedido">{{ 'CDP.detalle_solicitud_cdp' | translate }}:
                 {{solicitud.consecutivo}}</legend>
-            <legend *ngIf="solicitud && expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.consecutivo}}
+            <legend *ngIf="solicitud && expedido">{{ 'CDP.detalle_cdp' | translate }}: {{solicitud.Consecutivo}}
             </legend>
         </nb-card-header>
         <nb-card-body *ngIf="TrNecesidad">
@@ -38,7 +38,7 @@
                     <tbody>
                         <tr>
                             <td *ngIf="!expedido">{{solicitud.consecutivo}}</td>
-                            <td *ngIf="expedido">{{solicitud.consecutivo}}</td>
+                            <td *ngIf="expedido">{{solicitud.Consecutivo}}</td>
                             <td>{{TrNecesidad.Necesidad.ConsecutivoNecesidad}}</td>
                             <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.DependenciaSolicitante.Nombre}}</td>
                         </tr>
@@ -114,8 +114,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{solicitud.valor_inicial | currency: COP}}</td>
-                            <td>{{solicitud.valor_actual | currency: COP}}</td>
+                            <td>{{solicitud.ValorInicial | currency: COP}}</td>
+                            <td>{{solicitud.ValorActual | currency: COP}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -130,7 +130,7 @@
                     <tbody>
                         <tr>
                             <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date:'dd/MM/yyyy'}}</td>
-                            <td *ngIf="expedido">{{solicitud.fecha_expedicion | date:'dd/MM/yyyy'}}</td>
+                            <td *ngIf="expedido">{{solicitud.FechaRegistro | date:'dd/MM/yyyy'}}</td>
                             <td>{{responsable}} <br>JEFE SECCIÓN DE PRESUPUESTO</td>
                             <td>{{ username }}</td>
                         </tr>

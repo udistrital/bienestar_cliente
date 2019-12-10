@@ -18,11 +18,11 @@ export class CDPHelper {
     * Consulta todas las solicitudes de CDP
     * lista de solicitudes de CDP si todo ok, alerta si falla.
     * @param estado el estado en que se requiere el cdp, por defecto trae los que están en estado "solicitado"
-    * @param id en caso de que se desee consultar una solicitud especifica 
+    * @param id en caso de que se desee consultar una solicitud especifica
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-    public getSolicitudesCDP(id?: string, estado ='sol') {
-        let query = id ? id : '?query=estado.acronimo:'+estado;
+    public getSolicitudesCDP(id?: string, estado = 'sol') {
+        const query = id ? id : '?query=estado.acronimo:' + estado;
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('solicitudesCDP/' + query).pipe(
             map(
@@ -46,7 +46,7 @@ export class CDPHelper {
     */
     public getAllNecesidades(query?: Object) {
         this.rqManager.setPath('NECESIDADES_CRUD_SERVICE');
-        return this.rqManager.get('necesidad?'+query).pipe(
+        return this.rqManager.get('necesidad?' + query).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -56,7 +56,7 @@ export class CDPHelper {
                     return res;
                 }
             )
-        )
+        );
     }
 
 
@@ -69,7 +69,7 @@ export class CDPHelper {
     */
 
     public getListaCDP(id?: any) {
-        let query = id ? id : '?query=estado.acronimo:exp';
+        const query = id ? id : '?query=estado.acronimo:exp';
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('solicitudesCDP/' + query).pipe(
             map(
@@ -85,15 +85,12 @@ export class CDPHelper {
 
     }
 
-   
-
     public getCDP(id) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
 
         return this.rqManager.get('solicitudesCDP/?query=consecutivo:' + id).pipe(
             map(
                 (res) => {
-
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
@@ -163,9 +160,9 @@ export class CDPHelper {
     * @param id identificador de solicitud de cdp
     * @returns  <Observable> objeto creado en la solicitud de cdp. undefined if the request has errors
     */
-    public expedirCDP(id) {
+    public expedirCDP(id: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.get(`cdp/expedirCDP/` + id).pipe(
+        return this.rqManager.get(`cdp/expedirCDP/${id}`).pipe(
             map(
                 res_mid => {
                     if (res_mid.status > 300) {

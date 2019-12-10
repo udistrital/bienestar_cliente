@@ -74,16 +74,16 @@ export class VerSolicitudCdpComponent implements OnInit {
       const actividades = res;
 
       if (trNecesidad['Rubros']) {
-        trNecesidad['Rubros'].forEach(rubro => {
+        trNecesidad['Rubros'].forEach((rubro: any) => {
           rubro.MontoParcial = 0;
           if (rubro.Metas) {
-            rubro.Metas.forEach(meta => {
+            rubro.Metas.forEach((meta: any) => {
               meta['InfoMeta'] = actividades['metas']['actividades'].filter(actividad => actividad['meta_id'] === meta['MetaId']);
               if (meta.Actividades) {
-                meta.Actividades.forEach(act => {
+                meta.Actividades.forEach((act: any) => {
                   act['InfoActividad'] = actividades['metas']['actividades'].filter(actividad => actividad['actividad_id'] === act['ActividadId']);
                   if (act.FuentesActividad) {
-                    act.FuentesActividad.forEach(fuente => {
+                    act.FuentesActividad.forEach((fuente: any) => {
                       rubro.MontoParcial += fuente.MontoParcial;
                     });
                   }
@@ -143,7 +143,7 @@ export class VerSolicitudCdpComponent implements OnInit {
           let consecutivoExpedido: number;
           this.movimientosHelper.postMovimiento(movimiento).pipe(
             mergeMap(res => {
-              consecutivoExpedido = res['Consecutivo'];
+              consecutivoExpedido = res['DocInfo']['Consecutivo'];
               return this.cdpHelper.expedirCDP(this.solicitud['_id']);
             })
           ).subscribe(res => {

@@ -26,8 +26,8 @@ export class ListCdpComponent implements OnInit {
   listColumns: object;
   cdp: object;
 
-  centros = { "1": 'Rector', "2": 'Convenios' };
-  areas = {"1": 'Universidad Distrital Francisco José de Caldas' };
+  centros = { '1': 'Rector', '2': 'Convenios' };
+  areas = {'1': 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -44,48 +44,44 @@ export class ListCdpComponent implements OnInit {
     this.listColumns = {
       vigencia: {
         title: this.translate.instant('GLOBAL.vigencia'),
-        // type: 'string;',
+        filter: true,
         valuePrepareFunction: value => {
           return 2019;
         }
       },
       CentroGestor: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
-        // type: 'string;',
-        // valuePrepareFunction: (value: string) => {
-        //   return this.centros[value];
-        // }
+        filter: true,
         valuePrepareFunction: (value: string) => {
-          return "Rector";
+          return this.centros[value];
         }
       },
       entidad: {
-        // title: this.translate.instant('GLOBAL.area_funcional'),
-        // // type: 'string;',
-        // valuePrepareFunction: (value: string) => {
-        //   return this.areas[value];
-        // }
-
         title: this.translate.instant('GLOBAL.area_funcional'),
-        // type: 'string;',
+        filter: true,
         valuePrepareFunction: (value: string) => {
-          return "Universidad Distritral Francisco José de Caldas";
+          return 'Universidad Distritral Francisco José de Caldas';
         }
-
       },
       Consecutivo: {
         title: this.translate.instant('CDP.n_cdp'),
-        // type: 'string;',
+        filter: true,
         valuePrepareFunction: value => {
           return value;
         }
       },
+      Tipo: {
+        title: this.translate.instant('GLOBAL.tipo'),
+        filter: true,
+        valuePrepareFunction: (value: string) => {
+          return this.translate.instant('CDP.' + value);
+        }
+      },
       Estado: {
         title: this.translate.instant('CDP.estado_cdp'),
-        // type: 'string;',
+        filter: true,
         valuePrepareFunction: (value: string) => {
-          // return this.translate.instant('CDP.'+value);
-          return value;
+          return this.translate.instant('CDP.' + value);
         }
       },
     };
@@ -107,29 +103,16 @@ export class ListCdpComponent implements OnInit {
   }
 
   loadData(): void {
-    forkJoin(
-      {
-        data_function: this.loadDataFunction('2019', '1', 'cdp'),
-        query : this.documentoPresupuestal.GetAllDocumentoPresupuestalByTipo('2019', '1', 'cdp_modificacion') // FLAAG
-      }
-    ).subscribe(res => {
-      if (res) {
-        let dataAll = res.data_function.concat(res.query);
-        const data = <Array<any>>dataAll;
-        this.documentoPresupuestal.get('2019', '1', 'tipo:cdp').subscribe(listaDocumentos => {
-          let documentos = {};
-          listaDocumentos.forEach((documento: object) => documentos[documento["Data"]["solicitud_cdp"]] = documento);
-          dataAll.forEach((cdp: object) => {
-            cdp['expedido'] = true;
-            cdp['fecha_expedicion'] = documentos[cdp['_id']]['FechaRegistro'];
-            cdp['valor_actual'] = documentos[cdp['_id']]['ValorActual'];
-            cdp['valor_inicial'] = documentos[cdp['_id']]['ValorInicial'];
-            cdp['consecutivo'] = documentos[cdp['_id']]['Consecutivo'];
-            cdp['estado'] = documentos[cdp['_id']]['Estado'];
-          });
-        })
-        this.source.load(data);
-      }
+    forkJoin({
+      documentos: this.loadDataFunction('2019', '1', 'cdp'),
+      cdp: this.cdpHelper.getListaCDP()
+    }).subscribe(res => {
+      res.documentos.forEach((documento: any) => {
+        const solCdp = res.cdp.filter((cdp: object) => cdp['_id'] === documento.Data.solicitud_cdp)[0];
+        documento.necesidad = solCdp ? solCdp.necesidad : undefined ;
+      });
+      const data = <Array<any>>res.documentos;
+      this.source.load(data);
     });
   }
 
