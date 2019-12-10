@@ -176,7 +176,11 @@
     "suspension": "Suspensión",
     "adicion": "Adición",
     "organismo_emisor": "Organismo emisor",
-    "placeholder_organismo_emisor": "Organismo emisor"
+    "placeholder_organismo_emisor": "Organismo emisor",
+    "movimiento_origen": "Movimiento origen",
+    "proceso_anulacion": "Proceso de anulación",
+    "cdp": "CDP",
+    "rp": "CRP"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
