@@ -180,7 +180,8 @@
     "movimiento_origen": "Movimiento origen",
     "proceso_anulacion": "Proceso de anulación",
     "cdp": "CDP",
-    "rp": "CRP"
+    "rp": "CRP",
+    "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
