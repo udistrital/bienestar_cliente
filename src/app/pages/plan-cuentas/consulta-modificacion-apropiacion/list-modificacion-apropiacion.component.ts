@@ -76,53 +76,34 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
       TipoDocumento: {
         title: this.translate.instant('GLOBAL.tipo_documento'),
-        valuePrepareFunction: (value, row) => {
-          value = row.Data.tipo_documento.Nombre;
-          return row.Data.tipo_documento.Nombre
-        },
-        filterFunction(value?: any, search?: string): boolean {
-          return CommonHelper.Ng2CustomFilterFunction(value, search, 'Nombre');
-        },
-        filter: true,
-        compareFunction: (direction: any, a: any, b: any) => {
-          return CommonHelper.Ng2CompareFunction(direction, a, b, 'Nombre');
-        },
+        valuePrepareFunction: (value) => value
       },
 
-      Data: {
+      NumeroDocumento: {
         title: this.translate.instant('GLOBAL.numero_documento'),
         // type: 'string;',
-        valuePrepareFunction: (value) => {
-          return value.numero_documento;
-        },
-        filterFunction(value?: any, search?: string): boolean {
-          return CommonHelper.Ng2CustomFilterFunction(value, search, 'numero_documento');
-        },
-        filter: true,
-        compareFunction: (direction: any, a: any, b: any) => {
-          return CommonHelper.Ng2CompareFunction(direction, a, b, 'numero_documento');
-        },
+        valuePrepareFunction: (value) => value
       },
       FechaDocumento: {
         title: this.translate.instant('GLOBAL.fecha_documento'),
         // type: 'string;',
-        valuePrepareFunction: (value, row) => {
-          const date = new Date(row.Data.fecha_documento);
-          return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
-        },
+        valuePrepareFunction: (value) => {
+          const date = new Date(value);
+          return `${date.getFullYear()}-${date.getMonth() + 1}-${('0' + date.getDate()).slice(-2)}`;
+        }
       },
       FechaRegistro: {
         title: this.translate.instant('GLOBAL.fecha_registro'),
         // type: 'string;',
         valuePrepareFunction: (value) => {
           const date = new Date(value);
-          return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
-        },
+          return `${date.getFullYear()}-${date.getMonth() + 1}-${('0' + date.getDate()).slice(-2)}`;
+        }
       },
       CentroGestor: {
         title: this.translate.instant('GLOBAL.area_funcional'),
         // type: 'string;',
-        valuePrepareFunction: (value) => value,
+        valuePrepareFunction: (value) => 'Rector',
       }
     };
 
