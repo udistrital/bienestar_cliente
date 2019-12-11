@@ -44,6 +44,7 @@ export class SetModificacionFuenteComponent implements OnInit {
   infoSaldoSuperado: string;
   desfaseSaldo: number;
   sumaMovimientosFuente: any;
+  localtabActived: boolean;
   constructor(private modHelper: ModFuenteHelper, 
     private comnHelper: CommonHelper, private fuenteHelper: FuenteHelper,
     private popManager: PopUpManager) {
@@ -141,9 +142,9 @@ export class SetModificacionFuenteComponent implements OnInit {
 
     if (currentMovData.MovimientoOrigen !== undefined) {
 
-      this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((res) => {
-        if (res) {
-          let saldoFuente = res.fuente_financiamiento.total_saldo_fuente;
+      this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((response) => {
+        if (response) {
+          let saldoFuente = response.fuente_financiamiento.total_saldo_fuente;
           saldoFuente += this.sumaMovimientosFuente; 
           if(saldoFuente< currentMovData.Valor && this.movDestino !== undefined) {
             this.limitSumFuentes = false;
@@ -152,6 +153,7 @@ export class SetModificacionFuenteComponent implements OnInit {
           } else {
             this.limitSumFuentes = true;
             this.movAfectation.push(currentMovData);
+            this.returnToResume();
             this.eventChange.emit(true);
           }
   
@@ -159,5 +161,15 @@ export class SetModificacionFuenteComponent implements OnInit {
       })
     }
     
+  }
+
+
+  returnToAdd() {
+    this.localtabActived = false;
+    this.cleanData();
+  }
+
+  returnToResume(){
+    this.localtabActived = true;
   }
 }
