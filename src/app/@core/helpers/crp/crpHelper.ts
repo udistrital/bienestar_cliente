@@ -105,11 +105,9 @@ export class CRPHelper {
 
     }
 
-    
-
-    public getInfoCDP(vigencia,consecutivoCDP) {
+    public getInfoCDP(vigencia, consecutivoCDP) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('documento_presupuestal/'+vigencia+'/1?query=consecutivo:'+consecutivoCDP+",tipo:cdp").pipe(
+        return this.rqManager.get('documento_presupuestal/' + vigencia + '/1?query=consecutivo:' + consecutivoCDP + ',tipo:cdp').pipe(
             map(
                 res_crp => {
                     if (res_crp['Type'] === 'error') {
@@ -125,14 +123,14 @@ export class CRPHelper {
 
     public getInfoCdpPC(id) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/'+id).pipe(
+        return this.rqManager.get('solicitudesCDP/' + id).pipe(
             map(
                 res_crp => {
                     if (res_crp['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo cargar el CDP');
                         return undefined;
                     } else {
-                        return res_crp
+                        return res_crp;
                     }
                 }
             )
@@ -141,14 +139,14 @@ export class CRPHelper {
 
     public getInfoCRP(id?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        var ObjN: object;
-        var TrCDP: object;
-        var TrSolcrp: object;
+        let ObjN: object;
+        let TrCDP: object;
+        let TrSolcrp: object;
         this.rqManager.get('solicitudesCRP/?query=consecutivo:' + id).subscribe(async res => {
             TrSolcrp = res[0];
             await this.cdpHelper.getCDP(TrSolcrp['consecutivoCdp']).subscribe(async res2 => {
                 TrCDP = res2[0];
-                await this.cdpHelper.getFullNecesidad(TrCDP["necesidad"]).toPromise().then(res => { ObjN = res });
+                await this.cdpHelper.getFullNecesidad(TrCDP['necesidad']).toPromise().then(response => { ObjN = response; });
                 return [TrSolcrp, TrCDP, ObjN];
             });
 
@@ -356,7 +354,7 @@ export class CRPHelper {
     }
 
     public getInfoContrato(contrato, vigencia): object {
-        var objContrato = { NumeroContrato: undefined, Vigencia: undefined, NumeroCdp: undefined, NombreBeneficiario: undefined, DocBeneficiario: undefined };
+        const objContrato = { NumeroContrato: undefined, Vigencia: undefined, NumeroCdp: undefined, NombreBeneficiario: undefined, DocBeneficiario: undefined };
         this.getContratoSuscrito(contrato, vigencia).subscribe(resCS => {
             if (resCS[0]) {
                 objContrato.NumeroContrato = resCS[0].NumeroContrato.Id;
@@ -373,20 +371,17 @@ export class CRPHelper {
                                         objContrato.DocBeneficiario = resIP.NumDocumento;
                                         return objContrato;
                                     }
-                                })
+                                });
                             }
-                        })
+                        });
                     }
-                })
-            }else{
-                return[]
+                });
+            } else {
+                return[];
             }
-        })
+        });
         return objContrato;
     }
-
-
-
 }
 
 
