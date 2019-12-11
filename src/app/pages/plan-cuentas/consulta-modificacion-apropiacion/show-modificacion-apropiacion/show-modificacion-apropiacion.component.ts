@@ -86,7 +86,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                         Tipo: mov['Tipo'],
                         CuentaContraCredito: mov['ValorInicial'],
                         CuentaCredito: 0,
-                        CDP: mov['DocumentsGenerated']? mov['DocumentsGenerated'][0]['Consecutivo'] : ''
+                        CDP: mov['DocumentsGenerated'] ? mov['DocumentsGenerated'][0]['Consecutivo'] : ''
                     };
                 } else {
                     movFormated = {

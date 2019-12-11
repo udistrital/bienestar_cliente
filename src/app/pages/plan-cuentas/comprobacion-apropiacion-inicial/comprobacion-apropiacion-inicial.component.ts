@@ -3,7 +3,6 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 import { Observable } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
-import { catchError } from 'rxjs/operators';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 registerLocaleData(locales, 'co');
 
@@ -26,8 +25,7 @@ export class ComprobacionApropiacionInicialComponent implements OnChanges {
   @Input() afectationData: Array<any>;
 
   constructor(
-    private apHelper: ApropiacionHelper,
-    private popUpManag: PopUpManager,
+    private apHelper: ApropiacionHelper
   ) {
   }
 
