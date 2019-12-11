@@ -84,6 +84,8 @@ steps:
       branch:
       - master
       - test
+      event:
+      - push
       status:
       - failure
       - success
