@@ -23,7 +23,6 @@ export class NecesidadesHelper {
             map(
                 (res) => {
                     if (res[0]) {
-                        console.info("no se pudo obtener la info de estado necesidad")
                         return res[0];
                     }
                     return undefined;
@@ -44,9 +43,9 @@ export class NecesidadesHelper {
             map(
                 (res) => {
                     if (res[0]) {
-                        this.pUpManager.showInfoAlert(necesidadRechazada["justificacion"], `Error al rechazar la necesidad Nº ${necesidadRechazada["ConsecutivoNecesidad"]}`);
+                        this.pUpManager.showInfoAlert(necesidadRechazada['justificacion'], `Error al rechazar la necesidad Nº ${necesidadRechazada['ConsecutivoNecesidad']}`);
                     }
-                    this.pUpManager.showInfoAlert(necesidadRechazada["justificacion"], `Solicitud de neceisdad Nº ${necesidadRechazada["ConsecutivoNecesidad"]} rechazada`);
+                    this.pUpManager.showInfoAlert(necesidadRechazada['justificacion'], `Solicitud de neceisdad Nº ${necesidadRechazada['ConsecutivoNecesidad']} rechazada`);
                 },
             ),
         );

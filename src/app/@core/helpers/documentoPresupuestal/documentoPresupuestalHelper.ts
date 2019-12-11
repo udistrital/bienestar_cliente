@@ -8,8 +8,7 @@ import { PopUpManager } from '../../managers/popUpManager';
 })
 export class DocumentoPresupuestalHelper {
     constructor(
-        private rqManager: RequestManager,
-        private pUpManager: PopUpManager
+        private rqManager: RequestManager
     ) { }
 
     /**

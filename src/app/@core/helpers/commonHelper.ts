@@ -48,7 +48,7 @@ export class CommonHelper {
             if (match || search === '') {
               return true;
             } else {
-              return false
+              return false;
             }
     }
 
