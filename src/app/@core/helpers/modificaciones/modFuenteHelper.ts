@@ -39,7 +39,7 @@ export class ModFuenteHelper {
         );
     }
 
-    public getAllModificacionesApr(id?: any, params?: {vigencia: string, cg: string}){
+    public getAllModificacionesApr(id?: any, params?: {vigencia: string, cg: string}) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get(`documento_presupuestal/${params.vigencia}/${params.cg}/modificacion`).pipe(
             map(
@@ -54,7 +54,7 @@ export class ModFuenteHelper {
         );
     }
 
-    public getModificacionesAfectation(docPresUUID?: any, params?: {vigencia: string, cg: string}){
+    public getModificacionesAfectation(docPresUUID?: any, params?: {vigencia: string, cg: string}) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get(`movimiento/${params.vigencia}/${params.cg}/${docPresUUID}`).pipe(
             map(
