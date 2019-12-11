@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
-import { RequestManager } from '../../../../@core/managers/requestManager';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 

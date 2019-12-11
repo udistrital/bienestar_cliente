@@ -3,7 +3,6 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 import { Observable } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
-import { PopUpManager } from '../../../@core/managers/popUpManager';
 registerLocaleData(locales, 'co');
 
 @Component({
