@@ -161,7 +161,6 @@ export class DinamicformComponent implements OnInit, OnChanges {
           c.alerta = this.showErrorPatternMessage(c.pattern);
         } else {
           c.alerta = '** Debe llenar este campo';
-  
         }
       c.clase = 'form-control form-control-danger';
       return false;
@@ -219,7 +218,7 @@ export class DinamicformComponent implements OnInit, OnChanges {
     });
   }
 
-  showErrorPatternMessage(pattern){
+  showErrorPatternMessage(pattern) {
     switch (pattern) {
       case '^[1-9]{1,9}':
         return '** Formato Incorrecto: Solo se permite ingresar números';

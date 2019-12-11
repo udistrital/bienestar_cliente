@@ -23,7 +23,7 @@ export class ListCrpComponent implements OnInit {
   cambiotab: boolean = false;
   listColumns: object;
   crp: object;
-  estados = [{Id:1, Estado:"Saldo Parcialmente Comprometido"},{Id:2, Estado:"Saldo Parcialmente Ejecutado"}]
+  estados = [{Id : 1, Estado : 'Saldo Parcialmente Comprometido'} , {Id : 2, Estado : 'Saldo Parcialmente Ejecutado'}];
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -79,7 +79,7 @@ export class ListCrpComponent implements OnInit {
         valuePrepareFunction: value => {
           value = this.estados.filter(element => {
             return element.Id === value;
-          })
+          });
           value = value.Estado;
           return value;
         }

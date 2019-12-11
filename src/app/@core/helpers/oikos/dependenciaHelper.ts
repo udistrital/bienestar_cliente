@@ -14,11 +14,8 @@ export class DependenciaHelper {
      */
     public get(id?: any, query?: string) {
         this.rqManager.setPath('OIKOS_SERVICE');
-        const params = {
-            limit: 0,
-        };
-        var url = id ? id : '?'+query;
+        const url = id ? id : '?' + query;
         // call request manager for the tree's data.
-        return this.rqManager.get('dependencia/'+ url);
+        return this.rqManager.get('dependencia/' + url);
     }
 }

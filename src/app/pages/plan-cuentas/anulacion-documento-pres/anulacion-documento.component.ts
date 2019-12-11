@@ -120,6 +120,5 @@ export class AnulacionDocumentoComponent implements OnInit {
       }
     );
     return movimiento;
-  };
-
+  }
 }

@@ -25,8 +25,7 @@ export class FuenteHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         if (params) {
             this.query_params = id ? id + '/' + params.Vigencia + '/' + params.UnidadEjecutora : params.Vigencia + '/' + params.UnidadEjecutora;
-        }
-        else {
+        } else {
             this.query_params = '0/1';
         }
         return this.rqManager.get('fuente_financiamiento/' + this.query_params).pipe(
@@ -35,10 +34,9 @@ export class FuenteHelper {
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar las fuentes');
                         return undefined;
-                    }
-                    else if (!id || this.query_params== '0/1'){
+                    } else if (!id || this.query_params === '0/1') {
                         res.forEach(element => {
-                            element.Vigencia == "0"?element.Vigencia="sin vigencia asignada":element.Vigencia;
+                            element.Vigencia === '0' ? element.Vigencia = 'sin vigencia asignada' : element.Vigencia;
                         });
                     }
                     return res;

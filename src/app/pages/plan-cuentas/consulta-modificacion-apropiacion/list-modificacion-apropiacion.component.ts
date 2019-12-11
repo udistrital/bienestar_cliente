@@ -130,14 +130,14 @@ export class ListModificacionApropiacionComponent implements OnInit {
   }
 
   loadOptionsVigencia(): void {
-    let aplicacion = this.vigencias;
+    const aplicacion = this.vigencias;
     this.formEntity.campos[this.getIndexForm('Vigencia')].opciones = aplicacion;
   }
   getIndexForm(nombre: String): number {
     for (let index = 0; index < this.formEntity.campos.length; index++) {
       const element = this.formEntity.campos[index];
       if (element.nombre === nombre) {
-        return index
+        return index;
       }
     }
     return 0;
@@ -174,7 +174,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
     this.auxcambiotab = false;
     this.localtabACtived = false;
     this.createTab = false;
-    this.viewTab = false
+    this.viewTab = false;
   }
 
   onSaved($event) {
