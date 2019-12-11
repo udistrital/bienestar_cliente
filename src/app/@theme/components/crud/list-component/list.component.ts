@@ -71,7 +71,6 @@ export class ListEntityComponent implements OnInit {
     this.filtrarLista();
   }
   ngOnChanges(changes) {
-    
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
       this.loadData();
@@ -85,12 +84,12 @@ export class ListEntityComponent implements OnInit {
         /*        console.info(change);
                console.info(change.filter.filters); */
         change.filter.filters.map((item) => {
-          if (item.field == 'Vigencia' &&
+          if (item.field === 'Vigencia' &&
             (item.search.length === 4 || item.search === '0')) {
-            this.paramsFieldsName = { Vigencia: item.search, UnidadEjecutora: 1 }
+            this.paramsFieldsName = { Vigencia: item.search, UnidadEjecutora: 1 };
             this.loadData();
           }
-        })
+        });
 
         // Do whatever you want with the filter event
 
@@ -139,20 +138,20 @@ export class ListEntityComponent implements OnInit {
   IsFuente(event) {
     if (event.data.ValorInicial !== undefined) {
       this.formEntity.campos[this.getIndexForm('Codigo')].deshabilitar = true;
-      this.paramsFieldsName["Vigencia"] = event.data.Vigencia;
-      if(event.data.Vigencia == "sin vigencia asignada"){
-        this.paramsFieldsName["Vigencia"] = "0";
+      this.paramsFieldsName['Vigencia'] = event.data.Vigencia;
+      if (event.data.Vigencia === 'sin vigencia asignada') {
+        this.paramsFieldsName['Vigencia'] = '0';
       }
     }
   }
   onEdit(event): void {
     console.info(event);
     this.uid = event.data[this.uuidReadField];
-    this.IsFuente(event)
+    this.IsFuente(event);
     this.activetab('crud');
   }
 
-  emitItemSelected(event){
+  emitItemSelected(event) {
     this.infooutput.emit(event.data);
   }
 
@@ -202,7 +201,7 @@ export class ListEntityComponent implements OnInit {
       if (willDelete.value) {
         this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
           if (res['Type'] === 'error') {
-            if( res['Message']){
+            if ( res['Message']) {
               this.popUpManager.showErrorAlert(res['Message']);
             } else {
               this.popUpManager.showErrorAlert(res['Body']);
@@ -257,7 +256,7 @@ export class ListEntityComponent implements OnInit {
     for (let index = 0; index < this.formEntity.campos.length; index++) {
       const element = this.formEntity.campos[index];
       if (element.nombre === nombre) {
-        return index
+        return index;
       }
     }
     return 0;

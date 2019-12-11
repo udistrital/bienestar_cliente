@@ -63,7 +63,7 @@ export class SetModificacionFuenteComponent implements OnInit {
   public getDataEvent(changeStep) {
     this.setStepValidationEvent.emit({
       afectation: this.movAfectation,
-       balanced: this.limitSumFuentes,// si se necesita un booleano para este proceso se activa
+       balanced: this.limitSumFuentes, // si se necesita un booleano para este proceso se activa
       changeStep,
     });
   }
@@ -109,7 +109,7 @@ export class SetModificacionFuenteComponent implements OnInit {
   }
   public selectFuenteElemntEvent($event: FuenteFinanciamientoInterface) {
     console.info($event);
-    const withVigencia = $event.Vigencia != 0 ? true : false;
+    const withVigencia = $event.Vigencia !== 0 ? true : false;
     if (withVigencia) {
 
       switch (this.sourceTypeSelected) {
@@ -136,31 +136,28 @@ export class SetModificacionFuenteComponent implements OnInit {
     const currentMovData: ModFuenteData = {
       Tipo: modType,
       MovimientoOrigen: this.movOrigen,
-      MovimientoDestino: this.movDestino ? this.movDestino : undefined, 
+      MovimientoDestino: this.movDestino ? this.movDestino : undefined,
       Valor: this.modValueForm.value['value']
     };
 
     if (currentMovData.MovimientoOrigen !== undefined) {
-
       this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((response) => {
         if (response) {
           let saldoFuente = response.fuente_financiamiento.total_saldo_fuente;
           saldoFuente += this.sumaMovimientosFuente; 
           if(saldoFuente< currentMovData.Valor && this.movDestino !== undefined) {
             this.limitSumFuentes = false;
-            this.infoSaldoSuperado = "La fuente: "+ currentMovData.MovimientoOrigen.Nombre + " se desfasa por un valor de: ";
-            this.desfaseSaldo = currentMovData.Valor - saldoFuente;         
+            this.infoSaldoSuperado = 'La fuente: ' + currentMovData.MovimientoOrigen.Nombre + ' se desfasa por un valor de: ';
+            this.desfaseSaldo = currentMovData.Valor - saldoFuente;
           } else {
             this.limitSumFuentes = true;
             this.movAfectation.push(currentMovData);
             this.returnToResume();
             this.eventChange.emit(true);
           }
-  
         }
-      })
+      });
     }
-    
   }
 
 

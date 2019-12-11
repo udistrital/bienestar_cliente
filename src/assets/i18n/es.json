@@ -177,7 +177,12 @@
     "suspension": "Suspensión",
     "adicion": "Adición",
     "organismo_emisor": "Organismo emisor",
-    "placeholder_organismo_emisor": "Organismo emisor"
+    "placeholder_organismo_emisor": "Organismo emisor",
+    "movimiento_origen": "Movimiento origen",
+    "proceso_anulacion": "Proceso de anulación",
+    "cdp": "CDP",
+    "rp": "CRP",
+    "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -258,6 +263,8 @@
     "confirmacion_eliminar": "Producto Eliminado"
   },
   "CDP": {
+    "cdp": "CDP",
+    "cdp_modificacion": "CDP modificación presupuestal",
     "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
     "lista_cdp": "Lista certificados de disponibilidad presupuestal",
     "n_solicitud": "N° Solicitud de CDP",
@@ -280,6 +287,7 @@
     "anular_cdp": "Anular CDP",
     "total_comprometido": "Totalmente comprometido",
     "expedido": "Expedido",
+    "registrada": "Expedido",
     "parcial_comprometido": "Parcialmente comprometido",
     "valor_actual": "Valor actual",
     "valor_inicial": "Valor inicial"

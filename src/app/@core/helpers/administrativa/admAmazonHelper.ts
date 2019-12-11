@@ -31,7 +31,7 @@ export class AdmAmazonHelper {
      */
     public getPersonaNatural(id: string) {
         this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
-        return this.rqManager.get('informacion_persona_natural/'+id).pipe(
+        return this.rqManager.get('informacion_persona_natural/' + id).pipe(
             map(res => res)
         );
     }
