@@ -20,9 +20,9 @@
           >{{ v.vigencia }}</nb-option
         >
       </nb-select>
-      <p>El siguiente arbol representa las apropiaciones aprobadas para la vigencia, al lado derecho se visualiza la información detalle del rubro, asimismo al dar click sobre un rubro que se ramifica se visualizaran los rubros hijos. </p>
+      <p>{{ "APROPIACION.parrafo-intro-consulta-apro" | translate }}</p>
       <div *ngIf="vigenciaSel == strVigenciaActual">
-        <p>Para agregar un rubro a la vigencia {{ vigenciaSel }} de click en : </p>
+        <p>{{ "APROPIACION.texto-modificar-apro" | translate: {vigenciaSel:vigenciaSel} }}</p>
         <div class="col-md-4 col-lg-4 col-xxxl-4">
           <button
             *ngIf="optionView == 'ApropiacionesEstado'"

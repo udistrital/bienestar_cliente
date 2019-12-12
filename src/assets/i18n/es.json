@@ -218,6 +218,8 @@
     "consulta-apropiacion-title":"Consulta apropiación inicial",
     "title_gestion_preasignacion":"Gestión de preapropiación inicial",
     "selecciona-ano-consulta":"Seleccione el año a consultar : ",
+    "parrafo-intro-consulta-apro":"El siguiente arbol representa las apropiaciones aprobadas para la vigencia, al lado derecho se visualiza la información detalle del rubro, asimismo al dar click sobre un rubro que se ramifica se visualizaran los rubros hijos.",
+    "texto-modificar-apro":"Para agregar un rubro a la vigencia {{vigenciaSel}} de click en :",
     "comprobacion": "Comprobación de la apropiacion inicial",
     "ingresos": " 2 INGRESOS",
     "egresos": "3 GASTOS",
