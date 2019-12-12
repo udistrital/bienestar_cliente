@@ -89,7 +89,7 @@
     "actividades": "Actividades",
     "porcentaje": "Porcentaje %",
     "quitar_producto": "Quitar producto",
-    "apropiacion-inicial": "Apropiacion inicial",
+    "apropiacion-inicial": "Apropiación inicial",
     "aprobar-apropiacion-inicial": "Aprobar apropiación inicial",
     "detalle-rubro": "Detalle del rubro",
     "nombre-rubro": "Nombre del rubro",
@@ -215,14 +215,16 @@
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
   },
   "APROPIACION": {
+    "consulta-apropiacion-title":"Consulta apropiación inicial",
+    "title_gestion_preasignacion":"Gestión de preapropiación inicial",
+    "selecciona-ano-consulta":"Seleccione el año a consultar : ",
     "comprobacion": "Comprobación de la apropiacion inicial",
     "ingresos": " 2 INGRESOS",
     "egresos": "3 GASTOS",
     "comprobacion-igualdad": "La apropiacion inicial esta balanceada",
     "comprobacion-diferencia": "Existe una diferencia entre ingresos y egresos de: ",
     "comprobacion-diferencia-cero": "Las apropiaciones tienen valor de 0",
-    "apropiaciones": "Apropiaciones",
-    "title_gestion_preasignacion":"Gestión de Preasignación Inicial"
+    "apropiaciones": "Apropiaciones"
   },
   "MODIF": {
     "detalle_modificacion": "Detalle de la Modificación",

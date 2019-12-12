@@ -1,14 +1,17 @@
 <div class="container-fluid">
   <nb-card>
     <nb-card-header>
-      {{ "GLOBAL.apropiacion-inicial" | translate }}
-      {{ "GLOBAL.vigencia" | translate }}
+      {{ "APROPIACION.consulta-apropiacion-title" | translate }}
+    </nb-card-header>
+    <div class="div-descripcion">
+      {{ "APROPIACION.selecciona-ano-consulta" | translate }}
       <nb-select
-        id="select_vigencia"
-        placeholder="{{ vigenciaSel }}"
-        hero
-        status="info"
-        [(ngModel)]="VigenciaActual"
+      id="select_vigencia"
+      placeholder="{{ vigenciaSel }}"
+      hero
+      status="info"
+      [(ngModel)]="VigenciaActual"
+      placeholder="--Selecciona--"
       >
         <nb-option
           *ngFor="let v of vigencias"
@@ -17,27 +20,28 @@
           >{{ v.vigencia }}</nb-option
         >
       </nb-select>
-      <br>
-      
-    </nb-card-header>
-    <br>
-    <div class="col-md-4 col-lg-4 col-xxxl-4">
-      <button
-        *ngIf="optionView == 'ApropiacionesEstado'"
-        type="submit"
-        class="btn btn-info btn-block"
-        (click)="changeView('Apropiaciones')"
-      >
-        {{ "GLOBAL.asignar-nueva-apropiacion-inicial" | translate }}
-      </button>
-      <button
-        *ngIf="optionView == 'Apropiaciones'"
-        type="submit"
-        class="btn btn-info btn-block"
-        (click)="changeView('ApropiacionesEstado')"
-      >
-        {{ "GLOBAL.regresar-consulta-apropiacion" | translate }}
-      </button>
+      <p>El siguiente arbol representa las apropiaciones aprobadas para la vigencia, al lado derecho se visualiza la información detalle del rubro, asimismo al dar click sobre un rubro que se ramifica se visualizaran los rubros hijos. </p>
+      <div *ngIf="vigenciaSel == strVigenciaActual">
+        <p>Para agregar un rubro a la vigencia {{ vigenciaSel }} de click en : </p>
+        <div class="col-md-4 col-lg-4 col-xxxl-4">
+          <button
+            *ngIf="optionView == 'ApropiacionesEstado'"
+            type="submit"
+            class="btn btn-info btn-block"
+            (click)="changeView('Apropiaciones')"
+          >
+            {{ "GLOBAL.asignar-nueva-apropiacion-inicial" | translate }}
+          </button>
+          <button
+            *ngIf="optionView == 'Apropiaciones'"
+            type="submit"
+            class="btn btn-info btn-block"
+            (click)="changeView('ApropiacionesEstado')"
+          >
+            {{ "GLOBAL.regresar-consulta-apropiacion" | translate }}
+          </button>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -50,7 +54,6 @@
               [optionSelect]="optionView"
             ></ngx-arbol>
           </div>
-
           <div class="col-md-4 col-lg-4 col-xxxl-4">
             <div class="container-fluid">
               <nb-card>
@@ -79,7 +82,6 @@
                         readonly
                       />
                     </div>
-
                     <div class="form-group">
                       <label>{{ "GLOBAL.unidad-ejecutora" | translate }}</label>
                       <input
@@ -118,8 +120,7 @@
                 rubroSeleccionado.Codigo == '' ||
                 rubroSeleccionado.Estado === 'aprobada'
               "
-              class="container-fluid"
-            >
+              class="container-fluid" >
               <nb-card>
                 <nb-card-header
                   >{{ "GLOBAL.detalle-apropiacion-inicial" | translate }}

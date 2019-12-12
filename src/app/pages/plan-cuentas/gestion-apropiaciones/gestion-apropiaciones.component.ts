@@ -31,6 +31,7 @@ export class GestionApropiacionesComponent implements OnInit {
     );
     this.opcionSeleccionada = false;
     this.opcion = '';
+    /* TODO: Call vigencia by endpoint*/
     this.vigencia = 2020;
   }
 
