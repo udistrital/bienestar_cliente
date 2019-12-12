@@ -136,38 +136,38 @@ export class ApropiacionesComponent implements OnInit {
           item.valor_actividad = parseFloat(item.valor_actividad);
 
           if (item.fuente_financiamiento !== null) {
-            this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1 }).subscribe((res) => {
-              if (res.Body !== null) {
-                item.fuente_financiamiento_nombre = res.Nombre;
-                item.valor_fuente_presupuesto = parseFloat(res.ValorInicial);
+            this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1 }).subscribe((response) => {
+              if (response.Body !== null) {
+                item.fuente_financiamiento_nombre = response.Nombre;
+                item.valor_fuente_presupuesto = parseFloat(response.ValorInicial);
               }
               item.valor_dependencia = parseFloat(item.valor_fuente_financiamiento);
               this.calcularDiferenciaFuentesApropiacion(this.planAdquisicionesRubro);
             });
-            this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
-              if (res.Body !== null) {
-                item.dependencia = res.Nombre;
+            this.dependenciaHelper.get(item.dependencia).subscribe((response) => {
+              if (response.Body !== null) {
+                item.dependencia = response.Nombre;
               }
             });
           } else {
             item.valor_dependencia = 0;
           }
-        })
+        });
         this.calcularDiferenciaActividadApropiacion(this.planAdquisicionesRubro);
       }
     });
   }
 
   calcularDiferenciaActividadApropiacion(plan) {
-    const cleanActividades = this.eliminarDuplicados(plan, "actividad_id");
+    const cleanActividades = this.eliminarDuplicados(plan, 'actividad_id');
     this.totalValorActividades = cleanActividades.reduce((sum, current) => sum + current.valor_actividad, 0);
     if (this.rubroSeleccionado.ValorInicial < this.totalValorActividades) {
       this.diferenciaActividadApropiacion = this.totalValorActividades - this.rubroSeleccionado.ValorInicial;
       }
   }
-  
+
   calcularDiferenciaFuentesApropiacion(plan) {
-    const cleanFuentes = this.eliminarDuplicados(plan, "fuente_financiamiento");
+    const cleanFuentes = this.eliminarDuplicados(plan, 'fuente_financiamiento');
     this.totalValorFuentes = cleanFuentes.reduce((sum, current) => sum + current.valor_fuente_presupuesto, 0);
     if (this.rubroSeleccionado.ValorInicial < this.totalValorFuentes) {
       this.diferenciaFuentesApropiacion = this.totalValorFuentes - this.rubroSeleccionado.ValorInicial;

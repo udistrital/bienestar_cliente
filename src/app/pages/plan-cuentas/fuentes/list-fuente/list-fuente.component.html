@@ -1,10 +1,15 @@
 <div class="col-md-12 col-lg-12 ">
   <nb-card status="warning">
     <nb-card-header>
-        {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
+        <div *ngIf="!viewItemSelected">
+          {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
+        </div>
+        <div *ngIf="viewItemSelected">
+          {{ 'FUENTE_FINANCIAMIENTO.select_fuente' | translate }}
+        </div>
       </nb-card-header>
       <nb-card-body>
-      <div *ngIf="!disabledVigencia">
+      <div *ngIf="!disabledVigencia && !viewItemSelected">
           {{ 'FUENTE_FINANCIAMIENTO.descripcion' | translate }}
           <div align="right">
               {{
@@ -37,6 +42,7 @@
             [loadFormDataFunction]="loadFormDataFunction"
             [updateEntityFunction]="updateEntityFunction"
             [createEntityFunction]="createEntityFunction"
+            [viewItemSelected]="viewItemSelected"
             (infooutput)="receiveMessage($event)"
             (eventChange)="onChange($event)"
             (crudcambiotab)="onFirstTab($event)"
@@ -49,7 +55,7 @@
             {{
               "GLOBAL.regresar" | translate
             }}</button>
-          <ngx-dependencias  [paramsFieldsName] ="paramsFieldsName" *ngIf="auxcambiotab" [infoinput]="fuenteInfo" ></ngx-dependencias>
+          <ngx-dependencias (auxcambiotab)="onChangeTab($event)" [paramsFieldsName] ="paramsFieldsName" *ngIf="auxcambiotab" [infoinput]="fuenteInfo" ></ngx-dependencias>
           <ngx-rubros-fuente  *ngIf="viewTab" [infoinput]="fuenteInfo" ></ngx-rubros-fuente>
     </nb-card-body>
   </nb-card>

@@ -129,8 +129,6 @@ export class ApropiacionHelper {
         return this.rqManager.post(`modificacion_apropiacion/simulacion_afectacion_modificacion/${unidadEjecutora.toString()}/${vigencia}`, afectationObj).pipe(
             map(
                 (res) => {
-                    console.log('res', res);
-                    
                     if (res['Type'] === 'error') {
                         this.pUpManager
                             .showErrorAlert(res['Body']);
@@ -141,7 +139,6 @@ export class ApropiacionHelper {
             ),
             catchError(
                 err => {
-                    console.log('err', err);
                     return undefined;
                 }
             )

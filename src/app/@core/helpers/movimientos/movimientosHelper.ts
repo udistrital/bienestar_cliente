@@ -26,7 +26,7 @@ export class MovimientosHelper {
         return this.rqManager.post('movimiento', data).pipe(
             map(
                 (res: object) => {
-                    if (res["Type"] === 'error') {
+                    if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo expedir el Documento');
                         return undefined;
                     }
@@ -49,7 +49,7 @@ export class MovimientosHelper {
         return this.rqManager.get('movimiento/' + vigencia + '/' + centroGestor + '/' + id).pipe(
             map(
                 (res: object) => {
-                    if (res["Type"] === 'error') {
+                    if (res['Type'] === 'error') {
                         return undefined;
                     }
                     return res;

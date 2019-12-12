@@ -100,6 +100,7 @@
     "detalle-apropiacion-inicial": "Detalle de la Apropiación Inicial",
     "pre-asignar-apropiacion-inicial": "Preasignar apropiación inicial",
     "vigencia": "Vigencia",
+    "volver_registro": "Volver a Registro",
     "buscar": "Buscar",
     "registrar-rubro": "Registrar rubro",
     "add-nodo": "Añadir nodo",
@@ -135,7 +136,7 @@
     "alerta_documental_image": "La imagen se ha guardado en nuestro gestor documental",
     "alerta_documental_documento": "El documento se ha guardado en nuestro gestor documental",
     "info_basica": "Información básica",
-    "resumen": "Resumen",
+    "resumen": "Ver Resumen",
     "placeholder_resumen": "Ej: Resumen",
     "nombre": "Nombre",
     "tipo_documento": "Tipo de documento",
@@ -207,7 +208,9 @@
     "saldo_fuente": "Saldo de la Fuente: ",
     "agregar_vigencia": "Agregar vigencia para la fuente: ",
     "consulta_rubros_fuente": "Consulta de rubros por fuente: ",
-    "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: "
+    "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: ",
+    "select_fuente": "Seleccione una fuente de financiamiento",
+    "total_plan_ad": "Total Plan de Adquisiciones: "
   },
   "ACTIVIDAD":{
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
@@ -246,6 +249,8 @@
     "valor-reduccion": "Valor reducción",
     "quitar-dependencia": "Quitar Dependencia",
     "traslado": "Traslado",
+    "fuente_origen": "Fuente Origen",
+    "fuente_destino": "Fuente Destino",
     "cuenta_credito": "Cuenta crédito",
     "cuenta_contra_credito": "Cuenta contra crédito"
   },

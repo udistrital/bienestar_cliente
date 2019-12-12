@@ -36,25 +36,27 @@ export class CommonHelper {
         );
     }
 
-    public static Ng2CustomFilterFunction(contact?: any, search?: string, filterFiled?: string): boolean{
+    public static Ng2CustomFilterFunction(contact?: any, search?: string, filterFiled?: string): boolean {
+
             let match = true;
 
             Object.keys(contact).map(u => contact[filterFiled]).filter(it => {
 
               match = it.toLowerCase().includes(search);
             });
-  
+
             if (match || search === '') {
               return true;
             } else {
-              return false
+              return false;
             }
     }
 
-    public static Ng2CompareFunction (direction: any, a: any, b: any, filterFiled: string){
-            let first = typeof a[filterFiled] === 'string' ? a[filterFiled].toLowerCase(): a[filterFiled];
-            let second = typeof b[filterFiled] === 'string' ? b[filterFiled].toLowerCase(): b[filterFiled];
-  
+    public static Ng2CompareFunction (direction: any, a: any, b: any, filterFiled: string) {
+
+            const first  = typeof a[filterFiled] === 'string' ? a[filterFiled].toLowerCase() : a[filterFiled];
+            const second = typeof b[filterFiled] === 'string' ? b[filterFiled].toLowerCase() : b[filterFiled];
+
             if (first < second) {
               return -1 * direction;
             }
@@ -63,5 +65,4 @@ export class CommonHelper {
             }
             return 0;
           }
-
 }

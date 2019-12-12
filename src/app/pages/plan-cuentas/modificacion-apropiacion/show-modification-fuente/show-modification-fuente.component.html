@@ -1,0 +1,28 @@
+<nb-card>
+        <nb-card-body class="cards-container">
+            <div *ngFor="let afetctaionItem of afectationData" class="cards-items">
+    
+                <div class="card">
+                    <div class="header-container card-header bg-warning text-white">
+                        <b class="card-title">{{'GLOBAL.tipo' | translate }} : {{afetctaionItem.Tipo.Nombre}}</b>
+                        <button *ngIf="!readonly" class="btn btn-danger"
+                                (click)="removeAprData(afetctaionItem)">X</button>
+                    </div>
+                    <div  class="card-body">
+                        <b>{{'MODIF.fuente_origen' | translate }}</b> : {{afetctaionItem.MovimientoOrigen.Codigo}} / {{afetctaionItem.MovimientoOrigen.Nombre}}
+                            <br>
+                            <span
+                                *ngIf="afetctaionItem.MovimientoDestino"><b>{{'MODIF.fuente_destino' | translate }}</b>
+                                :
+                                {{afetctaionItem.MovimientoDestino.Codigo}}/{{afetctaionItem.MovimientoDestino.Codigo}}</span>
+                            <br>
+                            <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afetctaionItem.Valor | currency:'COP':'symbol':'4.2-2':'co' }}
+                            </span>
+                            <br>
+                            
+    
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>

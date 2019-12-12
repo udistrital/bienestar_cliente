@@ -36,10 +36,11 @@
                     </ngx-set-modificacion-apropiacion>
                 </mat-step>
                 <mat-step *ngIf="option.value =='fuente' " label="{{'GLOBAL.fuentes' | translate }}" [stepControl]="setModValidationForm">
-                    <nb-alert status="success">Componente de fuentes</nb-alert>
+                            <ngx-set-modificacion-fuente (setStepValidationEvent)="setSteppValidator($event)">
+                            </ngx-set-modificacion-fuente>
                 </mat-step>
                 <mat-step label="{{'GLOBAL.guardar' | translate }}">
-                       <ngx-show-modification-resume (saved)="onSaved($event)" [(modificationData)]="modifiactionFinalData">
+                       <ngx-show-modification-resume [(optionMod)]="option" (saved)="onSaved($event)" [(modificationData)]="modifiactionFinalData">
 
                        </ngx-show-modification-resume>
                     </mat-step>
