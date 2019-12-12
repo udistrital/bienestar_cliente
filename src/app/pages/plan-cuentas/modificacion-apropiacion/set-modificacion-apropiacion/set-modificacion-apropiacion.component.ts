@@ -50,7 +50,6 @@ export class SetModificacionApropiacionComponent implements OnInit {
         this.modHelper.getModTypes().subscribe((res) => {
             this.modTypes = res.filter(this.movApropiaciones) ;
         });
-
     }
 
     public movApropiaciones( movimiento ) {
@@ -79,7 +78,6 @@ export class SetModificacionApropiacionComponent implements OnInit {
                     this.cnCreditAccount = $event;
                     this.modValueForm.controls['cnCredAccount'].patchValue(`${this.cnCreditAccount.Codigo} / ${this.cnCreditAccount.Nombre}`);
                     break;
-
                 default:
                     break;
             }
