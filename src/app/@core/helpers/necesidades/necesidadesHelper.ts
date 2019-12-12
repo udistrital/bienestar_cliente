@@ -23,7 +23,6 @@ export class NecesidadesHelper {
             map(
                 (res) => {
                     if (res[0]) {
-                        console.info("no se pudo obtener la info de estado necesidad")
                         return res[0];
                     }
                     return undefined;
@@ -65,6 +64,30 @@ export class NecesidadesHelper {
             map(
                 (res) => {
                     if (res[0]) {
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+
+    /**
+     * getEstados
+     * obtiene los estados de las necesidades
+     * @param id id del estado
+     * @param query query para la consulta
+     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+     */
+    public getEstados(query?: string, id?: string) {
+        this.rqManager.setPath('NECESIDADES_CRUD_SERVICE');
+
+        return this.rqManager.get(id ? `estado_necesidad/${id}` : `estado_necesidad?${query}`).pipe(
+            map(
+                (res) => {
+                    console.info(res);
+                    if (res['Status'] === '404') {
                         return undefined;
                     }
                     return res;

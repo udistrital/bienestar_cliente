@@ -133,7 +133,7 @@ export class VerSolicitudCdpComponent implements OnInit {
     this.eventChange.emit(false);
   }
 
-  expedirCDP(consecutivo) {
+  expedirCDP(consecutivo: number) {
     this.popManager.showAlert('warning', `Expedir la solicitud de CDP ${consecutivo}`, 'continuar')
       .then((result) => {
 
@@ -146,7 +146,10 @@ export class VerSolicitudCdpComponent implements OnInit {
               consecutivoExpedido = res['DocInfo']['Consecutivo'];
               return this.cdpHelper.expedirCDP(this.solicitud['_id']);
             })
-          ).subscribe(res => {
+          )
+          .pipe(mergeMap(() => this.actualizarNecesidad())
+          )
+          .subscribe(res => {
             if (res) {
               this.popManager.showSuccessAlert(`Se expidió con éxito el CDP Nº ${consecutivoExpedido}`);
               this.router.navigate(['/pages/plan-cuentas/cdp']);
@@ -154,6 +157,18 @@ export class VerSolicitudCdpComponent implements OnInit {
           });
         }
       });
+
+  }
+
+  private actualizarNecesidad(): Observable<any> {
+    let necesidad: object;
+    const query = 'query=CodigoAbreviacionn:CDPE';
+    return this.necesidadesHelper.getEstados(query).pipe(
+      mergeMap(res => {
+      necesidad = this.TrNecesidad.Necesidad;
+      necesidad['EstadoNecesidadId'] = res[0];
+      return this.necesidadesHelper.putNecesidad(necesidad, necesidad['Id']);
+    }));
   }
 
   private construirDatosMovimiento(): object {
