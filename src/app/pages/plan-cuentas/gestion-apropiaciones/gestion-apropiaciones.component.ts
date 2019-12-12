@@ -36,7 +36,7 @@ export class GestionApropiacionesComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      if(params !== null ){
+      if(params.get('vista') !== null ){
         this.opcion = params.get('vista');
         this.opcionSeleccionada = true;
       }
