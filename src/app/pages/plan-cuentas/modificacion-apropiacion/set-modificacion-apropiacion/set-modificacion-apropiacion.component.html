@@ -18,10 +18,8 @@
                 class="mod-registration-input-item"
               >
                 <mat-label>{{ "GLOBAL.tipo" | translate }}</mat-label>
-                <mat-select formControlName="modType" [(value)]="selectedType">
-                  <mat-option>
-                    --Seleccionar--
-                  </mat-option>
+                <mat-select formControlName="modType" [(value)]="selectedType" placeholder=" --Seleccionar--">
+
                   <mat-option
                     *ngFor="let modType of modTypes"
                     [value]="modType"

@@ -29,7 +29,7 @@ export class ModificacionApropiacionComponent implements OnInit {
         { value: 'apropiacion', label: 'Apropiación' },
         { value: 'fuente', label: 'Fuente de Financiamiento' }
       ];
-      option = { value:'', label: ''};
+      option = { value: '', label: ''};
     @Output() saved: EventEmitter<boolean> = new EventEmitter();
 
     ngOnInit() {
@@ -96,6 +96,7 @@ export class ModificacionApropiacionComponent implements OnInit {
                     break;
                 case 1:
                     console.info($event);
+                    break;
                 case 2:
                     this.setSteppValidator(this.checkAfectationFinalData);
                     break;
@@ -138,6 +139,4 @@ export class ModificacionApropiacionComponent implements OnInit {
     public nextStep() {
         this.stepper.next();
     }
-
-
 }

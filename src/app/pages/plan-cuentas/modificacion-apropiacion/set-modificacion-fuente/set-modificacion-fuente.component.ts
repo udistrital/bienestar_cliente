@@ -83,9 +83,7 @@ export class SetModificacionFuenteComponent implements OnInit {
     this.modValueForm.controls['modType'].valueChanges.subscribe((selected: TypeGeneral) => {
       if (selected.Parametros) {
         selected.Parametros = JSON.parse(selected.Parametros);
-        console.info(selected.Parametros);
       }
-      console.info(selected);
       this.modTypeSelected = selected;
       if (this.modTypeSelected) {
         if (selected.Parametros['MovimientoDestino']) {
