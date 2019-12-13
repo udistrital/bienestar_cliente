@@ -15,11 +15,12 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 
 export class ListModificacionApropiacionComponent implements OnInit {
 
-  paramsFieldsName: { vigencia: string, cg: string };
+  paramsFieldsName: { vigencia: string, cg: string , tipomod: string};
   uuidReadFieldName: string;
   uuidDeleteFieldName: string;
 
   vigenciaSel: any;
+  tipoModSel: any;
   vigencias: any[];
   deleteConfirmMessage: string;
   deleteMessage: string;
@@ -44,6 +45,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
   localtabACtived: boolean = false;
   viewTab: boolean = false;
   modificationDataSelected: object;
+  tipoModificaciones: { value: string; label: any; }[];
 
   constructor(
     private translate: TranslateService,
@@ -58,6 +60,9 @@ export class ListModificacionApropiacionComponent implements OnInit {
         this.vigencias = res;
       }
     });
+    this.tipoModificaciones = [
+      {value: 'modificacion_presupuestal', label:this.translate.instant('GLOBAL.mod_presupuestal')},
+      {value: 'modificacion_fuente', label:this.translate.instant('GLOBAL.mod_fuente')}];
     this.uuidReadFieldName = '_id';
     this.uuidDeleteFieldName = '_id';
     this.isOnlyCrud = true;
@@ -68,10 +73,12 @@ export class ListModificacionApropiacionComponent implements OnInit {
     this.commonHelper.geCurrentVigencia().subscribe(res => {
       if (res) {
         this.vigenciaSel = res + '';
+        this.tipoModSel = this.tipoModificaciones[0];
       }
-      this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' };
+      this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' , tipomod: this.tipoModSel.value};
       this.loadFormDataFunction = this.modificacionAprHelper.getAllModificacionesApr;
     });
+
     this.listColumns = {
 
       TipoDocumento: {
@@ -145,7 +152,14 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
-    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' };
+    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' , tipomod: this.tipoModSel.value };
+    // this.eventChange.emit(true);
+  }
+
+  onSelectTipoMod(selectedItem: any) {
+    console.info(selectedItem);
+    this.tipoModSel = selectedItem;
+    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
     // this.eventChange.emit(true);
   }
 
