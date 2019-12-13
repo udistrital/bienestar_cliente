@@ -142,7 +142,7 @@
     "tipo_documento": "Tipo de documento",
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero documento",
-    "area_funcional": "Area funcional",
+    "area_funcional": "Área funcional",
     "centro_gestor": "Centro gestor",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
@@ -182,7 +182,8 @@
     "proceso_anulacion": "Proceso de anulación",
     "cdp": "CDP",
     "rp": "CRP",
-    "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO"
+    "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO",
+    "cdp_modificacion": "CDP modificación presupuestal"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -288,6 +289,7 @@
     "total_comprometido": "Totalmente comprometido",
     "expedido": "Expedido",
     "registrada": "Expedido",
+    "aprobado": "Aprobadó",
     "parcial_comprometido": "Parcialmente comprometido",
     "valor_actual": "Valor actual",
     "valor_inicial": "Valor inicial"
