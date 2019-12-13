@@ -144,11 +144,15 @@ export class ApropiacionesComponent implements OnInit {
               item.valor_dependencia = parseFloat(item.valor_fuente_financiamiento);
               this.calcularDiferenciaFuentesApropiacion(this.planAdquisicionesRubro);
             });
-            this.dependenciaHelper.get(item.dependencia).subscribe((response) => {
-              if (response.Body !== null) {
-                item.dependencia = response.Nombre;
-              }
-            });
+            if(String(item.dependencia) === "0") {
+              item.dependencia = "Funcionamiento: dependencias en general"
+            }else {
+              this.dependenciaHelper.get(item.dependencia).subscribe((response) => {
+                if (response.Body !== null) {
+                  item.dependencia = response.Nombre;
+                }
+              });
+            }
           } else {
             item.valor_dependencia = 0;
           }
