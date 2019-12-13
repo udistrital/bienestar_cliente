@@ -140,7 +140,7 @@ export class SetModificacionFuenteComponent implements OnInit {
 
     if (currentMovData.MovimientoOrigen !== undefined) {
       this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((response) => {
-        if (response) {
+        if (response.fuente_financiamiento) {
           let saldoFuente = currentMovData.MovimientoOrigen.ValorActual - response.fuente_financiamiento.total_saldo_fuente; 
           if(saldoFuente< currentMovData.Valor && this.movDestino !== undefined) {
             this.limitSumFuentes = false;
@@ -152,6 +152,8 @@ export class SetModificacionFuenteComponent implements OnInit {
             this.returnToResume();
             this.eventChange.emit(true);
           }
+        } else {
+          this.popManager.showErrorAlert("La fuente no esta distribuida");
         }
       });
     }
