@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -14,6 +15,7 @@ export class GestionApropiacionesComponent implements OnInit {
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
+    private route: ActivatedRoute,
   ) {
     this.matIconRegistry.addSvgIcon(
       'consulta_apropiacion',
@@ -27,15 +29,21 @@ export class GestionApropiacionesComponent implements OnInit {
         'presupuesto/../assets/images/preasignacion.svg'
       )
     );
-
     this.opcionSeleccionada = false;
     this.opcion = '';
+    /* TODO: Call vigencia by endpoint*/
     this.vigencia = 2020;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      if(params.get('vista') !== null ){
+        this.opcion = params.get('vista');
+        this.opcionSeleccionada = true;
+      }
+    });
+  }
   routeView(opc) {
-    console.info(opc);
     this.opcionSeleccionada = true;
     this.opcion = opc;
   }

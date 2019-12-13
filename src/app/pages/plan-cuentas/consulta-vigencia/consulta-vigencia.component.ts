@@ -21,7 +21,8 @@ export class ConsultaVigenciaComponent implements OnInit {
   vigenciaSel: any;
   clean = false;
   opcion: string;
-  VigenciaActual = '2019';
+  VigenciaActual = '';
+  strVigenciaActual = '';
   optionView: string;
   balanceado: boolean;
   vigencias: any[];
@@ -34,7 +35,6 @@ export class ConsultaVigenciaComponent implements OnInit {
     private commonHelper: CommonHelper,
     private popManager: PopUpManager,
   ) {
-    this.vigenciaSel = '2019';
     this.optionView = 'ApropiacionesEstado';
 
     this.cleanAprData();
@@ -75,15 +75,14 @@ export class ConsultaVigenciaComponent implements OnInit {
     });
     this.commonHelper.geCurrentVigencia().subscribe(res => {
       if (res) {
-        this.vigenciaSel = res + '';
+        this.vigenciaSel       = res + '';
+        this.strVigenciaActual = this.vigenciaSel;
       }
     });
   }
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
-    // this.eventChange.emit(true);
-    console.info(this.vigenciaSel);
   }
 
   changeView(viewOptionValue: string) {
@@ -93,7 +92,6 @@ export class ConsultaVigenciaComponent implements OnInit {
 
   receiveMessage($event) {
     this.rubroSeleccionado = <Rubro>$event;
-    console.info(this.rubroSeleccionado);
     this.rubroSeleccionado.Id = parseInt(this.rubroSeleccionado.Id, 0);
     this.rubroSeleccionado.Nombre = this.rubroSeleccionado.Nombre;
     this.CentroGestor = '230';
@@ -116,22 +114,20 @@ export class ConsultaVigenciaComponent implements OnInit {
     this.apropiacionData.Hijos = typeof this.rubroSeleccionado.Hijos === 'undefined' ? undefined : this.rubroSeleccionado.Hijos;
     this.apropiacionData.ValorInicial = typeof this.valorApropiacion === 'undefined' ? undefined : this.valorApropiacion;
     this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ValorInicial === 'undefined' ? 0 : this.rubroSeleccionado.ValorInicial;
-    this.apropiacionData.Estado = 'registrada'; // Estado preasignado
+    this.apropiacionData.Estado = 'registrada'; /*TODO: Agregar a traducciones -- estado preasignado*/
 
-    console.table(this.rubroSeleccionado);
     if (this.vigenciaSel !== undefined) {
       this.apHelper.apropiacionRegister(this.apropiacionData).subscribe((res) => {
         if (res) {
-          this.popManager.showSuccessAlert('Se registro la apropiación correctamente!');
+          this.popManager.showSuccessAlert('Se registro la apropiación correctamente!'); /*TODO: Agregar a traducciones */
           // this.cleanForm();
           this.eventChange.emit(true);
           this.cleanAprData();
         }
       });
     } else {
-      this.popManager.showErrorAlert('Seleccione una vigencia.');
+      this.popManager.showErrorAlert('Seleccione una vigencia.'); /*TODO: Agregar a traducciones */
     }
-
 
   }
 }
