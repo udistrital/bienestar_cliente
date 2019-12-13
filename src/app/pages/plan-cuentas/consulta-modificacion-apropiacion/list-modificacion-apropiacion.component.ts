@@ -42,7 +42,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
   disabledVigencia: boolean = false;
   externalCreate: boolean = true;
   createTab: boolean = false;
-  localtabACtived: boolean = false;
+  localtabActived: boolean = false;
   viewTab: boolean = false;
   modificationDataSelected: object;
   tipoModificaciones: { value: string; label: any; }[];
@@ -173,10 +173,10 @@ export class ListModificacionApropiacionComponent implements OnInit {
       this.disabledVigencia = true;
       this.auxcambiotab = true;
       this.createTab = true;
-      this.localtabACtived = true;
+      this.localtabActived = true;
     } else if ($event === 'other') {
       this.viewTab = true;
-      this.localtabACtived = true;
+      this.localtabActived = true;
     }
   }
 
@@ -185,8 +185,9 @@ export class ListModificacionApropiacionComponent implements OnInit {
   }
 
   returnToList() {
+    this.disabledVigencia = false;
     this.auxcambiotab = false;
-    this.localtabACtived = false;
+    this.localtabActived = false;
     this.createTab = false;
     this.viewTab = false;
   }
