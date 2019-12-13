@@ -4,7 +4,7 @@
     </h5>
     <label for="valorfuente" class="form-control-label">
         <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
-                {{infoinput.ValorInicial| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
+                {{infoinput.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
     </label>
     <ng-container *ngIf="!planAdquisicionesFuente; then planAdquisicionesOff; else planAdquisicionesOn">
     </ng-container>
@@ -12,44 +12,59 @@
         <nb-alert outline="danger">No hay información asociada para esta fuente de financiamiento</nb-alert>
     </ng-template>
     <ng-template #planAdquisicionesOn>
-        <div *ngFor="let item of planAdquisicionesFuente.rubros">
+        <div class="d-flex">
+            <div>
 
-            <ul *ngIf="item.rubro.Codigo">
-                <li><strong>Rubro:</strong><span>
-                        {{item.rubro.Nombre}}</span> ( {{item.rubro.Codigo}} )
-                    <ul>
-                        <li><strong>Apropiación Inicial:</strong>
-                            {{item.rubro.ValorInicial | currency:'COP':'symbol':'4.2-2':'co'}}</li>
-                        <ul>
-                            <li><strong>Meta:</strong> {{item.meta}}</li>
-                        </ul>
-                        <ul>
-                            <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
-                            <li><strong>Valor Dependencia:</strong>
-                                {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
-                        </ul>
+                <div *ngFor="let item of planAdquisicionesFuente.rubros">
+
+                    <ul *ngIf="item.rubro.Codigo">
+                        <li><strong>Rubro:</strong><span>
+                                {{item.rubro.Nombre}}</span> ( {{item.rubro.Codigo}} )
+                            <ul>
+                                <li><strong>Apropiación Inicial:</strong>
+                                    {{item.rubro.ValorActual | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                                <ul>
+                                    <li><strong>Meta:</strong> {{item.meta}}</li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
+                                    <li><strong>Valor Dependencia:</strong>
+                                        {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                                </ul>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <ul *ngIf="!item.rubro.Codigo">
-                <li> El rubro <span>
-                        <strong>{{item.rubro}}</strong></span> no esta creado para la vigencia
-                    <strong>{{infoinput.Vigencia}}</strong>,
-                    por favor crearlo
-                    <ul>
-                        <li><strong>Apropiación Inicial:</strong>
-                            No existe, por favor crearla</li>
-                        <ul>
-                            <li><strong>Meta:</strong> {{item.meta}}</li>
-                        </ul>
-                        <ul>
-                            <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
-                            <li><strong>Valor Dependencia:</strong>
-                                {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
-                        </ul>
+                    <ul *ngIf="!item.rubro.Codigo">
+                        <li> El rubro <span>
+                                <strong>{{item.rubro}}</strong></span> no esta creado para la vigencia
+                            <strong>{{infoinput.Vigencia}}</strong>,
+                            por favor crearlo
+                            <ul>
+                                <li><strong>Apropiación Inicial:</strong>
+                                    No existe, por favor crearla</li>
+                                <ul>
+                                    <li><strong>Meta:</strong> {{item.meta}}</li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
+                                    <li><strong>Valor Dependencia:</strong>
+                                        {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                                </ul>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
+            <div class="ml-auto">
+                <nb-alert status="warning">Movimientos para {{infoinput.Nombre}} - {{infoinput.Codigo}} </nb-alert>
+                <div *ngIf="infoinput.Movimientos">
+                    <ng2-smart-table class="mod-registration-input-item" [settings]="settings" [source]="source">
+                    </ng2-smart-table>
+                </div>
+                <div *ngIf="!infoinput.Movimientos">
+                    <nb-alert outline="danger">No hay movimientos para la fuente</nb-alert>
+                </div>
+            </div>
         </div>
         <nb-alert outline="success">
             <div class="moneyField">
