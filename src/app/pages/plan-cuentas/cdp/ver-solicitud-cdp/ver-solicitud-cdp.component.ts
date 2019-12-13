@@ -28,6 +28,7 @@ export class VerSolicitudCdpComponent implements OnInit {
   tituloPDF: string = '';
   username: string;
   responsable: string;
+  ordenadorGasto: string;
   valorActual: number;
   valorInicial: number;
   fechaExpedicion: Date;
@@ -99,7 +100,14 @@ export class VerSolicitudCdpComponent implements OnInit {
         });
       }
       this.TrNecesidad = trNecesidad;
+
+      this.admAmazonHelper.getProveedor(this.TrNecesidad['Necesidad']['DependenciaNecesidadId']['OrdenadorGastoId']).subscribe(res => {
+        if (res) {
+          this.ordenadorGasto = res['NomProveedor'];
+        }
+      });
     });
+
 
     this.dependenciaHelper.get('', 'query=Nombre__contains:PRESUPUESTO')
       .pipe(

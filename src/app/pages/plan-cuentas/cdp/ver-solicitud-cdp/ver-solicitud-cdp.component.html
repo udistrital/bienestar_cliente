@@ -16,7 +16,7 @@
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
                         <th width="15%">{{'GLOBAL.vigencia' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.entidad' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.centro_gestor' | translate}}</th>
                         <th width="45%">{{'GLOBAL.area_funcional' | translate}}</th>
                     </thead>
                     <tbody>
@@ -138,7 +138,8 @@
                         <tr>
                             <td *ngIf="!expedido">{{TrNecesidad.Necesidad.FechaSolicitud | date:'dd/MM/yyyy'}}</td>
                             <td *ngIf="expedido">{{solicitud.FechaRegistro | date:'dd/MM/yyyy'}}</td>
-                            <td>{{responsable}} <br>{{'GLOBAL.jefe_presupuesto' | translate}}</td>
+                            <td *ngIf="!expedido">{{ordenadorGasto}}</td>
+                            <td *ngIf="expedido">{{responsable}} <br>{{'GLOBAL.jefe_presupuesto' | translate}}</td>
                             <td>{{ username }}</td>
                         </tr>
                     </tbody>

@@ -5,7 +5,7 @@ import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-
+import { RequestManager } from '../../../../@core/managers/requestManager';
 
 @Component({
   selector: 'ngx-list-cdp',
@@ -33,7 +33,8 @@ export class ListCdpComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private cdpHelper: CDPHelper,
-    private documentoPresupuestal: DocumentoPresupuestalHelper
+    private documentoPresupuestal: DocumentoPresupuestalHelper,
+    private rqManager: RequestManager
   ) { }
 
   ngOnInit() {
