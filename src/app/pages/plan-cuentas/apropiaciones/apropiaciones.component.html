@@ -31,6 +31,7 @@
             <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
               <mat-tab-group>
                 <mat-tab label="{{'GLOBAL.rubro' | translate }}">
+                  <!-- Detalle del rubro : detalle -->
                   <div class="container-fluid">
                     <nb-card>
                       <nb-card-header>{{"GLOBAL.detalle-rubro" | translate}}</nb-card-header>
@@ -65,7 +66,8 @@
                       </nb-card-body>
                     </nb-card>
                   </div>
-                  <!-- Apropiacion inicial nuevo rubro -->
+                  <!-- Fin Detalle del rubro : detalle -->
+                  <!-- Detalle del rubro : Valor Apropiacion inicial -->
                   <div [hidden]="rubroSeleccionado.Estado === 'aprobada'" class="container-fluid">
                     <nb-card>
                       <nb-card-header>{{ "APROPIACION.detalle-apropiacion-inicial" | translate }}
@@ -88,9 +90,9 @@
                       </nb-card-body>
                     </nb-card>
                   </div>
-                  <!-- Fin Apropiacion inicial nuevo rubro -->
+                  <!-- Fin Detalle del rubro : Valor Apropiacion inicial -->
                 </mat-tab>
-                <!-- Productos por rubro -->
+                <!-- Detalle del rubro : Productos por rubro -->
                 <mat-tab *ngIf="productos " label="{{'GLOBAL.productos' | translate }}">
                   <div class="row" *ngIf="true">
                     <div class="col-md-12">
@@ -100,12 +102,12 @@
                     </div>
                   </div>
                 </mat-tab>
-                <!-- fin Productos por rubro -->
-                <!-- Plan adquisiciones por rubro -->
+                <!-- fin Detalle del rubro : Productos por rubro -->
+                <!-- Detalle del rubro : Plan adquisiciones por rubro -->
                 <mat-tab *ngIf="planAdquisicionesRubro" label="{{'GLOBAL.fuentes' | translate }}">
                   <ngx-plan-adquisiciones-rubro></ngx-plan-adquisiciones-rubro>
                 </mat-tab>
-                <!-- Fin Plan adquisiciones por rubro -->
+                <!-- Fin Detalle del rubro : Plan adquisiciones por rubro -->
               </mat-tab-group>
             </div>
             <!-- Fin Detalle del rubro -->

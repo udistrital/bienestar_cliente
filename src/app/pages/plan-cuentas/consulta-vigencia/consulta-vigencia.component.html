@@ -3,6 +3,7 @@
     <nb-card-header>
       {{ "APROPIACION.consulta-apropiacion-title" | translate }}
     </nb-card-header>
+    <!-- Descripcion consulta apropiacion por vigencia -->
     <div class="div-descripcion">
       {{ "APROPIACION.selecciona-ano-consulta" | translate }}
       <nb-select
@@ -43,9 +44,11 @@
         </div>
       </div>
     </div>
+    <!-- Fin Descripcion consulta apropiacion por vigencia -->
     <div class="row">
       <div class="col-md-12">
         <div class="row">
+          <!-- Arbol rubros -->
           <div class="col-md-8 col-lg-8 col-xxxl-8">
             <ngx-arbol
               (rubroSeleccionado)="receiveMessage($event)"
@@ -54,7 +57,14 @@
               [optionSelect]="optionView"
             ></ngx-arbol>
           </div>
+          <!-- Fin Arbol rubros -->
+          <!-- Detalle del rubro -->
           <div class="col-md-4 col-lg-4 col-xxxl-4">
+            <mat-tab-group>
+              <mat-tab label="{{'GLOBAL.rubro' | translate }}">
+              </mat-tab>
+            </mat-tab-group>
+            <!-- Detalle del rubro : detalle -->
             <div class="container-fluid">
               <nb-card>
                 <nb-card-header>{{
@@ -115,6 +125,8 @@
                 </nb-card-body>
               </nb-card>
             </div>
+            <!-- Fin Detalle del rubro : detalle -->
+            <!-- Detalle del rubro (nuevo rubro): detalle -->
             <div
               [hidden]="
                 rubroSeleccionado.Codigo == '' ||
@@ -140,6 +152,7 @@
                         value="{{ rubroSeleccionado.ValorInicial }}"
                         [(ngModel)]="valorApropiacion"
                       />
+                      <!-- Fin Detalle del rubro : Apropiacion inicial nuevo rubro -->
                       <div class="spacingValorAp">
                         <button
                           type="submit"
@@ -149,12 +162,15 @@
                           {{ "APROPIACION.asignar-apropiacion-inicial" | translate }}
                         </button>
                       </div>
+                      <!-- Fin Detalle del rubro : Apropiacion inicial nuevo rubro -->
                     </div>
                   </div>
                 </nb-card-body>
               </nb-card>
             </div>
+            <!-- Detalle del rubro (nuevo rubro): detalle -->
           </div>
+          <!-- Fin Detalle del rubro -->
         </div>
       </div>
     </div>
