@@ -102,6 +102,7 @@ export class ConsultaVigenciaComponent implements OnInit {
     );
     this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
     this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
+    //this.showPlanAdquisicion('2019', this.rubroSeleccionado.Codigo);
   }
 
   preAsignarApropiacion() {
@@ -128,6 +129,5 @@ export class ConsultaVigenciaComponent implements OnInit {
     } else {
       this.popManager.showErrorAlert('Seleccione una vigencia.'); /*TODO: Agregar a traducciones */
     }
-
   }
 }
