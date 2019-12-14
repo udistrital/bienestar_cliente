@@ -165,7 +165,6 @@
     "rubro_registrado": "Rubro registrado",
     "rubro_eliminado": "Rubro eliminado",
     "asignar-nueva-apropiacion-inicial": "Asignar Nueva Apropiación",
-    "asignar-apropiacion-inicial": "Asignar Apropiación",
     "regresar-consulta-apropiacion": "Consulta apropiación actual",
     "fecha_registro": "Fecha de registro",
     "traslado": "Traslado",
@@ -216,7 +215,7 @@
     "consulta-apropiacion-title":"Consulta apropiación inicial",
     "title_gestion_preasignacion":"Gestión de preapropiación inicial",
     "selecciona-ano-consulta":"Seleccione el año a consultar : ",
-    "parrafo-intro-consulta-apro":"El siguiente arbol representa las apropiaciones aprobadas para la vigencia, al lado derecho se visualiza la información detalle del rubro, asimismo al dar click sobre un rubro que se ramifica se visualizaran los rubros hijos.",
+    "parrafo-intro-consulta-apro":"El siguiente árbol representa las apropiaciones aprobadas para la vigencia seleccionada y al hacer clic sobre un rubro que tenga ramificaciones podrá ver los rubros hijos.<br>En la parte derecha de la pantalla podrá encontrar el detalle del rubro con la información pertinente.",
     "texto-modificar-apro":"Para agregar un rubro a la vigencia {{vigenciaSel}} de click en :",
     "comprobacion": "Comprobación de la apropiacion inicial",
     "ingresos": " 2 INGRESOS",
@@ -236,7 +235,8 @@
     "fuente":"Fuente : ",
     "dependencia":"Dependencia : ",
     "valor-fuente":"Valor fuente : ",
-    "valor-dependencia":"Valor dependencia : "
+    "valor-dependencia":"Valor dependencia : ",
+    "asignar-apropiacion-inicial": "Asignar Apropiación"
   },
   "MODIF": {
     "detalle_modificacion": "Detalle de la Modificación",
@@ -347,5 +347,7 @@
   "_id": "ID",
   "Nombre": "Nombre",
   "ApropiacionInicial": "Valor Apropiación Inicial",
-  "Codigo": "Código"
+  "Codigo": "Código",
+  "ValorInicial" : "Valor inicial",
+  "ValorActual" : "Valor actual"
 }

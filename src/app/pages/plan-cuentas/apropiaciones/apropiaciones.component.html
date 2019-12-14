@@ -8,18 +8,26 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-8 col-lg-8 col-xxxl-8">
+              <!-- Arbol de apropiaciones -->
               <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
-                [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
+                [vigencia]="vigenciaSel" [optionSelect]="optionView">
+              </ngx-arbol>
+              <!-- Fin Arbol de apropiaciones -->
+              <!-- Componente comprobación inicial -->
               <ngx-comprobacion-apropiacion-inicial (comprobacion)='checkComprobacion($event)' [vigencia]="vigenciaSel"
                 [updateSignal]="eventChange">
               </ngx-comprobacion-apropiacion-inicial>
+              <!-- Fin Componente comprobación inicial -->
+              <!-- Boton aprobar comprobación inicial -->
               <div class="col-md-12 spacingValorAp">
                 <button *ngIf="balanceado" type="submit" style="margin-bottom: 3%;" class="btn btn-success btn-block"
                   (click)="aprobarApropiacion()" [hidden]="allApproved">
                   {{ "GLOBAL.aprobar-apropiacion-inicial" | translate }}
                 </button>
               </div>
+              <!-- Fin Boton aprobar comprobación inicial -->
             </div>
+            <!-- Detalle del rubro -->
             <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
               <mat-tab-group>
                 <mat-tab label="{{'GLOBAL.rubro' | translate }}">
@@ -57,6 +65,7 @@
                       </nb-card-body>
                     </nb-card>
                   </div>
+                  <!-- Apropiacion inicial nuevo rubro -->
                   <div [hidden]="rubroSeleccionado.Estado === 'aprobada'" class="container-fluid">
                     <nb-card>
                       <nb-card-header>{{ "APROPIACION.detalle-apropiacion-inicial" | translate }}
@@ -79,6 +88,7 @@
                       </nb-card-body>
                     </nb-card>
                   </div>
+                  <!-- Fin Apropiacion inicial nuevo rubro -->
                 </mat-tab>
                 <!-- Productos por rubro -->
                 <mat-tab *ngIf="productos " label="{{'GLOBAL.productos' | translate }}">
@@ -91,11 +101,14 @@
                   </div>
                 </mat-tab>
                 <!-- fin Productos por rubro -->
+                <!-- Plan adquisiciones por rubro -->
                 <mat-tab *ngIf="planAdquisicionesRubro" label="{{'GLOBAL.fuentes' | translate }}">
                   <ngx-plan-adquisiciones-rubro></ngx-plan-adquisiciones-rubro>
                 </mat-tab>
+                <!-- Fin Plan adquisiciones por rubro -->
               </mat-tab-group>
             </div>
+            <!-- Fin Detalle del rubro -->
           </div>
         </div>
       </div>
