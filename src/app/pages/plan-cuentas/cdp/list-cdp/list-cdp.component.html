@@ -12,3 +12,4 @@
 </div>
 <ngx-ver-solicitud-cdp *ngIf="cambiotab && !modPresupuestal" [solicitudcdp]="cdp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-cdp>
 <ngx-show-modificacion-apropiacion [vigencia]="cdp.Vigencia" [modificationData]="cdp" (eventChange)="cambiotab=$event" *ngIf="cambiotab && modPresupuestal"></ngx-show-modificacion-apropiacion>
+<ngx-list-anulacion-documento [vigencia]="'2019'" [movID]="'5debbd8c0ef1650761259cba'" [centroGestor]="'1'"></ngx-list-anulacion-documento>
