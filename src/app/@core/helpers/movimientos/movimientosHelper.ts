@@ -63,7 +63,7 @@ export class MovimientosHelper {
         return this.rqManager.get('movimiento/get_doc_by_mov_parentUUID/' + vigencia + '/' + centroGestor + '/' + id).pipe(
             map(
                 (res: any) => {
-                    if (res['Type'] === 'error') {
+                    if (res && res['Type'] === 'error') {
                         return undefined;
                     }
                     return res;

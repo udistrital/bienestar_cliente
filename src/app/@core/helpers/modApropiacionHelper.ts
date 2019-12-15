@@ -44,7 +44,7 @@ export class ModApropiacionHelper {
         return this.rqManager.get(`modificacion_apropiacion/${params.vigencia}/${params.cg}/${params.tipomod}`).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
+                    if (res && res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert(this.translate.instant('mod_apr_error'));
                         return undefined;
                     }

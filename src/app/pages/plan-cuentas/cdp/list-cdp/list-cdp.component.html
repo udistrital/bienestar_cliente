@@ -10,7 +10,7 @@
         </nb-card-body>
     </nb-card>
 </div>
-<button *ngIf="anularTab" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+<button *ngIf="anularTab || (cambiotab && modPresupuestal)" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
     Regresar</button>
 <ngx-ver-solicitud-cdp *ngIf="cambiotab && !modPresupuestal" [solicitudcdp]="cdp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-cdp>
 <ngx-show-modificacion-apropiacion [vigencia]="cdp.Vigencia" [modificationData]="cdp" (eventChange)="cambiotab=$event" *ngIf="cambiotab && modPresupuestal"></ngx-show-modificacion-apropiacion>

@@ -139,7 +139,7 @@ export class ListCdpComponent implements OnInit {
         break;
       case 'anular':
         this.cdp = event.data;
-        this.anularTab = !this.anularTab;
+        this.anularTab = true;
         break;
     }
   }
@@ -153,7 +153,8 @@ export class ListCdpComponent implements OnInit {
   }
 
   returnToList() {
-    this.anularTab = !this.anularTab;
+    this.anularTab = false;
+    this.cambiotab = false;
   }
 
 }

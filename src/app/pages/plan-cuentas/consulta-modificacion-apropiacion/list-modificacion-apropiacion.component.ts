@@ -96,7 +96,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value) => {
           const date = new Date(value);
-          return `${date.getFullYear()}-${date.getMonth() + 1}-${('0' + date.getDate()).slice(-2)}`;
+          return  `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
       FechaRegistro: {
@@ -104,13 +104,13 @@ export class ListModificacionApropiacionComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value) => {
           const date = new Date(value);
-          return `${date.getFullYear()}-${date.getMonth() + 1}-${('0' + date.getDate()).slice(-2)}`;
+          return `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
-      CentroGestor: {
+      Area: {
         title: this.translate.instant('GLOBAL.area_funcional'),
         // type: 'string;',
-        valuePrepareFunction: (value) => 'Rector',
+        valuePrepareFunction: (value) => value = 'Rector',
       }
     };
 

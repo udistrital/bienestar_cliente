@@ -35,7 +35,7 @@ export class ListAnulacionDocumentoComponent implements OnInit {
     this.listColumns = {
 
       Consecutivo: {
-        title: this.translate.instant('GLOBAL.numero'),
+        title: this.translate.instant('GLOBAL.consecutivo'),
         valuePrepareFunction: (value) => value,
       },
 
