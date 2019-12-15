@@ -23,6 +23,7 @@ export class ListCdpComponent implements OnInit {
   listColumns: object;
   cdp: object;
   cambiotab: boolean = false;
+  anularTab: boolean = false;
   modPresupuestal: boolean; // Modificación presupuestal
 
   centros = { '1': 'Rector', '2': 'Convenios' };
@@ -90,7 +91,11 @@ export class ListCdpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
+        custom: [
+            { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>' },
+            { name: 'anular', title: '<i class="fas fa-ban" title="Anular" (click)="anular($event)"></i>' },
+       
+          ],
         position: 'right'
       },
       mode: 'external',
@@ -131,6 +136,11 @@ export class ListCdpComponent implements OnInit {
     switch (event.action) {
       case 'ver':
         this.verCDP(event.data);
+        break;
+      case 'anular':
+        this.cdp = event.data;
+        this.anularTab = !this.anularTab;
+        break;
     }
   }
   verCDP(cdp) {
@@ -140,6 +150,10 @@ export class ListCdpComponent implements OnInit {
 
   onCambiotab(): void {
     this.cambiotab = !this.cambiotab ;
+  }
+
+  returnToList() {
+    this.anularTab = !this.anularTab;
   }
 
 }
