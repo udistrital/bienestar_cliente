@@ -20,6 +20,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     settings: object;
     listColumns: object;
     source: Array<any>;
+    movIDS: Array<string> = [];
 
     constructor(private modApropiacionHelper: ModApropiacionHelper,
         private translate: TranslateService,
@@ -107,64 +108,72 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
             mode: 'external',
             columns: this.listColumns,
         };
+        console.log(this.modificationData);
+        
+        this.modApropiacionHelper.getModificacionesAfectation(
+            this.modificationData['_id'],
+            {
+                vigencia: this.modificationData['Vigencia'],
+                cg: this.modificationData['CentroGestor']
+            }).subscribe((res: Array<any>) => {
+                const data: Array<any> = [];
+                /*
+                    TODO: My future friend: I know this function should be implemented on back-end side.
+                    I put this here for simplify things because modificaciones' proccess does not take a lot of resources to be formated at this moment.
+                */
+                switch (this.tipoModificacion) {
+                    case 'modificacion_fuente':
+                        for (const mov of res) {
+                            let movFormated: any;
+                            if (mov['Tipo'] === 'tr_fuente' || mov['Tipo'].includes('red_fuente') || mov['Tipo'].includes('sus_fuente')) {
+                                movFormated = {
+                                    Fuente: mov['Padre'],
+                                    Tipo: mov['Tipo'],
+                                    MovimientoDestino: mov['ValorInicial'],
+                                    MovimientoOrigen: 0
+                                };
+                            } else {
+                                movFormated = {
+                                    Fuente: mov['Padre'],
+                                    Tipo: mov['Tipo'],
+                                    MovimientoDestino: 0,
+                                    MovimientoOrigen: mov['ValorInicial']
+                                };
+                            }
+                            data.push(movFormated);
+                        }
+                        break;
 
-        this.modApropiacionHelper.getModificacionesAfectation(this.modificationData['_id'], { vigencia: this.vigencia, cg: '1' }).subscribe((res: Array<any>) => {
-            const data: Array<any> = [];
-            /*
-                TODO: My future friend: I know this function should be implemented on back-end side.
-                I put this here for simplify things because modificaciones' proccess does not take a lot of resources to be formated at this moment.
-            */
-           switch (this.tipoModificacion) {
-               case 'modificacion_fuente':
-                   for (const mov of res) {
-                       let movFormated: any;
-                       if (mov['Tipo'] === 'tr_fuente' || mov['Tipo'].includes('red_fuente') || mov['Tipo'].includes('sus_fuente')) {
-                           movFormated = {
-                               Fuente: mov['Padre'],
-                               Tipo: mov['Tipo'],
-                               MovimientoDestino: mov['ValorInicial'],
-                               MovimientoOrigen: 0
-                           };
-                       } else {
-                           movFormated = {
-                               Fuente: mov['Padre'],
-                               Tipo: mov['Tipo'],
-                               MovimientoDestino: 0,
-                               MovimientoOrigen: mov['ValorInicial']
-                           };
-                       }
-                       data.push(movFormated);
-                   }                   
-                   break;
-           
-               default:
-                   for (const mov of res) {
-                       let movFormated: any;
-                       if (mov['Tipo'] === 'traslado' || mov['Tipo'].includes('reduccion') || mov['Tipo'].includes('suspension')) {
-                           movFormated = {
-                               Rubro: mov['Padre'],
-                               Tipo: mov['Tipo'],
-                               CuentaContraCredito: mov['ValorInicial'],
-                               CuentaCredito: 0,
-                               CDP: mov['DocumentsGenerated'] ? mov['DocumentsGenerated'][0]['Consecutivo'] : ''
-                           };
-                       } else {
-                           movFormated = {
-                               Rubro: mov['Padre'],
-                               Tipo: mov['Tipo'],
-                               CuentaContraCredito: 0,
-                               CuentaCredito: mov['ValorInicial'],
-                               CDP: 'N/A'
-                           };
-                       }
-                       data.push(movFormated);
-                   }
-                   break;
-           }
+                    default:
+                        for (const mov of res) {
 
-            this.source = data;
+                            let movFormated: any;
+                            if (mov['Tipo'] === 'traslado' || mov['Tipo'].includes('reduccion') || mov['Tipo'].includes('suspension')) {
+                                movFormated = {
+                                    Rubro: mov['Padre'],
+                                    Tipo: mov['Tipo'],
+                                    CuentaContraCredito: mov['ValorInicial'],
+                                    CuentaCredito: 0,
+                                    CDP: mov['DocumentsGenerated'] ? mov['DocumentsGenerated'][0]['Consecutivo'] : '',
+                                };
+                            } else {
+                                movFormated = {
+                                    Rubro: mov['Padre'],
+                                    Tipo: mov['Tipo'],
+                                    CuentaContraCredito: 0,
+                                    CuentaCredito: mov['ValorInicial'],
+                                    CDP: 'N/A'
+                                };
+                            }
+                            this.movIDS.push(mov['_id']);
+                            data.push(movFormated);
+                        }
+                        break;
+                }
 
-        });
+                this.source = data;
+
+            });
     }
 
     cambioTab() {
