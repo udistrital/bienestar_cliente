@@ -187,7 +187,9 @@
     "cdp": "CDP",
     "rp": "CRP",
     "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO",
-    "cdp_modificacion": "CDP modificación presupuestal"
+    "cdp_modificacion": "CDP modificación presupuestal",
+    "lista_anulaciones": "Lista anulaciones",
+    "consecutivo": "Consecutivo"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
