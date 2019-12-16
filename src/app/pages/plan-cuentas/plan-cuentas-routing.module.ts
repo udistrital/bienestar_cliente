@@ -17,6 +17,7 @@ import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicit
 import { ListCrpComponent } from './crp/list-crp/list-crp.component';
 import { ListModificacionApropiacionComponent } from './consulta-modificacion-apropiacion/list-modificacion-apropiacion.component';
 import { ShowModificationApropiacionDataComponent } from './consulta-modificacion-apropiacion/show-modificacion-apropiacion/show-modificacion-apropiacion.component';
+import { CierreVigenciaComponent } from './gestion-vigencias/cierre-vigencia/cierre-vigencia.component';
 
 
 
@@ -79,6 +80,10 @@ const routes: Routes = [{
   path: 'list-modificacion-apropiacion',
   component: ListModificacionApropiacionComponent,
 },
+{
+  path: 'cierre-vigencia',
+  component: CierreVigenciaComponent,
+},
 
 
 ];
@@ -101,4 +106,5 @@ export const routedComponents = [
   ShowModificationResumeComponent,
   ShowModificationApropiacionDataComponent,
   ListModificacionApropiacionComponent,
+  CierreVigenciaComponent,
 ];

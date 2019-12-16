@@ -38,6 +38,7 @@ import { RubrosFuenteComponent } from './fuentes/rubros-fuente/rubros-fuente.com
 import { AnulacionDocumentoComponent } from './anulacion-documento-pres/anulacion-documento.component';
 import { SetModificacionFuenteComponent } from './modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component';
 import { ShowModificationFuenteComponent } from './modificacion-apropiacion/show-modification-fuente/show-modification-fuente.component';
+import { CierreVigenciaComponent } from './gestion-vigencias/cierre-vigencia/cierre-vigencia.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ShowModificationFuenteComponent } from './modificacion-apropiacion/show
     AnulacionDocumentoComponent,
     SetModificacionFuenteComponent,
     ShowModificationFuenteComponent,
+    CierreVigenciaComponent,
   ],
   providers: [
     ConfiguracionService,

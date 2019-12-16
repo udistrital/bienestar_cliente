@@ -12,6 +12,7 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
+import { CurrencyPipe } from '@angular/common';
 
 
 
@@ -33,6 +34,7 @@ import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
   providers: [
     ConfiguracionService,
     MenuService,
+    CurrencyPipe,
   ],
 })
 export class PagesModule {

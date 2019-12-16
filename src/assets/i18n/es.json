@@ -181,7 +181,8 @@
     "proceso_anulacion": "Proceso de anulación",
     "cdp": "CDP",
     "rp": "CRP",
-    "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO"
+    "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO",
+    "consecutivo": "Consecutivo"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -318,6 +319,14 @@
     "id-contratista": "ID Beneficiario",
     "nombre-contratista": "Nombre Beneficiario",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
+  },
+  "VIGENCIA" : {
+    "cierre_vigencia_titulo" : "Cierre de vigencia.",
+    "precierre_button": "Ver información de precierre",
+    "ejecucion": "Resumen ejecución presupuestal",
+    "fuentes": "Fuentes de financiamiento con saldo disponible",
+    "reservas": "Lista de CRP que pasarán a estado reserva",
+    "pasivos": "Lista de reservas que pasarán a estado pasivo"
   },
   "FOOTER": {
     "dias_disponibilidad": "Lunes a Viernes",
