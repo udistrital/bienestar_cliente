@@ -273,7 +273,7 @@
     "detalle_cdp": "Detalle de CDP ",
     "n_sol_cdp": "N° de solicitud de CDP",
     "n_necesidad": "N° de necesidad",
-    "solicitante": "Dependencia Solicitante",
+    "solicitante": "Dependencia solicitante",
     "objeto": "Objeto",
     "fecha_solicitud": "Fecha de solicitud",
     "fecha_expedicion": "Fecha de expedición",
@@ -292,7 +292,8 @@
     "aprobado": "Aprobadó",
     "parcial_comprometido": "Parcialmente comprometido",
     "valor_actual": "Valor actual",
-    "valor_inicial": "Valor inicial"
+    "valor_inicial": "Valor inicial",
+    "ordenador_gasto": "ORDENADOR DE GASTO"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",
