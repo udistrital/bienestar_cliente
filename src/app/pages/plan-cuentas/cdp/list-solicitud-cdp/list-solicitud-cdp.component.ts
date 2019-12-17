@@ -38,6 +38,8 @@ export class ListSolicitudCdpComponent implements OnInit {
   ngOnInit() {
     this.loadDataFunction = this.cdpHelper.getSolicitudesCDP;
     this.rqManager = this.rqManager;
+    const centrosCopy = this.centros;
+    const areasCopy = this.areas;
 
     this.listColumns = {
       vigencia: {
@@ -49,9 +51,28 @@ export class ListSolicitudCdpComponent implements OnInit {
       },
       tipoFinanciacion: {
         title: this.translate.instant('CDP.tipo_financiacion'),
-        filter: true,
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: 'Inversión', title: 'Inversión' },
+              { value: 'Funcionamiento', title: 'Funcionamiento' },
+            ]
+          },
+        },
         valuePrepareFunction: (value: object) => {
-          return value ? value['TipoFinanciacionNecesidadId']['Nombre'] : '';
+          return value ? value['TipoFinanciacionNecesidadId']['Descripcion'] : this.translate.instant('GLOBAL.error');
+        },
+        filterFunction(cell?: any, search?: string): boolean {
+          if (cell['TipoFinanciacionNecesidadId']) {
+            if (cell['TipoFinanciacionNecesidadId']['Descripcion'] === search) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+          return false;
         }
       },
       centroGestor: {
@@ -59,13 +80,36 @@ export class ListSolicitudCdpComponent implements OnInit {
         filter: true,
         valuePrepareFunction: (value: string) => {
           return this.centros[value];
+        },
+        filterFunction(cell?: any, search?: string): boolean {
+          if (centrosCopy[cell.toString()].includes(search) || search === '') {
+            return true;
+          } else {
+            return false;
+          }
         }
       },
       entidad: {
         title: this.translate.instant('GLOBAL.area_funcional'),
-        filter: true,
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: 'Rector', title: 'Rector' },
+              { value: 'Convenios', title: 'Convenios' },
+            ]
+          },
+        },
         valuePrepareFunction: (value: string) => {
           return this.areas[value];
+        },
+        filterFunction(cell?: any, search?: string): boolean {
+          if (areasCopy[cell.toString()].includes(search) || search === '') {
+            return true;
+          } else {
+            return false;
+          }
         }
       },
       consecutivoNecesidad: {
@@ -86,6 +130,7 @@ export class ListSolicitudCdpComponent implements OnInit {
 
     this.settings = {
       actions: {
+        columnTitle: 'Opciones',
         add: false,
         edit: false,
         delete: false,
@@ -131,6 +176,7 @@ export class ListSolicitudCdpComponent implements OnInit {
   onCustom(event: any) {
     switch (event.action) {
       case 'ver':
+        this.source.setFilter([]);
         this.verSolicitud(event.data);
     }
   }
