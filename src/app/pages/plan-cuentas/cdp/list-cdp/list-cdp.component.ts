@@ -60,7 +60,7 @@ export class ListCdpComponent implements OnInit {
             selectText: 'Todas',
             list: [
               { value: 'Rector', title: 'Rector' },
-              { value: 'Conveios', title: 'Conveios' },
+              { value: 'Convenios', title: 'Convenios' },
             ]
           },
         },
