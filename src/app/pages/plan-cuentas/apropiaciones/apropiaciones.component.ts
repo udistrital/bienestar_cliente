@@ -258,7 +258,6 @@ export class ApropiacionesComponent implements OnInit {
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
     // this.eventChange.emit(true);
-    console.info(this.vigenciaSel);
   }
 
   checkComprobacion(event: { balanceado: boolean, approved: boolean }) {

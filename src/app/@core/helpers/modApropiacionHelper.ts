@@ -39,12 +39,12 @@ export class ModApropiacionHelper {
         );
     }
 
-    public getAllModificacionesApr(id?: any, params?: { vigencia: string, cg: string }) {
+    public getAllModificacionesApr(id?: any, params?: { vigencia: string, cg: string, tipomod: string }) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.get(`modificacion_apropiacion/${params.vigencia}/${params.cg}`).pipe(
+        return this.rqManager.get(`modificacion_apropiacion/${params.vigencia}/${params.cg}/${params.tipomod}`).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
+                    if (res && res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert(this.translate.instant('mod_apr_error'));
                         return undefined;
                     }
