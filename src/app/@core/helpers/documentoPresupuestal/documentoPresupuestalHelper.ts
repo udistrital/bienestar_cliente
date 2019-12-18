@@ -1,13 +1,16 @@
 import { RequestManager } from '../../managers/requestManager';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { PopUpManager } from '../../managers/popUpManager';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DocumentoPresupuestalHelper {
+
     constructor(
-        private rqManager: RequestManager
+        private rqManager: RequestManager,
+        private pUpManager: PopUpManager
     ) { }
 
     /**
