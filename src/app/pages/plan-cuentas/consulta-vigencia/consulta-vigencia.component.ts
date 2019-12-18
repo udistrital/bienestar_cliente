@@ -30,7 +30,7 @@ export class ConsultaVigenciaComponent implements OnInit {
   CentroGestor: string;
   AreaFuncional: string;
   viewOption: string;
-  planAdquisicionesRubro : boolean;
+  tabPlanAdquisicionesRubro : boolean;
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -82,7 +82,7 @@ export class ConsultaVigenciaComponent implements OnInit {
         this.strVigenciaActual = this.vigenciaSel;
       }
     });
-    this.planAdquisicionesRubro = false;
+    this.tabPlanAdquisicionesRubro = false;
   }
 
   onSelect(selectedItem: any) {
@@ -106,10 +106,10 @@ export class ConsultaVigenciaComponent implements OnInit {
     );
     this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
     this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
-    this.planAdquisicionesRubro = true;
+    this.tabPlanAdquisicionesRubro = true;
   }
   receiveMessagePlan($event) {
-    this.planAdquisicionesRubro = $event;
+    this.tabPlanAdquisicionesRubro = $event;
   }
 
   preAsignarApropiacion() {
