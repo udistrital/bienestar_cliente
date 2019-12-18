@@ -30,7 +30,7 @@ export class ConsultaVigenciaComponent implements OnInit {
   CentroGestor: string;
   AreaFuncional: string;
   viewOption: string;
-  rubroSeleccionadoo = '3-03-001-15-01-43-0388';
+  planAdquisicionesRubro : boolean;
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -82,9 +82,7 @@ export class ConsultaVigenciaComponent implements OnInit {
         this.strVigenciaActual = this.vigenciaSel;
       }
     });
-  }
-  ngOnChanges() {
-    console.log(this.rubroSeleccionado);
+    this.planAdquisicionesRubro = false;
   }
 
   onSelect(selectedItem: any) {
@@ -108,10 +106,10 @@ export class ConsultaVigenciaComponent implements OnInit {
     );
     this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
     this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
-    //this.showPlanAdquisicion('2019', this.rubroSeleccionado.Codigo);
+    this.planAdquisicionesRubro = true;
   }
   receiveMessagePlan($event) {
-    console.log($event);
+    this.planAdquisicionesRubro = $event;
   }
 
   preAsignarApropiacion() {

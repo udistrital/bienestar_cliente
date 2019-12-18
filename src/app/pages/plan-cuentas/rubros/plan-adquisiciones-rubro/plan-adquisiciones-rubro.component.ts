@@ -43,15 +43,15 @@ export class PlanAdquisicionesRubroComponent implements OnInit {
     if(this.rubroSeleccionado.Codigo) this.showPlanAdquisicion(2019,this.rubroSeleccionado.Codigo)
   }
 
-  isPlanAdquisiciones(){
-    this.eventChange.emit(this.planAdquisicionesRubro);
-    console.log('emiti desde el show plan adquisiciones')
+  isPlanAdquisiciones(boolean){
+    this.eventChange.emit(boolean);
   }
 
   showPlanAdquisicion(vigenciaaux, rubroaux) {
     this.planAdHelper.getPlanAdquisicionByRubro(vigenciaaux + '/' + rubroaux).subscribe((res) => {
-      if (res) {
+      if (res.metas.actividades) {
         this.planAdquisicionesRubro = res.metas.actividades;
+        this.isPlanAdquisiciones(true);
         this.planAdquisicionesRubro.map((item) => {
           item.valor_fuente_presupuesto = parseFloat('0');
           item.valor_actividad = parseFloat(item.valor_actividad);
@@ -79,7 +79,7 @@ export class PlanAdquisicionesRubroComponent implements OnInit {
           }
         });
         this.calcularDiferenciaActividadApropiacion(this.planAdquisicionesRubro);
-      }
+      } else { this.isPlanAdquisiciones(false); }
     });
   }
 
