@@ -39,6 +39,7 @@ import { AnulacionDocumentoComponent } from './anulacion-documento-pres/anulacio
 import { SetModificacionFuenteComponent } from './modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component';
 import { ShowModificationFuenteComponent } from './modificacion-apropiacion/show-modification-fuente/show-modification-fuente.component';
 import { PlanAdquisicionesRubroComponent } from './rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component';
+import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres/list-anulacion-documento.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { PlanAdquisicionesRubroComponent } from './rubros/plan-adquisiciones-rub
     SetModificacionFuenteComponent,
     ShowModificationFuenteComponent,
     PlanAdquisicionesRubroComponent,
+    ListAnulacionDocumentoComponent,
   ],
   providers: [
     ConfiguracionService,

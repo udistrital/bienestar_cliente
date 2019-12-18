@@ -35,4 +35,16 @@ export class AdmAmazonHelper {
             map(res => res)
         );
     }
+
+    /**
+     * get
+     * @param id id del proveedor
+     * @returns  objeto persona natural
+     */
+    public getProveedor(id: string) {
+        this.rqManager.setPath('ADMINISTRATIVA_PRUEBAS_SERVICE');
+        return this.rqManager.get('informacion_proveedor/' + id).pipe(
+            map(res => res)
+        );
+    }
 }

@@ -44,7 +44,8 @@ export class SetModificacionFuenteComponent implements OnInit {
   infoSaldoSuperado: string;
   desfaseSaldo: number;
   sumaMovimientosFuente: any;
-  constructor(private modHelper: ModFuenteHelper,
+  localtabActived: boolean;
+  constructor(private modHelper: ModFuenteHelper, 
     private comnHelper: CommonHelper, private fuenteHelper: FuenteHelper,
     private popManager: PopUpManager) {
     this.viewItemSelected = true;
@@ -138,21 +139,33 @@ export class SetModificacionFuenteComponent implements OnInit {
     };
 
     if (currentMovData.MovimientoOrigen !== undefined) {
-      this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((res) => {
-        if (res) {
-          let saldoFuente = res.fuente_financiamiento.total_saldo_fuente;
-          saldoFuente += this.sumaMovimientosFuente;
-          if ( saldoFuente < currentMovData.Valor && this.movDestino !== undefined) {
+      this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((response) => {
+        if (response.fuente_financiamiento) {
+          let saldoFuente = currentMovData.MovimientoOrigen.ValorActual - response.fuente_financiamiento.total_saldo_fuente; 
+          if(saldoFuente< currentMovData.Valor && this.movDestino !== undefined) {
             this.limitSumFuentes = false;
             this.infoSaldoSuperado = 'La fuente: ' + currentMovData.MovimientoOrigen.Nombre + ' se desfasa por un valor de: ';
             this.desfaseSaldo = currentMovData.Valor - saldoFuente;
           } else {
             this.limitSumFuentes = true;
             this.movAfectation.push(currentMovData);
+            this.returnToResume();
             this.eventChange.emit(true);
           }
+        } else {
+          this.popManager.showErrorAlert("La fuente no esta distribuida");
         }
       });
     }
+  }
+
+
+  returnToAdd() {
+    this.localtabActived = false;
+    this.cleanData();
+  }
+
+  returnToResume(){
+    this.localtabActived = true;
   }
 }
