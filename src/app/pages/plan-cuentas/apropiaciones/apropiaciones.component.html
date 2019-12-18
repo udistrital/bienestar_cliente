@@ -8,21 +8,30 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-8 col-lg-8 col-xxxl-8">
+              <!-- Arbol de apropiaciones -->
               <ngx-arbol (rubroSeleccionado)="receiveMessage($event)" [updateSignal]="eventChange"
-                [vigencia]="vigenciaSel" [optionSelect]="optionView"></ngx-arbol>
+                [vigencia]="vigenciaSel" [optionSelect]="optionView">
+              </ngx-arbol>
+              <!-- Fin Arbol de apropiaciones -->
+              <!-- Componente comprobación inicial -->
               <ngx-comprobacion-apropiacion-inicial (comprobacion)='checkComprobacion($event)' [vigencia]="vigenciaSel"
                 [updateSignal]="eventChange">
               </ngx-comprobacion-apropiacion-inicial>
+              <!-- Fin Componente comprobación inicial -->
+              <!-- Boton aprobar comprobación inicial -->
               <div class="col-md-12 spacingValorAp">
                 <button *ngIf="balanceado" type="submit" style="margin-bottom: 3%;" class="btn btn-success btn-block"
                   (click)="aprobarApropiacion()" [hidden]="allApproved">
                   {{ "GLOBAL.aprobar-apropiacion-inicial" | translate }}
                 </button>
               </div>
+              <!-- Fin Boton aprobar comprobación inicial -->
             </div>
+            <!-- Detalle del rubro -->
             <div *ngIf="isLeaf" class="col-md-4 col-lg-4 col-xxxl-4">
               <mat-tab-group>
                 <mat-tab label="{{'GLOBAL.rubro' | translate }}">
+                  <!-- Detalle del rubro : detalle -->
                   <div class="container-fluid">
                     <nb-card>
                       <nb-card-header>{{"GLOBAL.detalle-rubro" | translate}}</nb-card-header>
@@ -57,6 +66,8 @@
                       </nb-card-body>
                     </nb-card>
                   </div>
+                  <!-- Fin Detalle del rubro : detalle -->
+                  <!-- Detalle del rubro : Valor Apropiacion inicial -->
                   <div [hidden]="rubroSeleccionado.Estado === 'aprobada'" class="container-fluid">
                     <nb-card>
                       <nb-card-header>{{ "APROPIACION.detalle-apropiacion-inicial" | translate }}
@@ -79,9 +90,10 @@
                       </nb-card-body>
                     </nb-card>
                   </div>
+                  <!-- Fin Detalle del rubro : Valor Apropiacion inicial -->
                 </mat-tab>
+                <!-- Detalle del rubro : Productos por rubro -->
                 <mat-tab *ngIf="productos " label="{{'GLOBAL.productos' | translate }}">
-                  <!-- productos -->
                   <div class="row" *ngIf="true">
                     <div class="col-md-12">
                       <ngx-productos-rubro [productosAsignados]="listaProductosAsignados" [rubroInfo]="rubroSeleccionado"
@@ -90,59 +102,10 @@
                     </div>
                   </div>
                 </mat-tab>
-                <mat-tab *ngIf="planAdquisicionesRubro" label="{{'GLOBAL.fuentes' | translate }}">
-                  <!-- Plan de Adquisiciones -->
-                  <div class="row" *ngIf="true">
-                    <div class="col-md-12">
-                      <div class="moneyField">
-                        <strong>{{ "APROPIACION.total-actividades" | translate }}</strong>
-                          {{totalValorActividades | currency:'COP':'symbol':'4.2-2':'co'}}
-                        </div>
-                      <div *ngIf="diferenciaActividadApropiacion">
-                        <p class="moneyField error">
-                          {{ "ACTIVIDAD.comprobacion-diferencia" | translate }}{{diferenciaActividadApropiacion | currency:'COP':'symbol':'4.2-2':'co'}}
-                        </p>
-                      </div>
-                      <div class="moneyField">
-                        <strong>{{ "APROPIACION.total-fuentes" | translate }}</strong>
-                          {{totalValorFuentes | currency:'COP':'symbol':'4.2-2':'co'}}
-                        </div>
-                      <div *ngIf="diferenciaFuentesApropiacion">
-                        <p class="moneyField error">
-                          {{ "FUENTE_FINANCIAMIENTO.comprobacion-diferencia" | translate }}{{diferenciaFuentesApropiacion | currency:'COP':'symbol':'4.2-2':'co'}}
-                        </p>
-                      </div>
-                      <nb-card *ngFor="let actividad of planAdquisicionesRubro">
-
-                        <ul>
-                          <li><strong>{{ "APROPIACION.actividad" | translate }}</strong> {{actividad.actividad}}
-                            <ul>
-                              <li><strong>{{ "APROPIACION.valor-actividad" | translate }}</strong>
-                                {{actividad.valor_actividad | currency:'COP':'symbol':'4.2-2':'co'}}</li>
-                              <li><strong>{{ "APROPIACION.meta" | translate }}</strong> {{actividad.meta}}</li>
-                              <li><strong>{{ "APROPIACION.fuente" | translate }}</strong><span>
-                                  {{actividad.fuente_financiamiento}}</span> -
-                                {{actividad.fuente_financiamiento_nombre?actividad.fuente_financiamiento_nombre:'No Asignada'}}
-                                <ul>
-                                  <li><strong>{{ "APROPIACION.dependencia" | translate }}</strong> {{actividad.dependencia}}</li>
-                                  <li><strong>{{ "APROPIACION.valor-fuente" | translate }}</strong>
-                                    {{actividad.valor_fuente_presupuesto | currency:'COP':'symbol':'4.2-2':'co'}}</li>
-                                  <li><strong>{{ "APROPIACION.valor-dependencia" | translate }}</strong>
-                                    {{actividad.valor_dependencia | currency:'COP':'symbol':'4.2-2':'co'}}</li>
-                                </ul>
-                              </li>
-
-                            </ul>
-                          </li>
-                        </ul>
-                      </nb-card>
-
-                    </div>
-                  </div>
-                </mat-tab>
+                <!-- fin Detalle del rubro : Productos por rubro -->
               </mat-tab-group>
-
             </div>
+            <!-- Fin Detalle del rubro -->
           </div>
         </div>
       </div>

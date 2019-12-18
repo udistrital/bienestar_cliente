@@ -13,9 +13,7 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 })
 export class ProductosRubroComponent implements OnInit {
 
-
   rubro: any;
-
   productos: any = [];
   productoSeleccionado: any = [];
   listaProductosAsignados: any = {};
@@ -76,11 +74,9 @@ export class ProductosRubroComponent implements OnInit {
 
   agregarProducto() {
     this.rubro.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
-    console.info(this.productForm.get('porcentaje').value);
     if (this.listaProductosAsignados === undefined) {
       this.listaProductosAsignados = {};
     }
-    console.info(this.productoSeleccionado);
     if (!this.listaProductosAsignados.hasOwnProperty(this.productoSeleccionado.key._id)) {
       this.rubro.Productos = this.listaProductosAsignados;
       this.construirObjProductos(this.productoSeleccionado.key, this.productForm.get('porcentaje').value);
@@ -106,7 +102,6 @@ export class ProductosRubroComponent implements OnInit {
     this.listaProductosAsignados = newObj;
   }
   deleteObjProductos(producto) {
-    console.info(producto);
     const { [producto._id]: _, ...newObj } = this.listaProductosAsignados;
     this.listaProductosAsignados = newObj;
   }
@@ -157,7 +152,6 @@ export class ProductosRubroComponent implements OnInit {
   }
   entrandoEditar(producto: any) {
     this.productoSeleccionado = producto;
-    console.info(this.productoSeleccionado);
     this.entrarEditar = true;
   }
 
@@ -173,7 +167,6 @@ export class ProductosRubroComponent implements OnInit {
     }
     this.isValidFormSubmitted = true;
     this.producto = this.productForm.value;
-    // this.apHelper.apropiacionProductoUpdate(this.producto);
     this.producto = new Producto();
     this.productForm.reset();
   }
