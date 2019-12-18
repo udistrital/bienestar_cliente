@@ -14,6 +14,7 @@ export class ConsultaVigenciaComponent implements OnInit {
 
   @Input() vigenciaSeleccionada;
   @Output() eventChange = new EventEmitter();
+
   vigenciaChange: string;
   rubroSeleccionado: any;
   apropiacionData: ArbolApropiacion;
@@ -29,6 +30,7 @@ export class ConsultaVigenciaComponent implements OnInit {
   CentroGestor: string;
   AreaFuncional: string;
   viewOption: string;
+  rubroSeleccionadoo = '3-03-001-15-01-43-0388';
 
   constructor(
     private apHelper: ApropiacionHelper,
@@ -51,6 +53,7 @@ export class ConsultaVigenciaComponent implements OnInit {
       ApropiacionInicial: 0,
       UnidadEjecutora: null,
       _id: '',
+      ValorInicial: 0,
     };
     this.apropiacionData = {
       Vigencia: 0,
@@ -80,6 +83,9 @@ export class ConsultaVigenciaComponent implements OnInit {
       }
     });
   }
+  ngOnChanges() {
+    console.log(this.rubroSeleccionado);
+  }
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
@@ -103,6 +109,9 @@ export class ConsultaVigenciaComponent implements OnInit {
     this.rubroSeleccionado.ValorInicial = this.rubroSeleccionado.ValorInicial ? parseInt(this.rubroSeleccionado.ValorInicial, 0) : 0;
     this.valorApropiacion = this.rubroSeleccionado.ValorInicial;
     //this.showPlanAdquisicion('2019', this.rubroSeleccionado.Codigo);
+  }
+  receiveMessagePlan($event) {
+    console.log($event);
   }
 
   preAsignarApropiacion() {

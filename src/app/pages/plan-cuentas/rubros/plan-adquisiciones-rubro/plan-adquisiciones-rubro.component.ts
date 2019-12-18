@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { CommonHelper } from '../../../../@core/helpers/commonHelper';
@@ -6,6 +6,7 @@ import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicio
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -15,8 +16,11 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 })
 export class PlanAdquisicionesRubroComponent implements OnInit {
 
-  rubroSeleccionado: any;
-  planAdquisicionesRubro: any;
+  @Input() rubroSeleccionado : any;
+  @Input() ayuda :string;
+  @Output() eventChange = new EventEmitter();
+
+  planAdquisicionesRubro: any ;
   totalValorActividades: number;
   diferenciaActividadApropiacion: number;
   totalValorFuentes: number;
@@ -34,7 +38,14 @@ export class PlanAdquisicionesRubroComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  ngOnChanges(){
+    if(this.rubroSeleccionado.Codigo) this.showPlanAdquisicion(2019,this.rubroSeleccionado.Codigo)
+  }
 
+  isPlanAdquisiciones(){
+    this.eventChange.emit(this.planAdquisicionesRubro);
+    console.log('emiti desde el show plan adquisiciones')
   }
 
   showPlanAdquisicion(vigenciaaux, rubroaux) {

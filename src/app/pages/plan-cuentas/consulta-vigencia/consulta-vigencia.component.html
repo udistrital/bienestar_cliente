@@ -168,8 +168,12 @@
                 </div>
               </mat-tab>
               <!-- Detalle del rubro : Plan adquisiciones por rubro -->
-              <mat-tab *ngIf="planAdquisicionesRubro" label="{{'GLOBAL.fuentes' | translate }}">
-                <ngx-plan-adquisiciones-rubro></ngx-plan-adquisiciones-rubro>
+              <mat-tab   label="{{'GLOBAL.fuentes' | translate }}">
+                <ngx-plan-adquisiciones-rubro
+                  
+                  (messageEvent)= "receiveMessagePlan($event)"
+                  (rubroSeleccionado)="receiveMessage($event)"
+                  [rubroSeleccionado]="rubroSeleccionado" ></ngx-plan-adquisiciones-rubro>
               </mat-tab>
               <!-- Fin Detalle del rubro : Plan adquisiciones por rubro -->
             </mat-tab-group>

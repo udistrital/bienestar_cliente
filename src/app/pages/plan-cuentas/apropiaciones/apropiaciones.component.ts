@@ -29,7 +29,7 @@ export class ApropiacionesComponent implements OnInit {
   vigenciaSel: any;
   clean = false;
   opcion: string;
-  VigenciaActual = '2020';
+  VigenciaActual = '2020'; // TODO: traer del endpoint vigencia_actual
   optionView: string;
   productos: boolean = false;
   listaProductosAsignados = [];
@@ -39,7 +39,7 @@ export class ApropiacionesComponent implements OnInit {
     { vigencia: 2018 },
     { vigencia: 2017 },
     { vigencia: 2016 },
-  ];
+  ];  // TODO: traer del endpoint vigencias_afuncional
   balanceado: boolean;
   allApproved: boolean;
   AreaFuncional: string;
@@ -59,7 +59,7 @@ export class ApropiacionesComponent implements OnInit {
     private popManager: PopUpManager,
     private dependenciaHelper: DependenciaHelper,
   ) {
-    this.vigenciaSel = '2020';
+    this.vigenciaSel = '2020';    // TODO: traer del endpoint vigencia_actual +1
     this.optionView = 'Apropiaciones';
 
     this.rubroSeleccionado = {
