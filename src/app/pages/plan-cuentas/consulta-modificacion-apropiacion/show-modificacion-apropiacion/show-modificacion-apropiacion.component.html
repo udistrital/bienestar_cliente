@@ -1,6 +1,3 @@
-<button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-  {{ 'GLOBAL.regresar' | translate}}
-</button>
 <nb-card>
   <nb-card-body
     *ngIf="modificationData"
@@ -30,7 +27,7 @@
         <input
           matInput
           placeholder="{{ 'GLOBAL.fecha_documento' | translate }}"
-          value="{{ modificationData['FechaDocumento'] | date: 'yyyy-MM-dd' }}"
+          value="{{ modificationData['FechaDocumento'] | date: 'dd-MM-yyyy' }}"
           disabled="true"
         />
       </mat-form-field>
@@ -38,7 +35,7 @@
         <input
           matInput
           placeholder="{{ 'GLOBAL.fecha_registro' | translate }}"
-          value="{{ modificationData['FechaRegistro'] | date: 'yyyy-MM-dd' }}"
+          value="{{ modificationData['FechaRegistro'] | date: 'dd-MM-yyyy' }}"
           disabled="true"
         />
       </mat-form-field>
@@ -66,23 +63,28 @@
           disabled="true"
         />
       </mat-form-field>
-      <!-- <mat-form-field class="mod-registration-input-item" floatLabel="always">
-        <mat-label>{{ "GLOBAL.valor" | translate }}</mat-label>
+     
+      <mat-form-field class="mod-registration-input-item" floatLabel="always">
+        <mat-label>{{ "CDP.valor_actual" | translate }}</mat-label>
         <input
           matInput
           currencyMask
-          placeholder="{{ 'GLOBAL.valor' | translate }}"
+          placeholder="{{ 'CDP.valor_actual' | translate }}"
           class="moneyField"
           type="text"
           value="{{
-            modificationData['ValorInicial']
+            modificationData['ValorActual']
               | currency: 'COP':'symbol':'4.2-2':'co'
           }}"
           disabled
         />
-      </mat-form-field> -->
+      </mat-form-field>
       <br>
       <ng2-smart-table class="mod-registration-input-item" [settings]="settings" [source]="source"> </ng2-smart-table>
+      <div *ngFor="let id of movIDS" class="mod-registration-input-item">
+        <ngx-list-anulacion-documento [vigencia]="modificationData['Vigencia']" [movID]="id" [centroGestor]="modificationData['CentroGestor']"></ngx-list-anulacion-documento>
+
+      </div>
     </div>
 
   </nb-card-body>

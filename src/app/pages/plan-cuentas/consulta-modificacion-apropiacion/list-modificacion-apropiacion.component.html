@@ -12,6 +12,12 @@
               <!-- <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option> -->
               <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
             </nb-select>
+            {{
+              "GLOBAL.tipo" | translate
+            }}
+            <nb-select nbTooltip="seleccione el tipo de modificación" nbTooltipPlacement="top" id="select_tipo_mod" placeholder={{tipoModSel?tipoModSel.label:undefined}} [(selected)]="tipoModSel" hero status="info">
+              <nb-option *ngFor="let v of tipoModificaciones" value={{tipoModSel}} (click)="onSelectTipoMod(v)">{{ v.label }}</nb-option>
+            </nb-select>
           </div>
         </div>
     </nb-card-header>
@@ -44,10 +50,10 @@
             (externalTabActivator)="onExternalTabActivator($event)"
             >
           </ngx-list-entity>
-          <button *ngIf="localtabACtived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+          <button *ngIf="localtabActived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
             Regresar</button>
           <ngx-modificacion-apropiacion (saved)="onSaved($event)" *ngIf="createTab"></ngx-modificacion-apropiacion>
-          <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
+          <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [tipoModificacion]="tipoModSel.value" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
     </nb-card-body>
   </nb-card>
 </div>

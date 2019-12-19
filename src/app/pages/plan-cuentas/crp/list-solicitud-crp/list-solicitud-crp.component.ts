@@ -32,8 +32,7 @@ export class ListSolicitudCrpComponent implements OnInit {
     private rqManager: RequestManager, ) { }
 
   ngOnInit() {
-    //this.crpHelper.getInfoCRP(1);
-    this.crpHelper.getInfoContrato(458,2017);
+    this.crpHelper.getInfoContrato(458, 2017);
     this.loadDataFunction = this.crpHelper.getFullCRP;
 
 
@@ -55,13 +54,13 @@ export class ListSolicitudCrpComponent implements OnInit {
         }
       },
       centroGestor: {
-        title: this.translate.instant('GLOBAL.centro_gestor'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
         filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
-          if(value==1){
-            return "Rector"
-          }else{
+          if ( value === 1) {
+            return 'Rector';
+          } else {
             return value;
           }
         }
@@ -71,17 +70,17 @@ export class ListSolicitudCrpComponent implements OnInit {
         filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
-          return "Universidad Distrital FJC";
+          return 'Universidad Distrital FJC';
         }
       },
       necesidadFinanciacion: {
         title: this.translate.instant('CRP.financiacion'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          if(value==1){
-            return "Inversión"
-          }else{
-            return "Funcionamiento";
+          if ( value === 1) {
+            return 'Inversión';
+          } else {
+            return 'Funcionamiento';
           }
         }
       }
@@ -96,6 +95,7 @@ export class ListSolicitudCrpComponent implements OnInit {
         position: 'right'
       },
       mode: 'external',
+      columnTitle: 'Opciones',
       columns: this.listColumns,
     };
 
@@ -118,7 +118,7 @@ export class ListSolicitudCrpComponent implements OnInit {
 
 
   loadCRPData () {
-    var a = this.crpHelper.getFullCRP()
+    const a = this.crpHelper.getFullCRP();
 
   }
 
@@ -139,7 +139,4 @@ export class ListSolicitudCrpComponent implements OnInit {
     }
 
   }
-
-
-
 }

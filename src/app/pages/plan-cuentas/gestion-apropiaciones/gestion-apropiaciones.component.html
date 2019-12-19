@@ -1,6 +1,6 @@
 <div class="col-2 col-sm-6 col-md-2" *ngIf="opcionSeleccionada">
     <button type="submit" class="btn btn-info btn-block "
-    (click)="backView()">
+    (click)="backView()" [routerLink]="['/pages/plan-cuentas/apropiaciones']">
     <i class="nb-arrow-dropleft"></i>
     {{
             "GLOBAL.regresar" | translate
@@ -11,7 +11,7 @@
 <div class="col-12 col-sm-6 col-md-12">
   <div class="row" *ngIf="!opcionSeleccionada">
     <div class="card-col-4" class="secDashboard">
-      <nb-card size="small" (click)="routeView('apropiacion')">
+      <nb-card size="small" (click)="routeView('consulta-vigencia')" routerLink="consulta-vigencia">
         <nb-card-body>
             <div class="option-icon d-flex flex-column">
               <mat-icon  svgIcon="consulta_apropiacion" inline="true"></mat-icon>
@@ -24,7 +24,7 @@
       </nb-card>
     </div>
     <div class="card-col-4" class="secDashboard">
-      <nb-card size="small"  (click)="routeView('preasignacion')">
+      <nb-card size="small"  (click)="routeView('preasignacion')" routerLink="preasignacion">
         <nb-card-body>
             <div class="option-icon d-flex flex-column">
               <mat-icon  svgIcon="preasignacion" inline="true"></mat-icon>
@@ -39,9 +39,9 @@
     </div>
   </div>
 </div>
-    <div *ngIf="opcionSeleccionada && opcion=='apropiacion'" class="row">
-      <ngx-consulta-vigencia></ngx-consulta-vigencia>
-    </div>
-    <div *ngIf="opcionSeleccionada && opcion=='preasignacion'" class="row">
-      <ngx-apropiaciones></ngx-apropiaciones>
-    </div>
+<section *ngIf="opcionSeleccionada && opcion=='consulta-vigencia'" class="row">
+    <ngx-consulta-vigencia></ngx-consulta-vigencia>
+</section>
+<section *ngIf="opcionSeleccionada && opcion=='preasignacion'" class="row">
+    <ngx-apropiaciones></ngx-apropiaciones>
+</section>

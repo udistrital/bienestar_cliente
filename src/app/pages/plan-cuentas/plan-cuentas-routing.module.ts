@@ -40,6 +40,10 @@ const routes: Routes = [{
   component: GestionApropiacionesComponent,
 },
 {
+  path: 'apropiaciones/:vista',
+  component: GestionApropiacionesComponent,
+},
+{
   path: 'productos',
   component: ListProductoComponent,
 },

@@ -15,11 +15,12 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 
 export class ListModificacionApropiacionComponent implements OnInit {
 
-  paramsFieldsName: { vigencia: string, cg: string };
+  paramsFieldsName: { vigencia: string, cg: string , tipomod: string};
   uuidReadFieldName: string;
   uuidDeleteFieldName: string;
 
   vigenciaSel: any;
+  tipoModSel: any;
   vigencias: any[];
   deleteConfirmMessage: string;
   deleteMessage: string;
@@ -41,9 +42,10 @@ export class ListModificacionApropiacionComponent implements OnInit {
   disabledVigencia: boolean = false;
   externalCreate: boolean = true;
   createTab: boolean = false;
-  localtabACtived: boolean = false;
+  localtabActived: boolean = false;
   viewTab: boolean = false;
   modificationDataSelected: object;
+  tipoModificaciones: { value: string; label: any; }[];
 
   constructor(
     private translate: TranslateService,
@@ -58,6 +60,9 @@ export class ListModificacionApropiacionComponent implements OnInit {
         this.vigencias = res;
       }
     });
+    this.tipoModificaciones = [
+      {value: 'modificacion_presupuestal', label:this.translate.instant('GLOBAL.mod_presupuestal')},
+      {value: 'modificacion_fuente', label:this.translate.instant('GLOBAL.mod_fuente')}];
     this.uuidReadFieldName = '_id';
     this.uuidDeleteFieldName = '_id';
     this.isOnlyCrud = true;
@@ -68,10 +73,12 @@ export class ListModificacionApropiacionComponent implements OnInit {
     this.commonHelper.geCurrentVigencia().subscribe(res => {
       if (res) {
         this.vigenciaSel = res + '';
+        this.tipoModSel = this.tipoModificaciones[0];
       }
-      this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' };
+      this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' , tipomod: this.tipoModSel.value};
       this.loadFormDataFunction = this.modificacionAprHelper.getAllModificacionesApr;
     });
+
     this.listColumns = {
 
       TipoDocumento: {
@@ -89,7 +96,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value) => {
           const date = new Date(value);
-          return `${date.getFullYear()}-${date.getMonth() + 1}-${('0' + date.getDate()).slice(-2)}`;
+          return  `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
       FechaRegistro: {
@@ -97,13 +104,13 @@ export class ListModificacionApropiacionComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value) => {
           const date = new Date(value);
-          return `${date.getFullYear()}-${date.getMonth() + 1}-${('0' + date.getDate()).slice(-2)}`;
+          return `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
-      CentroGestor: {
+      Area: {
         title: this.translate.instant('GLOBAL.area_funcional'),
         // type: 'string;',
-        valuePrepareFunction: (value) => 'Rector',
+        valuePrepareFunction: (value) => value = 'Rector',
       }
     };
 
@@ -130,14 +137,14 @@ export class ListModificacionApropiacionComponent implements OnInit {
   }
 
   loadOptionsVigencia(): void {
-    let aplicacion = this.vigencias;
+    const aplicacion = this.vigencias;
     this.formEntity.campos[this.getIndexForm('Vigencia')].opciones = aplicacion;
   }
   getIndexForm(nombre: String): number {
     for (let index = 0; index < this.formEntity.campos.length; index++) {
       const element = this.formEntity.campos[index];
       if (element.nombre === nombre) {
-        return index
+        return index;
       }
     }
     return 0;
@@ -145,7 +152,14 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
-    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' };
+    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' , tipomod: this.tipoModSel.value };
+    // this.eventChange.emit(true);
+  }
+
+  onSelectTipoMod(selectedItem: any) {
+    console.info(selectedItem);
+    this.tipoModSel = selectedItem;
+    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
     // this.eventChange.emit(true);
   }
 
@@ -159,10 +173,10 @@ export class ListModificacionApropiacionComponent implements OnInit {
       this.disabledVigencia = true;
       this.auxcambiotab = true;
       this.createTab = true;
-      this.localtabACtived = true;
+      this.localtabActived = true;
     } else if ($event === 'other') {
       this.viewTab = true;
-      this.localtabACtived = true;
+      this.localtabActived = true;
     }
   }
 
@@ -171,10 +185,11 @@ export class ListModificacionApropiacionComponent implements OnInit {
   }
 
   returnToList() {
+    this.disabledVigencia = false;
     this.auxcambiotab = false;
-    this.localtabACtived = false;
+    this.localtabActived = false;
     this.createTab = false;
-    this.viewTab = false
+    this.viewTab = false;
   }
 
   onSaved($event) {

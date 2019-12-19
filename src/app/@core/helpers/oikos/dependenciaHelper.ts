@@ -17,8 +17,8 @@ export class DependenciaHelper {
         const params = {
             limit: 0,
         };
-        var url = id ? id : '?'+query;
+        const url = id ? id : '?' + query;
         // call request manager for the tree's data.
-        return this.rqManager.get('dependencia/'+ url);
+        return this.rqManager.get('dependencia/' + url);
     }
 }

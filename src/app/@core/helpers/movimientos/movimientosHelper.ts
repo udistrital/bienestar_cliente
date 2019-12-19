@@ -26,7 +26,7 @@ export class MovimientosHelper {
         return this.rqManager.post('movimiento', data).pipe(
             map(
                 (res: object) => {
-                    if (res["Type"] === 'error') {
+                    if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo expedir el Documento');
                         return undefined;
                     }
@@ -49,7 +49,21 @@ export class MovimientosHelper {
         return this.rqManager.get('movimiento/' + vigencia + '/' + centroGestor + '/' + id).pipe(
             map(
                 (res: object) => {
-                    if (res["Type"] === 'error') {
+                    if (res['Type'] === 'error') {
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getChildMovsByMovParentUUID(vigencia: string, centroGestor: string, id: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get('movimiento/get_doc_by_mov_parentUUID/' + vigencia + '/' + centroGestor + '/' + id).pipe(
+            map(
+                (res: any) => {
+                    if (res && res['Type'] === 'error') {
                         return undefined;
                     }
                     return res;

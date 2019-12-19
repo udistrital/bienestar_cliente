@@ -42,6 +42,7 @@ export class ArbolComponent implements OnChanges {
   @Input() optionSelect: string;
   @Input() vigencia: string;
   @Input() externalSearch: string;
+  @Input('paramsFieldsName') paramsFieldsName: object;
   opcionSeleccionada: string;
   vigenciaSeleccionada: string;
   @ViewChildren(NbTreeGridRowComponent, { read: ElementRef }) treeNodes: ElementRef[];
@@ -91,6 +92,9 @@ export class ArbolComponent implements OnChanges {
     if (changes['externalSearch'] && changes['externalSearch'].currentValue) {
       this.searchValue = changes['externalSearch'].currentValue;
     }
+    if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
+      this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+    }    
   }
 
   // private data: TreeNode<EstructuraArbolRubrosApropiaciones>[] | TreeNode<EstructuraArbolRubros>[];
@@ -99,7 +103,7 @@ export class ArbolComponent implements OnChanges {
   loadTreeRubros() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
       dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || null,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children : [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     forkJoin(
@@ -118,7 +122,7 @@ export class ArbolComponent implements OnChanges {
   loadTreeApropiaciones() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
       dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children : [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
@@ -136,14 +140,14 @@ export class ArbolComponent implements OnChanges {
   loadTreeApropiacionesEstado() {
     const getters: NbGetters<EstructuraArbolRubrosApropiaciones, EstructuraArbolRubrosApropiaciones> = {
       dataGetter: (node: EstructuraArbolRubrosApropiaciones) => node.data || undefined,
-      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children: [],
+      childrenGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.children && !!node.children.length ? node.children : [],
       expandedGetter: (node: EstructuraArbolRubrosApropiaciones) => !!node.expanded,
     };
     this.customColumn = 'Codigo';
     this.defaultColumns = ['Nombre', 'ValorInicial', 'ValorActual'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
-      this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
+      this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada', this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
         this.data = res;
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
       },
