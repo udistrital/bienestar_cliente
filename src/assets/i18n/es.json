@@ -326,7 +326,8 @@
     "ejecucion": "Resumen ejecución presupuestal",
     "fuentes": "Fuentes de financiamiento con saldo disponible",
     "reservas": "Lista de CRP que pasarán a estado reserva",
-    "pasivos": "Lista de reservas que pasarán a estado pasivo"
+    "pasivos": "Lista de reservas que pasarán a estado pasivo",
+    "ejecutar_cierre": "Ejecutar cierre de vigencia"
   },
   "FOOTER": {
     "dias_disponibilidad": "Lunes a Viernes",

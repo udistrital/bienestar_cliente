@@ -5,6 +5,7 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { CierreVigenciaHelper } from '../../../../@core/helpers/cierre-vigencia/cierreVigenciaHelper';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-cierre-vigencia',
@@ -37,7 +38,7 @@ export class CierreVigenciaComponent implements OnInit {
     private translate: TranslateService,
     private popManager: PopUpManager,
     private CVHelper: CierreVigenciaHelper,
-    private cp: CurrencyPipe
+    private router: Router,
   ) {
     this.formCierreVigencia = FORM_CIERRE_VIGENCIA;
     this.construirForm();
@@ -67,7 +68,7 @@ export class CierreVigenciaComponent implements OnInit {
         title: this.translate.instant('GLOBAL.valor'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          return '<p align="right">' + this.cp.transform(value, 'COP', 'symbol', '4.2-2','co')+ ' </p>';
+          return '<p class="moneyField">' + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + ' </p>';
         }
       }
     };
@@ -85,7 +86,7 @@ export class CierreVigenciaComponent implements OnInit {
         title: this.translate.instant('GLOBAL.valor'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          return '<p align="right">' + this.cp.transform(value, 'COP', 'symbol', '4.2-2','co')+ ' </p>';
+          return '<p class="moneyField">' + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + ' </p>';
         }
       }
     };
@@ -103,7 +104,7 @@ export class CierreVigenciaComponent implements OnInit {
         title: this.translate.instant('GLOBAL.valor'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          return '<p align="right">' + this.cp.transform(value, 'COP', 'symbol', '4.2-2','co')+ ' </p>';
+          return '<p class="moneyField">' + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + ' </p>';
         }
       }
     };
@@ -113,8 +114,10 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        custom: [{ name: 'ver_fuente', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
+      noDataMessage: "No hay registros.",
       mode: 'external',
       columns: this.listColumns_fuentes,
     };
@@ -124,8 +127,10 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        custom: [{ name: 'ver_crp', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
+      noDataMessage: "No hay registros.",
       mode: 'external',
       columns: this.listColumns_reservas,
     };
@@ -135,8 +140,10 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        custom: [{ name: 'ver_crp', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
+      noDataMessage: "No hay registros.",
       mode: 'external',
       columns: this.listColumns_pasivos,
     };
@@ -173,5 +180,40 @@ export class CierreVigenciaComponent implements OnInit {
       this.popManager.showErrorAlert('Datos Incompletos!');
     }
   }
+
+  getIndexForm(nombre: String): number {
+    for (let index = 0; index < this.formCierreVigencia.campos.length; index++) {
+      const element = this.formCierreVigencia.campos[index];
+      if (element.nombre === nombre) {
+        return index;
+      }
+    }
+    return 0;
+  }
+
+  getSeleccion(event) {
+    this.mostrarInfoCierre = false ; 
+    this.CVHelper.getVigenciaActual(event.valor.Id).subscribe(vig => {
+      this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = {valor : vig};
+    })
+
+  }
+
+  onCustom(event: any) {
+    switch (event.action) {
+      case 'ver_fuente':
+        this.router.navigate(['/pages/plan-cuentas/fuentes']);
+        break;
+      case 'ver_crp':
+        this.router.navigate(['/pages/plan-cuentas/crp']);
+        break;
+
+    }
+  }
+
+  ejecutarCierre() {
+    
+  }
+
 
 }
