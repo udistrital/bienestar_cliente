@@ -2,10 +2,43 @@
     <h5>
         {{'FUENTE_FINANCIAMIENTO.consulta_rubros_fuente' | translate }}
     </h5>
-    <label for="valorfuente" class="form-control-label">
-        <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
-                {{infoinput.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
-    </label>
+    <div class="d-flex">
+        <div>
+            <label for="valorfuente" class="form-control-label">
+                <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
+                        {{infoinput.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
+            </label>
+        </div>
+        <div class="ml-auto" *ngIf="planAdquisicionesFuente && !rbIncome">
+            <div *ngIf="openViewAddIncome">
+                <ngx-arbol [paramsFieldsName] ="paramsFieldsName" (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="infoinput.Vigencia"
+                    [optionSelect]="'ApropiacionesEstado'"></ngx-arbol>
+            </div>
+            <div *ngIf="!openViewAddIncome" class="spacingAddIngreso">
+                <button type="submit" class="btn btn-info btn-block" (click)="openAddIncome()">
+                    {{ "FUENTE_FINANCIAMIENTO.asignar_ingreso" | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="ml-auto" *ngIf="planAdquisicionesFuente && rbIncome">
+            <div class="moneyField">
+                <label for="valoringreso" class="form-control-label">
+                    <h6> {{ "GLOBAL.ingreso" | translate }} : {{rbIncome.Nombre}} - {{rbIncome.Codigo}} <span>
+                        {{rbIncome.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
+                    </label>            
+                </div>
+            <div *ngIf="openViewAddIncome">
+                <ngx-arbol [paramsFieldsName] ="paramsFieldsName" (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="infoinput.Vigencia"
+                    [optionSelect]="'ApropiacionesEstado'"></ngx-arbol>
+            </div>
+            <div *ngIf="!openViewAddIncome" class="spacingAddIngreso">
+                <button type="submit" class="btn btn-info btn-block" (click)="openAddIncome()">
+                    {{ "FUENTE_FINANCIAMIENTO.cambiar_ingreso" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+
     <ng-container *ngIf="!planAdquisicionesFuente; then planAdquisicionesOff; else planAdquisicionesOn">
     </ng-container>
     <ng-template #planAdquisicionesOff>
@@ -14,7 +47,6 @@
     <ng-template #planAdquisicionesOn>
         <div class="d-flex">
             <div>
-
                 <div *ngFor="let item of planAdquisicionesFuente.rubros">
 
                     <ul *ngIf="item.rubro.Codigo">

@@ -2,6 +2,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { ArbolRubroApropiacionInterface } from '../../../../@core/interfaces/arbolRubroApropiacionInterface';
+import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { TranslateService } from '@ngx-translate/core';
 import { registerLocaleData, CurrencyPipe } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
@@ -19,33 +21,40 @@ export class RubrosFuenteComponent implements OnInit {
   settings: object;
   listColumns: object;
   source: Array<any>;
+  openViewAddIncome: boolean;
+  paramsFieldsName: object;
+  incomeRubroAdd: ArbolRubroApropiacionInterface;
+  rbIncome: ArbolRubroApropiacionInterface;
 
   constructor(private translate: TranslateService,
     private fuenteHelper: FuenteHelper,
-    private dependenciaHelper: DependenciaHelper, private apHelper: ApropiacionHelper) { }
+    private dependenciaHelper: DependenciaHelper,
+    private apHelper: ApropiacionHelper,
+    private pUpManager: PopUpManager) { }
 
   ngOnInit() {
+    this.openViewAddIncome = false;
     this.loadInfoFuente();
     this.loadMovimientos();
   }
 
   loadMovimientos() {
     if (this.infoinput.Movimientos !== undefined) {
-      
+
       const data: Array<any> = [];
       for (let [key, value] of Object.entries(this.infoinput.Movimientos)) {
-          let movFormated: any;
-          movFormated = {
-            Movimiento: key,
-            Valor: value
-          }
-          data.push(movFormated);
+        let movFormated: any;
+        movFormated = {
+          Movimiento: key,
+          Valor: value
+        }
+        data.push(movFormated);
       }
 
       this.source = data;
       this.listColumns = {
-        
-        
+
+
         Movimiento: {
           title: this.translate.instant('GLOBAL.movimiento'),
           valuePrepareFunction: (value) => this.translate.instant('GLOBAL.' + value),
@@ -58,7 +67,7 @@ export class RubrosFuenteComponent implements OnInit {
           },
         }
       };
-      
+
       this.settings = {
         actions: {
           add: false,
@@ -79,8 +88,8 @@ export class RubrosFuenteComponent implements OnInit {
   loadInfoFuente() {
 
     if (this.infoinput.Vigencia > 0) {
-
-      this.fuenteHelper.getPlanAdquisicionByFuente('2019', this.infoinput.Codigo).subscribe((res) => {
+      this.loadInfoIncome();
+      this.fuenteHelper.getPlanAdquisicionByFuente(this.infoinput.Vigencia, this.infoinput.Codigo).subscribe((res) => {
         if (res) {
           this.planAdquisicionesFuente = res.fuente_financiamiento;
           this.planAdquisicionesFuente.totalPlanAdquisiciones = res.fuente_financiamiento.total_saldo_fuente;
@@ -100,8 +109,57 @@ export class RubrosFuenteComponent implements OnInit {
         }
       })
     }
-    // retirar cuando se tenga la vigencia 2020 de la bodega del plan de adquisiciones y dejar this.infoinput.Vigencia
 
+  }
+
+  loadInfoIncome(Codigo?: string) {
+    if (this.infoinput.Rubros && !Codigo) {
+      for (const key in this.infoinput.Rubros) {
+        const element = this.infoinput.Rubros[key];
+        if (element.Tipo === 'INGRESO') {
+          this.apHelper.getFullArbolByNode(key, this.infoinput.Vigencia).subscribe((response) => {
+            if (response) {
+              this.rbIncome = response[0].data;
+              console.info(this.rbIncome);
+            }
+          })
+        }
+      }
+    }
+    else {
+      this.apHelper.getFullArbolByNode(Codigo, this.infoinput.Vigencia).subscribe((response) => {
+        if (response) {
+          this.rbIncome = response[0].data;
+        }
+      })
+    }
+  }
+
+  openAddIncome() {
+    this.paramsFieldsName = { Codigo: '2' };
+    this.openViewAddIncome = true;
+  }
+  selectRubroElemntEvent($event) {
+    const children = $event.Hijos;
+    if (children && children.length === 0) {
+      this.incomeRubroAdd = $event;
+      if (this.infoinput.Rubros) {
+        for (const key in this.infoinput.Rubros) {
+          const element = this.infoinput.Rubros[key];
+          if (element.Tipo === 'INGRESO') {
+            delete this.infoinput.Rubros[key];
+          }
+        }
+      }
+      this.infoinput.Rubros[this.incomeRubroAdd.Codigo] = { Tipo: 'INGRESO' };
+      this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
+        if (res) {
+          this.pUpManager.showSuccessAlert("se asigno el ingreso correctamente");
+          this.loadInfoIncome(this.incomeRubroAdd.Codigo);
+        }
+      })
+      this.openViewAddIncome = false;
+    }
   }
 
 }

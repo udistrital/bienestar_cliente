@@ -88,6 +88,7 @@
     "producto": "Producto",
     "productos": "Productos",
     "fuentes": "Fuentes",
+    "ingreso": "Ingreso",
     "meta": "Meta",
     "actividades": "Actividades",
     "porcentaje": "Porcentaje %",
@@ -134,6 +135,7 @@
     "perfil": "Perfil",
     "error": "Error",
     "advertencia": "Advertencia",
+    "aviso": "Aviso",
     "alerta_documental_image": "La imagen se ha guardado en nuestro gestor documental",
     "alerta_documental_documento": "El documento se ha guardado en nuestro gestor documental",
     "info_basica": "Información básica",
@@ -216,7 +218,9 @@
     "consulta_rubros_fuente": "Consulta de rubros por fuente: ",
     "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: ",
     "select_fuente": "Seleccione una fuente de financiamiento",
-    "total_plan_ad": "Total Plan de Adquisiciones: "
+    "total_plan_ad": "Total Plan de Adquisiciones: ",
+    "asignar_ingreso": "Asignar Ingreso",
+    "cambiar_ingreso": "Cambiar Ingreso"
   },
   "ACTIVIDAD":{
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
@@ -338,12 +342,16 @@
     "expedir": "Expedir CRP",
     "mostrar_pdf": "Mostrar documento en PDF",
     "estado_crp": "Estado CRP",
-    "tipo-compromiso": "Tipo de Compromiso",
-    "numero-compromiso": "Número de Compromiso",
+    "tipo-compromiso": "Tipo de compromiso",
+    "numero-compromiso": "Número de compromiso",
     "tipo-id-contratista": "Tipo ID Beneficiario",
     "id-contratista": "ID Beneficiario",
-    "nombre-contratista": "Nombre Beneficiario",
-    "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
+    "nombre-contratista": "Nombre beneficiario",
+    "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :",
+    "form_exp_titulo": "Información para expedir el CRP",
+    "distribuir_crp": "Distribuya el valor del CRP en los rubros:",
+    "valor": "Valor del CRP",
+    "valores_iguales": "El valor distribuido debe coincidir con el valor del CRP"
   },
   "FOOTER": {
     "dias_disponibilidad": "Lunes a Viernes",
