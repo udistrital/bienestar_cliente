@@ -1,10 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FORM_INFO_EXPEDIR_CRP } from './form-expedir_crp';
-import { PopUpManager } from '../../../../@core/managers/popUpManager';
-import { FormManager } from '../../../../@core/managers/formManager';
-import { TranslateService } from '@ngx-translate/core';
-import { NumberCardModule } from '@swimlane/ngx-charts';
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
 
 @Component({
@@ -16,6 +12,7 @@ export class ExpedirCrpComponent implements OnInit {
     @Input() rubros: any = null;
     @Input() solicitudCdp: any = null;
     @Input() solicitudCrp: any = null;
+    @Input() docPresupuestalCdp: any = null;
     @Output() buildMovimiento: EventEmitter<any> = new EventEmitter<any>();
 
     movimiento: any = null;
@@ -30,15 +27,21 @@ export class ExpedirCrpComponent implements OnInit {
     formMessage = '';
 
     constructor(
-        private translate: TranslateService,
-        private popUpManager: PopUpManager
+        private movimientosHelper: MovimientosHelper
     ) {}
 
     ngOnInit() {
-        this.rubros.forEach((rubro: any) => this.rubrosMap[rubro.RubroId] = rubro);
+        const vigencia = String(this.docPresupuestalCdp.Vigencia);
+        const centroGestor = this.docPresupuestalCdp.CentroGestor;
+        const idDoc = this.docPresupuestalCdp._id;
+        this.movimientosHelper.getByDocumentoPresupuestal(vigencia, centroGestor, idDoc).subscribe((res: any) => {
+            res.forEach((movimiento: any) => {
+                this.rubrosMap[movimiento.Padre] = movimiento;
+            });
+        });
     }
 
-    onKey(event: any, rubro: string) {
+    onKey(rubro: string) {
         this.rubrosMap[rubro].ValorAsignado = this.formGroup.value.value;
         const error = this.validarValorIngresado(this.rubrosMap[rubro]);
         if (!error) {
@@ -52,8 +55,18 @@ export class ExpedirCrpComponent implements OnInit {
     private validarValorIngresado(rubro: any): boolean {
         const valor = this.formGroup.value.value;
         const valorTotal = Object.values(this.rubrosMap).reduce((acc, _rubro: any) => acc + _rubro.ValorAsignado, 0);
+        const rubrosArray = Object.values(this.rubrosMap);
+
+        for (let i = 0; i < rubrosArray.length; i++) {
+            if (rubrosArray[i]['ValorAsignado'] > rubrosArray[i]['ValorActual']) {
+                this.formMessage = `El valor ingresado en el rubro ${rubro.Padre} no debe ser mayor al asignado en el CDP expedido`;
+                this.formError = true;
+                return true;
+            }
+        }
+
         if (valor > this.solicitudCrp.valor) {
-            this.formMessage = `El valor ingresado en el rubro ${rubro.RubroId} no debe ser mayor al valor de la solicitud de CRP`;
+            this.formMessage = `El valor ingresado en el rubro ${rubro.Padre} no debe ser mayor al valor de la solicitud de CRP`;
             this.formError = true;
             return true;
         } else if (valorTotal > this.solicitudCrp.valor) {
@@ -64,7 +77,7 @@ export class ExpedirCrpComponent implements OnInit {
             this.formError = false;
             return true;
         }
-        console.info('todo bien')
+
         this.formError = false;
         return false;
     }
