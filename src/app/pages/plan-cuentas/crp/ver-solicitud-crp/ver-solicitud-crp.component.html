@@ -4,7 +4,9 @@
             {{ 'CRP.crp' | translate }}
         </nb-card-header>
         <nb-card-body>
-            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}:
+            <button (click)="cambioTab()" class="btn btn-info btn-sm"><i class="nb-arrow-dropleft"></i>{{ 'GLOBAL.regresar' | translate}}</button>
+            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}
+                :
                 {{ solicitudc.consecutivo }}</legend>
             <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}:
                 {{ solicitudc.infoCrp.consecutivo }}</legend>
@@ -13,7 +15,7 @@
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
                         <th width="50%">{{'GLOBAL.entidad' | translate}}</th>
-                        <th width="40%">{{'CRP.centro-gestor' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.area_funcional' | translate}}</th>
                         <th width="10%">{{'GLOBAL.vigencia' | translate}}</th>
                     </thead>
                     <tbody>
@@ -33,7 +35,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td *ngIf="cdpInfo.Data">{{cdpInfo.Data.consecutivo_cdp}}</td>
+                            <td *ngIf="cdpInfo.Data">{{solicitudc.consecutivoCdp}}</td>
                             <td *ngIf="tCompromiso">{{tCompromiso.Nombre}}</td>
                             <td *ngIf="solicitudc.compromiso">{{solicitudc.compromiso.numeroCompromiso}}</td>
                         </tr>
@@ -69,7 +71,6 @@
                                 <td>{{rubro.RubroId}} - <span *ngIf="rubro.InfoRubro">{{rubro.InfoRubro.Nombre}}</span>
                                 </td>
                                 <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
-                                <!-- TODO calcular valor rubro -->
                             </tr>
                         </tbody>
                         <!-- metas y actividades si es de inversion -->
@@ -78,7 +79,7 @@
                         </thead>
                         <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
                             <tr>
-                                <!-- TODO traer nombre meta -->
+                                <!-- Metas -->
                                 <td *ngIf="rubro.Metas[0].InfoMeta">{{rubro.Metas[0].MetaId}} -
                                     {{rubro.Metas[0].InfoMeta[0].meta}}</td>
                                 <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
@@ -87,13 +88,17 @@
                                 <th>{{'GLOBAL.actividades' | translate}}</th>
                                 <th>{{'GLOBAL.fuentes' | translate}}</th>
                             </tr>
+                            <!-- Actividades -->
                             <tr *ngFor="let act of rubro.Metas[0].Actividades">
                                 <td rowspan="act.FuentesActividad.lenght" *ngIf="act.InfoActividad">{{act.ActividadId}}
                                     - {{act.InfoActividad[0].actividad}}</td>
-                                <td *ngFor="let f of act.FuentesActividad">
-                                    <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
-                                    <p class="moneyField">{{f.MontoParcial | currency: COP }}</p>
-                                </td>
+                                <ul>
+                                    <li *ngFor="let f of act.FuentesActividad">
+                                        <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
+                                        <p class="moneyField">{{'GLOBAL.valor' | translate}}: {{f.MontoParcial | currency: COP }}</p>
+                                        <hr>
+                                    </li>
+                                </ul>
                             </tr>
                         </tbody>
                         <!-- fuentes -->
@@ -114,7 +119,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let p of rubro.Productos">
-                                <td colspan="2">{{p.ProductoId}} {{p.InfoProducto.Nombre}}</td>
+                                <td colspan="2">{{p.InfoProducto.Nombre}}</td>
                                 <!-- <td class="moneyField">{{p.valor | currency: COP}}</td> -->
                             </tr>
                         </tbody>
@@ -139,15 +144,17 @@
                     </table>
                 </ng-container>
                 <div class="text-center">
-                    <button (click)="cambioTab()" class="btn btn-info col-md-4"> <i class="nb-arrow-dropleft"></i>
-                        {{ 'GLOBAL.regresar' | translate}}</button>
 
-                    <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo)"
+                    <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud" [solicitudCrp]="solicitudc" (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros"></ngx-expedir-crp>
+                    {{formRubros}}
+                    <!-- <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo); formExpedir=true;"
                         class="btn btn-success col-md-4">
+                        {{ 'CRP.expedir' | translate}}</button> -->
+
+                    <button [disabled]="movimiento === null" (click)="expedirCRP()" class="btn btn-success col-md-4">
                         {{ 'CRP.expedir' | translate}}</button>
 
-                    <button *ngIf="expedido && solicitudc.infoCrp" (click)="mostrarPDF(solicitudc.consecutivo_cdp)"
-                        class="btn btn-warning col-md-4">
+                    <button *ngIf="expedido && solicitudc.infoCrp" (click)="mostrarPDF(solicitudc.consecutivo_cdp)" class="btn btn-warning col-md-4">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>
             </div>
@@ -155,4 +162,5 @@
     </nb-card>
     <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF"
         (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
+    
 </div>
