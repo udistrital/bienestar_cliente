@@ -155,7 +155,6 @@
 
                     <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud" [solicitudCrp]="solicitudc" [docPresupuestalCdp]="cdpInfo"
                         (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros"></ngx-expedir-crp>
-                    {{formRubros}}
                     <!-- <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo); formExpedir=true;"
                         class="btn btn-success col-md-4">
                         {{ 'CRP.expedir' | translate}}</button> -->
