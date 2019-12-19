@@ -316,7 +316,8 @@
     "parcial_comprometido": "Parcialmente comprometido",
     "valor_actual": "Valor actual",
     "valor_inicial": "Valor inicial",
-    "ordenador_gasto": "ORDENADOR DE GASTO"
+    "ordenador_gasto": "ORDENADOR DE GASTO",
+    "saldo": "Saldo del CDP"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",
@@ -347,6 +348,7 @@
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :",
     "form_exp_titulo": "Información para expedir el CRP",
     "distribuir_crp": "Distribuya el valor del CRP en los rubros:",
+    "crp_info": "Información del CRP",
     "valor": "Valor del CRP",
     "valores_iguales": "El valor distribuido debe coincidir con el valor del CRP"
   },

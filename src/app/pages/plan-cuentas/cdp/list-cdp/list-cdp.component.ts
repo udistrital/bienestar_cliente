@@ -146,6 +146,7 @@ export class ListCdpComponent implements OnInit {
   }
 
   onCustom(event: any) {
+    console.info(event.data);
     if (event.data.necesidad) {
       this.modPresupuestal = false;
     } else {
