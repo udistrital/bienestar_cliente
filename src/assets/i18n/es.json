@@ -88,6 +88,7 @@
     "producto": "Producto",
     "productos": "Productos",
     "fuentes": "Fuentes",
+    "ingreso": "Ingreso",
     "meta": "Meta",
     "actividades": "Actividades",
     "porcentaje": "Porcentaje %",
@@ -217,7 +218,9 @@
     "consulta_rubros_fuente": "Consulta de rubros por fuente: ",
     "comprobacion-diferencia": "El valor de la(s) fuente(s) supera el de la apropiación por un valor de: ",
     "select_fuente": "Seleccione una fuente de financiamiento",
-    "total_plan_ad": "Total Plan de Adquisiciones: "
+    "total_plan_ad": "Total Plan de Adquisiciones: ",
+    "asignar_ingreso": "Asignar Ingreso",
+    "cambiar_ingreso": "Cambiar Ingreso"
   },
   "ACTIVIDAD":{
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "

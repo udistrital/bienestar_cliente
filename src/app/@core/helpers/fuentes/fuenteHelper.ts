@@ -92,7 +92,7 @@ export class FuenteHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar La Fuente, Compruebe que no exista una fuente con el mismo Código.');
+                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar La Fuente');
                         return undefined;
                     }
                     return res;
