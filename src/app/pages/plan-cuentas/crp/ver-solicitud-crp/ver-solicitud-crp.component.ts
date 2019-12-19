@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 export class VerSolicitudCrpComponent implements OnInit {
 
 
-  @Input('solicitudcrp') solicitud: object;
+  @Input('solicitudcrp') solicitud: any;
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
   cdpInfo: any = {};
@@ -42,7 +42,7 @@ export class VerSolicitudCrpComponent implements OnInit {
   actividades: object[];
   r = /\d+/;
   habilitarExpedir = false;
-  movimiento: Event = null;
+  movimiento: any = null;
 
   constructor(
     private crpHelper: CRPHelper,
@@ -140,8 +140,10 @@ export class VerSolicitudCrpComponent implements OnInit {
 
 
                   }
-                  if (this.TrNecesidad.Rubros.length > 0) {
+                  if (this.TrNecesidad.Rubros.length > 1) {
                     this.formRubros = true;
+                  } else {
+                    this.construirMovimiento();
                   }
 
                 });
@@ -167,27 +169,49 @@ export class VerSolicitudCrpComponent implements OnInit {
   }
 
   expedirCRP() {
-    // console.table(this.solicitudc);
-    // this.popManager.showAlert('warning', `Expedir CRP ${consecutivo}`, '¿Continuar?')
-    //   .then((result) => {
-    //     if (result.value) {
-    //       const movimiento = this.construirDatosMovimiento();
-    //       console.info(movimiento);
-    //       this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
-    //           console.info(res);
-    //           this.popManager.showSuccessAlert(`Se expidió con exito el CRP`);
-    //           this.router.navigate(['/pages/plan-cuentas/crp']);
-    //       });
-    //       // this.crpHelper.expedirCRP(this.solicitud["_id"]).subscribe(res => {
-    //       //   if (res) {
-    //       //     this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${res.infoCrp.consecutivo}`)
-    //       //     this.router.navigate(['/pages/plan-cuentas/crp']);
-    //       //   }
-    //       // });
-    //     }
-    //   });
+    let consecutivo: Number;
+    this.popManager.showAlert('warning', `Expedir CRP ${this.solicitudc.consecutivo}`, '¿Continuar?')
+      .then((result) => {
+        if (result.value) {
+          this.movimientosHelper.postMovimiento(this.movimiento).subscribe(res => {
+            consecutivo = res['DocInfo'].Consecutivo;
+          });
+          this.crpHelper.expedirCRP(this.solicitud._id).subscribe(res => {
+            if (res) {
+              this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${consecutivo}`);
+              this.router.navigate(['/pages/plan-cuentas/crp']);
+            }
+          });
+        }
+      });
   }
 
+  private construirMovimiento() {
+    this.movimiento = {
+      Data: { 'solicitud_crp': this.solicitudc._id },
+      Tipo: 'rp',
+      Vigencia: 2019,
+      CentroGestor: this.solicitud.centroGestor,
+      AfectacionMovimiento: []
+    };
+
+    this.cdpInfo.AfectacionIds.forEach((cdp: any) => {
+        this.movimiento.AfectacionMovimiento.push(
+            {
+                MovimientoProcesoExternoId: {
+                    TipoMovimientoId: {
+                        Id: 7,
+                        Acronimo: 'rp'
+                    }
+                },
+                DocumentoPadre: cdp,
+                Valor: this.solicitudc.valor,
+                Descripcion: 'Expedición CRP'
+            },
+
+        );
+    });
+  }
 
   mostrarPDF(consecutivo) {
     this.tituloPDF = `Certificado de Registro Presupuestal N° ${consecutivo}`;

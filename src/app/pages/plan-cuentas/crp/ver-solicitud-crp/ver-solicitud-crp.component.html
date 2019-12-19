@@ -43,6 +43,14 @@
                             <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
                             <td colspan="2">{{ objetoNecesidad }}</td>
                         </tr>
+                        <tr>
+                            <td class="bg-kronos boldTitle" width="50%">{{'CRP.valor' | translate}}</td>
+                            <td class="moneyField" colspan="2" width="50%">{{solicitudc.valor | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-kronos boldTitle" width="50%">{{'CDP.saldo' | translate}}</td>
+                            <td class="moneyField" colspan="2" width="50%">{{cdpInfo.ValorActual | currency}}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <table class="table table-hover table-bordered">
@@ -70,7 +78,7 @@
                             <tr>
                                 <td>{{rubro.RubroId}} - <span *ngIf="rubro.InfoRubro">{{rubro.InfoRubro.Nombre}}</span>
                                 </td>
-                                <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
+                                <td class="moneyField">{{rubro.MontoParcial | currency}}</td>
                             </tr>
                         </tbody>
                         <!-- metas y actividades si es de inversion -->
@@ -113,7 +121,7 @@
                             </tr>
                         </tbody>
                         <!-- productos -->
-                        <thead class="bg-kronos" *ngIf="rubro.Productos">
+                        <thead class="bg-kronos" *ngIf="rubro.Productos.length > 0">
                             <th colspan="2">{{'GLOBAL.producto' | translate}}</th>
 
                         </thead>
@@ -125,7 +133,7 @@
                         </tbody>
 
                     </table>
-                    <!-- responsables y fecha -->
+                    <!-- responsables y fecda -->
                     <table class="table table-hover table-bordered">
                         <thead class="bg-kronos">
                             <th width="33%" *ngIf="!expedido">{{ 'CDP.fecha_solicitud' | translate }}</th>
@@ -145,7 +153,8 @@
                 </ng-container>
                 <div class="text-center">
 
-                    <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud" [solicitudCrp]="solicitudc" (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros"></ngx-expedir-crp>
+                    <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud" [solicitudCrp]="solicitudc" [docPresupuestalCdp]="cdpInfo"
+                        (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros"></ngx-expedir-crp>
                     {{formRubros}}
                     <!-- <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo); formExpedir=true;"
                         class="btn btn-success col-md-4">
