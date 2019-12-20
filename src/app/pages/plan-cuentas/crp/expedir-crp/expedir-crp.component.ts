@@ -91,7 +91,7 @@ export class ExpedirCrpComponent implements OnInit {
           AfectacionMovimiento: []
         };
 
-        Object.values(this.rubrosMap).forEach((rubro: any, index) => {
+        Object.values(this.rubrosMap).forEach((rubro: any) => {
             this.movimiento.AfectacionMovimiento.push(
                 {
                     MovimientoProcesoExternoId: {
@@ -100,7 +100,7 @@ export class ExpedirCrpComponent implements OnInit {
                             Acronimo: 'rp'
                         }
                     },
-                    DocumentoPadre: this.solicitudCdp['movimiento_cdp'][index],
+                    DocumentoPadre: rubro._id,
                     Valor: rubro.ValorAsignado,
                     Descripcion: 'Expedición CRP'
                 },

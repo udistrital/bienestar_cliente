@@ -4,7 +4,7 @@ export let FORM_INFO_SOL_CRP = {
     alertas: true,
     modelo: 'SolicitudCRP',
     campos: [
-     
+
         {
             etiqueta: 'select',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
@@ -62,7 +62,7 @@ export let FORM_INFO_SOL_CRP = {
             deshabilitar: true,
             requerido: false,
             tipo: 'text',
-        },      
+        },
         {
             etiqueta: 'input',
             claseGrid: 'col-lg-5 col-md-5 col-sm-5 col-xs-5',
@@ -75,7 +75,15 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'mat-date',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
+            nombre: 'FechaInicioVigencia',
+            label_i18n: 'Fecha inicial de vigencia',
+            placeholder_i18n: 'Fecha inicial de vigencia',
+            requerido: true,
+        },
+        {
+            etiqueta: 'mat-date',
+            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
             nombre: 'FechaFinalVigencia',
             label_i18n: 'Fecha final de vigencia',
             placeholder_i18n: 'Fecha final de vigencia',
@@ -83,21 +91,21 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
             nombre: 'MontoCRP',
             label_i18n: 'Monto del CRP',
             placeholder_i18n: 'Monto del CRP',
             requerido: true,
             tipo: 'MontoTipo',
             key: 'valor',
-            opciones: [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }],
+            opciones: [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }]
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
+            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
             nombre: 'ValorParcial',
-            label_i18n: 'Valor Parcial',
-            placeholder_i18n: 'Valor Parcial',
+            label_i18n: 'Valor',
+            placeholder_i18n: 'Valor',
             requerido: false,
             tipo: 'text',
             enabledcurrency: true,
