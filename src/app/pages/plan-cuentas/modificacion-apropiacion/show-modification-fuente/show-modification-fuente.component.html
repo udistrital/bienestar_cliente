@@ -1,26 +1,26 @@
 <nb-card>
         <nb-card-body class="cards-container">
-            <div *ngFor="let afetctaionItem of afectationData" class="cards-items">
+            <div *ngFor="let afectationItem of afectationData" class="cards-items">
     
                 <div class="card">
                     <div class="header-container card-header bg-warning text-white">
-                        <b class="card-title">{{'GLOBAL.tipo' | translate }} : {{afetctaionItem.Tipo.Nombre}}</b>
+                        <b class="card-title">{{'GLOBAL.tipo' | translate }} : {{afectationItem.Tipo.Nombre}}</b>
                         <button *ngIf="!readonly" class="btn btn-danger"
-                                (click)="removeAprData(afetctaionItem)">X</button>
+                                (click)="removeAprData(afectationItem)">X</button>
                     </div>
-                    <div  class="card-body">
-                        <b>{{'MODIF.fuente_origen' | translate }}</b> : {{afetctaionItem.MovimientoOrigen.Codigo}} / {{afetctaionItem.MovimientoOrigen.Nombre}}
-                            <br>
-                            <span
-                                *ngIf="afetctaionItem.MovimientoDestino"><b>{{'MODIF.fuente_destino' | translate }}</b>
-                                :
-                                {{afetctaionItem.MovimientoDestino.Codigo}}/{{afetctaionItem.MovimientoDestino.Codigo}}</span>
-                            <br>
-                            <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afetctaionItem.Valor | currency:'COP':'symbol':'4.2-2':'co' }}
+                    <div *ngIf="afectationItem.MovimientoOrigen" class="card-body">
+                        <b>{{'MODIF.fuente_origen' | translate }}</b> : {{afectationItem.MovimientoOrigen.Codigo}} / {{afectationItem.MovimientoOrigen.Nombre}}
+                            <br>                       
+                            <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afectationItem.Valor | currency:'COP':'symbol':'4.2-2':'co' }}
                             </span>
+                            <br>                         
+                    </div>
+                    <div *ngIf="afectationItem.CuentaCredito" class="card-body">
+                        <b>{{'MODIF.cuenta_credito' | translate }}</b> : {{afectationItem.CuentaCredito.Codigo}} / {{afectationItem.CuentaCredito.Nombre}}
                             <br>
-                            
-    
+                            <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afectationItem.Valor | currency:'COP':'symbol':'4.2-2':'co' }}
+                            </span>
+                            <br>                         
                     </div>
                 </div>
             </div>
