@@ -190,7 +190,9 @@
     "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO",
     "cdp_modificacion": "CDP modificación presupuestal",
     "lista_anulaciones": "Lista anulaciones",
-    "consecutivo": "Consecutivo"
+    "consecutivo": "Consecutivo",
+    "saldo_rubro": "Saldo del rubro",
+    "relacionado": "relacionado"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -220,7 +222,8 @@
     "select_fuente": "Seleccione una fuente de financiamiento",
     "total_plan_ad": "Total Plan de Adquisiciones: ",
     "asignar_ingreso": "Asignar Ingreso",
-    "cambiar_ingreso": "Cambiar Ingreso"
+    "cambiar_ingreso": "Cambiar Ingreso",
+    "saldo_restante_mov": "Saldo restante del movimiento"
   },
   "ACTIVIDAD":{
     "comprobacion-diferencia": "El valor de la(s) actividad(es) supera el de la apropiación por un valor de: "
@@ -279,7 +282,8 @@
     "fuente_origen": "Fuente Origen",
     "fuente_destino": "Fuente Destino",
     "cuenta_credito": "Cuenta crédito",
-    "cuenta_contra_credito": "Cuenta contra crédito"
+    "cuenta_contra_credito": "Cuenta contra crédito",
+    "distribuir_rubros": "Distribuir Rubros"
   },
   "PRODUCTO": {
     "mensaje_actualizar": "¿ Actualizar Producto ?",

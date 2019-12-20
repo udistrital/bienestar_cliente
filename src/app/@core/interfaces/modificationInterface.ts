@@ -18,7 +18,7 @@ export interface ModApropiationData {
 
 export interface ModFuenteData {
     Tipo: TypeGeneral;
-    MovimientoOrigen: FuenteFinanciamientoInterface;
-    MovimientoDestino?: FuenteFinanciamientoInterface;
+    MovimientoOrigen?: FuenteFinanciamientoInterface;
+    CuentaCredito?: ArbolRubroApropiacionInterface;
     Valor: number;
 }

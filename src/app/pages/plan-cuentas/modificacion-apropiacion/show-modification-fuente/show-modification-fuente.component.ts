@@ -11,11 +11,11 @@ export class ShowModificationFuenteComponent implements OnInit {
     this.afectationData = changes['afectationData'].currentValue;
 }
 constructor() { }
-@Input() afectationData: Array<ModFuenteData>;
+@Input() afectationData: Array<any>;
 @Output() afectationDataChange = new EventEmitter();
 @Input() readonly: boolean = false;
 ngOnInit() { }
-public removeAprData(daprData: ModFuenteData) {
+public removeAprData(daprData: any) {
     this.afectationData = this.afectationData.filter(data => data !== daprData);
     this.afectationDataChange.emit(this.afectationData);
 }
