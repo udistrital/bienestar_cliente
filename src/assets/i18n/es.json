@@ -344,6 +344,18 @@
     "nombre-contratista": "Nombre Beneficiario",
     "solicitud-efectuada": "Que se ha efectuado la Solicitud de Certificado de Registro Presupuestal para atender a compromisos así :"
   },
+  "VIGENCIA": {
+    "solicitud_crear_vigencia": "Crear una Nueva Vigencia",
+    "codigo_centro_gestor": "Código Centro Gestor",
+    "codigo_area_funcional": "Código Área Funcional",
+    "vigencia_ejecucion": "Vigencia de Ejecución",
+    "vigencia_programacion": "Vigencia Programación",
+    "list_vigencia": "Listado Vigencias",
+    "anio_vigencia": "Año Vigencia",
+    "estado_vigencia": "Estado de la Vigencia",
+    "fecha_inicio": "Fecha Inicio",
+    "fecha_cierre": "Fecha Cierre"
+  },
   "FOOTER": {
     "dias_disponibilidad": "Lunes a Viernes",
     "horario": "8am a 5pm",

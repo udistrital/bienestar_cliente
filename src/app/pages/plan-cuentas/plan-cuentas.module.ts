@@ -39,6 +39,8 @@ import { AnulacionDocumentoComponent } from './anulacion-documento-pres/anulacio
 import { SetModificacionFuenteComponent } from './modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component';
 import { ShowModificationFuenteComponent } from './modificacion-apropiacion/show-modification-fuente/show-modification-fuente.component';
 import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres/list-anulacion-documento.component';
+import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
+import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres
     SetModificacionFuenteComponent,
     ShowModificationFuenteComponent,
     ListAnulacionDocumentoComponent,
+    ListarVigenciaComponent,
+    ShowVigenciaComponent,
   ],
   providers: [
     ConfiguracionService,
