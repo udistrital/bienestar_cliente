@@ -42,6 +42,8 @@ import { ShowModificationFuenteComponent } from './modificacion-apropiacion/show
 import { CierreVigenciaComponent } from './gestion-vigencias/cierre-vigencia/cierre-vigencia.component';
 import { PlanAdquisicionesRubroComponent } from './rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component';
 import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres/list-anulacion-documento.component';
+import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
+import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.component';
 
 
 @NgModule({
@@ -69,6 +71,8 @@ import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres
     CierreVigenciaComponent,
     PlanAdquisicionesRubroComponent,
     ListAnulacionDocumentoComponent,
+    ListarVigenciaComponent,
+    ShowVigenciaComponent,
     ExpedirCrpComponent
   ],
   providers: [
