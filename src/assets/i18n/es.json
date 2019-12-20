@@ -320,7 +320,9 @@
     "valor_actual": "Valor actual",
     "valor_inicial": "Valor inicial",
     "ordenador_gasto": "ORDENADOR DE GASTO",
-    "saldo": "Saldo del CDP"
+    "saldo": "Saldo del CDP",
+    "informacion": "Información del CDP",
+    "valor_cdp": "Valor del CDP"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",

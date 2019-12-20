@@ -169,18 +169,13 @@ export class VerSolicitudCrpComponent implements OnInit {
   }
 
   expedirCRP() {
-    let consecutivo: Number;
     this.popManager.showAlert('warning', `Expedir CRP ${this.solicitudc.consecutivo}`, '¿Continuar?')
       .then((result) => {
+        this.crpHelper.expedirCRP(this.solicitud._id).subscribe();
         if (result.value) {
-          this.movimientosHelper.postMovimiento(this.movimiento).subscribe(res => {
-            consecutivo = res['DocInfo'].Consecutivo;
-          });
-          this.crpHelper.expedirCRP(this.solicitud._id).subscribe(res => {
-            if (res) {
-              this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${consecutivo}`);
-              this.router.navigate(['/pages/plan-cuentas/crp']);
-            }
+          this.movimientosHelper.postMovimiento(this.movimiento).subscribe((res: any) => {
+            this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${res.DocInfo.Consecutivo}`);
+            this.router.navigate(['/pages/plan-cuentas/crp']);
           });
         }
       });
