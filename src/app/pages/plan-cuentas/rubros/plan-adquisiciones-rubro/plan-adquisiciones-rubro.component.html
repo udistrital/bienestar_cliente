@@ -1,0 +1,46 @@
+<!-- Plan de Adquisiciones -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="moneyField">
+      <strong>{{ "APROPIACION.total-actividades" | translate }}</strong>
+      {{totalValorActividades | currency:'COP':'symbol':'4.2-2':'co'}}
+    </div>
+    <div *ngIf="diferenciaActividadApropiacion">
+      <p class="moneyField error">
+        {{ "ACTIVIDAD.comprobacion-diferencia" | translate }}{{diferenciaActividadApropiacion | currency:'COP':'symbol':'4.2-2':'co'}}
+      </p>
+    </div>
+    <div class="moneyField">
+      <strong>{{ "APROPIACION.total-fuentes" | translate }}</strong>
+      {{totalValorFuentes | currency:'COP':'symbol':'4.2-2':'co'}}
+    </div>
+    <div *ngIf="diferenciaFuentesApropiacion">
+      <p class="moneyField error">
+        {{ "FUENTE_FINANCIAMIENTO.comprobacion-diferencia" | translate }}{{diferenciaFuentesApropiacion | currency:'COP':'symbol':'4.2-2':'co'}}
+      </p>
+    </div>
+    <nb-card *ngFor="let actividad of planAdquisicionesRubro">
+      <ul>
+        <li><strong>{{ "APROPIACION.actividad" | translate }}</strong> {{actividad.actividad}}
+          <ul>
+            <li><strong>{{ "APROPIACION.valor-actividad" | translate }}</strong>
+            {{actividad.valor_actividad | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+            <li><strong>{{ "APROPIACION.meta" | translate }}</strong> {{actividad.meta}}</li>
+            <li><strong>{{ "APROPIACION.fuente" | translate }}</strong><span>
+            {{actividad.fuente_financiamiento}}</span> -
+            {{actividad.fuente_financiamiento_nombre?actividad.fuente_financiamiento_nombre:'No Asignada'}}
+              <ul>
+                <li><strong>{{ "APROPIACION.dependencia" | translate }}</strong> {{actividad.dependencia}}</li>
+                <li><strong>{{ "APROPIACION.valor-fuente" | translate }}</strong>
+                {{actividad.valor_fuente_presupuesto | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                <li><strong>{{ "APROPIACION.valor-dependencia" | translate }}</strong>
+                {{actividad.valor_dependencia | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nb-card>
+  </div>
+</div>
+<!--fin Plan de Adquisiciones-->

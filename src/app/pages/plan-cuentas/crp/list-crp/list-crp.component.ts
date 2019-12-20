@@ -91,6 +91,7 @@ export class ListCrpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        columnTitle: 'Opciones',
         custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },

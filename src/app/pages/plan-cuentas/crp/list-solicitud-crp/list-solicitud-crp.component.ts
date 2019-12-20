@@ -54,7 +54,7 @@ export class ListSolicitudCrpComponent implements OnInit {
         }
       },
       centroGestor: {
-        title: this.translate.instant('GLOBAL.centro_gestor'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
         filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
@@ -95,6 +95,7 @@ export class ListSolicitudCrpComponent implements OnInit {
         position: 'right'
       },
       mode: 'external',
+      columnTitle: 'Opciones',
       columns: this.listColumns,
     };
 
