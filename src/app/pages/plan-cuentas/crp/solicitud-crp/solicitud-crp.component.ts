@@ -3,11 +3,14 @@ import { FORM_INFO_SOL_CRP } from './form_info_sol_crp';
 import { SolicitudCrp } from '../../../../@core/data/models/sol_crp';
 import { FormManager } from '../../../../@core/managers/formManager';
 import { AdmAmazonHelper } from '../../../../@core/helpers/administrativa/admAmazonHelper';
+import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
+import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
 import { TranslateService } from '@ngx-translate/core';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'ngx-solicitud-crp',
   templateUrl: './solicitud-crp.component.html',
@@ -18,6 +21,8 @@ export class SolicitudCrpComponent implements OnInit {
   clean = false;
   formInfoSolCrp: any;
   solCrpData: SolicitudCrp;
+  docPresupuestalCdp: any;
+  rubrosCdp: any;
 
   constructor(
     private translate: TranslateService,
@@ -26,10 +31,11 @@ export class SolicitudCrpComponent implements OnInit {
     private popManager: PopUpManager,
     private admAmazonHelper: AdmAmazonHelper,
     private router: Router,
+    private docPresupuestalHelper: DocumentoPresupuestalHelper,
+    private movimientosHelper: MovimientosHelper
   ) {
     this.formInfoSolCrp = FORM_INFO_SOL_CRP;
     this.construirForm();
-
     this.solCrpData = {
       ConsecutivoCDP: undefined,
       Vigencia: '',
@@ -40,6 +46,7 @@ export class SolicitudCrpComponent implements OnInit {
         TipoCompromiso: undefined,
       },
       FechaCreacion: undefined,
+      FechaInicialVigencia: undefined,
       FechaFinalVigencia: undefined
     };
   }
@@ -49,6 +56,7 @@ export class SolicitudCrpComponent implements OnInit {
     this.loadOptionsTipoDocumento();
     this.loadOptionsCompromisos();
 
+    console.info();
   }
 
   construirForm() {
@@ -76,6 +84,7 @@ export class SolicitudCrpComponent implements OnInit {
       this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
       this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
       this.solCrpData.FechaCreacion = new Date();
+      this.solCrpData.FechaInicialVigencia = typeof event.data.SolicitudCRP.FechaInicialVigencia === 'undefined' ? undefined : event.data.SolicitudCRP.FechaInicialVigencia;
       this.solCrpData.FechaFinalVigencia = typeof event.data.SolicitudCRP.FechaFinalVigencia === 'undefined' ? undefined : event.data.SolicitudCRP.FechaFinalVigencia;
 
       if (event.data.SolicitudCRP.MontoCRP.Id === 1) {
@@ -101,6 +110,9 @@ export class SolicitudCrpComponent implements OnInit {
     }
   }
 
+  cambiarMonto(event: any) {
+    console.info(event);
+  }
 
   loadCDPInfo(): void {
     let cdpsConsecutivos: Array<any> = [];
@@ -113,27 +125,33 @@ export class SolicitudCrpComponent implements OnInit {
   }
 
   button(event: any) {
-    this.crpHelper.getContratoSuscrito(event.data.NumeroCompromiso, event.data.Vigencia.valor).subscribe(resCS => {
-      if (resCS[0]) {
-        this.crpHelper.getContratoDisponibilidad(resCS[0].NumeroContrato.Id).subscribe(resCD => {// se obtiene la información del CDP de ese contrato
-          if (resCD[0]) {
-            this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = resCD[0].NumeroCdp;
-            this.crpHelper.getContratoGeneral(resCD[0].NumeroContrato, resCD[0].Vigencia).subscribe(resCG => {
-              if (resCG) {
-                this.crpHelper.getContratista(resCG[0].Contratista).subscribe(resIP => {
-                  if (resIP) {
-                    this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = resIP.NomProveedor;
-                    this.formInfoSolCrp.campos[this.getIndexForm('NumeroDocumento')].valor = resIP.NumDocumento;
-                  }
-                });
-              }
-            });
-          }
+    let consecutivoCdp: number;
+    this.crpHelper.getContratoSuscrito(event.data.NumeroCompromiso, event.data.Vigencia.valor).pipe(
+      switchMap(resCS => this.crpHelper.getContratoDisponibilidad(resCS[0].NumeroContrato.Id))
+      ).pipe(
+        switchMap(resCD => {
+          this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = resCD[0].NumeroCdp;
+          consecutivoCdp = resCD[0].NumeroCdp;
+          return this.crpHelper.getContratoGeneral(resCD[0].NumeroContrato, resCD[0].Vigencia);
+        }),
+      ).pipe(
+        switchMap(resCG => this.crpHelper.getContratista(resCG[0].Contratista))
+      ).subscribe(resIP => {
+        if (resIP) {
+          this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = resIP.NomProveedor;
+          this.formInfoSolCrp.campos[this.getIndexForm('NumeroDocumento')].valor = resIP.NumDocumento;
+        }
+        const vigencia = this.formInfoSolCrp.campos[this.getIndexForm('Vigencia')].valor.valor;
+        const query = 'consecutivo:' + consecutivoCdp + ',tipo:cdp';
+        this.docPresupuestalHelper.get(vigencia, '1', query).pipe(
+          switchMap(res =>  {
+            this.docPresupuestalCdp = res[0];
+            return this.movimientosHelper.getByDocumentoPresupuestal(vigencia, '1', res[0]['_id']);
+          })
+        ).subscribe(res => {
+          this.rubrosCdp = res;
         });
-      } else {
-
-      }
-    });
+      });
   }
 
   loadOptionsTipoDocumento(): void {
