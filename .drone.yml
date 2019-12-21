@@ -14,7 +14,10 @@ steps:
      - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
      - export PATH=$PATH:/go/src/github.com/udistrital/${DRONE_REPO##udistrital/}/sonar-scanner-$RELEASE-linux/bin
      - cp sonar-project.properties ./sonar-scanner-$RELEASE-linux/conf/sonar-scanner.properties
-     - /go/src/github.com/udistrital/${DRONE_REPO##udistrital/}/sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+     - ls
+     - ls sonar-scanner-$RELEASE-linux/bin/
+     - sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+     - sonar-scanner
     when:
       branch:
       - dev
