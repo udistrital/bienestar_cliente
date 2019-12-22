@@ -144,7 +144,7 @@
     "fecha_documento": "Fecha de documento",
     "numero_documento": "Numero documento",
     "area_funcional": "Área funcional",
-    "centro_gestor": "Centro gestor",
+    "centro_gestor": "Centro Gestor",
     "placeholder_valor": "Valor",
     "placeholder_codigo": "Código",
     "placeholder_nombre": "Nombre",
@@ -189,7 +189,9 @@
     "jefe_presupuesto": "JEFE SECCIÓN PRESUPUESTO",
     "cdp_modificacion": "CDP modificación presupuestal",
     "lista_anulaciones": "Lista anulaciones",
-    "consecutivo": "Consecutivo"
+    "consecutivo": "Consecutivo",
+    "rector": "Rector",
+    "convenios": "Convenios"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

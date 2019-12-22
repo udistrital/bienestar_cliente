@@ -44,21 +44,52 @@ export class ListarVigenciaComponent implements OnInit {
         title: this.translate.instant('VIGENCIA.anio_vigencia'),
         filter: false,
         valuePrepareFunction: (value: any) => {
-          return value
+          return value;
         }
       },
       areaFuncional: {
-        title: this.translate.instant('VIGENCIA.codigo_centro_gestor'),
-        filter: true,
+        title: this.translate.instant('GLOBAL.centro_gestor'),
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: 'Rector', title: this.translate.instant('GLOBAL.rector') },
+              { value: 'Convenios', title: this.translate.instant('GLOBAL.convenios') },
+            ]
+          },
+        },
         valuePrepareFunction: (value: any) => {
-          return value
+          if (value === '1') {
+            return this.translate.instant('GLOBAL.rector');
+          } else {
+            return this.translate.instant('GLOBAL.convenios');
+          }
         }
       },
       estado: {
         title: this.translate.instant('VIGENCIA.estado_vigencia'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          return value
+          return value;
+        }
+      },
+      fechaCreacion: {
+        title: this.translate.instant('VIGENCIA.fecha_inicio'),
+        filter: true,
+        valuePrepareFunction: (value: any) => {
+          return value.substring(0, 10);
+        }
+      },
+      fechaCierre: {
+        title: this.translate.instant('VIGENCIA.fecha_cierre'),
+        filter: true,
+        valuePrepareFunction: (value: any) => {
+          if (value.substring(0) === '2') {
+            return value.substring(0, 10);
+          } else {
+            return '-';
+          }
         }
       },
     };
@@ -68,9 +99,9 @@ export class ListarVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [
+       /* custom: [
           { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>'},
-      ],
+      ],*/
       position: 'right'
       },
       mode: 'external',
@@ -81,12 +112,13 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   loadData(): void {
-      vigencias: this.loadDataFunction(       
+      // tslint:disable-next-line: label-position
+      vigencias: this.loadDataFunction(
       ).subscribe(res =>{
         const data = <Array<any>>res;
         console.log(data)
         this.source.load(data);
-    })
+    });
   }
 
   onCustom(event: any) {
