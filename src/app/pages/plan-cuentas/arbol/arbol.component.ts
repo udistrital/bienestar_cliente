@@ -5,7 +5,7 @@ import {
   NbTreeGridRowComponent,
   NbTreeGridDataSource,
   NbTreeGridDataSourceBuilder,
-  NbSortRequest,
+  NbSortRequest
 } from '@nebular/theme';
 import { Observable, forkJoin } from 'rxjs';
 import { ArbolHelper } from '../../../@core/helpers/arbol/arbolHelper';
@@ -62,6 +62,8 @@ export class ArbolComponent implements OnChanges {
   isSelected: boolean;
   searchValue: string;
 
+  loading = true;
+
   constructor(
     private renderer: Renderer2,
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<EstructuraArbolRubrosApropiaciones>,
@@ -111,7 +113,12 @@ export class ArbolComponent implements OnChanges {
     subscribe((res) => {
       this.data = res.root_2.concat(res.root_3);
       this.dataSource = this.dataSourceBuilder.create(this.data, getters);
+      this.loadedTreeRubros();
     });
+  }
+
+  loadedTreeRubros(){
+    this.loading = false;
   }
 
 
@@ -128,6 +135,7 @@ export class ArbolComponent implements OnChanges {
       this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
         this.data = res;
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+        this.loadedTreeRubros();
       },
       );
     }
@@ -146,6 +154,7 @@ export class ArbolComponent implements OnChanges {
       this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
         this.data = res;
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+        this.loadedTreeRubros();
       },
       );
     }
