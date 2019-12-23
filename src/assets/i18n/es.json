@@ -192,7 +192,13 @@
     "lista_anulaciones": "Lista anulaciones",
     "consecutivo": "Consecutivo",
     "saldo_rubro": "Saldo del rubro",
-    "relacionado": "relacionado"
+    "relacionado": "relacionado",
+    "Parcial": "Parcial",
+    "Total": "Total",
+    "cdp_suspension": "CDP suspensión",
+    "cdp_traslado": "CDP traslado",
+    "cdp_reduccion": "CDP reducción",
+    "anulation_not_allowed": "Anulación para este documento no permitida."
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",
@@ -296,6 +302,9 @@
   "CDP": {
     "cdp": "CDP",
     "cdp_modificacion": "CDP modificación presupuestal",
+    "cdp_suspension": "CDP suspensión",
+    "cdp_traslado": "CDP traslado",
+    "cdp_reduccion": "CDP reducción",
     "solicitudes_cdp": "Lista de solicitudes de certificado de disponibilidad presupuestal",
     "lista_cdp": "Lista certificados de disponibilidad presupuestal",
     "n_solicitud": "N° Solicitud de CDP",
@@ -326,7 +335,8 @@
     "ordenador_gasto": "ORDENADOR DE GASTO",
     "saldo": "Saldo del CDP",
     "informacion": "Información del CDP",
-    "valor_cdp": "Valor del CDP"
+    "valor_cdp": "Valor del CDP",
+    "anulado": "Anulado"
   },
   "CRP": {
     "crp": "Certificado de Registro Presupuestal",
