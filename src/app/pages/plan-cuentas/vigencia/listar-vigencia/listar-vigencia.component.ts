@@ -43,21 +43,54 @@ export class ListarVigenciaComponent implements OnInit {
         title: this.translate.instant('VIGENCIA.anio_vigencia'),
         filter: false,
         valuePrepareFunction: (value: any) => {
-          return value
+          return value;
         }
       },
       areaFuncional: {
-        title: this.translate.instant('VIGENCIA.codigo_centro_gestor'),
-        filter: true,
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: '1', title: 'Rector' },
+              { value: '2', title: 'Convenios' },
+            ]
+          },
+        },
         valuePrepareFunction: (value: any) => {
-          return value
+          if (value === '1') {
+            //return this.translate.instant('GLOBAL.rector');
+            return 'Rector';
+          } else {
+            //return this.translate.instant('GLOBAL.convenios');
+            return 'Convenios';
+          }
         }
       },
       estado: {
         title: this.translate.instant('VIGENCIA.estado_vigencia'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          return value
+          return value;
+        }
+      },
+      fechaCreacion: {
+        title: this.translate.instant('VIGENCIA.fecha_inicio'),
+        filter: true,
+        valuePrepareFunction: (value: any) => {
+          return value.substring(0, 10);
+        }
+      },
+      fechaCierre: {
+        title: this.translate.instant('VIGENCIA.fecha_cierre'),
+        filter: true,
+        valuePrepareFunction: (value: any) => {
+          if (value.substring(0, 1) === '2') {
+            return value.substring(0, 10);
+          } else {
+            return '-';
+          }
         }
       },
     };
@@ -67,53 +100,41 @@ export class ListarVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [
+       /* custom: [
           { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>'},
-      ],
+      ],*/
       position: 'right'
       },
       mode: 'external',
       columns: this.listColumns,
     };
 
-    // this.loadData();
+    this.loadData();
   }
 
-  // loadData(): void {
-  //     vigencias: this.loadDataFunction(       
-  //     ).subscribe(res =>{
-  //       const data = <Array<any>>res;
-  //       console.log(data)
-  //       this.source.load(data);
-  //   })
-  // }
+  loadData(): void {
+      // tslint:disable-next-line: label-position
+      vigencias: this.loadDataFunction(
+      ).subscribe(res =>{
+        const data = <Array<any>>res;
+        this.source.load(data);
+    });
+  }
 
-  // onCustom(event: any) {
-  //   console.log(event.data)
-  //   event.data['Vigencia'] = event.data.valor;
-  //   event.data['AreaFuncional'] = event.data.areaFuncional;
-  //   event.data['Estado'] = event.data.estado;
-  //   event.data['FechaInicio'] = event.data.fechaCreacion;
-  //   event.data['FechaCierre'] = event.data.fechaCierre;
+  onCustom(event: any) {
+    console.log(event.data)
+    event.data['Vigencia'] = event.data.valor;
+    event.data['AreaFuncional'] = event.data.areaFuncional;
+    event.data['Estado'] = event.data.estado;
+    event.data['FechaInicio'] = event.data.fechaCreacion;
+    event.data['FechaCierre'] = event.data.fechaCierre;
 
-  //   switch (event.action) {
-  //     case 'ver':
-  //       this.verVigencia(event.data);
-  //       break;
-  //   }
-  // }
+    switch (event.action) {
+      case 'ver':
+        this.verVigencia(event.data);
+        break;
+    }
+  }
 
-  // verVigencia(vigencia) {
-  //   this.vigencia = vigencia;
-  //   this.onCambiotab();
-  // }
 
-  // onCambiotab(): void {
-  //   this.cambiotab = !this.cambiotab;
-  // }
-
-  // returnToList() {
-  //   this.anularTab = false;
-  //   this.cambiotab = false;
-  // }
 }
