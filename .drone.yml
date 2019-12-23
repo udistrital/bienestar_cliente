@@ -2,6 +2,24 @@ kind: pipeline
 name: cliente_deploy
 
 steps:
+  - name: prueba-unitarias
+    image: node:12.6.0
+    commands:
+      - npm i
+      - npm run test
+    when:
+      branch:
+        - unitest
+
+  - name:  pruebas-linter
+    image: node:12.6.0
+    commands:
+      - npm i
+      - npm run lint
+    when:
+      branch:
+        - unitest
+
   - name: sonar_scanner_test
     image: timbru31/java-node
     commands:
@@ -16,7 +34,6 @@ steps:
      - sonar-scanner-$RELEASE-linux/bin/sonar-scanner
     when:
       branch:
-      - dev
       - test
       - master
       event:

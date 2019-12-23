@@ -19,6 +19,9 @@
     ],
     "plugins": [
       { "name": "tslint-language-service"}
+    ],
+    "types": [
+      "jest"
     ]
   }
 }
