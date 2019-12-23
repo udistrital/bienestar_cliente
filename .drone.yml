@@ -19,7 +19,26 @@ steps:
     when:
       branch:
         - unitest
-        
+
+  - name: sonar_scanner_test
+    image: timbru31/java-node
+    commands:
+     - export RELEASE=4.2.0.1873
+     - apt-get install curl grep sed unzip nodejs npm
+     - curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$RELEASE-linux.zip
+     - unzip sonarscanner.zip
+     - rm sonarscanner.zip
+     - rm -rf sonar-scanner-$RELEASE-linux/jre
+     - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+     - cp sonar-project.properties ./sonar-scanner-$RELEASE-linux/conf/sonar-scanner.properties
+     - sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+    when:
+      branch:
+      - test
+      - master
+      event:
+      - push
+
   - name: nodejs-test
     image: node:12.6.0
     commands:
