@@ -23,7 +23,6 @@ export class VigenciaHelper {
     */
     public getFullVigencias() {
         const query = 'vigencia_actual_area';
-        console.log(this.rqManager)
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('vigencia/vigencias_total').pipe(
             map(
@@ -33,7 +32,6 @@ export class VigenciaHelper {
                         this.pUpManager.showErrorAlert('No se pueden consultar las vigencias');
                         return undefined;
                     }
-                    console.log(res)
                     return res;
                 },
             ),
