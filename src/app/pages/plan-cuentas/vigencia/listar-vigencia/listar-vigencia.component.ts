@@ -86,8 +86,6 @@ export class ListarVigenciaComponent implements OnInit {
         title: this.translate.instant('VIGENCIA.fecha_cierre'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          // tslint:disable-next-line: no-console
-          console.log(value.substring(0, 1));
           if (value.substring(0, 1) === '2') {
             return value.substring(0, 10);
           } else {
@@ -119,7 +117,6 @@ export class ListarVigenciaComponent implements OnInit {
       vigencias: this.loadDataFunction(
       ).subscribe(res =>{
         const data = <Array<any>>res;
-        console.log(data)
         this.source.load(data);
     });
   }
@@ -139,41 +136,5 @@ export class ListarVigenciaComponent implements OnInit {
     }
   }
 
-  // loadData(): void {
-  //     vigencias: this.loadDataFunction(       
-  //     ).subscribe(res =>{
-  //       const data = <Array<any>>res;
-  //       console.log(data)
-  //       this.source.load(data);
-  //   })
-  // }
 
-  // onCustom(event: any) {
-  //   console.log(event.data)
-  //   event.data['Vigencia'] = event.data.valor;
-  //   event.data['AreaFuncional'] = event.data.areaFuncional;
-  //   event.data['Estado'] = event.data.estado;
-  //   event.data['FechaInicio'] = event.data.fechaCreacion;
-  //   event.data['FechaCierre'] = event.data.fechaCierre;
-
-  //   switch (event.action) {
-  //     case 'ver':
-  //       this.verVigencia(event.data);
-  //       break;
-  //   }
-  // }
-
-  // verVigencia(vigencia) {
-  //   this.vigencia = vigencia;
-  //   this.onCambiotab();
-  // }
-
-  // onCambiotab(): void {
-  //   this.cambiotab = !this.cambiotab;
-  // }
-
-  // returnToList() {
-  //   this.anularTab = false;
-  //   this.cambiotab = false;
-  // }
 }
