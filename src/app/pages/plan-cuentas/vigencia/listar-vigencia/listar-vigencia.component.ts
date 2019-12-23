@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
-// import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
+import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 
 @Component({
@@ -30,13 +30,14 @@ export class ListarVigenciaComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    // private vigenciaHelper: VigenciaHelper,
+    private vigenciaHelper: VigenciaHelper,
     private rqManager: RequestManager,
     
   ) { }
 
   ngOnInit() {
-    // this.loadDataFunction = this.vigenciaHelper.getFullVigencias;
+
+    this.loadDataFunction = this.vigenciaHelper.getFullVigencias;
 
     this.listColumns = {
       _id: {
@@ -59,11 +60,9 @@ export class ListarVigenciaComponent implements OnInit {
           },
         },
         valuePrepareFunction: (value: any) => {
-          if (value === '1') {
-            //return this.translate.instant('GLOBAL.rector');
+          if (value === '1') {         
             return 'Rector';
           } else {
-            //return this.translate.instant('GLOBAL.convenios');
             return 'Convenios';
           }
         }
@@ -86,6 +85,8 @@ export class ListarVigenciaComponent implements OnInit {
         title: this.translate.instant('VIGENCIA.fecha_cierre'),
         filter: true,
         valuePrepareFunction: (value: any) => {
+          // tslint:disable-next-line: no-console
+          console.log(value.substring(0, 1));
           if (value.substring(0, 1) === '2') {
             return value.substring(0, 10);
           } else {
@@ -100,9 +101,6 @@ export class ListarVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-       /* custom: [
-          { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>'},
-      ],*/
       position: 'right'
       },
       mode: 'external',
@@ -113,7 +111,6 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   loadData(): void {
-      // tslint:disable-next-line: label-position
       vigencias: this.loadDataFunction(
       ).subscribe(res =>{
         const data = <Array<any>>res;
@@ -122,19 +119,12 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   onCustom(event: any) {
-    console.log(event.data)
     event.data['Vigencia'] = event.data.valor;
     event.data['AreaFuncional'] = event.data.areaFuncional;
     event.data['Estado'] = event.data.estado;
     event.data['FechaInicio'] = event.data.fechaCreacion;
     event.data['FechaCierre'] = event.data.fechaCierre;
-
-    switch (event.action) {
-      case 'ver':
-        this.verVigencia(event.data);
-        break;
-    }
+    
   }
-
 
 }
