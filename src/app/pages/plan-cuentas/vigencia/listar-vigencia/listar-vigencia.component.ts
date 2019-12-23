@@ -122,18 +122,12 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   onCustom(event: any) {
-    console.log(event.data)
     event.data['Vigencia'] = event.data.valor;
     event.data['AreaFuncional'] = event.data.areaFuncional;
     event.data['Estado'] = event.data.estado;
     event.data['FechaInicio'] = event.data.fechaCreacion;
     event.data['FechaCierre'] = event.data.fechaCierre;
 
-    switch (event.action) {
-      case 'ver':
-        this.verVigencia(event.data);
-        break;
-    }
   }
 
 
