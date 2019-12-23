@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { PopUpManager } from '../../managers/popUpManager';
 
-
 @Injectable({
     providedIn: 'root',
 })
@@ -15,28 +14,51 @@ export class CDPHelper {
     ) { }
 
     /**
-   * CDP get solicitudes
-   * consulta las solicitudes de CDP (no se ha expedido doc)
-   * lista de SCDP si todo ok, alerta si falla.
-   * @param id en caso de que se desee consultar una solicitud especifica
-   * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
-   */
-
-    public getSolicitudesCDP(id?: any) {
+    * getSolicitudesCdp
+    * Consulta todas las solicitudes de CDP
+    * lista de solicitudes de CDP si todo ok, alerta si falla.
+    * @param estado el estado en que se requiere el cdp, por defecto trae los que están en estado "solicitado"
+    * @param id en caso de que se desee consultar una solicitud especifica
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+    public getSolicitudesCDP(id?: string, estado = 'sol') {
+        const query = id ? id : '?query=estado.acronimo:' + estado;
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/' + id).pipe(
+        return this.rqManager.get('solicitudesCDP/' + query).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res ? res.filter(e => e.infoCdp === null || e.infoCdp === {}) : undefined;
+                    return res;
                 },
             ),
         );
 
     }
+
+    /**
+    * getNecesidades
+    * Consulta todas las necesidades
+    * @param query La consulta enviada al api
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+    public getAllNecesidades(query?: Object) {
+        this.rqManager.setPath('NECESIDADES_CRUD_SERVICE');
+        return this.rqManager.get('necesidad?' + query).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar las necesidades');
+                        return undefined;
+                    }
+                    return res;
+                }
+            )
+        );
+    }
+
 
     /**
     * CDP get
@@ -47,55 +69,39 @@ export class CDPHelper {
     */
 
     public getListaCDP(id?: any) {
+        const query = id ? id : '?query=estado.acronimo:exp';
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('solicitudesCDP/' + id).pipe(
+        return this.rqManager.get('solicitudesCDP/' + query).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
                     }
-                    return res ?
-                        res.filter(
-                            e => e.infoCdp !== null).map(
-                                e => {
-                                    return {
-                                        ...e,
-                                        consecutivo_cdp: e.infoCdp.consecutivo,
-                                        estado_cdp: e.infoCdp.estado,
-                                        fecha_cdp: e.infoCdp.fechaExpedicion,
-                                    };
-                                }
-                            )
-                        : undefined;
+                    return res;
                 },
             ),
         );
 
     }
 
-    /**
-    * get nece adm
-    * consulta las necesidades desde administrativa
-    * necesidad si  todo ok, alerta si falla.
-    * @param id en caso de que se desee consultar una necesidad especifica
-    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
-    */
-    public getNecesidadAdm(id) {
-        this.rqManager.setPath('ADMINISTRATIVA_SERVICE');
-        return this.rqManager.get(`necesidad/`).pipe(
+    public getCDP(id) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+
+        return this.rqManager.get('solicitudesCDP/?query=consecutivo:' + id).pipe(
             map(
-                res_adm => {
-                    if (res_adm['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo cargar la Necesidad');
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar los cdps');
                         return undefined;
-                    } else {
-                        return res_adm.filter(n => n.Id === id)[0];
                     }
-                }
-            )
+                    return res;
+                },
+            ),
         );
+
     }
+
 
     /**
     * get nece plan cuentas
@@ -121,6 +127,7 @@ export class CDPHelper {
         );
 
     }
+
 
     /**
     * get necesidad mid
@@ -153,9 +160,9 @@ export class CDPHelper {
     * @param id identificador de solicitud de cdp
     * @returns  <Observable> objeto creado en la solicitud de cdp. undefined if the request has errors
     */
-    public expedirCDP(id) {
+    public expedirCDP(id: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.get(`cdp/expedirCDP/` + id).pipe(
+        return this.rqManager.get(`cdp/expedirCDP/${id}`).pipe(
             map(
                 res_mid => {
                     if (res_mid.status > 300) {

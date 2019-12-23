@@ -1,4 +1,4 @@
-<div *ngIf="!cambiotab" class="col-md-12 col-lg-12 ">
+<div *ngIf="!cambiotab && !anularTab" class="col-md-12 col-lg-12 ">
     <nb-card>
         <nb-card-header>
             <legend>{{ 'CDP.lista_cdp' | translate }}</legend>
@@ -10,4 +10,9 @@
         </nb-card-body>
     </nb-card>
 </div>
-<ngx-ver-solicitud-cdp *ngIf="cambiotab" [solicitudcdp]="cdp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-cdp>
+<button *ngIf="anularTab || (cambiotab && modPresupuestal)" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+    Regresar</button>
+<ngx-ver-solicitud-cdp *ngIf="cambiotab && !modPresupuestal" [solicitudcdp]="cdp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-cdp>
+<ngx-show-modificacion-apropiacion [vigencia]="cdp.Vigencia" [modificationData]="cdp" (eventChange)="cambiotab=$event" *ngIf="cambiotab && modPresupuestal"></ngx-show-modificacion-apropiacion>
+<ngx-anulacion-documento *ngIf="anularTab" [documentData]="cdp" [movTypeToCreate]="'anul_cdp'" [modIdType]="'8'" [vigencia]="cdp['Vigencia']" [centroGestor]="cdp['CentroGestor']" (saved)="returnToList()"></ngx-anulacion-documento>
+<!-- <ngx-list-anulacion-documento [vigencia]="'2019'" [movID]="'5debbd8c0ef1650761259cba'" [centroGestor]="'1'"></ngx-list-anulacion-documento> -->

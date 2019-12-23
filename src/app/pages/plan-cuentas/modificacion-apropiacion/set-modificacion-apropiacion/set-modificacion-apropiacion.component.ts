@@ -48,12 +48,17 @@ export class SetModificacionApropiacionComponent implements OnInit {
         await this.cleanData();
         this.aprAfectation = [];
         this.modHelper.getModTypes().subscribe((res) => {
-            this.modTypes = res;
+            this.modTypes = res.filter(this.movApropiaciones) ;
         });
-
     }
 
-
+    public movApropiaciones( movimiento ) {
+        const acronimo = movimiento.Acronimo
+        if ( 'adicion'    === acronimo ||
+             'suspension' === acronimo ||
+             'traslado'   === acronimo ||
+             'reduccion'  === acronimo   ) return true;
+    }
 
     public accountSelection(account: string) {
         this.accountTypeSelected = account;
@@ -73,7 +78,6 @@ export class SetModificacionApropiacionComponent implements OnInit {
                     this.cnCreditAccount = $event;
                     this.modValueForm.controls['cnCredAccount'].patchValue(`${this.cnCreditAccount.Codigo} / ${this.cnCreditAccount.Nombre}`);
                     break;
-
                 default:
                     break;
             }

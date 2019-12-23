@@ -2,7 +2,6 @@ kind: pipeline
 name: cliente_deploy
 
 steps:
-
   - name: prueba-unitarias
     image: node:12.6.0
     commands:
@@ -20,7 +19,7 @@ steps:
     when:
       branch:
         - unitest
-
+        
   - name: nodejs-test
     image: node:12.6.0
     commands:
@@ -32,7 +31,6 @@ steps:
         - test
       event:
         - push
-        - pull_request
 
   - name: nodejs-master
     image: node:12.6.0
@@ -45,7 +43,6 @@ steps:
       - master
       event:
       - push
-      - pull_request
 
   - name: publish-s3-test
     image: plugins/s3
@@ -64,7 +61,6 @@ steps:
       - test
       event:
       - push
-      - pull_request
 
   - name: publish-s3-master
     image: plugins/s3
@@ -83,7 +79,6 @@ steps:
       - master
       event:
       - push
-      - pull_request
 
   - name: NotifyTelegram
     image: appleboy/drone-telegram
@@ -107,6 +102,8 @@ steps:
       branch:
       - master
       - test
+      event:
+      - push
       status:
       - failure
       - success

@@ -4,6 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
+import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 
 
 @Component({
@@ -26,40 +27,61 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   constructor(private translate: TranslateService,
     private crpHelper: CRPHelper,
+    private cdpHelper: CDPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager, ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.crpHelper.getSolicitudesCRP;
+    this.crpHelper.getInfoContrato(458, 2017);
+    this.loadDataFunction = this.crpHelper.getFullCRP;
 
 
     this.listColumns = {
+      solicitudCrp: {
+        title: this.translate.instant('CRP.n_sol_crp'),
+        filter: true,
+        // type: 'string;',
+        valuePrepareFunction: value => {
+          return value;
+        }
+      },
       vigencia: {
         title: this.translate.instant('GLOBAL.placeholder_vigencia'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
       centroGestor: {
-        title: this.translate.instant('GLOBAL.centro_gestor'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          if ( value === 1) {
+            return 'Rector';
+          } else {
+            return value;
+          }
         }
       },
       entidad: {
-        title: this.translate.instant('GLOBAL.unidad-ejecutora'),
+        title: this.translate.instant('GLOBAL.entidad'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          return 'Universidad Distrital FJC';
         }
       },
-      consecutivo: {
-        title: this.translate.instant('CRP.n_solicitud'),
+      necesidadFinanciacion: {
+        title: this.translate.instant('CRP.financiacion'),
         // type: 'string;',
         valuePrepareFunction: value => {
-          return value;
+          if ( value === 1) {
+            return 'Inversión';
+          } else {
+            return 'Funcionamiento';
+          }
         }
       }
     };
@@ -69,10 +91,11 @@ export class ListSolicitudCrpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        custom: [{ name: 'Ver', title: '<div class="container-fluid"><i class="fas fa-eye" (click)="ver($event)"></i></div>' }],
+        custom:  [{ name: 'Ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
       mode: 'external',
+      columnTitle: 'Opciones',
       columns: this.listColumns,
     };
 
@@ -93,6 +116,12 @@ export class ListSolicitudCrpComponent implements OnInit {
     });
   }
 
+
+  loadCRPData () {
+    const a = this.crpHelper.getFullCRP();
+
+  }
+
   verSolicitud(scrp) {
     this.solicitudcrp = scrp;
     this.onCambiotab();
@@ -108,11 +137,6 @@ export class ListSolicitudCrpComponent implements OnInit {
       case 'Ver':
         this.verSolicitud(event.data);
     }
-    // this.actaSeleccionada = `${event.data.Id}`;
-    // this.estadoActaSeleccionada = `${event.data.Estado}`;
-    // this.accion = `${event.action}`;
+
   }
-
-
-
 }

@@ -23,7 +23,7 @@ export class ListCrpComponent implements OnInit {
   cambiotab: boolean = false;
   listColumns: object;
   crp: object;
-
+  estados = [{Id : 1, Estado : 'Saldo Parcialmente Comprometido'} , {Id : 2, Estado : 'Saldo Parcialmente Ejecutado'}];
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -37,41 +37,50 @@ export class ListCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadDataFunction = this.cdpHelper.getListaCDP;
+    this.loadDataFunction = this.crpHelper.getListaCRP;
 
     this.listColumns = {
       vigencia: {
         title: this.translate.instant('GLOBAL.vigencia'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
       centroGestor: {
-        title: this.translate.instant('GLOBAL.centro_gestor'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
       entidad: {
-        title: this.translate.instant('GLOBAL.unidad-ejecutora'),
+        title: this.translate.instant('GLOBAL.centro_gestor'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      consecutivo_cdp: {
+      consecutivo_crp: {
         title: this.translate.instant('CRP.n_crp'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      estado_cdp: {
-        title: this.translate.instant('CRP.estado_crp'),
+      estado_crp: {
+        title: this.translate.instant('CRP.estado'),
+        filter: true,
         // type: 'string;',
         valuePrepareFunction: value => {
+          value = this.estados.filter(element => {
+            return element.Id === value;
+          });
+          value = value.Estado;
           return value;
         }
       },
@@ -82,6 +91,7 @@ export class ListCrpComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        columnTitle: 'Opciones',
         custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },

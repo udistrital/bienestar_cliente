@@ -12,12 +12,13 @@ export class DependenciaHelper {
      * @param[limit] número de resultados
      * @returns  arreglo con todas las dependencias.
      */
-    public get(id?: any) {
+    public get(id?: any, query?: string) {
         this.rqManager.setPath('OIKOS_SERVICE');
         const params = {
             limit: 0,
         };
+        const url = id ? id : '?' + query;
         // call request manager for the tree's data.
-        return this.rqManager.get('dependencia/'+ id, params);
+        return this.rqManager.get('dependencia/' + url);
     }
 }

@@ -42,7 +42,7 @@ export let FORM_FUENTE = {
             deshabilitar: false,
             placeholder_i18n: 'codigo',
             requerido: true,
-            pattern: '^[A-Za-z0-9_]{1,10}$',
+            length: '10',
             tipo: 'text',
             prefix: {
                 value: '',

@@ -1,0 +1,59 @@
+<div class="col-md-12 col-lg-12 ">
+  <nb-card>
+    <nb-card-header>
+        {{ 'MENU.gestion_plan_cuentas.gestion_modificaciones_apropiaciones' | translate }}
+        <div *ngIf="!disabledVigencia">
+
+          <div align="right">
+            {{
+              "GLOBAL.vigencia" | translate
+            }}
+            <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
+              <!-- <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option> -->
+              <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
+            </nb-select>
+            {{
+              "GLOBAL.tipo" | translate
+            }}
+            <nb-select nbTooltip="seleccione el tipo de modificación" nbTooltipPlacement="top" id="select_tipo_mod" placeholder={{tipoModSel?tipoModSel.label:undefined}} [(selected)]="tipoModSel" hero status="info">
+              <nb-option *ngFor="let v of tipoModificaciones" value={{tipoModSel}} (click)="onSelectTipoMod(v)">{{ v.label }}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        
+            <ngx-list-entity *ngIf="!auxcambiotab"
+            [listSettings]="listSettings"
+            [isOnlyCrud]="isOnlyCrud" 
+            [uuidReadFieldName]="uuidReadFieldName"
+            [paramsFieldsName] ="paramsFieldsName"
+            [uuidDeleteFieldName]="uuidDeleteFieldName"
+            [listColumns]="listColumns"
+            [deleteConfirmMessage]="deleteConfirmMessage"
+            [deleteMessage]="deleteMessage"
+            [loadDataFunction]="loadDataFunction"
+            [deleteDataFunction]="deleteDataFunction"
+            [formEntity]="formEntity"
+            [formTittle]="formTittle"
+            [updateMessage]="updateMessage"
+            [createMessage]="createMessage"
+            [updateConfirmMessage]="updateConfirmMessage"
+            [createConfirmMessage]="createConfirmMessage"
+            [loadFormDataFunction]="loadFormDataFunction"
+            [updateEntityFunction]="updateEntityFunction"
+            [createEntityFunction]="createEntityFunction"
+            (infooutput)="receiveMessage($event)"
+            (eventChange)="onChange($event)"
+            (auxcambiotab)="onChangeTab($event)"
+            [externalCreate]="externalCreate"
+            (externalTabActivator)="onExternalTabActivator($event)"
+            >
+          </ngx-list-entity>
+          <button *ngIf="localtabActived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+            Regresar</button>
+          <ngx-modificacion-apropiacion (saved)="onSaved($event)" *ngIf="createTab"></ngx-modificacion-apropiacion>
+          <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [tipoModificacion]="tipoModSel.value" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
+    </nb-card-body>
+  </nb-card>
+</div>

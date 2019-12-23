@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
-import { ProductoHelper } from '../../../../@core/helpers/productos/productoHelper'
+import { ProductoHelper } from '../../../../@core/helpers/productos/productoHelper';
 import { Producto } from '../../../../@core/data/models/producto';
-import { NgForm } from '@angular/forms';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 
 
@@ -14,13 +13,10 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 })
 export class ProductosRubroComponent implements OnInit {
 
-
   rubro: any;
-
   productos: any = [];
   productoSeleccionado: any = [];
   listaProductosAsignados: any = {};
-  listaProductosAsignadosObj: any = {};
   vigenciaSel: any;
   entrarEditar: boolean;
   editando: boolean;
@@ -78,20 +74,17 @@ export class ProductosRubroComponent implements OnInit {
 
   agregarProducto() {
     this.rubro.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
-    console.info(this.productForm.get('porcentaje').value);
     if (this.listaProductosAsignados === undefined) {
       this.listaProductosAsignados = {};
     }
-    console.info(this.productoSeleccionado);
     if (!this.listaProductosAsignados.hasOwnProperty(this.productoSeleccionado.key._id)) {
       this.rubro.Productos = this.listaProductosAsignados;
-      this.construirObjProductos(this.productoSeleccionado.key, this.productForm.get('porcentaje').value)
+      this.construirObjProductos(this.productoSeleccionado.key, this.productForm.get('porcentaje').value);
       this.rubro.Productos = this.listaProductosAsignados;
       this.apHelper.apropiacionProductoUpdate(this.rubro).subscribe((res) => {
         if (res) {
           this.popUpManager.showSuccessAlert('Se actualizarón los productos correctamente!');
-        }
-        else {
+        } else {
           this.deleteObjProductos(this.productoSeleccionado.key);
         }
       });
@@ -109,12 +102,11 @@ export class ProductosRubroComponent implements OnInit {
     this.listaProductosAsignados = newObj;
   }
   deleteObjProductos(producto) {
-    console.info(producto);
     const { [producto._id]: _, ...newObj } = this.listaProductosAsignados;
     this.listaProductosAsignados = newObj;
   }
   updateObjProductos(id, porcentaje) {
-    this.listaProductosAsignados[id] = { ...this.listaProductosAsignados[id], porcentaje: porcentaje }
+    this.listaProductosAsignados[id] = { ...this.listaProductosAsignados[id], porcentaje: porcentaje };
   }
   eliminarProducto($event, producto: any) {
     this.rubro.Vigencia = typeof this.vigenciaSel === 'undefined' ? undefined : parseInt(this.vigenciaSel, 0);
@@ -139,8 +131,7 @@ export class ProductosRubroComponent implements OnInit {
     this.apHelper.apropiacionProductoUpdate(this.rubro).subscribe((res) => {
       if (res) {
         this.popUpManager.showSuccessAlert('Se actualizarón los productos correctamente!');
-      }
-      else {
+      } else {
         this.deleteObjProductos(this.productoSeleccionado);
       }
     });
@@ -161,7 +152,6 @@ export class ProductosRubroComponent implements OnInit {
   }
   entrandoEditar(producto: any) {
     this.productoSeleccionado = producto;
-    console.info(this.productoSeleccionado);
     this.entrarEditar = true;
   }
 
@@ -177,7 +167,6 @@ export class ProductosRubroComponent implements OnInit {
     }
     this.isValidFormSubmitted = true;
     this.producto = this.productForm.value;
-    // this.apHelper.apropiacionProductoUpdate(this.producto);
     this.producto = new Producto();
     this.productForm.reset();
   }

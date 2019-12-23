@@ -1,0 +1,113 @@
+<nb-card>
+    <h5>
+        {{'FUENTE_FINANCIAMIENTO.consulta_rubros_fuente' | translate }}
+    </h5>
+    <div class="d-flex">
+        <div>
+            <label for="valorfuente" class="form-control-label">
+                <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
+                        {{infoinput.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
+            </label>
+        </div>
+        <div class="ml-auto" *ngIf="planAdquisicionesFuente && !rbIncome">
+            <div *ngIf="openViewAddIncome">
+                <ngx-arbol [paramsFieldsName] ="paramsFieldsName" (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="infoinput.Vigencia"
+                    [optionSelect]="'ApropiacionesEstado'"></ngx-arbol>
+            </div>
+            <div *ngIf="!openViewAddIncome" class="spacingAddIngreso">
+                <button type="submit" class="btn btn-info btn-block" (click)="openAddIncome()">
+                    {{ "FUENTE_FINANCIAMIENTO.asignar_ingreso" | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="ml-auto" *ngIf="planAdquisicionesFuente && rbIncome">
+            <div class="moneyField">
+                <label for="valoringreso" class="form-control-label">
+                    <h6> {{ "GLOBAL.ingreso" | translate }} : {{rbIncome.Nombre}} - {{rbIncome.Codigo}} <span>
+                        {{rbIncome.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
+                    </label>            
+                </div>
+            <div *ngIf="openViewAddIncome">
+                <ngx-arbol [paramsFieldsName] ="paramsFieldsName" (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="infoinput.Vigencia"
+                    [optionSelect]="'ApropiacionesEstado'"></ngx-arbol>
+            </div>
+            <div *ngIf="!openViewAddIncome" class="spacingAddIngreso">
+                <button type="submit" class="btn btn-info btn-block" (click)="openAddIncome()">
+                    {{ "FUENTE_FINANCIAMIENTO.cambiar_ingreso" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!planAdquisicionesFuente; then planAdquisicionesOff; else planAdquisicionesOn">
+    </ng-container>
+    <ng-template #planAdquisicionesOff>
+        <nb-alert outline="danger">No hay información asociada para esta fuente de financiamiento</nb-alert>
+    </ng-template>
+    <ng-template #planAdquisicionesOn>
+        <div class="d-flex">
+            <div>
+                <div *ngFor="let item of planAdquisicionesFuente.rubros">
+
+                    <ul *ngIf="item.rubro.Codigo">
+                        <li><strong>Rubro:</strong><span>
+                                {{item.rubro.Nombre}}</span> ( {{item.rubro.Codigo}} )
+                            <ul>
+                                <li><strong>Apropiación Inicial:</strong>
+                                    {{item.rubro.ValorActual | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                                <ul>
+                                    <li><strong>Meta:</strong> {{item.meta}}</li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
+                                    <li><strong>Valor Dependencia:</strong>
+                                        {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                                </ul>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul *ngIf="!item.rubro.Codigo">
+                        <li> El rubro <span>
+                                <strong>{{item.rubro}}</strong></span> no esta creado para la vigencia
+                            <strong>{{infoinput.Vigencia}}</strong>,
+                            por favor crearlo
+                            <ul>
+                                <li><strong>Apropiación Inicial:</strong>
+                                    No existe, por favor crearla</li>
+                                <ul>
+                                    <li><strong>Meta:</strong> {{item.meta}}</li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Dependencia:</strong> {{item.dependencia}}</li>
+                                    <li><strong>Valor Dependencia:</strong>
+                                        {{item.valor_fuente_financiamiento | currency:'COP':'symbol':'4.2-2':'co'}}</li>
+                                </ul>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ml-auto">
+                <nb-alert status="warning">Movimientos para {{infoinput.Nombre}} - {{infoinput.Codigo}} </nb-alert>
+                <div *ngIf="infoinput.Movimientos">
+                    <ng2-smart-table class="mod-registration-input-item" [settings]="settings" [source]="source">
+                    </ng2-smart-table>
+                </div>
+                <div *ngIf="!infoinput.Movimientos">
+                    <nb-alert outline="danger">No hay movimientos para la fuente</nb-alert>
+                </div>
+            </div>
+        </div>
+        <nb-alert outline="success">
+            <div class="moneyField">
+                {{'FUENTE_FINANCIAMIENTO.total_plan_ad' | translate }}
+                {{planAdquisicionesFuente.totalPlanAdquisiciones | currency:'COP':'symbol':'4.2-2':'co'}}
+            </div>
+            <div class="moneyField">
+                {{'FUENTE_FINANCIAMIENTO.saldo_fuente' | translate }}
+                {{planAdquisicionesFuente.totalSaldoFuente | currency:'COP':'symbol':'4.2-2':'co'}}
+            </div>
+        </nb-alert>
+    </ng-template>
+
+</nb-card>

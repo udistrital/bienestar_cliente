@@ -25,7 +25,6 @@ export class ApropiacionHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         apropiacionData.Organizacion = '1';
-        console.info(apropiacionData.Vigencia);
         if (parseFloat(apropiacionData.ApropiacionAnterior) === 0) {
             return this.rqManager.post(`arbol_rubro_apropiacion/`, apropiacionData).pipe(
                 map(
@@ -68,7 +67,6 @@ export class ApropiacionHelper {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         apropiacionData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         apropiacionData.Organizacion = '1';
-        console.info(apropiacionData.Vigencia);
 
         return this.rqManager.putParams(`arbol_rubro_apropiacion/${apropiacionData.Codigo}/${apropiacionData.Vigencia}/${apropiacionData.UnidadEjecutora}`,
             apropiacionData).pipe(
@@ -114,14 +112,13 @@ export class ApropiacionHelper {
 
     }
 
-    public getFullArbol(raiz) {
+    public getFullArbolByNode(node, vigencia) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         // Set the optional branch for the API request.
         const unidadEjecutora = 1;
-        const vigencia = 2019;
         // call request manager for the tree's data.
         // return this.rqManager.get(`arbol_rubro_apropiacion/${raiz}/${vigencia.toString()}/${unidadEjecutora.toString()}`);
-        return this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion/${raiz}/${unidadEjecutora.toString()}/${vigencia.toString()}`);
+        return this.rqManager.get(`arbol_rubro_apropiacion/arbol_apropiacion/${node}/${unidadEjecutora.toString()}/${vigencia.toString()}`);
     }
 
 
@@ -132,8 +129,6 @@ export class ApropiacionHelper {
         return this.rqManager.post(`modificacion_apropiacion/simulacion_afectacion_modificacion/${unidadEjecutora.toString()}/${vigencia}`, afectationObj).pipe(
             map(
                 (res) => {
-                    console.log('res', res);
-                    
                     if (res['Type'] === 'error') {
                         this.pUpManager
                             .showErrorAlert(res['Body']);
@@ -144,7 +139,6 @@ export class ApropiacionHelper {
             ),
             catchError(
                 err => {
-                    console.log('err', err);
                     return undefined;
                 }
             )

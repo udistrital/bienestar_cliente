@@ -5,12 +5,46 @@
     </nb-card-header>
 
     <nb-card-body>
-        <ngx-dinamicform [normalform]="formInfoSolCrp" [modeloData]="info_solCrp" (result)="validarForm($event)"
+        <ngx-dinamicform [normalform]="formInfoSolCrp" [modeloData]="info_solCrp" (resultAux)="button($event)" (result)="validarForm($event)"
             [clean]="clean">
         </ngx-dinamicform>
+        <!--Detalle del CDP-->
+        <div *ngIf="docPresupuestalCdp" class="col-md-12 col-lg-12">
+            <h6 *ngIf="rubrosCdp">{{'CDP.informacion' | translate}}</h6>
+            <hr>
+            <table class="table table-hover table-bordered">
+                <thead class="bg-kronos">
+                    <th width="50%">{{'GLOBAL.detalle' | translate}}</th>
+                    <th width="50%">{{'GLOBAL.detalle-rubro' | translate}}</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li><strong>{{'CDP.n_cdp' | translate}}</strong>: {{docPresupuestalCdp.Consecutivo}}</li>
+                                <li><strong>{{'CDP.valor_cdp' | translate}}</strong>: {{docPresupuestalCdp.ValorInicial | currency}}</li>
+                                <li><strong>{{'CDP.saldo' | translate}}</strong>: {{docPresupuestalCdp.ValorActual | currency}}</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul *ngFor="let rubro of rubrosCdp">
+                                <li>
+                                    <strong>{{'GLOBAL.codigo-rubro' |translate}}</strong>: {{rubro.Padre}}
+                                    <ul>
+                                        <li><strong>{{'GLOBAL.valor' |translate}}</strong>: {{rubro.ValorInicial | currency}}</li>
+                                        <li><strong>{{'GLOBAL.saldo' |translate}}</strong>: {{rubro.ValorInicial | currency}}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+           
         <div class="row">
             <div class="col">
-                <button type="submit" class="btn btn-success btn-block" >
+                <button type="submit" class="btn btn-danger btn-block" >
                     {{'GLOBAL.cancelar' | translate }}
                 </button>
             </div>

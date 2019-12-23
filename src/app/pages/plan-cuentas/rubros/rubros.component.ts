@@ -82,7 +82,7 @@ export class RubrosComponent implements OnInit {
 
     this.info_rubro = <Rubro>data;
     this.formInfoRubro.campos[FormManager.getIndexForm(this.formInfoRubro, 'Codigo')].prefix.value = this.rubroSeleccionado.Codigo + '-';
-    console.info(this.rubroSeleccionado);
+    // console.info(this.rubroSeleccionado);
 
   }
 

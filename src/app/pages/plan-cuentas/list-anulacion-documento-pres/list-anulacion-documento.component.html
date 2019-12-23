@@ -1,0 +1,8 @@
+<nb-card  *ngIf="source" >
+  <nb-card-header>
+    {{ 'GLOBAL.lista_anulaciones' | translate}}
+  </nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="source"> </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

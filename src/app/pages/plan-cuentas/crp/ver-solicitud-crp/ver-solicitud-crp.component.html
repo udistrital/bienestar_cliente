@@ -1,149 +1,174 @@
 <div class="col-md-12 col-lg-12 ">
-    <nb-card *ngIf="mostrandoPDF===false" >
+    <nb-card status="warning" *ngIf="mostrandoPDF===false">
         <nb-card-header>
-            <legend >{{ 'CRP.detalle_solicitud_crp' | translate }}:
-                {{ solicitud.consecutivo }}</legend>
-            <!-- <legend *ngIf="solicitud&&expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.infoCrp.consecutivo }}
-            </legend> -->
-           
+            {{ 'CRP.crp' | translate }}
         </nb-card-header>
         <nb-card-body>
-                <p>{{ 'CRP.solicitud-efectuada' | translate }}</p>
-            <!-- <pre>scdp{{solicitud | json}}</pre> preview of object for debugging purpouses
-            <pre>nes{{necesidad | json}}</pre> -->
+            <button (click)="cambioTab()" class="btn btn-info btn-sm"><i class="nb-arrow-dropleft"></i>{{ 'GLOBAL.regresar' | translate}}</button>
+            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}
+                :
+                {{ solicitudc.consecutivo }}</legend>
+            <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}:
+                {{ solicitudc.infoCrp.consecutivo }}</legend>
+            <p>{{ 'CRP.solicitud-efectuada' | translate }}</p>
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
-                        <th width="15%">{{'GLOBAL.entidad' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.unidad-ejecutora' | translate}}</th>
-                        <th width="45%">{{'GLOBAL.vigencia' | translate}}</th>
+                        <th width="50%">{{'GLOBAL.entidad' | translate}}</th>
+                        <th width="40%">{{'GLOBAL.area_funcional' | translate}}</th>
+                        <th width="10%">{{'GLOBAL.vigencia' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{cdpData.entidad}}</td>
-                            <td>{{cdpData.centroGestor}}</td>
-                            <td>{{solicitud.vigencia}}</td>
+                            <td *ngIf="entidad">{{entidad[0].Nombre}}</td>
+                            <td *ngIf="area">{{area[0].Nombre}}</td>
+                            <td>{{solicitudc.vigencia}}</td>
                         </tr>
                     </tbody>
 
                 </table>
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
-                        <th >{{'CDP.n_cdp' | translate}}</th>
+                        <th>{{'CDP.n_cdp' | translate}}</th>
                         <th>{{'CRP.tipo-compromiso' | translate}}</th>
                         <th>{{'CRP.numero-compromiso' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td >{{solicitud.infoCrp.consecutivo}}</td>
-                            <td>{{solicitud.compromiso.tipoCompromiso}}</td>
-                            <td>{{solicitud.compromiso.numeroCompromiso}}</td>
+                            <td *ngIf="cdpInfo.Data">{{solicitudc.consecutivoCdp}}</td>
+                            <td *ngIf="tCompromiso">{{tCompromiso.Nombre}}</td>
+                            <td *ngIf="solicitudc.compromiso">{{solicitudc.compromiso.numeroCompromiso}}</td>
                         </tr>
                         <tr>
                             <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
-                            <td colspan="2">{{necesidad.Objeto}}</td>
+                            <td colspan="2">{{ objetoNecesidad }}</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-kronos boldTitle" width="50%">{{'CRP.valor' | translate}}</td>
+                            <td class="moneyField" colspan="2" width="50%">{{solicitudc.valor | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-kronos boldTitle" width="50%">{{'CDP.saldo' | translate}}</td>
+                            <td class="moneyField" colspan="2" width="50%">{{cdpInfo.ValorActual | currency}}</td>
                         </tr>
                     </tbody>
                 </table>
                 <table class="table table-hover table-bordered">
                     <thead class="bg-kronos">
-                        <th width="15%">{{'CRP.tipo-id-contratista' | translate}}</th>
                         <th width="40%">{{'CRP.id-contratista' | translate}}</th>
-                        <th width="45%">{{'CRP.nombre-contratista' | translate}}</th>
+                        <th width="60%">{{'CRP.nombre-contratista' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{solicitud.beneficiario}}</td>
-                            <td>{{solicitud.beneficiario}}</td>
-                            <td>{{solicitud.entidad}}</td>
+                            <td>{{doc}}</td>
+                            <td *ngIf="beneficiario">{{beneficiario}}</td>
                         </tr>
                     </tbody>
 
                 </table>
                 <!-- apropiaciones -->
-                <table *ngFor="let ap of necesidad.apropiaciones" class="table table-hover table-bordered">
-                    <!-- rubro -->
-                    <thead class="bg-kronos">
-                        <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
-                        <th width="40%">{{'GLOBAL.valor' | translate}}</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ap.codigo}} {{ap.nombre}}</td>
-                            <td class="moneyField">$0</td>
-                        </tr>
-                    </tbody>
-                    <!-- metas y actividades si es de inversion -->
-                    <thead *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1" class="bg-kronos">
-                        <th width="60%">{{'GLOBAL.meta' | translate}}</th>
-                        <th ></th>
-                    </thead>
-                    <tbody *ngIf="necesidad.TipoFinanciacionNecesidad.Id==1">
-                        <tr>
-                            <td>{{ap.metas[0].codigo}} {{ap.metas.nombre}}</td>
-                            <td class="moneyField">{{ap.metas[0].valor | currency: COP}}</td>
-                        </tr>
-                        <tr class="bg-kronos">
-                            <td>{{'GLOBAL.actividades' | translate}}</td>
-                            <td></td>
-                        </tr>
-                        <tr *ngFor="let act of ap.metas[0].actividades">
-                            <td>{{act.codigo}} {{act.nombre}}</td>
-                            <td class="moneyField">{{act.valor | currency: COP }}</td>
-                        </tr>
-                    </tbody>
-                    <!-- fuentes -->
-                    <thead class="bg-kronos">
-                        <th>{{'GLOBAL.fuente' | translate}}</th>
-                        <th></th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let f of ap.fuentes">
-                            <td>{{f.codigo}} {{f.nombre}}</td>
-                            <td class="moneyField">{{f.valor | currency: COP}}</td>
-                        </tr>
-                    </tbody>
-                    <!-- productos -->
-                    <thead class="bg-kronos">
-                        <th>{{'GLOBAL.producto' | translate}}</th>
-                        <th></th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let p of ap.productos">
-                            <td>{{p.codigo}} {{p.nombre}}</td>
-                            <td class="moneyField">{{p.valor | currency: COP}}</td>
-                        </tr>
-                    </tbody>
+                <ng-container *ngIf="TrNecesidad">
+                    <table *ngFor="let rubro of TrNecesidad.Rubros" class="table table-hover table-bordered">
+                        <!-- rubro -->
+                        <thead class="bg-kronos">
+                            <th width="60%">{{'GLOBAL.rubro' | translate}}</th>
+                            <th width="40%">{{'GLOBAL.valor' | translate}}</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{rubro.RubroId}} - <span *ngIf="rubro.InfoRubro">{{rubro.InfoRubro.Nombre}}</span>
+                                </td>
+                                <td class="moneyField">{{rubro.MontoParcial | currency}}</td>
+                            </tr>
+                        </tbody>
+                        <!-- metas y actividades si es de inversion -->
+                        <thead *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1" class="bg-kronos">
+                            <th colspan="2">{{'GLOBAL.meta' | translate}}</th>
+                        </thead>
+                        <tbody *ngIf="TrNecesidad.Necesidad.TipoFinanciacionNecesidadId.Id==1">
+                            <tr>
+                                <!-- Metas -->
+                                <td *ngIf="rubro.Metas[0].InfoMeta">{{rubro.Metas[0].MetaId}} -
+                                    {{rubro.Metas[0].InfoMeta[0].meta}}</td>
+                                <td class="moneyField">{{rubro.MontoParcial | currency: COP }}</td>
+                            </tr>
+                            <tr class="bg-kronos">
+                                <th>{{'GLOBAL.actividades' | translate}}</th>
+                                <th>{{'GLOBAL.fuentes' | translate}}</th>
+                            </tr>
+                            <!-- Actividades -->
+                            <tr *ngFor="let act of rubro.Metas[0].Actividades">
+                                <td rowspan="act.FuentesActividad.lenght" *ngIf="act.InfoActividad">{{act.ActividadId}}
+                                    - {{act.InfoActividad[0].actividad}}</td>
+                                <ul>
+                                    <li *ngFor="let f of act.FuentesActividad">
+                                        <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
+                                        <p class="moneyField">{{'GLOBAL.valor' | translate}}: {{f.MontoParcial | currency: COP }}</p>
+                                        <hr>
+                                    </li>
+                                </ul>
+                            </tr>
+                        </tbody>
+                        <!-- fuentes -->
+                        <thead class="bg-kronos" *ngIf="rubro.Fuentes.length!==0">
+                            <th>{{'GLOBAL.fuente' | translate}}</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let f of rubro.Fuentes">
+                                <td>{{f.FuenteId}}-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a></td>
+                                <td class="moneyField">{{f.MontoParcial | currency: COP}}</td>
+                            </tr>
+                        </tbody>
+                        <!-- productos -->
+                        <thead class="bg-kronos" *ngIf="rubro.Productos.length > 0">
+                            <th colspan="2">{{'GLOBAL.producto' | translate}}</th>
 
-                </table>
-                <!-- responsables y fecha -->
-                <table class="table table-hover table-bordered">
-                    <thead class="bg-kronos">
-                        <th width="33%" *ngIf="!expedido">{{ 'CDP.fecha_solicitud' | translate }}</th>
-                        <th width="33%" *ngIf="expedido">{{ 'CDP.fecha_expedicion' | translate }}</th>
-                        <th width="33%">{{ 'CDP.responsable' | translate }}</th>
-                        <th width="33%">{{ 'CDP.elaboro' | translate }}</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td *ngIf="!expedido">{{necesidad.FechaSolicitud | date}}</td>
-                            <td *ngIf="expedido">Oct 2, 2019</td>
-                            <td>Usuario que expide</td>
-                            <td>Usuario que elabora</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of rubro.Productos">
+                                <td colspan="2">{{p.InfoProducto.Nombre}}</td>
+                                <!-- <td class="moneyField">{{p.valor | currency: COP}}</td> -->
+                            </tr>
+                        </tbody>
 
-                <div class="text-align: center;">
-                    <button (click)="cambioTab()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-                        {{ 'GLOBAL.regresar' | translate}}</button>
-                    <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)" class="btn btn-info btn-sm">
-                        {{ 'CDP.expedir' | translate}}</button>
-                    <button *ngIf="expedido" (click)="mostrarPDF(solicitud.consecutivo_cdp)" class="btn btn-info btn-sm">
+                    </table>
+                    <!-- responsables y fecda -->
+                    <table class="table table-hover table-bordered">
+                        <thead class="bg-kronos">
+                            <th width="33%" *ngIf="!expedido">{{ 'CDP.fecha_solicitud' | translate }}</th>
+                            <th width="33%" *ngIf="expedido">{{ 'CDP.fecha_expedicion' | translate }}</th>
+                            <th width="33%">{{ 'CDP.responsable' | translate }}</th>
+                            <th width="33%">{{ 'CDP.elaboro' | translate }}</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td *ngIf="!expedido">{{solicitudc.fechaCreacion | date:'dd/MM/yyyy'}} </td>
+                                <td *ngIf="expedido">Oct 2, 2019</td>
+                                <td>Usuario que expide</td>
+                                <td>Usuario que elabora</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-container>
+                <div class="text-center">
+
+                    <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud" [solicitudCrp]="solicitudc" [docPresupuestalCdp]="cdpInfo"
+                        (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros"></ngx-expedir-crp>
+                    <!-- <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo); formExpedir=true;"
+                        class="btn btn-success col-md-4">
+                        {{ 'CRP.expedir' | translate}}</button> -->
+
+                    <button [disabled]="movimiento === null" (click)="expedirCRP()" class="btn btn-success col-md-4">
+                        {{ 'CRP.expedir' | translate}}</button>
+
+                    <button *ngIf="expedido && solicitudc.infoCrp" (click)="mostrarPDF(solicitudc.consecutivo_cdp)" class="btn btn-warning col-md-4">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>
             </div>
         </nb-card-body>
     </nb-card>
-    <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF" (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
+    <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF"
+        (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
+    
 </div>

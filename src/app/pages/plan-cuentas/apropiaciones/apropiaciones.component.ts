@@ -5,7 +5,6 @@ import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
-import { PlanAdquisicionHelper } from '../../../@core/helpers/plan_adquisicion/planAquisicionHelper';
 import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
@@ -29,7 +28,7 @@ export class ApropiacionesComponent implements OnInit {
   vigenciaSel: any;
   clean = false;
   opcion: string;
-  VigenciaActual = '2020';
+  VigenciaActual = '2020'; // TODO: traer del endpoint vigencia_actual
   optionView: string;
   productos: boolean = false;
   listaProductosAsignados = [];
@@ -39,23 +38,26 @@ export class ApropiacionesComponent implements OnInit {
     { vigencia: 2018 },
     { vigencia: 2017 },
     { vigencia: 2016 },
-  ];
+  ];  // TODO: traer del endpoint vigencias_afuncional
   balanceado: boolean;
   allApproved: boolean;
   AreaFuncional: string;
   CentroGestor: string;
   planAdquisicionesRubro: any;
   paramsFieldsName: object;
+  totalValorActividades: number;
+  diferenciaActividadApropiacion: number;
+  totalValorFuentes: number;
+  diferenciaFuentesApropiacion: number;
 
   constructor(
     private apHelper: ApropiacionHelper,
     private fuenteHelper: FuenteHelper,
     private commonHelper: CommonHelper,
-    private planAdHelper: PlanAdquisicionHelper,
     private popManager: PopUpManager,
     private dependenciaHelper: DependenciaHelper,
   ) {
-    this.vigenciaSel = '2020';
+    this.vigenciaSel = '2020';    // TODO: traer del endpoint vigencia_actual +1
     this.optionView = 'Apropiaciones';
 
     this.rubroSeleccionado = {
@@ -94,7 +96,7 @@ export class ApropiacionesComponent implements OnInit {
         this.vigenciaSel = res + '';
       }
     });
-    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1};
+    this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1 };
   }
 
   receiveMessage($event) {
@@ -116,48 +118,10 @@ export class ApropiacionesComponent implements OnInit {
         this.productos = true;
       }
       this.listaProductosAsignados = this.rubroSeleccionado.Productos;
-      console.info(this.rubroSeleccionado.Codigo);
-
-      var newstr = this.getLastLevel(/([^-]+)$/, this.rubroSeleccionado.Codigo)
-      console.info(newstr);
-      this.showPlanAdquisicion('2019', newstr);
     } else {
       this.isLeaf = false;
       this.productos = false;
     }
-  }
-
-  getLastLevel(regex, str) {
-    let m
-    if ((m = regex.exec(str)) !== null) {
-      return m[0];
-    }
-  }
-  showPlanAdquisicion(vigenciaaux, rubroaux) {
-    this.planAdHelper.getPlanAdquisicionByRubro(vigenciaaux + '/' + rubroaux).subscribe((res) => {
-      if (res) {
-        this.planAdquisicionesRubro = res.metas.actividades;
-        this.planAdquisicionesRubro.map((item) => {
-          item.valor_actividad = parseFloat(item.valor_actividad); 
-          if (item.fuente_financiamiento !== null) {
-            this.fuenteHelper.getFuentes(item.fuente_financiamiento, { Vigencia: 2019, UnidadEjecutora: 1}).subscribe((res) => {
-              if(res.Body !== null) {
-                item.fuente_financiamiento_nombre = res.Nombre;
-              }
-              item.valor_fuente_financiamiento = parseFloat(item.valor_fuente_financiamiento);
-            });
-            this.dependenciaHelper.get(item.dependencia).subscribe((res) => {
-              if(res.Body !== null) {
-                item.dependencia = res.Nombre;
-              }
-            });
-          }else{
-
-            item.valor_fuente_financiamiento = 0;
-          }
-        })
-      }
-    });
   }
 
   aprobarApropiacion() {
@@ -210,7 +174,6 @@ export class ApropiacionesComponent implements OnInit {
     this.apropiacionData.ApropiacionAnterior = typeof this.rubroSeleccionado.ValorInicial === 'undefined' ? 0 : this.rubroSeleccionado.ValorInicial;
     this.apropiacionData.Estado = 'registrada'; // Estado preasignado
 
-    console.table(this.rubroSeleccionado);
     if (this.vigenciaSel !== undefined) {
       this.apHelper.apropiacionRegister(this.apropiacionData).subscribe((res) => {
         if (res) {
@@ -229,7 +192,6 @@ export class ApropiacionesComponent implements OnInit {
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
     // this.eventChange.emit(true);
-    console.info(this.vigenciaSel);
   }
 
   checkComprobacion(event: { balanceado: boolean, approved: boolean }) {

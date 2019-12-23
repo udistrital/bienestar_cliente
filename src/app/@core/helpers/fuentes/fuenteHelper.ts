@@ -13,18 +13,31 @@ export class FuenteHelper {
         private rqManager: RequestManager,
         private pUpManager: PopUpManager,
     ) { }
-
+    /**
+       * getFuentes
+       * If the response has errors in the OAS API it should show a popup message with an error.
+       * If the response suceed, it returns the data of the object.
+       * @param id object to get in the DB
+       * @param param object with the params to get in the DB
+       * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+       */
     public getFuentes(id?: any, params?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         if (params) {
             this.query_params = id ? id + '/' + params.Vigencia + '/' + params.UnidadEjecutora : params.Vigencia + '/' + params.UnidadEjecutora;
+        } else {
+            this.query_params = '0/1';
         }
-        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('fuente_financiamiento/' + this.query_params).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pudo consultar las fuentes');
                         return undefined;
+                    } else if (!id || this.query_params === '0/1') {
+                        res.forEach(element => {
+                            element.Vigencia === 0 ? element.Vigencia = 'sin vigencia asignada' : element.Vigencia;
+                        });
                     }
                     return res;
                 },
@@ -49,7 +62,7 @@ export class FuenteHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo registrar la Fuente de Financiamiento');
+                        this.pUpManager.showErrorAlert(res['Message']);
                         return undefined;
                     }
                     return res;
@@ -67,7 +80,6 @@ export class FuenteHelper {
      * @returns  <Observable> object updated information. undefined if the proccess has errors.
      */
     public fuenteUpdate(fuenteData) {
-        console.info(fuenteData);
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         fuenteData.UnidadEjecutora = '1'; // Tomar la unidad ejecutora del token cuando este definido.
         fuenteData.Organizacion = 1;
@@ -80,7 +92,7 @@ export class FuenteHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar La Fuente, Compruebe que no exista una fuente con el mismo Código.');
+                        this.pUpManager.showErrorAlert('No Se Pudo Actualizar La Fuente');
                         return undefined;
                     }
                     return res;
@@ -101,19 +113,31 @@ export class FuenteHelper {
         if (params) {
             this.query_params = '/' + params.Vigencia + '/' + params.UnidadEjecutora;
         }
-        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.delete('fuente_financiamiento', id.toString() + this.query_params).pipe(
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.delete('fuente_financiamiento_apropiacion', id.toString() + this.query_params).pipe(
             map(
                 (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No Se Pudo Eliminar La fuente, Compruebe que no exista una fuente con el mismo Código.');
+                    return res;
+                },
+            ),
+        );
+
+    }
+
+       // getPlanAdquisicionByFuente obtiene la información del plan de adquisiciones con una vigencia y una fuente
+       public getPlanAdquisicionByFuente(vigencia: string, fuente: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get('fuente_financiamiento_apropiacion/plan_adquisiciones_rubros_fuente/' + vigencia + '/' + fuente).pipe(
+            map(
+                (res) => {
+                    if (res === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar el plan de adquisición');
                         return undefined;
                     }
                     return res;
                 },
             ),
         );
-
     }
 
 }

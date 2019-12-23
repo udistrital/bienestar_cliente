@@ -1,9 +1,12 @@
+import { Compromiso } from './compromiso';
+
 export class SolicitudCrp {
     ConsecutivoCDP: number;
     Vigencia: string;
     Beneficiario: string;
     Valor: number;
-    NumeroCompromiso: number;
-    TipoCompromiso: number;
+    Compromiso: Compromiso;
     FechaCreacion: Date;
+    FechaInicialVigencia: Date;
+    FechaFinalVigencia: Date;
 }
