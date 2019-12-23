@@ -124,7 +124,7 @@ export class ListarVigenciaComponent implements OnInit {
     event.data['Estado'] = event.data.estado;
     event.data['FechaInicio'] = event.data.fechaCreacion;
     event.data['FechaCierre'] = event.data.fechaCierre;
-    
+
   }
 
 }
