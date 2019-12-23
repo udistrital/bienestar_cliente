@@ -12,6 +12,7 @@ import {
   NbCardModule,
   NbTooltipModule,
   NbRadioModule,
+  NbSpinnerModule,
   NbCheckboxModule } from '@nebular/theme';
 
 import { ProductosRubroComponent } from './rubros/productos-rubro/productos-rubro.component';
@@ -97,6 +98,7 @@ import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.co
     ToasterModule,
     MatStepperModule,
     CurrencyMaskModule,
+    NbSpinnerModule
   ],
   exports: [
   ],
