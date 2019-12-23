@@ -48,22 +48,24 @@ export class ListarVigenciaComponent implements OnInit {
         }
       },
       areaFuncional: {
-        title: this.translate.instant('GLOBAL.centro_gestor'),
+        title: this.translate.instant('GLOBAL.area_funcional'),
         filter: {
           type: 'list',
           config: {
             selectText: 'Todas',
             list: [
-              { value: 'Rector', title: this.translate.instant('GLOBAL.rector') },
-              { value: 'Convenios', title: this.translate.instant('GLOBAL.convenios') },
+              { value: '1', title: 'Rector' },
+              { value: '2', title: 'Convenios' },
             ]
           },
         },
         valuePrepareFunction: (value: any) => {
           if (value === '1') {
-            return this.translate.instant('GLOBAL.rector');
+            //return this.translate.instant('GLOBAL.rector');
+            return 'Rector';
           } else {
-            return this.translate.instant('GLOBAL.convenios');
+            //return this.translate.instant('GLOBAL.convenios');
+            return 'Convenios';
           }
         }
       },
@@ -85,7 +87,9 @@ export class ListarVigenciaComponent implements OnInit {
         title: this.translate.instant('VIGENCIA.fecha_cierre'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          if (value.substring(0) === '2') {
+          // tslint:disable-next-line: no-console
+          console.log(value.substring(0, 1));
+          if (value.substring(0, 1) === '2') {
             return value.substring(0, 10);
           } else {
             return '-';
