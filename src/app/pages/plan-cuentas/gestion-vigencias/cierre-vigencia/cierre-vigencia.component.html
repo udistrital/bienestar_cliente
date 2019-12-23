@@ -1,0 +1,36 @@
+<div class="col-md-12 col-lg-12 ">
+  <nb-card status="warning">
+    <nb-card-header>
+      <div>
+        {{ 'VIGENCIA.cierre_vigencia_titulo' | translate }}
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <ngx-dinamicform [normalform]="formCierreVigencia" [modeloData]="info_cierre_vig" (result)="validarForm($event)"
+        [clean]="clean" (interlaced)="getSeleccion($event)"> 
+      </ngx-dinamicform>
+
+      <div *ngIf="mostrarInfoCierre===true">
+        <!-- <pre>{{cierreVigenciaData | json}}</pre> -->
+        <h4>{{ 'VIGENCIA.ejecucion' | translate }}</h4>
+        <p>link a reporte</p>
+        <h4>{{ 'VIGENCIA.fuentes' | translate }}</h4>
+        <ng2-smart-table [settings]="settings_fuentes" [source]="source_fuentes" (custom)="onCustom($event)">
+        </ng2-smart-table>
+        <h4>{{ 'VIGENCIA.reservas' | translate }}</h4>
+        <ng2-smart-table [settings]="settings_reservas" [source]="source_reservas" (custom)="onCustom($event)">
+        </ng2-smart-table>
+        <h4>{{ 'VIGENCIA.pasivos' | translate }}</h4>
+        <ng2-smart-table [settings]="settings_pasivos" [source]="source_pasivos" (custom)="onCustom($event)">
+        </ng2-smart-table>
+        <div class="row justify-content-md-center">
+          <button  (click)="ejecutarCierre()"
+          class="btn btn-success col-md-4">
+          {{ 'VIGENCIA.ejecutar_cierre' | translate}}</button>
+        </div>
+
+      </div>
+
+    </nb-card-body>
+  </nb-card>
+</div>

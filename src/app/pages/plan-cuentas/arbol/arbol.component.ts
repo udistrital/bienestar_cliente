@@ -5,7 +5,7 @@ import {
   NbTreeGridRowComponent,
   NbTreeGridDataSource,
   NbTreeGridDataSourceBuilder,
-  NbSortRequest,
+  NbSortRequest
 } from '@nebular/theme';
 import { Observable, forkJoin } from 'rxjs';
 import { ArbolHelper } from '../../../@core/helpers/arbol/arbolHelper';
@@ -42,6 +42,7 @@ export class ArbolComponent implements OnChanges {
   @Input() optionSelect: string;
   @Input() vigencia: string;
   @Input() externalSearch: string;
+  @Input('paramsFieldsName') paramsFieldsName: object;
   opcionSeleccionada: string;
   vigenciaSeleccionada: string;
   @ViewChildren(NbTreeGridRowComponent, { read: ElementRef }) treeNodes: ElementRef[];
@@ -61,6 +62,8 @@ export class ArbolComponent implements OnChanges {
   idHighlight: any;
   isSelected: boolean;
   searchValue: string;
+
+  loading = true;
 
   constructor(
     private renderer: Renderer2,
@@ -91,6 +94,9 @@ export class ArbolComponent implements OnChanges {
     if (changes['externalSearch'] && changes['externalSearch'].currentValue) {
       this.searchValue = changes['externalSearch'].currentValue;
     }
+    if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
+      this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
+    }    
   }
 
   // private data: TreeNode<EstructuraArbolRubrosApropiaciones>[] | TreeNode<EstructuraArbolRubros>[];
@@ -111,7 +117,12 @@ export class ArbolComponent implements OnChanges {
     subscribe((res) => {
       this.data = res.root_2.concat(res.root_3);
       this.dataSource = this.dataSourceBuilder.create(this.data, getters);
+      this.loadedTreeRubros();
     });
+  }
+
+  loadedTreeRubros(){
+    this.loading = false;
   }
 
 
@@ -128,6 +139,7 @@ export class ArbolComponent implements OnChanges {
       this.treeHelper.getFullArbol(this.vigenciaSeleccionada).subscribe(res => {
         this.data = res;
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+        this.loadedTreeRubros();
       },
       );
     }
@@ -143,9 +155,10 @@ export class ArbolComponent implements OnChanges {
     this.defaultColumns = ['Nombre', 'ValorInicial', 'ValorActual'];
     this.allColumns = [this.customColumn, ...this.defaultColumns];
     if (this.vigenciaSeleccionada) {
-      this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada').subscribe(res => {
+      this.treeHelper.getFullArbolEstado(this.vigenciaSeleccionada, 'aprobada', this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
         this.data = res;
         this.dataSource2 = this.dataSourceBuilder2.create(this.data, getters);
+        this.loadedTreeRubros();
       },
       );
     }

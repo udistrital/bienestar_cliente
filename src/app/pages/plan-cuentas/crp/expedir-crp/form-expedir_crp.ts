@@ -1,10 +1,9 @@
-export let FORM_INFO_SOL_CRP = {
+export let FORM_INFO_EXPEDIR_CRP = {
 
     tipo_formulario: 'currency',
     alertas: true,
     modelo: 'SolicitudCRP',
     campos: [
-
         {
             etiqueta: 'select',
             claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
@@ -25,7 +24,7 @@ export let FORM_INFO_SOL_CRP = {
             requerido: true,
             tipo: 'text',
             key: 'valor',
-            opciones: [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' },{ Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }],
+            opciones: [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' }, { Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }],
         },
         {
             etiqueta: 'input',
@@ -75,15 +74,7 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'mat-date',
-            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
-            nombre: 'FechaInicioVigencia',
-            label_i18n: 'Fecha inicial de vigencia',
-            placeholder_i18n: 'Fecha inicial de vigencia',
-            requerido: true,
-        },
-        {
-            etiqueta: 'mat-date',
-            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'FechaFinalVigencia',
             label_i18n: 'Fecha final de vigencia',
             placeholder_i18n: 'Fecha final de vigencia',
@@ -91,21 +82,21 @@ export let FORM_INFO_SOL_CRP = {
         },
         {
             etiqueta: 'select',
-            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'MontoCRP',
             label_i18n: 'Monto del CRP',
             placeholder_i18n: 'Monto del CRP',
             requerido: true,
             tipo: 'MontoTipo',
             key: 'valor',
-            opciones: [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }]
+            opciones: [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }],
         },
         {
             etiqueta: 'input',
-            claseGrid: 'col-lg-3 col-md-3 col-sm-3 col-xs-3',
+            claseGrid: 'col-lg-4 col-md-4 col-sm-4 col-xs-4',
             nombre: 'ValorParcial',
-            label_i18n: 'Valor',
-            placeholder_i18n: 'Valor',
+            label_i18n: 'Valor Parcial',
+            placeholder_i18n: 'Valor Parcial',
             requerido: false,
             tipo: 'text',
             enabledcurrency: true,

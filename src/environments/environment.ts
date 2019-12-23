@@ -4,6 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 export const environment = {
+
     production: false,
     NUXEO: {
         PATH: 'https://documental.udistrital.edu.co/nuxeo/',
@@ -13,11 +14,11 @@ export const environment = {
     PLAN_ADQUISICION_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/bodega_jbpm/v1/',
     // MOVIMIENTOS_CRUD_SERVICE: 'http://localhost:8085/v1/',
     ADMINISTRATIVA_PRUEBAS_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8104/v1/',
-    PLAN_CUENTAS_MID_SERVICE: 'http://localhost:8084/v1/',
     // PLAN_CUENTAS_MID_SERVICE: 'http://localhost:8084/v1/',
-    PLAN_CUENTAS_MONGO_SERVICE: 'http://localhost:8082/v1/',
-    // PLAN_CUENTAS_MONGO_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8203/v1/',
-    // PLAN_CUENTAS_MID_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8204/v1/',
+    // PLAN_CUENTAS_MID_SERVICE: 'http://localhost:8084/v1/',
+    // PLAN_CUENTAS_MONGO_SERVICE: 'http://localhost:8082/v1/',
+    PLAN_CUENTAS_MONGO_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8203/v1/',
+    PLAN_CUENTAS_MID_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8204/v1/',
     ADMINISTRATIVA_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8090/v1/',
     ADMINISTRATIVA_JBPM_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/',
     // NECESIDADES_CRUD_SERVICE: 'https://autenticacion.udistrital.edu.co/apioas/necesidades_crud/v1/',
@@ -39,5 +40,6 @@ export const environment = {
         SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
         SIGN_OUT_REDIRECT_URL: 'http://localhost:4200/',
     },
+
 
 };

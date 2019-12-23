@@ -1,0 +1,34 @@
+<div>
+    <nb-card>
+        <nb-card-header>{{'CRP.form_exp_titulo' | translate}}</nb-card-header>
+    
+        <nb-card-body>
+            <div>
+                <p class="font-weight-bold text-left">{{ 'CRP.distribuir_crp' | translate }}</p>
+                <p class="text-right"><span class="font-weight-bold">{{'CRP.valor' | translate}}</span>: {{solicitudCrp.valor | currency}}</p>
+            </div>
+            <form [formGroup]="formGroup" class="mod-registration-container form-horizontal">
+                <div *ngFor="let rubro of rubros" class="row col-11">
+                    <mat-label class="col-12 text-left"><span class="font-weight-bold">{{'GLOBAL.rubro' | translate}}</span>: {{rubro.InfoRubro.Codigo}}</mat-label>
+                    <mat-form-field class="mod-registration-input-item col-12" floatLabel="always">
+                        <mat-label>{{ "GLOBAL.valor" | translate }}</mat-label>
+                        <input (keyup)="onKey(rubro.InfoRubro.Codigo)"
+                        matInput
+                        currencyMask
+                        placeholder="{{ 'GLOBAL.valor' | translate }}"
+                        class="moneyField"
+                        type="text"
+                        formControlName="value"
+                        />
+                    </mat-form-field>
+                </div>
+            </form>
+            <div *ngIf="!formError && movimiento === null" class="alert alert-warning" role="alert">
+                <strong> {{'GLOBAL.aviso' | translate}}</strong>: {{'CRP.valores_iguales' | translate}}
+            </div>
+            <div *ngIf="formError" class="alert alert-danger" role="alert">
+                <strong>{{formMessage}}</strong>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

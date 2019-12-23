@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 export class VerSolicitudCrpComponent implements OnInit {
 
 
-  @Input('solicitudcrp') solicitud: object;
+  @Input('solicitudcrp') solicitud: any;
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
   cdpInfo: any = {};
@@ -30,6 +30,8 @@ export class VerSolicitudCrpComponent implements OnInit {
   doc: string;
   objetoNecesidad: any = {};
   mostrandoPDF: boolean = false;
+  formRubros = false;
+  // movimiento: any = null;
   enlacePDF: string = 'assets/images/crp-ejemplo.pdf';
   tituloPDF: string = '';
   areas = [{ Id: 1, Nombre: 'Rector' }, { Id: 2, Nombre: 'Convenios' }];
@@ -39,6 +41,9 @@ export class VerSolicitudCrpComponent implements OnInit {
   tCompromiso: any;
   actividades: object[];
   r = /\d+/;
+  habilitarExpedir = false;
+  movimiento: any = null;
+
   constructor(
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
@@ -51,16 +56,16 @@ export class VerSolicitudCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.solicitud != undefined) {
+    if (this.solicitud !== undefined) {
 
       this.crpHelper.getSolicitudCRP(this.solicitud['solicitudCrp']).subscribe(resp => {
 
         this.solicitudc = resp[0];
 
         if (this.solicitudc) {
-console.table(this.solicitudc)
+
           this.crpHelper.getInfoCDP(this.solicitudc['vigencia'], this.solicitudc['consecutivoCdp']).subscribe(resCdp1 => {
-            if (resCdp1.estado === "expedido") { //validacion de expedicion
+            if (resCdp1.estado === 'expedido') { // validacion de expedicion
               this.expedido = true;
             } else {
               this.expedido = false;
@@ -99,28 +104,33 @@ console.table(this.solicitudc)
 
                   if (this.TrNecesidad) {
                     this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
-                    await this.getInfoMeta(this.TrNecesidad["Necesidad"].Vigencia, 122).toPromise().then(res => { console.info(this.actividades);this.actividades = res });
+                    await this.getInfoMeta(this.TrNecesidad['Necesidad'].Vigencia, 122).toPromise().then(resMeta => { this.actividades = resMeta; });
+
                     if (this.TrNecesidad.Rubros) {
                       this.TrNecesidad.Rubros.forEach(rubro => {
-                        rubro.MontoParcial = 0
+                        rubro.MontoParcial = 0;
+
                         if (rubro.Metas) {
                           rubro.Metas.forEach(meta => {
-                            meta["InfoMeta"] = this.actividades["metas"].actividades.filter(actividad => actividad["meta_id"] === meta["MetaId"]);
+                            meta['InfoMeta'] = this.actividades['metas'].actividades.filter(actividad => actividad['meta_id'] === meta['MetaId']);
+
                             if (meta.Actividades) {
                               meta.Actividades.forEach(act => {
-                                act["InfoActividad"] = this.actividades["metas"].actividades.filter(actividad => actividad["actividad_id"] === act["ActividadId"]);
+                                act['InfoActividad'] = this.actividades['metas'].actividades.filter(actividad => actividad['actividad_id'] === act['ActividadId']);
+
                                 if (act.FuentesActividad) {
                                   act.FuentesActividad.forEach(fuente => {
-                                    rubro.MontoParcial += fuente.MontoParcial
+                                    rubro.MontoParcial += fuente.MontoParcial;
                                   });
                                 }
                               });
                             }
                           });
                         }
+
                         if (rubro.Fuentes) {
                           rubro.Fuentes.forEach(fuente => {
-                            rubro.MontoParcial += fuente.MontoParcial
+                            rubro.MontoParcial += fuente.MontoParcial;
                           });
 
                         }
@@ -130,77 +140,73 @@ console.table(this.solicitudc)
 
 
                   }
+                  if (this.TrNecesidad.Rubros.length > 1) {
+                    this.formRubros = true;
+                  } else {
+                    this.construirMovimiento();
+                  }
 
                 });
-              })
+              });
             }
           });
-      
+
         }
-      })
+      });
     }
-
-
   }
 
   getInfoMeta(vigencia: Number, dependencia: Number): Observable<any> {
     return this.planAdquisicionHelper.getPlanAdquisicionByDependencia(vigencia.toString(), dependencia.toString());
-  };
+  }
 
   cambioTab() {
     this.eventChange.emit(false);
   }
 
-  expedirCRP(consecutivo) {
-    this.popManager.showAlert('warning', `Expedir CRP ${consecutivo}`, '¿está seguro?')
+  onMovimientoBuiled(event: Event) {
+    this.movimiento = event;
+  }
+
+  expedirCRP() {
+    this.popManager.showAlert('warning', `Expedir CRP ${this.solicitudc.consecutivo}`, '¿Continuar?')
       .then((result) => {
+        this.crpHelper.expedirCRP(this.solicitud._id).subscribe();
         if (result.value) {
-          console.info(this.solicitud);
-          console.table(this.solicitudc)
-          let movimiento = this.construirDatosMovimiento();
-          console.info(movimiento);
-          this.movimientosHelper.postMovimiento(movimiento).subscribe(res => {
-              console.info(res)
-              this.popManager.showSuccessAlert(`Se expidió con exito el CRP`)
-              this.router.navigate(['/pages/plan-cuentas/crp']);  
+          this.movimientosHelper.postMovimiento(this.movimiento).subscribe((res: any) => {
+            this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${res.DocInfo.Consecutivo}`);
+            this.router.navigate(['/pages/plan-cuentas/crp']);
           });
-          // this.crpHelper.expedirCRP(this.solicitud["_id"]).subscribe(res => {
-          //   if (res) {
-          //     this.popManager.showSuccessAlert(`Se expidió con exito el CRP ${res.infoCrp.consecutivo}`)
-          //     this.router.navigate(['/pages/plan-cuentas/crp']);
-          //   }
-          // });
         }
       });
   }
 
-  private construirDatosMovimiento(): object {
-    console.table(this.solicitudc)
-    var movimiento = {
-      Data: { "solicitud_crp": this.solicitudc['_id'] },
-      Tipo: "rp",
+  private construirMovimiento() {
+    this.movimiento = {
+      Data: { 'solicitud_crp': this.solicitudc._id },
+      Tipo: 'rp',
       Vigencia: 2019,
-      CentroGestor: String(this.solicitud["centroGestor"]),
+      CentroGestor: this.solicitud.centroGestor,
       AfectacionMovimiento: []
     };
 
-    this.TrNecesidad["Rubros"].forEach((rubro: object) => {
-      movimiento.AfectacionMovimiento.push(
-        {
-          MovimientoProcesoExternoId: {
-              TipoMovimientoId: {
-                  Id: 7,
-                  Acronimo: "rp"
-              }
-          },
-          DocumentoPadre: this.solicitud["movimiento_cdp"][0],
-          Valor: this.solicitud["valor"],
-          Descripcion: this.TrNecesidad["Necesidad"]["Objeto"]
-        }
-      )
+    this.cdpInfo.AfectacionIds.forEach((cdp: any) => {
+        this.movimiento.AfectacionMovimiento.push(
+            {
+                MovimientoProcesoExternoId: {
+                    TipoMovimientoId: {
+                        Id: 7,
+                        Acronimo: 'rp'
+                    }
+                },
+                DocumentoPadre: cdp,
+                Valor: this.solicitudc.valor,
+                Descripcion: 'Expedición CRP'
+            },
+
+        );
     });
-    return movimiento;
-  };
+  }
 
   mostrarPDF(consecutivo) {
     this.tituloPDF = `Certificado de Registro Presupuestal N° ${consecutivo}`;

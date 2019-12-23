@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
-import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
+// import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 
 @Component({
@@ -30,14 +30,13 @@ export class ListarVigenciaComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private vigenciaHelper: VigenciaHelper,
+    // private vigenciaHelper: VigenciaHelper,
     private rqManager: RequestManager,
     
   ) { }
 
   ngOnInit() {
-
-    this.loadDataFunction = this.vigenciaHelper.getFullVigencias;
+    // this.loadDataFunction = this.vigenciaHelper.getFullVigencias;
 
     this.listColumns = {
       _id: {
@@ -140,17 +139,41 @@ export class ListarVigenciaComponent implements OnInit {
     }
   }
 
-  verVigencia(vigencia) {
-    this.vigencia = vigencia;
-    this.onCambiotab();
-  }
+  // loadData(): void {
+  //     vigencias: this.loadDataFunction(       
+  //     ).subscribe(res =>{
+  //       const data = <Array<any>>res;
+  //       console.log(data)
+  //       this.source.load(data);
+  //   })
+  // }
 
-  onCambiotab(): void {
-    this.cambiotab = !this.cambiotab;
-  }
+  // onCustom(event: any) {
+  //   console.log(event.data)
+  //   event.data['Vigencia'] = event.data.valor;
+  //   event.data['AreaFuncional'] = event.data.areaFuncional;
+  //   event.data['Estado'] = event.data.estado;
+  //   event.data['FechaInicio'] = event.data.fechaCreacion;
+  //   event.data['FechaCierre'] = event.data.fechaCierre;
 
-  returnToList() {
-    this.anularTab = false;
-    this.cambiotab = false;
-  }
+  //   switch (event.action) {
+  //     case 'ver':
+  //       this.verVigencia(event.data);
+  //       break;
+  //   }
+  // }
+
+  // verVigencia(vigencia) {
+  //   this.vigencia = vigencia;
+  //   this.onCambiotab();
+  // }
+
+  // onCambiotab(): void {
+  //   this.cambiotab = !this.cambiotab;
+  // }
+
+  // returnToList() {
+  //   this.anularTab = false;
+  //   this.cambiotab = false;
+  // }
 }
