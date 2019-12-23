@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { CierreVigenciaHelper } from '../../../../@core/helpers/cierre-vigencia/cierreVigenciaHelper';
 import { LocalDataSource } from 'ng2-smart-table';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,6 +33,8 @@ export class CierreVigenciaComponent implements OnInit {
   listColumns_fuentes: object;
   listColumns_reservas: object;
   listColumns_pasivos: object;
+
+  fecha_cierre: any;
 
   constructor(
     private translate: TranslateService,
@@ -166,7 +168,6 @@ export class CierreVigenciaComponent implements OnInit {
       this.cierreVigenciaData.Vigencia = typeof event.data.CierreVigencia.Vigencia.valor === 'undefined' ? undefined : event.data.CierreVigencia.Vigencia.valor;
       this.mostrarInfoCierre=true;
       this.CVHelper.getInfoCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional).subscribe(res => {
-        console.info(res)
         this.lista_fuentes= res.Fuentes;
         this.source_fuentes.load(this.lista_fuentes);
         this.lista_reservas = res.Reservas;
@@ -194,7 +195,8 @@ export class CierreVigenciaComponent implements OnInit {
   getSeleccion(event) {
     this.mostrarInfoCierre = false ; 
     this.CVHelper.getVigenciaActual(event.valor.Id).subscribe(vig => {
-      this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = {valor : vig};
+      this.fecha_cierre = vig[0].fechaCierre;
+      this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = {valor : vig[0]._id};
     })
 
   }
@@ -212,6 +214,11 @@ export class CierreVigenciaComponent implements OnInit {
   }
 
   ejecutarCierre() {
+    if (this.CVHelper.esHoy(this.fecha_cierre)) {
+
+    } else {
+      this.popManager.showErrorAlert('La fecha de cierre de la vigencia: '+ new DatePipe('en-US').transform(this.fecha_cierre, 'shortDate')+' no corresponde con la fecha actual!');
+    }
     
   }
 

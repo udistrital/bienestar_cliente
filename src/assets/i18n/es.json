@@ -191,6 +191,8 @@
     "cdp_modificacion": "CDP modificación presupuestal",
     "lista_anulaciones": "Lista anulaciones",
     "consecutivo": "Consecutivo",
+    "rector": "Rector",
+    "convenios": "Convenios",
     "saldo_rubro": "Saldo del rubro",
     "relacionado": "relacionado",
     "Parcial": "Parcial",
@@ -378,9 +380,7 @@
     "fuentes": "Fuentes de financiamiento con saldo disponible",
     "reservas": "Lista de CRP que pasarán a estado reserva",
     "pasivos": "Lista de reservas que pasarán a estado pasivo",
-    "ejecutar_cierre": "Ejecutar cierre de vigencia"
-  },
-  "VIGENCIA": {
+    "ejecutar_cierre": "Ejecutar cierre de vigencia",
     "solicitud_crear_vigencia": "Crear una Nueva Vigencia",
     "codigo_centro_gestor": "Código Centro Gestor",
     "codigo_area_funcional": "Código Área Funcional",
