@@ -27,7 +27,7 @@ export class ListCdpComponent implements OnInit {
   modPresupuestal: boolean; // Modificación presupuestal
 
   areas = { '1': 'Rector', '2': 'Convenios' };
-  centros = {'1': 'Universidad Distrital Francisco José de Caldas' };
+  centros = { '1': 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -118,9 +118,9 @@ export class ListCdpComponent implements OnInit {
         edit: false,
         delete: false,
         custom: [
-            { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>' },
-            { name: 'anular', title: '<i class="fas fa-ban" title="Anular" (click)="anular($event)"></i>' },
-          ],
+          { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>' },
+          { name: 'anular', title: '<i class="fas fa-ban" title="Anular" (click)="anular($event)"></i>' },
+        ],
         position: 'right'
       },
       mode: 'external',
@@ -136,12 +136,16 @@ export class ListCdpComponent implements OnInit {
       documentos: this.loadDataFunction('2019', '1', 'cdp'),
       cdp: this.cdpHelper.getListaCDP()
     }).subscribe(res => {
-      res.documentos.forEach((documento: any) => {
-        const solCdp = res.cdp.filter((cdp: object) => cdp['_id'] === documento.Data.solicitud_cdp)[0];
-        documento.necesidad = solCdp ? solCdp.necesidad : undefined ;
-      });
+      
+      if (res.cdp.Body) {
+        res.documentos.forEach((documento: any) => {
+          const solCdp = res.cdp.filter((cdp: object) => cdp['_id'] === documento.Data.solicitud_cdp)[0];
+          documento.necesidad = solCdp ? solCdp.necesidad : undefined;
+        });
+        
+      }
       const data = <Array<any>>res.documentos;
-      this.source.load(data);
+        this.source.load(data);
     });
   }
 
@@ -176,12 +180,13 @@ export class ListCdpComponent implements OnInit {
   }
 
   onCambiotab(): void {
-    this.cambiotab = !this.cambiotab ;
+    this.cambiotab = !this.cambiotab;
   }
 
   returnToList() {
     this.anularTab = false;
     this.cambiotab = false;
+    this.loadData();
   }
 
 }

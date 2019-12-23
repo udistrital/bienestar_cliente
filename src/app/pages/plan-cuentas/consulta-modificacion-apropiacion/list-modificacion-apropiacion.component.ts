@@ -15,7 +15,7 @@ import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiac
 
 export class ListModificacionApropiacionComponent implements OnInit {
 
-  paramsFieldsName: { vigencia: string, cg: string , tipomod: string};
+  paramsFieldsName: { vigencia: string, cg: string, tipomod: string };
   uuidReadFieldName: string;
   uuidDeleteFieldName: string;
 
@@ -46,7 +46,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
   viewTab: boolean = false;
   modificationDataSelected: object;
   tipoModificaciones: { value: string; label: any; }[];
-
+  areas = { '1': 'Rector', '2': 'Convenios' };
   constructor(
     private translate: TranslateService,
     private modificacionAprHelper: ModApropiacionHelper,
@@ -61,8 +61,8 @@ export class ListModificacionApropiacionComponent implements OnInit {
       }
     });
     this.tipoModificaciones = [
-      {value: 'modificacion_presupuestal', label:this.translate.instant('GLOBAL.mod_presupuestal')},
-      {value: 'modificacion_fuente', label:this.translate.instant('GLOBAL.mod_fuente')}];
+      { value: 'modificacion_presupuestal', label: this.translate.instant('GLOBAL.mod_presupuestal') },
+      { value: 'modificacion_fuente', label: this.translate.instant('GLOBAL.mod_fuente') }];
     this.uuidReadFieldName = '_id';
     this.uuidDeleteFieldName = '_id';
     this.isOnlyCrud = true;
@@ -75,7 +75,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
         this.vigenciaSel = res + '';
         this.tipoModSel = this.tipoModificaciones[0];
       }
-      this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' , tipomod: this.tipoModSel.value};
+      this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
       this.loadFormDataFunction = this.modificacionAprHelper.getAllModificacionesApr;
     });
 
@@ -84,6 +84,22 @@ export class ListModificacionApropiacionComponent implements OnInit {
       TipoDocumento: {
         title: this.translate.instant('GLOBAL.tipo_documento'),
         valuePrepareFunction: (value) => value
+      },
+
+      CentroGestor: {
+        title: this.translate.instant('GLOBAL.area_funcional'),
+        // type: 'string;',
+        valuePrepareFunction: (value) => this.areas[value],
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: '1', title: 'Rector' },
+              { value: '2', title: 'Convenios' },
+            ]
+          },
+        },
       },
 
       NumeroDocumento: {
@@ -96,7 +112,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
         // type: 'string;',
         valuePrepareFunction: (value) => {
           const date = new Date(value);
-          return  `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
+          return `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
       FechaRegistro: {
@@ -107,11 +123,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
           return `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
-      Area: {
-        title: this.translate.instant('GLOBAL.area_funcional'),
-        // type: 'string;',
-        valuePrepareFunction: (value) => value = 'Rector',
-      }
+      
     };
 
     this.listSettings = {
@@ -152,7 +164,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
-    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1' , tipomod: this.tipoModSel.value };
+    this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
     // this.eventChange.emit(true);
   }
 

@@ -3,45 +3,51 @@
     {{tittle }} -
   </nb-card-header>
   <nb-card-body>
-    <div class="mod-registration-container">
+      <div class="mod-registration-container"
+        *ngIf="documentAfectationARr && documentAfectationARr[0] && documentAfectationARr[0].FatherInfo">
 
-      <mat-form-field class="mod-registration-input-item">
-        <mat-label>{{ "GLOBAL.movimiento_origen" | translate }}</mat-label>
-        <mat-select (selectionChange)="setAnulationOrigin($event.value)">
-          <mat-option *ngFor="let afect of documentAfectationARr" [value]="afect">
-            {{afect.FatherInfo._id + ' / ' + afect.FatherInfo.nodorubro.general.nombre}}
-          </mat-option>
-        </mat-select>
-        <span *ngIf="originSelectedFlag"><b>{{ "GLOBAL.saldo" | translate }} :
-            {{
-            anulationOriginSelected.ValorActual
-              | currency: "COP":"symbol":"4.2-2":"co"
-          }}</b></span>
-      </mat-form-field>
+        <mat-form-field class="mod-registration-input-item">
+          <mat-label>{{ "GLOBAL.movimiento_origen" | translate }}</mat-label>
+          <mat-select (selectionChange)="setAnulationOrigin($event.value)">
+            <mat-option *ngFor="let afect of documentAfectationARr" [value]="afect">
+              {{afect.FatherInfo._id + ' / ' + afect.FatherInfo.nodorubro.general.nombre}}
+            </mat-option>
+          </mat-select>
+          <span *ngIf="originSelectedFlag"><b>{{ "GLOBAL.saldo" | translate }} :
+              {{
+              anulationOriginSelected.ValorActual
+                | currency: "COP":"symbol":"4.2-2":"co"
+            }}</b></span>
+        </mat-form-field>
 
-      <mat-form-field class="mod-registration-input-item">
-        <textarea matInput placeholder="{{ 'GLOBAL.descripcion' | translate }}"
-          [(ngModel)]="descriptionValue"></textarea>
-      </mat-form-field>
+        <mat-form-field class="mod-registration-input-item">
+          <textarea matInput placeholder="{{ 'GLOBAL.descripcion' | translate }}"
+            [(ngModel)]="descriptionValue"></textarea>
+        </mat-form-field>
 
-      <mat-form-field class="mod-registration-input-item">
-        <mat-label>{{ "GLOBAL.tipo" | translate }}</mat-label>
-        <mat-select (selectionChange)="setAnulationType($event.value)">
-          <mat-option *ngFor="let tipo of anulationTypes" [value]="tipo.Nombre">
-            {{tipo.Nombre}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="mod-registration-input-item">
+          <mat-label>{{ "GLOBAL.tipo" | translate }}</mat-label>
+          <mat-select (selectionChange)="setAnulationType($event.value)">
+            <mat-option *ngFor="let tipo of anulationTypes" [value]="tipo.Nombre">
+              {{tipo.Nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="mod-registration-input-item" *ngIf="typeSelected === 'Parcial'" floatLabel="always">
-        <mat-label>{{ "GLOBAL.valor" | translate }}</mat-label>
-        <input matInput currencyMask placeholder="{{ 'GLOBAL.valor' | translate }}" class="moneyField" type="text"
-          [(ngModel)]="anulationValue" />
-      </mat-form-field>
-      <button *ngIf="descriptionValue && typeSelected && anulationOriginSelected.ValorActual && anulationOriginSelected.ValorActual > 0" class="btn btn-success btn-sm botton-item" (click)="sendAnulationData()">
-        {{ "GLOBAL.guardar" | translate }}
-      </button>
-    </div>
+        <mat-form-field class="mod-registration-input-item" *ngIf="typeSelected === 'Parcial'" floatLabel="always">
+          <mat-label>{{ "GLOBAL.valor" | translate }}</mat-label>
+          <input matInput currencyMask placeholder="{{ 'GLOBAL.valor' | translate }}" class="moneyField" type="text"
+            [(ngModel)]="anulationValue" />
+        </mat-form-field>
+        <button
+          *ngIf="descriptionValue && typeSelected && anulationOriginSelected.ValorActual && anulationOriginSelected.ValorActual > 0"
+          class="btn btn-success btn-sm botton-item" (click)="sendAnulationData()">
+          {{ "GLOBAL.guardar" | translate }}
+        </button>
+      </div>
+      <div *ngIf="!documentAfectationARr || !documentAfectationARr[0] || !documentAfectationARr[0].FatherInfo">
+        {{"GLOBAL.anulation_not_allowed" | translate }}
+      </div>
 
 
 
