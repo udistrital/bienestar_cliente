@@ -7,9 +7,9 @@
                 <p class="font-weight-bold text-left">{{ 'CRP.distribuir_crp' | translate }}</p>
                 <p class="text-right"><span class="font-weight-bold">{{'CRP.valor' | translate}}</span>: {{solicitudCrp.valor | currency}}</p>
             </div>
-            <form [formGroup]="formGroup" class="mod-registration-container form-horizontal">
+            <form [formGroup]="formGroup" class="mod-registration-container form-horizontal" autocomplete="off">
                 <div *ngFor="let rubro of rubros" class="row col-11">
-                    <mat-label class="col-12 text-left"><span class="font-weight-bold">{{'GLOBAL.rubro' | translate}}</span>: {{rubro.InfoRubro.Codigo}}</mat-label>
+                    <mat-label class="col-12 text-left"><span class="font-weight-bold">{{'GLOBAL.rubro' | translate}}</span>: {{rubro.InfoRubro.Codigo}} : {{rubro.InfoRubro.Nombre}}</mat-label>
                     <mat-form-field class="mod-registration-input-item col-12" floatLabel="always">
                         <mat-label>{{ "GLOBAL.valor" | translate }}</mat-label>
                         <input (keyup)="onKey(rubro.InfoRubro.Codigo)"
