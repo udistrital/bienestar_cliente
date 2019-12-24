@@ -37,8 +37,8 @@ export class MovimientosHelper {
     }
 
     /**
-    * postMovimiento
-    * Registra un movimiento
+    * getByDocumentoPresupuestal
+    * obtiene un movimiento a partir de su doc presupuestal
     * @param vigencia vigencia del movimiento
     * @param centroGestor centro gestor del movimiento
     * @param id id del documento presupuetal vinculado al movimiento
@@ -72,4 +72,25 @@ export class MovimientosHelper {
         );
     }
 
+    /**
+    * getByMovimientoPadre
+    * obtiene un movimiento a partir de su movimiento padre
+    * @param vigencia vigencia del movimiento
+    * @param centroGestor centro gestor del movimiento
+    * @param idPadre id del documento presupuetal vinculado al movimiento
+    * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+    */
+   public getByMovimientoPadre(vigencia: string, centroGestor: string, idPadre: string) {
+    this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+    return this.rqManager.get('movimiento/get_movimentos_by_parent_id/' + vigencia + '/' + centroGestor + '/' + idPadre).pipe(
+        map(
+            (res: object) => {
+                if (res['Type'] === 'error') {
+                    return undefined;
+                }
+                return res;
+            },
+        ),
+    );
+}
 }

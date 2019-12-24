@@ -9,7 +9,7 @@ import { NecesidadesHelper } from '../../../../@core/helpers/necesidades/necesid
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { switchMap, mergeMap } from 'rxjs/operators';
 import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_autentication.service';
 
@@ -35,6 +35,8 @@ export class VerSolicitudCdpComponent implements OnInit {
   areaFuncional: object;
   centroGestor: object;
   estadoNecesidadRechazada: object;
+  movimientosRp: any[];
+
   mostrandoPDF: boolean = false;
   areas = { '1': 'Rector', '2': 'Convenios' };
   entidades = {'1': 'Universidad Distrital Francisco José de Caldas' };
@@ -52,10 +54,14 @@ export class VerSolicitudCdpComponent implements OnInit {
     private router: Router,
     private implicitAutenticationService: ImplicitAutenticationService,
     private admAmazonHelper: AdmAmazonHelper
-  ) { }
+  ) { 
+    this.movimientosRp = [];
+  }
 
   ngOnInit() {
     let trNecesidad: object;
+    this.getInfoRp();
+
     this.cdpHelper.getFullNecesidad(this.solicitud['necesidad']).pipe(
       mergeMap(res => {
         trNecesidad = res;
@@ -122,6 +128,24 @@ export class VerSolicitudCdpComponent implements OnInit {
 
     if (this.implicitAutenticationService.live()) {
       this.username = (this.implicitAutenticationService.getPayload()).sub;
+    }
+  }
+
+  private getInfoRp() {
+    let movimientosRequest = [];
+    if (this.solicitud['AfectacionIds']) {
+      this.movimientosHelper.getByDocumentoPresupuestal(this.solicitud['Vigencia'], this.solicitud['CentroGestor'], this.solicitud['_id']).subscribe((res: any) => {
+        res.forEach(element  => {
+          movimientosRequest.push(this.movimientosHelper.getByMovimientoPadre(this.solicitud['Vigencia'], this.solicitud['CentroGestor'], element._id));
+        });
+        forkJoin(movimientosRequest).subscribe(res => {
+          res.forEach(element => {
+            if(element) {
+              this.movimientosRp.push(element);
+            }
+          });
+        })
+      });
     }
   }
 
