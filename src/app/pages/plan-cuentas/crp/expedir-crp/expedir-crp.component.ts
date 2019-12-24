@@ -31,6 +31,7 @@ export class ExpedirCrpComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        console.info(this.rubros);
         const vigencia = String(this.docPresupuestalCdp.Vigencia);
         const centroGestor = this.docPresupuestalCdp.CentroGestor;
         const idDoc = this.docPresupuestalCdp._id;
@@ -38,6 +39,12 @@ export class ExpedirCrpComponent implements OnInit {
             res.forEach((movimiento: any) => {
                 this.rubrosMap[movimiento.Padre] = movimiento;
             });
+        });
+    }
+
+    agregarInfoRubros() {
+        this.rubros.forEach(element => {
+
         });
     }
 

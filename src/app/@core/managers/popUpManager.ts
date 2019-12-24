@@ -72,7 +72,7 @@ export class PopUpManager {
     }
 
     public showSuccessAlert(text, tittle?) {
-        Swal.fire({
+        return Swal.fire({
             type: 'success',
             title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
             text: text,
