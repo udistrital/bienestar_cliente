@@ -6,6 +6,7 @@ import { CierreVigenciaHelper } from '../../../../@core/helpers/cierre-vigencia/
 import { LocalDataSource } from 'ng2-smart-table';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-cierre-vigencia',
@@ -19,16 +20,16 @@ export class CierreVigenciaComponent implements OnInit {
   cierreVigenciaData: any;
   lista_fuentes: any = [];
   lista_reservas: any = [];
-  lista_pasivos: any = [];  
-  mostrarInfoCierre = false ;
+  lista_pasivos: any = [];
+  mostrarInfoCierre = false;
 
   source_fuentes: LocalDataSource = new LocalDataSource();
   source_reservas: LocalDataSource = new LocalDataSource();
   source_pasivos: LocalDataSource = new LocalDataSource();
 
-  settings_fuentes : object;
-  settings_reservas : object;
-  settings_pasivos : object;
+  settings_fuentes: object;
+  settings_reservas: object;
+  settings_pasivos: object;
 
   listColumns_fuentes: object;
   listColumns_reservas: object;
@@ -44,7 +45,7 @@ export class CierreVigenciaComponent implements OnInit {
   ) {
     this.formCierreVigencia = FORM_CIERRE_VIGENCIA;
     this.construirForm();
-   }
+  }
 
   ngOnInit() {
     this.info_cierre_vig = {};
@@ -149,7 +150,7 @@ export class CierreVigenciaComponent implements OnInit {
       mode: 'external',
       columns: this.listColumns_pasivos,
     };
-    
+
   }
 
 
@@ -166,9 +167,9 @@ export class CierreVigenciaComponent implements OnInit {
     if (event.valid) {
       this.cierreVigenciaData.AreaFuncional = typeof event.data.CierreVigencia.AreaFuncional.Id === 'undefined' ? undefined : event.data.CierreVigencia.AreaFuncional.Id;
       this.cierreVigenciaData.Vigencia = typeof event.data.CierreVigencia.Vigencia.valor === 'undefined' ? undefined : event.data.CierreVigencia.Vigencia.valor;
-      this.mostrarInfoCierre=true;
+      this.mostrarInfoCierre = true;
       this.CVHelper.getInfoCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional).subscribe(res => {
-        this.lista_fuentes= res.Fuentes;
+        this.lista_fuentes = res.Fuentes;
         this.source_fuentes.load(this.lista_fuentes);
         this.lista_reservas = res.Reservas;
         this.source_reservas.load(this.lista_reservas);
@@ -193,10 +194,10 @@ export class CierreVigenciaComponent implements OnInit {
   }
 
   getSeleccion(event) {
-    this.mostrarInfoCierre = false ; 
+    this.mostrarInfoCierre = false;
     this.CVHelper.getVigenciaActual(event.valor.Id).subscribe(vig => {
       this.fecha_cierre = vig[0].fechaCierre;
-      this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = {valor : vig[0]._id};
+      this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = { valor: vig[0]._id };
     })
 
   }
@@ -214,12 +215,17 @@ export class CierreVigenciaComponent implements OnInit {
   }
 
   ejecutarCierre() {
-    if (this.CVHelper.esHoy(this.fecha_cierre)) {
-
-    } else {
-      this.popManager.showErrorAlert('La fecha de cierre de la vigencia: '+ new DatePipe('en-US').transform(this.fecha_cierre, 'shortDate')+' no corresponde con la fecha actual!');
-    }
-    
+    this.CVHelper.ejecutarCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional).pipe(
+      switchMap(() => this.CVHelper.ejecutarCierreCrud(this.cierreVigenciaData.AreaFuncional))
+    ).subscribe(res => {
+      if (res) {
+        this.popManager.showSuccessAlert('Se generó el cierre.');
+        location.reload();
+      }
+      else {
+        this.popManager.showErrorAlert('Error al generar el cierre');
+      }
+    })
   }
 
 

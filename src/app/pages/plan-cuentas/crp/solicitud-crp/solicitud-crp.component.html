@@ -5,10 +5,84 @@
     </nb-card-header>
 
     <nb-card-body>
-        <ngx-dinamicform [normalform]="formInfoSolCrp" [modeloData]="info_solCrp" (resultAux)="button($event)" (result)="validarForm($event)"
-            [clean]="clean">
-        </ngx-dinamicform>
-        <!--Detalle del CDP-->
+        <form [formGroup]="formGroup" class="mod-registration-container form-horizontal">
+            <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                <mat-label>*{{'CRP.tipo-compromiso' | translate}}</mat-label>
+                <mat-select formControlName="tipoCompromiso" placeholder="{{'CRP.tipo-compromiso' | translate}}">
+                    <mat-option *ngFor="let compromiso of tipoCompromisosData" [value]="compromiso.Id">
+                        {{compromiso.Nombre}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-3 col-md-3 col-sm-3 col-xs-3" floatLabel="always">
+                <mat-label>*{{'GLOBAL.vigencia' | translate}}</mat-label>
+                <mat-select formControlName="vigencia" placeholder="{{'GLOBAL.vigencia' | translate}}">
+                    <mat-option *ngFor="let vigencia of vigencias" [value]="vigencia.valor">
+                        {{vigencia.valor}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mod-registration-input-item col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                <mat-label>*{{ "CRP.numero-compromiso" | translate }}</mat-label>
+                <input matInput placeholder="{{ 'CRP.numero-compromiso' | translate }}" type="number" formControlName="numCompromiso"/>
+            </mat-form-field>
+
+            <button mat-icon-button color="primary" class="col-lg-1 col-md-1 col-sm-1 col-xs-1" (click)="buscarCompromiso()">
+                <mat-icon>search</mat-icon>
+            </button>
+
+            <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                <input matInput placeholder="{{'CDP.numero' | translate}}" [value]="numeroCdp" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                <input matInput placeholder="{{'GLOBAL.numero_documento' | translate}}" [value]="numDocBeneficiario" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                <input matInput placeholder="{{'CRP.nombre-contratista' | translate}}" [value]="nomBeneficiario" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-3 col-md-3 col-sm-3 col-xs-3" floatLabel="always">
+                <mat-label>*{{'CRP.fecha_inicio' | translate}}</mat-label>
+                <input formControlName="fechaIniVigencia"  matInput [matDatepicker]="picker" placeholder="{{'CRP.fecha_inicio' | translate}}">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-3 col-md-3 col-sm-3 col-xs-3" floatLabel="always">
+                <mat-label>*{{'CRP.fecha_final' | translate}}</mat-label>
+                <input formControlName="fechaFinVigencia" [min]="formGroup.value.fechaIniVigencia" matInput [matDatepicker]="picker2" placeholder="{{'CRP.fecha_final' | translate}}">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-3 col-md-3 col-sm-3 col-xs-3" floatLabel="always">
+                <mat-label>*{{ 'CRP.monto' | translate }}</mat-label>
+                <mat-select formControlName="tipoMonto" placeholder="{{ 'CRP.monto' | translate }}" (selectionChange)="onChangeMonto()">
+                    <mat-option *ngFor="let monto of montos" [value]="monto.Id">
+                        {{monto.valor}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mod-registration-input-item col-lg-3 col-md-3 col-sm-3 col-xs-3" floatLabel="always">
+                <mat-label>*{{ "GLOBAL.valor" | translate }}</mat-label>
+                <input matInput currencyMask placeholder="{{ 'GLOBAL.valor' | translate }}" class="moneyField"
+                    type="text" formControlName="valorCrp"/>
+            </mat-form-field>
+            <div class="row">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-success" [disabled]="!formGroup.valid" (click)="guardar()">
+                        {{'GLOBAL.guardar' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        
         <div *ngIf="docPresupuestalCdp" class="col-md-12 col-lg-12">
             <h6 *ngIf="rubrosCdp">{{'CDP.informacion' | translate}}</h6>
             <hr>
@@ -29,7 +103,7 @@
                         <td>
                             <ul *ngFor="let rubro of rubrosCdp">
                                 <li>
-                                    <strong>{{'GLOBAL.codigo-rubro' |translate}}</strong>: {{rubro.Padre}}
+                                    <strong>{{'GLOBAL.rubro' |translate}}</strong>: {{rubro.Padre}} : {{rubro.InfoRubro.data.Nombre}}
                                     <ul>
                                         <li><strong>{{'GLOBAL.valor' |translate}}</strong>: {{rubro.ValorInicial | currency}}</li>
                                         <li><strong>{{'GLOBAL.saldo' |translate}}</strong>: {{rubro.ValorInicial | currency}}</li>
@@ -40,14 +114,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-           
-        <div class="row">
-            <div class="col">
-                <button type="submit" class="btn btn-danger btn-block" >
-                    {{'GLOBAL.cancelar' | translate }}
-                </button>
-            </div>
         </div>
     </nb-card-body>
 </nb-card> 

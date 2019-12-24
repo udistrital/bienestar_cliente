@@ -30,6 +30,11 @@ export class RubroHelper {
 
     }
 
+
+    public getRubro(codigo: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get(`arbol_rubro/arbol/${codigo}`);
+    }
     /**
      * Gets full arbol
      *  returns full rubro's tree information (all nodes and branches).

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FORM_INFO_SOL_CRP } from './form_info_sol_crp';
 import { SolicitudCrp } from '../../../../@core/data/models/sol_crp';
-import { FormManager } from '../../../../@core/managers/formManager';
+import { RubroHelper } from '../../../../@core/helpers/rubros/rubroHelper';
 import { AdmAmazonHelper } from '../../../../@core/helpers/administrativa/admAmazonHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { MovimientosHelper } from '../../../../@core/helpers/movimientos/movimientosHelper';
@@ -18,16 +19,37 @@ import { switchMap } from 'rxjs/operators';
 })
 export class SolicitudCrpComponent implements OnInit {
   info_solCrp: SolicitudCrp;
-  clean = false;
   formInfoSolCrp: any;
+  rubrosCdp: any;
   solCrpData: SolicitudCrp;
   docPresupuestalCdp: any;
-  rubrosCdp: any;
+  tipoDocData: Array<any>;
+  tipoCompromisosData: Array<any>;
+  valorCrp: number; 
+
+  numeroCdp: number = null;
+  numDocBeneficiario =  '';
+  nomBeneficiario = '';
+  validated = false;
+  clean = false;
+  vigencias = [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' },{ Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }];
+  montos = [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }];
+
+  formGroup = new FormGroup({
+    tipoCompromiso: new FormControl(null, Validators.required),
+    vigencia: new FormControl(null, Validators.required),
+    numCompromiso: new FormControl(null, Validators.required),
+    fechaIniVigencia: new FormControl({value: new Date(), disabled: true}, Validators.required),
+    fechaFinVigencia: new FormControl({value: new Date(), disabled: true}, Validators.required),
+    tipoMonto: new FormControl({value: null, disabled: true}, Validators.required),
+    valorCrp: new FormControl({value: 0, disabled: true}, [Validators.required, Validators.min(1)])
+  });
 
   constructor(
     private translate: TranslateService,
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
+    private rubroHelper: RubroHelper,
     private popManager: PopUpManager,
     private admAmazonHelper: AdmAmazonHelper,
     private router: Router,
@@ -35,150 +57,100 @@ export class SolicitudCrpComponent implements OnInit {
     private movimientosHelper: MovimientosHelper
   ) {
     this.formInfoSolCrp = FORM_INFO_SOL_CRP;
-    this.construirForm();
-    this.solCrpData = {
-      ConsecutivoCDP: undefined,
-      Vigencia: '',
-      Beneficiario: '',
-      Valor: undefined,
-      Compromiso: {
-        NumeroCompromiso: undefined,
-        TipoCompromiso: undefined,
-      },
-      FechaCreacion: undefined,
-      FechaInicialVigencia: undefined,
-      FechaFinalVigencia: undefined
-    };
   }
 
   ngOnInit() {
     this.info_solCrp = {} as SolicitudCrp;
-    this.loadOptionsTipoDocumento();
     this.loadOptionsCompromisos();
-
-    console.info();
   }
 
-  construirForm() {
-    this.formInfoSolCrp.btn = this.translate.instant('GLOBAL.guardar');
-    for (let i = 0; i < this.formInfoSolCrp.campos.length; i++) {
-      this.formInfoSolCrp.campos[i].label = this.formInfoSolCrp.campos[i].label_i18n;
-      this.formInfoSolCrp.campos[i].placeholder = this.formInfoSolCrp.campos[i].label_i18n;
+  onChangeMonto() {
+    if (this.formGroup.value.tipoMonto === 2) {
+      this.formGroup.controls['valorCrp'].disable();
+      this.formGroup.controls['valorCrp'].setValue(this.docPresupuestalCdp.ValorActual);
+    } else {
+      this.formGroup.controls['valorCrp'].enable();
+      this.formGroup.controls['valorCrp'].setValue(0);
+    }   
+  }
+
+  guardar() {
+    if (this.formGroup.value.valorCrp === 0) {
+
     }
-  }
-
-  cleanForm() {
-    this.clean = !this.clean;
-    this.info_solCrp = null;
-    this.formInfoSolCrp.campos[FormManager.getIndexForm(this.formInfoSolCrp, 'Codigo')].prefix.value = '';
-
-  }
-
-  validarForm(event) {
-    // tslint:disable-next-line
-    const today = new Date();
-    if (event.valid) {
-      this.solCrpData.ConsecutivoCDP = typeof event.data.SolicitudCRP.NumeroCDP === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCDP;
-      this.solCrpData.Vigencia = typeof event.data.SolicitudCRP.Vigencia.valor === 'undefined' ? undefined : event.data.SolicitudCRP.Vigencia.valor;
-      this.solCrpData.Beneficiario = typeof event.data.SolicitudCRP.NumeroDocumento === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroDocumento;
-      this.solCrpData.Compromiso.TipoCompromiso = typeof event.data.SolicitudCRP.TipoCompromiso.Id === 'undefined' ? undefined : event.data.SolicitudCRP.TipoCompromiso.Id;
-      this.solCrpData.Compromiso.NumeroCompromiso = typeof event.data.SolicitudCRP.NumeroCompromiso === 'undefined' ? undefined : event.data.SolicitudCRP.NumeroCompromiso;
-      this.solCrpData.FechaCreacion = new Date();
-      this.solCrpData.FechaInicialVigencia = typeof event.data.SolicitudCRP.FechaInicialVigencia === 'undefined' ? undefined : event.data.SolicitudCRP.FechaInicialVigencia;
-      this.solCrpData.FechaFinalVigencia = typeof event.data.SolicitudCRP.FechaFinalVigencia === 'undefined' ? undefined : event.data.SolicitudCRP.FechaFinalVigencia;
-
-      if (event.data.SolicitudCRP.MontoCRP.Id === 1) {
-        this.solCrpData.Valor = typeof event.data.SolicitudCRP.ValorParcial === 'undefined' ? undefined : event.data.SolicitudCRP.ValorParcial;
-      } else {
-        this.solCrpData.Valor = 0;
-      }
-
+    if (this.formGroup.value.valorCrp > this.docPresupuestalCdp.ValorActual) {
+      this.popManager.showErrorAlert('El valor del CRP no debe ser mayor al saldo del CDP');
+    } else {
+      this.solCrpData = {
+        ConsecutivoCDP: this.numeroCdp,
+        Vigencia: this.formGroup.value.vigencia,
+        Beneficiario: this.numDocBeneficiario,
+        Valor: this.formGroup.value.valorCrp,
+        Compromiso: {
+          NumeroCompromiso: this.formGroup.value.numCompromiso,
+          TipoCompromiso: this.formGroup.value.tipoCompromiso,
+        },
+        FechaCreacion: new Date(),
+        FechaInicialVigencia: this.formGroup.value.fechaIniVigencia,
+        FechaFinalVigencia: this.formGroup.value.fechaFinVigencia
+      };
 
       this.crpHelper.solCrpRegister(this.solCrpData).subscribe((res) => {
         if (res) {
-          this.popManager.showAlert('success', 'Solicitud de CDP Registrada', 'La solicitud N° ' + res.consecutivo + ' ha sido registrada')
+          this.popManager.showSuccessAlert(this.translate.instant('CRP.Solicitud_efectuada'), 'La solicitud N° ' + res.consecutivo + ' ha sido registrada')
             .then((result) => {
               if (result.value) {
                 this.router.navigate(['/pages/plan-cuentas/solicitudcrp']);
               }
             });
-
         }
       });
-    } else {
-      this.popManager.showErrorAlert('Datos Incompletos!');
     }
   }
 
-  cambiarMonto(event: any) {
-    console.info(event);
-  }
-
-  loadCDPInfo(): void {
-    let cdpsConsecutivos: Array<any> = [];
-    this.cdpHelper.getListaCDP('').subscribe(res => {
-      if (res != null) {
-        cdpsConsecutivos = res;
-      }
-      this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].opciones = cdpsConsecutivos;
-    });
-  }
-
-  button(event: any) {
-    let consecutivoCdp: number;
-    this.crpHelper.getContratoSuscrito(event.data.NumeroCompromiso, event.data.Vigencia.valor).pipe(
+  buscarCompromiso() {
+    this.crpHelper.getContratoSuscrito(this.formGroup.value.numCompromiso, this.formGroup.value.vigencia).pipe(
       switchMap(resCS => this.crpHelper.getContratoDisponibilidad(resCS[0].NumeroContrato.Id))
       ).pipe(
         switchMap(resCD => {
-          this.formInfoSolCrp.campos[this.getIndexForm('NumeroCDP')].valor = resCD[0].NumeroCdp;
-          consecutivoCdp = resCD[0].NumeroCdp;
+          this.numeroCdp = resCD[0].NumeroCdp;
           return this.crpHelper.getContratoGeneral(resCD[0].NumeroContrato, resCD[0].Vigencia);
         }),
       ).pipe(
         switchMap(resCG => this.crpHelper.getContratista(resCG[0].Contratista))
       ).subscribe(resIP => {
         if (resIP) {
-          this.formInfoSolCrp.campos[this.getIndexForm('NombreBeneficiario')].valor = resIP.NomProveedor;
-          this.formInfoSolCrp.campos[this.getIndexForm('NumeroDocumento')].valor = resIP.NumDocumento;
+          this.numDocBeneficiario = resIP.NumDocumento;
+          this.nomBeneficiario = resIP.NomProveedor;
         }
-        const vigencia = this.formInfoSolCrp.campos[this.getIndexForm('Vigencia')].valor.valor;
-        const query = 'consecutivo:' + consecutivoCdp + ',tipo:cdp';
+        const vigencia = this.formGroup.value.vigencia;
+        const query = 'consecutivo:' + this.numeroCdp + ',tipo:cdp';
         this.docPresupuestalHelper.get(vigencia, '1', query).pipe(
           switchMap(res =>  {
             this.docPresupuestalCdp = res[0];
             return this.movimientosHelper.getByDocumentoPresupuestal(vigencia, '1', res[0]['_id']);
           })
-        ).subscribe(res => {
+        ).subscribe((res: Array<any>) => {
+          res.forEach(element => {
+            this.rubroHelper.getRubro(element.Padre).subscribe(res => {
+              element.InfoRubro = res[0];
+            });
+          });
+          console.info(res);
           this.rubrosCdp = res;
+          
+          this.formGroup.controls['tipoMonto'].enable();
+          this.formGroup.controls['fechaIniVigencia'].enable();
+          this.formGroup.controls['fechaFinVigencia'].enable();
         });
       });
   }
 
-  loadOptionsTipoDocumento(): void {
-    let tipoDocData: Array<any> = [];
-    this.admAmazonHelper.getAllTipoDocumento().subscribe(res => {
-      if (res !== null) { tipoDocData = res; }
-      this.formInfoSolCrp.campos[this.getIndexForm('TipoDocumento')].opciones = tipoDocData;
-    });
-  }
-
   loadOptionsCompromisos(): void {
-    let tipoCompromisosData: Array<any> = [];
     this.crpHelper.getCompromisos().subscribe(res => {
       if (res != null) {
-        tipoCompromisosData = res;
+        this.tipoCompromisosData = res;
       }
-      this.formInfoSolCrp.campos[this.getIndexForm('TipoCompromiso')].opciones = tipoCompromisosData;
     });
-  }
-
-  getIndexForm(nombre: String): number {
-    for (let index = 0; index < this.formInfoSolCrp.campos.length; index++) {
-      const element = this.formInfoSolCrp.campos[index];
-      if (element.nombre === nombre) {
-        return index;
-      }
-    }
-    return 0;
   }
 }

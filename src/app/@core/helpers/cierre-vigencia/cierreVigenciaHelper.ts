@@ -84,6 +84,23 @@ export class CierreVigenciaHelper {
         );
 
     }
+
+
+   public ejecutarCierreCrud( area: string) {
+    this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+    return this.rqManager.get('vigencia/cerrar_vigencia_actual/' + area ).pipe(
+        map(
+            (res) => {
+                if (res === 'error') {
+                    this.pUpManager.showErrorAlert('No se pudo ejecutar el cierre.');
+                    return undefined;
+                }
+                return res
+            },
+        ),
+    );
+
+}
     /** 
     * saber si una fecha es hoy
     * @param someDate fecha
