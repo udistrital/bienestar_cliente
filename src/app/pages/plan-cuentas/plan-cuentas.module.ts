@@ -30,6 +30,7 @@ import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicit
 import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
 import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
 import { ListCrpComponent } from './crp/list-crp/list-crp.component';
+import { DetalleCrpComponent } from './crp/detalle-crp/detalle-crp.component';
 import { ExpedirCrpComponent } from './crp/expedir-crp/expedir-crp.component';
 import { ListSolicitudCrpComponent } from './crp/list-solicitud-crp/list-solicitud-crp.component';
 import { VerSolicitudCrpComponent } from './crp/ver-solicitud-crp/ver-solicitud-crp.component';
@@ -74,7 +75,8 @@ import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.co
     ListAnulacionDocumentoComponent,
     ListarVigenciaComponent,
     ShowVigenciaComponent,
-    ExpedirCrpComponent
+    ExpedirCrpComponent,
+    DetalleCrpComponent
   ],
   providers: [
     ConfiguracionService,

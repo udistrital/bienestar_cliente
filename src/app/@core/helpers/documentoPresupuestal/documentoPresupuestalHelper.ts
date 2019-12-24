@@ -67,4 +67,33 @@ export class DocumentoPresupuestalHelper {
                 })
             );
     }
+
+    /**
+     * getById
+     * Get por _id
+     * @param vigencia vigencia del documento
+     * @param areaFuncional área funcional del documento
+     * @param id _id del documento
+     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+     */
+    public getById(vigencia: string, areaFuncional: string, id: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager
+            .get(
+                'documento_presupuestal/documento/' +
+                vigencia +
+                '/' +
+                areaFuncional +
+                '/' +
+                id
+            )
+            .pipe(
+                map((res: object[]) => {
+                    if (res['Type'] === 'error') {
+                        return undefined;
+                    }
+                    return res;
+                })
+            );
+    }
 }
