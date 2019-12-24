@@ -136,8 +136,7 @@ export class ListCdpComponent implements OnInit {
       documentos: this.loadDataFunction('2019', '1', 'cdp'),
       cdp: this.cdpHelper.getListaCDP()
     }).subscribe(res => {
-      
-      if (res.cdp.Body) {
+      if (res.cdp) {
         res.documentos.forEach((documento: any) => {
           const solCdp = res.cdp.filter((cdp: object) => cdp['_id'] === documento.Data.solicitud_cdp)[0];
           documento.necesidad = solCdp ? solCdp.necesidad : undefined;
@@ -154,6 +153,7 @@ export class ListCdpComponent implements OnInit {
     if (event.data.necesidad) {
       this.modPresupuestal = false;
     } else {
+      console.info('mod presupuestal')
       this.modPresupuestal = true;
       event.data['NumeroDocumento'] = event.data.Data.numero_documento;
       event.data['TipoDocumento'] = event.data.Data.tipo_documento.Nombre;

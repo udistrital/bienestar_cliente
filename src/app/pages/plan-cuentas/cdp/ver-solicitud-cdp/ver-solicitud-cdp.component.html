@@ -144,8 +144,9 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <ngx-detalle-crp [movimientosRp]="movimientosRp" [vigencia]="solicitud['Vigencia']" [areaFuncional]="solicitud['CentroGestor']"></ngx-detalle-crp>
+                <div *ngIf="movimientosRp.length > 0">
+                    <ngx-detalle-crp [movimientosRp]="movimientosRp" [vigencia]="solicitud['Vigencia']" [areaFuncional]="solicitud['CentroGestor']"></ngx-detalle-crp>
+                </div>
 
                 <div class="text-center">
                     <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)"
