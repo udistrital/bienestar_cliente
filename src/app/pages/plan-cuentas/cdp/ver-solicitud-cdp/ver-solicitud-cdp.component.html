@@ -43,7 +43,7 @@
                             <td>{{TrNecesidad.Necesidad.DependenciaNecesidadId.DependenciaSolicitante.Nombre}}</td>
                         </tr>
                         <tr>
-                            <td class="bg-kronos">{{'CDP.objeto' | translate}}</td>
+                            <th class="bg-kronos">{{'CDP.objeto' | translate}}</th>
                             <td colspan="2">{{TrNecesidad.Necesidad.Objeto}}</td>
                         </tr>
                     </tbody>
@@ -117,7 +117,7 @@
                 <table *ngIf="expedido" class="table table-hover table-bordered">
                     <thead class class="bg-kronos">
                         <th>{{ 'CDP.valor_inicial' | translate }}</th>
-                        <th>{{ 'CDP.valor_actual' | translate }}</th>
+                        <th>{{ 'CDP.saldo' | translate }}</th>
                     </thead>
                     <tbody>
                         <tr>
@@ -144,6 +144,8 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <ngx-detalle-crp [movimientosRp]="movimientosRp" [vigencia]="solicitud['Vigencia']" [areaFuncional]="solicitud['CentroGestor']"></ngx-detalle-crp>
 
                 <div class="text-center">
                     <button *ngIf="!expedido" (click)="expedirCDP(solicitud.consecutivo)"
