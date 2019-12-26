@@ -1,4 +1,4 @@
-<div *ngIf="!cambiotab && !anularTab" class="col-md-12 col-lg-12">
+<div  class="col-md-12 col-lg-12">
     <nb-card status="warning">
         <nb-card-header>
            {{ 'VIGENCIA.list_vigencia' | translate }}
@@ -9,6 +9,6 @@
         </nb-card-body>
     </nb-card>
 </div>
-<button *ngIf="anularTab || cambiotab " (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+<!-- <button *ngIf="anularTab || cambiotab " (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
     Regresar</button>
-<ngx-show-vigencia *ngIf="cambiotab" [modificationData] ="vigencia" (eventChange)="cambiotab=$event"></ngx-show-vigencia>
+<ngx-show-vigencia *ngIf="cambiotab" [modificationData] ="vigencia" (eventChange)="cambiotab=$event"></ngx-show-vigencia> -->
