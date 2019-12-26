@@ -21,7 +21,7 @@ export class VigenciaHelper {
     * retorna las vigencias guardadas si todo esta bien, en caso contrario muestra una alerta .
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-    public getFullVigencias(id , area ) {
+    public getFullVigencias(id? , area? ) {
         const query = 'vigencia_actual_area';
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
         return this.rqManager.get('vigencia/vigencias_total').pipe(
