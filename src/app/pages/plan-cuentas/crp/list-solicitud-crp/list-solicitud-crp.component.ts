@@ -25,6 +25,9 @@ export class ListSolicitudCrpComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
+  areas = { '1': 'Rector', '2': 'Convenios' };
+  centros = {'1': 'Universidad Distrital Francisco José de Caldas' };
+
   constructor(private translate: TranslateService,
     private crpHelper: CRPHelper,
     private cdpHelper: CDPHelper,
@@ -35,6 +38,7 @@ export class ListSolicitudCrpComponent implements OnInit {
     this.crpHelper.getInfoContrato(458, 2017);
     this.loadDataFunction = this.crpHelper.getFullCRP;
 
+    const areasCopy = this.areas;
 
     this.listColumns = {
       solicitudCrp: {
@@ -55,32 +59,57 @@ export class ListSolicitudCrpComponent implements OnInit {
       },
       centroGestor: {
         title: this.translate.instant('GLOBAL.area_funcional'),
-        filter: true,
-        // type: 'string;',
-        valuePrepareFunction: value => {
-          if ( value === 1) {
-            return 'Rector';
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: 'Rector', title: 'Rector' },
+              { value: 'Convenios', title: 'Convenios' },
+            ]
+          },
+        },
+        valuePrepareFunction: value => this.areas[value],
+        filterFunction(cell?: any, search?: string): boolean {
+          if (areasCopy[cell.toString()].includes(search) || search === '') {
+            return true;
           } else {
-            return value;
+            return false;
           }
         }
       },
       entidad: {
         title: this.translate.instant('GLOBAL.entidad'),
         filter: true,
-        // type: 'string;',
-        valuePrepareFunction: value => {
-          return 'Universidad Distrital FJC';
+        valuePrepareFunction: () => {
+          return 'Universidad Distrital Fransico José de Caldas';
         }
       },
       necesidadFinanciacion: {
         title: this.translate.instant('CRP.financiacion'),
-        // type: 'string;',
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: 1, title: 'Inversión' },
+              { value: 2, title: 'Funcionamiento' },
+            ]
+          },
+        },
         valuePrepareFunction: value => {
           if ( value === 1) {
             return 'Inversión';
           } else {
             return 'Funcionamiento';
+          }
+        },
+        filterFunction(cell?: any, search?: string): boolean {
+          // tslint:disable-next-line
+          if (cell == search) {
+            return true;
+          } else {
+            return false;
           }
         }
       }
@@ -88,10 +117,11 @@ export class ListSolicitudCrpComponent implements OnInit {
 
     this.settings = {
       actions: {
+        columnTitle: 'Opciones',
         add: false,
         edit: false,
         delete: false,
-        custom:  [{ name: 'Ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
+        custom:  [{ name: 'Ver', title: '<i title="Ver" class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
       mode: 'external',

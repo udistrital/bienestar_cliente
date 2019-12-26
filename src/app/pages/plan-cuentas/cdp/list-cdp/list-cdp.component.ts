@@ -80,7 +80,6 @@ export class ListCdpComponent implements OnInit {
         filter: true,
         valuePrepareFunction: () => this.centros['1'],
         filterFunction(cell?: any, search?: string): boolean {
-          console.info(cell, search);
           if (centrosCopy['1'].includes(search) || search === '') {
             return true;
           } else {
@@ -141,10 +140,9 @@ export class ListCdpComponent implements OnInit {
           const solCdp = res.cdp.filter((cdp: object) => cdp['_id'] === documento.Data.solicitud_cdp)[0];
           documento.necesidad = solCdp ? solCdp.necesidad : undefined;
         });
-        
       }
       const data = <Array<any>>res.documentos;
-        this.source.load(data);
+      this.source.load(data);
     });
   }
 
