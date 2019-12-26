@@ -48,7 +48,7 @@ export class ListCrpComponent implements OnInit {
     const areasCopy = this.areas;
 
     this.loadDataFunction = this.documentoPresupuestalHelper.GetAllDocumentoPresupuestalByTipo;
-    this.vigenciaHelper.getVigenciasTotal().subscribe((res: any[]) => {
+    this.vigenciaHelper.getFullVigencias().subscribe((res: any[]) => {
       this.vigencias = res.filter(element => element.areaFuncional === '1');
     });
 

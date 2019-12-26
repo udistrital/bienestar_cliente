@@ -23,7 +23,7 @@ export class CierreVigenciaHelper {
     */
     public getInfoCierre(vigencia: string, area: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.get('vigencia/get_cierre/'+vigencia+'/'+area).pipe(
+        return this.rqManager.get('vigencia/get_cierre/' + vigencia + '/' + area).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -44,16 +44,16 @@ export class CierreVigenciaHelper {
     * @param area area funcional para obtener vigencia
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-    public getVigenciaActual( area: string) {
+    public getVigenciaActual(area: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('vigencia/vigencia_actual_area/'+area).pipe(
+        return this.rqManager.get('vigencia/vigencia_actual_area/' + area).pipe(
             map(
                 (res) => {
                     if (res === 'error' || res.Type === 'error') {
                         this.pUpManager.showErrorAlert('No existe vigencia actual para el área funcional.');
                         return undefined;
                     }
-                    return res[0]._id;
+                    return res;
                 },
             ),
         );
@@ -69,12 +69,29 @@ export class CierreVigenciaHelper {
     * @param area area funcional para obtener vigencia
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-   public ejecutarCierre( vigencia: string, area: string) {
-    this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-    return this.rqManager.get('vigencia/cerrar_vigencia/'+vigencia+'/'+area).pipe(
+    public ejecutarCierre(vigencia: string, area: string) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get('vigencia/cerrar_vigencia/' + vigencia + '/' + area).pipe(
+            map(
+                (res) => {
+                    if (res === 'error' || res.Type === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo ejecutar el cierre.');
+                        return undefined;
+                    }
+                    return res
+                },
+            ),
+        );
+
+    }
+
+
+   public ejecutarCierreCrud( area: string) {
+    this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+    return this.rqManager.get('vigencia/cerrar_vigencia_actual/' + area ).pipe(
         map(
             (res) => {
-                if (res === 'error' || res.Type === 'error') {
+                if (res === 'error') {
                     this.pUpManager.showErrorAlert('No se pudo ejecutar el cierre.');
                     return undefined;
                 }
@@ -84,6 +101,18 @@ export class CierreVigenciaHelper {
     );
 
 }
+    /** 
+    * saber si una fecha es hoy
+    * @param someDate fecha
+    * @returns  boolean
+    */
+    public esHoy(someDate) {
+        const today = new Date()
+        someDate = new Date(someDate)
+        return someDate.getDate() == today.getDate() &&
+            someDate.getMonth() == today.getMonth() &&
+            someDate.getFullYear() == today.getFullYear()
+    }
 
 
 }

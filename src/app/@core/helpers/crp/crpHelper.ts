@@ -18,7 +18,6 @@ export class CRPHelper {
 
     public getSolicitudesCRP(id?: any, query?: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        console.info('solicitudesCRP/' + (id ? id : '?query=' + query));
         return this.rqManager.get('solicitudesCRP/' + (id ? id : '?query=' + query)).pipe(
             map(
                 (res) => {
