@@ -376,7 +376,11 @@
     "fecha_final": "Fecha final de vigencia",
     "Solicitud_efectuada": "Solicitud de CRP registrada",
     "lista_crp": "Lista de CRP expedidos",
-    "numero": "Nº de CRP"
+    "numero": "Nº de CRP",
+    "pasivo": "Expedido",
+    "parcial_comprometido": "Parcialmente comprometido",
+    "total_comprometido": "Totalmente comprometido",
+    "saldo": "Saldo del CRP"
   },
   "VIGENCIA" : {
     "cierre_vigencia_titulo" : "Cierre de vigencia.",
