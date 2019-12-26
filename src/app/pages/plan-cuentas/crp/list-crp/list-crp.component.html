@@ -1,14 +1,21 @@
-                    <div *ngIf="!cambiotab"  class="col-md-12 col-lg-12 ">
-                            <nb-card status="warning">
-                                <nb-card-header>
-                                    {{ 'CRP.crp' | translate }}
-                                </nb-card-header>
-                                <nb-card-body>
-                                        <legend>{{ 'CRP.lista-crp' | translate }}</legend>
-                <ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustom($event)">
-                </ng2-smart-table>
-            </nb-card-body>
-        </nb-card>
-    </div>
-    <ngx-ver-solicitud-crp *ngIf="cambiotab" [solicitudcrp]="crp"  expedido="true" (eventChange)="cambiotab=$event"></ngx-ver-solicitud-crp>
-    
+<div *ngIf="!cambiotab" class="col-md-12 col-lg-12 ">
+    <nb-card status="warning">
+        <nb-card-header>
+            {{ "CRP.crp" | translate }}
+            <div class="text-right">
+                <strong>{{'GLOBAL.vigencia' | translate}}: </strong>
+                <nb-select id="select_vigencia" placeholder="{{vigencias[0]['valor']}}" hero status="info">
+                    <nb-option *ngFor="let v of vigencias" [value]="v.valor" (click)="onSelect(v.valor)">{{v.valor}}
+                    </nb-option>
+                </nb-select>
+            </div>
+        </nb-card-header>
+        <nb-card-body>
+            <legend>{{ "CRP.lista-crp" | translate }}</legend>
+            <ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustom($event)">
+            </ng2-smart-table>
+        </nb-card-body>
+    </nb-card>
+</div>
+<ngx-ver-solicitud-crp *ngIf="cambiotab" [solicitudcrp]="crp" [expedido]="true" (eventChange)="cambiotab = $event">
+</ngx-ver-solicitud-crp>

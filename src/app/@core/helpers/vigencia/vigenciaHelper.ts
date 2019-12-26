@@ -27,7 +27,7 @@ export class VigenciaHelper {
         return this.rqManager.get('vigencia/vigencias_total').pipe(
             map(
                 (res) => {
-                    if (res === 'error'){
+                    if (res === 'error') {
                         this.pUpManager.showErrorAlert('No se pueden consultar las vigencias');
                         return undefined;
                     }
