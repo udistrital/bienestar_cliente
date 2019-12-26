@@ -17,3 +17,16 @@
   :host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom:hover {
     color: #e3c45d;
   }
+
+  :host /deep/ .ng2-smart-titles th {
+    background-color: #fff5cc;
+  }
+
+  :host /deep/ .ng2-smart-sort-link{
+    font-weight: bold;
+  }
+
+  :host /deep/ .ng2-smart-title {
+    font-weight: bold
+  }
+  

@@ -386,7 +386,7 @@
     "ejecucion": "Resumen ejecución presupuestal",
     "fuentes": "Saldo Fuentes",
     "reservas": "Reservas",
-    "pasivos": "Pasivos",
+    "pasivos": "Pasivos exigibles",
     "ejecutar_cierre": "Ejecutar cierre de vigencia",
     "solicitud_crear_vigencia": "Crear una Nueva Vigencia",
     "codigo_centro_gestor": "Código Centro Gestor",

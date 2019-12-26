@@ -6,11 +6,11 @@
       </div>
     </nb-card-header>
     <nb-card-body>
-      <ngx-dinamicform [normalform]="formCierreVigencia" [modeloData]="info_cierre_vig" (result)="validarForm($event)"
+      <!-- <ngx-dinamicform [normalform]="formCierreVigencia" [modeloData]="info_cierre_vig" (result)="validarForm($event)"
         [clean]="clean" (interlaced)="getSeleccion($event)"> 
-      </ngx-dinamicform>
+      </ngx-dinamicform> -->
 
-      <div *ngIf="mostrarInfoCierre===true">
+      <div >
         <!-- <pre>{{cierreVigenciaData | json}}</pre> -->
         <h4>{{ 'VIGENCIA.ejecucion' | translate }}</h4>
         <p>link a reporte</p>
@@ -24,7 +24,7 @@
         <ng2-smart-table [settings]="settings_pasivos" [source]="source_pasivos" (custom)="onCustom($event)">
         </ng2-smart-table>
         <div class="row justify-content-md-center">
-          <button  (click)="ejecutarCierre()"
+          <button *ngIf="mostrarCierre===true"  (click)="ejecutarCierre()"
           class="btn btn-success col-md-4">
           {{ 'VIGENCIA.ejecutar_cierre' | translate}}</button>
         </div>

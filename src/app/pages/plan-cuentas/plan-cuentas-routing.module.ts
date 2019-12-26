@@ -86,7 +86,7 @@ const routes: Routes = [{
   component: ListarVigenciaComponent,
 },
 {
-  path: 'cierre-vigencia',
+  path: 'cierre-vigencia/:vigencia/:areaf',
   component: CierreVigenciaComponent,
 },
 
