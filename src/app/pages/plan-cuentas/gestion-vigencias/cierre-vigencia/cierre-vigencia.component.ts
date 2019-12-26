@@ -5,8 +5,9 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { CierreVigenciaHelper } from '../../../../@core/helpers/cierre-vigencia/cierreVigenciaHelper';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
 
 @Component({
   selector: 'ngx-cierre-vigencia',
@@ -21,7 +22,8 @@ export class CierreVigenciaComponent implements OnInit {
   lista_fuentes: any = [];
   lista_reservas: any = [];
   lista_pasivos: any = [];
-  mostrarInfoCierre = false;
+  mostrarCierre = false;
+  cerrada = "0";
 
   source_fuentes: LocalDataSource = new LocalDataSource();
   source_reservas: LocalDataSource = new LocalDataSource();
@@ -41,15 +43,24 @@ export class CierreVigenciaComponent implements OnInit {
     private translate: TranslateService,
     private popManager: PopUpManager,
     private CVHelper: CierreVigenciaHelper,
+    private vigenciaHelper: VigenciaHelper,
     private router: Router,
+    private route: ActivatedRoute,
   ) {
-    this.formCierreVigencia = FORM_CIERRE_VIGENCIA;
-    this.construirForm();
+    // this.formCierreVigencia = FORM_CIERRE_VIGENCIA;
+    // this.construirForm();
   }
 
   ngOnInit() {
     this.info_cierre_vig = {};
     this.cierreVigenciaData = {};
+
+    this.route.paramMap.subscribe(params => {
+      this.cierreVigenciaData.AreaFuncional = params.get("areaf");
+      this.cierreVigenciaData.Vigencia = params.get("vigencia");
+      this.verCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional);
+    });
+
 
     this.listColumns_fuentes = {
       Codigo: {
@@ -117,6 +128,7 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        columnTitle: "Ver",
         custom: [{ name: 'ver_fuente', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
@@ -130,6 +142,7 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        columnTitle: "Ver",
         custom: [{ name: 'ver_crp', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
@@ -143,6 +156,7 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
+        columnTitle: "Ver",
         custom: [{ name: 'ver_crp', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
@@ -153,22 +167,35 @@ export class CierreVigenciaComponent implements OnInit {
 
   }
 
+  //  descomentar si alguna vez les da por decir que si tocaba en un formulario :v 
+  // construirForm() {
+  //   this.formCierreVigencia.btn = this.translate.instant('VIGENCIA.precierre_button');
+  //   for (let i = 0; i < this.formCierreVigencia.campos.length; i++) {
+  //     this.formCierreVigencia.campos[i].label = this.formCierreVigencia.campos[i].label_i18n;
+  //     this.formCierreVigencia.campos[i].placeholder = this.formCierreVigencia.campos[i].label_i18n;
+  //   }
+  // }
 
-  construirForm() {
-    this.formCierreVigencia.btn = this.translate.instant('VIGENCIA.precierre_button');
-    for (let i = 0; i < this.formCierreVigencia.campos.length; i++) {
-      this.formCierreVigencia.campos[i].label = this.formCierreVigencia.campos[i].label_i18n;
-      this.formCierreVigencia.campos[i].placeholder = this.formCierreVigencia.campos[i].label_i18n;
-    }
-  }
 
+  // validarForm(event) {
+  //   if (event.valid) {
+  //     this.cierreVigenciaData.AreaFuncional = typeof event.data.CierreVigencia.AreaFuncional.Id === 'undefined' ? undefined : event.data.CierreVigencia.AreaFuncional.Id;
+  //     this.cierreVigenciaData.Vigencia = typeof event.data.CierreVigencia.Vigencia.valor === 'undefined' ? undefined : event.data.CierreVigencia.Vigencia.valor;
 
-  validarForm(event) {
-    if (event.valid) {
-      this.cierreVigenciaData.AreaFuncional = typeof event.data.CierreVigencia.AreaFuncional.Id === 'undefined' ? undefined : event.data.CierreVigencia.AreaFuncional.Id;
-      this.cierreVigenciaData.Vigencia = typeof event.data.CierreVigencia.Vigencia.valor === 'undefined' ? undefined : event.data.CierreVigencia.Vigencia.valor;
-      this.mostrarInfoCierre = true;
-      this.CVHelper.getInfoCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional).subscribe(res => {
+  //   } else {
+  //     this.popManager.showErrorAlert('Datos Incompletos!');
+  //   }
+  // }
+
+  verCierre(vigencia, areaf) {
+    this.vigenciaHelper.getFullVigencias(vigencia, areaf).pipe(
+      switchMap((res) => {
+        this.mostrarCierre =  (res[0].estado === 'Actual');
+        this.cerrada = this.mostrarCierre ? '1' : '0' ;   
+        return this.CVHelper.getInfoCierre(vigencia, areaf, this.cerrada)
+      }
+      )
+    ).subscribe(res => {
         this.lista_fuentes = res.Fuentes;
         this.source_fuentes.load(this.lista_fuentes);
         this.lista_reservas = res.Reservas;
@@ -176,31 +203,25 @@ export class CierreVigenciaComponent implements OnInit {
         this.lista_pasivos = res.Pasivos;
         this.source_pasivos.load(this.lista_pasivos);
       })
-
-
-    } else {
-      this.popManager.showErrorAlert('Datos Incompletos!');
-    }
   }
 
-  getIndexForm(nombre: String): number {
-    for (let index = 0; index < this.formCierreVigencia.campos.length; index++) {
-      const element = this.formCierreVigencia.campos[index];
-      if (element.nombre === nombre) {
-        return index;
-      }
-    }
-    return 0;
-  }
+  // getIndexForm(nombre: String): number {
+  //   for (let index = 0; index < this.formCierreVigencia.campos.length; index++) {
+  //     const element = this.formCierreVigencia.campos[index];
+  //     if (element.nombre === nombre) {
+  //       return index;
+  //     }
+  //   }
+  //   return 0;
+  // }
 
-  getSeleccion(event) {
-    this.mostrarInfoCierre = false;
-    this.CVHelper.getVigenciaActual(event.valor.Id).subscribe(vig => {
-      this.fecha_cierre = vig[0].fechaCierre;
-      this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = { valor: vig[0]._id };
-    })
+  // getSeleccion(event) {
+  //   this.CVHelper.getVigenciaActual(event.valor.Id).subscribe(vig => {
+  //     this.fecha_cierre = vig[0].fechaCierre;
+  //     this.formCierreVigencia.campos[this.getIndexForm('Vigencia')].valor = { valor: vig[0]._id };
+  //   })
 
-  }
+  // }
 
   onCustom(event: any) {
     switch (event.action) {
@@ -215,12 +236,10 @@ export class CierreVigenciaComponent implements OnInit {
   }
 
   ejecutarCierre() {
-    this.CVHelper.ejecutarCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional).pipe(
-      switchMap(() => this.CVHelper.ejecutarCierreCrud(this.cierreVigenciaData.AreaFuncional))
-    ).subscribe(res => {
+    this.CVHelper.ejecutarCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional).subscribe(res => {
       if (res) {
-        this.popManager.showSuccessAlert('Se generó el cierre.');
-        location.reload();
+        this.popManager.showSuccessAlert(`Se generó el cierre de la vigencia ${this.cierreVigenciaData.Vigencia}.`);
+        this.router.navigate(['/pages/plan-cuentas/listar-vigencias']);
       }
       else {
         this.popManager.showErrorAlert('Error al generar el cierre');

@@ -21,9 +21,9 @@ export class CierreVigenciaHelper {
     * @param area area funcional del cierre
     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
     */
-    public getInfoCierre(vigencia: string, area: string) {
+    public getInfoCierre(vigencia: string, area: string, cerrada: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
-        return this.rqManager.get('vigencia/get_cierre/' + vigencia + '/' + area).pipe(
+        return this.rqManager.get('vigencia/get_cierre/' + vigencia + '/' + area + '/' + cerrada).pipe(
             map(
                 (res) => {
                     if (res === 'error') {
@@ -86,21 +86,6 @@ export class CierreVigenciaHelper {
     }
 
 
-   public ejecutarCierreCrud( area: string) {
-    this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-    return this.rqManager.get('vigencia/cerrar_vigencia_actual/' + area ).pipe(
-        map(
-            (res) => {
-                if (res === 'error') {
-                    this.pUpManager.showErrorAlert('No se pudo ejecutar el cierre.');
-                    return undefined;
-                }
-                return res
-            },
-        ),
-    );
-
-}
     /** 
     * saber si una fecha es hoy
     * @param someDate fecha

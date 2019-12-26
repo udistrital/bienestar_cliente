@@ -4,6 +4,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { TranslateService } from '@ngx-translate/core';
 import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
+import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-listar-vigencia',
@@ -23,8 +25,8 @@ export class ListarVigenciaComponent implements OnInit {
   cambiotab: boolean = false;
   anularTab; boolean = false;
 
-  areaFuncional = { '1': 'Rector', '2': 'Convenios'};
-  centrosGestor = { '1': 'Universidad Distrital Francisco José de Caldas'};
+  areaFuncional = { '1': 'Rector', '2': 'Convenios' };
+  centrosGestor = { '1': 'Universidad Distrital Francisco José de Caldas' };
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -32,7 +34,8 @@ export class ListarVigenciaComponent implements OnInit {
     private translate: TranslateService,
     private vigenciaHelper: VigenciaHelper,
     private rqManager: RequestManager,
-    
+    private router: Router,
+
   ) { }
 
   ngOnInit() {
@@ -60,7 +63,7 @@ export class ListarVigenciaComponent implements OnInit {
           },
         },
         valuePrepareFunction: (value: any) => {
-          if (value === '1') {         
+          if (value === '1') {
             return 'Rector';
           } else {
             return 'Convenios';
@@ -78,20 +81,14 @@ export class ListarVigenciaComponent implements OnInit {
         title: this.translate.instant('VIGENCIA.fecha_inicio'),
         filter: true,
         valuePrepareFunction: (value: any) => {
-          return value.substring(0, 10);
+          return new DatePipe('en-US').transform(value, 'dd/MM/yyyy');
         }
       },
       fechaCierre: {
         title: this.translate.instant('VIGENCIA.fecha_cierre'),
         filter: true,
-        valuePrepareFunction: (value: any) => {
-          // tslint:disable-next-line: no-console
-          console.log(value.substring(0, 1));
-          if (value.substring(0, 1) === '2') {
-            return value.substring(0, 10);
-          } else {
-            return '-';
-          }
+        valuePrepareFunction: (value: any) => { 
+          return (new Date( value) > new Date(2000,1,1)) ?  new DatePipe('en-US').transform(value, 'dd/MM/yyyy') : '-';
         }
       },
     };
@@ -101,7 +98,9 @@ export class ListarVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-      position: 'right'
+        columnTitle: "Ver",
+        custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
+        position: 'right'
       },
       mode: 'external',
       columns: this.listColumns,
@@ -111,19 +110,20 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   loadData(): void {
-      vigencias: this.loadDataFunction(
-      ).subscribe(res =>{
-        const data = <Array<any>>res;
-        this.source.load(data);
+    vigencias: this.loadDataFunction(
+    ).subscribe(res => {
+      const data = <Array<any>>res;
+      this.source.load(data);
     });
   }
 
   onCustom(event: any) {
-    event.data['Vigencia'] = event.data.valor;
-    event.data['AreaFuncional'] = event.data.areaFuncional;
-    event.data['Estado'] = event.data.estado;
-    event.data['FechaInicio'] = event.data.fechaCreacion;
-    event.data['FechaCierre'] = event.data.fechaCierre;
+    switch (event.action) {
+      case 'ver':
+        this.router.navigate([`/pages/plan-cuentas/cierre-vigencia/${event.data.valor}/${event.data.areaFuncional}`]);
+        break;
+
+    }
 
   }
 
