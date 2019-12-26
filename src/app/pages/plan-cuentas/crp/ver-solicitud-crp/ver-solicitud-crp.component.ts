@@ -57,21 +57,12 @@ export class VerSolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
     if (this.solicitud !== undefined) {
-
+      console.info(this.expedido)
       this.crpHelper.getSolicitudCRP(this.solicitud['solicitudCrp']).subscribe(resp => {
 
         this.solicitudc = resp[0];
 
         if (this.solicitudc) {
-
-          this.crpHelper.getInfoCDP(this.solicitudc['vigencia'], this.solicitudc['consecutivoCdp']).subscribe(resCdp1 => {
-            if (resCdp1.estado === 'expedido') { // validacion de expedicion
-              this.expedido = true;
-            } else {
-              this.expedido = false;
-            }
-
-          });
 
           this.crpHelper.getCompromiso(this.solicitudc['compromiso'].tipoCompromiso).subscribe(resC => {
             this.tCompromiso = resC;

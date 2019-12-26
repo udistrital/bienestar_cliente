@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CDPHelper } from '../../../../@core/helpers/cdp/cdpHelper';
 import { RequestManager } from '../../../../@core/managers/requestManager';
 import { TranslateService } from '@ngx-translate/core';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
+import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
+import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
 
 
 @Component({
@@ -15,73 +17,96 @@ import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 export class ListCrpComponent implements OnInit {
 
   uuidReadFieldName: string;
-  loadDataFunction: (...params) => Observable<any>;
   formTittle: string;
-  loadFormDataFunction: (...params) => Observable<any>;
   isOnlyCrud: boolean;
   settings: object;
-  cambiotab: boolean = false;
   listColumns: object;
   crp: object;
-  estados = [{Id : 1, Estado : 'Saldo Parcialmente Comprometido'} , {Id : 2, Estado : 'Saldo Parcialmente Ejecutado'}];
 
+  cambiotab: boolean = false;
+  areas = { '1': 'Rector', '2': 'Convenios' };
+  centros = { '1': 'Universidad Distrital Francisco José de Caldas' };
   source: LocalDataSource = new LocalDataSource();
+
+  vigencias: any[] = [];
+  loadDataFunction: (...params) => Observable<any>;
+  loadFormDataFunction: (...params) => Observable<any>;
 
   constructor(
     private translate: TranslateService,
     private cdpHelper: CDPHelper,
+    private documentoPresupuestalHelper: DocumentoPresupuestalHelper,
+    private vigenciaHelper: VigenciaHelper,
     // tslint:disable-next-line
     private crpHelper: CRPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager,
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.loadDataFunction = this.crpHelper.getListaCRP;
+    const centrosCopy = this.centros;
+    const areasCopy = this.areas;
+
+    this.loadDataFunction = this.documentoPresupuestalHelper.GetAllDocumentoPresupuestalByTipo;
+    this.vigenciaHelper.getFullVigencias().subscribe((res: any[]) => {
+      this.vigencias = res.filter(element => element.areaFuncional === '1');
+    });
 
     this.listColumns = {
-      vigencia: {
+      Vigencia: {
         title: this.translate.instant('GLOBAL.vigencia'),
-        filter: true,
-        // type: 'string;',
+        filter: false,
         valuePrepareFunction: value => {
           return value;
         }
       },
-      centroGestor: {
+      CentroGestor: {
         title: this.translate.instant('GLOBAL.area_funcional'),
-        filter: true,
-        // type: 'string;',
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Todas',
+            list: [
+              { value: 'Rector', title: 'Rector' },
+              { value: 'Convenios', title: 'Convenios' },
+            ]
+          },
+        },
         valuePrepareFunction: value => {
-          return value;
+          return this.areas[value];
+        },
+        filterFunction(cell?: any, search?: string): boolean {
+          if (areasCopy[cell.toString()].includes(search) || search === '') {
+            return true;
+          } else {
+            return false;
+          }
         }
       },
       entidad: {
         title: this.translate.instant('GLOBAL.centro_gestor'),
         filter: true,
-        // type: 'string;',
-        valuePrepareFunction: value => {
-          return value;
+        valuePrepareFunction: () => this.centros['1'],
+        filterFunction(cell?: any, search?: string): boolean {
+          if (centrosCopy['1'].includes(search) || search === '') {
+            return true;
+          } else {
+            return false;
+          }
         }
       },
-      consecutivo_crp: {
+      Consecutivo: {
         title: this.translate.instant('CRP.n_crp'),
         filter: true,
-        // type: 'string;',
         valuePrepareFunction: value => {
           return value;
         }
       },
-      estado_crp: {
+      Estado: {
         title: this.translate.instant('CRP.estado'),
         filter: true,
-        // type: 'string;',
         valuePrepareFunction: value => {
-          value = this.estados.filter(element => {
-            return element.Id === value;
-          });
-          value = value.Estado;
-          return value;
+          return this.translate.instant('CRP.'+value);
         }
       },
     };
@@ -92,7 +117,7 @@ export class ListCrpComponent implements OnInit {
         edit: false,
         delete: false,
         columnTitle: 'Opciones',
-        custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
+        custom: [{ name: 'ver', title: '<i title="Ver" class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
       mode: 'external',
@@ -100,17 +125,25 @@ export class ListCrpComponent implements OnInit {
     };
 
     this.loadData();
-
   }
 
-  loadData(): void {
-    this.loadDataFunction('').subscribe(res => {
-      if (res) {
-        const data = <Array<any>>res;
-        this.source.load(data);
-      } else {
-        this.source.load([]);
+  onSelect(vigencia: string) {
+    this.loadData(vigencia);
+  }
+
+  loadData(vigencia?: string): void {
+    forkJoin(
+      {
+        documentos: this.loadDataFunction(vigencia ? vigencia : this.vigencias[0].valor, '1', 'rp'),
+        crp: this.crpHelper.getSolicitudesCRP('', 'vigencia:!$' + (vigencia ? vigencia : this.vigencias[0].valor))
       }
+    ).subscribe(res => {
+      res.documentos.forEach(documento => {
+        console.info(documento.Data.solicitud_crp);
+        documento.solicitudCrp = res.crp.filter(crp => crp._id === documento.Data.solicitud_crp)[0].consecutivo;
+      });
+      const data = <Array<any>>res.documentos;
+      this.source.load(data);
     });
   }
 
@@ -120,6 +153,7 @@ export class ListCrpComponent implements OnInit {
         this.verCRP(event.data);
     }
   }
+
   verCRP(crp) {
     this.crp = crp;
     this.onCambiotab();

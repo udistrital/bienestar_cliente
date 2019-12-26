@@ -4,12 +4,10 @@
             {{ 'CRP.crp' | translate }}
         </nb-card-header>
         <nb-card-body>
-            <button (click)="cambioTab()" class="btn btn-info btn-sm"><i class="nb-arrow-dropleft"></i>{{ 'GLOBAL.regresar' | translate}}</button>
-            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}
-                :
-                {{ solicitudc.consecutivo }}</legend>
-            <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}:
-                {{ solicitudc.infoCrp.consecutivo }}</legend>
+            <button (click)="cambioTab()" class="btn btn-info btn-sm"><i
+                    class="nb-arrow-dropleft"></i>{{ 'GLOBAL.regresar' | translate}}</button>
+            <legend *ngIf="!expedido">{{ 'CRP.detalle_solicitud_crp' | translate }}: {{ solicitud.solicitudCrp }}</legend>
+            <legend *ngIf="expedido">{{ 'CRP.detalle_crp' | translate }}: {{ solicitud.Consecutivo }}</legend>
             <p>{{ 'CRP.solicitud-efectuada' | translate }}</p>
             <div class="container-fluid">
                 <table class="table table-hover table-bordered">
@@ -43,13 +41,17 @@
                             <td class="bg-kronos boldTitle">{{'CDP.objeto' | translate}}</td>
                             <td colspan="2">{{ objetoNecesidad }}</td>
                         </tr>
+                        <tr *ngIf="!expedido">
+                            <td class="bg-kronos boldTitle" width="50%">{{'CDP.saldo' | translate}}</td>
+                            <td class="moneyField" colspan="2" width="50%">{{cdpInfo.ValorActual | currency}}</td>
+                        </tr>
                         <tr>
                             <td class="bg-kronos boldTitle" width="50%">{{'CRP.valor' | translate}}</td>
                             <td class="moneyField" colspan="2" width="50%">{{solicitudc.valor | currency}}</td>
                         </tr>
-                        <tr>
-                            <td class="bg-kronos boldTitle" width="50%">{{'CDP.saldo' | translate}}</td>
-                            <td class="moneyField" colspan="2" width="50%">{{cdpInfo.ValorActual | currency}}</td>
+                        <tr *ngIf="expedido">
+                            <td class="bg-kronos boldTitle" width="50%">{{'CRP.saldo' | translate}}</td>
+                            <td class="moneyField" colspan="2" width="50%">{{solicitud.ValorActual | currency}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -103,7 +105,8 @@
                                 <ul>
                                     <li *ngFor="let f of act.FuentesActividad">
                                         <a>{{f.FuenteId}}</a>-<a *ngIf="f.InfoFuente">{{f.InfoFuente.Nombre}}</a><br>
-                                        <p class="moneyField">{{'GLOBAL.valor' | translate}}: {{f.MontoParcial | currency: COP }}</p>
+                                        <p class="moneyField">{{'GLOBAL.valor' | translate}}:
+                                            {{f.MontoParcial | currency: COP }}</p>
                                         <hr>
                                     </li>
                                 </ul>
@@ -152,17 +155,18 @@
                     </table>
                 </ng-container>
                 <div class="text-center">
+                    <div *ngIf="!expedido">
+                        <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud"
+                            [solicitudCrp]="solicitudc" [docPresupuestalCdp]="cdpInfo"
+                            (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros">
+                        </ngx-expedir-crp>
+        
+                        <button [disabled]="movimiento === null" (click)="expedirCRP()" class="btn btn-success col-md-4">
+                            {{ 'CRP.expedir' | translate}}</button>
+                    </div>
 
-                    <ngx-expedir-crp #ngxExpedirCrpComponent [rubros]="TrNecesidad.Rubros" [solicitudCdp]="solicitud" [solicitudCrp]="solicitudc" [docPresupuestalCdp]="cdpInfo"
-                        (buildMovimiento)="onMovimientoBuiled($event)" *ngIf="formRubros"></ngx-expedir-crp>
-                    <!-- <button *ngIf="!expedido && solicitudc.infoCrp===null" (click)="expedirCRP(solicitudc.consecutivo); formExpedir=true;"
-                        class="btn btn-success col-md-4">
-                        {{ 'CRP.expedir' | translate}}</button> -->
-
-                    <button [disabled]="movimiento === null" (click)="expedirCRP()" class="btn btn-success col-md-4">
-                        {{ 'CRP.expedir' | translate}}</button>
-
-                    <button *ngIf="expedido && solicitudc.infoCrp" (click)="mostrarPDF(solicitudc.consecutivo_cdp)" class="btn btn-warning col-md-4">
+                    <button *ngIf="expedido" (click)="mostrarPDF(solicitudc.consecutivo_cdp)"
+                        class="btn btn-warning col-md-4">
                         {{ 'CDP.mostrar_pdf' | translate}}</button>
                 </div>
             </div>
@@ -170,5 +174,5 @@
     </nb-card>
     <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF"
         (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
-    
+
 </div>
