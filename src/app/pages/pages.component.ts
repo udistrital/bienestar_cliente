@@ -5,6 +5,7 @@ import { MENU_ITEMS } from './pages-menu';
 import { MenuService } from '../@core/data/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImplicitAutenticationService } from './../@core/utils/implicit_autentication.service';
+import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 
@@ -29,97 +30,24 @@ export class PagesComponent implements OnInit {
   dataMenu: any;
   roles: any;
 
+  url_presupuesto  = environment.CLIENTE_PRESUPUESTO;
+  url_contabilidad = environment.CLIENTE_CONTABILIDAD;
+  application_conf = 'presupuesto_kronos';
+
   constructor(
     public menuws: MenuService,
     private translate: TranslateService,
-    private autenticacion: ImplicitAutenticationService) { }
+    private autenticacion: ImplicitAutenticationService
+  ) { }
 
   ngOnInit() {
     if (this.autenticacion.live()) {
       this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
         .filter((data: any) => (data.indexOf('/') === -1));
-      this.menuws.get(this.roles + '/presupuesto_kronos').subscribe(
+      this.menuws.get(this.roles + '/' +this.application_conf).subscribe(
         data => {
           this.dataMenu = <any>data;
-          for (let i = 0; i < this.dataMenu.length; i++) {
-            if (this.dataMenu[i].TipoOpcion === 'Menú') {
-              if (!this.dataMenu[i].Opciones) {
-                if (!this.dataMenu[i].Url.indexOf('http')) {
-                  this.object = {
-                    title: this.dataMenu[i].Nombre,
-                    icon: '',
-                    url: this.dataMenu[i].Url,
-                    home: false,
-                    key: this.dataMenu[i].Nombre,
-                  };
-                } else {
-                  this.object = {
-                    title: this.dataMenu[i].Nombre,
-                    icon: '',
-                    link: this.dataMenu[i].Url,
-                    home: false,
-                    key: this.dataMenu[i].Nombre,
-                  };
-                }
-                if (i === 0) {
-                  this.object.title = 'Dashboard';
-                  this.object.icon = 'home-outline';
-                  this.object.home = true;
-                }
-              } else {
-                if (!this.dataMenu[i].Url.indexOf('http')) {
-                  this.object = {
-                    title: this.dataMenu[i].Nombre,
-                    icon: '',
-                    url: this.dataMenu[i].Url,
-                    home: false,
-                    key: this.dataMenu[i].Nombre,
-                    children: [],
-                  };
-                } else {
-                  this.object = {
-                    title: this.dataMenu[i].Nombre,
-                    icon: 'file-text',
-                    link: this.dataMenu[i].Url,
-                    home: false,
-                    key: this.dataMenu[i].Nombre,
-                    children: [],
-                  };
-                }
-                if (i === 0) {
-                  this.object.title = 'Dashboard';
-                  this.object.icon = 'home-outline';
-                  this.object.home = true;
-                }
-                for (let j = 0; j < this.dataMenu[i].Opciones.length; j++) {
-                  if (this.dataMenu[i].TipoOpcion === 'Menú') {
-                    if (!this.dataMenu[i].Opciones[j].Opciones) {
-                      if (!this.dataMenu[i].Opciones[j].Url.indexOf('http')) {
-                        this.hijo = {
-                          title: this.dataMenu[i].Opciones[j].Nombre,
-                          icon: '',
-                          url: this.dataMenu[i].Opciones[j].Url,
-                          home: false,
-                          key: this.dataMenu[i].Opciones[j].Nombre,
-                        };
-                      } else {
-                        this.hijo = {
-                          title: this.dataMenu[i].Opciones[j].Nombre,
-                          icon: '',
-                          link: this.dataMenu[i].Opciones[j].Url,
-                          home: false,
-                          key: this.dataMenu[i].Opciones[j].Nombre,
-                        };
-                      }
-                    }
-                    this.object.children.push(this.hijo);
-                  }
-                }
-              }
-              this.results.push(this.object);
-            }
-          }
-          this.menu = this.results;
+          this.mapMenuByObjects(this.dataMenu);
           this.translateMenu();
         },
         (error: HttpErrorResponse) => {
@@ -145,6 +73,28 @@ export class PagesComponent implements OnInit {
       this.translateMenu();
     });
   }
+
+  /* Here goes the documentaction*/
+  mapMenuByObjects(menuArray){
+    menuArray.map(itemMenu=>{
+      let urlNested = this.replaceUrlNested(itemMenu.Url);
+      this.object = {
+        title: itemMenu.Nombre,
+        icon:  '',
+        url:   `${urlNested}`,
+        children: itemMenu.Opciones
+      };
+      this.menu.push(this.object);
+      console.log(`${urlNested}`);
+    });
+  }
+
+  /*Here goes the documentation*/
+  replaceUrlNested(urlNested){
+    return urlNested.replace('${url_contabilidad}',this.url_contabilidad)
+                    .replace('${url_presupuesto}',this.url_presupuesto);
+  }
+
 
   private translateMenu(): void {
     this.menu.forEach((menuItem: MenuItem) => {
