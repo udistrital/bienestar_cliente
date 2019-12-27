@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { MenuItem } from './menu-item';
-import { MENU_ITEMS } from './pages-menu';
 import { MenuService } from '../@core/data/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImplicitAutenticationService } from './../@core/utils/implicit_autentication.service';
@@ -35,7 +34,7 @@ export class PagesComponent implements OnInit {
   application_conf = 'presupuesto_kronos';
 
   constructor(
-    public menuws: MenuService,
+    public  menuws: MenuService,
     private translate: TranslateService,
     private autenticacion: ImplicitAutenticationService
   ) { }
@@ -59,13 +58,12 @@ export class PagesComponent implements OnInit {
               this.translate.instant('GLOBAL.menu'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
-          this.menu = MENU_ITEMS;
+          this.menu = [];
           this.translateMenu();
         });
     } else {
       this.rol = 'PUBLICO';
-      // console.info(' Menu PUBLICO');
-      this.menu = MENU_ITEMS;
+      this.menu = [];
       this.translateMenu();
     }
     this.translateMenu();
@@ -74,7 +72,10 @@ export class PagesComponent implements OnInit {
     });
   }
 
-  /* Here goes the documentaction*/
+  /**
+   * Map the menu on objects
+   *  @param menuArray
+   */
   mapMenuByObjects(menuArray){
     menuArray.map(itemMenu=>{
       let urlNested = this.replaceUrlNested(itemMenu.Url);
@@ -82,20 +83,47 @@ export class PagesComponent implements OnInit {
         title: itemMenu.Nombre,
         icon:  '',
         url:   `${urlNested}`,
-        children: itemMenu.Opciones
+        key:   itemMenu.Nombre,
+        children: this.mapMenuChildrenObject(itemMenu.Opciones)
       };
       this.menu.push(this.object);
-      console.log(`${urlNested}`);
     });
   }
 
-  /*Here goes the documentation*/
+  /**
+   * Take the Array from options submenu
+   *  @param opcionesMenu
+   */
+  mapMenuChildrenObject(opcionesMenu){
+    if(opcionesMenu){
+      let submenu = [];
+      opcionesMenu.map(itemChild => {
+        let urlNested = this.replaceUrlNested(itemChild.Url);
+        this.object = {
+          title: itemChild.Nombre,
+          icon:  '',
+          url:   `${urlNested}`,
+          key:   itemChild.Nombre,
+          children: this.mapMenuChildrenObject(itemChild.Opciones)
+        };
+        submenu.push(this.object);
+      });
+      return submenu;
+    }
+  }
+
+  /**
+   * Looks for the variable on environments to replace it dinamically throught clients
+   *  @param urlNested
+   */
   replaceUrlNested(urlNested){
     return urlNested.replace('${url_contabilidad}',this.url_contabilidad)
                     .replace('${url_presupuesto}',this.url_presupuesto);
   }
 
-
+  /**
+   * Translate all menu
+   */
   private translateMenu(): void {
     this.menu.forEach((menuItem: MenuItem) => {
       this.translateMenuTitle(menuItem);
