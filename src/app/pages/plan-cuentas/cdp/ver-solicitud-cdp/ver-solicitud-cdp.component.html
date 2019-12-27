@@ -115,14 +115,14 @@
                 </table>
                 <!-- Valores CDP -->
                 <table *ngIf="expedido" class="table table-hover table-bordered">
-                    <thead class class="bg-kronos">
+                    <thead class="bg-kronos">
                         <th>{{ 'CDP.valor_inicial' | translate }}</th>
                         <th>{{ 'CDP.saldo' | translate }}</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{solicitud.ValorInicial | currency: COP}}</td>
-                            <td>{{solicitud.ValorActual | currency: COP}}</td>
+                            <td class="moneyField">{{solicitud.ValorInicial | currency: COP}}</td>
+                            <td class="moneyField">{{solicitud.ValorActual | currency: COP}}</td>
                         </tr>
                     </tbody>
                 </table>
