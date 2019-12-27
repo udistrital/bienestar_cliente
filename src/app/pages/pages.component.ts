@@ -80,7 +80,7 @@ export class PagesComponent implements OnInit {
       let urlNested = this.replaceUrlNested(itemMenu.Url);
       this.object   = {
         title: itemMenu.Nombre,
-        icon:  '',
+        icon:  'file-text',
         link:  `${urlNested}`,
         home:  true,
         key:   itemMenu.Nombre,
