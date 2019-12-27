@@ -37,13 +37,13 @@
       "solicitar_crp": "Solicitar CRP",
       "crp": "Certificados de Registro Presupuestal"
     },
-
     "gestion_cdp": {
       "gestion_cdp": "Gestión de CDP",
       "solicitud_cdp": "Solicitud CDP",
       "cdp": "Certificado Disponibilidad Presupuestal",
       "cdp_acronimo": "CDP"
     },
+    "vigencia":"Vigencias",
     "auth": {
       "auth": "Autenticación",
       "login": "Iniciar sesión",
