@@ -66,7 +66,6 @@ export class PagesComponent implements OnInit {
       this.menu = [];
       this.translateMenu();
     }
-    this.translateMenu();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => { // Live reload
       this.translateMenu();
     });
@@ -79,10 +78,11 @@ export class PagesComponent implements OnInit {
   mapMenuByObjects(menuArray){
     menuArray.map(itemMenu=>{
       let urlNested = this.replaceUrlNested(itemMenu.Url);
-      this.object = {
+      this.object   = {
         title: itemMenu.Nombre,
         icon:  '',
-        url:   `${urlNested}`,
+        link:  `${urlNested}`,
+        home:  true,
         key:   itemMenu.Nombre,
         children: this.mapMenuChildrenObject(itemMenu.Opciones)
       };
@@ -102,7 +102,8 @@ export class PagesComponent implements OnInit {
         this.object = {
           title: itemChild.Nombre,
           icon:  '',
-          url:   `${urlNested}`,
+          link:  `${urlNested}`,
+          home:  false,
           key:   itemChild.Nombre,
           children: this.mapMenuChildrenObject(itemChild.Opciones)
         };
