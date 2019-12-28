@@ -77,6 +77,10 @@ export class ListAnulacionDocumentoComponent implements OnInit {
       },
       mode: 'external',
       columns: this.listColumns,
+      pager: {
+        display: true,
+        perPage: 5,
+      },
     };
 
     this.movimientosHelper.getChildMovsByMovParentUUID(this.vigencia, this.centroGestor, this.movID).subscribe(res => {

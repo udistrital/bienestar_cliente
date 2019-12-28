@@ -85,11 +85,15 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                             return `<div class="customformat"> ` + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + `</div>`;
                         },
                     },
-                    CDP: {
-                        title: this.translate.instant('MENU.gestion_cdp.cdp_acronimo'),
-                        valuePrepareFunction: (value) => value,
-                    },
                 };
+
+                if (!this.tipoModificacion.includes('cdp')) {
+                  this.listColumns['CDP'] = {
+                    title: this.translate.instant('MENU.gestion_cdp.cdp_acronimo'),
+                    valuePrepareFunction: (value) => value,
+                };
+
+                }
 
                 break;
         }

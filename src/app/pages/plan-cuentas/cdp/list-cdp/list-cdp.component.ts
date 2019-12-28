@@ -119,7 +119,7 @@ export class ListCdpComponent implements OnInit {
         delete: false,
         custom: [
           { name: 'ver', title: '<i class="fas fa-eye" title="Ver" (click)="ver($event)"></i>' },
-          { name: 'anular', title: '<i class="fas fa-ban" title="Anular" (click)="anular($event)"></i>' },
+          // { name: 'anular', title: '<i class="fas fa-ban" title="Anular" (click)="anular($event)"></i>' },
         ],
         position: 'right'
       },
