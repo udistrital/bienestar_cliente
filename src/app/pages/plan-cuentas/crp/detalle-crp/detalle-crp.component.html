@@ -9,7 +9,7 @@
         <tr *ngFor="let doc of docPresupuestal">
             <td>{{doc.Consecutivo}}</td>
             <td>{{doc.FechaRegistro | date: 'dd/MM/yyyy'}}</td>
-            <td>{{doc.ValorInicial | currency}}</td>
+            <td class="moneyField">{{doc.ValorInicial | currency:COP}}</td>
         </tr>
     </tbody>
 </table>
