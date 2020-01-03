@@ -24,8 +24,7 @@ export class ModApropiacionHelper {
     public modRegister(modificationData: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         modificationData.detail.CentroGestor = '1'; // Tomer del TOKEN.
-        console.table(modificationData);
-        console.info(JSON.stringify(modificationData));
+        
         return this.rqManager.post('modificacion_apropiacion', modificationData).pipe(
             map(
                 (res) => {
@@ -60,6 +59,21 @@ export class ModApropiacionHelper {
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert(this.translate.instant('mod_apr_error'));
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    public getOneModificacionesApr(id?: any, params?: { vigencia: string, cg: string}) {
+        this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
+        return this.rqManager.get(`modificacion_apropiacion/get_one/${params.vigencia}/${params.cg}/${id}`).pipe(
+            map(
+                (res) => {
+                    if (res && res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert(this.translate.instant('mod_apr_error'));
                         return undefined;
                     }

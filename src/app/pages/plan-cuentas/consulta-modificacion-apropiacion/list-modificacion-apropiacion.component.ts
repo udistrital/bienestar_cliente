@@ -140,6 +140,10 @@ export class ListModificacionApropiacionComponent implements OnInit {
       },
       mode: 'external',
       columns: this.listColumns,
+      pager: {
+        display: true,
+        perPage: 10,
+      },
     };
 
   }

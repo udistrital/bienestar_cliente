@@ -54,6 +54,10 @@ export class AnulacionDocumentoComponent implements OnInit {
       }
     ];
 
+    this.loadAnulationData();
+  }
+
+  loadAnulationData() {
     this.modApropiacionHelper.getModificacionesAfectation(
       this.documentData._id,
       { vigencia: this.vigencia, cg: this.centroGestor },
@@ -90,6 +94,11 @@ export class AnulacionDocumentoComponent implements OnInit {
           this.movimientosHelper.postMovimiento(dataToSend).subscribe(res => {
             this.popManager.showAlert('success', 'Anulación registrada', ' Se registro la anulación con el consecutivo ' + res['DocInfo']['Consecutivo']);
             this.saved.emit(true);
+            this.loadAnulationData();
+            this.originSelectedFlag = false;
+            this.movTypeToCreate = undefined;
+            this.descriptionValue = undefined;
+            this.typeSelected = undefined;
           });
         });
     }
