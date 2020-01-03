@@ -46,6 +46,7 @@ import { PlanAdquisicionesRubroComponent } from './rubros/plan-adquisiciones-rub
 import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres/list-anulacion-documento.component';
 import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
 import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.component';
+import { ShowModificationApropiacionDataComponent } from './consulta-modificacion-apropiacion/show-modificacion-apropiacion/show-modificacion-apropiacion.component';
 
 
 @NgModule({
