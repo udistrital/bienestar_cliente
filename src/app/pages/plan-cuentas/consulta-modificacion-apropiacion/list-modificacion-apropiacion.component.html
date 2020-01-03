@@ -10,7 +10,7 @@
             }}
             <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
               <!-- <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option> -->
-              <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
+              <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.valor)">{{ v.valor }}</nb-option>
             </nb-select>
             {{
               "GLOBAL.tipo" | translate

@@ -58,7 +58,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                     }
                 };
                 break;
-
             default:
                 this.listColumns = {
 
@@ -90,7 +89,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                         valuePrepareFunction: (value) => value,
                     },
                 };
-
                 break;
         }
         this.settings = {

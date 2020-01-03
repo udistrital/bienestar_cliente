@@ -66,6 +66,7 @@ import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.co
     ListCdpComponent,
     VerSolicitudCrpComponent,
     ListModificacionApropiacionComponent,
+    ShowModificationApropiacionDataComponent,
     RubrosFuenteComponent,
     AnulacionDocumentoComponent,
     SetModificacionFuenteComponent,
