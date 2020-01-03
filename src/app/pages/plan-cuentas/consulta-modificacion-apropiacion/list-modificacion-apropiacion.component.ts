@@ -57,7 +57,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
   ngOnInit() {
     this.apHelper.getVigenciasList().subscribe(res => {
       if (res) {
-        this.vigencias = res;
+        this.vigencias = this.selectVigenciasArea(res);
       }
     });
     this.tipoModificaciones = [
@@ -123,7 +123,6 @@ export class ListModificacionApropiacionComponent implements OnInit {
           return `${('0' + date.getDate()).slice(-2)}-${date.getMonth() + 1}-${date.getFullYear()}`;
         }
       },
-      
     };
 
     this.listSettings = {
@@ -169,14 +168,11 @@ export class ListModificacionApropiacionComponent implements OnInit {
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
     this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
-    // this.eventChange.emit(true);
   }
 
   onSelectTipoMod(selectedItem: any) {
-    console.info(selectedItem);
     this.tipoModSel = selectedItem;
     this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
-    // this.eventChange.emit(true);
   }
 
   onChangeTab(estado) {
@@ -211,5 +207,9 @@ export class ListModificacionApropiacionComponent implements OnInit {
   onSaved($event) {
     this.returnToList();
   }
-
+  selectVigenciasArea(objectVig){
+    return objectVig.filter((vigencia)=>{
+      if(vigencia.areaFuncional === '1') { return vigencia.valor; }
+    });
+  }
 }

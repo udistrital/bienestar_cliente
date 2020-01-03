@@ -22,7 +22,7 @@ export class CommonHelper {
         if (offset) {
             query = `?offset=${offset}`;
         }
-        return this.rqManager.get(`vigencia/vigencia_actual${query}`, params).pipe(
+        return this.rqManager.get(`vigencia/vigencia_actual_area/1${query}`, params).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -30,7 +30,8 @@ export class CommonHelper {
                             .showErrorAlert('No se puede obtener la información de la vigencia actual  ');
                         return undefined;
                     }
-                    return res;
+                    /* TODO: mejorare está función y el return*/
+                    return res[0].valor;
                 }
             )
         );
