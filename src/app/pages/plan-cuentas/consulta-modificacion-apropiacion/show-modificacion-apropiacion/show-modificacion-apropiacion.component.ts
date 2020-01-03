@@ -17,6 +17,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     @Input() vigencia: any;
     @Output() eventChange = new EventEmitter();
     readonly = true;
+    globalType: string;
     settings: object;
     listColumns: object;
     source: Array<any>;
@@ -27,7 +28,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     ) { }
 
     ngOnInit() {
-
         switch (this.tipoModificacion) {
 
             case 'modificacion_fuente':
@@ -85,11 +85,15 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                             return `<div class="customformat"> ` + new CurrencyPipe('co').transform(value, 'COP', 'symbol', '4.2-2', 'co') + `</div>`;
                         },
                     },
-                    CDP: {
-                        title: this.translate.instant('MENU.gestion_cdp.cdp_acronimo'),
-                        valuePrepareFunction: (value) => value,
-                    },
                 };
+
+                if (!this.tipoModificacion.includes('cdp')) {
+                  this.listColumns['CDP'] = {
+                    title: this.translate.instant('MENU.gestion_cdp.cdp_acronimo'),
+                    valuePrepareFunction: (value) => value,
+                };
+
+                }
 
                 break;
         }
@@ -108,75 +112,99 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
             mode: 'external',
             columns: this.listColumns,
         };
-        console.log(this.modificationData);
-        
-        this.modApropiacionHelper.getModificacionesAfectation(
-            this.modificationData['_id'],
-            {
-                vigencia: this.modificationData['Vigencia'],
-                cg: this.modificationData['CentroGestor']
-            }).subscribe((res: Array<any>) => {
-                const data: Array<any> = [];
-                /*
-                    TODO: My future friend: I know this function should be implemented on back-end side.
-                    I put this here for simplify things because modificaciones' proccess does not take a lot of resources to be formated at this moment.
-                */
-                switch (this.tipoModificacion) {
-                    case 'modificacion_fuente':
-                        for (const mov of res) {
-                            let movFormated: any;
-                            if (mov['Tipo'] === 'tr_fuente' || mov['Tipo'].includes('red_fuente') || mov['Tipo'].includes('sus_fuente')) {
-                                movFormated = {
-                                    Fuente: mov['Padre'],
-                                    Tipo: mov['Tipo'],
-                                    MovimientoDestino: mov['ValorInicial'],
-                                    MovimientoOrigen: 0
-                                };
-                            } else {
-                                movFormated = {
-                                    Fuente: mov['Padre'],
-                                    Tipo: mov['Tipo'],
-                                    MovimientoDestino: 0,
-                                    MovimientoOrigen: mov['ValorInicial']
-                                };
-                            }
-                            data.push(movFormated);
-                        }
-                        break;
-
-                    default:
-                        for (const mov of res) {
-
-                            let movFormated: any;
-                            if (mov['Tipo'] === 'traslado' || mov['Tipo'].includes('reduccion') || mov['Tipo'].includes('suspension')) {
-                                movFormated = {
-                                    Rubro: mov['Padre'],
-                                    Tipo: mov['Tipo'],
-                                    CuentaContraCredito: mov['ValorInicial'],
-                                    CuentaCredito: 0,
-                                    CDP: mov['DocumentsGenerated'] ? mov['DocumentsGenerated'][0]['Consecutivo'] : '',
-                                };
-                            } else {
-                                movFormated = {
-                                    Rubro: mov['Padre'],
-                                    Tipo: mov['Tipo'],
-                                    CuentaContraCredito: 0,
-                                    CuentaCredito: mov['ValorInicial'],
-                                    CDP: 'N/A'
-                                };
-                            }
-                            this.movIDS.push(mov['_id']);
-                            data.push(movFormated);
-                        }
-                        break;
-                }
-
-                this.source = data;
-
-            });
+        this.refreshAfectationData();
     }
 
     cambioTab() {
         this.eventChange.emit(false);
+    }
+
+    refreshAfectationData() {
+      this.modApropiacionHelper.getModificacionesAfectation(
+        this.modificationData['_id'],
+        {
+            vigencia: this.modificationData['Vigencia'],
+            cg: this.modificationData['CentroGestor']
+        }).subscribe((res: Array<any>) => {
+            const data: Array<any> = [];
+            /*
+                TODO: My future friend: I know this function should be implemented on back-end side.
+                I put this here for simplify things because modificaciones' proccess does not take a lot of resources to be formated at this moment.
+            */
+            switch (this.tipoModificacion) {
+                case 'modificacion_fuente':
+                    for (const mov of res) {
+                        let movFormated: any;
+                        if (mov['Tipo'] === 'tr_fuente' || mov['Tipo'].includes('red_fuente') || mov['Tipo'].includes('sus_fuente')) {
+                            movFormated = {
+                                Fuente: mov['Padre'],
+                                Tipo: mov['Tipo'],
+                                MovimientoDestino: mov['ValorInicial'],
+                                MovimientoOrigen: 0
+                            };
+                        } else {
+                            movFormated = {
+                                Fuente: mov['Padre'],
+                                Tipo: mov['Tipo'],
+                                MovimientoDestino: 0,
+                                MovimientoOrigen: mov['ValorInicial']
+                            };
+                        }
+                        data.push(movFormated);
+                    }
+                    break;
+
+                default:
+                    for (const mov of res) {
+
+                        let movFormated: any;
+                        if (mov['Tipo'] === 'traslado' || mov['Tipo'].includes('reduccion') || mov['Tipo'].includes('suspension')) {
+                            movFormated = {
+                                Rubro: mov['Padre'],
+                                Tipo: mov['Tipo'],
+                                CuentaContraCredito: mov['ValorInicial'],
+                                CuentaCredito: 0,
+                                CDP: mov['DocumentsGenerated'] ? mov['DocumentsGenerated'][0]['Consecutivo'] : '',
+                            };
+                        } else {
+                            movFormated = {
+                                Rubro: mov['Padre'],
+                                Tipo: mov['Tipo'],
+                                CuentaContraCredito: 0,
+                                CuentaCredito: mov['ValorInicial'],
+                                CDP: 'N/A'
+                            };
+                        }
+                        this.movIDS.push(mov['_id']);
+                        data.push(movFormated);
+                    }
+                    break;
+            }
+
+            this.source = data;
+
+        });
+    }
+
+    refreshData() {
+      switch (this.tipoModificacion) {
+        case 'modificacion_fuente':
+          // TODO: read single data from this type and reload info from the API or some data source.
+          break;
+  
+        default:
+          this.modApropiacionHelper
+            .getOneModificacionesApr(this.modificationData['_id'], {
+              vigencia: this.modificationData['Vigencia'],
+              cg: this.modificationData['CentroGestor']
+            })
+            .subscribe(res => {
+              if (res) {
+                this.modificationData = res;
+              }
+            });
+          this.refreshAfectationData();
+          break;
+      }
     }
 }
