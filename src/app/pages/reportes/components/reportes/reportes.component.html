@@ -1,0 +1,18 @@
+<!-- <iframe width="600" height="600" src='http://intelligentia.udistrital.edu.co:/knowage/servlet/AdapterHTTP?PAGE=LoginPage&OBJECT_LABEL=apropiacion_inicial&TOOLBAR_VISIBLE=true&NEW_SESSION=true&PARAMETERS=vigencia=2019&vigencia_field_visible_description=2019&unidad_ejecutora=1&unidad_ejecutora_field_visible_description=Rectorframeborder="0"'></iframe> -->
+<!-- <script src="../../dependences/SpagoBIAPI/spagoBiService.js"></script> -->
+<div class="row">
+    <div *ngFor="let reporte of reportes" class="col-md-4" >
+        <nb-card status="warning" (click)="showReport(reporte.label)" >
+            <nb-card-header>
+                {{reporte.name}}
+            </nb-card-header>
+    
+        </nb-card>
+    </div>
+</div>
+
+<fieldset>
+    <div #spagoBIDocumentArea>
+        <div></div>
+    </div>
+</fieldset>

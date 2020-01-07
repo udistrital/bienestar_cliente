@@ -58,7 +58,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                     }
                 };
                 break;
-
             default:
                 this.listColumns = {
 
@@ -86,7 +85,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                         },
                     },
                 };
-
                 if (!this.tipoModificacion.includes('cdp')) {
                   this.listColumns['CDP'] = {
                     title: this.translate.instant('MENU.gestion_cdp.cdp_acronimo'),
@@ -94,7 +92,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
                 };
 
                 }
-
                 break;
         }
         this.settings = {
