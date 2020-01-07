@@ -26,7 +26,7 @@ export class ReportesComponent implements OnInit {
     this.reportes = [
       {name: 'Apropiación inicial', label: 'apropiacion_inicial'},
       {name: 'Consecutivo compromisos', label: 'cons_compr'},
-      {name: 'Libro de ejecución de ingresos y gastos', label: 'libro_ingresos_gastos'}
+      {name: 'Libro de ejecución de ingresos y gastos', label: 'libro_ingr_gastos'}
     ]
     this.initReportConfig();
   }
