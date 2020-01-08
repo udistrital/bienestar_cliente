@@ -27,7 +27,7 @@ export const environment = {
   KNOWAGE: {
     PROTOCOL: 'http',
     HOST: 'intelligentia.udistrital.edu.co',
-    PORT: '8443',
+    PORT: '',
     CONTEXTPATH: 'knowage',
     USER: 'bidev',
     PASSWORD: 'bidev',
