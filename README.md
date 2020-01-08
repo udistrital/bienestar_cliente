@@ -67,6 +67,7 @@
   - **Nebular 4** (https://github.com/akveo/nebular)
   - **Angular 8**
   - **Bootstrap 4**
+  - **ng2-smart-table**
 
   ### API MID
   - Plan Cuentas MID . [Repositorio](https://github.com/udistrital/plan_cuentas_mid/)
