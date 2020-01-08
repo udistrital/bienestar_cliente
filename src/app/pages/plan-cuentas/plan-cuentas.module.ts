@@ -47,7 +47,7 @@ import { ListAnulacionDocumentoComponent } from './list-anulacion-documento-pres
 import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
 import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.component';
 import { ShowModificationApropiacionDataComponent } from './consulta-modificacion-apropiacion/show-modificacion-apropiacion/show-modificacion-apropiacion.component';
-
+import { ReportesComponent } from '../reportes/components/reportes/reportes.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +78,8 @@ import { ShowModificationApropiacionDataComponent } from './consulta-modificacio
     ListarVigenciaComponent,
     ShowVigenciaComponent,
     ExpedirCrpComponent,
-    DetalleCrpComponent
+    DetalleCrpComponent,
+    ReportesComponent
   ],
   providers: [
     ConfiguracionService,
