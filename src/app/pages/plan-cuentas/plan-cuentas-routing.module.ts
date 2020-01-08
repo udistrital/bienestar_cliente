@@ -19,6 +19,7 @@ import { ListModificacionApropiacionComponent } from './consulta-modificacion-ap
 import { ShowModificationApropiacionDataComponent } from './consulta-modificacion-apropiacion/show-modificacion-apropiacion/show-modificacion-apropiacion.component';
 import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
 import { CierreVigenciaComponent } from './gestion-vigencias/cierre-vigencia/cierre-vigencia.component';
+import { ReportesComponent } from '../reportes/components/reportes/reportes.component';
 
 const routes: Routes = [{
   path: 'arbol',
@@ -89,7 +90,10 @@ const routes: Routes = [{
   path: 'cierre-vigencia/:vigencia/:areaf',
   component: CierreVigenciaComponent,
 },
-
+{
+  path: 'reportes',
+  component: ReportesComponent,
+},
 ];
 
 @NgModule({
