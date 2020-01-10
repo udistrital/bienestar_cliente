@@ -48,6 +48,7 @@ import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigen
 import { ShowVigenciaComponent } from './vigencia/show-vigencia/show-vigencia.component';
 import { ShowModificationApropiacionDataComponent } from './consulta-modificacion-apropiacion/show-modificacion-apropiacion/show-modificacion-apropiacion.component';
 import { ReportesComponent } from '../reportes/components/reportes/reportes.component';
+import { LinkSmartTableComponent } from '../ui-features/link-smart-table/link-smart-table.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { ReportesComponent } from '../reportes/components/reportes/reportes.comp
     ShowVigenciaComponent,
     ExpedirCrpComponent,
     DetalleCrpComponent,
-    ReportesComponent
+    ReportesComponent,
+    LinkSmartTableComponent
   ],
   providers: [
     ConfiguracionService,
@@ -107,6 +109,9 @@ import { ReportesComponent } from '../reportes/components/reportes/reportes.comp
   ],
   exports: [
   ],
-  entryComponents: [ListFuenteComponent],
+  entryComponents: [
+    ListFuenteComponent,
+    LinkSmartTableComponent
+  ],
 })
 export class PlanCuentasModule { }

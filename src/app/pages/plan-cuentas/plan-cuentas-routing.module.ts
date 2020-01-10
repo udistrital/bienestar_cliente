@@ -82,6 +82,10 @@ const routes: Routes = [{
   path: 'list-modificacion-apropiacion',
   component: ListModificacionApropiacionComponent,
 },
+ {
+  path: 'modificacion-apropiacion/:modificacion_id',
+  component: ShowModificationApropiacionDataComponent,
+},
 {
   path: 'listar-vigencias',
   component: ListarVigenciaComponent,

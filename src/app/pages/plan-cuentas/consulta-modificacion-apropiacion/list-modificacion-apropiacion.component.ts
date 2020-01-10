@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ModApropiacionHelper } from '../../../@core/helpers/modApropiacionHelper';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
 import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
+import { LinkSmartTableComponent } from '../../ui-features/link-smart-table/link-smart-table.component';
 
 @Component({
   selector: 'ngx-list-modificacion-apropiacion',
@@ -47,6 +48,8 @@ export class ListModificacionApropiacionComponent implements OnInit {
   modificationDataSelected: object;
   tipoModificaciones: { value: string; label: any; }[];
   areas = { '1': 'Rector', '2': 'Convenios' };
+  link_router_modificacion_detalle: string = '/';
+
   constructor(
     private translate: TranslateService,
     private modificacionAprHelper: ModApropiacionHelper,
@@ -130,7 +133,12 @@ export class ListModificacionApropiacionComponent implements OnInit {
         add: true,
         edit: false,
         delete: false,
-        custom: [{ name: 'other', title: '<i title="Ver" class="ion ion-eye"></i>' }],
+        custom: [
+          {
+           name: 'other',
+           title: '<i title="Ver" class="ion ion-eye"></i>'
+          }
+        ],
         position: 'right'
       },
       add: {
@@ -148,7 +156,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
   }
   onChange(event) {
-
+    console.log(this.modificationDataSelected);
   }
 
   loadOptionsVigencia(): void {
@@ -171,6 +179,8 @@ export class ListModificacionApropiacionComponent implements OnInit {
   }
 
   onSelectTipoMod(selectedItem: any) {
+    //this.link_router_modificacion_detalle = selectedItem
+    //console.log(selectedItem._id);
     this.tipoModSel = selectedItem;
     this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
   }
