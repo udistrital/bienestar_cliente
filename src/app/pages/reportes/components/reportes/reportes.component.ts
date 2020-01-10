@@ -29,7 +29,8 @@ export class ReportesComponent implements OnInit {
       {name: 'Apropiación inicial', label: 'apropiacion_inicial'},
       {name: 'Consecutivo compromisos', label: 'cons_compr'},
       {name: 'Libro de ejecución de ingresos y gastos', label: 'libro_ingr_gastos'},
-      {name: 'Disponibilidades comprometidas por rubro', label: 'disponibilidad_rubro'}
+      {name: 'Disponibilidades comprometidas por rubro', label: 'disponibilidad_rubro'},
+      {name: 'Consecutivo de disponibilidades', label: 'consecutivo_disp'}
     ];
     this.initReportConfig();
   }
