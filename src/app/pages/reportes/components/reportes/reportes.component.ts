@@ -46,7 +46,8 @@ export class ReportesComponent implements OnInit {
       {
         name: 'Disponibilidades comprometidas por rubro',
         label: 'disponibilidad_rubro'
-      }
+      },
+      {name: 'Consecutivo de disponibilidades', label: 'consecutivo_disp'}
     ];
     this.initReportConfig();
   }
