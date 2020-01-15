@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LinkSmartTableComponent implements OnInit {
 
+  @Input() domain:string;
   @Input() vigencia: any;
   @Input() link_router:string;
 
@@ -20,7 +21,7 @@ export class LinkSmartTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.router.navigate(['/pages/plan-cuentas/modificacion-apropiacion/',this.link_router]);
+    this.router.navigate(['/pages/plan-cuentas/',this.domain,this.vigencia,this.link_router]);
   }
 
 }

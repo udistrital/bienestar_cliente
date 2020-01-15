@@ -54,7 +54,6 @@
           {{ 'GLOBAL.regresar' | translate}}</button>
           <ngx-modificacion-apropiacion (saved)="onSaved($event)" *ngIf="createTab"></ngx-modificacion-apropiacion>
           <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [tipoModificacion]="tipoModSel.value" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
-          <ngx-link-smart-table [vigencia]="vigenciaSel" [link_router]="modificationDataSelected._id" *ngIf="viewTab"></ngx-link-smart-table>
     </nb-card-body>
   </nb-card>
 </div>

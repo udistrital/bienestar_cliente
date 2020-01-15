@@ -20,6 +20,7 @@ import { ShowModificationApropiacionDataComponent } from './consulta-modificacio
 import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
 import { CierreVigenciaComponent } from './gestion-vigencias/cierre-vigencia/cierre-vigencia.component';
 import { ReportesComponent } from '../reportes/components/reportes/reportes.component';
+import { RubrosFuenteComponent } from './fuentes/rubros-fuente/rubros-fuente.component';
 
 const routes: Routes = [{
   path: 'arbol',
@@ -48,6 +49,10 @@ const routes: Routes = [{
 {
   path: 'fuentes',
   component: ListFuenteComponent,
+},
+{
+  path: 'fuentes/:vigencia/:fuente_codigo',
+  component: RubrosFuenteComponent,
 },
 {
   path: 'solicitudcdp',

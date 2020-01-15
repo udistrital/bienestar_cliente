@@ -53,8 +53,6 @@ export class RubrosFuenteComponent implements OnInit {
 
       this.source = data;
       this.listColumns = {
-
-
         Movimiento: {
           title: this.translate.instant('GLOBAL.movimiento'),
           valuePrepareFunction: (value) => this.translate.instant('GLOBAL.' + value),

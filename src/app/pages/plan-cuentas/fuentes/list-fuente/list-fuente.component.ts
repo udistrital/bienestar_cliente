@@ -5,6 +5,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { CommonHelper } from '../../../../@core/helpers/commonHelper';
+import { LinkSmartTableComponent } from '../../../ui-features/link-smart-table/link-smart-table.component';
 import { FORM_FUENTE } from '../form-fuente';
 
 @Component({
@@ -43,6 +44,7 @@ export class ListFuenteComponent implements OnInit {
   listColumns: object;
   fuenteInfo: any;
   disabledVigencia: boolean = false;
+  domain:string = 'fuentes';
 
   constructor(
     private translate: TranslateService,
@@ -56,7 +58,7 @@ export class ListFuenteComponent implements OnInit {
   ngOnInit() {
     this.apHelper.getVigenciasList().subscribe(res => {
       if (res) {
-        this.vigencias = res;
+        this.vigencias = this.selectVigenciasArea(res);
       }
     });
     this.commonHelper.geCurrentVigencia().subscribe(res => {
@@ -119,6 +121,7 @@ export class ListFuenteComponent implements OnInit {
 
       this.listSettings = {
         actions: {
+          columnTitle: 'Opciones',
           add: true,
           edit: false,
           delete: false,
@@ -174,7 +177,6 @@ export class ListFuenteComponent implements OnInit {
     this.vigenciaSel = selectedItem;
     if(this)
     this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1 };
-    // this.eventChange.emit(true);
   }
   onExternalTabActivator($event: string) {
     if ($event === 'external-create') {
@@ -198,5 +200,9 @@ export class ListFuenteComponent implements OnInit {
     this.createTab = false;
     this.viewTab = false
   }
-
+  selectVigenciasArea(objectVig){
+    return objectVig.filter((vigencia)=>{
+      if(vigencia.areaFuncional === '1') { return vigencia.valor; }
+    });
+  }
 }
