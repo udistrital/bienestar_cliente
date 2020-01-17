@@ -1,6 +1,9 @@
 # :ledger: Cliente Subsistema de Presupuesto
 
- En este repositorio se define la tecnología que se renderizara del lado del cliente para el subsistema de Presupuesto del Sistema Financiero KRONOS.
+ En este repositorio se define la tecnología que se renderizara del lado del cliente para el subsistema de Presupuesto del Sistema de Gestión Financiera KRONOS.
+
+El cliente del Sistema de Gestión Financiero-KRONOS permite centralizar y gestionar el manejo de la información de la universidad Distrital por medio de diferentes subsistemas, puntualmente se gestionan los procesos relacionados con la preasignación de presupuesto inicial, modificaciones presupuestales, gestión de las fuentes de financiamiento, gestión de los  certificados de disponibilidad presupuestal y los certificados de registro presupuestal, así como la gestión de las vigencias y los reportes financieros.
+
 
  La plantilla cuenta con los componentes :
  * **Plantilla ngxAdmin** ~ [link_documentación](https://github.com/akveo/ngx-admin)
@@ -79,3 +82,11 @@
 
   ### Herramientas usadas
   - **ngx-admin:** este [template](https://github.com/akveo/ngx-admin) es el que utiliza ngxGenerator, esta basado en Angular 8+, Bootstrap 4 y Nebular.
+  
+  ## LICENCIA
+ 
+ [Licencia](LICENSE)
+ 
+ This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
