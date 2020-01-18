@@ -22,6 +22,7 @@ export class VerSolicitudCrpComponent implements OnInit {
   @Input('solicitudcrp') solicitud: any;
   @Input('expedido') expedido: boolean;
   @Output() eventChange = new EventEmitter();
+  @Output() anulationSuccessEvent = new EventEmitter();
   cdpInfo: any = {};
   solicitudc: any = {};
   solCdpInfo: any = {};
@@ -183,9 +184,8 @@ export class VerSolicitudCrpComponent implements OnInit {
   refreshData(){
     this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor,this.solicitud._id).subscribe(res => {
       if (res) {
-        console.log('res', res);
-        
         this.solicitud.ValorActual = res['ValorActual'];
+        this.anulationSuccessEvent.emit(true);
       }
     });
   }

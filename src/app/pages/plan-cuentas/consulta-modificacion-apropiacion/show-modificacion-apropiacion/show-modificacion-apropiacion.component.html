@@ -82,7 +82,7 @@
       
       <ng2-smart-table class="mod-registration-input-item" [settings]="settings" [source]="source"> </ng2-smart-table>
       <div *ngFor="let id of movIDS" class="mod-registration-input-item">
-        <ngx-list-anulacion-documento [vigencia]="modificationData['Vigencia']" [movID]="id" [centroGestor]="modificationData['CentroGestor']"></ngx-list-anulacion-documento>
+        <ngx-list-anulacion-documento [vigencia]="modificationData['Vigencia']" [movID]="id" [centroGestor]="modificationData['CentroGestor']" [updateSignal]="anulationSuccessEvent"></ngx-list-anulacion-documento>
 
       </div>
       <div *ngIf="tipoModificacion === 'cdp_suspension'" class="mod-registration-input-item">

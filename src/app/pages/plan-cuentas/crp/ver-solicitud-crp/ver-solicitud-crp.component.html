@@ -174,7 +174,7 @@
     </nb-card>
     <div *ngIf="expedido" >
         <div *ngFor="let p of solicitud.AfectacionIds">
-            <ngx-list-anulacion-documento  [vigencia]="solicitud.Vigencia" [movID]="p" [centroGestor]="solicitud.CentroGestor" ></ngx-list-anulacion-documento>
+            <ngx-list-anulacion-documento  [vigencia]="solicitud.Vigencia" [movID]="p" [centroGestor]="solicitud.CentroGestor" [updateSignal]="anulationSuccessEvent" ></ngx-list-anulacion-documento>
         </div>
     </div>
 
