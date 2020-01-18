@@ -172,6 +172,13 @@
             </div>
         </nb-card-body>
     </nb-card>
+    <div *ngIf="expedido" >
+        <div *ngFor="let p of solicitud.AfectacionIds">
+            <ngx-list-anulacion-documento  [vigencia]="solicitud.Vigencia" [movID]="p" [centroGestor]="solicitud.CentroGestor" ></ngx-list-anulacion-documento>
+        </div>
+    </div>
+
+    <ngx-anulacion-documento *ngIf="expedido" [documentData]="solicitud" [movTypeToCreate]="'anul_rp'" [modIdType]="'9'" [vigencia]="solicitud.Vigencia" [centroGestor]="solicitud.CentroGestor" (saved)="refreshData()"></ngx-anulacion-documento>
     <ngx-pdfviewer *ngIf="mostrandoPDF===true" [tituloPDF]="tituloPDF" [enlacePDF]="enlacePDF"
         (goBack)="mostrandoPDF=$event"></ngx-pdfviewer>
 

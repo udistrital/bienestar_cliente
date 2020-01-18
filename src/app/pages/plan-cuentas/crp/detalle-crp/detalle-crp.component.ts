@@ -20,6 +20,8 @@ export class DetalleCrpComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('here');
+        
         this.getInfoDocPresupuestal();
     }
 
