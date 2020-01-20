@@ -71,6 +71,27 @@ export class FuenteHelper {
         );
 
     }
+    /**
+     * Fuente get
+     * If the response has errors in the OAS API it should show a popup message with an error.
+     * If the response is successs, it returns the data of the updated object.
+     * @param fuenteData fields to update
+     * @returns  <Observable> object updated information. undefined if the proccess has errors.
+     */
+    public getFuente(id?: any, vigencia?: any, unidadEjecutora?: any) {
+        this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
+        return this.rqManager.get('fuente_financiamiento/'+ id + '/' + vigencia + '/' + unidadEjecutora).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se pudo consultar la fuente');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
 
     /**
      * Fuente update
@@ -99,7 +120,6 @@ export class FuenteHelper {
                 },
             ),
         );
-
     }
 
     /**
@@ -124,14 +144,14 @@ export class FuenteHelper {
 
     }
 
-       // getPlanAdquisicionByFuente obtiene la información del plan de adquisiciones con una vigencia y una fuente
-       public getPlanAdquisicionByFuente(vigencia: string, fuente: string) {
+    // getPlanAdquisicionByFuente obtiene la información del plan de adquisiciones con una vigencia y una fuente
+    public getPlanAdquisicionByFuente(vigencia: string, fuente: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MID_SERVICE');
         return this.rqManager.get('fuente_financiamiento_apropiacion/plan_adquisiciones_rubros_fuente/' + vigencia + '/' + fuente).pipe(
             map(
                 (res) => {
-                    if (res === 'error') {
-                        this.pUpManager.showErrorAlert('No se pudo consultar el plan de adquisición');
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('El rubro no tiene datos relacionados en el plan de adquisición');
                         return undefined;
                     }
                     return res;
