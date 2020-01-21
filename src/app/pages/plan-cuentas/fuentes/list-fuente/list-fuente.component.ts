@@ -21,7 +21,7 @@ export class ListFuenteComponent implements OnInit {
   uuidDeleteFieldName: string;
   deleteConfirmMessage: string;
   deleteMessage: string;
-  loadDataFunction: (...params) => Observable<any>;
+  loadDataFunction:   (...params) => Observable<any>;
   deleteDataFunction: (...params) => Observable<any>;
   formEntity: any;
   formTittle: string;
@@ -47,9 +47,9 @@ export class ListFuenteComponent implements OnInit {
   domain:string = 'fuentes';
 
   constructor(
-    private translate: TranslateService,
+    private translate:    TranslateService,
     private fuenteHelper: FuenteHelper,
-    private apHelper: ApropiacionHelper,
+    private apHelper:     ApropiacionHelper,
     private commonHelper: CommonHelper,
   ) {
 
