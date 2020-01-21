@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { KnowageHelper } from '../../../../@core/helpers/knowage/knowage.helper';
 // import { spago } from '../../dependences/SpagoBIAPI/*' ;
-import {spagoBIService} from '../../dependences/SpagoBIAPI/spagoBiService.js' ;
-
-
+import { spagoBIService } from '../../dependences/SpagoBIAPI/spagoBiService.js';
+import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_autentication.service';
 
 @Component({
   selector: 'ngx-reportes',
@@ -11,39 +10,74 @@ import {spagoBIService} from '../../dependences/SpagoBIAPI/spagoBiService.js' ;
   styleUrls: ['./reportes.component.scss']
 })
 export class ReportesComponent implements OnInit {
-  
+  username: '';
+  vigencia: number;
+  area: number;
+  consecutivo: number;
+
   reporte: any;
   reportes: object[];
-  @ViewChild('spagoBIDocumentArea', {static: false}) spagoBIDocumentArea: ElementRef;
+  vigencias = [2020, 2019];
+  areas = [
+    { label: 'Rector', value: 1 },
+    { label: 'Convenios', value: 2 }
+  ];
+  @ViewChild('spagoBIDocumentArea', { static: false })
+  spagoBIDocumentArea: ElementRef;
   reportConfig: {
-  documentLabel: string; eecutionRole: string;
-    // parameters: {'PARAMETERS': 'param_1=1&param_2=2'},
-    displayToolbar: boolean; displaySliders: boolean; iframe: { style: string; height: string; width: string; };
+    documentLabel: string;
+    executionRole: string;
+    parameters: {},
+    displayToolbar: boolean;
+    displaySliders: boolean;
+    iframe: { style: string; height: string; width: string };
   };
 
-
-  constructor() {
+  constructor(private autenticacion: ImplicitAutenticationService) {
     this.reportes = [
-      {name: 'Apropiación inicial', label: 'apropiacion_inicial'},
-      {name: 'Consecutivo compromisos', label: 'cons_compr'},
-      {name: 'Libro de ejecución de ingresos y gastos', label: 'libro_ingr_gastos'}
-    ]
+      { name: 'Certificado de disponibilidad presupuestal', label: 'cdp' },
+      { name: 'Certificado de registro presupuestal', label: 'crp' },
+      { name: 'Apropiación inicial', label: 'apropiacion_inicial' },
+      { name: 'Consecutivo compromisos', label: 'cons_compr' },
+      {
+        name: 'Libro de ejecución de ingresos y gastos',
+        label: 'libro_ingr_gastos'
+      },
+      {
+        name: 'Disponibilidades comprometidas por rubro',
+        label: 'disponibilidad_rubro'
+      },
+      {name: 'Consecutivo de disponibilidades', label: 'consecutivo_disp'}
+    ];
     this.initReportConfig();
   }
 
   initReportConfig() {
     this.reportConfig = {
       documentLabel: 'apropiacion_inicial',
-      eecutionRole: '/spagobi/user/admin',
-      // parameters: {'PARAMETERS': 'param_1=1&param_2=2'},
+      executionRole: 'dev',
+      parameters: { },
       displayToolbar: true,
       displaySliders: true,
       iframe: {
-          style: 'border: solid rgb(0,0,0,0.2) 1px;',
-          height: '500px;',
-          width: '100%',
-      },
+        style: 'border: solid rgb(0,0,0,0.2) 1px;',
+        height: '500px;',
+        width: '100%'
+      }
     };
+  }
+
+  buildReportWithParams() {
+    this.reportConfig.documentLabel = 'cdp';
+    console.info(this.vigencia, this.area, this.consecutivo);
+    this.reportConfig.parameters = {
+      consecutivo: this.consecutivo,
+      areaFuncional: this.area,
+      vigencia: this.vigencia,
+      usuario: this.username
+    };
+
+    this.getReporte();
   }
 
   callbackFunction(result, args, success) {
@@ -53,13 +87,11 @@ export class ReportesComponent implements OnInit {
       this.spagoBIDocumentArea.nativeElement.innerHTML = html;
     } else {
       // console.info('ERROR: authentication failed! Invalid username and/or password ');
-
-
     }
   }
 
   ngOnInit() {
-    
+    this.username = this.autenticacion.getPayload().sub;
   }
 
   getReporte() {
@@ -70,5 +102,4 @@ export class ReportesComponent implements OnInit {
     this.reportConfig.documentLabel = label;
     this.getReporte();
   }
-
 }

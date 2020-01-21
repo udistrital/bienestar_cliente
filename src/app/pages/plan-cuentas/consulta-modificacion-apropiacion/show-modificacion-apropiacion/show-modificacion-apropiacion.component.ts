@@ -17,6 +17,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     @Input() tipoModificacion: string;
     @Input() vigencia: any;
     @Output() eventChange = new EventEmitter();
+    @Output() anulationSuccessEvent = new EventEmitter();
     readonly = true;
     globalType: string;
     settings: object;
@@ -131,6 +132,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
             cg: this.modificationData['CentroGestor']
         }).subscribe((res: Array<any>) => {
             const data: Array<any> = [];
+            this.movIDS = [];
             /*
                 TODO: My future friend: I know this function should be implemented on back-end side.
                 I put this here for simplify things because modificaciones' proccess does not take a lot of resources to be formated at this moment.
@@ -204,9 +206,10 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
             .subscribe(res => {
               if (res) {
                 this.modificationData = res;
+                this.refreshAfectationData();
+                this.anulationSuccessEvent.emit(true);
               }
             });
-          this.refreshAfectationData();
           break;
       }
     }
