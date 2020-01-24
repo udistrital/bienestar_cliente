@@ -54,7 +54,7 @@ export class VerSolicitudCdpComponent implements OnInit {
     private router: Router,
     private implicitAutenticationService: ImplicitAutenticationService,
     private admAmazonHelper: AdmAmazonHelper
-  ) { 
+  ) {
     this.movimientosRp = [];
   }
 

@@ -4,7 +4,7 @@
             {{ "CRP.crp" | translate }}
             <div class="text-right">
                 <strong>{{'GLOBAL.vigencia' | translate}}: </strong>
-                <nb-select id="select_vigencia" placeholder="{{vigencias[0]['valor']}}" hero status="info">
+                <nb-select id="select_vigencia" placeholder="{{vigenciaUrl || vigencias[0]['valor']}}" hero status="info" [(selected)]="vigenciaUrl">
                     <nb-option *ngFor="let v of vigencias" [value]="v.valor" (click)="onSelect(v.valor)">{{v.valor}}
                     </nb-option>
                 </nb-select>

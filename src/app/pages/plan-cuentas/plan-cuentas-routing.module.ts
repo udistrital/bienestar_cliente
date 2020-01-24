@@ -8,6 +8,7 @@ import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
 import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
+import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
 import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
 import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
 import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
@@ -67,7 +68,15 @@ const routes: Routes = [{
   component: ListCdpComponent,
 },
 {
+  path: 'cdp/:vigencia/:area_funcional/:id',
+  component: VerSolicitudCdpComponent,
+},
+{
   path: 'crp',
+  component: ListCrpComponent,
+},
+{
+  path: 'crp/:vigencia',
   component: ListCrpComponent,
 },
 {

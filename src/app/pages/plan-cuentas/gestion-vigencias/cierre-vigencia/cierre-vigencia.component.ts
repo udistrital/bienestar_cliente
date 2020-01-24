@@ -230,10 +230,10 @@ export class CierreVigenciaComponent implements OnInit {
   onCustom(event: any) {
     switch (event.action) {
       case 'ver_fuente':
-        this.router.navigate(['/pages/plan-cuentas/fuentes/'+this.cierreVigenciaData.Vigencia+'/'+event.data.Codigo]);
+        this.router.navigate(['/pages/plan-cuentas/fuentes',this.cierreVigenciaData.Vigencia,event.data.Codigo]);
         break;
       case 'ver_crp':
-        this.router.navigate(['/pages/plan-cuentas/crp']);
+        this.router.navigate(['/pages/plan-cuentas/crp/',event.data.Vigencia]);
         break;
     }
   }
