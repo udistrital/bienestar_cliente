@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CRPHelper } from '../../../../@core/helpers/crp/crpHelper';
 import { DocumentoPresupuestalHelper } from '../../../../@core/helpers/documentoPresupuestal/documentoPresupuestalHelper';
 import { VigenciaHelper } from '../../../../@core/helpers/vigencia/vigenciaHelper';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ngx-list-crp',
@@ -22,6 +22,7 @@ export class ListCrpComponent implements OnInit {
   settings: object;
   listColumns: object;
   crp: object;
+  vigenciaUrl: string;
 
   cambiotab: boolean = false;
   areas = { '1': 'Rector', '2': 'Convenios' };
@@ -41,15 +42,18 @@ export class ListCrpComponent implements OnInit {
     private crpHelper: CRPHelper,
     // tslint:disable-next-line
     private rqManager: RequestManager,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.vigenciaUrl  = this.getParamRoute('vigencia');
     const centrosCopy = this.centros;
     const areasCopy = this.areas;
 
     this.loadDataFunction = this.documentoPresupuestalHelper.GetAllDocumentoPresupuestalByTipo;
     this.vigenciaHelper.getFullVigencias().subscribe((res: any[]) => {
       this.vigencias = res.filter(element => element.areaFuncional === '1');
+      this.onSelect(this.vigenciaUrl);
     });
 
     this.listColumns = {
@@ -125,6 +129,16 @@ export class ListCrpComponent implements OnInit {
     };
 
     this.loadData();
+  }
+
+  getParamRoute( paramURL:string ){
+    let valor;
+    this.route.paramMap.subscribe(params =>{
+      if(params.get(paramURL) !== null ){
+        valor = params.get(paramURL);
+      }
+    });
+    return valor;
   }
 
   onSelect(vigencia: string) {

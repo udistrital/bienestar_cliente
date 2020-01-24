@@ -22,10 +22,9 @@
         </div>
     </nb-card-header>
     <nb-card-body>
-        
             <ngx-list-entity *ngIf="!auxcambiotab"
             [listSettings]="listSettings"
-            [isOnlyCrud]="isOnlyCrud" 
+            [isOnlyCrud]="isOnlyCrud"
             [uuidReadFieldName]="uuidReadFieldName"
             [paramsFieldsName] ="paramsFieldsName"
             [uuidDeleteFieldName]="uuidDeleteFieldName"
@@ -50,8 +49,9 @@
             (externalTabActivator)="onExternalTabActivator($event)"
             >
           </ngx-list-entity>
-          <button *ngIf="localtabActived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
-            Regresar</button>
+          <button *ngIf="localtabActived" (click)="returnToList()" class="btn btn-info btn-sm">
+            <i class="nb-arrow-dropleft"></i>
+          {{ 'GLOBAL.regresar' | translate}}</button>
           <ngx-modificacion-apropiacion (saved)="onSaved($event)" *ngIf="createTab"></ngx-modificacion-apropiacion>
           <ngx-show-modificacion-apropiacion [vigencia]="vigenciaSel" [tipoModificacion]="tipoModSel.value" [modificationData]="modificationDataSelected" *ngIf="viewTab"></ngx-show-modificacion-apropiacion>
     </nb-card-body>

@@ -17,14 +17,13 @@
               }}
               <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
                 <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option>
-                <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.vigencia }}</nb-option>
+                <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.valor }}</nb-option>
               </nb-select>
             </div>
         </div>
-        
             <ngx-list-entity *ngIf="!auxcambiotab && !viewTab"
             [listSettings]="listSettings"
-            [isOnlyCrud]="isOnlyCrud" 
+            [isOnlyCrud]="isOnlyCrud"
             [uuidReadFieldName]="uuidReadFieldName"
             [paramsFieldsName] ="paramsFieldsName"
             [uuidDeleteFieldName]="uuidDeleteFieldName"
@@ -55,8 +54,18 @@
             {{
               "GLOBAL.regresar" | translate
             }}</button>
-          <ngx-dependencias (auxcambiotab)="onChangeTab($event)" [paramsFieldsName] ="paramsFieldsName" *ngIf="auxcambiotab" [infoinput]="fuenteInfo" ></ngx-dependencias>
-          <ngx-rubros-fuente  *ngIf="viewTab" [infoinput]="fuenteInfo" ></ngx-rubros-fuente>
+          <ngx-dependencias *ngIf="auxcambiotab"
+          (auxcambiotab)="onChangeTab($event)"
+          [paramsFieldsName] ="paramsFieldsName"
+          [infoinput]="fuenteInfo"
+          >
+          </ngx-dependencias>
+          <ngx-link-smart-table *ngIf="viewTab"
+          [domain]="domain"
+          [vigencia]="fuenteInfo.Vigencia"
+          [link_router]="fuenteInfo.Codigo"
+          >
+          </ngx-link-smart-table>
     </nb-card-body>
   </nb-card>
 </div>

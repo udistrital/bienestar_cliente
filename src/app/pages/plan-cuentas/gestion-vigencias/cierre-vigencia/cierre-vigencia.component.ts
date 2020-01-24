@@ -19,45 +19,49 @@ export class CierreVigenciaComponent implements OnInit {
   clean = false;
   formCierreVigencia: any;
   cierreVigenciaData: any;
-  lista_fuentes: any = [];
+  lista_fuentes:  any = [];
   lista_reservas: any = [];
-  lista_pasivos: any = [];
+  lista_pasivos:  any = [];
   mostrarCierre = false;
   cerrada = "0";
 
-  source_fuentes: LocalDataSource = new LocalDataSource();
-  source_reservas: LocalDataSource = new LocalDataSource();
-  source_pasivos: LocalDataSource = new LocalDataSource();
+  source_fuentes:  LocalDataSource  = new LocalDataSource();
+  source_reservas: LocalDataSource  = new LocalDataSource();
+  source_pasivos:  LocalDataSource  = new LocalDataSource();
 
-  settings_fuentes: object;
+  settings_fuentes:  object;
   settings_reservas: object;
-  settings_pasivos: object;
+  settings_pasivos:  object;
 
-  listColumns_fuentes: object;
+  listColumns_fuentes:  object;
   listColumns_reservas: object;
-  listColumns_pasivos: object;
+  listColumns_pasivos:  object;
 
   fecha_cierre: any;
 
+  domain: string = 'fuentes';
+  link_router: string = '2345';
+  fuenteInfo: any;
+
   constructor(
-    private translate: TranslateService,
-    private popManager: PopUpManager,
-    private CVHelper: CierreVigenciaHelper,
+    private translate:      TranslateService,
+    private popManager:     PopUpManager,
+    private CVHelper:       CierreVigenciaHelper,
     private vigenciaHelper: VigenciaHelper,
-    private router: Router,
-    private route: ActivatedRoute,
+    private router:         Router,
+    private route:          ActivatedRoute,
   ) {
     // this.formCierreVigencia = FORM_CIERRE_VIGENCIA;
     // this.construirForm();
   }
 
   ngOnInit() {
-    this.info_cierre_vig = {};
+    this.info_cierre_vig    = {};
     this.cierreVigenciaData = {};
 
     this.route.paramMap.subscribe(params => {
       this.cierreVigenciaData.AreaFuncional = params.get("areaf");
-      this.cierreVigenciaData.Vigencia = params.get("vigencia");
+      this.cierreVigenciaData.Vigencia      = params.get("vigencia");
       this.verCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional);
     });
 
@@ -167,7 +171,7 @@ export class CierreVigenciaComponent implements OnInit {
 
   }
 
-  //  descomentar si alguna vez les da por decir que si tocaba en un formulario :v 
+  //  descomentar si alguna vez les da por decir que si tocaba en un formulario :v XD
   // construirForm() {
   //   this.formCierreVigencia.btn = this.translate.instant('VIGENCIA.precierre_button');
   //   for (let i = 0; i < this.formCierreVigencia.campos.length; i++) {
@@ -191,8 +195,8 @@ export class CierreVigenciaComponent implements OnInit {
     this.vigenciaHelper.getFullVigencias(vigencia, areaf).pipe(
       switchMap((res) => {
         this.mostrarCierre =  (res[0].estado === 'Actual');
-        this.cerrada = this.mostrarCierre ? '1' : '0' ;   
-        return this.CVHelper.getInfoCierre(vigencia, areaf, this.cerrada)
+        this.cerrada = this.mostrarCierre ? '1' : '0' ;
+        return this.CVHelper.getInfoCierre(vigencia, areaf, this.cerrada);
       }
       )
     ).subscribe(res => {
@@ -226,12 +230,11 @@ export class CierreVigenciaComponent implements OnInit {
   onCustom(event: any) {
     switch (event.action) {
       case 'ver_fuente':
-        this.router.navigate(['/pages/plan-cuentas/fuentes']);
+        this.router.navigate(['/pages/plan-cuentas/fuentes',this.cierreVigenciaData.Vigencia,event.data.Codigo]);
         break;
       case 'ver_crp':
-        this.router.navigate(['/pages/plan-cuentas/crp']);
+        this.router.navigate(['/pages/plan-cuentas/crp/',event.data.Vigencia]);
         break;
-
     }
   }
 
@@ -246,6 +249,4 @@ export class CierreVigenciaComponent implements OnInit {
       }
     })
   }
-
-
 }

@@ -8,6 +8,7 @@ import { ListProductoComponent } from './productos/list-producto.component';
 import { ListFuenteComponent } from './fuentes/list-fuente/list-fuente.component';
 import { ListSolicitudCdpComponent } from './cdp/list-solicitud-cdp/list-solicitud-cdp.component';
 import { ListCdpComponent } from './cdp/list-cdp/list-cdp.component';
+import { VerSolicitudCdpComponent } from './cdp/ver-solicitud-cdp/ver-solicitud-cdp.component';
 import { ModificacionApropiacionComponent } from './modificacion-apropiacion/modificacion-apropiacion.component';
 import { SetModificacionApropiacionComponent } from './modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component';
 import { ShowModificationAfectationComponent } from './modificacion-apropiacion/show-modification-afectation/show-modification-afectation.component';
@@ -20,6 +21,7 @@ import { ShowModificationApropiacionDataComponent } from './consulta-modificacio
 import { ListarVigenciaComponent } from './vigencia/listar-vigencia/listar-vigencia.component';
 import { CierreVigenciaComponent } from './gestion-vigencias/cierre-vigencia/cierre-vigencia.component';
 import { ReportesComponent } from '../reportes/components/reportes/reportes.component';
+import { RubrosFuenteComponent } from './fuentes/rubros-fuente/rubros-fuente.component';
 
 const routes: Routes = [{
   path: 'arbol',
@@ -50,6 +52,10 @@ const routes: Routes = [{
   component: ListFuenteComponent,
 },
 {
+  path: 'fuentes/:vigencia/:fuente_codigo',
+  component: RubrosFuenteComponent,
+},
+{
   path: 'solicitudcdp',
   component: ListSolicitudCdpComponent,
 },
@@ -62,7 +68,15 @@ const routes: Routes = [{
   component: ListCdpComponent,
 },
 {
+  path: 'cdp/:vigencia/:area_funcional/:id',
+  component: VerSolicitudCdpComponent,
+},
+{
   path: 'crp',
+  component: ListCrpComponent,
+},
+{
+  path: 'crp/:vigencia',
   component: ListCrpComponent,
 },
 {
@@ -81,6 +95,10 @@ const routes: Routes = [{
 {
   path: 'list-modificacion-apropiacion',
   component: ListModificacionApropiacionComponent,
+},
+ {
+  path: 'modificacion-apropiacion/:modificacion_id',
+  component: ShowModificationApropiacionDataComponent,
 },
 {
   path: 'listar-vigencias',
