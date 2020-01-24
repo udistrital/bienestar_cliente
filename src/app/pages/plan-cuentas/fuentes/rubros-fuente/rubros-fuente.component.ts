@@ -6,6 +6,7 @@ import { ArbolRubroApropiacionInterface } from '../../../../@core/interfaces/arb
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { TranslateService } from '@ngx-translate/core';
 import { registerLocaleData, CurrencyPipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import locales from '@angular/common/locales/es-CO';
 registerLocaleData(locales, 'co');
 
@@ -16,7 +17,7 @@ registerLocaleData(locales, 'co');
 })
 export class RubrosFuenteComponent implements OnInit {
   @Output() auxcambiotab = new EventEmitter<boolean>();
-  @Input('infoinput') infoinput: any;
+  infoinput: any;
   planAdquisicionesFuente: any;
   settings: object;
   listColumns: object;
@@ -25,17 +26,25 @@ export class RubrosFuenteComponent implements OnInit {
   paramsFieldsName: object;
   incomeRubroAdd: ArbolRubroApropiacionInterface;
   rbIncome: ArbolRubroApropiacionInterface;
+  vigencia: string;
+  fuente_codigo: string;
+  completeData: boolean = false;
 
   constructor(private translate: TranslateService,
     private fuenteHelper: FuenteHelper,
     private dependenciaHelper: DependenciaHelper,
     private apHelper: ApropiacionHelper,
-    private pUpManager: PopUpManager) { }
+    private pUpManager: PopUpManager,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.openViewAddIncome = false;
-    this.loadInfoFuente();
-    this.loadMovimientos();
+
+    this.vigencia      = this.getParamRoute('vigencia');
+    this.fuente_codigo = this.getParamRoute('fuente_codigo');
+    if (this.vigencia !== null && this.fuente_codigo !== null){
+      this.getInfoFuente( this.vigencia, this.fuente_codigo );
+    }
   }
 
   loadMovimientos() {
@@ -53,8 +62,6 @@ export class RubrosFuenteComponent implements OnInit {
 
       this.source = data;
       this.listColumns = {
-
-
         Movimiento: {
           title: this.translate.instant('GLOBAL.movimiento'),
           valuePrepareFunction: (value) => this.translate.instant('GLOBAL.' + value),
@@ -85,11 +92,32 @@ export class RubrosFuenteComponent implements OnInit {
       };
     }
   }
-  loadInfoFuente() {
+  getParamRoute( paramURL:string ){
+    let valor;
+    this.route.paramMap.subscribe(params =>{
+      if(params.get(paramURL) !== null ){
+        valor = params.get(paramURL);
+      }
+    });
+    return valor;
+  }
+  getInfoFuente( vigencia:string, codigo:string ){
+    let fuente: object;
+    this.fuenteHelper.getFuente(codigo,vigencia,'1').subscribe((res) => { if(res){ fuente = res; }},
+                                                                            (err) => console.error(err),
+                                                                            () => { this.saveDataFuente(fuente) });
+  }
+  saveDataFuente( data: object){
+    this.infoinput = data;
+    this.completeData = true;
+    this.loadInfoFuente();
+    this.loadMovimientos();
+  }
 
-    if (this.infoinput.Vigencia > 0) {
+  loadInfoFuente() {
+    if (parseInt(this.vigencia) > 0) {
       this.loadInfoIncome();
-      this.fuenteHelper.getPlanAdquisicionByFuente(this.infoinput.Vigencia, this.infoinput.Codigo).subscribe((res) => {
+      this.fuenteHelper.getPlanAdquisicionByFuente(this.vigencia, this.fuente_codigo).subscribe((res) => {
         if (res) {
           this.planAdquisicionesFuente = res.fuente_financiamiento;
           this.planAdquisicionesFuente.totalPlanAdquisiciones = res.fuente_financiamiento.total_saldo_fuente;
@@ -100,7 +128,7 @@ export class RubrosFuenteComponent implements OnInit {
                 item.dependencia = res.Nombre;
               }
             });
-            this.apHelper.getFullArbolByNode(item.rubro, this.infoinput.Vigencia).subscribe((res) => {
+            this.apHelper.getFullArbolByNode(item.rubro, this.vigencia).subscribe((res) => {
               if (res) {
                 item.rubro = res[0].data;
               }

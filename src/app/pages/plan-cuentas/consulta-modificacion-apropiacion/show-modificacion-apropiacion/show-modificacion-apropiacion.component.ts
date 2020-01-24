@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { ModApropiacionHelper } from '../../../../@core/helpers/modApropiacionHelper';
 import { TranslateService } from '@ngx-translate/core';
 import { CurrencyPipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'ngx-show-modificacion-apropiacion',
@@ -24,13 +25,19 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     source: Array<any>;
     movIDS: Array<string> = [];
 
-    constructor(private modApropiacionHelper: ModApropiacionHelper,
+    constructor(
+        private modApropiacionHelper: ModApropiacionHelper,
         private translate: TranslateService,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
+        this.route.paramMap.subscribe(params => {
+          if(params.get('modificacion_id') !== null ){
+            console.log(params.get('modificacion_id'));
+          }
+        });
         switch (this.tipoModificacion) {
-
             case 'modificacion_fuente':
                 this.listColumns = {
 
@@ -190,7 +197,6 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
         case 'modificacion_fuente':
           // TODO: read single data from this type and reload info from the API or some data source.
           break;
-  
         default:
           this.modApropiacionHelper
             .getOneModificacionesApr(this.modificationData['_id'], {

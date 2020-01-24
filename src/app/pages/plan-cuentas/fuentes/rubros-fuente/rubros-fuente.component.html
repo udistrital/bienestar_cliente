@@ -2,7 +2,7 @@
     <h5>
         {{'FUENTE_FINANCIAMIENTO.consulta_rubros_fuente' | translate }}
     </h5>
-    <div class="d-flex">
+    <div class="d-flex" *ngIf="completeData">
         <div>
             <label for="valorfuente" class="form-control-label">
                 <h6> {{infoinput.Nombre}} - {{infoinput.Codigo}} <span class="moneyField">
@@ -25,7 +25,7 @@
                 <label for="valoringreso" class="form-control-label">
                     <h6> {{ "GLOBAL.ingreso" | translate }} : {{rbIncome.Nombre}} - {{rbIncome.Codigo}} <span>
                         {{rbIncome.ValorActual| currency:'COP':'symbol':'4.2-2':'co'}} </span> </h6>
-                    </label>            
+                    </label>
                 </div>
             <div *ngIf="openViewAddIncome">
                 <ngx-arbol [paramsFieldsName] ="paramsFieldsName" (rubroSeleccionado)="selectRubroElemntEvent($event)" [vigencia]="infoinput.Vigencia"
@@ -44,8 +44,8 @@
     <ng-template #planAdquisicionesOff>
         <nb-alert outline="danger">No hay información asociada para esta fuente de financiamiento</nb-alert>
     </ng-template>
-    <ng-template #planAdquisicionesOn>
-        <div class="d-flex">
+    <ng-template #planAdquisicionesOn >
+        <div class="d-flex" *ngIf="completeData">
             <div>
                 <div *ngFor="let item of planAdquisicionesFuente.rubros">
 
@@ -109,5 +109,4 @@
             </div>
         </nb-alert>
     </ng-template>
-
 </nb-card>
