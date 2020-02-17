@@ -12,7 +12,7 @@ export class VigenciaHelper {
 
     constructor(
        private rqManager: RequestManager,
-       private pUpManager: PopUpManager, 
+       private pUpManager: PopUpManager,
     ){ }
 
      /**
@@ -36,11 +36,8 @@ export class VigenciaHelper {
                     } else {
                         return res;
                     }
-                    
                 },
             ),
         );
     }
-
-    
 }
