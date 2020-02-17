@@ -19,7 +19,7 @@
     "build:dev": "npm run build -- --prod --aot --configuration=dev",
     "test": "jest",
     "test:ui": "npm run lint && npm run test",
-    "lint": "ng lint",
+    "lint": "ng lint ngx-admin-demo &> Lint_last_version.json",
     "lint:fix": "ng lint ngx-admin-demo --fix",
     "lint:styles": "stylelint ./src/**/*.scss",
     "lint:ci": "npm run lint",
