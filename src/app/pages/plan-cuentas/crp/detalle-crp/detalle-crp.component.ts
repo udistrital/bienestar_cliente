@@ -24,8 +24,8 @@ export class DetalleCrpComponent implements OnInit {
     }
 
     private getInfoDocPresupuestal() {
-        let docPresupuestalMap = {};
-        let documentosRequest = [];
+        const docPresupuestalMap = {};
+        const documentosRequest = [];
         this.movimientosRp.forEach(element => {
             documentosRequest.push(this.docPresupuestalHelper.getById(this.vigencia, this.areaFuncional, element.DocumentoPresupuestalUUID));
         });

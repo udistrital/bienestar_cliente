@@ -24,14 +24,14 @@ export class ApropiacionesComponent implements OnInit {
   rubroSeleccionado: any;
   apropiacionData: ArbolApropiacion;
   apropiacionAprobada: boolean;
-  isLeaf: boolean;
+  isLeaf:              boolean;
   valorApropiacion: number;
   vigenciaSel: any;
   clean = false;
-  opcion: string;
-  VigenciaActual   : string; // TODO: traer del endpoint vigencia_actual
-  VigenciaProxima  : string;
-  optionView: string;
+  opcion:            string;
+  VigenciaActual:    string; // TODO: traer del endpoint vigencia_actual
+  VigenciaProxima:   string;
+  optionView:        string;
   productos: boolean = false;
   listaProductosAsignados = [];
   vigencias: any[] = [
@@ -96,7 +96,7 @@ export class ApropiacionesComponent implements OnInit {
   ngOnInit() {
     this.commonHelper.geCurrentVigencia(1).subscribe(res => {
       if (res) {
-        let proxVigenciaInt  = Number(res) + 1;
+        const proxVigenciaInt  = Number(res) + 1;
         this.VigenciaProxima = proxVigenciaInt.toString();
         this.vigenciaSel     = this.VigenciaProxima;
         this.VigenciaActual  = res;

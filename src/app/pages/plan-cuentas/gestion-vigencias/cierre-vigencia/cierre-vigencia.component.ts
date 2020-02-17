@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// tslint:disable-next-line
 import { FORM_CIERRE_VIGENCIA } from './form_cierre_vigencia';
 import { TranslateService } from '@ngx-translate/core';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
@@ -51,7 +52,7 @@ export class CierreVigenciaComponent implements OnInit {
     private router:         Router,
     private route:          ActivatedRoute,
   ) {
-    // this.formCierreVigencia = FORM_CIERRE_VIGENCIA;
+    // this.formCierreVigencia = FORM_CIERRE_VIGENCIA; // TODO: falta por implemntar ya que aun no se valida el cierre con el usuario
     // this.construirForm();
   }
 
@@ -243,8 +244,7 @@ export class CierreVigenciaComponent implements OnInit {
       if (res) {
         this.popManager.showSuccessAlert(`Se generó el cierre de la vigencia ${this.cierreVigenciaData.Vigencia}.`);
         this.router.navigate(['/pages/plan-cuentas/listar-vigencias']);
-      }
-      else {
+      } else {
         this.popManager.showErrorAlert('Error al generar el cierre');
       }
     });

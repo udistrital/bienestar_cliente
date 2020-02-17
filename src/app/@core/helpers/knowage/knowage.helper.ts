@@ -17,7 +17,7 @@ export class KnowageHelper {
         const config = {
             documentLabel: label
             , executionRole: '/knowage/admin'
-            //, parameters: { warehouse_id: 19 }
+            // , parameters: { warehouse_id: 19 }
             , displayToolbar: true
             , displaySliders: true
             , iframe: {
@@ -28,7 +28,6 @@ export class KnowageHelper {
         };
 
         const sbi = this.buildSbi();
-        console.log(sbi);
         const authConf = {
             params: {
                   user: environment.KNOWAGE.USER,

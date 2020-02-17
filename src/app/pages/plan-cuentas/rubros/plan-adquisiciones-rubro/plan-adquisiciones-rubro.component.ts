@@ -1,13 +1,10 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { CommonHelper } from '../../../../@core/helpers/commonHelper';
 import { PlanAdquisicionHelper } from '../../../../@core/helpers/plan_adquisicion/planAdquisicionHelper';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { DependenciaHelper } from '../../../../@core/helpers/oikos/dependenciaHelper';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
-import { BehaviorSubject } from 'rxjs';
-
 
 @Component({
   selector: 'ngx-plan-adquisiciones-rubro',
@@ -16,9 +13,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PlanAdquisicionesRubroComponent implements OnInit {
 
-  @Input() rubroSeleccionado : any;
-  @Input() ayuda : string;
-  @Input() vigenciaSel : number;
+  @Input() rubroSeleccionado: any;
+  @Input() ayuda: string;
+  @Input() vigenciaSel: number;
   @Output() eventChange = new EventEmitter();
 
   planAdquisicionesRubro: any ;

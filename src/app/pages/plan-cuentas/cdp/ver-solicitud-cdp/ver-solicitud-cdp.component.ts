@@ -132,7 +132,7 @@ export class VerSolicitudCdpComponent implements OnInit {
   }
 
   private getInfoRp() {
-    let movimientosRequest = [];
+    const movimientosRequest = [];
     if (this.solicitud['AfectacionIds']) {
       this.movimientosHelper.getByDocumentoPresupuestal(this.solicitud['Vigencia'], this.solicitud['CentroGestor'], this.solicitud['_id']).subscribe((res: any) => {
         res.forEach(element  => {

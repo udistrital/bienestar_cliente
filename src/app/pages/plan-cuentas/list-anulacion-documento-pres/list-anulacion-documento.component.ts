@@ -10,7 +10,6 @@ import { registerLocaleData, CurrencyPipe } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
 import { ModApropiacionHelper } from '../../../@core/helpers/modApropiacionHelper';
 import { MovimientosHelper } from '../../../@core/helpers/movimientos/movimientosHelper';
-import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 registerLocaleData(locales, 'co');

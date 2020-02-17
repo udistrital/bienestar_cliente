@@ -34,7 +34,7 @@ export class ShowModificationApropiacionDataComponent implements OnInit, OnChang
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
           if (params.get('modificacion_id') !== null ) {
-            console.log(params.get('modificacion_id'));
+            // console.log(params.get('modificacion_id'));
           }
         });
         switch (this.tipoModificacion) {

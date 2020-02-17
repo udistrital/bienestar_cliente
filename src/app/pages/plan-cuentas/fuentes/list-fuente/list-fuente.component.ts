@@ -5,7 +5,6 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { CommonHelper } from '../../../../@core/helpers/commonHelper';
-import { LinkSmartTableComponent } from '../../../ui-features/link-smart-table/link-smart-table.component';
 import { FORM_FUENTE } from '../form-fuente';
 
 @Component({
@@ -147,7 +146,7 @@ export class ListFuenteComponent implements OnInit {
 
   }
   loadOptionsVigencia(): void {
-    let aplicacion = this.vigencias;
+    const aplicacion = this.vigencias;
     this.formEntity.campos[this.getIndexForm('Vigencia')].opciones = aplicacion;
   }
   getIndexForm(nombre: String): number {

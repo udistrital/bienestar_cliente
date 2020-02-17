@@ -51,7 +51,7 @@ export class RubrosFuenteComponent implements OnInit {
     if (this.infoinput.Movimientos !== undefined) {
 
       const data: Array<any> = [];
-      for (let [key, value] of Object.entries(this.infoinput.Movimientos)) {
+      for (const [key, value] of Object.entries(this.infoinput.Movimientos)) {
         let movFormated: any;
         movFormated = {
           Movimiento: key,
@@ -153,8 +153,7 @@ export class RubrosFuenteComponent implements OnInit {
           });
         }
       }
-    }
-    else {
+    } else {
       this.apHelper.getFullArbolByNode(Codigo, this.infoinput.Vigencia).subscribe((response) => {
         if (response) {
           this.rbIncome = response[0].data;
@@ -182,7 +181,7 @@ export class RubrosFuenteComponent implements OnInit {
       this.infoinput.Rubros[this.incomeRubroAdd.Codigo] = { Tipo: 'INGRESO' };
       this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
         if (res) {
-          this.pUpManager.showSuccessAlert('se asigno el ingreso correctamente'); //TODO: agregar traductor
+          this.pUpManager.showSuccessAlert('se asigno el ingreso correctamente'); // TODO: agregar traductor
           this.loadInfoIncome(this.incomeRubroAdd.Codigo);
         }
       });

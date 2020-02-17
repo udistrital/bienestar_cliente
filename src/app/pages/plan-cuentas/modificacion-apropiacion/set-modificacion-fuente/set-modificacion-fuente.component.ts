@@ -138,7 +138,7 @@ export class SetModificacionFuenteComponent implements OnInit {
               });
             }
           }
-
+          break;
         default:
           break;
       }
@@ -161,22 +161,22 @@ export class SetModificacionFuenteComponent implements OnInit {
       this.fuenteHelper.getPlanAdquisicionByFuente(this.vigenciaActual.toString(), currentMovData.MovimientoOrigen.Codigo).subscribe((response) => {
         if (response.fuente_financiamiento) {
 
-          let saldoFuente = this.calculateTotalValue(currentMovData, response.fuente_financiamiento.total_saldo_fuente);
+          const saldoFuente = this.calculateTotalValue(currentMovData, response.fuente_financiamiento.total_saldo_fuente);
           if (saldoFuente < currentMovData.Valor && currentMovData.Tipo.Acronimo === 'rd_fuente') {
             this.limitSumFuentes = false;
-            this.infoSaldoSuperado = 'La fuente: ' + currentMovData.MovimientoOrigen.Nombre + ' se desfasa por un valor de: '; //TODO: Añadir traductor
+            this.infoSaldoSuperado = 'La fuente: ' + currentMovData.MovimientoOrigen.Nombre + ' se desfasa por un valor de: '; // TODO: Añadir traductor
             this.desfaseSaldo = currentMovData.Valor - saldoFuente;
           } else {
             this.limitSumFuentes = true;
             this.movAfectation.push(currentMovData);
-            this.rubrosAllPlanAdquisicionFuente = response.fuente_financiamiento.rubros; //TODO: para cuando este definido el plan de adquisiciones
+            this.rubrosAllPlanAdquisicionFuente = response.fuente_financiamiento.rubros; // TODO: para cuando este definido el plan de adquisiciones
             this.rubrosPlanAdquisicionFuente = this.getUnique(response.fuente_financiamiento.rubros, 'rubro');
             this.totalCurrentMov = this.modValueForm.value['value'];
             this.returnToMovRubros();
             this.eventChange.emit(true);
           }
         } else {
-          this.popManager.showErrorAlert('La fuente no esta distribuida'); //TODO: Añadir traductor
+          this.popManager.showErrorAlert('La fuente no esta distribuida'); // TODO: Añadir traductor
         }
       });
     }
@@ -201,16 +201,15 @@ export class SetModificacionFuenteComponent implements OnInit {
     if (this.totalCurrentMov >= currentMovData.Valor) {
       this.movAfectation.push(currentMovData);
       this.totalCurrentMov -= currentMovData.Valor;
-    }
-    else {
-      this.popManager.showErrorAlert('El valor del rubro supera el agregado para la fuente'); //TODO: Añadir traductor
+    } else {
+      this.popManager.showErrorAlert('El valor del rubro supera el agregado para la fuente'); // TODO: Añadir traductor
     }
   }
 
-  //usado para limpiar array de datos repetidos por propiedad
+  // usado para limpiar array de datos repetidos por propiedad
   getUnique(arr, comp) {
 
-    //store the comparison  values in array
+    // store the comparison  values in array
     const unique = arr.map(e => e[comp]).
       // store the keys of the unique objects
       map((e, i, final) => final.indexOf(e) === i && i)

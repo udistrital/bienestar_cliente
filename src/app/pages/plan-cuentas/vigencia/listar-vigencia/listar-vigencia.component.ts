@@ -42,7 +42,7 @@ export class ListarVigenciaComponent implements OnInit {
 
   ngOnInit() {
 
-     //this.loadDataFunction = this.vigenciaHelper.getFulllet Vigencias;
+     // this.loadDataFunction = this.vigenciaHelper.getFulllet Vigencias;
 
     this.listColumns = {
       _id: {
@@ -112,7 +112,7 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   loadData(): void {
-    let vigencias = this.loadDataFunction(
+    const vigencias = this.loadDataFunction(
     ).subscribe(res => {
       const data = <Array<any>>res;
       this.source.load(data);

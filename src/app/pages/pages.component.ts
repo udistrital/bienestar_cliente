@@ -77,7 +77,7 @@ export class PagesComponent implements OnInit {
    */
   mapMenuByObjects(menuArray) {
     menuArray.map( itemMenu => {
-      let urlNested = this.replaceUrlNested(itemMenu.Url);
+      const urlNested = this.replaceUrlNested(itemMenu.Url);
       this.object   = {
         title: itemMenu.Nombre,
         icon:  'file-text',
@@ -96,9 +96,9 @@ export class PagesComponent implements OnInit {
    */
   mapMenuChildrenObject(opcionesMenu) {
     if (opcionesMenu) {
-      let submenu = [];
+      const submenu = [];
       opcionesMenu.map(itemChild => {
-        let urlNested = this.replaceUrlNested(itemChild.Url);
+        const urlNested = this.replaceUrlNested(itemChild.Url);
         this.object = {
           title: itemChild.Nombre,
           icon:  '',
