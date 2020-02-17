@@ -43,6 +43,7 @@ steps:
     image: node:12.6.0
     commands:
      - node --version
+     - npm cache clean --force
      - npm i
      - npm run build:test
     when:
