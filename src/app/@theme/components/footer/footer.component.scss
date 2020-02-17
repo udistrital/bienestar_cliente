@@ -21,6 +21,60 @@
       }
     }
   }
+  .footer-g{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .logo {
+    padding: -1px 1.25rem;
+    font-size: 1.75rem;
+    @include nb-ltr(border-left, 1px solid nb-theme(divider-color));
+    @include nb-rtl(border-right, 1px solid nb-theme(divider-color));
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .logo-ud {
+    width:240px; /* you can use % */
+    height: auto;
+  }
+  .mat-icon {
+    font-size: 10px;
+    transform: scale(0.2);
+  }
+  .limit{
+    width:80px;
+    word-wrap: break-word;
+  }
+  .widgets_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .widgets_div .icon_div {
+    width: 50px;
+    display: inline-block;
+    vertical-align:middle;
+  }
+  .widgets_div .icon_div mat-icon {
+    color: #faad0b;
+    transform: scale(0.5);
+  }
+  .widgets_div .text_div {
+    font-size: 0.9375rem;
+    display: inline-block;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+  .widgets_div .text_div span {
+    display: block;
+    color: #58666e;
+    font-size: 12px;
+  }
+  .widgets_div .text_div span+span {
+    color: #747F85;
+    font-size: 11px;
+  }
 
   @include media-breakpoint-down(is) {
     .socials {

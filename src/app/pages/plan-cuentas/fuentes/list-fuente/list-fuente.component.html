@@ -1,0 +1,71 @@
+<div class="col-md-12 col-lg-12 ">
+  <nb-card status="warning">
+    <nb-card-header>
+        <div *ngIf="!viewItemSelected">
+          {{ 'MENU.gestion_plan_cuentas.gestion_fuentes' | translate }}
+        </div>
+        <div *ngIf="viewItemSelected">
+          {{ 'FUENTE_FINANCIAMIENTO.select_fuente' | translate }}
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+      <div *ngIf="!disabledVigencia && !viewItemSelected">
+          {{ 'FUENTE_FINANCIAMIENTO.descripcion' | translate }}
+          <div align="right">
+              {{
+                "GLOBAL.vigencia" | translate
+              }}
+              <nb-select nbTooltip="seleccione la vigencia" nbTooltipPlacement="top" id="select_vigencia" placeholder={{vigenciaSel}} [(selected)]="vigenciaSel" hero status="info">
+                <nb-option value="vigenciaSel" (click)="onSelect('all')">Todas</nb-option>
+                <nb-option *ngFor="let v of vigencias" value={{vigenciaSel}} (click)="onSelect(v.vigencia)">{{ v.valor }}</nb-option>
+              </nb-select>
+            </div>
+        </div>
+            <ngx-list-entity *ngIf="!auxcambiotab && !viewTab"
+            [listSettings]="listSettings"
+            [isOnlyCrud]="isOnlyCrud"
+            [uuidReadFieldName]="uuidReadFieldName"
+            [paramsFieldsName] ="paramsFieldsName"
+            [uuidDeleteFieldName]="uuidDeleteFieldName"
+            [listColumns]="listColumns"
+            [deleteConfirmMessage]="deleteConfirmMessage"
+            [deleteMessage]="deleteMessage"
+            [loadDataFunction]="loadDataFunction"
+            [deleteDataFunction]="deleteDataFunction"
+            [formEntity]="formEntity"
+            [formTittle]="formTittle"
+            [updateMessage]="updateMessage"
+            [createMessage]="createMessage"
+            [updateConfirmMessage]="updateConfirmMessage"
+            [createConfirmMessage]="createConfirmMessage"
+            [loadFormDataFunction]="loadFormDataFunction"
+            [updateEntityFunction]="updateEntityFunction"
+            [createEntityFunction]="createEntityFunction"
+            [viewItemSelected]="viewItemSelected"
+            (infooutput)="receiveMessage($event)"
+            (eventChange)="onChange($event)"
+            (crudcambiotab)="onFirstTab($event)"
+            (auxcambiotab)="onChangeTab($event)"
+            (externalTabActive)="onChangeExternalTab($event)"
+            (externalTabActivator)="onExternalTabActivator($event)"
+            >
+          </ngx-list-entity>
+          <button *ngIf="localtabActived" (click)="returnToList()" class="btn btn-info btn-sm"> <i class="nb-arrow-dropleft"></i>
+            {{
+              "GLOBAL.regresar" | translate
+            }}</button>
+          <ngx-dependencias *ngIf="auxcambiotab"
+          (auxcambiotab)="onChangeTab($event)"
+          [paramsFieldsName] ="paramsFieldsName"
+          [infoinput]="fuenteInfo"
+          >
+          </ngx-dependencias>
+          <ngx-link-smart-table *ngIf="viewTab"
+          [domain]="domain"
+          [vigencia]="fuenteInfo.Vigencia"
+          [link_router]="fuenteInfo.Codigo"
+          >
+          </ngx-link-smart-table>
+    </nb-card-body>
+  </nb-card>
+</div>

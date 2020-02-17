@@ -1,0 +1,16 @@
+<h5>{{'CRP.lista_crp' | translate}}</h5>
+<table class="table table-hover table-bordered">
+    <thead class="bg-kronos">
+        <th>{{'CRP.numero' | translate}}</th>
+        <th>{{'CRP.fecha_expedicion' | translate}}</th>
+        <th>{{'CRP.valor' | translate}}</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let doc of docPresupuestal">
+            <td>{{doc.Consecutivo}}</td>
+            <td>{{doc.FechaRegistro | date: 'dd/MM/yyyy'}}</td>
+            <td class="moneyField">{{doc.ValorInicial | currency:COP}}</td>
+        </tr>
+    </tbody>
+</table>
+
