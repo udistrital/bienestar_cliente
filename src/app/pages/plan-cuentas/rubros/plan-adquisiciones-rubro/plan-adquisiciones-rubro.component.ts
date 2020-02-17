@@ -40,11 +40,11 @@ export class PlanAdquisicionesRubroComponent implements OnInit {
 
   ngOnInit() {
   }
-  ngOnChanges(){
-    if(this.rubroSeleccionado.Codigo) this.showPlanAdquisicion(this.vigenciaSel,this.rubroSeleccionado.Codigo)
+  ngOnChanges() {
+    if(this.rubroSeleccionado.Codigo) this.showPlanAdquisicion( this.vigenciaSel, this.rubroSeleccionado.Codigo );
   }
 
-  isPlanAdquisiciones(boolean){
+  isPlanAdquisiciones(boolean) {
     this.eventChange.emit(boolean);
   }
 
@@ -66,9 +66,9 @@ export class PlanAdquisicionesRubroComponent implements OnInit {
               item.valor_dependencia = parseFloat(item.valor_fuente_financiamiento);
               this.calcularDiferenciaFuentesApropiacion(this.planAdquisicionesRubro);
             });
-            if(String(item.dependencia) === "0") {
-              item.dependencia = "Funcionamiento: dependencias en general"
-            }else {
+            if (String(item.dependencia) === '0') {
+              item.dependencia = 'Funcionamiento: dependencias en general';
+            } else {
               this.dependenciaHelper.get(item.dependencia).subscribe((response) => {
                 if (response.Body !== null) {
                   item.dependencia = response.Nombre;

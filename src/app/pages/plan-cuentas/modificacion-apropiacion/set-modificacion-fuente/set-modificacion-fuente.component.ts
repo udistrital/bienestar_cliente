@@ -164,7 +164,7 @@ export class SetModificacionFuenteComponent implements OnInit {
           let saldoFuente = this.calculateTotalValue(currentMovData, response.fuente_financiamiento.total_saldo_fuente);
           if (saldoFuente < currentMovData.Valor && currentMovData.Tipo.Acronimo === 'rd_fuente') {
             this.limitSumFuentes = false;
-            this.infoSaldoSuperado = 'La fuente: ' + currentMovData.MovimientoOrigen.Nombre + ' se desfasa por un valor de: ';
+            this.infoSaldoSuperado = 'La fuente: ' + currentMovData.MovimientoOrigen.Nombre + ' se desfasa por un valor de: '; //TODO: Añadir traductor
             this.desfaseSaldo = currentMovData.Valor - saldoFuente;
           } else {
             this.limitSumFuentes = true;
@@ -176,7 +176,7 @@ export class SetModificacionFuenteComponent implements OnInit {
             this.eventChange.emit(true);
           }
         } else {
-          this.popManager.showErrorAlert("La fuente no esta distribuida");
+          this.popManager.showErrorAlert('La fuente no esta distribuida'); //TODO: Añadir traductor
         }
       });
     }
@@ -203,7 +203,7 @@ export class SetModificacionFuenteComponent implements OnInit {
       this.totalCurrentMov -= currentMovData.Valor;
     }
     else {
-      this.popManager.showErrorAlert("El valor del rubro supera el agregado para la fuente");
+      this.popManager.showErrorAlert('El valor del rubro supera el agregado para la fuente'); //TODO: Añadir traductor
     }
   }
 

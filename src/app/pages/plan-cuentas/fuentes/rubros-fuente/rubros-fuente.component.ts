@@ -182,7 +182,7 @@ export class RubrosFuenteComponent implements OnInit {
       this.infoinput.Rubros[this.incomeRubroAdd.Codigo] = { Tipo: 'INGRESO' };
       this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
         if (res) {
-          this.pUpManager.showSuccessAlert("se asigno el ingreso correctamente");
+          this.pUpManager.showSuccessAlert('se asigno el ingreso correctamente'); //TODO: agregar traductor
           this.loadInfoIncome(this.incomeRubroAdd.Codigo);
         }
       })

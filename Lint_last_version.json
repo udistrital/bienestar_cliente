@@ -24,7 +24,6 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/knowage/knowage.helper.ts:31:9 - Calls to 'console.log' are not allowed.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/modApropiacionHelper.ts:27:1 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/oikos/dependenciaHelper.ts:17:15 - 'params' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:1:28 - " should be '
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:16:6 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:25:15 - 'query' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:35:57 - missing whitespace
@@ -178,24 +177,12 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/rubros-fuente/rubros-fuente.component.ts:157:5 - misplaced 'else'
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/rubros-fuente/rubros-fuente.component.ts:162:9 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/rubros-fuente/rubros-fuente.component.ts:175:9 - for (... in ...) statements must be filtered with an if statement
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/rubros-fuente/rubros-fuente.component.ts:185:44 - " should be '
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/rubros-fuente/rubros-fuente.component.ts:185:85 - comment must start with a space
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/rubros-fuente/rubros-fuente.component.ts:188:9 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-apropiaciones/gestion-apropiaciones.component.ts:40:9 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-apropiaciones/gestion-apropiaciones.component.ts:40:40 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:2:1 - All imports on this line are unused.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:7:24 - 'DatePipe' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:26:13 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:63:58 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:64:58 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:85:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:103:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:121:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:135:22 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:139:22 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:149:22 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:153:22 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:163:22 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:167:22 - " should be '
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:209:9 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:233:61 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:233:94 - missing whitespace
@@ -205,48 +192,19 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/form_cierre_vigencia.ts:7:1 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:5:3 - 'Output' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:6:3 - 'EventEmitter' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:8:8 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:9:50 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:10:21 - " should be '
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:11:1 - All imports on this line are unused.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:11:38 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:12:35 - " should be '
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:13:1 - All imports on this line are unused.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:13:30 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:14:34 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:15:28 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:16:29 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:19:13 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:20:16 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:21:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:39:17 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:49:39 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:54:39 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:55:63 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:58:39 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:62:13 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:67:39 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:68:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:72:30 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:74:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:75:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:76:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:77:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:84:39 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:85:15 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:88:58 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:97:19 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:104:13 - " should be '
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/modificacion-apropiacion.component.ts:48:5 - Lifecycle interface OnDestroy should be implemented for method ngOnDestroy. (https://angular.io/styleguide#style-09-01)
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-apropiacion/set-modificacion-apropiacion.component.ts:56:45 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:130:11 - for (... in ...) statements must be filtered with an if statement
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:138:17 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:142:9 - expected a 'break' before 'default'
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:164:15 - Identifier 'saldoFuente' is never reassigned; use 'const' instead of 'let'.
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:167:130 - comment must start with a space
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:172:92 - comment must start with a space
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:179:42 - " should be '
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:179:78 - comment must start with a space
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:205:5 - misplaced 'else'
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:206:38 - " should be '
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:206:97 - comment must start with a space
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:210:5 - comment must start with a space
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:213:7 - comment must start with a space
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/modificacion-apropiacion/set-modificacion-fuente/set-modificacion-fuente.component.ts:220:18 - Missing semicolon
@@ -271,45 +229,9 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:33:13 - Property 'commonHelper' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:34:13 - Property 'popManager' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:43:3 - Lifecycle interface OnChanges should be implemented for method ngOnChanges. (https://angular.io/styleguide#style-09-01)
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:43:16 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:44:7 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:44:81 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:44:111 - Missing semicolon
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:47:31 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:69:15 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:69:45 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:70:34 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:70:75 - Missing semicolon
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:71:14 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/rubros/plan-adquisiciones-rubro/plan-adquisiciones-rubro.component.ts:112:2 - file should end with a newline
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:36:13 - Property 'rqManager' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:90:48 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:91:52 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:91:54 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:101:22 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:113:5 - unexpected label on statement
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/show-vigencia/show-vigencia.component.ts:23:6 - Missing semicolon
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/components/reportes/reportes.component.ts:2:1 - All imports on this line are unused.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes-routing.module.ts:7:8 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:6:3 - 'NbTreeGridModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:7:3 - 'NbSelectModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:8:3 - 'NbAlertModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:9:3 - 'NbTabsetModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:10:3 - 'NbStepperModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:12:3 - 'NbTooltipModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:13:3 - 'NbRadioModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:14:3 - 'NbSpinnerModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/reportes/reportes.module.ts:15:3 - 'NbCheckboxModule' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/ui-features/link-smart-table/link-smart-table.component.ts:15:19 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/ui-features/link-smart-table/link-smart-table.component.ts:17:24 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/ui-features/link-smart-table/link-smart-table.component.ts:24:50 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/ui-features/link-smart-table/link-smart-table.component.ts:24:62 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/ui-features/link-smart-table/link-smart-table.component.ts:24:76 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/environments/environment.dev.ts:16:28 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/environments/environment.dev.ts:22:24 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/environments/environment.prod.ts:18:24 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/environments/environment.test.ts:24:24 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/environments/environment.ts:15:31 - " should be '
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/environments/environment.ts:33:26 - " should be '
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:45:8 - comment must start with a space
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:115:9 - Identifier 'vigencias' is never reassigned; use 'const' instead of 'let'.
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/vigencia/listar-vigencia/listar-vigencia.component.ts:115:9 - 'vigencias' is declared but its value is never read.
 
 Lint errors found in the listed files.

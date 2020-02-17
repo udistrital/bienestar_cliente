@@ -23,7 +23,7 @@ export class CierreVigenciaComponent implements OnInit {
   lista_reservas: any = [];
   lista_pasivos:  any = [];
   mostrarCierre = false;
-  cerrada = "0";
+  cerrada = '0';
 
   source_fuentes:  LocalDataSource  = new LocalDataSource();
   source_reservas: LocalDataSource  = new LocalDataSource();
@@ -60,8 +60,8 @@ export class CierreVigenciaComponent implements OnInit {
     this.cierreVigenciaData = {};
 
     this.route.paramMap.subscribe(params => {
-      this.cierreVigenciaData.AreaFuncional = params.get("areaf");
-      this.cierreVigenciaData.Vigencia      = params.get("vigencia");
+      this.cierreVigenciaData.AreaFuncional = params.get('areaf');
+      this.cierreVigenciaData.Vigencia      = params.get('vigencia');
       this.verCierre(this.cierreVigenciaData.Vigencia, this.cierreVigenciaData.AreaFuncional);
     });
 
@@ -82,7 +82,7 @@ export class CierreVigenciaComponent implements OnInit {
         }
       },
       ValorActual: {
-        type: "html",
+        type: 'html',
         title: this.translate.instant('GLOBAL.valor'),
         filter: true,
         valuePrepareFunction: (value: any) => {
@@ -100,7 +100,7 @@ export class CierreVigenciaComponent implements OnInit {
         }
       },
       ValorActual: {
-        type: "html",
+        type: 'html',
         title: this.translate.instant('GLOBAL.valor'),
         filter: true,
         valuePrepareFunction: (value: any) => {
@@ -118,7 +118,7 @@ export class CierreVigenciaComponent implements OnInit {
         }
       },
       ValorActual: {
-        type: "html",
+        type: 'html',
         title: this.translate.instant('GLOBAL.valor'),
         filter: true,
         valuePrepareFunction: (value: any) => {
@@ -132,11 +132,11 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        columnTitle: "Ver",
+        columnTitle: 'Ver',
         custom: [{ name: 'ver_fuente', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
-      noDataMessage: "No hay registros.",
+      noDataMessage: 'No hay registros.',
       mode: 'external',
       columns: this.listColumns_fuentes,
     };
@@ -146,11 +146,11 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        columnTitle: "Ver",
+        columnTitle: 'Ver',
         custom: [{ name: 'ver_crp', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
-      noDataMessage: "No hay registros.",
+      noDataMessage: 'No hay registros.',
       mode: 'external',
       columns: this.listColumns_reservas,
     };
@@ -160,11 +160,11 @@ export class CierreVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        columnTitle: "Ver",
+        columnTitle: 'Ver',
         custom: [{ name: 'ver_crp', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
-      noDataMessage: "No hay registros.",
+      noDataMessage: 'No hay registros.',
       mode: 'external',
       columns: this.listColumns_pasivos,
     };

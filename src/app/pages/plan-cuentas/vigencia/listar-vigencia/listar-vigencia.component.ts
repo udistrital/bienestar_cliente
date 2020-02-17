@@ -32,7 +32,9 @@ export class ListarVigenciaComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
+    // tslint:disable-next-line
     private vigenciaHelper: VigenciaHelper,
+    // tslint:disable-next-line
     private rqManager: RequestManager,
     private router: Router,
 
@@ -40,7 +42,7 @@ export class ListarVigenciaComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loadDataFunction = this.vigenciaHelper.getFullVigencias;
+     //this.loadDataFunction = this.vigenciaHelper.getFulllet Vigencias;
 
     this.listColumns = {
       _id: {
@@ -87,8 +89,8 @@ export class ListarVigenciaComponent implements OnInit {
       fechaCierre: {
         title: this.translate.instant('VIGENCIA.fecha_cierre'),
         filter: true,
-        valuePrepareFunction: (value: any) => { 
-          return (new Date( value) > new Date(2000,1,1)) ?  new DatePipe('en-US').transform(value, 'dd/MM/yyyy') : '-';
+        valuePrepareFunction: (value: any) => {
+          return (new Date( value) > new Date(2000, 1, 1)) ?  new DatePipe('en-US').transform(value, 'dd/MM/yyyy') : '-';
         }
       },
     };
@@ -98,7 +100,7 @@ export class ListarVigenciaComponent implements OnInit {
         add: false,
         edit: false,
         delete: false,
-        columnTitle: "Ver",
+        columnTitle: 'Ver',
         custom: [{ name: 'ver', title: '<i class="fas fa-eye" (click)="ver($event)"></i>' }],
         position: 'right'
       },
@@ -110,7 +112,7 @@ export class ListarVigenciaComponent implements OnInit {
   }
 
   loadData(): void {
-    vigencias: this.loadDataFunction(
+    let vigencias = this.loadDataFunction(
     ).subscribe(res => {
       const data = <Array<any>>res;
       this.source.load(data);
