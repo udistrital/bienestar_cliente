@@ -55,9 +55,9 @@ export let FORM_VALUE_FUENTE = {
             tipo: 'TipoDocumento',
             key: 'Nombre',
             opciones: [
-                { Id:1, Nombre: 'ACTA' },
-                { Id:2, Nombre: 'RESOLUCION' },
-                { Id:3, Nombre: 'CONTRATO' },
+                { Id: 1, Nombre: 'ACTA' },
+                { Id: 2, Nombre: 'RESOLUCION' },
+                { Id: 3, Nombre: 'CONTRATO' },
             ],
         },
         {
@@ -67,6 +67,6 @@ export let FORM_VALUE_FUENTE = {
             label_i18n: 'Fecha Documento',
             placeholder_i18n: 'Fecha Documento',
             requerido: true,
-        }                 
+        }
     ],
 };

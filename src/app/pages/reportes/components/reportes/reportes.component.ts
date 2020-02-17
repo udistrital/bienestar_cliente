@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+// tslint:disable-next-line
 import { KnowageHelper } from '../../../../@core/helpers/knowage/knowage.helper';
 // import { spago } from '../../dependences/SpagoBIAPI/*' ;
 import { spagoBIService } from '../../dependences/SpagoBIAPI/spagoBiService.js';

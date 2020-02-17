@@ -42,7 +42,7 @@ export class RubrosFuenteComponent implements OnInit {
 
     this.vigencia      = this.getParamRoute('vigencia');
     this.fuente_codigo = this.getParamRoute('fuente_codigo');
-    if (this.vigencia !== null && this.fuente_codigo !== null){
+    if (this.vigencia !== null && this.fuente_codigo !== null) {
       this.getInfoFuente( this.vigencia, this.fuente_codigo );
     }
   }
@@ -51,12 +51,12 @@ export class RubrosFuenteComponent implements OnInit {
     if (this.infoinput.Movimientos !== undefined) {
 
       const data: Array<any> = [];
-      for (let [key, value] of Object.entries(this.infoinput.Movimientos)) {
+      for (const [key, value] of Object.entries(this.infoinput.Movimientos)) {
         let movFormated: any;
         movFormated = {
           Movimiento: key,
           Valor: value
-        }
+        };
         data.push(movFormated);
       }
 
@@ -92,22 +92,22 @@ export class RubrosFuenteComponent implements OnInit {
       };
     }
   }
-  getParamRoute( paramURL:string ){
+  getParamRoute( paramURL: string ) {
     let valor;
-    this.route.paramMap.subscribe(params =>{
-      if(params.get(paramURL) !== null ){
+    this.route.paramMap.subscribe( params => {
+      if (params.get(paramURL) !== null ) {
         valor = params.get(paramURL);
       }
     });
     return valor;
   }
-  getInfoFuente( vigencia:string, codigo:string ){
+  getInfoFuente( vigencia: string, codigo: string ) {
     let fuente: object;
-    this.fuenteHelper.getFuente(codigo,vigencia,'1').subscribe((res) => { if(res){ fuente = res; }},
+    this.fuenteHelper.getFuente(codigo, vigencia, '1').subscribe((res) => { if (res) { fuente = res; } },
                                                                             (err) => console.error(err),
-                                                                            () => { this.saveDataFuente(fuente) });
+                                                                            () => { this.saveDataFuente(fuente); });
   }
-  saveDataFuente( data: object){
+  saveDataFuente( data: object) {
     this.infoinput = data;
     this.completeData = true;
     this.loadInfoFuente();
@@ -133,9 +133,9 @@ export class RubrosFuenteComponent implements OnInit {
                 item.rubro = res[0].data;
               }
             });
-          })
+          });
         }
-      })
+      });
     }
 
   }
@@ -150,16 +150,15 @@ export class RubrosFuenteComponent implements OnInit {
               this.rbIncome = response[0].data;
               console.info(this.rbIncome);
             }
-          })
+          });
         }
       }
-    }
-    else {
+    } else {
       this.apHelper.getFullArbolByNode(Codigo, this.infoinput.Vigencia).subscribe((response) => {
         if (response) {
           this.rbIncome = response[0].data;
         }
-      })
+      });
     }
   }
 
@@ -182,10 +181,10 @@ export class RubrosFuenteComponent implements OnInit {
       this.infoinput.Rubros[this.incomeRubroAdd.Codigo] = { Tipo: 'INGRESO' };
       this.fuenteHelper.fuenteUpdate(this.infoinput).subscribe((res) => {
         if (res) {
-          this.pUpManager.showSuccessAlert("se asigno el ingreso correctamente");
+          this.pUpManager.showSuccessAlert('se asigno el ingreso correctamente'); // TODO: agregar traductor
           this.loadInfoIncome(this.incomeRubroAdd.Codigo);
         }
-      })
+      });
       this.openViewAddIncome = false;
     }
   }

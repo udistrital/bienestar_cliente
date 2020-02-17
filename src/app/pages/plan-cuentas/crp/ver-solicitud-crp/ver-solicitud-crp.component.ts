@@ -59,64 +59,49 @@ export class VerSolicitudCrpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
-    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor,this.solicitud._id).subscribe(res => {
-      
+
+    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor, this.solicitud._id).subscribe( res => {
       if (this.solicitud !== undefined) {
         if (res) {
           this.solicitud.ValorActual = res['ValorActual'];
         }
         this.crpHelper.getSolicitudCRP(this.solicitud['solicitudCrp']).subscribe(resp => {
-  
           this.solicitudc = resp[0];
-  
           if (this.solicitudc) {
-  
+
             this.crpHelper.getCompromiso(this.solicitudc['compromiso'].tipoCompromiso).subscribe(resC => {
               this.tCompromiso = resC;
             });
-  
             this.doc = this.solicitudc['beneficiario'].match(this.r);
             this.tipoID = this.solicitudc['beneficiario'].match(/[a-zA-Z]+/g);
             this.crpHelper.getInfoNaturalJuridica(this.doc).subscribe(respuesta => {
               this.beneficiario = respuesta.NomProveedor;
-  
             });
-  
             this.crpHelper.getInfoCDP(this.solicitudc['vigencia'], this.solicitudc['consecutivoCdp']).subscribe(resCdp => {
               this.cdpInfo = resCdp;
-  
               if (this.cdpInfo) {
-  
                 this.crpHelper.getInfoCdpPC(this.cdpInfo.Data.solicitud_cdp).subscribe(res => {
                   this.solCdpInfo = res;
                   this.area = this.areas.filter(i => {
                     return i.Id === this.solCdpInfo.centroGestor;
                   });
-  
                   this.entidad = this.entidades.filter(j => {
                     return j.Id === this.solCdpInfo.entidad;
                   });
-  
                   this.cdpHelper.getFullNecesidad(this.solCdpInfo.necesidad).subscribe(async res2 => {
                     this.TrNecesidad = res2;
-  
                     if (this.TrNecesidad) {
                       this.objetoNecesidad = this.TrNecesidad.Necesidad.Objeto;
                       await this.getInfoMeta(this.TrNecesidad['Necesidad'].Vigencia, 122).toPromise().then(resMeta => { this.actividades = resMeta; });
-  
                       if (this.TrNecesidad.Rubros) {
                         this.TrNecesidad.Rubros.forEach(rubro => {
                           rubro.MontoParcial = 0;
-  
                           if (rubro.Metas) {
                             rubro.Metas.forEach(meta => {
                               meta['InfoMeta'] = this.actividades['metas'].actividades.filter(actividad => actividad['meta_id'] === meta['MetaId']);
-  
                               if (meta.Actividades) {
                                 meta.Actividades.forEach(act => {
                                   act['InfoActividad'] = this.actividades['metas'].actividades.filter(actividad => actividad['actividad_id'] === act['ActividadId']);
-  
                                   if (act.FuentesActividad) {
                                     act.FuentesActividad.forEach(fuente => {
                                       rubro.MontoParcial += fuente.MontoParcial;
@@ -126,30 +111,23 @@ export class VerSolicitudCrpComponent implements OnInit {
                               }
                             });
                           }
-  
                           if (rubro.Fuentes) {
                             rubro.Fuentes.forEach(fuente => {
                               rubro.MontoParcial += fuente.MontoParcial;
                             });
-  
                           }
-  
                         });
                       }
-  
-  
                     }
                     if (this.TrNecesidad.Rubros.length > 1) {
                       this.formRubros = true;
                     } else {
                       this.construirMovimiento();
                     }
-  
                   });
                 });
               }
             });
-  
           }
         });
       }
@@ -181,8 +159,8 @@ export class VerSolicitudCrpComponent implements OnInit {
       });
   }
 
-  refreshData(){
-    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor,this.solicitud._id).subscribe(res => {
+  refreshData() {
+    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor, this.solicitud._id).subscribe( res => {
       if (res) {
         this.solicitud.ValorActual = res['ValorActual'];
         this.anulationSuccessEvent.emit(true);

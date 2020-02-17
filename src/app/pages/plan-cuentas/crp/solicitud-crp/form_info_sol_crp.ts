@@ -25,7 +25,7 @@ export let FORM_INFO_SOL_CRP = {
             requerido: true,
             tipo: 'text',
             key: 'valor',
-            opciones: [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' },{ Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }],
+            opciones: [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' }, { Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }],
         },
         {
             etiqueta: 'input',

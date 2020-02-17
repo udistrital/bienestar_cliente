@@ -30,7 +30,7 @@ export class ConsultaVigenciaComponent implements OnInit {
   CentroGestor: string;
   AreaFuncional: string;
   viewOption: string;
-  tabPlanAdquisicionesRubro : boolean;
+  tabPlanAdquisicionesRubro: boolean;
 
   constructor(
     private apHelper: ApropiacionHelper,

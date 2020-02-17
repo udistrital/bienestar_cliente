@@ -5,7 +5,6 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { FuenteHelper } from '../../../../@core/helpers/fuentes/fuenteHelper';
 import { ApropiacionHelper } from '../../../../@core/helpers/apropiaciones/apropiacionHelper';
 import { CommonHelper } from '../../../../@core/helpers/commonHelper';
-import { LinkSmartTableComponent } from '../../../ui-features/link-smart-table/link-smart-table.component';
 import { FORM_FUENTE } from '../form-fuente';
 
 @Component({
@@ -44,7 +43,7 @@ export class ListFuenteComponent implements OnInit {
   listColumns: object;
   fuenteInfo: any;
   disabledVigencia: boolean = false;
-  domain:string = 'fuentes';
+  domain: string = 'fuentes';
 
   constructor(
     private translate:    TranslateService,
@@ -147,14 +146,14 @@ export class ListFuenteComponent implements OnInit {
 
   }
   loadOptionsVigencia(): void {
-    let aplicacion = this.vigencias;
+    const aplicacion = this.vigencias;
     this.formEntity.campos[this.getIndexForm('Vigencia')].opciones = aplicacion;
   }
   getIndexForm(nombre: String): number {
     for (let index = 0; index < this.formEntity.campos.length; index++) {
       const element = this.formEntity.campos[index];
       if (element.nombre === nombre) {
-        return index
+        return index;
       }
     }
     return 0;
@@ -175,7 +174,7 @@ export class ListFuenteComponent implements OnInit {
 
   onSelect(selectedItem: any) {
     this.vigenciaSel = selectedItem;
-    if(this)
+    if (this)
     this.paramsFieldsName = { Vigencia: this.vigenciaSel, UnidadEjecutora: 1 };
   }
   onExternalTabActivator($event: string) {
@@ -198,11 +197,11 @@ export class ListFuenteComponent implements OnInit {
     this.auxcambiotab = false;
     this.localtabActived = false;
     this.createTab = false;
-    this.viewTab = false
+    this.viewTab = false;
   }
-  selectVigenciasArea(objectVig){
-    return objectVig.filter((vigencia)=>{
-      if(vigencia.areaFuncional === '1') { return vigencia.valor; }
+  selectVigenciasArea(objectVig) {
+    return objectVig.filter( (vigencia) => {
+      if (vigencia.areaFuncional === '1') { return vigencia.valor; }
     });
   }
 }

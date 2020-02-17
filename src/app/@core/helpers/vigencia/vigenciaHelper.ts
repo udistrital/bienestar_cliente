@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { RequestManager } from '../../managers/requestManager';
 import { PopUpManager } from '../../managers/popUpManager';
 import { map } from 'rxjs/operators';
@@ -13,7 +13,7 @@ export class VigenciaHelper {
     constructor(
        private rqManager: RequestManager,
        private pUpManager: PopUpManager,
-    ){ }
+    ) { }
 
      /**
     * getFullVigencias
@@ -32,7 +32,7 @@ export class VigenciaHelper {
                         return undefined;
                     }
                     if (id && area) {
-                        return res.filter(vig => vig._id===id && vig.areaFuncional === area);
+                        return res.filter(vig => vig._id === id && vig.areaFuncional === area);
                     } else {
                         return res;
                     }

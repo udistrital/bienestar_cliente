@@ -12,16 +12,16 @@ import { Router } from '@angular/router';
 })
 export class LinkSmartTableComponent implements OnInit {
 
-  @Input() domain:string;
-  @Input() vigencia: any;
-  @Input() link_router:string;
+  @Input() domain:      string;
+  @Input() vigencia:    any;
+  @Input() link_router: string;
 
   constructor(
             private router:    Router
   ) { }
 
   ngOnInit() {
-    this.router.navigate(['/pages/plan-cuentas/',this.domain,this.vigencia,this.link_router]);
+    this.router.navigate(['/pages/plan-cuentas/', this.domain, this.vigencia, this.link_router ]);
   }
 
 }

@@ -31,7 +31,6 @@
                         </nb-card>
                     </mat-step>
                 <mat-step *ngIf="option.value =='apropiacion' " label="{{'APROPIACION.apropiaciones' | translate }}" [stepControl]="setModValidationForm">
-                    
                     <ngx-set-modificacion-apropiacion  (setStepValidationEvent)="setSteppValidator($event)">
                     </ngx-set-modificacion-apropiacion>
                 </mat-step>
