@@ -4,7 +4,6 @@ export const FORM_CIERRE_VIGENCIA = {
     alertas: true,
     modelo: 'CierreVigencia',
     campos: [
-    
         {
             etiqueta: 'select',
             claseGrid: 'col-lg-6 col-md-6 col-sm-6 col-xs-6',

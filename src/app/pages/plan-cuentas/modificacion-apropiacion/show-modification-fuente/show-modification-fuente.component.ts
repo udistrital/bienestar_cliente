@@ -1,5 +1,4 @@
 import { Component, OnInit, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
-import { ModFuenteData } from '../../../../@core/interfaces/modificationInterface';
 
 @Component({
   selector: 'ngx-show-modification-fuente',

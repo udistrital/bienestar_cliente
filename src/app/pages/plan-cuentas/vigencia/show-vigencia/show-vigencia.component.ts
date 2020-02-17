@@ -20,7 +20,7 @@ export class ShowVigenciaComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.listColumns = {
 
-    }
+    };
   }
   cambioTab() {
     this.eventChange.emit(false);

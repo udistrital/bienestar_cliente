@@ -5,20 +5,19 @@ import {
   Output,
   EventEmitter,
   OnChanges
-} from "@angular/core";
-import { registerLocaleData, CurrencyPipe } from "@angular/common";
-import locales from "@angular/common/locales/es-CO";
-import { ModApropiacionHelper } from "../../../@core/helpers/modApropiacionHelper";
-import { MovimientosHelper } from "../../../@core/helpers/movimientos/movimientosHelper";
-import { PopUpManager } from "../../../@core/managers/popUpManager";
-import { TranslateService } from "@ngx-translate/core";
-import { Observable } from "rxjs";
-registerLocaleData(locales, "co");
+} from '@angular/core';
+import { registerLocaleData, CurrencyPipe } from '@angular/common';
+import locales from '@angular/common/locales/es-CO';
+import { ModApropiacionHelper } from '../../../@core/helpers/modApropiacionHelper';
+import { MovimientosHelper } from '../../../@core/helpers/movimientos/movimientosHelper';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+registerLocaleData(locales, 'co');
 
 @Component({
-  selector: "ngx-list-anulacion-documento",
-  templateUrl: "./list-anulacion-documento.component.html",
-  styleUrls: ["./list-anulacion-documento.component.scss"]
+  selector: 'ngx-list-anulacion-documento',
+  templateUrl: './list-anulacion-documento.component.html',
+  styleUrls: ['./list-anulacion-documento.component.scss']
 })
 export class ListAnulacionDocumentoComponent implements OnInit, OnChanges {
   @Input() movID: string;
@@ -36,7 +35,7 @@ export class ListAnulacionDocumentoComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnChanges(changes) {
-    if (changes["updateSignal"] && this.updateSignal) {
+    if (changes['updateSignal'] && this.updateSignal) {
       this.updateSignal.subscribe(() => {
         this.loadMovs();
       });
@@ -46,46 +45,46 @@ export class ListAnulacionDocumentoComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.listColumns = {
       Consecutivo: {
-        title: this.translate.instant("GLOBAL.consecutivo"),
+        title: this.translate.instant('GLOBAL.consecutivo'),
         valuePrepareFunction: value => value
       },
 
       Tipo: {
-        title: this.translate.instant("GLOBAL.tipo"),
-        valuePrepareFunction: value => this.translate.instant("GLOBAL." + value)
+        title: this.translate.instant('GLOBAL.tipo'),
+        valuePrepareFunction: value => this.translate.instant('GLOBAL.' + value)
       },
       FechaRegistro: {
-        title: this.translate.instant("GLOBAL.fecha_registro"),
+        title: this.translate.instant('GLOBAL.fecha_registro'),
         valuePrepareFunction: value => {
           const date = new Date(value);
           return `${date.getFullYear()}-${date.getMonth() + 1}-${(
-            "0" + date.getDate()
+            '0' + date.getDate()
           ).slice(-2)}`;
         }
       },
       Valor: {
-        title: this.translate.instant("GLOBAL.valor"),
-        type: "html",
+        title: this.translate.instant('GLOBAL.valor'),
+        type: 'html',
         valuePrepareFunction: function(value) {
           return (
             `<div class="customformat"> ` +
-            new CurrencyPipe("co").transform(
+            new CurrencyPipe('co').transform(
               value,
-              "COP",
-              "symbol",
-              "4.2-2",
-              "co"
+              'COP',
+              'symbol',
+              '4.2-2',
+              'co'
             ) +
             `</div>`
           );
         }
       },
       Descripcion: {
-        title: this.translate.instant("GLOBAL.descripcion"),
-        type: "html",
+        title: this.translate.instant('GLOBAL.descripcion'),
+        type: 'html',
         valuePrepareFunction: value =>
           `<div data-toggle="tooltip" title="${value}">${
-            value.length > 35 ? value.substring(0, 35) + "&hellip;" : value
+            value.length > 35 ? value.substring(0, 35) + '&hellip;' : value
           }</div>`
       }
     };
@@ -94,14 +93,14 @@ export class ListAnulacionDocumentoComponent implements OnInit, OnChanges {
         add: false,
         edit: false,
         delete: false,
-        position: "right"
+        position: 'right'
       },
       add: {
         addButtonContent: '<i title="Nueva Modificación" class="nb-plus"></i>',
         createButtonContent: '<i class="nb-checkmark"></i>',
         cancelButtonContent: '<i class="nb-close"></i>'
       },
-      mode: "external",
+      mode: 'external',
       columns: this.listColumns,
       pager: {
         display: true,

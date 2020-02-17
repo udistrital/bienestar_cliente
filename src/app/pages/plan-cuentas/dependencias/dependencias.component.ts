@@ -8,6 +8,7 @@ registerLocaleData(locales, 'co');
 
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';
+// tslint:disable-next-line
 import { debug } from 'util';
 @Component({
   selector: 'ngx-dependencias',

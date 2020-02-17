@@ -37,7 +37,7 @@ export class CierreVigenciaHelper {
 
     }
 
-    /** 
+    /**
     * getSolicitudesCdp
     * Consulta la informacion de precierre
     * cierre si todo ok, alerta si falla.
@@ -60,8 +60,7 @@ export class CierreVigenciaHelper {
 
     }
 
-
-    /** 
+    /**
     * ejecutarCierre
     * ejecutarCierre
     * cierre si todo ok, alerta si falla.
@@ -78,26 +77,24 @@ export class CierreVigenciaHelper {
                         this.pUpManager.showErrorAlert('No se pudo ejecutar el cierre.');
                         return undefined;
                     }
-                    return res
+                    return res;
                 },
             ),
         );
 
     }
 
-
-    /** 
+    /**
     * saber si una fecha es hoy
     * @param someDate fecha
     * @returns  boolean
     */
     public esHoy(someDate) {
-        const today = new Date()
-        someDate = new Date(someDate)
+        const today = new Date();
+        someDate = new Date(someDate);
         return someDate.getDate() == today.getDate() &&
             someDate.getMonth() == today.getMonth() &&
-            someDate.getFullYear() == today.getFullYear()
+            someDate.getFullYear() == today.getFullYear();
     }
-
 
 }

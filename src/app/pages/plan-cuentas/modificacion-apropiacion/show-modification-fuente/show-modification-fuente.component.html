@@ -1,7 +1,6 @@
 <nb-card>
         <nb-card-body class="cards-container">
             <div *ngFor="let afectationItem of afectationData" class="cards-items">
-    
                 <div class="card">
                     <div class="header-container card-header bg-warning text-white">
                         <b class="card-title">{{'GLOBAL.tipo' | translate }} : {{afectationItem.Tipo.Nombre}}</b>
@@ -10,17 +9,17 @@
                     </div>
                     <div *ngIf="afectationItem.MovimientoOrigen" class="card-body">
                         <b>{{'MODIF.fuente_origen' | translate }}</b> : {{afectationItem.MovimientoOrigen.Codigo}} / {{afectationItem.MovimientoOrigen.Nombre}}
-                            <br>                       
+                            <br>
                             <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afectationItem.Valor | currency:'COP':'symbol':'4.2-2':'co' }}
                             </span>
-                            <br>                         
+                            <br>
                     </div>
                     <div *ngIf="afectationItem.CuentaCredito" class="card-body">
                         <b>{{'MODIF.cuenta_credito' | translate }}</b> : {{afectationItem.CuentaCredito.Codigo}} / {{afectationItem.CuentaCredito.Nombre}}
                             <br>
                             <b>{{'GLOBAL.valor' | translate }} </b> :<span class="moneyField"> {{afectationItem.Valor | currency:'COP':'symbol':'4.2-2':'co' }}
                             </span>
-                            <br>                         
+                            <br>
                     </div>
                 </div>
             </div>

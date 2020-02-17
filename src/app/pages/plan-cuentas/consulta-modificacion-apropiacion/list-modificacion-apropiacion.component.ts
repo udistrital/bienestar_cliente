@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { ModApropiacionHelper } from '../../../@core/helpers/modApropiacionHelper';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
 import { ApropiacionHelper } from '../../../@core/helpers/apropiaciones/apropiacionHelper';
-import { LinkSmartTableComponent } from '../../ui-features/link-smart-table/link-smart-table.component';
 
 @Component({
   selector: 'ngx-list-modificacion-apropiacion',
@@ -156,7 +155,7 @@ export class ListModificacionApropiacionComponent implements OnInit {
 
   }
   onChange(event) {
-    console.log(this.modificationDataSelected);
+    
   }
 
   loadOptionsVigencia(): void {
@@ -179,8 +178,8 @@ export class ListModificacionApropiacionComponent implements OnInit {
   }
 
   onSelectTipoMod(selectedItem: any) {
-    //this.link_router_modificacion_detalle = selectedItem
-    //console.log(selectedItem._id);
+    // this.link_router_modificacion_detalle = selectedItem
+    // console.log(selectedItem._id);
     this.tipoModSel = selectedItem;
     this.paramsFieldsName = { vigencia: this.vigenciaSel, cg: '1', tipomod: this.tipoModSel.value };
   }
@@ -217,9 +216,9 @@ export class ListModificacionApropiacionComponent implements OnInit {
   onSaved($event) {
     this.returnToList();
   }
-  selectVigenciasArea(objectVig){
-    return objectVig.filter((vigencia)=>{
-      if(vigencia.areaFuncional === '1') { return vigencia.valor; }
+  selectVigenciasArea(objectVig) {
+    return objectVig.filter((vigencia) => {
+      if (vigencia.areaFuncional === '1') { return vigencia.valor; }
     });
   }
 }

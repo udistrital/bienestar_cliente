@@ -53,7 +53,7 @@ export class SetModificacionApropiacionComponent implements OnInit {
     }
 
     public movApropiaciones( movimiento ) {
-        const acronimo = movimiento.Acronimo
+        const acronimo = movimiento.Acronimo;
         if ( 'adicion'    === acronimo ||
              'suspension' === acronimo ||
              'traslado'   === acronimo ||

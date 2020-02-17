@@ -25,14 +25,14 @@ export class SolicitudCrpComponent implements OnInit {
   docPresupuestalCdp: any;
   tipoDocData: Array<any>;
   tipoCompromisosData: Array<any>;
-  valorCrp: number; 
+  valorCrp: number;
 
   numeroCdp: number = null;
   numDocBeneficiario =  '';
   nomBeneficiario = '';
   validated = false;
   clean = false;
-  vigencias = [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' },{ Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }];
+  vigencias = [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' }, { Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }];
   montos = [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }];
 
   formGroup = new FormGroup({
@@ -71,7 +71,7 @@ export class SolicitudCrpComponent implements OnInit {
     } else {
       this.formGroup.controls['valorCrp'].enable();
       this.formGroup.controls['valorCrp'].setValue(0);
-    }   
+    }
   }
 
   guardar() {
@@ -138,7 +138,6 @@ export class SolicitudCrpComponent implements OnInit {
           });
           console.info(res);
           this.rubrosCdp = res;
-          
           this.formGroup.controls['tipoMonto'].enable();
           this.formGroup.controls['fechaIniVigencia'].enable();
           this.formGroup.controls['fechaFinVigencia'].enable();

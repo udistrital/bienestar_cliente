@@ -33,7 +33,7 @@ export class ArbolHelper {
 
     let query = '';
     if (params) {
-      let queryString = Object.keys(params).map(key => key + ':' + params[key]).join(',');
+      const queryString = Object.keys(params).map(key => key + ':' + params[key]).join(',');
         query = `?query=${queryString}`;
     }
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');

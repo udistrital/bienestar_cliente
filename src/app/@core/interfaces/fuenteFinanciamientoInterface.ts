@@ -13,5 +13,5 @@ export interface FuenteFinanciamientoInterface {
     NumeroDocumento: string;
     TipoDocumento: string;
     Codigo: string;
-    Rubros?: Object; 
+    Rubros?: Object;
 }

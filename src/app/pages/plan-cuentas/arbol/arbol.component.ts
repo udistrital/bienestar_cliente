@@ -96,7 +96,7 @@ export class ArbolComponent implements OnChanges {
     }
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
-    }    
+    }
   }
 
   // private data: TreeNode<EstructuraArbolRubrosApropiaciones>[] | TreeNode<EstructuraArbolRubros>[];
@@ -121,7 +121,7 @@ export class ArbolComponent implements OnChanges {
     });
   }
 
-  loadedTreeRubros(){
+  loadedTreeRubros() {
     this.loading = false;
   }
 

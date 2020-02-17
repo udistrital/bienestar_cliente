@@ -24,14 +24,14 @@ export class DetalleCrpComponent implements OnInit {
     }
 
     private getInfoDocPresupuestal() {
-        let docPresupuestalMap = {};
-        let documentosRequest = [];
+        const docPresupuestalMap = {};
+        const documentosRequest = [];
         this.movimientosRp.forEach(element => {
             documentosRequest.push(this.docPresupuestalHelper.getById(this.vigencia, this.areaFuncional, element.DocumentoPresupuestalUUID));
         });
         forkJoin(documentosRequest).subscribe(res => {
             res.forEach(element => {
-                docPresupuestalMap[element['_id']] = element;                
+                docPresupuestalMap[element['_id']] = element;
             });
             this.docPresupuestal = Object.values(docPresupuestalMap);
         });
