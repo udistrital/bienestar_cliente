@@ -37,7 +37,7 @@ export class CierreVigenciaHelper {
 
     }
 
-    /** 
+    /**
     * getSolicitudesCdp
     * Consulta la informacion de precierre
     * cierre si todo ok, alerta si falla.
@@ -61,7 +61,7 @@ export class CierreVigenciaHelper {
     }
 
 
-    /** 
+    /**
     * ejecutarCierre
     * ejecutarCierre
     * cierre si todo ok, alerta si falla.
@@ -78,7 +78,7 @@ export class CierreVigenciaHelper {
                         this.pUpManager.showErrorAlert('No se pudo ejecutar el cierre.');
                         return undefined;
                     }
-                    return res
+                    return res;
                 },
             ),
         );
@@ -86,7 +86,7 @@ export class CierreVigenciaHelper {
     }
 
 
-    /** 
+    /**
     * saber si una fecha es hoy
     * @param someDate fecha
     * @returns  boolean

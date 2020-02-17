@@ -6,10 +6,6 @@ no-unused-variable is deprecated. Since TypeScript 2.9. Please use the built-in 
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/data/models/vigencia.ts:7:2 - file should end with a newline
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/apropiaciones/apropiacionHelper.ts:151:15 - 'unidadEjecutora' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/arbol/arbolHelper.ts:36:11 - Identifier 'queryString' is never reassigned; use 'const' instead of 'let'.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:40:8 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:64:8 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:81:31 - Missing semicolon
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:89:8 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:95:33 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:96:38 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/cierre-vigencia/cierreVigenciaHelper.ts:97:35 - == should be ===
@@ -22,13 +18,11 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/knowage/knowage.helper.ts:28:10 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/knowage/knowage.helper.ts:30:36 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/knowage/knowage.helper.ts:31:9 - Calls to 'console.log' are not allowed.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/modApropiacionHelper.ts:27:1 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/oikos/dependenciaHelper.ts:17:15 - 'params' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:16:6 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:25:15 - 'query' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:35:57 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/helpers/vigencia/vigenciaHelper.ts:35:60 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@core/interfaces/fuenteFinanciamientoInterface.ts:16:21 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@theme/components/crud/crud-component/crud.component.ts:41:3 - Lifecycle interface OnChanges should be implemented for method ngOnChanges. (https://angular.io/styleguide#style-09-01)
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@theme/components/crud/list-component/list.component.ts:73:3 - Lifecycle interface OnChanges should be implemented for method ngOnChanges. (https://angular.io/styleguide#style-09-01)
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/@theme/components/footer/footer.component.ts:15:13 - Property 'translate' is declared but its value is never read.
@@ -57,8 +51,6 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/apropiaciones/apropiaciones.component.ts:99:13 - Identifier 'proxVigenciaInt' is never reassigned; use 'const' instead of 'let'.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/apropiaciones/apropiaciones.component.ts:99:43 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/apropiaciones/apropiaciones.component.ts:99:44 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/arbol/arbol.component.ts:99:6 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/arbol/arbol.component.ts:124:21 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/cdp/list-cdp/list-cdp.component.ts:154:39 - Missing semicolon
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/cdp/ver-solicitud-cdp/ver-solicitud-cdp.component.ts:110:128 - Shadowed name: 'res'
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/cdp/ver-solicitud-cdp/ver-solicitud-cdp.component.ts:135:9 - Identifier 'movimientosRequest' is never reassigned; use 'const' instead of 'let'.
@@ -82,7 +74,6 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/detalle-crp/detalle-crp.component.ts:1:44 - 'EventEmitter' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/detalle-crp/detalle-crp.component.ts:27:13 - Identifier 'docPresupuestalMap' is never reassigned; use 'const' instead of 'let'.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/detalle-crp/detalle-crp.component.ts:28:13 - Identifier 'documentosRequest' is never reassigned; use 'const' instead of 'let'.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/detalle-crp/detalle-crp.component.ts:34:62 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/list-crp/list-crp.component.ts:38:13 - Property 'cdpHelper' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/list-crp/list-crp.component.ts:113:47 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/list-crp/list-crp.component.ts:113:48 - missing whitespace
@@ -95,47 +86,19 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/list-solicitud-crp/list-solicitud-crp.component.ts:33:13 - Property 'cdpHelper' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/list-solicitud-crp/list-solicitud-crp.component.ts:151:11 - 'a' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/form_info_sol_crp.ts:28:75 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:28:20 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:35:67 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:51:13 - Property 'cdpHelper' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:54:13 - Property 'admAmazonHelper' is declared but its value is never read.
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:74:6 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:135:64 - Shadowed name: 'res'
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/solicitud-crp/solicitud-crp.component.ts:141:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:62:1 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:63:91 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:64:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:70:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:72:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:74:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:78:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:83:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:85:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:88:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:90:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:91:88 - Shadowed name: 'res'
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:96:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:100:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:103:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:107:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:111:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:115:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:119:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:129:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:134:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:136:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:139:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:140:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:147:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:152:1 - trailing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:184:16 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:185:91 - missing whitespace
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:83:88 - Shadowed name: 'res'
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:162:16 - missing whitespace
+ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/crp/ver-solicitud-crp/ver-solicitud-crp.component.ts:163:91 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/dependencias/dependencias.component.ts:11:1 - All imports on this line are unused.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/dependencias/dependencias.component.ts:56:3 - Lifecycle interface OnChanges should be implemented for method ngOnChanges. (https://angular.io/styleguide#style-09-01)
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/form-value-fuente.ts:58:22 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/form-value-fuente.ts:59:22 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/form-value-fuente.ts:60:22 - missing whitespace
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/form-value-fuente.ts:70:10 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/list-fuente/list-fuente.component.ts:8:1 - All imports on this line are unused.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/list-fuente/list-fuente.component.ts:47:10 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/fuentes/list-fuente/list-fuente.component.ts:150:9 - Identifier 'aplicacion' is never reassigned; use 'const' instead of 'let'.
@@ -189,7 +152,6 @@ ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:236:58 - missing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:247:7 - misplaced 'else'
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/cierre-vigencia.component.ts:250:7 - Missing semicolon
-ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/gestion-vigencias/cierre-vigencia/form_cierre_vigencia.ts:7:1 - trailing whitespace
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:5:3 - 'Output' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:6:3 - 'EventEmitter' is declared but its value is never read.
 ERROR: /Users/macbookpro/Z/professional-projects/UDistrital/presupuesto_cliente/src/app/pages/plan-cuentas/list-anulacion-documento-pres/list-anulacion-documento.component.ts:11:1 - All imports on this line are unused.

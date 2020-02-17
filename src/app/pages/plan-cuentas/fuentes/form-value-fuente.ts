@@ -67,6 +67,6 @@ export let FORM_VALUE_FUENTE = {
             label_i18n: 'Fecha Documento',
             placeholder_i18n: 'Fecha Documento',
             requerido: true,
-        }                 
+        }
     ],
 };

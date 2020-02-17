@@ -31,7 +31,7 @@ export class DetalleCrpComponent implements OnInit {
         });
         forkJoin(documentosRequest).subscribe(res => {
             res.forEach(element => {
-                docPresupuestalMap[element['_id']] = element;                
+                docPresupuestalMap[element['_id']] = element;
             });
             this.docPresupuestal = Object.values(docPresupuestalMap);
         });

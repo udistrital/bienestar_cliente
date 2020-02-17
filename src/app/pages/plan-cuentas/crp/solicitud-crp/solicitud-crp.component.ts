@@ -25,7 +25,7 @@ export class SolicitudCrpComponent implements OnInit {
   docPresupuestalCdp: any;
   tipoDocData: Array<any>;
   tipoCompromisosData: Array<any>;
-  valorCrp: number; 
+  valorCrp: number;
 
   numeroCdp: number = null;
   numDocBeneficiario =  '';
@@ -71,7 +71,7 @@ export class SolicitudCrpComponent implements OnInit {
     } else {
       this.formGroup.controls['valorCrp'].enable();
       this.formGroup.controls['valorCrp'].setValue(0);
-    }   
+    }
   }
 
   guardar() {
@@ -138,7 +138,6 @@ export class SolicitudCrpComponent implements OnInit {
           });
           console.info(res);
           this.rubrosCdp = res;
-          
           this.formGroup.controls['tipoMonto'].enable();
           this.formGroup.controls['fechaIniVigencia'].enable();
           this.formGroup.controls['fechaFinVigencia'].enable();
