@@ -206,7 +206,7 @@ export class CierreVigenciaComponent implements OnInit {
         this.source_reservas.load(this.lista_reservas);
         this.lista_pasivos = res.Pasivos;
         this.source_pasivos.load(this.lista_pasivos);
-      })
+      });
   }
 
   // getIndexForm(nombre: String): number {
@@ -230,10 +230,10 @@ export class CierreVigenciaComponent implements OnInit {
   onCustom(event: any) {
     switch (event.action) {
       case 'ver_fuente':
-        this.router.navigate(['/pages/plan-cuentas/fuentes',this.cierreVigenciaData.Vigencia,event.data.Codigo]);
+        this.router.navigate(['/pages/plan-cuentas/fuentes', this.cierreVigenciaData.Vigencia, event.data.Codigo]);
         break;
       case 'ver_crp':
-        this.router.navigate(['/pages/plan-cuentas/crp/',event.data.Vigencia]);
+        this.router.navigate(['/pages/plan-cuentas/crp/', event.data.Vigencia]);
         break;
     }
   }
@@ -247,6 +247,6 @@ export class CierreVigenciaComponent implements OnInit {
       else {
         this.popManager.showErrorAlert('Error al generar el cierre');
       }
-    })
+    });
   }
 }

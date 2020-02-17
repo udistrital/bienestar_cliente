@@ -110,7 +110,7 @@ export class ListCrpComponent implements OnInit {
         title: this.translate.instant('CRP.estado'),
         filter: true,
         valuePrepareFunction: value => {
-          return this.translate.instant('CRP.'+value);
+          return this.translate.instant('CRP.' + value);
         }
       },
     };
@@ -131,10 +131,10 @@ export class ListCrpComponent implements OnInit {
     this.loadData();
   }
 
-  getParamRoute( paramURL:string ){
+  getParamRoute( paramURL: string ) {
     let valor;
-    this.route.paramMap.subscribe(params =>{
-      if(params.get(paramURL) !== null ){
+    this.route.paramMap.subscribe( params => {
+      if (params.get(paramURL) !== null ) {
         valor = params.get(paramURL);
       }
     });

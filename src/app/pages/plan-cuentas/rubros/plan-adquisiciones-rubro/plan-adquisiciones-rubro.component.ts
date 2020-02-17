@@ -17,8 +17,8 @@ import { BehaviorSubject } from 'rxjs';
 export class PlanAdquisicionesRubroComponent implements OnInit {
 
   @Input() rubroSeleccionado : any;
-  @Input() ayuda :string;
-  @Input() vigenciaSel :number;
+  @Input() ayuda : string;
+  @Input() vigenciaSel : number;
   @Output() eventChange = new EventEmitter();
 
   planAdquisicionesRubro: any ;
@@ -41,7 +41,7 @@ export class PlanAdquisicionesRubroComponent implements OnInit {
   ngOnInit() {
   }
   ngOnChanges() {
-    if(this.rubroSeleccionado.Codigo) this.showPlanAdquisicion( this.vigenciaSel, this.rubroSeleccionado.Codigo );
+    if (this.rubroSeleccionado.Codigo) this.showPlanAdquisicion( this.vigenciaSel, this.rubroSeleccionado.Codigo );
   }
 
   isPlanAdquisiciones(boolean) {

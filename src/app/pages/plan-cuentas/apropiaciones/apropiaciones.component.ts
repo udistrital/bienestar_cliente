@@ -5,7 +5,7 @@ import { FuenteHelper } from '../../../@core/helpers/fuentes/fuenteHelper';
 import { PopUpManager } from '../../../@core/managers/popUpManager';
 import { ArbolApropiacion } from '../../../@core/data/models/arbol_apropiacion';
 import { CommonHelper } from '../../../@core/helpers/commonHelper';
-import { VigenciaHelper } from '../../../@core/helpers/vigencia/vigenciaHelper'
+import { VigenciaHelper } from '../../../@core/helpers/vigencia/vigenciaHelper';
 import { DependenciaHelper } from '../../../@core/helpers/oikos/dependenciaHelper';
 import { registerLocaleData } from '@angular/common';
 import locales from '@angular/common/locales/es-CO';
@@ -96,7 +96,7 @@ export class ApropiacionesComponent implements OnInit {
   ngOnInit() {
     this.commonHelper.geCurrentVigencia(1).subscribe(res => {
       if (res) {
-        let proxVigenciaInt  = Number(res)+1;
+        let proxVigenciaInt  = Number(res) + 1;
         this.VigenciaProxima = proxVigenciaInt.toString();
         this.vigenciaSel     = this.VigenciaProxima;
         this.VigenciaActual  = res;

@@ -80,7 +80,7 @@ export class FuenteHelper {
      */
     public getFuente(id?: any, vigencia?: any, unidadEjecutora?: any) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
-        return this.rqManager.get('fuente_financiamiento/'+ id + '/' + vigencia + '/' + unidadEjecutora).pipe(
+        return this.rqManager.get('fuente_financiamiento/' + id + '/' + vigencia + '/' + unidadEjecutora).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

@@ -60,7 +60,6 @@ export class CierreVigenciaHelper {
 
     }
 
-
     /**
     * ejecutarCierre
     * ejecutarCierre
@@ -85,19 +84,17 @@ export class CierreVigenciaHelper {
 
     }
 
-
     /**
     * saber si una fecha es hoy
     * @param someDate fecha
     * @returns  boolean
     */
     public esHoy(someDate) {
-        const today = new Date()
-        someDate = new Date(someDate)
+        const today = new Date();
+        someDate = new Date(someDate);
         return someDate.getDate() == today.getDate() &&
             someDate.getMonth() == today.getMonth() &&
-            someDate.getFullYear() == today.getFullYear()
+            someDate.getFullYear() == today.getFullYear();
     }
-
 
 }

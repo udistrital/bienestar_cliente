@@ -135,7 +135,7 @@ export class SetModificacionFuenteComponent implements OnInit {
                   this.cuentaCredito = response[0].data;
                   this.modValueForm.controls['cuentaCredito'].patchValue(`${this.cuentaCredito.Codigo} / ${this.cuentaCredito.Nombre}`);
                 }
-              })
+              });
             }
           }
 
@@ -217,7 +217,7 @@ export class SetModificacionFuenteComponent implements OnInit {
       // eliminate the dead keys & return unique objects
       .filter((e) => arr[e]).map(e => arr[e]);
 
-    return unique
+    return unique;
 
   }
 
@@ -233,20 +233,20 @@ export class SetModificacionFuenteComponent implements OnInit {
         if (response) {
           item.rubroData = response[0].data;
           this.target.push(this.formBuilder.group({
-            objCuentaCredito: [item.rubroData,],
+            objCuentaCredito: [item.rubroData, ],
             cuentaCredito: [{ value: `${item.rubroData.Codigo} / ${item.rubroData.Nombre}`, disabled: true }, Validators.required],
             value: ['', Validators.required],
-            valorActual: [{ value: `${item.rubroData.ValorActual}`, disabled: true },]
+            valorActual: [{ value: `${item.rubroData.ValorActual}`, disabled: true }, ]
           }));
         }
-      })
+      });
     } else {
       this.target.removeAt(index);
     }
   }
 
   calculateTotalValue(movData, totalPlanAdquisiciones) {
-    let totalValue
+    let totalValue;
     switch (movData.Tipo.Acronimo) {
       case 'ad_fuente':
         totalValue = movData.MovimientoOrigen.ValorActual - totalPlanAdquisiciones + movData.Valor;

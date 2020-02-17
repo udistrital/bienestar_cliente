@@ -25,11 +25,10 @@ export class KnowageHelper {
                 , width: '100%'
                 , style: 'border: 0px;'
             }
-        }
+        };
 
-        const sbi = this.buildSbi()
+        const sbi = this.buildSbi();
         console.log(sbi);
-
         const authConf = {
             params: {
                   user: environment.KNOWAGE.USER,
@@ -52,8 +51,4 @@ export class KnowageHelper {
         return this.url;
     }
 
-
-
 }
-
-

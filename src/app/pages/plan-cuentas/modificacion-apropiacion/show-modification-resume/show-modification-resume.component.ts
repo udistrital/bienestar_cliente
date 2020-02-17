@@ -26,14 +26,14 @@ export class ShowModificationResumeComponent implements OnInit, OnChanges {
     ngOnInit() { }
 
     saveModification() {
-        if(this.optionMod.value == 'apropiacion') {
+        if (this.optionMod.value == 'apropiacion') {
             this.modApropiacionHelper.modRegister(this.modificationData).subscribe(res => {
                 if (res) {
                     this.popUpManager.showSuccessAlert(res);
                     this.saved.emit(true);
                 }
             });
-        }else {
+        } else {
                 this.modFuenteHelper.modRegister(this.modificationData).subscribe(res => {
                     if (res) {
                         this.popUpManager.showSuccessAlert(res);

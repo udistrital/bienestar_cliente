@@ -151,7 +151,7 @@ export class ListCdpComponent implements OnInit {
     if (event.data.necesidad) {
       this.modPresupuestal = false;
     } else {
-      console.info('mod presupuestal')
+      console.info('mod presupuestal');
       this.modPresupuestal = true;
       event.data['NumeroDocumento'] = event.data.Data.numero_documento;
       event.data['TipoDocumento'] = event.data.Data.tipo_documento.Nombre;

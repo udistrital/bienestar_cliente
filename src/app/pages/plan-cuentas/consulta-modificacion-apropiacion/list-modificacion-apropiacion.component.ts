@@ -217,9 +217,9 @@ export class ListModificacionApropiacionComponent implements OnInit {
   onSaved($event) {
     this.returnToList();
   }
-  selectVigenciasArea(objectVig){
-    return objectVig.filter((vigencia)=>{
-      if(vigencia.areaFuncional === '1') { return vigencia.valor; }
+  selectVigenciasArea(objectVig) {
+    return objectVig.filter((vigencia) => {
+      if (vigencia.areaFuncional === '1') { return vigencia.valor; }
     });
   }
 }

@@ -43,7 +43,7 @@ export class PagesComponent implements OnInit {
     if (this.autenticacion.live()) {
       this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
         .filter((data: any) => (data.indexOf('/') === -1));
-      this.menuws.get(this.roles + '/' +this.application_conf).subscribe(
+      this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
         data => {
           this.dataMenu = <any>data;
           this.mapMenuByObjects(this.dataMenu);
@@ -75,8 +75,8 @@ export class PagesComponent implements OnInit {
    * Map the menu on objects
    *  @param menuArray
    */
-  mapMenuByObjects(menuArray){
-    menuArray.map(itemMenu=>{
+  mapMenuByObjects(menuArray) {
+    menuArray.map( itemMenu => {
       let urlNested = this.replaceUrlNested(itemMenu.Url);
       this.object   = {
         title: itemMenu.Nombre,
@@ -94,8 +94,8 @@ export class PagesComponent implements OnInit {
    * Take the Array from options submenu
    *  @param opcionesMenu
    */
-  mapMenuChildrenObject(opcionesMenu){
-    if(opcionesMenu){
+  mapMenuChildrenObject(opcionesMenu) {
+    if (opcionesMenu) {
       let submenu = [];
       opcionesMenu.map(itemChild => {
         let urlNested = this.replaceUrlNested(itemChild.Url);
@@ -117,9 +117,9 @@ export class PagesComponent implements OnInit {
    * Looks for the variable on environments to replace it dinamically throught clients
    *  @param urlNested
    */
-  replaceUrlNested(urlNested){
-    return urlNested.replace('${url_contabilidad}',this.url_contabilidad)
-                    .replace('${url_presupuesto}',this.url_presupuesto);
+  replaceUrlNested(urlNested) {
+    return urlNested.replace('${url_contabilidad}', this.url_contabilidad)
+                    .replace('${url_presupuesto}', this.url_presupuesto);
   }
 
   /**

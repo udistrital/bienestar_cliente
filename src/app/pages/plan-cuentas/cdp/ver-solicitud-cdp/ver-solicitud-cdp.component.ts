@@ -140,11 +140,11 @@ export class VerSolicitudCdpComponent implements OnInit {
         });
         forkJoin(movimientosRequest).subscribe(res => {
           res.forEach(element => {
-            if(element) {
+            if (element) {
               this.movimientosRp.push(element);
             }
           });
-        })
+        });
       });
     }
   }

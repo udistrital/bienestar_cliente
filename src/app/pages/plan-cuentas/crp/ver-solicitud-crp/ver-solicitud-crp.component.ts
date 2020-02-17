@@ -60,7 +60,7 @@ export class VerSolicitudCrpComponent implements OnInit {
 
   ngOnInit() {
 
-    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor,this.solicitud._id).subscribe(res => {
+    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor, this.solicitud._id).subscribe( res => {
       if (this.solicitud !== undefined) {
         if (res) {
           this.solicitud.ValorActual = res['ValorActual'];
@@ -159,8 +159,8 @@ export class VerSolicitudCrpComponent implements OnInit {
       });
   }
 
-  refreshData(){
-    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor,this.solicitud._id).subscribe(res => {
+  refreshData() {
+    this.documentoPresHelper.getById(this.solicitud.Vigencia, this.solicitud.CentroGestor, this.solicitud._id).subscribe( res => {
       if (res) {
         this.solicitud.ValorActual = res['ValorActual'];
         this.anulationSuccessEvent.emit(true);

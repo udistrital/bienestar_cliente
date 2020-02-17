@@ -32,7 +32,7 @@ export class SolicitudCrpComponent implements OnInit {
   nomBeneficiario = '';
   validated = false;
   clean = false;
-  vigencias = [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' },{ Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }];
+  vigencias = [{ Id: 1, valor: '2017' }, { Id: 2, valor: '2018' }, { Id: 3, valor: '2019' }, { Id: 4, valor: '2020' }];
   montos = [{ Id: 1, valor: 'Monto Parcial' }, { Id: 2, valor: 'Monto Total' }];
 
   formGroup = new FormGroup({
