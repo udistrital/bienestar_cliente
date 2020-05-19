@@ -42,7 +42,8 @@ export class ListarVigenciaComponent implements OnInit {
 
   ngOnInit() {
 
-     // this.loadDataFunction = this.vigenciaHelper.getFulllet Vigencias;
+    this.loadDataFunction = this.vigenciaHelper.getFullVigencias;
+
 
     this.listColumns = {
       _id: {
