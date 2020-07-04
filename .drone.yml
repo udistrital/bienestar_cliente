@@ -1,129 +1,39 @@
 kind: pipeline
-name: cliente_deploy
+name: oas_cliente_ci
 
 steps:
-  - name: prueba-unitarias
-    image: node:12.6.0
-    commands:
-      - npm i
-      - npm run test
-    when:
-      branch:
-        - unitest
+- name: check_readme
+  image: jjvargass/qa_develoment:latest
+  commands:
+  - python /app/check_readme.py
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
 
-  - name:  pruebas-linter
-    image: node:12.6.0
-    commands:
-      - npm i
-      - npm run lint
-    when:
-      branch:
-        - unitest
+- name: check_branch
+  image: jjvargass/qa_develoment:latest
+  commands:
+  - python /app/check_branch.py -H ${DRONE_GIT_HTTP_URL}
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
 
-  - name: sonar_scanner_test
-    image: timbru31/java-node
-    commands:
-     - export RELEASE=4.2.0.1873
-     - apt-get install curl grep sed unzip nodejs npm
-     - curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$RELEASE-linux.zip
-     - unzip sonarscanner.zip
-     - rm sonarscanner.zip
-     - rm -rf sonar-scanner-$RELEASE-linux/jre
-     - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
-     - cp sonar-project.properties ./sonar-scanner-$RELEASE-linux/conf/sonar-scanner.properties
-     - sonar-scanner-$RELEASE-linux/bin/sonar-scanner
-    when:
-      branch:
-      - test
-      - master
-      event:
-      - push
-
-  - name: nodejs-test
-    image: node:12.6.0
-    commands:
-     - node --version
-     - npm cache clean --force
-     - npm i
-     - npm run build:test
-    when:
-      branch:
-        - test
-      event:
-        - push
-
-  - name: nodejs-master
-    image: node:12.6.0
-    commands:
-     - node --version
-     - npm i
-     - npm run build:prod
-    when:
-      branch:
-      - master
-      event:
-      - push
-
-  - name: publish-s3-test
-    image: plugins/s3
-    settings:
-      bucket: cliente-pruebas
-      access_key:
-        from_secret: aws_access_key_id
-      secret_key:
-        from_secret: aws_secret_access_key
-      region: us-east-1
-      source: dist/**/*
-      target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-      strip_prefix: dist/
-    when:
-      branch:
-      - test
-      event:
-      - push
-
-  - name: publish-s3-master
-    image: plugins/s3
-    settings:
-      bucket: cliente-prod
-      access_key:
-        from_secret: aws_access_key_id
-      secret_key:
-        from_secret: aws_secret_access_key
-      region: us-east-1
-      source: dist/**/*
-      target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
-      strip_prefix: dist/
-    when:
-      branch:
-      - master
-      event:
-      - push
-
-  - name: NotifyTelegram
-    image: appleboy/drone-telegram
-    settings:
-      token:
-        from_secret: telegram_token
-      to:
-        from_secret: telegram_to
-      format: html
-      message: >
-        {{#success build.status}}
-          <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">SUCCESS</a>
-          <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-          <code> By:{{commit.author}}</code>
-        {{else}}
-          <code>{{repo.owner}}/{{repo.name}}</code> <a href="{{build.link}}">FAILURE</a>
-          <code>{{commit.branch}}</code>@<a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
-          <code> By:{{commit.author}}</code>
-        {{/success}}
-    when:
-      branch:
-      - master
-      - test
-      event:
-      - push
-      status:
-      - failure
-      - success
+- name: check_commits
+  image: jjvargass/qa_develoment:latest
+  commands:
+  - python /app/check_commits.py
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
