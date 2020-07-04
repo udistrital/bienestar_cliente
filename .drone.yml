@@ -60,7 +60,7 @@ steps:
   image: timbru31/java-node
   commands:
   - export RELEASE=4.2.0.1873
-  - apt-get update
+  - apt-get update && apt-get upgrade -y
   - apt-get install curl grep sed unzip nodejs npm
   - curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$RELEASE-linux.zip
   - unzip sonarscanner.zip
