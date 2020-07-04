@@ -78,8 +78,9 @@ steps:
       {{/success}}
   when:
     branch:
+    - develop
+    - release/*
     - master
-    - test
     event:
     - push
     status:
