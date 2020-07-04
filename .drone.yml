@@ -41,20 +41,22 @@ steps:
 - name: prueba-unitarias
   image: node:12.6.0
   commands:
-    - npm i
-    - npm run test
+  - npm i
+  - npm run test
   when:
     branch:
-      - unitest
+    - unitest
+    - develop
 
 - name:  pruebas-linter
   image: node:12.6.0
   commands:
-    - npm i
-    - npm run lint
+  - npm i
+  - npm run lint
   when:
     branch:
-      - unitest
+    - unitest
+    - develop
 
 - name: NotifyTelegram
   image: appleboy/drone-telegram
