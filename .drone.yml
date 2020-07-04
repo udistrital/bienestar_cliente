@@ -83,7 +83,68 @@ steps:
     event:
     - push
 
-- name: NotifyTelegram
+- name: nodejs_release
+  image: node:12.6.0
+  commands:
+  - node --version
+  - npm cache clean --force
+  - npm i
+  - npm run build:test
+  when:
+    branch:
+    - release/*
+    event:
+    - push
+
+- name: nodejs_master
+  image: node:12.6.0
+  commands:
+  - node --version
+  - npm i
+  - npm run build:prod
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+- name: publish_s3_release
+  image: plugins/s3
+  settings:
+    bucket: cliente-pruebas
+    access_key:
+      from_secret: aws_access_key_id
+    secret_key:
+      from_secret: aws_secret_access_key
+    region: us-east-1
+    source: dist/**/*
+    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    strip_prefix: dist/
+  when:
+    branch:
+    - release/*
+    event:
+    - push
+
+- name: publish_s3_master
+  image: plugins/s3
+  settings:
+    bucket: cliente-prod
+    access_key:
+      from_secret: aws_access_key_id
+    secret_key:
+      from_secret: aws_secret_access_key
+    region: us-east-1
+    source: dist/**/*
+    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    strip_prefix: dist/
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+- name: notify_telegram
   image: appleboy/drone-telegram
   settings:
     token:
