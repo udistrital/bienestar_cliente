@@ -67,7 +67,7 @@ steps:
   - rm sonarscanner.zip
   - rm -rf sonar-scanner-$RELEASE-linux/jre
   - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
-  - sonar-scanner-$RELEASE-linux/bin/sonar-scanner -Dsonar.projectKey=${DRONE_REPO} -Dsonar.projectName=${DRONE_REPO} -Dsonar.projectVersion=1.0
+  - sonar-scanner-$RELEASE-linux/bin/sonar-scanner -Dsonar.projectKey=${DRONE_REPO_NAME} -Dsonar.projectName=${DRONE_REPO_NAME} -Dsonar.projectVersion=1.0
     \-Dsonar.sources=src/
     \-Dsonar.language=js
     \-Dsonar.sourceEncoding=UTF-8
