@@ -67,14 +67,14 @@ steps:
   - rm sonarscanner.zip
   - rm -rf sonar-scanner-$RELEASE-linux/jre
   - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
-  - sonar-scanner-$RELEASE-linux/bin/sonar-scanner sonar.projectKey=${DRONE_REPO} sonar.projectName=${DRONE_REPO} sonar.projectVersion=1.0 \
-    sonar.sources=src/ \
-    sonar.language=js \
-    sonar.sourceEncoding=UTF-8 \
-    sonar.exclusions=**/node_modules/**,**/*.spec.ts \
-    sonar.tests=src/app \
-    sonar.test.inclusions=**/*.spec.ts \
-    sonar.host.url=https://sonarqube.portaloas.udistrital.edu.co/
+  - sonar-scanner-$RELEASE-linux/bin/sonar-scanner -Dsonar.projectKey=${DRONE_REPO} -Dsonar.projectName=${DRONE_REPO} -Dsonar.projectVersion=1.0 \
+    -Dsonar.sources=src/ \
+    -Dsonar.language=js \
+    -Dsonar.sourceEncoding=UTF-8 \
+    -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts \
+    -Dsonar.tests=src/app \
+    -Dsonar.test.inclusions=**/*.spec.ts \
+    -Dsonar.host.url=https://sonarqube.portaloas.udistrital.edu.co/
   when:
     branch:
     - develop
