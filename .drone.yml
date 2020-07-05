@@ -71,7 +71,7 @@ steps:
     \-Dsonar.sources=src/
     \-Dsonar.language=js
     \-Dsonar.sourceEncoding=UTF-8
-    \-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts
+    \-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.scss
     \-Dsonar.tests=src/app
     \-Dsonar.test.inclusions=**/*.spec.ts
     \-Dsonar.host.url=https://sonarqube.portaloas.udistrital.edu.co/
