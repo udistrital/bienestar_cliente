@@ -82,10 +82,10 @@ Los siguientes mockups representan la estructura general de la aplicación, mód
 
 ## Dependencias Utilizadas
 
-### API MID
+**API MID**
 - [Plan Cuentas MID](https://github.com/udistrital/plan_cuentas_mid/)
 
-### API CRUD
+**API CRUD**
 - [Plan Cuentas CRUD](https://github.com/udistrital/plan_cuentas_crud)
 - [Plan Cuentas MONGO CRUD](https://github.com/udistrital/plan_cuentas_mongo_crud)
 
