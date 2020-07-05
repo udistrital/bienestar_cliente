@@ -1,0 +1,14 @@
+.next-button-item {
+    order: 2;
+    flex-basis: 5%;
+}
+.global-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.basic-op-item {
+    order: 1;
+    flex-basis: 100%;
+}

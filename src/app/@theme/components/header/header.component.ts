@@ -40,6 +40,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       value: 'corporate',
       name: 'Corporate',
     },
+    {
+      value: 'kronos',
+      name: 'KRONOS',
+    },
   ];
 
   currentTheme = 'default';
@@ -103,7 +107,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    this.menuService.navigateHome();
+    this.router.navigate(['/pages/plan-cuentas/rubros']);
+    // this.menuService.navigateHome();
     return false;
   }
   login() {

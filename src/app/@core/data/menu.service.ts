@@ -7,6 +7,7 @@ import { throwError } from 'rxjs';
 const httpOptions = {
   headers: new HttpHeaders({
     'Accept': 'application/json',
+    'authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
   }),
 };
 

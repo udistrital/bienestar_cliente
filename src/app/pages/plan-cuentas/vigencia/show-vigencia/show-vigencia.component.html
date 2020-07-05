@@ -1,0 +1,48 @@
+<nb-card>
+    <nb-card-body 
+    *ngIf="modificationData"
+    class="mod-registration-container">
+        <div class="mod-registration-container">
+            <mat-form-field class="mod-registration-input-item col-mg-12 col-lg-12">
+                    <input
+                    matInput
+                    placeholder="{{ 'VIGENCIA.anio_vigencia' | translate }}"
+                    value="{{ modificationData['Vigencia'] }}"
+                    disabled="true"
+                  />
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item col-mg-12 col-lg-12">
+                    <input
+                    matInput
+                    placeholder="{{ 'GLOBAL.unidad-ejecutora' | translate }}"
+                    value="{{ modificationData['AreaFuncional'] }}"
+                    disabled="true"
+                  />
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item col-mg-12 col-lg-12">
+                    <input
+                    matInput
+                    placeholder="{{ 'VIGENCIA.estado_vigencia' | translate }}"
+                    value="{{ modificationData['Estado'] }}"
+                    disabled="true"
+                  />
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item col-mg-12 col-lg-12">
+                    <input
+                    matInput
+                    placeholder="{{ 'VIGENCIA.fecha_inicio' | translate }}"
+                    value="{{ modificationData['FechaInicio'] }}"
+                    disabled="true"
+                  />
+            </mat-form-field>
+            <mat-form-field class="mod-registration-input-item col-mg-12 col-lg-12">
+                    <input
+                    matInput
+                    placeholder="{{ 'VIGENCIA.fecha_cierre' | translate }}"
+                    value="{{ modificationData['FechaCierre'] }}"
+                    disabled="true"
+                  />
+            </mat-form-field>
+        </div>
+    </nb-card-body>
+</nb-card>

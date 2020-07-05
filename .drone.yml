@@ -1,0 +1,176 @@
+kind: pipeline
+name: oas_cliente_ci
+
+steps:
+- name: check_readme
+  image: jjvargass/qa_develoment:latest
+  commands:
+  - python /app/check_readme.py
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
+
+- name: check_branch
+  image: jjvargass/qa_develoment:latest
+  commands:
+  - python /app/check_branch.py -H ${DRONE_GIT_HTTP_URL}
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
+
+- name: check_commits
+  image: jjvargass/qa_develoment:latest
+  commands:
+  - python /app/check_commits.py
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
+
+- name: prueba-unitarias
+  image: node:12.6.0
+  commands:
+  - npm i
+  - npm run test
+  when:
+    branch:
+    - unitest
+
+- name:  pruebas-linter
+  image: node:12.6.0
+  commands:
+  - npm i
+  - npm run lint
+  when:
+    branch:
+    - unitest
+
+- name: sonar_scanner_test
+  image: timbru31/java-node
+  commands:
+  - apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get -y autoremove && apt-get clean
+  - export RELEASE=4.2.0.1873
+  - apt-get install curl grep sed unzip -y
+  - curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$RELEASE-linux.zip
+  - unzip sonarscanner.zip
+  - rm sonarscanner.zip
+  - rm -rf sonar-scanner-$RELEASE-linux/jre
+  - sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' ./sonar-scanner-$RELEASE-linux/bin/sonar-scanner
+  - sonar-scanner-$RELEASE-linux/bin/sonar-scanner -Dsonar.projectKey=${DRONE_REPO_NAME} -Dsonar.projectName=${DRONE_REPO_NAME} -Dsonar.projectVersion=1.0
+    \-Dsonar.sources=src/
+    \-Dsonar.language=js
+    \-Dsonar.sourceEncoding=UTF-8
+    \-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.scss
+    \-Dsonar.tests=src/app
+    \-Dsonar.test.inclusions=**/*.spec.ts
+    \-Dsonar.host.url=https://sonarqube.portaloas.udistrital.edu.co/
+  when:
+    branch:
+    - develop
+    - feature/*
+    - release/*
+    event:
+    - push
+
+- name: nodejs_release
+  image: node:12.6.0
+  commands:
+  - node --version
+  - npm cache clean --force
+  - npm i
+  - npm run build:test
+  when:
+    branch:
+    - release/*
+    event:
+    - push
+
+- name: nodejs_master
+  image: node:12.6.0
+  commands:
+  - node --version
+  - npm i
+  - npm run build:prod
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+- name: publish_s3_release
+  image: plugins/s3
+  settings:
+    bucket: cliente-pruebas
+    access_key:
+      from_secret: aws_access_key_id
+    secret_key:
+      from_secret: aws_secret_access_key
+    region: us-east-1
+    source: dist/**/*
+    target: /pruebas${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    strip_prefix: dist/
+  when:
+    branch:
+    - release/*
+    event:
+    - push
+
+- name: publish_s3_master
+  image: plugins/s3
+  settings:
+    bucket: cliente-prod
+    access_key:
+      from_secret: aws_access_key_id
+    secret_key:
+      from_secret: aws_secret_access_key
+    region: us-east-1
+    source: dist/**/*
+    target: /${DRONE_REPO_NAME%%_cliente}.portaloas.udistrital.edu.co
+    strip_prefix: dist/
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+- name: notify_telegram
+  image: appleboy/drone-telegram
+  settings:
+    token:
+      from_secret: telegram_token
+    to:
+      from_secret: telegram_to
+    format: html
+    message: >
+      {{#success build.status}}
+        ✅ <a href="{{build.link}}">SUCCESS</a> <b>Build #{{build.number}}</b> (type: <code>{{ build.event }}</code>)
+        <b>Repo:</b><code>{{repo.name}}</code> <b>Branch:</b><code>{{commit.branch}}</code>
+        <b>Commit:</b> <a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
+        <b>Autor:</b>{{commit.author}} <code>&#128526 </code>
+      {{else}}
+        ❌ <a href="{{build.link}}">FAILURE</a> <b>Build #{{build.number}}</b> (type: <code>{{ build.event }}</code>)
+        <b>Repo:</b><code>{{repo.name}}</code> <b>Branch:</b> <code>{{commit.branch}}</code>
+        <b>Commit:</b> <a href="{{commit.link}}">{{truncate commit.sha 7}}</a>
+        <b>Autor:</b>{{commit.author}} <code>&#128549 </code>
+      {{/success}}
+  when:
+    branch:
+    - develop
+    - release/*
+    - master
+    event:
+    - push
+    status:
+    - failure
+    - success
