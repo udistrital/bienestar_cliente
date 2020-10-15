@@ -11,6 +11,11 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
+      path: 'agendamiento-citas',
+      loadChildren: () => import('./agendamiento-citas/agendamiento-citas.module')
+      .then(m => m.AgendamientoCitasModule),
+    },
+    {
       path: 'dashboard',
       component: ECommerceComponent,
     },
