@@ -2,12 +2,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DetalleCitaComponent } from './detalle-cita/detalle-cita.component';
+import { DetalleHorarioComponent } from './detalle-horario/detalle-horario.component';
+import { DetallePacienteComponent } from './detalle-paciente/detalle-paciente.component';
 
 
-const routes: Routes = [{
-  path: 'cita',
-  component: DetalleCitaComponent,
-}
+const routes: Routes = [
+  {
+    path: 'cita',
+    component: DetalleCitaComponent,
+  },
+  {
+    path: 'paciente',
+    component: DetallePacienteComponent,
+  },
+  {
+    path: 'horario-especialista',
+    component: DetalleHorarioComponent,
+  }
 ];
 
 @NgModule({
