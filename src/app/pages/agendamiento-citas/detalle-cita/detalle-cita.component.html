@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <nb-card>
         <nb-card-header>
-            Cita Médica{{estudiante.datosEstudianteCollection.datosBasicosEstudiante[0].nombre}}
+            Cita Médica
         </nb-card-header>
         <nb-card-body>
                 <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
@@ -20,6 +20,17 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-3 col-xs-3" floatLabel="always">
+                    <mat-label>*Fecha y hora</mat-label>
+                    <input formControlName="fecha"  matInput [matDatepicker]="picker" type="datetime-local" placeholder="Fecha">
+                </mat-form-field>
+                <div class="row">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-success" (click)="guardar()">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
         </nb-card-body>
     </nb-card> 
     </div>

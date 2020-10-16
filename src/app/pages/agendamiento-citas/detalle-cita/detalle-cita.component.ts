@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'ngx-detalle-cita',
@@ -14,26 +10,10 @@ export class DetalleCitaComponent implements OnInit {
   sedesData: Array<any>;
   estudiante: any[];
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
-  
 
   ngOnInit() {
-    //Conexión con estudiantes
-    var httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-        'authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
-      }),
-    };
-    var path = environment.ACADEMICA_JBPM_SERVICE;
-    var endpoint = 'datos_basicos_estudiante';
-    this.http.get(path + endpoint + '/' + '20131020056', httpOptions)
-    .subscribe((data: any[])=>{
-      this.estudiante = data;
-      console.log(data);
-    });
-
     //Variables
     this.tipoEspecialidadesData = [
       {'Id': 1,'Nombre': 'Medicina general'},

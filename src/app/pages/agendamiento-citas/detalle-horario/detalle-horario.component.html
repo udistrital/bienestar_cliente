@@ -1,1 +1,57 @@
-<p>detalle-horario works!</p>
+<div class="container-fluid">
+    <nb-card>
+        <nb-card-header>
+            Horario Especialista
+        </nb-card-header>
+        <nb-card-body>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Lunes</mat-label>
+                    <mat-select formControlName="lunes" placeholder="">
+                        <mat-option *ngFor="let turno of turnos" [value]="turno.Id">
+                            {{turno.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Martes</mat-label>
+                    <mat-select formControlName="martes" placeholder="">
+                        <mat-option *ngFor="let turno of turnos" [value]="turno.Id">
+                            {{turno.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Miércoles</mat-label>
+                    <mat-select formControlName="miercoles" placeholder="">
+                        <mat-option *ngFor="let turno of turnos" [value]="turno.Id">
+                            {{turno.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Jueves</mat-label>
+                    <mat-select formControlName="jueves" placeholder="">
+                        <mat-option *ngFor="let turno of turnos" [value]="turno.Id">
+                            {{turno.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Viernes</mat-label>
+                    <mat-select formControlName="viernes" placeholder="">
+                        <mat-option *ngFor="let turno of turnos" [value]="turno.Id">
+                            {{turno.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Sábado</mat-label>
+                    <mat-select formControlName="sabado" placeholder="">
+                        <mat-option *ngFor="let turno of turnos" [value]="turno.Id">
+                            {{turno.Nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+        </nb-card-body>
+    </nb-card>
+</div>

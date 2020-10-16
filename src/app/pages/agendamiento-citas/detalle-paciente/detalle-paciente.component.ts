@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AcademicaJbpmService } from '../services/academica-jbpm.service';
 
 @Component({
   selector: 'ngx-detalle-paciente',
@@ -12,7 +13,7 @@ export class DetallePacienteComponent implements OnInit {
   nomCarrera = '';
   nomEstado = '';
 
-  constructor() { }
+  constructor(public  academicaws: AcademicaJbpmService) { }
 
   ngOnInit() {
   }
@@ -22,7 +23,17 @@ export class DetallePacienteComponent implements OnInit {
   });
 
   buscarEstudiante() {
-    this.nomEstudiante = this.formGroup.value.codigoEstudiante;
+    this.academicaws.getDatosBasicosEstudiante(this.formGroup.value.codigoEstudiante)
+    .subscribe((data: any)=>{
+      var estudiante = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+      this.nomEstudiante = estudiante.nombre;
+      this.nomCarrera = estudiante.carrera;
+      this.academicaws.getCarrera(estudiante.carrera)
+      .subscribe((data: any)=>{
+        this.nomCarrera = data.carrerasCollection.carrera[0].nombre;
+    });
+      this.nomEstado = estudiante.estado;
+    });
   }
 
 }
