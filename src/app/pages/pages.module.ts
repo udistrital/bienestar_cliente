@@ -11,6 +11,7 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
+import { EstudiantesComponent } from './estudiantes/estudiantes.component';
 
 
 
@@ -29,6 +30,7 @@ import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
   ],
   declarations: [
     PagesComponent,
+    EstudiantesComponent,
   ],
   providers: [
     ConfiguracionService,
