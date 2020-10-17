@@ -5,15 +5,16 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
-import {EstudiantesComponent} from './estudiantes/estudiantes.component';
+import { EstudiantesComponent} from './apoyo-alimentario/estudiantes/estudiantes.component';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component'
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
     {
-      path: 'estudiantes',
-      component: EstudiantesComponent,
+      path: 'apoyo-alimentario',
+      component: ApoyoAlimentarioComponent,
     },
     {
       path: 'dashboard',
@@ -30,7 +31,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'estudiantes',
+      redirectTo: 'apoyo-alimentario',
       pathMatch: 'full',
     },
     {

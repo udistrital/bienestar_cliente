@@ -1,5 +1,16 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
+import { NbMenuModule, NbSpinnerModule, NbThemeModule } from '@nebular/theme';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbTabsetModule,
+  NbUserModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbListModule,
+  NbIconModule,
+} from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -9,10 +20,8 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { ConfiguracionService } from '../@core/data/configuracion.service';
 import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
-import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
-import { EstudiantesComponent } from './estudiantes/estudiantes.component';
-
+import { ApoyoAlimentarioModule} from './apoyo-alimentario/apoyo-alimentario.module';
 
 
 @NgModule({
@@ -22,15 +31,26 @@ import { EstudiantesComponent } from './estudiantes/estudiantes.component';
     NbMenuModule,
     NbIconModule,
     DashboardModule,
+    ApoyoAlimentarioModule,
     SharedModule,
     ECommerceModule,
     MiscellaneousModule,
     PlanCuentasModule,
     NbSpinnerModule,
+    NbThemeModule,
+    NbActionsModule,
+    NbButtonModule,
+    NbCardModule,
+    NbTabsetModule,
+    NbUserModule,
+    NbRadioModule,
+    NbSelectModule,
+    NbListModule,
+    NbIconModule,
   ],
   declarations: [
     PagesComponent,
-    EstudiantesComponent,
+   // EstudiantesComponent,
   ],
   providers: [
     ConfiguracionService,

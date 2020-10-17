@@ -415,6 +415,17 @@
     "correo": "computo@udistrital.edu.co",
     "oficina": "Oficina Asesora de Sistemas"
   },
+  "ESTUDIANTES": {
+    "datos_personales": "Datos personales",
+    "horario": "8am a 5pm",
+    "oas_sistema": "Sistema Integrado de Informática y Telecomunicaciones",
+    "telefono": "323 93 00",
+    "extension": "Ext. 1112",
+    "direccion": "Cra. 8 # 40 - 78",
+    "piso": "Piso 1",
+    "correo": "computo@udistrital.edu.co",
+    "oficina": "Oficina Asesora de Sistemas"
+  },
   "_id": "ID",
   "Nombre": "Nombre",
   "ApropiacionInicial": "Valor Apropiación Inicial",
