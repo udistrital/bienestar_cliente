@@ -38,7 +38,6 @@ routes = [
     {
         path: '',
         redirectTo: 'home-estudiante',
-        canActivate: [AuthGuard, AdminGuard],
         pathMatch: 'full',
     },
 ];
