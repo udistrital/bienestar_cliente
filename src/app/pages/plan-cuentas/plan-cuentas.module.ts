@@ -90,6 +90,7 @@ import { LinkSmartTableComponent } from '../ui-features/link-smart-table/link-sm
   imports: [
     ThemeModule,
     SharedModule,
+    CommonModule,
     PlanCuentasRoutingModule,
     NbTreeGridModule,
     NbTooltipModule,

@@ -24,18 +24,8 @@ const routes: Routes = [{
       .then(m => m.PlanCuentasModule),
     },
     {
-      path: 'reliquidacion',
-      loadChildren: () => import('./reliquidacion/reliquidacion.module')
-      .then(m => m.ReliquidacionModule),
-    },
-    {
       path: '',
-      redirectTo: 'reliquidacion',
-      pathMatch: 'full',
-    },
-    {
-      path: '',
-      redirectTo: 'reliquidacion',
+      redirectTo: 'plan-cuentas',
       pathMatch: 'full',
     },
     {
