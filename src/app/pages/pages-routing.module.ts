@@ -30,7 +30,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'plan-cuentas',
+      redirectTo: 'reliquidacion',
       pathMatch: 'full',
     },
     {
