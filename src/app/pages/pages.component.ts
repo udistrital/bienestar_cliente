@@ -7,6 +7,7 @@ import { ImplicitAutenticationService } from './../@core/utils/implicit_autentic
 import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
+import { MenuCitasService } from '../@core/data/menu-citas.service'
 
 @Component({
   selector: 'ngx-pages',
@@ -36,7 +37,8 @@ export class PagesComponent implements OnInit {
   constructor(
     public  menuws: MenuService,
     private translate: TranslateService,
-    private autenticacion: ImplicitAutenticationService
+    private autenticacion: ImplicitAutenticationService,
+    private menuCitas: MenuCitasService
   ) { }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class PagesComponent implements OnInit {
           this.dataMenu = <any>data;
           this.mapMenuByObjects(this.dataMenu);
           this.translateMenu();
+          this.menu = this.menu.concat(this.menuCitas.getMenu());
         },
         (error: HttpErrorResponse) => {
           Swal.fire({
@@ -60,6 +63,7 @@ export class PagesComponent implements OnInit {
           });
           this.menu = [];
           this.translateMenu();
+          this.menu = this.menu.concat(this.menuCitas.getMenu());
         });
     } else {
       this.rol = 'PUBLICO';

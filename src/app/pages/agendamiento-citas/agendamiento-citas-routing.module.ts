@@ -10,14 +10,23 @@ const routes: Routes = [
   {
     path: 'cita',
     component: DetalleCitaComponent,
+    data: {
+      rolesPermitidos: ['ESPECIALISTA','ESTUDIANTE']
+    }
   },
   {
     path: 'paciente',
     component: DetallePacienteComponent,
+    data: {
+      rolesPermitidos: ['ESPECIALISTA']
+    }
   },
   {
     path: 'horario-especialista',
     component: DetalleHorarioComponent,
+    data: {
+      rolesPermitidos: ['ESPECIALISTA']
+    }
   }
 ];
 

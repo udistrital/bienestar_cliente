@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AcademicaJbpmService } from '../services/academica-jbpm.service';
+import { AcademicaJbpmService } from '../../../@core/data/academica-jbpm.service';
 
 @Component({
   selector: 'ngx-detalle-paciente',

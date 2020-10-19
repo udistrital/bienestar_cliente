@@ -4,6 +4,26 @@
             Cita Médica
         </nb-card-header>
         <nb-card-body>
+            <form [formGroup]="formGroup" class="mod-registration-container form-horizontal">
+                <mat-form-field class="mod-registration-input-item col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <mat-label>*Código</mat-label>
+                    <input matInput placeholder="Código" type="number" formControlName="codigoEstudiante"/>
+                </mat-form-field>
+                <button mat-icon-button color="primary" class="col-lg-1 col-md-1 col-sm-1 col-xs-1" (click)="buscarEstudiante()">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <hr>
+
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <input matInput placeholder="Nombre" [value]="nomEstudiante" disabled>
+                </mat-form-field>            
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <input matInput placeholder="Carrera" [value]="nomCarrera" disabled>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
+                    <input matInput placeholder="Estado" [value]="nomEstado" disabled>
+                </mat-form-field>
+                <hr>
                 <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4" floatLabel="always">
                     <mat-label>*Especialidad</mat-label>
                     <mat-select formControlName="tipoEspecialidad" placeholder="">
@@ -31,6 +51,7 @@
                         </button>
                     </div>
                 </div>
+            </form>
         </nb-card-body>
     </nb-card> 
     </div>
