@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 import { DocumentosService } from '../../../@core/data/documentos.service';
@@ -12,19 +14,24 @@ import { ImplicitAutenticationService } from '../../../@core/utils/implicit_aute
 export class DocumentosComponent implements OnInit {
 
   form: FormGroup;
-  docItems = ["Certificado de Sisben", "Certificado de Estratificación", "Nomina"]
+  docItems = []
   infoForm: any;
   filesUp: any;
 
   constructor(
     private formBuilder: FormBuilder, 
     private authenticationService: ImplicitAutenticationService,
-    private nuxeoService: DocumentosService
+    private nuxeoService: DocumentosService,
+    private route: ActivatedRoute,
+    private location: Location
   ) {
     this.buildForm();
   }
 
   ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.docItems.push(params.doc);
+    });
   }
 
   private buildForm() {
@@ -68,6 +75,7 @@ export class DocumentosComponent implements OnInit {
             title: `Éxito al cargar archivo con id: ${this.filesUp['SoportePago'].Id}`,
             text: 'Información Guardada correctamente',
           });
+          this.location.back();
         }
       })
     } else {
