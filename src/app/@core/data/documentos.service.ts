@@ -39,12 +39,10 @@ export class DocumentosService {
     });
   }
 
-  public getDocumentos(file): Observable<Documento[]> {
-    this.saveFiles(file, this);
+  public getDocumentos(files): Observable<Documento[]> {
+    this.saveFiles(files, this);
     return this.documentos$.asObservable();
   }
-
-
 
   saveFiles(files, nuxeoservice) {
     this.documentos = {};
@@ -52,11 +50,10 @@ export class DocumentosService {
     DocumentosService.nuxeo.connect()
       .then(function (client) {
         files.forEach(file => {
-          this.get('tipo_documento/' + file.IdDocumento)
+          nuxeoservice.get('tipo_documento/' + file.IdDocumento)
             .subscribe(res => {
               if (res !== null) {
                 const tipoDocumento = <TipoDocumento>res;
-                console.info(tipoDocumento);
                 DocumentosService.nuxeo.operation('Document.Create')
                   .params({
                     type: tipoDocumento.TipoDocumentoNuxeo,
@@ -80,12 +77,11 @@ export class DocumentosService {
                             documentoPost.Enlace = file.uid;
                             documentoPost.Nombre = file.nombre;
                             documentoPost.TipoDocumento = tipoDocumento;
-                            this.post('documento', documentoPost)
+                            nuxeoservice.post('documento', documentoPost)
                               .subscribe(resuestaPost => {
                                 nuxeoservice.documentos[file.key] = resuestaPost;
                                 nuxeoservice.documentos$.next(nuxeoservice.documentos);
                               })
-
                           });
                       })
                       .catch(function (error) {
@@ -118,16 +114,12 @@ export class DocumentosService {
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
       }
-      // return an observable with a user-facing error message
       return throwError({
         status: error.status,
         message: 'Something bad happened; please try again later.',

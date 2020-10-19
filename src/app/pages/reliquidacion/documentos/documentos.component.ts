@@ -14,6 +14,7 @@ export class DocumentosComponent implements OnInit {
   form: FormGroup;
   docItems = ["Certificado de Sisben", "Certificado de Estratificación", "Nomina"]
   infoForm: any;
+  filesUp: any;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -41,7 +42,6 @@ export class DocumentosComponent implements OnInit {
 
   uploadDocument(event) {
     if (!this.form.invalid) {
-      console.log(this.form.value)
       swal.fire({
         title: 'Espere',
         text: 'Guardando Información',
@@ -59,9 +59,16 @@ export class DocumentosComponent implements OnInit {
           IdDocumento: 8,
         });
       }
-      console.log(this.infoForm.DocInfo)
       this.nuxeoService.getDocumentos(files).subscribe(response => {
         console.log(response)
+        this.filesUp = <any>response;
+        if (this.filesUp['SoportePago'] !== undefined) {
+          this.infoForm.Comprobante = this.filesUp['SoportePago'].Id;
+          swal.fire({
+            title: `Éxito al cargar archivo con id: ${this.filesUp['SoportePago'].Id}`,
+            text: 'Información Guardada correctamente',
+          });
+        }
       })
     } else {
       alert("ooopss!!!!")
