@@ -5,11 +5,18 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { EstudiantesComponent} from './apoyo-alimentario/estudiantes/estudiantes.component';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component'
+import { EstudianteGuardGuard } from '../@core/_guards/estudiante.guard';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
+    {
+      path: 'apoyo-alimentario',
+      component: ApoyoAlimentarioComponent, canActivate: [EstudianteGuardGuard]
+    },
     {
       path: 'dashboard',
       component: ECommerceComponent,
@@ -25,7 +32,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'plan-cuentas',
+      redirectTo: 'apoyo-alimentario',
       pathMatch: 'full',
     },
     {

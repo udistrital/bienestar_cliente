@@ -1,0 +1,121 @@
+
+<!--  -->
+<div >
+    <form [formGroup]='solicitudAAFormulario' (bgSubmit)='guardar()' action="">
+        <nb-card>
+            <nb-card-header>{{ "ESTUDIANTES.datos_personales" | translate }}</nb-card-header>            
+            <nb-card-body >    
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label class="col-md-3 control-label" for="nombres">Nombres:</label>            
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombres" formControlName="nombres" required> 
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">Apellidos:</label>            
+                        <input type="text" class="form-control" id="apellidos" placeholder="Apellidos" formControlName="apellidos" required>
+                    </div>
+                    
+                </div>     
+                
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="apellidos">Tipo de documento:</label>            
+                        <input type="text" class="form-control" id="tipoDoc" placeholder="Tipo de documento" formControlName="tipoDoc" required>
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="nombres">Identificación:</label>            
+                        <input type="text" class="form-control" id="identificacion" placeholder="Identificación" formControlName="identificacion" required> 
+                    </div>
+                    
+                </div>  
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="nombres">Facultad:</label>            
+                        <input type="text" class="form-control" id="identificacion" placeholder="Identificación" formControlName="identificacion" required> 
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">Proyecto curricular:</label>            
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" formControlName="direccion" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="nombres">Correo electronico:</label>            
+                        <input type="text" class="form-control" id="identificacion" placeholder="Identificación" formControlName="identificacion" required> 
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">Telefono:</label>            
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" formControlName="direccion" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="nombres">Localidad:</label>            
+                        <input type="text" class="form-control" id="identificacion" placeholder="Identificación" formControlName="identificacion" required> 
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">Dirección de residencia:</label>            
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" formControlName="direccion" required>
+                    </div>
+                </div>
+
+            </nb-card-body>      
+        </nb-card>
+
+        <nb-card>
+            <nb-card-header>Formulario de inscripción</nb-card-header>
+            <nb-card-body>
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="nombres">¿Es nuevo o antiguo en el apoyo alimentario?:</label>            
+                        <select class="form-control" id="estado" formControlName="estado">
+                            <option [value]="valor" *ngFor='let valor of estadoApoyo'>{{valor}}</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">Estrato socioeconomico:</label>            
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" formControlName="direccion" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="nombres">¿Valor de ingresos propios o familiares?:</label>            
+                        <select class="form-control" id="estado" formControlName="estado">
+                            <option [value]="valor" *ngFor='let valor of estadoApoyo'>{{valor}}</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">¿Se sostiene economicamente a si mismo?:</label>            
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" formControlName="direccion" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm">
+                        <label for="nombres">¿Vive fuera del nucleo familiar?:</label>            
+                        <select class="form-control" id="estado" formControlName="estado">
+                            <option [value]="valor" *ngFor='let valor of estadoApoyo'>{{valor}}</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="apellidos">¿Tiene personas a cargo?:</label>            
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" formControlName="direccion" required>
+                    </div>
+                </div>
+                
+            </nb-card-body>
+        </nb-card>
+
+
+    </form>
+
+    <th>{{'CRP.numero' | translate}}</th>
+                {{ "CRP.numero-compromiso" | translate }}
+
+
+
+</div>
+
+pipe
