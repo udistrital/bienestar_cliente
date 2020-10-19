@@ -12,7 +12,7 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
-import { DocumentosComponent } from './reliquidacion/documentos/documentos.component';
+import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
 
 @NgModule({
   imports: [
@@ -26,11 +26,10 @@ import { DocumentosComponent } from './reliquidacion/documentos/documentos.compo
     MiscellaneousModule,
     PlanCuentasModule,
     NbSpinnerModule,
-    ReactiveFormsModule
+    ReliquidacionModule,
   ],
   declarations: [
     PagesComponent,
-    DocumentosComponent,
   ],
   providers: [
     ConfiguracionService,
