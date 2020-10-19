@@ -16,6 +16,7 @@ import { NbMenuModule, NbSpinnerModule, NbThemeModule } from '@nebular/theme';
 
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario.component';
 import { EstudiantesComponent } from './estudiantes/estudiantes.component';
+import { EstudiantesService } from '../../@core/helpers/estudiantes/estudiantes.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { EstudiantesComponent } from './estudiantes/estudiantes.component';
     NbSpinnerModule,
     NbThemeModule,
 
-  ]
+  ],
+  providers: [EstudiantesService]
 })
 export class ApoyoAlimentarioModule { }
