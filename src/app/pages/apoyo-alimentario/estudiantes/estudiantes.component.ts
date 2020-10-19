@@ -33,6 +33,7 @@ export class EstudiantesComponent implements OnInit {
 
 guardar() {
   // aca se envia la información a un servicio
+  console.log('quedo papu');
 }
 
 
