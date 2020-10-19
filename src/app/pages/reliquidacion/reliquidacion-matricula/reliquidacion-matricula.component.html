@@ -3,7 +3,10 @@
     <nb-card class="inline-form-card">
       <nb-card-body>
         <form class="form-inline">
-            <div class="col-sm-12"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/home-estudiante']">Volver a datos del estudiante</button> </div>
+          
+            <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "home-estudiante">Home</button> </div>
+            <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "descuento-electoral">Descuento electoral</button> </div>
+          
         </form>
       </nb-card-body>
     </nb-card>
@@ -15,12 +18,15 @@
             <label class="label col-sm-12 col-form-label">Formulario de reliquidación completamente diligenciado, firmado y escaneado. <a href="http://bienestar.udistrital.edu.co:8080/reliquidacion#reliquidacion+de+matricula">Link del formulario</a> </label>
           </div>
           <div class="form-group row">
-            <div class="col-sm-9">
+            <div class="col-sm-8">
               <!-- Carta a la directora -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                   <input type="file" class="custom-file-input" (change)="uploadFormularioLink($event)" > 
+                  <!-- <input type="file" [(ngModel)]="doc1" class="custom-file-input" (change)="uploadFormularioLink($event)" > -->
                   <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                </div>
+                <div class="col-sm-6"> 
+                  <!-- <p>{{doc1.name}}</p> -->
                 </div>
               </div>
             </div>
@@ -30,12 +36,15 @@
             <label class="label col-sm-12 col-form-label">Carta dirigida a la Directora del Centro de Bienestar Institucional Astrid Ximena Parsons Delgado. Explicando los motivos por lo cuales solicita la reliquidación (elaborada y firmada por el estudiante).</label>
           </div>
           <div class="form-group row">
-            <div class="col-sm-9">
+            <div class="col-sm-8">
               <!-- Carta a la directora -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadCartaDirectora($event)" > 
+                  <!-- <input type="file" [(ngModel)]="doc2" class="custom-file-input" (change)="uploadCartaDirectora($event)" > -->
                   <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                </div>
+                <div class="col-sm-6"> 
+                  <!-- <p>{{doc2.name}}</p> -->
                 </div>
               </div>
             </div>
@@ -179,6 +188,9 @@
             </div>
           </div>
           <hr>
+          <button class="btn btn-image" (click)="goBack()" type="button">
+            <img src="https://img.icons8.com/fluent/48/000000/back.png" alt="atras"/>
+          </button>
           <div class="form-group row">
             <div class="offset-sm-3 col-sm-9">
               <button type="submit" nbButton status="primary">Enviar</button>
