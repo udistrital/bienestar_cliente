@@ -11,7 +11,12 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
+<<<<<<< HEAD
 import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
+=======
+import { ReliquidacionModule } from './reliquidacion/reliquidacion.module'
+
+>>>>>>> develop
 
 @NgModule({
   imports: [
