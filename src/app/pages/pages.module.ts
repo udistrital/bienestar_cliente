@@ -11,8 +11,7 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
-
-
+import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
 
 @NgModule({
   imports: [
@@ -26,6 +25,7 @@ import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
     MiscellaneousModule,
     PlanCuentasModule,
     NbSpinnerModule,
+    ReliquidacionModule,
   ],
   declarations: [
     PagesComponent,
