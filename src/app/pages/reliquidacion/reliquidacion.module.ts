@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ReliquidacionRoutingModule } from './reliquidacion-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import {
@@ -23,12 +24,14 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { HomeEstudianteComponent } from './home-estudiante/home-estudiante.component';
 import { ReliquidacionMatriculaComponent } from './reliquidacion-matricula/reliquidacion-matricula.component';
 import { DescuentoElectoralComponent } from './descuento-electoral/descuento-electoral.component';
+import { DocumentosComponent } from './documentos/documentos.component';
 
 @NgModule({
   declarations: [
     DescuentoElectoralComponent,
     HomeEstudianteComponent,
     ReliquidacionMatriculaComponent,
+    DocumentosComponent
   ],
   providers: [
     ConfiguracionService,
@@ -51,7 +54,8 @@ import { DescuentoElectoralComponent } from './descuento-electoral/descuento-ele
     ToasterModule,
     MatStepperModule,
     CurrencyMaskModule,
-    NbSpinnerModule
+    NbSpinnerModule,
+    ReactiveFormsModule
   ],
   exports: [
   ],

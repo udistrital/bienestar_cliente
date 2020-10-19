@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
