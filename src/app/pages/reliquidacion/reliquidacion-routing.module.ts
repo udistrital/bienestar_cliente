@@ -21,7 +21,7 @@ const routes: Routes = [
 },
 {
   path: '',
-  redirectTo: 'descuento-electoral',
+  redirectTo: 'home-estudiante',
   pathMatch: 'full',
 =======
 
