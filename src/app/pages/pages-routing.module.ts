@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { DocumentosComponent } from './reliquidacion/documentos/documentos.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,13 +20,17 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
+      path: 'documentos',
+      component: DocumentosComponent,
+    },
+    {
       path: 'plan-cuentas',
       loadChildren: () => import('./plan-cuentas/plan-cuentas.module')
       .then(m => m.PlanCuentasModule),
     },
     {
       path: '',
-      redirectTo: 'plan-cuentas',
+      redirectTo: 'documentos',
       pathMatch: 'full',
     },
     {

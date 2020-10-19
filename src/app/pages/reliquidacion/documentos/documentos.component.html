@@ -1,1 +1,67 @@
-<p>documentos works!</p>
+<div class="modal-body">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">{{'DOCUMENTOS.TITULO_MOD' | translate}}</h3>
+    </div>
+  
+    <div class="panel-body" id="panel_carga">
+      <p>{{'DOCUMENTOS.PARRA_SOP' | translate}}</p>
+      <form [formGroup]="form" (ngSubmit)="uploadDocument($event)">
+        <div class="form-group">
+          <div class="col-md-3">
+            <label for="select_item" class="form-control">{{'DOCUMENTOS.ITEM' | translate}}</label>
+          </div>
+          <div class="col-md-9">
+            <select 
+              class="form-control" 
+              formControlName="Item"
+              [class.is-invalid]="validationField('Item')"
+            >
+              <option value="">--{{'DOCUMENTOS.SEL_ITEM' | translate}}--</option>
+              <option *ngFor="let item of docItems" [ngValue]="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+    
+        <br><br><br>
+        <div class="form-group">
+            <div class="col-md-3">
+              <label for="observacion" class="form-control">{{'DOCUMENTOS.OBSER' | translate}}
+              </label>
+            </div>
+            <div class="col-md-9">
+              <textarea 
+                formControlName="Observaciones"
+                [class.is-invalid]="validationField('Observaciones')"
+                class="form-control" 
+                rows="3" 
+              >
+              </textarea>
+            </div>
+        </div>
+    
+        <br><br><br><br>
+        <div class="form-group">
+            <div class="file-loading col-md-10">
+              <input 
+                class="form-control" 
+                id="input-id" 
+                type="file" 
+                accept="application/pdf" 
+                required title=''
+                [class.is-invalid]="validationField('Documento')"
+                (change)="onFileChange($event)"
+              />
+            </div>
+        </div>
+        <button class="btn btn-danger" type="button">Remover</button>
+    
+        <br><br><br>
+        <button class="btn btn-success" type="submit">
+          {{'DOCUMENTOS.CAR_SOP' | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -13,8 +14,6 @@ import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
 import { DocumentosComponent } from './reliquidacion/documentos/documentos.component';
 
-
-
 @NgModule({
   imports: [
     PagesRoutingModule,
@@ -27,6 +26,7 @@ import { DocumentosComponent } from './reliquidacion/documentos/documentos.compo
     MiscellaneousModule,
     PlanCuentasModule,
     NbSpinnerModule,
+    ReactiveFormsModule
   ],
   declarations: [
     PagesComponent,
