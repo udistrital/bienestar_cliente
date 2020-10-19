@@ -130,7 +130,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatTooltipModule,
     MatTreeModule,
   ],
-  declarations: [],
 })
 export class MaterialModule {}
 
