@@ -7,6 +7,7 @@ import { ImplicitAutenticationService } from './../@core/utils/implicit_autentic
 import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
+import { MENU_ITEMS } from './pages-menu';
 
 @Component({
   selector: 'ngx-pages',
@@ -20,7 +21,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 
 export class PagesComponent implements OnInit {
 
-  public menu = [];
+  public menu = MENU_ITEMS;
   public results = [];
   object: MenuItem;
   hijo: MenuItem;
@@ -58,12 +59,12 @@ export class PagesComponent implements OnInit {
               this.translate.instant('GLOBAL.menu'),
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
           });
-          this.menu = [];
+          this.menu = MENU_ITEMS;
           this.translateMenu();
         });
     } else {
       this.rol = 'PUBLICO';
-      this.menu = [];
+      this.menu = MENU_ITEMS;
       this.translateMenu();
     }
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => { // Live reload
