@@ -5,21 +5,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-<<<<<<< Updated upstream
-export class AuthGuard implements CanActivate {
-=======
-
-export class AuthGuard implements CanActivate {
-
->>>>>>> Stashed changes
+export class AdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+    return false;
   }
 
-<<<<<<< Updated upstream
-}n
-=======
 }
->>>>>>> Stashed changes

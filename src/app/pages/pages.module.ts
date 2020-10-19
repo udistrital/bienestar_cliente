@@ -36,5 +36,9 @@ import { ReliquidacionModule } from './reliquidacion/reliquidacion.module'
     MenuService,
   ],
 })
+<<<<<<< Updated upstream
 export class PagesModule {
 }
+=======
+export class PagesModule {}
+>>>>>>> Stashed changes
