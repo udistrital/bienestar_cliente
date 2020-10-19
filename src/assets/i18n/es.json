@@ -420,5 +420,13 @@
   "ApropiacionInicial": "Valor Apropiación Inicial",
   "Codigo": "Código",
   "ValorInicial" : "Valor inicial",
-  "ValorActual" : "Valor actual"
+  "ValorActual" : "Valor actual",
+  "DOCUMENTOS": {
+    "TITULO_MOD" : "CARGAR SOPORTES",
+    "PARRA_SOP": "Por favor seleccione el ítem correspondiente del soporte que va a cargar, digite las observaciones acerca del soporte, si las hay, y proceda a seleccionar el soporte a cargar",
+    "ITEM": "Ítem",
+    "SEL_ITEM": "Seleccione el ítem del cual cargará el soporte",
+    "OBSER": "Observaciones",
+    "CAR_SOP": "CARGAR SOPORTES"
+  }
 }

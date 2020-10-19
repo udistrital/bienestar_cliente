@@ -1,20 +1,3 @@
-<<<<<<< Updated upstream
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { ListaEstudiantesReliquidacionComponent } from './lista-estudiantes-reliquidacion/lista-estudiantes-reliquidacion.component'
-
-const routes: Routes = [{
-
-  path: 'lista-estudiantes-reliquidacion',
-  component: ListaEstudiantesReliquidacionComponent,
-},
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-=======
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {HomeEstudianteComponent} from './home-estudiante/home-estudiante.component';
@@ -63,7 +46,6 @@ routes = [
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
->>>>>>> Stashed changes
 })
 export class ReliquidacionRoutingModule {
 }
@@ -72,7 +54,3 @@ export const routedComponents = [
     ListaEstudiantesReliquidacionComponent,
 ];
 
-
-export const routedComponents = [
-  ListaEstudiantesReliquidacionComponent,
-];

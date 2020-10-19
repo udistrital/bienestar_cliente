@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -11,8 +12,7 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
-import { ReliquidacionModule } from './reliquidacion/reliquidacion.module'
-
+import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
 
 @NgModule({
   imports: [
@@ -36,9 +36,8 @@ import { ReliquidacionModule } from './reliquidacion/reliquidacion.module'
     MenuService,
   ],
 })
-<<<<<<< Updated upstream
+
 export class PagesModule {
+
 }
-=======
-export class PagesModule {}
->>>>>>> Stashed changes
+

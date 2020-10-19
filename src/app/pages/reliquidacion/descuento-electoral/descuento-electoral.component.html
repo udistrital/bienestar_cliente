@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-md-12">
+      <nb-card class="inline-form-card">
+        <nb-card-body>
+          <form class="form-inline">
+              <div class="col-sm-12"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/home-estudiante']">Volver a datos del estudiante</button> </div>
+          </form>
+        </nb-card-body>
+      </nb-card>
+      <nb-card>
+        <nb-card-header>Documentación requerida para descuento electoral</nb-card-header>
+        <nb-card-body>
+          <form>
+            <div class="form-group row">
+              <label class="label col-sm-12 col-form-label">Carnet estudiantil por ambas caras y refrendado.</label>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <!-- Carta a la directora -->
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" (change)="uploadCarnetEst($event)" >
+                    <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group row">
+              <label class="label col-sm-12 col-form-label">Cédula de ciudadania del estudiante por ambas caras.</label>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <!-- Carta a la directora -->
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" (change)="uploadCedula($event)" >
+                    <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group row">
+              <label class="label col-sm-12 col-form-label">Certificado electoral Elecciones de Gobernadores, Alcaldes, Diputados, Concejales y Ediles o miembros de Juntas Administradoras Locales.</label>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <!--Certificado de estratificación -->
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" (change)="uploadCertificado($event)" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            
+            <div class="form-group row">
+              <div class="offset-sm-3 col-sm-9">
+                <button type="submit" nbButton status="primary">Enviar</button>
+              </div>
+            </div>
+          </form>
+        </nb-card-body>
+      </nb-card>
+  
