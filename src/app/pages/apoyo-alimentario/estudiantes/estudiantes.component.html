@@ -1,7 +1,7 @@
 
 <!--  -->
 <div >
-    <form [formGroup]='solicitudAAFormulario' (bgSubmit)='guardar()' action="">
+    <form [formGroup]='solicitudAAFormulario' (ngSubmit)='guardar()' action="">
         <nb-card>
             <nb-card-header>{{ "ESTUDIANTES.datos_personales" | translate }}</nb-card-header>            
             <nb-card-body >    
@@ -121,5 +121,25 @@
 
     </form>
 </div>
-
-pipe
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>AÑO</th>
+                <th>PERIODO</th>
+                <th>NOMBRE</th>
+                <th>CODIGO</th>
+                <th>PROYECTO CURRICULAR</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor='let estudiante of estudiantes'>
+                <td>{{estudiante.anio}} </td>
+                <td>{{estudiante.periodo}} </td>
+                <td>{{estudiante.nombre}} </td>
+                <td>{{estudiante.codigo_estudiante}} </td>
+                <td>{{estudiante.proyecto}} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
