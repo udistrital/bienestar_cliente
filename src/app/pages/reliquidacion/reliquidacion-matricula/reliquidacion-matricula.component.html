@@ -3,9 +3,8 @@
     <nb-card class="inline-form-card">
       <nb-card-body>
         <form class="form-inline">
-          
-            <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "home-estudiante">Home</button> </div>
-            <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "descuento-electoral">Descuento electoral</button> </div>
+          <div class="col-sm-6"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/home-estudiante']">Home</button> </div>
+          <div class="col-sm-6"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/descuento-electoral']">Descuento electoral</button> </div>
           
         </form>
       </nb-card-body>
@@ -15,15 +14,18 @@
       <nb-card-body>
         <form>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Formulario de reliquidación completamente diligenciado, firmado y escaneado. <a href="http://bienestar.udistrital.edu.co:8080/reliquidacion#reliquidacion+de+matricula">Link del formulario</a> </label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.FORMULARIO' | translate}}<a href="http://bienestar.udistrital.edu.co:8080/reliquidacion#reliquidacion+de+matricula">Link del formulario</a> </label>
           </div>
           <div class="form-group row">
             <div class="col-sm-8">
               <!-- Carta a la directora -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <!-- <input type="file" [(ngModel)]="doc1" class="custom-file-input" (change)="uploadFormularioLink($event)" > -->
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> 
+                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.FORMULARIO']">
+                      Seleccionar archivo
+                    </button> 
+                  </div>
                 </div>
                 <div class="col-sm-6"> 
                   <!-- <p>{{doc1.name}}</p> -->
@@ -33,15 +35,14 @@
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Carta dirigida a la Directora del Centro de Bienestar Institucional Astrid Ximena Parsons Delgado. Explicando los motivos por lo cuales solicita la reliquidación (elaborada y firmada por el estudiante).</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.CARTA' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-8">
               <!-- Carta a la directora -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <!-- <input type="file" [(ngModel)]="doc2" class="custom-file-input" (change)="uploadCartaDirectora($event)" > -->
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.CARTA']">Seleccionar archivo</button> </div>
                 </div>
                 <div class="col-sm-6"> 
                   <!-- <p>{{doc2.name}}</p> -->
@@ -51,37 +52,35 @@
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Certificado de estratificación del lugar de residencia del estudiante expedido por Catastro o SUpercade o por las Alcaldías Municipales para quienes residen fuera de Bogotá (no superior a un año).</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.ESTRATIFICACION' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!--Certificado de estratificación -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadEstratificacion($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.ESTRATIFICACION']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de residencia del estudiante donde se especifique la dirección y estrato, con una vigencia no superior a los tres (3) meses.</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.SERVICIOS' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!-- Fotocopia recibo de servicio público -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadReciboPublico($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.SERVICIOS']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Certificado de ingresos de la persona de quien depende estudiante.</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.INGRESOS' | translate}}</label>
             <div class="alert alert-light" role="alert">
               Señor estudiante, NO se acepta el Formato de certificado de no declarante o certificado de no contribuyente que adjunto en el momento de ingresar a la universidad.
             </div>
@@ -91,98 +90,95 @@
               <!-- Certificado de ingresos economicos -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadIngresos($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.INGRESOS']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Certificado del valor cancelado por pensión del último año de bachillerato aclarando el valor mensual, si el estudiante fue becado debe especificarlo en la certificación.</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.PENSION' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!-- Certificado valor pensión último año cursado de bachillerato -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadPensionBachiller($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.PENSION']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Si el estudiante vive en arriendo, presentar carta de arrendador o contrato de arrendamiento firmados.</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.ARRIENDO' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!-- Contrato arrendamiento en caso de estar en arriendo -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadContratoArrendamiento($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.ARRIENDO']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Si el estudiante tiene hijos y ellos dependen económicamente de él, debe presentar Registro(s) Civil(es).</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.HIJOS' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!-- Registro civil de hijos en caso de tener -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadRegistroCivil($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.HIJOS']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-12 col-form-label">Si el estudiante esta en condición de desplazado, debe presentar documento expedido por la entidad competente.</label>
+            <label class="label col-12 col-form-label">{{'REL_MATRICULA.DESPLAZADO' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!-- Certificado de estar en condición de desplazado -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadDesplazado($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.DESPLAZADO']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Fotocopia del último recibo de pago de la Universidad cancelado.</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.RECIBO' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9">
               <!-- Último recibo de pago de la Universidad cancelado -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadReciboUniversidad($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.RECIBO']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
           <div class="form-group row">
-            <label class="label col-sm-12 col-form-label">Papeles que soporten la situación que describe en la carta dependiendo del caso (Hipotecas, acta de defunción, demandas). Discapacidad física (si existe) del estudiante o acdiente certificada por la EPS o SISBEN donde se determina el porcentaje de la discapacidad, etc.</label>
+            <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.SOLICITUD' | translate}}</label>
           </div>
           <div class="form-group row">
             <div class="col-sm-9 ">
               <!-- Otros papeles que soporten la solicitud -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" (change)="uploadOtros($event)" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                  <div class="col-sm-6"> 
+                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.SOLICITUD']">
+                      Seleccionar archivo
+                    </button> 
+                  </div>
                 </div>
               </div>
             </div>

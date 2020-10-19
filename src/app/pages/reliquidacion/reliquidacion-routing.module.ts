@@ -20,7 +20,7 @@ const routes: Routes = [
   component: DescuentoElectoralComponent,
 },
 {
-  path: 'documentos',
+  path: 'documentos/:doc',
   component: DocumentosComponent,
 },
 {

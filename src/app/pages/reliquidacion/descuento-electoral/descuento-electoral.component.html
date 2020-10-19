@@ -1,10 +1,10 @@
-<div class="row">
+b<div class="row">
     <div class="col-md-12">
       <nb-card class="inline-form-card">
         <nb-card-body>
           <form class="form-inline">
-              <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "home-estudiante">Datos del estudiante</button> </div>
-              <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "reliquidacion-matricula">Reliquidación matricula</button> </div>
+            <div class="col-sm-6"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/home-estudiante']">Home</button> </div>
+            <div class="col-sm-6"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/reliquidacion-matricula']">Reliquidación matricula</button> </div>
           </form>
         </nb-card-body>
       </nb-card>
@@ -13,45 +13,42 @@
         <nb-card-body>
           <form>
             <div class="form-group row">
-              <label class="label col-sm-12 col-form-label">Carnet estudiantil por ambas caras y refrendado.</label>
+              <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CARNET' | translate}}</label>
             </div>
             <div class="form-group row">
               <div class="col-sm-9">
                 <!-- Carta a la directora -->
                 <div class="input-group mb-3">
                   <div class="custom-file">
-                    <input type="file" [(ngModel)]="doc1" class="custom-file-input" (change)="uploadCarnetEst($event)" >
-                    <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CARNET']">Seleccionar archivo</button>
                   </div>
                 </div>
               </div>
             </div>
             <hr>
             <div class="form-group row">
-              <label class="label col-sm-12 col-form-label">Cédula de ciudadania del estudiante por ambas caras.</label>
+              <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CEDULA' | translate}}</label>
             </div>
             <div class="form-group row">
               <div class="col-sm-9">
                 <!-- Carta a la directora -->
                 <div class="input-group mb-3">
                   <div class="custom-file">
-                    <input type="file" [(ngModel)]="doc2" class="custom-file-input" (change)="uploadCedula($event)" >
-                    <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CEDULA']">Seleccionar archivo</button>
                   </div>
                 </div>
               </div>
             </div>
             <hr>
             <div class="form-group row">
-              <label class="label col-sm-12 col-form-label">Certificado electoral Elecciones de Gobernadores, Alcaldes, Diputados, Concejales y Ediles o miembros de Juntas Administradoras Locales.</label>
+              <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CERTIFICADO' | translate}}</label>
             </div>
             <div class="form-group row">
               <div class="col-sm-9">
                 <!--Certificado de estratificación -->
                 <div class="input-group mb-3">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" (change)="uploadCertificado($event)" aria-describedby="inputGroupFileAddon01">
-                    <label class="custom-file-label" for="inputGroupFile01">Seleccionar archivo</label> 
+                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CERTIFICADO']">Seleccionar archivo</button>
                   </div>
                 </div>
               </div>
