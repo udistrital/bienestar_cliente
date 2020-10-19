@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
+import { DocumentosService } from '../../../@core/data/documentos.service';
+import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 
 @Component({
   selector: 'ngx-documentos',
@@ -11,8 +13,13 @@ export class DocumentosComponent implements OnInit {
 
   form: FormGroup;
   docItems = ["Certificado de Sisben", "Certificado de Estratificación", "Nomina"]
+  infoForm: any;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private authenticationService: ImplicitAutenticationService,
+    private nuxeoService: DocumentosService
+  ) {
     this.buildForm();
   }
 
@@ -35,24 +42,27 @@ export class DocumentosComponent implements OnInit {
   uploadDocument(event) {
     if (!this.form.invalid) {
       console.log(this.form.value)
-      // swal.fire({
-      //   title: 'Espere',
-      //   text: 'Guardando Información',
-      //   allowOutsideClick: false,
-      // });
-      // swal.showLoading();
-      // this.dependency = this.form.value;
-      // this.dependency.DependenciaTipoDependencia = [];
-      // this.dependencyService
-      //   .createDependency(this.dependency)
-      //   .subscribe((newDependency) => {
-      //     swal.fire({
-      //       title: `Éxito al crear un nueva dependencia.`,
-      //       icon: 'success',
-      //       text: 'Información Guardada correctamente',
-      //     });
-      //     this.router.navigate([`./dependency-list`]);
-      //   });
+      swal.fire({
+        title: 'Espere',
+        text: 'Guardando Información',
+        allowOutsideClick: false,
+      });
+      swal.showLoading();
+      const files = []
+      this.infoForm = <any>this.form.value;
+      if (this.infoForm.DocInfo !== undefined) {
+        files.push({
+          nombre: this.authenticationService.getPayload().sub,
+          name: this.authenticationService.getPayload().sub,
+          key: 'SoportePago',
+          file: this.infoForm.DocInfo, 
+          IdDocumento: 8,
+        });
+      }
+      console.log(this.infoForm.DocInfo)
+      this.nuxeoService.getDocumentos(files).subscribe(response => {
+        console.log(response)
+      })
     } else {
       alert("ooopss!!!!")
       // swal.fire({
