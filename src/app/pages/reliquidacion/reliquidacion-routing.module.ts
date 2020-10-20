@@ -4,6 +4,7 @@ import { HomeEstudianteComponent } from './home-estudiante/home-estudiante.compo
 import { ReliquidacionMatriculaComponent } from './reliquidacion-matricula/reliquidacion-matricula.component';
 import { DescuentoElectoralComponent } from './descuento-electoral/descuento-electoral.component';
 import { DocumentosComponent } from './documentos/documentos.component';
+import { ListaEstudiantesReliquidacionComponent } from './lista-estudiantes-reliquidacion/lista-estudiantes-reliquidacion.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
 {
   path: 'reliquidacion-matricula',
   component: ReliquidacionMatriculaComponent,
+},
+{
+  path: 'lista-estudiantes',
+  component: ListaEstudiantesReliquidacionComponent,
 },
 {
   path: 'descuento-electoral',
