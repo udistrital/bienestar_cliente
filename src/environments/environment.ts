@@ -7,12 +7,13 @@ export const environment = {
 
     production: false,
     NUXEO: {
-        PATH: 'https://documental.udistrital.edu.co/nuxeo/',
+        PATH: 'https://documental.portaloas.udistrital.edu.co/nuxeo/',
     },
     BIENESTAR_JBPM_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
     CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
     CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
     WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',
+    DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v1/',
     NECESIDADES_CRUD_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8201/v1/',
     PLAN_ADQUISICION_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/bodega_jbpm/v1/',
     // MOVIMIENTOS_CRUD_SERVICE: 'http://localhost:8085/v1/',

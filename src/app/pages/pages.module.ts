@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbSpinnerModule, NbThemeModule } from '@nebular/theme';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -10,7 +9,12 @@ import {
   NbSelectModule,
   NbListModule,
   NbIconModule,
+  NbMenuModule,
+  NbSpinnerModule,
+  NbThemeModule
 } from '@nebular/theme';
+
+import { ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -22,7 +26,7 @@ import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
 import { ApoyoAlimentarioModule} from './apoyo-alimentario/apoyo-alimentario.module';
-
+import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
 
 @NgModule({
   imports: [
@@ -47,6 +51,7 @@ import { ApoyoAlimentarioModule} from './apoyo-alimentario/apoyo-alimentario.mod
     NbSelectModule,
     NbListModule,
     NbIconModule,
+    ReliquidacionModule,
   ],
   declarations: [
     PagesComponent,
@@ -57,5 +62,8 @@ import { ApoyoAlimentarioModule} from './apoyo-alimentario/apoyo-alimentario.mod
     MenuService,
   ],
 })
+
 export class PagesModule {
+
 }
+

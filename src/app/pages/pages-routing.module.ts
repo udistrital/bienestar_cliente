@@ -6,8 +6,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { EstudiantesComponent} from './apoyo-alimentario/estudiantes/estudiantes.component';
-import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component'
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 import { EstudianteGuardGuard } from '../@core/_guards/estudiante.guard';
+import { DocumentosComponent } from './reliquidacion/documentos/documentos.component';
 
 const routes: Routes = [{
   path: '',
@@ -26,13 +27,22 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
+      path: 'documentos',
+      component: DocumentosComponent,
+    },
+    {
       path: 'plan-cuentas',
       loadChildren: () => import('./plan-cuentas/plan-cuentas.module')
       .then(m => m.PlanCuentasModule),
     },
     {
+      path: 'reliquidacion',
+      loadChildren: () => import('./reliquidacion/reliquidacion.module')
+      .then(m => m.ReliquidacionModule),
+    },
+    {
       path: '',
-      redirectTo: 'apoyo-alimentario',
+      redirectTo: 'reliquidacion',
       pathMatch: 'full',
     },
     {

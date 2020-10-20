@@ -6,7 +6,7 @@
 export const environment = {
   production: true,
   NUXEO: {
-    PATH: 'https://documental.udistrital.edu.co/nuxeo/',
+    PATH: 'https://documental.portaloas.udistrital.edu.co/nuxeo/',
   },
   WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',
   PLAN_CUENTAS_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/plan_cuentas_crud/v1/',

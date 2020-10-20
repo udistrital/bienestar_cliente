@@ -431,5 +431,31 @@
   "ApropiacionInicial": "Valor Apropiación Inicial",
   "Codigo": "Código",
   "ValorInicial" : "Valor inicial",
-  "ValorActual" : "Valor actual"
+  "ValorActual" : "Valor actual",
+  "DOCUMENTOS": {
+    "TITULO_MOD" : "CARGAR SOPORTES",
+    "PARRA_SOP": "Por favor seleccione el ítem correspondiente del soporte que va a cargar, digite las observaciones acerca del soporte, si las hay, y proceda a seleccionar el soporte a cargar",
+    "ITEM": "Ítem",
+    "SEL_ITEM": "Seleccione el ítem del cual cargará el soporte",
+    "OBSER": "Observaciones",
+    "CAR_SOP": "CARGAR SOPORTES"
+  },
+  "REL_MATRICULA": {
+    "FORMULARIO": "Formulario de reliquidación completamente diligenciado, firmado y escaneado.",
+    "CARTA": "Carta dirigida a la Directora del Centro de Bienestar Institucional Astrid Ximena Parsons Delgado. Explicando los motivos por lo cuales solicita la reliquidación (elaborada y firmada por el estudiante).",
+    "ESTRATIFICACION": "Certificado de estratificación del lugar de residencia del estudiante expedido por Catastro o Supercade o por las Alcaldías Municipales para quienes residen fuera de Bogotá (no superior a un año).",
+    "SERVICIOS": "Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de residencia del estudiante donde se especifique la dirección y estrato, con una vigencia no superior a los tres (3) meses.",
+    "INGRESOS": "Certificado de ingresos de la persona de quien depende estudiante.",
+    "PENSION": "Certificado del valor cancelado por pensión del último año de bachillerato aclarando el valor mensual, si el estudiante fue becado debe especificarlo en la certificación.",
+    "ARRIENDO": "Si el estudiante vive en arriendo, presentar carta de arrendador o contrato de arrendamiento firmados.",
+    "HIJOS": "Si el estudiante tiene hijos y ellos dependen económicamente de él, debe presentar Registro(s) Civil(es).",
+    "DESPLAZADO": "Si el estudiante esta en condición de desplazado, debe presentar documento expedido por la entidad competente.",
+    "RECIBO": "Fotocopia del último recibo de pago de la Universidad cancelado.",
+    "SOLICITUD": "Papeles que soporten la situación que describe en la carta dependiendo del caso (Hipotecas, acta de defunción, demandas). Discapacidad física (si existe) del estudiante o acdiente certificada por la EPS o SISBEN donde se determina el porcentaje de la discapacidad, etc."
+  },
+  "DES_ELECTORAL": {
+    "CARNET": "Carnet estudiantil por ambas caras y refrendado.",
+    "CEDULA": "Cédula de ciudadania del estudiante por ambas caras.",
+    "CERTIFICADO": "Certificado electoral Elecciones de Gobernadores, Alcaldes, Diputados, Concejales y Ediles o miembros de Juntas Administradoras Locales."
+  }
 }
