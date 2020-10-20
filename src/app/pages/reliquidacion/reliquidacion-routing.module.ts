@@ -12,22 +12,23 @@ let routes: Routes;
 routes = [
     {
         path: 'home-estudiante',
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard],
         component: HomeEstudianteComponent,
     },
     {
         path: 'reliquidacion-matricula',
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard],
         component: ReliquidacionMatriculaComponent,
     },
     {
         path: 'descuento-electoral',
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard],
         component: DescuentoElectoralComponent,
     },
     {
-        path: 'documentos',
-        canActivate: [AuthGuard, AdminGuard],
+        path: 'documentos/:doc',
+        canActivate: [AuthGuard],
+
         component: DocumentosComponent,
     },
     {
