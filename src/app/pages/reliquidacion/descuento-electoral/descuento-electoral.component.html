@@ -1,64 +1,64 @@
 <div class="row">
-    <div class="col-md-12">
-      <nb-card class="inline-form-card">
-        <nb-card-body>
-          <form class="form-inline">
-              <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "home-estudiante">Datos del estudiante</button> </div>
-              <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "reliquidacion-matricula">Reliquidación matricula</button> </div>
-          </form>
-        </nb-card-body>
-      </nb-card>
-      <nb-card>
-        <nb-card-header>Documentación requerida para descuento electoral</nb-card-header>
-        <nb-card-body>
-          <form>
-            <div class="form-group row">
-              <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CARNET' | translate}}</label>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-9">
-                <!-- Carta a la directora -->
-                <div class="input-group mb-3">
-                  <div class="custom-file">
-                  </div>
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-body>
+        <form class="form-inline">
+            <div class="col-sm-12"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/home-estudiante']">Volver a datos del estudiante</button> </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header>Documentación requerida para descuento electoral</nb-card-header>
+      <nb-card-body>
+        <form>
+          <div class="form-group row">
+            <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CARNET' | translate}}</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-9">
+              <!-- Carta a la directora -->
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CARNET']">Seleccionar archivo</button>
                 </div>
               </div>
             </div>
-            <hr>
-            <div class="form-group row">
-              <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CEDULA' | translate}}</label>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-9">
-                <!-- Carta a la directora -->
-                <div class="input-group mb-3">
-                  <div class="custom-file">
-                  </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CEDULA' | translate}}</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-9">
+              <!-- Carta a la directora -->
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CEDULA']">Seleccionar archivo</button>
                 </div>
               </div>
             </div>
-            <hr>
-            <div class="form-group row">
-              <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CERTIFICADO' | translate}}</label>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-9">
-                <!--Certificado de estratificación -->
-                <div class="input-group mb-3">
-                  <div class="custom-file">
-                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CERTIFICADO']">Seleccionar archivo</button>
-                  </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="label col-sm-12 col-form-label">{{'DES_ELECTORAL.CERTIFICADO' | translate}}</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-9">
+              <!--Certificado de estratificación -->
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'DES_ELECTORAL.CERTIFICADO']">Seleccionar archivo</button>
                 </div>
               </div>
             </div>
-            <hr>
-            
-            <div class="form-group row">
-              <div class="offset-sm-3 col-sm-9">
-                <button type="submit" nbButton status="primary">Enviar</button>
-              </div>
+          </div>
+          <hr>
+          
+          <div class="form-group row">
+            <div class="offset-sm-3 col-sm-9">
+              <button type="submit" nbButton status="primary">Enviar</button>
             </div>
-          </form>
-        </nb-card-body>
-      </nb-card>
-  
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>

@@ -3,10 +3,7 @@
     <nb-card class="inline-form-card">
       <nb-card-body>
         <form class="form-inline">
-          
-            <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "home-estudiante">Home</button> </div>
-            <div class="col-sm-6"> <button class="btn btn-success btn-block" routerLink = "descuento-electoral">Descuento electoral</button> </div>
-          
+            <div class="col-sm-12"> <button class="btn btn-success btn-block" [routerLink]="['/pages/reliquidacion/home-estudiante']">Volver a datos del estudiante</button> </div>
         </form>
       </nb-card-body>
     </nb-card>
@@ -18,13 +15,15 @@
             <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.FORMULARIO' | translate}}<a href="http://bienestar.udistrital.edu.co:8080/reliquidacion#reliquidacion+de+matricula">Link del formulario</a> </label>
           </div>
           <div class="form-group row">
-            <div class="col-sm-8">
+            <div class="col-sm-9">
               <!-- Carta a la directora -->
               <div class="input-group mb-3">
-
-            
-                <div class="col-sm-6"> 
-                  <!-- <p>{{doc1.name}}</p> -->
+                <div class="custom-file">
+                  <div class="col-sm-6"> 
+                    <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.FORMULARIO']">
+                      Seleccionar archivo
+                    </button> 
+                  </div>
                 </div>
               </div>
             </div>
@@ -34,14 +33,11 @@
             <label class="label col-sm-12 col-form-label">{{'REL_MATRICULA.CARTA' | translate}}</label>
           </div>
           <div class="form-group row">
-            <div class="col-sm-8">
+            <div class="col-sm-9">
               <!-- Carta a la directora -->
               <div class="input-group mb-3">
                 <div class="custom-file">
-
-                </div>
-                <div class="col-sm-6"> 
-                  <!-- <p>{{doc2.name}}</p> -->
+                  <div class="col-sm-6"> <button class="btn btn-info btn-block" [routerLink]="['/pages/reliquidacion/documentos', 'REL_MATRICULA.CARTA']">Seleccionar archivo</button> </div>
                 </div>
               </div>
             </div>
@@ -180,9 +176,6 @@
             </div>
           </div>
           <hr>
-          <button class="btn btn-image" (click)="goBack()" type="button">
-            <img src="https://img.icons8.com/fluent/48/000000/back.png" alt="atras"/>
-          </button>
           <div class="form-group row">
             <div class="offset-sm-3 col-sm-9">
               <button type="submit" nbButton status="primary">Enviar</button>
