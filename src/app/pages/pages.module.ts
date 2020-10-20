@@ -36,5 +36,8 @@ import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
     MenuService,
   ],
 })
+
 export class PagesModule {
+
 }
+
