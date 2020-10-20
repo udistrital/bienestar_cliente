@@ -26,12 +26,12 @@ routes = [
         component: DescuentoElectoralComponent,
     },
     {
-        path: 'documentos',
+        path: 'documentos/:doc',
         canActivate: [AuthGuard, AdminGuard],
         component: DocumentosComponent,
     },
     {
-        path: 'lista-estudiantes-reliquidacion',
+        path: 'lista-estudiantes',
         canActivate: [AdminGuard],
         component: ListaEstudiantesReliquidacionComponent,
     },
