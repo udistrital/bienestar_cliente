@@ -1,6 +1,20 @@
 import { NgModule } from '@angular/core';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbTabsetModule,
+  NbUserModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbListModule,
+  NbIconModule,
+  NbMenuModule,
+  NbSpinnerModule,
+  NbThemeModule
+} from '@nebular/theme';
+
 import { ReactiveFormsModule } from '@angular/forms';
-import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -10,8 +24,8 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { ConfiguracionService } from '../@core/data/configuracion.service';
 import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
-import { NbIconModule } from '@nebular/theme';
 import { PlanCuentasModule } from './plan-cuentas/plan-cuentas.module';
+import { ApoyoAlimentarioModule} from './apoyo-alimentario/apoyo-alimentario.module';
 import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
 
 @NgModule({
@@ -21,15 +35,27 @@ import { ReliquidacionModule } from './reliquidacion/reliquidacion.module';
     NbMenuModule,
     NbIconModule,
     DashboardModule,
+    ApoyoAlimentarioModule,
     SharedModule,
     ECommerceModule,
     MiscellaneousModule,
     PlanCuentasModule,
     NbSpinnerModule,
+    NbThemeModule,
+    NbActionsModule,
+    NbButtonModule,
+    NbCardModule,
+    NbTabsetModule,
+    NbUserModule,
+    NbRadioModule,
+    NbSelectModule,
+    NbListModule,
+    NbIconModule,
     ReliquidacionModule,
   ],
   declarations: [
     PagesComponent,
+   // EstudiantesComponent,
   ],
   providers: [
     ConfiguracionService,
