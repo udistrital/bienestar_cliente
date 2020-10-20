@@ -25,13 +25,15 @@ import { HomeEstudianteComponent } from './home-estudiante/home-estudiante.compo
 import { ReliquidacionMatriculaComponent } from './reliquidacion-matricula/reliquidacion-matricula.component';
 import { DescuentoElectoralComponent } from './descuento-electoral/descuento-electoral.component';
 import { DocumentosComponent } from './documentos/documentos.component';
+import { ListaEstudiantesReliquidacionComponent } from './lista-estudiantes-reliquidacion/lista-estudiantes-reliquidacion.component';
 
 @NgModule({
   declarations: [
     DescuentoElectoralComponent,
     HomeEstudianteComponent,
     ReliquidacionMatriculaComponent,
-    DocumentosComponent
+    DocumentosComponent,
+    ListaEstudiantesReliquidacionComponent
   ],
   providers: [
     ConfiguracionService,
