@@ -19,7 +19,7 @@
               [class.is-invalid]="validationField('Item')"
             >
               <option value="">--{{'DOCUMENTOS.SEL_ITEM' | translate}}--</option>
-              <option *ngFor="let item of docItems" [ngValue]="item">{{item}}</option>
+              <option *ngFor="let item of docItems" [ngValue]="item">{{item | translate}}</option>
             </select>
           </div>
         </div>

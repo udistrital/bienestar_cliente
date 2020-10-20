@@ -40,6 +40,7 @@ routes = [
         redirectTo: 'home-estudiante',
         pathMatch: 'full',
     },
+
 ];
 
 @NgModule({
