@@ -28,11 +28,10 @@ routes = [
     {
         path: 'documentos/:doc',
         canActivate: [AuthGuard],
-
         component: DocumentosComponent,
     },
     {
-        path: 'lista-estudiantes-reliquidacion',
+        path: 'lista-estudiantes',
         canActivate: [AdminGuard],
         component: ListaEstudiantesReliquidacionComponent,
     },
