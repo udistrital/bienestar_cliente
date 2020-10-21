@@ -9,7 +9,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Agendar Cita',
         link: '/pages/agendamiento-citas/cita',
         data: {
-          rolesPermitidos: ['ESPECIALISTA','ESTUDIANTE']
+          rolesPermitidos: ['ESPECIALISTA']
         }
       },
       {          
@@ -26,6 +26,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
           rolesPermitidos: ['ESPECIALISTA']
         }
       },
+      {          
+        title: 'Agendar cita',
+        link: '/pages/agendamiento-citas/agendar-cita',
+        data: {
+          rolesPermitidos: ['ESTUDIANTE']
+        }
+      }
     ],
   },  
 ];

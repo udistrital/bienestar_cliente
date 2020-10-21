@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 import { DetalleCitaComponent } from './detalle-cita/detalle-cita.component';
 import { DetalleHorarioComponent } from './detalle-horario/detalle-horario.component';
 import { DetallePacienteComponent } from './detalle-paciente/detalle-paciente.component';
-
+import { AgendaCitaEstudianteComponent } from './agenda-cita-estudiante/agenda-cita-estudiante.component';
 
 const routes: Routes = [
   {
     path: 'cita',
     component: DetalleCitaComponent,
     data: {
-      rolesPermitidos: ['ESPECIALISTA','ESTUDIANTE']
+      rolesPermitidos: ['ESPECIALISTA']
     }
   },
   {
@@ -26,6 +26,13 @@ const routes: Routes = [
     component: DetalleHorarioComponent,
     data: {
       rolesPermitidos: ['ESPECIALISTA']
+    }
+  },
+  {
+    path: 'agendar-cita',
+    component: AgendaCitaEstudianteComponent,
+    data: {
+      rolesPermitidos: ['ESTUDIANTE']
     }
   }
 ];
