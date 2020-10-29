@@ -1,0 +1,56 @@
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {HomeEstudianteComponent} from './home-estudiante/home-estudiante.component';
+import {ReliquidacionMatriculaComponent} from './reliquidacion-matricula/reliquidacion-matricula.component';
+import {DescuentoElectoralComponent} from './descuento-electoral/descuento-electoral.component';
+import {DocumentosComponent} from './documentos/documentos.component';
+import {ListaEstudiantesReliquidacionComponent} from './lista-estudiantes-reliquidacion/lista-estudiantes-reliquidacion.component';
+import {AuthGuard} from './guards/auth.guard';
+import {AdminGuard} from './guards/admin.guard';
+
+let routes: Routes;
+routes = [
+    {
+        path: 'home-estudiante',
+        canActivate: [AuthGuard],
+        component: HomeEstudianteComponent,
+    },
+    {
+        path: 'reliquidacion-matricula',
+        canActivate: [AuthGuard],
+        component: ReliquidacionMatriculaComponent,
+    },
+    {
+        path: 'descuento-electoral',
+        canActivate: [AuthGuard],
+        component: DescuentoElectoralComponent,
+    },
+    {
+        path: 'documentos/:doc',
+        canActivate: [AuthGuard],
+        component: DocumentosComponent,
+    },
+    {
+        path: 'lista-estudiantes',
+        canActivate: [AdminGuard],
+        component: ListaEstudiantesReliquidacionComponent,
+    },
+    {
+        path: '',
+        redirectTo: 'home-estudiante',
+        pathMatch: 'full',
+    },
+
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+})
+export class ReliquidacionRoutingModule {
+}
+
+export const routedComponents = [
+    ListaEstudiantesReliquidacionComponent,
+];
+
