@@ -103,23 +103,27 @@
                 <nb-accordion-item-header>Información socioeconómica</nb-accordion-item-header>
                 <nb-accordion-item-body>
                     <form [formGroup]="socioeconomica">
-                        <div class="row">
-                            <div class="col">
-                                <nb-select placeholder="Estado civil" formControlName="estadocivil">
+                        <div class="row item-list">
+                            <div class="col-md-4">Estado civil</div>
+                            <div class="col-md-6">
+                                <nb-select fullWidth formControlName="estadocivil">
                                     <nb-option *ngFor="let estadocivi of estadocivil" [value]="estadocivi">
                                         {{estadocivi}}
                                     </nb-option>
                                 </nb-select>
                             </div>
+                        </div>
 
-                            <div class="col">
-                                <input nbInput placeholder="Estrato" type="number" formControlName="estrato">
+                        <div class="row item-list">
+                            <div class="col-md-4">Estrato</div>
+                            <div class="col-md-6">
+                                <input nbInput type="number" formControlName="estrato">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <label>Estado civil</label>
+                        <div class="row item-list">
+                            <div class="col-md-4">Estado civil</div>
+                            <div class="col-md-6">
                                 <nb-radio-group>
                                     <nb-radio value="soltero">Soltero</nb-radio>
                                     <nb-radio value="casado">Casado</nb-radio>
@@ -129,9 +133,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <label>Dependencia económica</label>
+                        <div class="row item-list">
+                            <div class="col-md-4">Dependencia económica</div>
+                            <div class="col-md-6">
                                 <nb-radio-group>
                                     <nb-radio value="sMadre">Padre</nb-radio>
                                     <nb-radio value="Padre">Madre</nb-radio>
@@ -141,22 +145,25 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <input nbInput placeholder="Ingresos mensuales" type="number"
+                        <div class="row item-list">
+                            <div class="col-md-4">Ingresos mensuales</div>
+                            <div class="col-md-6">
+                                <input nbInput type="number"
                                        formControlName="ing_mesual">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <textarea rows="4" nbInput placeholder="Discapacidad" maxlength="500"
+                        <div class="row item-list">
+                            <div class="col-md-4">Discapacidad</div>
+                            <div class="col-md-6">
+                                <textarea rows="4" nbInput maxlength="500"
                                           formControlName="descDis"></textarea>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjunto</div>
+                            <div class="col-md-6">
                                 <input nbInput type="file">
                             </div>
                         </div>
@@ -209,12 +216,15 @@
                 <nb-accordion-item-header>Información residencial</nb-accordion-item-header>
                 <nb-accordion-item-body>
                     <form [formGroup]="vivienda">
-                        <div class="flex-container">
-                            <label>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</label>
+                        <div class="row item-list">
+                            <div class="col-md-4">VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</div>
+                            <div class="col-md-6">
+                            </div>
                         </div>
 
-                        <div class="flex-container">
-                            <div class="opciones">
+                        <div class="row item-list">
+                            <div class="col-md-4">opciones</div>
+                            <div class="col-md-6">
                                 <nb-radio-group>
                                     <label>LUGAR DE RESIDENCIA DEL ESTUDIANTE</label>
                                     <nb-radio value="Publico">Propio</nb-radio>
@@ -224,8 +234,9 @@
                             </div>
                         </div>
 
-                        <div class="flex-container">
-                            <div class="opciones">
+                        <div class="row item-list">
+                            <div class="col-md-4">opciones</div>
+                            <div class="col-md-6">
                                 <nb-radio-group>
                                     <label>CON QUIEN VIVE</label>
                                     <nb-radio value="Publico">Familia</nb-radio>
@@ -235,8 +246,9 @@
                             </div>
                         </div>
 
-                        <div class="flex-container">
-                            <div class="opciones">
+                        <div class="row item-list">
+                            <div class="col-md-4">opciones</div>
+                            <div class="col-md-6">
                                 <nb-radio-group>
                                     <mat-label>LUGAR DE RESIDENCIA FAMILIA</mat-label>
                                     <br>
@@ -247,14 +259,18 @@
                             </div>
                         </div>
 
-                        <div class="flex-container">
-                            <label>Adjuntar el soporte arriendo</label>
-                            <input nbInput type="file">
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjuntar el soporte arriendo</div>
+                            <div class="col-md-6">
+                                <input nbInput type="file">
+                            </div>
                         </div>
 
-                        <div class="flex-container">
-                            <label>Adjuntar el soporte de hipoteca</label>
-                            <input nbInput type="file">
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjuntar el soporte de hipoteca</div>
+                            <div class="col-md-6">
+                                <input nbInput type="file">
+                            </div>
                         </div>
                     </form>
                 </nb-accordion-item-body>
@@ -320,222 +336,158 @@
             </nb-accordion-item>
 
             <nb-accordion-item>
-                <nb-accordion-item-header>Product Details</nb-accordion-item-header>
+                <nb-accordion-item-header>Documentos</nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    Item Content
+                    <form [formGroup]="documentos">
+                        <div class="row item-list">
+                            <div class="col-md-4">FORMULARIO RELIQUIDACIÓN</div>
+                            <div class="col-md-6">
+                                <label>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
+                                    escaneado.
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">CARTA DE SOLICITUD A BIENESTAR</div>
+                            <div class="col-md-6">
+                                <label>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO
+                                    GUTIERREZ DAZA
+                                    Explicando los
+                                    motivos por los cuales solicita la Reliquidación (elaborada y firmada por el (la)
+                                    estudiante).
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">CERTIFICADO ESTRATIFICACIÓN</div>
+                            <div class="col-md-6">
+                                <label>Certificado de estratificación del lugar de residencia del estudiante -
+                                    Estudiantes
+                                    que
+                                    residen en Bogotá expedido por Catastro o Supercade
+                                    (no superior a 1 año) - Para estudiantes que residen fuera de Bogotá anexar
+                                    Certificado
+                                    de
+                                    estratificación por las Alcaldías Municipales (no superior a 1 año).
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">RECIBO PÚBLICO</div>
+                            <div class="col-md-6">
+                                <label>Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de
+                                    residencia
+                                    del
+                                    estudiante donde
+                                    se especifique la dirección y estrato, con una vigencia de tres (3) meses.
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Personas a cargo</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="peracargo">
+                        <div class="row item-list">
+                            <div class="col-md-4">opciones</div>
+                            <div class="col-md-6">
+                                <nb-radio-group>
+                                    <label>Hijos a cargo</label>
+                                    <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
+                                    </label>
+                                    <nb-radio value="si">SI</nb-radio>
+                                    <nb-radio value="no">NO</nb-radio>
+                                </nb-radio-group>
+                            </div>
+                        </div>
+                    </form>
                 </nb-accordion-item-body>
             </nb-accordion-item>
 
             <nb-accordion-item>
                 <nb-accordion-item-header>Product Details</nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    Item Content
+                    <form [formGroup]="desplazado">
+                        <div class="row item-list">
+                            <div class="col-md-4">DESPLAZADO</div>
+                            <div class="col-md-6">
+                                <nb-radio-group>
+                                    <label>Indique si el estudiante esta en condición de desplazado</label>
+                                    <nb-radio value="si">SI</nb-radio>
+                                    <nb-radio value="no">NO</nb-radio>
+                                </nb-radio-group>
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjuntar el soporte</div>
+                            <div class="col-md-6">
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
                 </nb-accordion-item-body>
             </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Otros Documentos</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="otrosdoc">
+                        <div class="row item-list">
+                            <div class="col-md-4">Otros Documentos</div>
+                            <div class="col-md-6">
+                                <label>Papeles que soporten la situación que describe en la carta dependiendo el caso
+                                    (Hipotecas,
+                                    acta de
+                                    defunción, demandas),<br>
+                                    Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o
+                                    SISBEN
+                                    donde
+                                    se
+                                    determina el porcentaje de la discapacidad, etc.
+                                </label>
+                            </div>
+                            <div class="row item-list">
+                                <div class="col-md-4">Otros documentos</div>
+                                <div class="col-md-6">
+                                    <input nbInput type="file">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
         </nb-accordion>
         <nb-stepper orientation="vertical" linear>
 
-            <nb-step [stepControl]="documentos" label="DOCUMENTOS">
-                <form [formGroup]="documentos">
-                    <div class="flex-container">
-                        <label>FORMULARIO RELIQUIDACIÓN</label>
-                        <label>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
-                            escaneado.
-                        </label>
-                        <input nbInput type="file">
-                    </div>
 
-                    <div class="flex-container">
-                        <label>CARTA DE SOLICITUD A BIENESTAR</label>
-                        <label>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO
-                            GUTIERREZ DAZA
-                            Explicando los
-                            motivos por los cuales solicita la Reliquidación (elaborada y firmada por el (la)
-                            estudiante).
-                        </label>
-                        <input nbInput type="file">
-                    </div>
+            <mat-label>Enviar documentación</mat-label>
+            <mat-hint>El envío de documentos solo puede realizarse una vez.<br>
 
-                    <div class="flex-container">
-                        <label>CERTIFICADO ESTRATIFICACIÓN</label>
-                        <label>Certificado de estratificación del lugar de residencia del estudiante -
-                            Estudiantes
-                            que
-                            residen en Bogotá expedido por Catastro o Supercade
-                            (no superior a 1 año) - Para estudiantes que residen fuera de Bogotá anexar
-                            Certificado
-                            de
-                            estratificación por las Alcaldías Municipales (no superior a 1 año).
-                        </label>
-                        <input nbInput type="file">
-                    </div>
+                Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
+                primer
+                envío,
+                se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.<br>
 
-                    <div class="flex-container">
-                        <label>RECIBO PÚBLICO</label>
-                        <label>Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de
-                            residencia
-                            del
-                            estudiante donde
-                            se especifique la dirección y estrato, con una vigencia de tres (3) meses.
-                        </label>
-                        <input nbInput type="file">
-                    </div>
-                </form>
-            </nb-step>
+                Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
 
-            <nb-step [stepControl]="doccertificadoingreso" label="Documento - Certificado de Ingresos">
-                <form [formGroup]="doccertificadoingreso">
-                    <label>Documento - Certificado de Ingresos</label><br>
-                    <label>Continúe adjuntando los documentos
+                <div class="flex-container">
+                    <button nbButton (click)="llamardialogo()">ENVIAR</button>
+                </div>
 
-                        Señor estudiante NO se acepta el Formato de certificado de no declarante o certificado
-                        de no
-                        contribuyente, que adjunto en el momento de ingresar a la universidad.<br>
-
-
-                        Tenga en cuenta cuál es su caso con el fin de adjuntar el documento correspondiente:<br>
-
-                        • Para Independientes: Si la persona de quién depende económicamente el estudiante es
-                        trabajador
-                        independiente o el (la) estudiante trabaja como independiente,
-                        debe presentar una carta donde especifique la labor que desempeña y los ingresos que
-                        recibe
-                        mensualmente, debe venir firmada, con número de Cédula, número de teléfono y
-                        dirección.<br>
-
-                        • Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el
-                        (la)
-                        estudiante es
-                        empleado, debe presentar una carta laboral vigente, especificando los ingresos mensuales
-                        y
-                        la
-                        actividad,
-                        con número de teléfono y dirección del empleador.<br>
-
-                        • Si presenta Certificado de ingresos y retenciones debe corresponder al año 2018.<br>
-
-                        • Cabeza de familia: Si el (la) estudiante depende únicamente de madre o padre cabeza de
-                        familia
-                        debe
-                        anexar fotocopia del documento de identidad del Padre o Madre del Estudiante y Registro
-                        civil de
-                        Nacimiento del Estudiante.<br>
-
-                    </label>
-
-                    <div class="flex-container">
-                        <label>CERTIFICADO DE INGRESOS</label>
-                        <label>Certificado de ingresos de la persona de quien depende el (la) estudiante</label>
-                        <input nbInput type="file">
-                    </div>
-                </form>
-            </nb-step>
-
-            <nb-step [stepControl]="peracargo" label="Personas a Cargo">
-                <form [formGroup]="peracargo">
-                    <div class="flex-container">
-                        <div class="opciones">
-                            <nb-radio-group>
-                                <label>Hijos a cargo</label>
-                                <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
-                                </label>
-                                <nb-radio value="si">SI</nb-radio>
-                                <nb-radio value="no">NO</nb-radio>
-                            </nb-radio-group>
-                        </div>
-                    </div>
-                </form>
-            </nb-step>
-
-            <nb-step [stepControl]="registrocivil" label="Registro Civil">
-                <form [formGroup]="registrocivil">
-                    <div class="flex-container">
-                        <input nbInput type="number" formControlName="numero_hijos">
-                    </div>
-
-                    <div class="flex-container">
-                        <input nbInput type="number" formControlName="edad">
-                    </div>
-
-                    <div class="flex-container">
-                        <input nbInput type="number" formControlName="edad">
-                    </div>
-
-                    <div class="flex-container">
-                        <label>Adjuntar el registro civil</label>
-                        <input nbInput type="file">
-                    </div>
-                </form>
-            </nb-step>
-
-            <nb-step [stepControl]="desplazado" label="Condición de desplazado">
-                <form [formGroup]="desplazado">
-                    <div class="flex-container">
-                        <nb-radio-group>
-                            <label>DESPLAZADO</label>
-                            <label>Indique si el estudiante esta en condición de desplazado</label>
-                            <nb-radio value="si">SI</nb-radio>
-                            <nb-radio value="no">NO</nb-radio>
-                        </nb-radio-group>
-                    </div>
-
-                    <div class="flex-container">
-                        <label>Adjuntar el soporte</label>
-                        <input nbInput type="file">
-                    </div>
-                </form>
-            </nb-step>
-
-            <nb-step [stepControl]="recibopago" label="Documento - Recibo de Pago de la Universidad">
-                <form [formGroup]="recibopago">
-                    <div class="flex-container">
-                        <input nbInput placeholder="Valor matricula" type="number"
-                               formControlName="valor_matricula">
-                    </div>
-
-                    <div class="flex-container">
-                        <label>Adjuntar el recibo</label>
-                        <input nbInput type="file">
-                    </div>
-                </form>
-            </nb-step>
-
-            <nb-step [stepControl]="otrosdoc" label="Otros Documentos">
-                <form [formGroup]="otrosdoc">
-                    <label>Otros Documentos</label>
-                    <label>Papeles que soporten la situación que describe en la carta dependiendo el caso
-                        (Hipotecas,
-                        acta de
-                        defunción, demandas),<br>
-                        Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o
-                        SISBEN
-                        donde
-                        se
-                        determina el porcentaje de la discapacidad, etc.
-                    </label>
-                    <div class="flex-container">
-                        <label>Otros documentos</label>
-                        <input nbInput type="file">
-                    </div>
-                </form>
-            </nb-step>
+            </mat-hint>
         </nb-stepper>
-
-        <mat-label>Enviar documentación</mat-label>
-        <mat-hint>El envío de documentos solo puede realizarse una vez.<br>
-
-            Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
-            primer
-            envío,
-            se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.<br>
-
-            Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
-
-            <div class="flex-container">
-                <button nbButton (click)="llamardialogo()">ENVIAR</button>
-            </div>
-
-        </mat-hint>
     </nb-card-body>
 </nb-card>
 
