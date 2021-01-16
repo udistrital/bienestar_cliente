@@ -7,7 +7,7 @@ import {
     NbUserModule,
     NbIconModule,
     NbSelectModule,
-    NbListModule, NbStepperModule, NbInputModule, NbRadioModule, NbLayoutModule,
+    NbListModule, NbStepperModule, NbInputModule, NbRadioModule, NbLayoutModule, NbAccordionModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -34,6 +34,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
         NbInputModule,
         NbRadioModule,
         NbLayoutModule,
+        NbAccordionModule,
     ],
   declarations: [
     InscripcionEstComponent,

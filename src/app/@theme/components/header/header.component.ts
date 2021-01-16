@@ -122,6 +122,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.autenticacion.live()) {
       this.liveTokenValue = this.autenticacion.live();
       this.username = (this.autenticacion.getPayload()).sub;
+      console.log(this.autenticacion.getPayload())
     }
     return this.autenticacion.live();
   }

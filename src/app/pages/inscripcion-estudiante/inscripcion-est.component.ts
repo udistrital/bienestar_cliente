@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'ngx-inscripcion-est',
+  styleUrls: ['./inscripcion-est.component.scss'],
   templateUrl: './inscripcion-est.component.html',
 })
 export class InscripcionEstComponent {

@@ -1,120 +1,107 @@
 <nb-card>
+    <nb-card-header>
+        Solicitud de reliquidación para: {{'alvarito'}}<br><br>
+        <div class="row">
+            <div class="col-md-6"><b>Nombres y apellidos:</b> {{'alvarito'}}</div>
+            <div class="col-md-6"><b>Documento:</b> {{'CC 1020102101'}}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6"><b>Código:</b> {{'20102578999'}}</div>
+            <div class="col-md-6"><b>Fecha de nacimiento:</b> {{'20 enero 1994'}}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6"><b>Proyecto:</b> {{'Sistemas'}}</div>
+            <div class="col-md-6"><b>Facultad:</b> {{'Tecnológica'}}</div>
+        </div>
+    </nb-card-header>
+
     <nb-card-body>
-        <div class="container">
-            <nb-stepper orientation="vertical" linear>
-                <nb-step [stepControl]="registro" label="Datos básicos">
-                    <form [formGroup]="registro" (ngSubmit)="sendData(registro.value)">
-                        <div class="row">
-                            <div class="col">
-                                <input nbInput type="number" placeholder="Código" formControlName="codigo">
-                            </div>
+        <nb-accordion>
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información básica</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <p>En el siguiente apartado, se deben llenar los datos relacionados con el lugar de residencia.</p>
 
-                            <div class="col">
-                                <input nbInput placeholder="Nombres y apellidos" formControlName="nombres">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <nb-select placeholder="Facultad">
-                                    <nb-option *ngFor="let facultad of facultades" [value]="facultad">
-                                        {{facultad}}
-                                    </nb-option>
-                                </nb-select>
-                            </div>
-
-                            <div class="col">
-                                <nb-select placeholder="Proyecto">
-                                    <nb-option *ngFor="let proyecto of proyectos" [value]="proyecto">
-                                        {{proyecto}}
-                                    </nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <label>Tipo de documento</label>
-                                <nb-radio-group>
-                                    <nb-radio value="C.C">Cedula Ciudadanía</nb-radio>
-                                    <nb-radio value="T.I">tarjeta de identidad</nb-radio>
-                                    <nb-radio value="C.E">Cedula de extranjería</nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <input nbInput placeholder="Número de identificación" type="number"
-                                       formControlName="id">
-                            </div>
-
-                            <div class="col">
-                                <input nbInput placeholder="Edad del estudiante" type="number"
-                                       formControlName="edad">
-                            </div>
-                        </div>
-                    </form>
-                </nb-step>
-
-                <nb-step [stepControl]="residencia" label="Residencia">
                     <form [formGroup]="residencia">
-                        <div class="row">
-                            <div class="col">
-                                <nb-select placeholder="LOCALIDAD">
+                        <div class="row item-list">
+                            <div class="col-md-4">Localidad:</div>
+                            <div class="col-md-8">
+                                <nb-select fullWidth>
                                     <nb-option *ngFor="let localidad of localidades" [value]="localidad">
                                         {{localidad}}
                                     </nb-option>
                                 </nb-select>
                             </div>
+                        </div>
 
-                            <div class="col">
-                                <nb-select placeholder="Municipio">
+                        <div class="row item-list">
+                            <div class="col-md-4">Municipio:</div>
+                            <div class="col-md-8">
+                                <nb-select fullWidth>
                                     <nb-option *ngFor="let municipio of municipios" [value]="municipio">
                                         {{municipio}}
                                     </nb-option>
                                 </nb-select>
                             </div>
+                        </div>
 
-                            <div class="col">
-                                <input *ngIf="residencia.get('municipio').value === 'Otros'" nbInput
-                                       placeholder="Otro municipio">
+                        <div class="row item-list" *ngIf="residencia.get('municipio').value === 'Otros'">
+                            <div class="col-md-4">¿Cuál?:</div>
+                            <div class="col-md-8">
+                                <input fullWidth nbInput placeholder="Otro municipio">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <input nbInput placeholder="Dirección" formControlName="direccion">
-                            </div>
-
-                            <div class="col">
-                                <input nbInput placeholder="Barrio" formControlName="barrio">
+                        <div class="row item-list">
+                            <div class="col-md-4">Dirección:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="direccion">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <input nbInput placeholder="Correo" formControlName="email">
-                            </div>
-
-                            <div class="col">
-                                <input nbInput placeholder="Teléfono o Celular" formControlName="telefono">
+                        <div class="row item-list">
+                            <div class="col-md-4">Barrio:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="barrio">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <label>Sisben</label>
+                        <div class="row item-list">
+                            <div class="col-md-4">Correo electrónico:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="email">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Teléfono o Celular:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="telefono">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">¿Tiene Sisben?:</div>
+                            <div class="col-md-8">
                                 <nb-radio-group>
                                     <nb-radio value="SI">SI</nb-radio>
                                     <nb-radio value="NO">NO</nb-radio>
                                 </nb-radio-group>
                             </div>
                         </div>
-                    </form>
-                </nb-step>
 
-                <nb-step [stepControl]="socioeconomica" label="Informacion socioeconomica">
+                        <div class="d-flex justify-content-end">
+                            <button nbButton>Continuar</button>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información socioeconómica</nb-accordion-item-header>
+                <nb-accordion-item-body>
                     <form [formGroup]="socioeconomica">
                         <div class="row">
                             <div class="col">
@@ -174,9 +161,12 @@
                             </div>
                         </div>
                     </form>
-                </nb-step>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-                <nb-step [stepControl]="colegio" label="COLEGIO">
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información escolar</nb-accordion-item-header>
+                <nb-accordion-item-body>
                     <form [formGroup]="colegio">
                         <div class="flex-container">
                             <label>COLEGIO</label>
@@ -192,11 +182,13 @@
                         </div>
 
                         <div class="flex-container">
-                            <label> Certificado del valor cancelado por pensión del último año de bachillerato aclarando
+                            <label> Certificado del valor cancelado por pensión del último año de bachillerato
+                                aclarando
                                 el valor
                                 mensual, si el (la) estudiante fue becado debe especificarlo en la certificación.
 
-                                • Egresado de Colegio Privado: Anexar Certificación del colegio donde se determine el
+                                • Egresado de Colegio Privado: Anexar Certificación del colegio donde se determine
+                                el
                                 valor
                                 cancelado en el último año de Bachillerato.
 
@@ -210,9 +202,12 @@
                             <input nbInput type="file">
                         </div>
                     </form>
-                </nb-step>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-                <nb-step [stepControl]="vivienda" label="VIVIENDA">
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información residencial</nb-accordion-item-header>
+                <nb-accordion-item-body>
                     <form [formGroup]="vivienda">
                         <div class="flex-container">
                             <label>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</label>
@@ -262,9 +257,12 @@
                             <input nbInput type="file">
                         </div>
                     </form>
-                </nb-step>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-                <nb-step [stepControl]="futurofort" label="SITUACIONES DE CASO FORTUITO">
+            <nb-accordion-item>
+                <nb-accordion-item-header>Situaciones de caso fortuito</nb-accordion-item-header>
+                <nb-accordion-item-body>
                     <form [formGroup]="futurofort">
                         <div class="flex-container">
                             <div class="opciones">
@@ -318,201 +316,226 @@
                             </div>
                         </div>
                     </form>
-                </nb-step>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-                <nb-step [stepControl]="documentos" label="DOCUMENTOS">
-                    <form [formGroup]="documentos">
-                        <div class="flex-container">
-                            <label>FORMULARIO RELIQUIDACIÓN</label>
-                            <label>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
-                                escaneado.
-                            </label>
-                            <input nbInput type="file">
-                        </div>
+            <nb-accordion-item>
+                <nb-accordion-item-header>Product Details</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    Item Content
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-                        <div class="flex-container">
-                            <label>CARTA DE SOLICITUD A BIENESTAR</label>
-                            <label>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO
-                                GUTIERREZ DAZA
-                                Explicando los
-                                motivos por los cuales solicita la Reliquidación (elaborada y firmada por el (la)
-                                estudiante).
-                            </label>
-                            <input nbInput type="file">
-                        </div>
+            <nb-accordion-item>
+                <nb-accordion-item-header>Product Details</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    Item Content
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+        <nb-stepper orientation="vertical" linear>
 
-                        <div class="flex-container">
-                            <label>CERTIFICADO ESTRATIFICACIÓN</label>
-                            <label>Certificado de estratificación del lugar de residencia del estudiante - Estudiantes
-                                que
-                                residen en Bogotá expedido por Catastro o Supercade
-                                (no superior a 1 año) - Para estudiantes que residen fuera de Bogotá anexar Certificado
-                                de
-                                estratificación por las Alcaldías Municipales (no superior a 1 año).
-                            </label>
-                            <input nbInput type="file">
-                        </div>
-
-                        <div class="flex-container">
-                            <label>RECIBO PÚBLICO</label>
-                            <label>Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de residencia
-                                del
-                                estudiante donde
-                                se especifique la dirección y estrato, con una vigencia de tres (3) meses.
-                            </label>
-                            <input nbInput type="file">
-                        </div>
-                    </form>
-                </nb-step>
-
-                <nb-step [stepControl]="doccertificadoingreso" label="Documento - Certificado de Ingresos">
-                    <form [formGroup]="doccertificadoingreso">
-                        <label>Documento - Certificado de Ingresos</label><br>
-                        <label>Continúe adjuntando los documentos
-
-                            Señor estudiante NO se acepta el Formato de certificado de no declarante o certificado de no
-                            contribuyente, que adjunto en el momento de ingresar a la universidad.<br>
-
-
-                            Tenga en cuenta cuál es su caso con el fin de adjuntar el documento correspondiente:<br>
-
-                            • Para Independientes: Si la persona de quién depende económicamente el estudiante es
-                            trabajador
-                            independiente o el (la) estudiante trabaja como independiente,
-                            debe presentar una carta donde especifique la labor que desempeña y los ingresos que recibe
-                            mensualmente, debe venir firmada, con número de Cédula, número de teléfono y dirección.<br>
-
-                            • Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el (la)
-                            estudiante es
-                            empleado, debe presentar una carta laboral vigente, especificando los ingresos mensuales y
-                            la
-                            actividad,
-                            con número de teléfono y dirección del empleador.<br>
-
-                            • Si presenta Certificado de ingresos y retenciones debe corresponder al año 2018.<br>
-
-                            • Cabeza de familia: Si el (la) estudiante depende únicamente de madre o padre cabeza de
-                            familia
-                            debe
-                            anexar fotocopia del documento de identidad del Padre o Madre del Estudiante y Registro
-                            civil de
-                            Nacimiento del Estudiante.<br>
-
+            <nb-step [stepControl]="documentos" label="DOCUMENTOS">
+                <form [formGroup]="documentos">
+                    <div class="flex-container">
+                        <label>FORMULARIO RELIQUIDACIÓN</label>
+                        <label>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
+                            escaneado.
                         </label>
+                        <input nbInput type="file">
+                    </div>
 
-                        <div class="flex-container">
-                            <label>CERTIFICADO DE INGRESOS</label>
-                            <label>Certificado de ingresos de la persona de quien depende el (la) estudiante</label>
-                            <input nbInput type="file">
-                        </div>
-                    </form>
-                </nb-step>
+                    <div class="flex-container">
+                        <label>CARTA DE SOLICITUD A BIENESTAR</label>
+                        <label>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO
+                            GUTIERREZ DAZA
+                            Explicando los
+                            motivos por los cuales solicita la Reliquidación (elaborada y firmada por el (la)
+                            estudiante).
+                        </label>
+                        <input nbInput type="file">
+                    </div>
 
-                <nb-step [stepControl]="peracargo" label="Personas a Cargo">
-                    <form [formGroup]="peracargo">
-                        <div class="flex-container">
-                            <div class="opciones">
-                                <nb-radio-group>
-                                    <label>Hijos a cargo</label>
-                                    <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
-                                    </label>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-                    </form>
-                </nb-step>
+                    <div class="flex-container">
+                        <label>CERTIFICADO ESTRATIFICACIÓN</label>
+                        <label>Certificado de estratificación del lugar de residencia del estudiante -
+                            Estudiantes
+                            que
+                            residen en Bogotá expedido por Catastro o Supercade
+                            (no superior a 1 año) - Para estudiantes que residen fuera de Bogotá anexar
+                            Certificado
+                            de
+                            estratificación por las Alcaldías Municipales (no superior a 1 año).
+                        </label>
+                        <input nbInput type="file">
+                    </div>
 
-                <nb-step [stepControl]="registrocivil" label="Registro Civil">
-                    <form [formGroup]="registrocivil">
-                        <div class="flex-container">
-                            <input nbInput type="number" formControlName="numero_hijos">
-                        </div>
+                    <div class="flex-container">
+                        <label>RECIBO PÚBLICO</label>
+                        <label>Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de
+                            residencia
+                            del
+                            estudiante donde
+                            se especifique la dirección y estrato, con una vigencia de tres (3) meses.
+                        </label>
+                        <input nbInput type="file">
+                    </div>
+                </form>
+            </nb-step>
 
-                        <div class="flex-container">
-                            <input nbInput type="number" formControlName="edad">
-                        </div>
+            <nb-step [stepControl]="doccertificadoingreso" label="Documento - Certificado de Ingresos">
+                <form [formGroup]="doccertificadoingreso">
+                    <label>Documento - Certificado de Ingresos</label><br>
+                    <label>Continúe adjuntando los documentos
 
-                        <div class="flex-container">
-                            <input nbInput type="number" formControlName="edad">
-                        </div>
+                        Señor estudiante NO se acepta el Formato de certificado de no declarante o certificado
+                        de no
+                        contribuyente, que adjunto en el momento de ingresar a la universidad.<br>
 
-                        <div class="flex-container">
-                            <label>Adjuntar el registro civil</label>
-                            <input nbInput type="file">
-                        </div>
-                    </form>
-                </nb-step>
 
-                <nb-step [stepControl]="desplazado" label="Condición de desplazado">
-                    <form [formGroup]="desplazado">
-                        <div class="flex-container">
+                        Tenga en cuenta cuál es su caso con el fin de adjuntar el documento correspondiente:<br>
+
+                        • Para Independientes: Si la persona de quién depende económicamente el estudiante es
+                        trabajador
+                        independiente o el (la) estudiante trabaja como independiente,
+                        debe presentar una carta donde especifique la labor que desempeña y los ingresos que
+                        recibe
+                        mensualmente, debe venir firmada, con número de Cédula, número de teléfono y
+                        dirección.<br>
+
+                        • Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el
+                        (la)
+                        estudiante es
+                        empleado, debe presentar una carta laboral vigente, especificando los ingresos mensuales
+                        y
+                        la
+                        actividad,
+                        con número de teléfono y dirección del empleador.<br>
+
+                        • Si presenta Certificado de ingresos y retenciones debe corresponder al año 2018.<br>
+
+                        • Cabeza de familia: Si el (la) estudiante depende únicamente de madre o padre cabeza de
+                        familia
+                        debe
+                        anexar fotocopia del documento de identidad del Padre o Madre del Estudiante y Registro
+                        civil de
+                        Nacimiento del Estudiante.<br>
+
+                    </label>
+
+                    <div class="flex-container">
+                        <label>CERTIFICADO DE INGRESOS</label>
+                        <label>Certificado de ingresos de la persona de quien depende el (la) estudiante</label>
+                        <input nbInput type="file">
+                    </div>
+                </form>
+            </nb-step>
+
+            <nb-step [stepControl]="peracargo" label="Personas a Cargo">
+                <form [formGroup]="peracargo">
+                    <div class="flex-container">
+                        <div class="opciones">
                             <nb-radio-group>
-                                <label>DESPLAZADO</label>
-                                <label>Indique si el estudiante esta en condición de desplazado</label>
+                                <label>Hijos a cargo</label>
+                                <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
+                                </label>
                                 <nb-radio value="si">SI</nb-radio>
                                 <nb-radio value="no">NO</nb-radio>
                             </nb-radio-group>
                         </div>
+                    </div>
+                </form>
+            </nb-step>
 
-                        <div class="flex-container">
-                            <label>Adjuntar el soporte</label>
-                            <input nbInput type="file">
-                        </div>
-                    </form>
-                </nb-step>
+            <nb-step [stepControl]="registrocivil" label="Registro Civil">
+                <form [formGroup]="registrocivil">
+                    <div class="flex-container">
+                        <input nbInput type="number" formControlName="numero_hijos">
+                    </div>
 
-                <nb-step [stepControl]="recibopago" label="Documento - Recibo de Pago de la Universidad">
-                    <form [formGroup]="recibopago">
-                        <div class="flex-container">
-                            <input nbInput placeholder="Valor matricula" type="number"
-                                   formControlName="valor_matricula">
-                        </div>
+                    <div class="flex-container">
+                        <input nbInput type="number" formControlName="edad">
+                    </div>
 
-                        <div class="flex-container">
-                            <label>Adjuntar el recibo</label>
-                            <input nbInput type="file">
-                        </div>
-                    </form>
-                </nb-step>
+                    <div class="flex-container">
+                        <input nbInput type="number" formControlName="edad">
+                    </div>
 
-                <nb-step [stepControl]="otrosdoc" label="Otros Documentos">
-                    <form [formGroup]="otrosdoc">
-                        <label>Otros Documentos</label>
-                        <label>Papeles que soporten la situación que describe en la carta dependiendo el caso
-                            (Hipotecas,
-                            acta de
-                            defunción, demandas),<br>
-                            Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o SISBEN
-                            donde
-                            se
-                            determina el porcentaje de la discapacidad, etc.
-                        </label>
-                        <div class="flex-container">
-                            <label>Otros documentos</label>
-                            <input nbInput type="file">
-                        </div>
-                    </form>
-                </nb-step>
-            </nb-stepper>
+                    <div class="flex-container">
+                        <label>Adjuntar el registro civil</label>
+                        <input nbInput type="file">
+                    </div>
+                </form>
+            </nb-step>
 
-            <mat-label>Enviar documentación</mat-label>
-            <mat-hint>El envío de documentos solo puede realizarse una vez.<br>
+            <nb-step [stepControl]="desplazado" label="Condición de desplazado">
+                <form [formGroup]="desplazado">
+                    <div class="flex-container">
+                        <nb-radio-group>
+                            <label>DESPLAZADO</label>
+                            <label>Indique si el estudiante esta en condición de desplazado</label>
+                            <nb-radio value="si">SI</nb-radio>
+                            <nb-radio value="no">NO</nb-radio>
+                        </nb-radio-group>
+                    </div>
 
-                Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
-                primer
-                envío,
-                se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.<br>
+                    <div class="flex-container">
+                        <label>Adjuntar el soporte</label>
+                        <input nbInput type="file">
+                    </div>
+                </form>
+            </nb-step>
 
-                Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
+            <nb-step [stepControl]="recibopago" label="Documento - Recibo de Pago de la Universidad">
+                <form [formGroup]="recibopago">
+                    <div class="flex-container">
+                        <input nbInput placeholder="Valor matricula" type="number"
+                               formControlName="valor_matricula">
+                    </div>
 
-                <div class="flex-container">
-                    <button nbButton (click)="llamardialogo()">ENVIAR</button>
-                </div>
+                    <div class="flex-container">
+                        <label>Adjuntar el recibo</label>
+                        <input nbInput type="file">
+                    </div>
+                </form>
+            </nb-step>
 
-            </mat-hint>
-        </div>
+            <nb-step [stepControl]="otrosdoc" label="Otros Documentos">
+                <form [formGroup]="otrosdoc">
+                    <label>Otros Documentos</label>
+                    <label>Papeles que soporten la situación que describe en la carta dependiendo el caso
+                        (Hipotecas,
+                        acta de
+                        defunción, demandas),<br>
+                        Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o
+                        SISBEN
+                        donde
+                        se
+                        determina el porcentaje de la discapacidad, etc.
+                    </label>
+                    <div class="flex-container">
+                        <label>Otros documentos</label>
+                        <input nbInput type="file">
+                    </div>
+                </form>
+            </nb-step>
+        </nb-stepper>
+
+        <mat-label>Enviar documentación</mat-label>
+        <mat-hint>El envío de documentos solo puede realizarse una vez.<br>
+
+            Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
+            primer
+            envío,
+            se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.<br>
+
+            Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
+
+            <div class="flex-container">
+                <button nbButton (click)="llamardialogo()">ENVIAR</button>
+            </div>
+
+        </mat-hint>
     </nb-card-body>
 </nb-card>
 
