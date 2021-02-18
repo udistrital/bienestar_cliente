@@ -1,119 +1,122 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
+import {ImplicitAutenticationService} from '../../@core/utils/implicit_autentication.service';
+import {ReliquidacionHelper} from '../../@core/helpers/reliquidacion/reliquidacionHelper';
 
 @Component({
-  selector: 'ngx-inscripcion-est',
-  styleUrls: ['./inscripcion-est.component.scss'],
-  templateUrl: './inscripcion-est.component.html',
+    selector: 'ngx-inscripcion-est',
+    styleUrls: ['./inscripcion-est.component.scss'],
+    templateUrl: './inscripcion-est.component.html',
 })
-export class InscripcionEstComponent {
-  facultades: Array<string> = ['ARTES ASAB', 'CIENCIAS Y EDUCACIÓN'];
-  proyectos: Array<string> = ['Sistematizacion de datos', 'Industrial', 'Eléctrica', 'Mecánica'];
-  localidades: Array<string> = ['Bosa', 'Usme', 'Ciudad Bolivar', 'Kennedy'];
-  municipios: Array<string> = ['Bogota', 'Sumapaz', 'Otros'];
-  estadocivil: Array<string> = ['Soltero', 'Casado', 'Separado'];
+export class InscripcionEstComponent implements OnInit {
+    facultades: Array<string> = ['ARTES ASAB', 'CIENCIAS Y EDUCACIÓN'];
+    proyectos: Array<string> = ['Sistematizacion de datos', 'Industrial', 'Eléctrica', 'Mecánica'];
+    localidades: Array<string> = ['Bosa', 'Usme', 'Ciudad Bolivar', 'Kennedy'];
+    municipios: Array<string> = ['Bogota', 'Sumapaz', 'Otros'];
+    estadocivil: Array<string> = ['Soltero', 'Casado', 'Separado'];
 
-  registro: FormGroup;
-  residencia: FormGroup;
-  socioeconomica: FormGroup;
-  colegio: FormGroup;
-  vivienda: FormGroup;
-  futurofort: FormGroup;
-  documentos: FormGroup;
-  doccertificadoingreso: FormGroup;
-  peracargo: FormGroup;
-  registrocivil: FormGroup;
-  desplazado: FormGroup;
-  recibopago: FormGroup;
-  otrosdoc: FormGroup;
-  @ViewChild('dialogo', {read: null, static: null}) dialogo: TemplateRef<any>;
+    registro: FormGroup;
+    residencia: FormGroup;
+    socioeconomica: FormGroup;
+    colegio: FormGroup;
+    vivienda: FormGroup;
+    futurofort: FormGroup;
+    documentos: FormGroup;
+    doccertificadoingreso: FormGroup;
+    peracargo: FormGroup;
+    registrocivil: FormGroup;
+    desplazado: FormGroup;
+    recibopago: FormGroup;
+    otrosdoc: FormGroup;
+    @ViewChild('dialogo', {read: null, static: null}) dialogo: TemplateRef<any>;
 
-  constructor(private httpClient: HttpClient, private dialog: MatDialog) {
-    this.registro = new FormGroup({
-      codigo: new FormControl(),
-      facultad: new FormControl(),
-      proyecto: new FormControl(),
-      nombres: new FormControl(),
-      id: new FormControl(),
-      edad: new FormControl(),
-    });
+    estudiante: any;
 
-    this.residencia = new FormGroup({
-      municipio: new FormControl(),
-      barrio: new FormControl(),
-      direccion: new FormControl(),
-      telefono: new FormControl(),
-      email: new FormControl(),
-      localidad: new FormControl(),
-      sisben: new FormControl(),
-    });
+    constructor(private httpClient: HttpClient, private dialog: MatDialog,
+                private reliquidacionHelper: ReliquidacionHelper,
+                private autenticacion: ImplicitAutenticationService) {
 
-    this.socioeconomica = new FormGroup({
-      estadocivil: new FormControl(),
-      dependenciaeconomica: new FormControl(),
-      ingresosmensuales: new FormControl(),
-      estrato: new FormControl(),
-      ing_mesual: new FormControl(),
-      descDis: new FormControl(),
-    });
+        this.registro = new FormGroup({
+            codigo: new FormControl(),
+            facultad: new FormControl(),
+            proyecto: new FormControl(),
+            nombres: new FormControl(),
+            id: new FormControl(),
+            edad: new FormControl(),
+        });
 
-    this.colegio = new FormGroup({
-      pension: new FormControl(),
-    });
+        this.residencia = new FormGroup({
+            municipio: new FormControl(),
+            barrio: new FormControl(),
+            direccion: new FormControl(),
+            telefono: new FormControl(),
+            email: new FormControl(),
+            localidad: new FormControl(),
+            sisben: new FormControl(),
+        });
 
-    this.vivienda = new FormGroup({
+        this.socioeconomica = new FormGroup({
+            estadocivil: new FormControl(),
+            dependenciaeconomica: new FormControl(),
+            ingresosmensuales: new FormControl(),
+            estrato: new FormControl(),
+            ing_mesual: new FormControl(),
+            descDis: new FormControl(),
+        });
 
-    });
+        this.colegio = new FormGroup({
+            pension: new FormControl(),
+        });
 
-    this.futurofort = new FormGroup({
+        this.vivienda = new FormGroup({});
 
-    });
+        this.futurofort = new FormGroup({});
 
-    this.documentos = new FormGroup({
+        this.documentos = new FormGroup({});
 
-    });
+        this.doccertificadoingreso = new FormGroup({});
 
-    this.doccertificadoingreso = new FormGroup({
+        this.peracargo = new FormGroup({});
 
-    });
+        this.registrocivil = new FormGroup({
 
-    this.peracargo = new FormGroup({
+            edad: new FormControl(),
+            numero_hijos: new FormControl(),
 
-    });
+        });
+        this.desplazado = new FormGroup({});
 
-    this.registrocivil = new FormGroup({
+        this.recibopago = new FormGroup({
 
-      edad: new FormControl(),
-      numero_hijos: new FormControl(),
+            valor_matricula: new FormControl(),
 
-    });
-    this.desplazado = new FormGroup({
+        });
+        this.otrosdoc = new FormGroup({});
+    }
 
-    });
+    ngOnInit() {
+        const user: string = ((this.autenticacion.getPayload()).email.split('@')).shift();
 
-    this.recibopago = new FormGroup({
+        const estudiante = {
+            user: user
+        };
 
-      valor_matricula: new FormControl(),
+        this.reliquidacionHelper.getEstudiante(estudiante).subscribe((res) => {
+            this.estudiante = res;
+        });
+    }
 
-    });
-    this.otrosdoc = new FormGroup({
+    sendData(form: NgForm) {
+        // console.log(form);
 
-    });
+        /*this.httpClient.post('url', {}, {}).subscribe(
+          value => console.log(value),
+        );*/
+    }
 
-
-  }
-
-  sendData(form: NgForm) {
-    // console.log(form);
-
-    /*this.httpClient.post('url', {}, {}).subscribe(
-      value => console.log(value),
-    );*/
-  }
-
-  llamardialogo() {
-    this.dialog.open(this.dialogo);
-  }
+    llamardialogo() {
+        this.dialog.open(this.dialogo);
+    }
 }
