@@ -34,6 +34,27 @@ export class ReliquidacionHelper {
         );
     }
 
+    /**
+     * Gets estudiante
+     *  returns one user level at once.
+     * @param [user] user to request info from the API
+     * @returns  branch information.
+     */
+    public getEstadoCivil() {
+        this.rqManager.setPath('WSO2_SERVICE');
+        return this.rqManager.get('https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria?query=GrupoInfoComplementariaId%3A2').pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se Pudo obtener el estado civil.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
 
     public getRubro(codigo: string) {
         this.rqManager.setPath('PLAN_CUENTAS_MONGO_SERVICE');
@@ -154,6 +175,30 @@ export class ReliquidacionHelper {
                         } else {
                             this.pUpManager.showErrorAlert('No Se Pudo Eliminar El rubro');
                         }
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+
+    }
+
+
+    /**
+     * Solicitud register
+     * If the response has errors in the OAS API it should show a popup message with an error.
+     * If the response is successs, it returns the data of the updated object.
+     * @param rubroData object to save in the DB
+     * @returns  <Observable> data of the object registered at the DB. undefined if the request has errors
+     */
+    public solRegistrer(json) {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.post('solicitud', json).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se Pudo registrar la solicitud.');
                         return undefined;
                     }
                     return res;
