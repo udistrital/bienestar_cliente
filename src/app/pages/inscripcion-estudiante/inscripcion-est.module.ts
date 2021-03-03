@@ -15,6 +15,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { InscripcionEstComponent } from './inscripcion-est.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { ComboGenericoModule } from '../../shared/components/combo-generico/combo-generico.module';
+import { RadioSelectGenericoModule } from '../../shared/components/radio-select-generico/radio-select-generico.module';
 
 @NgModule({
     imports: [
@@ -35,6 +37,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
         NbRadioModule,
         NbLayoutModule,
         NbAccordionModule,
+        ComboGenericoModule,
+        RadioSelectGenericoModule,
     ],
   declarations: [
     InscripcionEstComponent,

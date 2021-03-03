@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
 import {ImplicitAutenticationService} from '../../@core/utils/implicit_autentication.service';
 import {ReliquidacionHelper} from '../../@core/helpers/reliquidacion/reliquidacionHelper';
+import { IncripcionEstudianteService } from '../../shared/services/incripcion-estudiante.service';
+import { ApiConstanst } from '../../shared/constants/api.constans';
 
 @Component({
     selector: 'ngx-inscripcion-est',
@@ -34,9 +36,13 @@ export class InscripcionEstComponent implements OnInit {
 
     estudiante: any;
 
+    APP_CONSTANTS = ApiConstanst;
+
     constructor(private httpClient: HttpClient, private dialog: MatDialog,
                 private reliquidacionHelper: ReliquidacionHelper,
-                private autenticacion: ImplicitAutenticationService) {
+                private autenticacion: ImplicitAutenticationService,
+                private inscripcionEstudianteService: IncripcionEstudianteService,
+                ) {
 
         this.registro = new FormGroup({
             codigo: new FormControl(),
@@ -48,20 +54,14 @@ export class InscripcionEstComponent implements OnInit {
         });
 
         this.residencia = new FormGroup({
-            municipio: new FormControl(),
             barrio: new FormControl(),
             direccion: new FormControl(),
             telefono: new FormControl(),
             email: new FormControl(),
-            localidad: new FormControl(),
-            sisben: new FormControl(),
         });
 
         this.socioeconomica = new FormGroup({
-            estadocivil: new FormControl(),
-            dependenciaeconomica: new FormControl(),
             ingresosmensuales: new FormControl(),
-            estrato: new FormControl(),
             ing_mesual: new FormControl(),
             descDis: new FormControl(),
         });

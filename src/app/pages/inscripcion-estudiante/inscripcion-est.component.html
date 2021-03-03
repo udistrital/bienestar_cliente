@@ -26,28 +26,36 @@
 
                     <form [formGroup]="residencia">
                         <div class="row item-list">
-                            <div class="col-md-4">Localidad:</div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth>
-                                    <nb-option *ngFor="let localidad of localidades" [value]="localidad">
-                                        {{localidad}}
-                                    </nb-option>
-                                </nb-select>
-                            </div>
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Localidad"
+                                nombreInput="localidad"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LOCALIDADES"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="residencia"
+                            >
+                            </ngx-combo-generico>
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">Municipio:</div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth>
-                                    <nb-option *ngFor="let municipio of municipios" [value]="municipio">
-                                        {{municipio}}
-                                    </nb-option>
-                                </nb-select>
-                            </div>
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Municipios"
+                                nombreInput="municipio"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.MUNICIPIOS"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="residencia"
+                            >
+                            </ngx-combo-generico>
                         </div>
 
-                        <div class="row item-list" *ngIf="residencia.get('municipio').value === 'Otros'">
+                        <div class="row item-list" *ngIf="residencia.get('municipio')?.value === 'Otros'">
                             <div class="col-md-4">¿Cuál?:</div>
                             <div class="col-md-8">
                                 <input fullWidth nbInput placeholder="Otro municipio">
@@ -83,13 +91,19 @@
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">¿Tiene Sisben?:</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="SI">SI</nb-radio>
-                                    <nb-radio value="NO">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Tiene sisben?"
+                                nombreInput="sisben"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.POSEE_SISBEN"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="residencia"
+                            >
+
+                            </ngx-radio-select-generico>
                         </div>
                     </form>
                 </nb-accordion-item-body>
@@ -100,32 +114,48 @@
                 <nb-accordion-item-body>
                     <form [formGroup]="socioeconomica">
                         <div class="row item-list">
-                            <div class="col-md-4">Estado civil:</div>
-                            <div class="col-md-8">
-                                <nb-select formControlName="estadocivil">
-                                    <nb-option *ngFor="let estadocivi of estado_civil" [value]="estadocivi">
-                                        {{estadocivi}}
-                                    </nb-option>
-                                </nb-select>
-                            </div>
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Estado civil"
+                                nombreInput="estadocivil"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+                            </ngx-combo-generico>
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">Estrato:</div>
-                            <div class="col-md-8">
-                                <input nbInput type="number" formControlName="estrato">
-                            </div>
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Estrato"
+                                nombreInput="estrato"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+                            </ngx-combo-generico>
                         </div>
                         <div class="row">
-                            <div class="col-12">
-                                <label>Dependencia económica</label>
-                                <nb-radio-group>
-                                    <nb-radio value="sMadre">Padre</nb-radio>
-                                    <nb-radio value="Padre">Madre</nb-radio>
-                                    <nb-radio value="Familiar">Familiar</nb-radio>
-                                    <nb-radio value="El mismo">El mismo</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Dependecia económica"
+                                nombreInput="dependenciaEconomica"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DEPENDENCIA_ECONOMICA"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="row">
@@ -156,13 +186,19 @@
                 <nb-accordion-item-body>
                     <form [formGroup]="colegio">
                         <div class="row item-list">
-                            <div class="col-md-4">Tipo de colegio:</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="Publico">Publico</nb-radio>
-                                    <nb-radio value="Privado">Privado</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Tipo de colegio"
+                                nombreInput="tipoColegio"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_COLEGIO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="row item-list">
@@ -207,38 +243,50 @@
                             <label>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</label>
                         </div>
 
-                        <div class="flex-container">
-                            <div class="opciones">
-                                <nb-radio-group>
-                                    <label>LUGAR DE RESIDENCIA DEL ESTUDIANTE</label>
-                                    <nb-radio value="Publico">Propio</nb-radio>
-                                    <nb-radio value="Privado">Arriendo</nb-radio>
-                                    <nb-radio value="Privado">Familiar</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Lugar de residencia del estudiante"
+                                nombreInput="lugarResidencia"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_VIVIENDA"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="vivienda"
+                            >
+
+                            </ngx-radio-select-generico>
                         </div>
 
-                        <div class="flex-container">
-                            <div class="opciones">
-                                <nb-radio-group>
-                                    <label>CON QUIEN VIVE</label>
-                                    <nb-radio value="Publico">Familia</nb-radio>
-                                    <nb-radio value="Privado">Solo</nb-radio>
-                                    <nb-radio value="Privado">Amigos</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Con quién vive?"
+                                nombreInput="convive"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.CONVIVe_CON"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="vivienda"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
 
-                        <div class="flex-container">
-                            <div class="opciones">
-                                <nb-radio-group>
-                                    <mat-label>LUGAR DE RESIDENCIA FAMILIA</mat-label>
-                                    <br>
-                                    <nb-radio value="Publico">Propio</nb-radio>
-                                    <nb-radio value="Privado">Arrendado</nb-radio>
-                                    <nb-radio value="Privado">Hipotecado</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Lugar de residencia de la Familia"
+                                nombreInput="lugarResidenciaFamilia"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LUGAR_RES_FAM"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="vivienda"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="flex-container">
@@ -259,59 +307,78 @@
                 <nb-accordion-item-body>
                     <form [formGroup]="futurofort">
                         <div class="row item-list">
-                            <div class="col-md-4">¿Responsable de la matricula desempleado?:</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Responsable de la matricula desempleado?"
+                                nombreInput="responsableMatDesempleado"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_MAT_DESEMPLEADO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">¿El estudiante es desplazado político?:</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿El estudiante es desplazado político?"
+                                nombreInput="desplazadoPolitico"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DESPLAZADO_POLITICO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">¿Falleció responsable de la matricula?:</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Falleció responsable de la matricula?"
+                                nombreInput="resFallecio"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_FALLECIO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">¿El estudiante es madre o padre cabeza de familia?:</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿El estudiante es madre o padre cabeza de familia?"
+                                nombreInput="resCabezaHogar"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
 
                         <div class="row item-list">
-                            <div class="col-md-4">¿El estudiante cambio de estrato después de su ingreso en la
-                                Universidad?:
-                            </div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-end">
-                            <button nbButton>Continuar</button>
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿El estudiante cambio de estrato después de su ingreso en la Universidad?"
+                                nombreInput="detCambioEstrato"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
                         </div>
                     </form>
                 </nb-accordion-item-body>
