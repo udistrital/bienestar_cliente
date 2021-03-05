@@ -201,7 +201,9 @@
     "cdp_suspension": "CDP suspensión",
     "cdp_traslado": "CDP traslado",
     "cdp_reduccion": "CDP reducción",
-    "anulation_not_allowed": "Anulación para este documento no permitida."
+    "anulation_not_allowed": "Anulación para este documento no permitida.",
+    "documentos": "Documentos",
+    "proyecto": "Proyecto"
   },
   "RUBRO": {
     "asignar_rubro": "Asignar Rubro",

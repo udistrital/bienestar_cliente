@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-md-4">{{etiqueta}}:</div>
+    <div class="col-md-8" [formGroup]="grupo">
+        <nb-radio-group name={{nombreInput}} fullWidth [formControlName]="nombreInput">
+            <nb-radio  *ngFor="let objeto of objetos"  [value]="objeto[campoCodigo]">{{objeto[campoValor] | titlecase }}</nb-radio>
+        </nb-radio-group>
+    </div>
+</div>

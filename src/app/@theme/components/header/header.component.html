@@ -1,8 +1,5 @@
 <div class="header-container">
   <div class="logo-container">
-    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
-      <nb-icon icon="menu-2-outline"></nb-icon>
-    </a>
     <!-- <a class="logo" href="#" (click)="navigateHome()">ngx-<span>admin</span></a> -->
     <div class="logo" (click)="navigateHome()">
       <img class="logo-kronos" src="../../../../assets/images/kronos.logo.png">
@@ -15,18 +12,6 @@
     <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
   </nb-select> -->
   <nb-actions size="small">
-    <nb-action class="control-item">
-      <nb-search class="icono" type="rotate-layout"></nb-search>
-    </nb-action>
-    <nb-action [hidden]="!liveTokenValue" class="control-item" icon="email-outline"></nb-action>
-    <nb-action class="icono control-item" icon="bell-outline" ></nb-action>
-    <nb-action class="icono control-item" icon="globe-outline"></nb-action>
-    <nb-action class="icono control-item idioma" [hidden]="true">
-      <select #langSelect (change)="translate.use(langSelect.value)" class="form-control select">
-        <option *ngFor="let lang of translate.getLangs()" class="form-control" [value]="lang"
-        [selected]="lang === translate.currentLang">{{ lang }}</option>
-      </select>
-    </nb-action>    
     <nb-action [hidden]="liveTokenValue">
       <div class="dropdown ghost-dropdown">
         <div class="btn-with-icon-example">

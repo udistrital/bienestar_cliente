@@ -1,0 +1,12 @@
+.item-list {
+  align-items: center;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+ nb-accordion {
+   box-shadow: none;
+ }

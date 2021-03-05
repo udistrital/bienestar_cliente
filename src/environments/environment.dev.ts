@@ -21,6 +21,9 @@ export const environment = {
   CORE_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8092/v1/',
   CORE_AMAZON_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/core_amazon_crud/v1/',
   CONF_MENU_SERVICE: 'https://autenticacion.udistrital.edu.co/apioas/configuracion_crud_api/v1/menu_opcion_padre/ArbolMenus/',
+  SOLICITUD_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/',
+  TERCEROS_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/',
+  INFO_ESTADO_CIVIL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria?query=GrupoInfoComplementariaId%3A2',
   TOKEN: {
     AUTORIZATION_URL: 'https://autenticacion.udistrital.edu.co/oauth2/authorize',
     CLIENTE_ID: 'Vp8iPJl5TtB7fbPokSmVRc2mj9ca',

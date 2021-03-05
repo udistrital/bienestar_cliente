@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-md-4">{{etiqueta}}:</div>
+    <div class="col-md-8" [formGroup]="grupo">
+        <nb-select fullWidth [formControlName]="nombreInput">
+            <nb-option *ngFor="let objeto of objetos" [value]="objeto[campoCodigo]">
+                {{objeto[campoValor] | titlecase }}
+            </nb-option>
+        </nb-select>
+    </div>
+</div>
+

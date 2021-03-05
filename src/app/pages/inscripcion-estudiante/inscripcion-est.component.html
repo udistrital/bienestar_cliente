@@ -1,0 +1,650 @@
+<nb-card>
+    <nb-card-header>
+        Solicitud de reliquidación para: {{'Nicolas Riveros'}}<br><br>
+        <div class="row">
+            <div class="col-md-6"><b>Nombres y apellidos:</b> {{estudiante?.FamilyName}}</div>
+            <div class="col-md-6"><b>Documento:</b> {{estudiante?.documento_compuesto}}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6"><b>Código:</b> {{estudiante?.Codigo}}</div>
+            <div class="col-md-6"><b>Fecha de nacimiento:</b> {{'20 enero 1994'}}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6"><b>Proyecto:</b> {{'Sistemas'}}</div>
+            <div class="col-md-6"><b>Facultad:</b> {{'Tecnológica'}}</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <nb-accordion>
+            <nb-accordion-item expanded>
+                <nb-accordion-item-header>Información básica</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <p>En el siguiente apartado, se deben llenar los datos relacionados con el lugar de residencia.</p>
+
+                    <form [formGroup]="residencia">
+                        <div class="row item-list">
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Localidad"
+                                nombreInput="localidad"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LOCALIDADES"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="residencia"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Municipios"
+                                nombreInput="municipio"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.MUNICIPIOS"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="residencia"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+
+                        <div class="row item-list" *ngIf="residencia.get('municipio')?.value === 'Otros'">
+                            <div class="col-md-4">¿Cuál?:</div>
+                            <div class="col-md-8">
+                                <input fullWidth nbInput placeholder="Otro municipio">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Dirección:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="direccion">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Barrio:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="barrio">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Correo electrónico:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="email">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Teléfono o Celular:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth formControlName="telefono">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Tiene sisben?"
+                                nombreInput="sisben"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.POSEE_SISBEN"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="residencia"
+                            >
+
+                            </ngx-radio-select-generico>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información socioeconómica</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="socioeconomica">
+                        <div class="row item-list">
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Estado civil"
+                                nombreInput="estadocivil"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-combo-generico
+                                class="col-12"
+                                etiqueta="Estrato"
+                                nombreInput="estrato"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+                        <div class="row">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Dependecia económica"
+                                nombreInput="dependenciaEconomica"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DEPENDENCIA_ECONOMICA"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <input nbInput placeholder="Ingresos mensuales" type="number"
+                                       formControlName="ing_mesual">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <textarea rows="4" nbInput placeholder="Discapacidad" maxlength="500"
+                                          formControlName="descDis"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información escolar</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="colegio">
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Tipo de colegio"
+                                nombreInput="tipoColegio"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_COLEGIO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="socioeconomica"
+                            >
+
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Pensión:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth type="number" formControlName="pension">
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>Certificado del valor cancelado por pensión del último año de bachillerato aclarando el
+                                valor mensual, si el (la) estudiante fue becado debe especificarlo en la
+                                certificación.</p>
+                            <ul>
+                                <li>Egresado de Colegio Privado: Anexar Certificación del colegio donde se determine el
+                                    valor cancelado en el último año de Bachillerato.
+                                </li>
+                                <li>Egresado de Colegio público: Anexar acta y diploma de grado.</li>
+                            </ul>
+                            <p><b>Nota: No anexar recibos de pago ni notas adicionales.</b></p>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjuntar:</div>
+                            <div class="col-md-8">
+                                <input nbInput fullWidth type="file">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button nbButton>Continuar</button>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Información residencial</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="vivienda">
+                        <div class="flex-container">
+                            <label>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</label>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Lugar de residencia del estudiante"
+                                nombreInput="lugarResidencia"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_VIVIENDA"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="vivienda"
+                            >
+
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Con quién vive?"
+                                nombreInput="convive"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.CONVIVe_CON"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="vivienda"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="Lugar de residencia de la Familia"
+                                nombreInput="lugarResidenciaFamilia"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LUGAR_RES_FAM"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="vivienda"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="flex-container">
+                            <label>Adjuntar el soporte arriendo</label>
+                            <input nbInput type="file">
+                        </div>
+
+                        <div class="flex-container">
+                            <label>Adjuntar el soporte de hipoteca</label>
+                            <input nbInput type="file">
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Situaciones de caso fortuito</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="futurofort">
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Responsable de la matricula desempleado?"
+                                nombreInput="responsableMatDesempleado"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_MAT_DESEMPLEADO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿El estudiante es desplazado político?"
+                                nombreInput="desplazadoPolitico"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DESPLAZADO_POLITICO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿Falleció responsable de la matricula?"
+                                nombreInput="resFallecio"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_FALLECIO"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿El estudiante es madre o padre cabeza de familia?"
+                                nombreInput="resCabezaHogar"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico
+                                class="col-12"
+                                etiqueta="¿El estudiante cambio de estrato después de su ingreso en la Universidad?"
+                                nombreInput="detCambioEstrato"
+                                [servicio]="inscripcionEstudianteService"
+                                metodo="obtenerGrupoInfoComplementaria"
+                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                campoCodigo="Id"
+                                campoValor="Nombre"
+                                [grupo]="futurofort"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Formulario Reliquidacion</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="documentos">
+                        <div class="row item-list">
+                            <div class="col-md-4">FORMULARIO RELIQUIDACIÓN</div>
+                            <div class="col-md-8">
+                                <label>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
+                                    escaneado.
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">CARTA DE SOLICITUD A BIENESTAR</div>
+                            <div class="col-md-8">
+                                <label>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO
+                                    GUTIERREZ DAZA
+                                    Explicando los
+                                    motivos por los cuales solicita la Reliquidación (elaborada y firmada por el (la)
+                                    estudiante).
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+
+
+                        <div class="row item-list">
+                            <div class="col-md-4">CERTIFICADO ESTRATIFICACIÓN</div>
+                            <div class="col-md-8">
+                                <label>Certificado de estratificación del lugar de residencia del estudiante -
+                                    Estudiantes
+                                    que
+                                    residen en Bogotá expedido por Catastro o Supercade
+                                    (no superior a 1 año) - Para estudiantes que residen fuera de Bogotá anexar
+                                    Certificado
+                                    de
+                                    estratificación por las Alcaldías Municipales (no superior a 1 año).
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">RECIBO PÚBLICO</div>
+                            <div class="col-md-8">
+                                <label>Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de
+                                    residencia
+                                    del
+                                    estudiante donde
+                                    se especifique la dirección y estrato, con una vigencia de tres (3) meses.
+                                </label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Certificado de ingresos</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="doccertificadoingreso">
+                        <label>Documento - Certificado de Ingresos</label><br>
+                        <label>Continúe adjuntando los documentos
+
+                            Señor estudiante NO se acepta el Formato de certificado de no declarante o certificado
+                            de no
+                            contribuyente, que adjunto en el momento de ingresar a la universidad.<br>
+
+
+                            Tenga en cuenta cuál es su caso con el fin de adjuntar el documento correspondiente:<br>
+
+                            • Para Independientes: Si la persona de quién depende económicamente el estudiante es
+                            trabajador
+                            independiente o el (la) estudiante trabaja como independiente,
+                            debe presentar una carta donde especifique la labor que desempeña y los ingresos que
+                            recibe
+                            mensualmente, debe venir firmada, con número de Cédula, número de teléfono y
+                            dirección.<br>
+
+                            • Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el
+                            (la)
+                            estudiante es
+                            empleado, debe presentar una carta laboral vigente, especificando los ingresos mensuales
+                            y
+                            la
+                            actividad,
+                            con número de teléfono y dirección del empleador.<br>
+
+                            • Si presenta Certificado de ingresos y retenciones debe corresponder al año 2018.<br>
+
+                            • Cabeza de familia: Si el (la) estudiante depende únicamente de madre o padre cabeza de
+                            familia
+                            debe
+                            anexar fotocopia del documento de identidad del Padre o Madre del Estudiante y Registro
+                            civil de
+                            Nacimiento del Estudiante.<br>
+
+                        </label>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">CERTIFICADO DE INGRESOS</div>
+                            <div class="col-md-8">
+                                <label>Certificado de ingresos de la persona de quien depende el (la) estudiante</label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Personas a cargo</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="peracargo">
+                        <div class="row item-list">
+                            <div class="col-md-4">opciones</div>
+                            <div class="col-md-8">
+                                <nb-radio-group>
+                                    <label>Hijos a cargo</label>
+                                    <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
+                                    </label>
+                                    <nb-radio value="si">SI</nb-radio>
+                                    <nb-radio value="no">NO</nb-radio>
+                                </nb-radio-group>
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Registro civil</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="registrocivil">
+                        <div class="row item-list">
+                            <div class="col-md-4">Numero de hijos</div>
+                            <div class="col-md-8">
+                                <input nbInput type="number" formControlName="numero_hijos">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Edad</div>
+                            <div class="col-md-8">
+                                <input nbInput type="number" formControlName="edad">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Edad</div>
+                            <div class="col-md-8">
+                                <input nbInput type="number" formControlName="edad">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjuntar el registro civil</div>
+                            <div class="col-md-8">
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Desplazado</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="desplazado">
+                        <div class="row item-list">
+                            <div class="col-md-4">DESPLAZADO</div>
+                            <div class="col-md-8">
+                                <nb-radio-group>
+                                    <label>Indique si el estudiante esta en condición de desplazado</label>
+                                    <nb-radio value="si">SI</nb-radio>
+                                    <nb-radio value="no">NO</nb-radio>
+                                </nb-radio-group>
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">DESPLAZADO</div>
+                            <div class="col-md-8">
+                                <label>Adjuntar el soporte</label>
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Recibo de pago</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="recibopago">
+                        <div class="row item-list">
+                            <div class="col-md-4">Valor matricula</div>
+                            <div class="col-md-8">
+                                <input nbInput type="number"
+                                       formControlName="valor_matricula">
+                            </div>
+                        </div>
+
+                        <div class="row item-list">
+                            <div class="col-md-4">Adjuntar el recibo</div>
+                            <div class="col-md-8">
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+                <nb-accordion-item-header>Otros Documentos</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <form [formGroup]="otrosdoc">
+                        <label>Otros Documentos</label>
+                        <label>Papeles que soporten la situación que describe en la carta dependiendo el caso
+                            (Hipotecas,
+                            acta de
+                            defunción, demandas),<br>
+                            Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o
+                            SISBEN
+                            donde
+                            se
+                            determina el porcentaje de la discapacidad, etc.
+                        </label>
+                        <div class="row item-list">
+                            <div class="col-md-4">Otros documentos</div>
+                            <div class="col-md-8">
+                                <input nbInput type="file">
+                            </div>
+                        </div>
+                    </form>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+        </nb-accordion>
+
+        <mat-label>Enviar documentación</mat-label>
+        <mat-hint>El envío de documentos solo puede realizarse una vez.<br>
+
+            Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
+            primer
+            envío,
+            se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.<br>
+
+            Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
+
+            <div class="flex-container">
+                <button nbButton (click)="llamardialogo()">ENVIAR</button>
+            </div>
+
+        </mat-hint>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #dialogo>
+    <p>¡Sus datos han sido enviados!</p>
+</ng-template>
