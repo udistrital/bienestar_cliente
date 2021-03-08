@@ -11,6 +11,9 @@ import { ConfiguracionService } from '../@core/data/configuracion.service';
 import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
+import { HomeModule } from './home/home.module';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
+
 
 @NgModule({
   imports: [
@@ -21,12 +24,14 @@ import { NbIconModule } from '@nebular/theme';
     DashboardModule,
     SharedModule,
     InscripcionEstModule,
+    HomeModule,
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
   ],
   declarations: [
     PagesComponent,
+    ApoyoAlimentarioComponent,
   ],
   providers: [
     ConfiguracionService,
