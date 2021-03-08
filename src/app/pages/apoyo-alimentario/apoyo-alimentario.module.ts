@@ -18,10 +18,12 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ComboGenericoModule } from '../../shared/components/combo-generico/combo-generico.module';
 import { RadioSelectGenericoModule } from '../../shared/components/radio-select-generico/radio-select-generico.module';
-import { HomeComponent } from '../home/home.component';
+import { ApoyoAlimentarioRoutingModule } from './apoyo-alimentario-routing.module';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario.component';
 
 @NgModule({
     imports: [
+        ApoyoAlimentarioRoutingModule,
         ThemeModule,
         CommonModule,
         NbCardModule,
@@ -44,7 +46,7 @@ import { HomeComponent } from '../home/home.component';
         RadioSelectGenericoModule,
     ],
   declarations: [ 
-    HomeComponent,
+    ApoyoAlimentarioComponent,
    ],
   providers: [
 

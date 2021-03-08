@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NbIconModule } from '@nebular/theme';
 import { HomeModule } from './home/home.module';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
+import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario
     DashboardModule,
     SharedModule,
     InscripcionEstModule,
+    ApoyoAlimentarioModule,
     HomeModule,
     RevisionInscModule,
     MiscellaneousModule,
@@ -31,7 +33,6 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario
   ],
   declarations: [
     PagesComponent,
-    ApoyoAlimentarioComponent,
   ],
   providers: [
     ConfiguracionService,
