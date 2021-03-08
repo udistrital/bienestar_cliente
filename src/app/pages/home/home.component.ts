@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateSalud(){
-    this.router.navigate(['/pages/home']);
+    this.router.navigate(['/pages/revision']);
     return false;
   }
 
