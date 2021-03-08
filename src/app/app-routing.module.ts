@@ -11,11 +11,6 @@ import {
 
 const routes: Routes = [
   {
-    path:'citas', 
-    loadChildren: ( ) =>import ('./pages/citas/citas.module')
-    .then (m => m.CitasModule),
-  },
-  {
     path: 'pages',
     loadChildren: () => import('../app/pages/pages.module')
       .then(m => m.PagesModule),

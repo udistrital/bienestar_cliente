@@ -9,12 +9,7 @@ import { ApoyoAlimentarioModule } from './apoyo-alimentario.module';
 
 const routes: Routes = [
     {
-        path: 'apoyo-alimentario',
-        loadChildren: () => import('../apoyo-alimentario/apoyo-alimentario.module')
-          .then(m => m.ApoyoAlimentarioModule),
-      },
-    {
-      path: 'apoyo-alimentario',
+      path: '',
       component: ApoyoAlimentarioComponent,
       children: [
         {

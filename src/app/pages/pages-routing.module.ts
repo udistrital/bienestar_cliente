@@ -9,7 +9,8 @@ import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 
-const routes: Routes = [{
+const routes: Routes = [
+    {
     path: '',
     component: PagesComponent,
     children: [
@@ -23,12 +24,19 @@ const routes: Routes = [{
             component: RevisionInscComponent,
         },
         {
-            path: 'apoyo-alimentario',
-            component: ApoyoAlimentarioComponent,
-        },
-        {
             path: 'home',
             component: HomeComponent,
+        },
+        {
+            path: 'apoyo-alimentario',
+            component: ApoyoAlimentarioComponent,
+            //loadChildren: () => import('./apoyo-alimentario/apoyo-alimentario.module')
+            //.then(m => m.ApoyoAlimentarioModule),
+        },
+        {
+            path:'citas', 
+            loadChildren: ( ) =>import ('./citas/citas.module')
+            .then (m => m.CitasModule),
         },
         /* {
             path: '',
