@@ -6,11 +6,15 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {InscripcionEstComponent} from './inscripcion-estudiante/inscripcion-est.component';
 import {RevisionInscComponent} from './revision-insc/revision-insc.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
+import { CitaComponent } from './citas/cita/cita.component';
+import { EspecialistaComponent } from './citas/especialista/especialista.component';
+import { PacienteComponent } from './citas/paciente/paciente.component';
 
 const routes: Routes = [{
     path: '',
     component: PagesComponent,
     children: [
+        
         {
             path: 'inscripcion',
             component: InscripcionEstComponent,
