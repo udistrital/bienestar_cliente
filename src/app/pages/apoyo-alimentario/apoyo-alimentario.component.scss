@@ -1,0 +1,25 @@
+.back-button {
+    background-color: #c22323ea;
+    color: whitesmoke;
+    margin: auto;
+}
+
+.menu-header {
+    padding-top: 5px;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.menu-header h1 {
+    margin: auto;
+    flex: 80%;
+}
+
+.menu-header button {
+    margin-top: 1px;
+    flex: 12%;
+}
