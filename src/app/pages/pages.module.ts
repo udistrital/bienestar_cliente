@@ -14,7 +14,7 @@ import { NbIconModule } from '@nebular/theme';
 import { HomeModule } from './home/home.module';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
-
+import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 
 @NgModule({
   imports: [

@@ -6,33 +6,33 @@ import {NotFoundComponent} from '../miscellaneous/not-found/not-found.component'
 import { ApoyoAlimentarioComponent } from '../apoyo-alimentario/apoyo-alimentario.component';
 import { HomeComponent } from '../home/home.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario.module';
+import { InscritosComponent } from './registro/inscritos/inscritos.component'
+import { NoInscritosComponent } from './registro/no-inscritos/no-inscritos.component'
+import { ConsultarComponent } from './registro/consultar/consultar.component'
 
 const routes: Routes = [
+  { 
+    path: '',
+    component :ApoyoAlimentarioComponent
+  },
+  {
+    path: 'registro', children:[
     {
-      path: '',
-      component: ApoyoAlimentarioComponent,
-      children: [
-        {
-            path: 'registro',
-            component: ApoyoAlimentarioComponent,
-        },
-        {
-            path: 'volver',
-            redirectTo: 'home',
-        },
-        {
-            path: '',
-            redirectTo: 'home',
-            pathMatch: 'full',
-        },
-        {
-            path: '**',
-            component: NotFoundComponent,
-        },
-      ],
+      path:'inscritos', component: InscritosComponent
     },
-  ];
-  
+    {
+      path:'no-inscritos', component: NoInscritosComponent
+    },
+    {
+      path:'consultar', component: ConsultarComponent
+    },
+    {
+      path:'**', component: NotFoundComponent
+    },
+    
+     ],
+  }
+];
   @NgModule({
     imports: [
       RouterModule.forChild(routes),

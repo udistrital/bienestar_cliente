@@ -8,6 +8,7 @@ import {RevisionInscComponent} from './revision-insc/revision-insc.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
+import { InscritosComponent } from './apoyo-alimentario/registro/inscritos/inscritos.component'
 
 const routes: Routes = [
     {
@@ -29,20 +30,14 @@ const routes: Routes = [
         },
         {
             path: 'apoyo-alimentario',
-            component: ApoyoAlimentarioComponent,
-            //loadChildren: () => import('./apoyo-alimentario/apoyo-alimentario.module')
-            //.then(m => m.ApoyoAlimentarioModule),
-        },
+            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
+            .then (m => m.ApoyoAlimentarioModule),
+        },  
         {
             path:'citas', 
             loadChildren: ( ) =>import ('./citas/citas.module')
             .then (m => m.CitasModule),
         },
-        /* {
-            path: '',
-            redirectTo: 'inscripcion',
-            pathMatch: 'full',
-        }, */
         {
             path: '',
             redirectTo: 'home',

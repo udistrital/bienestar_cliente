@@ -1,1 +1,27 @@
-<p>apoyo-alimentario works!</p>
+<div class="home-div">
+
+    <mat-card class="home-card center">
+        <mat-card-header>
+            <h3> Modulos Apoyo</h3>
+        </mat-card-header>
+        <mat-card-content class="center">
+            <h4>Registro diario</h4>
+            <button mat-raised-button color="primary" (click)="navigateRegistroInscritos()">Inscritos</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateRegistroNoInscritos()">No inscritos</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateConsultar()">Consultar</button><br> <br>
+            <h4>Inscripciones</h4>
+            <button mat-raised-button color="primary" (click)="navigateInscripciones()">Inscripciones</button><br> <br>
+            <h4>Asistencia</h4>
+            <button mat-raised-button color="primary" (click)="navigateConsultarFallas()">Consultar fallas</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateSanciones()">Sanciones</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateFallasJustificadas()">Fallas justificadas</button><br> <br>
+            <h4>Informes</h4>
+            <button mat-raised-button color="primary" (click)="navigateInformeDiario()">Diario</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateInformePeriodo()">Periodo</button><br> <br>
+            <h4>Administracion</h4>
+            <button mat-raised-button color="primary" (click)="navigatePeriodos()">Periodos</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateFechas()">Fechas</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateCargarInscripciones()">Cargar inscripciones</button><br> <br>
+        </mat-card-content>
+    </mat-card>
+</div>

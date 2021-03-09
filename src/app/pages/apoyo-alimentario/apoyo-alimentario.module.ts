@@ -20,10 +20,15 @@ import { ComboGenericoModule } from '../../shared/components/combo-generico/comb
 import { RadioSelectGenericoModule } from '../../shared/components/radio-select-generico/radio-select-generico.module';
 import { ApoyoAlimentarioRoutingModule } from './apoyo-alimentario-routing.module';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario.component';
+import { InscritosComponent } from './registro/inscritos/inscritos.component';
+import { MiscellaneousModule } from '../miscellaneous/miscellaneous.module';
+import { NoInscritosComponent } from './registro/no-inscritos/no-inscritos.component';
+import { ConsultarComponent } from './registro/consultar/consultar.component';
 
 @NgModule({
     imports: [
         ApoyoAlimentarioRoutingModule,
+        MiscellaneousModule,
         ThemeModule,
         CommonModule,
         NbCardModule,
@@ -47,6 +52,9 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario.component';
     ],
   declarations: [ 
     ApoyoAlimentarioComponent,
+    InscritosComponent,
+    NoInscritosComponent,
+    ConsultarComponent,
    ],
   providers: [
 
