@@ -8,7 +8,7 @@ import { FechaModel } from '../../modelos/fecha.model';
 import { FechasService } from '../../servicios/fechas.service'
 import { RegistrosInscritosService } from '../../servicios/registros-inscritos.service'
 import { SedesService } from '../../servicios/sedes.service'
-import { NbGlobalPhysicalPosition, NbToastrService ,NbToast} from '@nebular/theme';
+import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 
 
 @Component({
@@ -152,11 +152,7 @@ export class InscritosComponent implements OnInit {
   }
 
   showToast() {
-    //'checkmark-square-outline'
     let estudiante = this.registosAprovados.reverse();
-    this.toastrService.show('Se registro correctamente', `Estudiante: ${estudiante}`,{position: NbGlobalPhysicalPosition.TOP_RIGHT , status: 'success' , duration: 1500 , icon: 'checkmark-square-outline'});
-    //this.toastrService.success("Se registro correctamente", `Estudiante: ${estudiante}`);
-    //const iconConfig: NbToast = { icon: iconName, pack: 'eva' };
-    //this.toastrService.show('Message', `Toast: ${++this.index}`, iconConfig);
+    this.toastrService.show('Se registro correctamente', `Estudiante: ${estudiante}`,{position: NbGlobalPhysicalPosition.TOP_RIGHT , status: 'success' , duration: 2000 , icon: 'checkmark-square-outline'});
   }
 }

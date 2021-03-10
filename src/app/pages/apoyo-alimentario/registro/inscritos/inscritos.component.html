@@ -7,7 +7,7 @@
                     <u *ngIf="inscritos">inscritos</u>
                     <u *ngIf="!inscritos">no inscritos</u>
                 </h1>
-                <button class="btn back-button" routerLink="/apoyo-alimentario">
+                <button class="btn back-button" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     Regresar
                 </button>
@@ -27,7 +27,7 @@
                             <i class="fa fa-file-signature " aria-hidden="true"></i>
                             <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
                         </div>
-                        <input type="text" [(ngModel)]="fechaActual.periodo" name="periodo" class="form-control input-text-ud" disabled>
+                        <input type="text" [(ngModel)]="fechaActual.periodo" name="periodo" class="form-control" disabled>
                     </div>
 
                     <!-- [class.is-invalid]="fecha.invalid && fecha.touched" -->
@@ -36,7 +36,7 @@
                             <i class="fa fa-calendar-day " aria-hidden="true"></i>
                             <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Fecha</span>
                         </div>
-                        <input type="date" placeholder="Fecha a registrar" [(ngModel)]="fechaActual.fechaDia" name="fechaDia" class="form-control input-text-ud" required #fechaDia="ngModel" disabled>
+                        <input type="date" placeholder="Fecha a registrar" [(ngModel)]="fechaActual.fechaDia" name="fechaDia" class="form-control" required #fechaDia="ngModel" disabled>
                     </div>
 
                     <div class="form-group input-group">
@@ -57,10 +57,10 @@
                         <div class="label-color-ud input-group-prepend input-group-text mt-1n">
                             <i class="fa fa-barcode mt-2n mr-1" aria-hidden="true"></i>
                             <span class="label-color-ud ml-1" id="inputGroup-sizing-default"> 
-                        Codigo
-                        <br>
-                        Estudiante
-                    </span>
+                                Codigo
+                                <br>
+                                Estudiante
+                            </span>
                         </div>
                         <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante" [(ngModel)]="registroBase.codigo" #codigo="ngModel" [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{11}" required>
                     </div>
@@ -69,15 +69,16 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                        <button nbButton type="submit" (click)="showToast()" class="btn btn-warning btn-block">
-                    <i class="fas fa-save mr-1"></i>
-                    Guardar
-                </button>
+                        <!-- <button type="submit" class="btn btn-warning btn-block"> -->
+                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" (click)="showToast()" class="submit-button">
+                        <i class="fas fa-save mr-1"></i>
+                        Guardar
+                    </button>
 
                     </div>
-                    <div *ngFor="let registoAprovado of registosAprovados.reverse();" class="alert alert-warning" role="alert">
+                    <!--  <div *ngFor="let registoAprovado of registosAprovados.reverse();" class="alert alert-warning" role="alert">
                         Se registro el estudiante <strong> {{registoAprovado}} </strong>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

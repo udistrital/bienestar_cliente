@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router'
 
 @Component({
@@ -10,13 +11,16 @@ export class ConsultarCodigoComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
   consultar(){
     var codigoValue = (<HTMLInputElement>document.getElementById("codigo")).value;
     console.log(codigoValue);
     this.router.navigate(['/pages/apoyo-alimentario/administracion/consulta-codigo/'+codigoValue]);
+    
     return false;
+
+    
   }
  
 }
