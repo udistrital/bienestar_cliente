@@ -1,0 +1,61 @@
+<div class="container text-center pt-2">
+    <div class="row justify-content-md-center">
+        <h2 class="">
+            Agregar Periodo
+        </h2>
+        <button class="btn back-button ml-5 mr-n5" routerLink="/periodos">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col">
+        <form (ngSubmit)="guardar( f )" #f="ngForm">
+            <!-- <div class="form-group">
+                <label class="bg-online-ud">ID</label>
+                <input type="number" placeholder="ID periodo" [(ngModel)]="periodo.id" name="id" class="form-control input-text-ud" disabled="disable">
+                
+            </div> -->
+            <div class="form-group">
+                <label class=" label-color-ud">
+                    <i class="fa fa-file-signature " aria-hidden="true"></i>
+                    Nombre
+                </label>
+                <input [class.is-invalid]="nombre.invalid && nombre.touched" type="text" placeholder="Nombre del Periodo" [(ngModel)]="periodo.nombre" name="nombre" class="form-control input-text-ud" required #nombre="ngModel" pattern="[0-9]{4}[-]{1}[1-3]{1}">
+                <small *ngIf="nombre.invalid && nombre.touched " class="form-text text-danger">Este campo es obligatorio
+                    y se espera de la forma año-semestre (2020-1)</small>
+            </div>
+            <div class="form-group">
+                <label class=" label-color-ud">
+                    <i class="fas fa-calendar-check "></i>
+                    Fecha inicio
+                </label>
+                <input [class.is-invalid]="fechaIn.invalid && fechaIn.touched" type="date" placeholder="Fecha de inicio" [(ngModel)]="periodo.fechaInicio" name="fechaInicio" class="form-control input-text-ud " #fechaIn="ngModel" required>
+                <small *ngIf="fechaIn.invalid && fechaIn.touched " class="form-text text-danger">Este campo es
+                    obligatorio</small>
+            </div>
+            <div class="form-group">
+                <label class=" label-color-ud">
+                    <i class="fas fa-calendar-times "></i>
+                    Fecha fin
+                </label>
+                <input type="date" placeholder="Fecha de fin" [(ngModel)]="periodo.fechaFin" [class.is-invalid]="fechaFin.invalid && fechaFin.touched" name="fechaFin" class="form-control input-text-ud" #fechaFin="ngModel" required>
+                <small *ngIf="fechaFin.invalid && fechaFin.touched " class="form-text text-danger">Este campo es
+                        obligatorio</small>
+
+            </div>
+
+            <hr>
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning btn-block">
+                    <i class="fas fa-save    "></i>
+                    Guardar
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>

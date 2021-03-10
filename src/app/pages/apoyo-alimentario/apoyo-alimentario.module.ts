@@ -13,7 +13,6 @@ import {
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 import { ThemeModule } from '../../@theme/theme.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ComboGenericoModule } from '../../shared/components/combo-generico/combo-generico.module';
@@ -24,6 +23,10 @@ import { InscritosComponent } from './registro/inscritos/inscritos.component';
 import { MiscellaneousModule } from '../miscellaneous/miscellaneous.module';
 import { NoInscritosComponent } from './registro/no-inscritos/no-inscritos.component';
 import { ConsultarComponent } from './registro/consultar/consultar.component';
+import { FechasComponent } from './administracion/fechas/fechas.component';
+import { PeriodosComponent } from './administracion/periodos/periodos.component';
+import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
+import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
 
 @NgModule({
     imports: [
@@ -55,6 +58,10 @@ import { ConsultarComponent } from './registro/consultar/consultar.component';
     InscritosComponent,
     NoInscritosComponent,
     ConsultarComponent,
+    FechasComponent,
+    PeriodosComponent,
+    ConsultarCodigoComponent,
+    InformacionEstudianteComponent,
    ],
   providers: [
 

@@ -8,6 +8,8 @@ import { FechaModel } from '../../modelos/fecha.model';
 import { FechasService } from '../../servicios/fechas.service'
 import { RegistrosInscritosService } from '../../servicios/registros-inscritos.service'
 import { SedesService } from '../../servicios/sedes.service'
+import { NbGlobalPhysicalPosition, NbToastrService ,NbToast} from '@nebular/theme';
+
 
 @Component({
   selector: 'ngx-inscritos',
@@ -18,7 +20,7 @@ export class InscritosComponent implements OnInit {
 
   inscritos: boolean;
   sedesTemp: SedeModel[] = [];
-  sedesAccesso: SedeModel[] = [] 
+  sedesAccesso: SedeModel[] = []
   /* sedesAccesso = ["Ingenieria","Macarena","Vivero", "Bosa"];  */
   registosAprovados: string[] = []
   registroBase = new RegistroInscritoModel();
@@ -28,7 +30,8 @@ export class InscritosComponent implements OnInit {
   constructor(private fechasService: FechasService,
     private registroInscritoService: RegistrosInscritosService,
     private sedesService: SedesService,
-    private router: Router, private route: ActivatedRoute,) { }
+    private router: Router, private route: ActivatedRoute,
+    private toastrService: NbToastrService,) { }
 
   async ngOnInit() {
     this.inscritos = true;
@@ -58,16 +61,16 @@ export class InscritosComponent implements OnInit {
         }
       });
 
-      
 
-      this.sedesService.getSedes()
-      .subscribe( resp=>  {
+
+    this.sedesService.getSedes()
+      .subscribe(resp => {
         this.sedesAccesso = resp;
       });
 
   }
 
-  OnChanges(){
+  OnChanges() {
     console.log("cambios")
   }
 
@@ -148,5 +151,12 @@ export class InscritosComponent implements OnInit {
 
   }
 
-
+  showToast() {
+    //'checkmark-square-outline'
+    let estudiante = this.registosAprovados.reverse();
+    this.toastrService.show('Se registro correctamente', `Estudiante: ${estudiante}`,{position: NbGlobalPhysicalPosition.TOP_RIGHT , status: 'success' , duration: 1500 , icon: 'checkmark-square-outline'});
+    //this.toastrService.success("Se registro correctamente", `Estudiante: ${estudiante}`);
+    //const iconConfig: NbToast = { icon: iconName, pack: 'eva' };
+    //this.toastrService.show('Message', `Toast: ${++this.index}`, iconConfig);
+  }
 }

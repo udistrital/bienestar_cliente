@@ -1,0 +1,57 @@
+<div class="container text-center pt-2">
+    <h1>
+        Visualizacion de Fechas
+        <!-- {{ periodo.nombre }} -->
+    </h1>
+</div>
+<hr>
+
+<table *ngIf="!cargando && fechas.length>0" class="table mt-3">
+    <thead class="bg-ud-table">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Periodo</th>
+            <th scope="col">Fecha (Dia)</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody class="bg-ud-table-cell">
+        <tr *ngFor="let fecha of fechas; let i = index">
+            <th scope="row">{{ i +1 }}</th>
+            <td>{{ fecha.periodo }}</td>
+            <td>{{ fecha.fechaDia }}</td>
+            <td>{{ fecha.descripcion }}</td>
+            <td>
+                {{ fecha.estado | titlecase }}
+            </td>
+            <td>
+                <button *ngIf="fechaFutura(fecha.fechaDia) && fecha.estado!='activo'" class="btn edit-icon mr-1" [routerLink]="['/fecha', fecha.id ]" title="Editar fecha">
+                    <i class="fa fa-pencil " aria-hidden="true"></i>
+                </button>
+                <button *ngIf="fechaFutura(fecha.fechaDia)" class="btn delete-icon " (click)="borrarFecha(fecha, i)" title="Borrar fecha">
+                    <i class="fa fa-trash " aria-hidden="true"></i>
+                </button>
+                <!-- <button *ngIf="fecha.estado=='nuevo' && !fechaFutura(fecha.fechaDia)" class="btn delete-icon " (click)="borrarFecha(fecha, i)" title="Borrar fecha">
+                    <i class="fa fa-bug fa-2x " aria-hidden="true"></i>
+                </button> -->
+                <button *ngIf="fecha.estado==='activo'" class="btn label-color-ud" style="background-color:transparent" (click)="desactivarFecha(fecha, i)" title="Pausar fecha">
+                    <i class="fa fa-toggle-on fa-2x " aria-hidden="true"></i>
+                </button>
+                <button *ngIf="fecha.estado==='inactivo' && fechaFutura(fecha.fechaDia)" class="btn label-color-ud" style="background-color:transparent" (click)="establecerFecha(fecha, i)" title="Reactivar fecha">
+                    <i class="fa fa-toggle-off fa-2x " aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col text-right">
+        <button class="btn btn-warning btn-block" routerLink="/fecha/nuevo">
+            <i class="fa fa-plus"></i>
+            Agregar
+        </button>
+    </div>
+</div>

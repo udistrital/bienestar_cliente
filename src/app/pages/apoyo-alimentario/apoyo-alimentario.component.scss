@@ -1,9 +1,3 @@
-.back-button {
-    background-color: #c22323ea;
-    color: whitesmoke;
-    margin: auto;
-}
-
 .menu-header {
     padding-top: 5px;
     align-items: center;
@@ -22,4 +16,136 @@
 .menu-header button {
     margin-top: 1px;
     flex: 12%;
+}
+
+.bg-ud {
+    background: #4c1818;
+}
+
+.bg-online-ud {
+    color: #4c1818;
+    border-color: #4c1818;
+    background: white;
+    margin-top: 8px;
+    margin-bottom: 2px;
+}
+
+.bg-ud:hover {
+    background: #3d1414;
+}
+
+
+/* fffcf2 , fdfcf6, dfd6ba*/
+
+.input-text-ud {
+    color: #212529;
+    background-color: #fdfdfd;
+    border-color: #e6b31c;
+    /* margin-bottom: 6px; */
+}
+
+.input-text-ud:focus {
+    background-color: #fff4e0;
+    box-shadow: 0 3px 3px rgba(229, 174, 23, 0.075)inset, 0 0 12px rgba(255, 208, 0, 0.6);
+    border-color: #e6b31c;
+    border: 0;
+}
+
+.input-text-ud:disabled {
+    background-color: #e0d6bb83;
+}
+
+.input-text-ud::placeholder {
+    color: #856404;
+}
+
+.form-control {
+    border-color: #e6b31c;
+}
+
+.label-color-ud {
+    color: #4c1818;
+    font-weight: bold;
+    background-color: white;
+    margin-right: 2px;
+}
+
+.bg-ud-yell {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.bg-ud-yell:hover {
+    background: #be951a;
+}
+
+.back-button {
+    color: whitesmoke;
+    background-color: #7a1616;
+    border-color: #7a1616;
+    //margin: auto;
+}
+
+.back-button:hover {
+    color: whitesmoke;
+    background: #691717;
+}
+
+.bg-ud-table {
+    background: #4c1818;
+    color: whitesmoke;
+}
+
+.bg-ud-table-cell {
+    color: #212529;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.student-icon {
+    color: #eef1ff;
+    background-color: #2039aa;
+    border-color: #2039aa;
+}
+
+.student-icon:hover {
+    color: #d6ddfd;
+    background: #192766;
+}
+
+
+/* #28a745 */
+
+.init-icon {
+    color: #f2fff2;
+    background-color: #236123;
+    border-color: #236123;
+}
+
+.init-icon:hover {
+    color: #f2fff2;
+    background: #1b441b;
+}
+
+.edit-icon {
+    color: #fcfcfc;
+    background-color: #978234d7;
+    border-color: #978234d7;
+}
+
+.edit-icon:hover {
+    color: #faf7e9;
+    background: #746531d7;
+}
+
+.delete-icon {
+    color: #fdf2f2;
+    background-color: #7a1616;
+    border-color: #7a1616;
+}
+
+.delete-icon:hover {
+    color: #ffe6e6;
+    background: #5a1717;
 }
