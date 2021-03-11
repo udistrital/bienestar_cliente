@@ -100,8 +100,6 @@ export class InscritosComponent implements OnInit {
     Object.values(form.controls).forEach(control => {
       control.markAsUntouched();
     });
-
-
   }
 
 

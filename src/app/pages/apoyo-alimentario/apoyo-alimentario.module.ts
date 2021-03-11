@@ -27,6 +27,7 @@ import { FechasComponent } from './administracion/fechas/fechas.component';
 import { PeriodosComponent } from './administracion/periodos/periodos.component';
 import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
 import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
+import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.component';
 
 @NgModule({
     imports: [
@@ -62,6 +63,7 @@ import { InformacionEstudianteComponent } from './administracion/informacion-est
     PeriodosComponent,
     ConsultarCodigoComponent,
     InformacionEstudianteComponent,
+    FechaCrudComponent,
    ],
   providers: [
 

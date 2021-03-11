@@ -13,6 +13,7 @@ import { FechasComponent } from './administracion/fechas/fechas.component'
 import { PeriodosComponent } from './administracion/periodos/periodos.component'
 import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component'
 import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component'
+import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.component'
 
 const routes: Routes = [
   { 
@@ -42,6 +43,9 @@ const routes: Routes = [
     },
     {
       path:'fechas', component: FechasComponent
+    },
+    {
+      path:'fechas/:id',component: FechaCrudComponent
     },
     {
       path:'carga-inscripciones', component: ConsultarComponent
