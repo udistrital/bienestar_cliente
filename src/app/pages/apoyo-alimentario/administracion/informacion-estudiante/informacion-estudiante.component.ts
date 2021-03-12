@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router'
-import { ListService } from '../../../../@core/list.service'
+import { ListService } from '../../../../@core/store/list.service'
 
 @Component({
   selector: 'ngx-informacion-estudiante',
@@ -18,7 +18,7 @@ export class InformacionEstudianteComponent implements OnInit {
 
   ngOnInit() {
     this.codigo = this.route.snapshot.paramMap.get('cod');
-    this.listService.findEstudiante(this.codigo);
+    /* this.listService.findEstudiante(this.codigo); */
   }
 
 }

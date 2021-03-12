@@ -14,9 +14,12 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Store, StoreModule } from '@ngrx/store';
+import { rootReducer } from './@core/store/rootReducer';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ImplicitAutenticationService } from './@core/utils/implicit_autentication.service';
+import { ListService } from './@core/store/list.service';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -136,6 +139,7 @@ export class MaterialModule {}
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    StoreModule.forRoot(rootReducer),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -165,6 +169,7 @@ export class MaterialModule {}
   ],
   bootstrap: [AppComponent],
   providers: [ImplicitAutenticationService,
+    ListService,
     { provide: APP_BASE_HREF, useValue: '/' },
   ],
 })
