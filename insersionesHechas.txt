@@ -1,0 +1,105 @@
+*****Apoyo Alimentario*******
+----Post----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/area_tipo
+{
+    "Id": 10,
+    "Nombre": "Bienestar Institucional",
+    "Descripcion": "Datos para  proyecto de bienestar institucional",
+    "CodigoAbreviacion": "BI",
+    "Activo": true,
+    "NumeroOrden": 0,
+    "FechaCreacion": "2021-03-15 12:05:33.557196 +0000 +0000",
+    "FechaModificacion": "2021-03-15 12:07:05.361177 +0000 +0000"
+}
+---Post----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/tipo_parametro
+{
+  "Activo": true,
+  "AreaTipoId": {
+    "Id": 10,
+    "Nombre": "Bienestar Institucional",
+    "Descripcion": "Datos para  proyecto de bienestar institucional",
+    "CodigoAbreviacion": "BI",
+    "Activo": true,
+    "NumeroOrden": 0,
+    "FechaCreacion": "2021-03-15 12:05:33.557196 +0000 +0000",
+    "FechaModificacion": "2021-03-15 12:07:05.361177 +0000 +0000"
+},
+  "CodigoAbreviacion": "APAL",
+  "Descripcion": "historico servicio apoyo alimentario Bienestar UD",
+  "FechaCreacion": "2021-03-15 12:42:00 +0000 +0000",
+  "FechaModificacion": "2021-03-15 12:42:00 +0000 +0000",
+  "Id": 0,
+  "Nombre": "Apoyo alimentario",
+  "NumeroOrden": 0
+}
+
+---POST----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/parametro
+
+{
+  "Activo": true,
+  "CodigoAbreviacion": "IAPAL",
+  "Descripcion": "Habilitar inscripciones al servicio de apoyo alimentario a un periodo",
+  "FechaCreacion": "2021-03-15 12:42:00 +0000 +0000",
+  "FechaModificacion": "2021-03-15 12:42:00 +0000 +0000",
+  "Id": 347,
+  "Nombre": "Inscripciones apoyo alimentario",
+  "NumeroOrden": 0,
+  "ParametroPadreId": null,
+  "TipoParametroId": {
+      "Id": 21,
+      "Nombre": "Apoyo alimentario",
+      "Descripcion": "historico servicio apoyo alimentario Bienestar UD",
+      "CodigoAbreviacion": "APAL",
+      "Activo": true,
+      "NumeroOrden": 0,
+      "FechaCreacion": "2021-03-15 12:51:16.997451 +0000 +0000",
+      "FechaModificacion": "2021-03-15 12:51:16.997544 +0000 +0000",
+      "AreaTipoId": {
+        "Id": 10,
+        "Nombre": "",
+        "Descripcion": "",
+        "CodigoAbreviacion": "",
+        "Activo": false,
+        "NumeroOrden": 0,
+        "FechaCreacion": "",
+        "FechaModificacion": ""
+      }
+    }
+}
+      
+
+{
+  "Activo": true,
+  "CodigoAbreviacion": "SAPAL",
+  "Descripcion": "Habilitar prestacion del servicio de apoyo alimentario a un periodo",
+  "FechaCreacion": "2021-03-15 12:42:00 +0000 +0000",
+  "FechaModificacion": "2021-03-15 12:42:00 +0000 +0000",
+  "Id": 0,
+  "Nombre": "Habilitar apoyo alimentario",
+  "NumeroOrden": 1,
+  "ParametroPadreId": null,
+  "TipoParametroId": {
+      "Id": 21,
+      "Nombre": "Apoyo alimentario",
+      "Descripcion": "historico servicio apoyo alimentario Bienestar UD",
+      "CodigoAbreviacion": "APAL",
+      "Activo": true,
+      "NumeroOrden": 0,
+      "FechaCreacion": "2021-03-15 12:51:16.997451 +0000 +0000",
+      "FechaModificacion": "2021-03-15 12:51:16.997544 +0000 +0000",
+      "AreaTipoId": {
+        "Id": 10,
+        "Nombre": "",
+        "Descripcion": "",
+        "CodigoAbreviacion": "",
+        "Activo": false,
+        "NumeroOrden": 0,
+        "FechaCreacion": "",
+        "FechaModificacion": ""
+      }
+    }
+}      
+--------Inscripciones-------
+--------Prestando servicio---------

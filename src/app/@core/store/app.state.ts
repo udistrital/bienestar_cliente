@@ -17,11 +17,12 @@ import { Titulacion } from '../data/models/inscripcion/titulacion';
 import { TipoIdentificacion } from '../data/models/informacion/tipo_identificacion';
 import { TipoProyecto } from '../data/models/investigacion/tipo_proyecto';
 import { GrupoInvestigacion } from '../data/models/investigacion_cidc/grupo_investigacion';
-import { PeriodoAcademico } from '../data/models/periodo/periodo_academico';
+import { Periodo } from '../data/models/parametro/periodo';
 import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
 // import { TipoPublicacionLibro } from '../data/models/tipo_publicacion_libro';
 
 export interface IAppState {
+  listTerceroInfo: InfoComplementaria[],
   listGenero: Genero[],
   listClasificacionNivelIdioma: ClasificacionNivelIdioma[],
   listEstadoInscripcion: EstadoInscripcion[],
@@ -47,7 +48,7 @@ export interface IAppState {
   listTipoIdentificacion: TipoIdentificacion[],
   listTipoProyecto: TipoProyecto[],
   listGrupoInvestigacion: GrupoInvestigacion[],
-  listPeriodoAcademico: PeriodoAcademico[],
+  listPeriodoAcademico: Periodo[],
   listLocalidadesBogota: InfoComplementaria[],
   listTipoColegio: InfoComplementaria[],
   listSemestresSinEstudiar: InfoComplementaria[],

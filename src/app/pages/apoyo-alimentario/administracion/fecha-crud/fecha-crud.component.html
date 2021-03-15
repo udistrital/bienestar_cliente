@@ -1,1 +1,62 @@
 <p>fecha-crud works!</p>
+
+<nb-card>
+    <div class="container">
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1>
+                    Crear Fechas {{ fecha.periodo }}
+                </h1>
+                <button class="btn back-button ml-5 mr-n5" routerLink="/fechas">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+        <hr>
+        <p>Las fechas creadas son para el periodo actual, si escoge una fecha existente, se cargara su información</p>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <!-- (ngSubmit)="guardar( f )" #f="ngForm" -->
+                <form (ngSubmit)="guardar( f )" #f="ngForm">
+
+                    <div class="form-group">
+                        <label class=" label-color-ud">
+                            <i class="fa fa-file-signature " aria-hidden="true"></i>
+                            Periodo
+                        </label>
+                        <input type="text" placeholder="Nombre del Periodo" [(ngModel)]="fecha.periodo" name="periodo" class="form-control input-text-ud" #periodo="ngModel" disabled>
+                    </div>
+                    <!-- [class.is-invalid]="fecha.invalid && fecha.touched" -->
+                    <div class="form-group">
+                        <label class=" label-color-ud">
+                            <i class="fa fa-calendar-day " aria-hidden="true"></i>
+                            Fecha 
+                        </label>
+                        <input type="date" placeholder="Fecha a registrar" [(ngModel)]="fecha.fechaDia" name="fechaDia" class="form-control input-text-ud " required #fechaDia="ngModel">
+                        <small *ngIf="fechaDia.invalid && fechaDia.touched " class="form-text text-danger">Este campo es
+                    obligatorio</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class=" label-color-ud">
+                            <i class="fas fa-comments"></i>
+                            Descripcion
+                        </label>
+                        <input type="text" placeholder="Descripcion de la fecha" [(ngModel)]="fecha.descripcion" name="descripcion" class="form-control input-text-ud" #descripcion="ngModel">
+                    </div>
+
+                    <hr>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning btn-block">
+                            <i class="fas fa-save    "></i>
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</nb-card>

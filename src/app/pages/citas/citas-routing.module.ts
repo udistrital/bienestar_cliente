@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CitaComponent } from './cita/cita.component';
-import { EspecialistaComponent } from './especialista/especialista.component';
-import { PacienteComponent } from './paciente/paciente.component';
-
+import {NotFoundComponent} from '../miscellaneous/not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '', children:[
     {
-      path:'cita', component: CitaComponent
+      path:'cita', component: NotFoundComponent
     },
     {
-      path:'especialista', component: EspecialistaComponent
+      path:'especialista', component: NotFoundComponent
     },
     {
-      path:'paciente', component: PacienteComponent
+      path:'paciente', component: NotFoundComponent
     },
     {
       path:'**', redirectTo: 'paciente'

@@ -1,4 +1,5 @@
 export const REDUCER_LIST = {
+    TerceroInfo: 'listTerceroInfo',
     Genero: 'listGenero',
     Sanguineo: 'listGrupoSanguineo',
     RH: 'listFactorRh',
