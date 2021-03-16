@@ -19,6 +19,7 @@ import { TipoProyecto } from '../data/models/investigacion/tipo_proyecto';
 import { GrupoInvestigacion } from '../data/models/investigacion_cidc/grupo_investigacion';
 import { Periodo } from '../data/models/parametro/periodo';
 import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
+import { ParametroPeriodo } from '../data/models/parametro/parametro_periodo';
 // import { TipoPublicacionLibro } from '../data/models/tipo_publicacion_libro';
 
 export interface IAppState {
@@ -61,5 +62,6 @@ export interface IAppState {
   listTipoOrganizacion: InfoComplementaria[],
   listDocumentoPrograma: any[],
   listDescuentoDependencia: any[],
+  listParametros: ParametroPeriodo[];
   // listTipoPublicacionLibro: TipoPublicacionLibro[],
 }

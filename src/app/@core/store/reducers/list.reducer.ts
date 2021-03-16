@@ -353,4 +353,13 @@ export class ListReducer {
         return state;
     }
   }
+
+  static ListReducerParametros(state: Array<any> = new Array, action) {
+    switch (action.type) {
+      case REDUCER_LIST.Parametros:
+        return [...state, action.payload];
+      default:
+        return state;
+    }
+  }
 }

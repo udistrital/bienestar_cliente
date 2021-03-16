@@ -13,6 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 
 export class ListService {
+  
 
   constructor(
     private coreService: CoreService,
@@ -57,11 +58,11 @@ export class ListService {
       },
     );
   }
-  public inciarInscripcionesPeriodo(periodo: Periodo) {
+  public inciarParametroPeriodo(periodo: Periodo, idParam: number){
     const paramPeriodo: ParametroPeriodo = new ParametroPeriodo();
     paramPeriodo.PeriodoId = periodo;
 
-    this.parametrosService.get('parametro?query=id:347')
+    this.parametrosService.get(`parametro?query=id:${idParam}`)
       .subscribe(res => {
         const r = <any>res;
         if (res !== null && r.Type !== 'error') {
@@ -73,22 +74,42 @@ export class ListService {
           this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
             .subscribe(res => {
               console.info(res);
+              window.location.reload();
             });
         }
       },
         (error: HttpErrorResponse) => {
           reject(error);
         });
-
-
-
-
   }
 
+  public actualizarInscripcionesPeriodo(parametro: ParametroPeriodo) {
+    let id= parametro.Id;
+    this.parametrosService.put('parametro_periodo', JSON.stringify(parametro),id)
+            .subscribe(res => {
+              console.info(res);
+            });
+  }
 
-
-
-
+  public findParametros(){
+    this.store.select(REDUCER_LIST.Parametros).subscribe(
+      (list: any) => {
+        if (!list || list.length === 0) {
+          this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
+            .subscribe(
+              (result: any[]) => {
+                console.info('Entro')
+                console.info(result)
+                this.addList(REDUCER_LIST.Parametros, result);
+              },
+              error => {
+                this.addList(REDUCER_LIST.Parametros, []);
+              },
+            );
+        }
+      },
+    );
+  }
 
   private addList(type: string, object: Array<any>) {
     this.store.dispatch({

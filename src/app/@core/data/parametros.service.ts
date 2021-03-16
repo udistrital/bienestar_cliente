@@ -18,9 +18,9 @@ export class ParametrosService {
     this.requestManager.setPath('PARAMETROS');
     return this.requestManager.post(endpoint, element);
   }
-  put(endpoint, element) {
+  put(endpoint, element, id) {
     this.requestManager.setPath('PARAMETROS');
-    return this.requestManager.put(endpoint, element, element.Id);
+    return this.requestManager.put(endpoint, element, id);
   }
   delete(endpoint, element) {
     this.requestManager.setPath('PARAMETROS');

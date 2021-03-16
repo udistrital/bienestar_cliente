@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NgForm } from '@angular/forms';
+import { NgControlStatusGroup, NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
+import { Observable, range } from 'rxjs';
 import { PeriodosService } from '../../servicios/periodos.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../../../@core/store/list.service';
@@ -10,6 +10,7 @@ import { Periodo } from '../../../../@core/data/models/parametro/periodo'
 import { IAppState } from '../../../../@core/store/app.state';
 import { Store } from '@ngrx/store';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 
 
 @Component({
@@ -18,71 +19,196 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
   styleUrls: ['./periodos.component.scss']
 })
 export class PeriodosComponent implements OnInit {
-  config: ToasterConfig;
-  documento_programa_id: number;
-  filesUp: any;
-  Documento: any;
-  persona: number;
-  programa: number;
-  inscripcion: number;
-  periodos: Periodo []=[]
+  idInscripciones = 347
+  idServicio = 348
+  periodos: Periodo[] = []
+  parametros: ParametroPeriodo[] = []
   constructor(private periodosService: PeriodosService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<IAppState>,
     private listService: ListService) {
-      this.listService.findPeriodosAcademico();
-      this.loadLists();
+    this.listService.findPeriodosAcademico();
+    this.listService.findParametros();
+    this.loadLists();
+    this.loadParametros();
   }
-  /* public loadLists() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        if (list.listDocumentoPrograma[0]) {
-          this.formDocumentoPrograma.campos[this.getIndexForm('DocumentoProgramaId')].opciones = list.listDocumentoPrograma[0].map((documentoPrograma) => {
-            return {
-              Id: documentoPrograma.Id,
-              Nombre: documentoPrograma.TipoDocumentoProgramaId.Id + '. ' + documentoPrograma.TipoDocumentoProgramaId.Nombre,
-            }
-          });
-        }
-      },
-   );
-  } */
+  
   public loadLists() {
     this.store.select((state) => state).subscribe(
       (list) => {
-        const listPA=list.listPeriodoAcademico
-        if ( listPA.length > 0){
-          /* console.info(listPA[0]['Data']) */
+        const listPA = list.listPeriodoAcademico
+        if (listPA.length > 0 && this.periodos.length === 0) {
           const periodos = <Array<Periodo>>listPA[0]['Data'];
           periodos.forEach(element => {
-             this.periodos.push(element);
-         });
-          /* const periodos = <Array<any>>listPA[0];
-          console.info(periodos['Data']) */
+            this.periodos.push(element);
+          })
         }
       },
     );
   }
+  public loadParametros() {
+    this.store.select((state) => state).subscribe(
+      (list) => {
+        const listaParam = list.listParametros;
+        if (listaParam.length > 0 && this.parametros.length === 0) {
+          const parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
+          parametros.forEach(element => {
+            this.parametros.push(element);
+          })
+        }
+      },
+    );
+
+  }
+ 
 
   ngOnInit(): void {
-    
+
   }
-  iniciarInscripciones (periodo: Periodo, i: number ){
- 
+  public iniciarParametro(i: number,parametro: string) {
+    let periodo= this.periodos[i];
     Swal.fire({
       title: 'Está seguro?',
-      text: `Está seguro que desea iniciar ${ periodo.Nombre }`,
+      text: `Está seguro que desea iniciar ${parametro} de ${periodo.Nombre}`,
       type: 'question',
       showConfirmButton: true,
-      showCancelButton: true}
-    ).then(resp =>{
-      if( resp.value ){
-        this.listService.inciarInscripcionesPeriodo(periodo)
-        /* this.periodos[i].estado= "activo";
-        this.periodosService.actualizar(this.periodos[i]).subscribe(); */
+      showCancelButton: true
+    }
+    ).then(resp => {
+      if (resp.value) {
+        if(parametro==="inscripciones"){
+          this.listService.inciarParametroPeriodo(periodo,this.idInscripciones);             
+        }else if(parametro==="servicio"){
+          this.listService.inciarParametroPeriodo(periodo,this.idServicio);             
+        }
       }
     });
   }
+  public detenerParametro(i: number,parametro: string) {
+    let periodo= this.periodos[i]
+    Swal.fire({
+      title: 'Está seguro?',
+      text: `Está seguro que desea detener ${parametro} de ${periodo.Nombre}`,
+      type: 'question',
+      showConfirmButton: true,
+      showCancelButton: true
+    }
+    ).then(resp => {
+      let idParametro=0
+      if(parametro==="inscripciones"){
+        idParametro=this.idInscripciones;       
+      }else if(parametro==="servicio"){
+        idParametro=this.idServicio;            
+      }
+      if (resp.value) {
+        let parametro: ParametroPeriodo;
+        for (parametro of this.parametros) {
+          if (this.periodos[i].Id === parametro.PeriodoId.Id) {
+            if (parametro.ParametroId.Id == idParametro) {
+              if (parametro.Activo) {
+                parametro.Activo = false
+                this.listService.actualizarInscripcionesPeriodo(parametro);
+                break;
+              }
+
+            }
+          }
+        }
+      }
+    });
+  }
+  public reactivarParametro(i: number,parametro: string) {
+    let periodo= this.periodos[i]
+    Swal.fire({
+      title: 'Está seguro?',
+      text: `Está seguro que desea reactivar ${parametro} de ${periodo.Nombre}`,
+      type: 'question',
+      showConfirmButton: true,
+      showCancelButton: true
+    }
+    ).then(resp => {
+      let idParametro=0
+      if(parametro==="inscripciones"){
+        idParametro=this.idInscripciones;       
+      }else if(parametro==="servicio"){
+        idParametro=this.idServicio;            
+      }
+      if (resp.value) {
+        let parametro: ParametroPeriodo;
+        for (parametro of this.parametros) {
+          if (this.periodos[i].Id === parametro.PeriodoId.Id) {
+            if (parametro.ParametroId.Id == idParametro) {
+              if (!parametro.Activo) {
+                parametro.Activo = true
+                this.listService.actualizarInscripcionesPeriodo(parametro);
+                break;
+              }
+
+            }
+          }
+        }
+
+
+      }
+    });
+  }
+
+  public mostrarIniciarInscripcion(index) {
+    if (this.periodos[index].Activo) {
+      if (this.parametros.length > 0) {
+        for (let parametro of this.parametros) {
+          if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+            if (parametro.ParametroId.Id == this.idInscripciones) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+  public mostrarDetenerInscripcion(index) {
+    for (let parametro of this.parametros) {
+      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+        if (parametro.ParametroId.Id == this.idInscripciones) {
+          if (parametro.Activo)
+            return true
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public mostrarReactivarInscripcion(index) {
+    for (let parametro of this.parametros) {
+      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+        if (parametro.ParametroId.Id == this.idInscripciones) {
+          if (!parametro.Activo)
+            return true
+        }
+      }
+    }
+
+    return false;
+  }
+  public mostrarIniciarServicio(index) {
+    if (this.periodos[index].Activo) {
+      if (this.parametros.length > 0) {
+        for (let parametro of this.parametros) {
+          if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+            if (parametro.ParametroId.Id == this.idServicio) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
 
 }

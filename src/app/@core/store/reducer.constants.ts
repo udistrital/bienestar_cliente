@@ -38,5 +38,6 @@ export const REDUCER_LIST = {
     Cargo: 'ListCargo',
     DocumentoPrograma: 'ListDocumentoPrograma',
     DescuentoDependencia: 'ListDescuentoDependencia',
+    Parametros: 'ListParametros',
     // TipoPublicacionLibro: 'listReducerTipoPublicacionLibro',
 };
