@@ -23,10 +23,10 @@ const routes: Routes = [
   {
     path: 'registro', children:[
     {
-      path:':tipo', component: InscritosComponent
+      path:'consultar', component: ConsultarComponent
     },
     {
-      path:'consultar', component: ConsultarComponent
+      path:':tipo', component: InscritosComponent
     },
     {
       path:'**', component: NotFoundComponent
