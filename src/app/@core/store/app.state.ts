@@ -63,5 +63,6 @@ export interface IAppState {
   listDocumentoPrograma: any[],
   listDescuentoDependencia: any[],
   listParametros: ParametroPeriodo[];
+  listServicioApoyo: ParametroPeriodo[];
   // listTipoPublicacionLibro: TipoPublicacionLibro[],
 }

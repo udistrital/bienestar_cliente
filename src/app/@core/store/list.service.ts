@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class ListService {
   
+  
 
   constructor(
     private coreService: CoreService,
@@ -104,6 +105,25 @@ export class ListService {
               },
               error => {
                 this.addList(REDUCER_LIST.Parametros, []);
+              },
+            );
+        }
+      },
+    );
+  }
+  findServicioApoyo() {
+    this.store.select(REDUCER_LIST.ServicioApoyo).subscribe(
+      (list: any) => {
+        if (!list || list.length === 0) {
+          this.parametrosService.get('parametro_periodo?query=ParametroId.id%3A348%2Cactivo%3Atrue&sortby=Id&order=desc&limit=1')
+            .subscribe(
+              (result: any[]) => {
+                console.info('Entro')
+                console.info(result)
+                this.addList(REDUCER_LIST.ServicioApoyo, result);
+              },
+              error => {
+                this.addList(REDUCER_LIST.ServicioApoyo, []);
               },
             );
         }

@@ -9,6 +9,13 @@ import { FechasService } from '../../servicios/fechas.service'
 import { RegistrosInscritosService } from '../../servicios/registros-inscritos.service'
 import { SedesService } from '../../servicios/sedes.service'
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
+import { ListService } from '../../../../@core/store/list.service';
+import { Periodo } from '../../../../@core/data/models/parametro/periodo';
+import { IAppState } from '../../../../@core/store/app.state';
+import { Store } from '@ngrx/store';
+import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
+import { DatePipe } from '@angular/common';
+import {formatDate} from '@angular/common';
 
 
 @Component({
@@ -20,22 +27,45 @@ export class InscritosComponent implements OnInit {
 
   inscritos: boolean;
   sedesTemp: SedeModel[] = [];
-  sedesAccesso: SedeModel[] = []
-  /* sedesAccesso = ["Ingenieria","Macarena","Vivero", "Bosa"];  */
-  registosAprovados: string[] = []
+  /* sedesAccesso: SedeModel[] = [] */
+  sedesAccesso = ["Ingenieria","Macarena","Vivero", "Bosa"];
+  registosAprovados: string[] = [];
   registroBase = new RegistroInscritoModel();
-
+  periodo: Periodo = null;
   fechaActual = new FechaModel();
+  myDate = formatDate(new Date(), 'yyyy/MM/dd', 'en');
 
   constructor(private fechasService: FechasService,
     private registroInscritoService: RegistrosInscritosService,
     private sedesService: SedesService,
     private router: Router, private route: ActivatedRoute,
-    private toastrService: NbToastrService,) { }
+    private toastrService: NbToastrService,
+    private datePipe: DatePipe,
+    private store: Store<IAppState>,
+    private listService: ListService) { 
+      this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+      listService.findServicioApoyo()
+      this.loadPeriodo();
+    }
+    public loadPeriodo() {
+      this.store.select((state) => state).subscribe(
+        (list) => {
+          const listaParam = list.listServicioApoyo;
+          if (listaParam.length > 0 && this.periodo === null) {
+            console.info("Periodo")
+            console.info(listaParam)
+            let parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
+            this.periodo= parametros[0].PeriodoId
+          }
+        },
+      );   
+    }
 
   async ngOnInit() {
     this.inscritos = true;
     let tipo = this.route.snapshot.paramMap.get('tipo');
+    console.info(tipo);
+    this.fechaActual.fechaDia=new Date();
     if (tipo === "no-inscritos") {
       this.inscritos = false;
     } else {
@@ -45,28 +75,28 @@ export class InscritosComponent implements OnInit {
     }
 
 
-    this.fechasService.getFechas()
+    /* this.fechasService.getFechas()
       .subscribe(async resp => {
         this.fechaActual = this.buscarFechaActiva(resp);
 
         if (this.fechaActual == null) {
-          //Se permite unicamente crear registro si existe la fecha
+          
           this.router.navigateByUrl('');
         } else {
-          /* this.registroBase.id = ""; */
+          
           this.registroBase.codigo = "";
           this.registroBase.sede = "";
           this.registroBase.fecha = this.fechaActual.fechaDia;
 
         }
-      });
+      }); */
 
 
 
-    this.sedesService.getSedes()
+   /*  this.sedesService.getSedes()
       .subscribe(resp => {
         this.sedesAccesso = resp;
-      });
+      }); */
 
   }
 
@@ -85,7 +115,7 @@ export class InscritosComponent implements OnInit {
     this.registroBase.sede = form.value['sede'];
 
 
-    this.registroInscritoService.crearRegistro(this.registroBase)
+    /* this.registroInscritoService.crearRegistro(this.registroBase)
       .subscribe(resp => {
 
         this.registosAprovados.push(this.registroBase.codigo);
@@ -95,7 +125,7 @@ export class InscritosComponent implements OnInit {
         this.registroBase.codigo = "";
         this.registroBase.sede = tempSedeTemp;
         this.registroBase.fecha = this.fechaActual.fechaDia;
-      });
+      }); */
 
     Object.values(form.controls).forEach(control => {
       control.markAsUntouched();
@@ -142,15 +172,15 @@ export class InscritosComponent implements OnInit {
     let vivero = new SedeModel();
     vivero.id = "3";
     vivero.nombre = "Vivero";
-
+/* 
     this.sedesAccesso.push(ingenieria);
     this.sedesAccesso.push(macarena);
-    this.sedesAccesso.push(vivero);
+    this.sedesAccesso.push(vivero); */
 
   }
 
   showToast() {
     let estudiante = this.registosAprovados.reverse();
-    this.toastrService.show('Se registro correctamente', `Estudiante: ${estudiante}`,{position: NbGlobalPhysicalPosition.TOP_RIGHT , status: 'success' , duration: 2000 , icon: 'checkmark-square-outline'});
+    this.toastrService.show('Se registro correctamente', `Estudiante: ${this.registroBase.codigo}`,{position: NbGlobalPhysicalPosition.TOP_RIGHT , status: 'success' , duration: 2000 , icon: 'checkmark-square-outline'});
   }
 }

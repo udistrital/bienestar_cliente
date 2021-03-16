@@ -23,10 +23,7 @@ const routes: Routes = [
   {
     path: 'registro', children:[
     {
-      path:'inscritos', component: InscritosComponent
-    },
-    {
-      path:'no-inscritos', component: NoInscritosComponent
+      path:':tipo', component: InscritosComponent
     },
     {
       path:'consultar', component: ConsultarComponent

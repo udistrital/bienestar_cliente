@@ -156,7 +156,6 @@ export class PeriodosComponent implements OnInit {
 
   public mostrarIniciarInscripcion(index) {
     if (this.periodos[index].Activo) {
-      if (this.parametros.length > 0) {
         for (let parametro of this.parametros) {
           if (parametro.PeriodoId.Id === this.periodos[index].Id) {
             if (parametro.ParametroId.Id == this.idInscripciones) {
@@ -164,7 +163,7 @@ export class PeriodosComponent implements OnInit {
             }
           }
         }
-      }
+      
       return true;
     }
     return false;
@@ -196,7 +195,6 @@ export class PeriodosComponent implements OnInit {
   }
   public mostrarIniciarServicio(index) {
     if (this.periodos[index].Activo) {
-      if (this.parametros.length > 0) {
         for (let parametro of this.parametros) {
           if (parametro.PeriodoId.Id === this.periodos[index].Id) {
             if (parametro.ParametroId.Id == this.idServicio) {
@@ -204,8 +202,35 @@ export class PeriodosComponent implements OnInit {
             }
           }
         }
+        for (let parametro of this.parametros) {
+          if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+            if (parametro.ParametroId.Id == this.idInscripciones) {
+              return true;
+            }
+          }
+        }
+    }
+    return false;
+  }
+  public mostrarDetenerServicio(index) {
+    for (let parametro of this.parametros) {
+      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+        if (parametro.ParametroId.Id == this.idServicio) {
+          if (parametro.Activo)
+            return true
+        }
       }
-      return true;
+    }
+    return false;
+  }
+  public mostrarReactivarServicio(index) {
+    for (let parametro of this.parametros) {
+      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+        if (parametro.ParametroId.Id == this.idServicio) {
+          if (!parametro.Activo)
+            return true
+        }
+      }
     }
     return false;
   }

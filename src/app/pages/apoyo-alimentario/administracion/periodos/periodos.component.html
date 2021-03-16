@@ -38,12 +38,16 @@
                         <button *ngIf="mostrarDetenerInscripcion(i)" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
                             <i class="fa fa-stop " aria-hidden="true"></i>
                         </button>
-
                         <button *ngIf="mostrarReactivarInscripcion(i)" class="btn student-icon" (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
                             <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
                         </button>
-
                         <button *ngIf="mostrarIniciarServicio(i)" class="btn init-icon" (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
+                            <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
+                        </button>
+                        <button *ngIf="mostrarDetenerServicio(i)" class="btn init-icon" (click)="detenerParametro(i,'servicio')" title="Detener servicio">
+                            <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
+                        </button>
+                        <button *ngIf="mostrarReactivarServicio(i)" class="btn init-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
                             <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
                         </button>
 

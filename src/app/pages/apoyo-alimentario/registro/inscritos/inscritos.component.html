@@ -1,4 +1,8 @@
-<nb-card>
+{{ inscritos }}
+<nb-card *ngIf="periodo==null">
+    <h2>No hay un periodo activo</h2>
+</nb-card>
+<nb-card *ngIf="periodo!=null">
     <div class="container">
         <div class="text-center pt-2">
             <div class="menu-header">
@@ -27,7 +31,7 @@
                             <i class="fa fa-file-signature " aria-hidden="true"></i>
                             <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
                         </div>
-                        <input type="text" [(ngModel)]="fechaActual.periodo" name="periodo" class="form-control" disabled>
+                        <input type="text" [(ngModel)]="periodo.Nombre" name="periodo" class="form-control" disabled>
                     </div>
 
                     <!-- [class.is-invalid]="fecha.invalid && fecha.touched" -->
@@ -36,7 +40,7 @@
                             <i class="fa fa-calendar-day " aria-hidden="true"></i>
                             <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Fecha</span>
                         </div>
-                        <input type="date" placeholder="Fecha a registrar" [(ngModel)]="fechaActual.fechaDia" name="fechaDia" class="form-control" required #fechaDia="ngModel" disabled>
+                        <input type="date" placeholder="Fecha a registrar" [(ngModel)]="myDate" name="fechaDia" class="form-control" required #fechaDia="ngModel" disabled>
                     </div>
 
                     <div class="form-group input-group">
@@ -45,7 +49,7 @@
                             <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Sede</span>
                         </div>
                         <select class="form-control custom-select input-text-ud" name="sede" [disabled]="sedesAccesso.length === 0" [class.is-invalid]="sede.invalid && sede.touched" [ngModel]="registroBase.sede" nombre="sede" required placeholder="Sede" required #sede="ngModel">
-                    <option *ngFor="let sede of sedesAccesso" [value]="sede.id">{{sede.nombre}}</option>
+                    <option *ngFor="let sede of sedesAccesso" [value]="sede">{{sede}}</option>
                 </select>
                     </div>
                     <div class="small-ud">
