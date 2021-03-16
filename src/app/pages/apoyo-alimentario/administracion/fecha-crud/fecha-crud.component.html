@@ -1,13 +1,11 @@
-<p>fecha-crud works!</p>
-
 <nb-card>
     <div class="container">
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
-                    Crear Fechas {{ fecha.periodo }}
+                    Crear Fechas {{ periodo.Nombre }}
                 </h1>
-                <button class="btn back-button ml-5 mr-n5" routerLink="/fechas">
+                <button class="btn back-button" routerLink="../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     Regresar
                 </button>
@@ -50,7 +48,8 @@
 
                     <hr>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-warning btn-block">
+                        <!-- <button type="submit" class="btn btn-warning btn-block"> -->
+                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" (click)="showToast()" class="submit-button">
                             <i class="fas fa-save    "></i>
                             Guardar
                         </button>
