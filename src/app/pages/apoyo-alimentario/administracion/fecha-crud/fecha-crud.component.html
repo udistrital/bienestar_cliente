@@ -3,7 +3,8 @@
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
-                    Crear Fechas {{ periodo.Nombre }}
+                    Crear Fechas
+                    <!-- {{ periodo.Nombre }} -->
                 </h1>
                 <button class="btn back-button" routerLink="../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -20,15 +21,16 @@
                 <!-- (ngSubmit)="guardar( f )" #f="ngForm" -->
                 <form (ngSubmit)="guardar( f )" #f="ngForm">
 
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label class=" label-color-ud">
                             <i class="fa fa-file-signature " aria-hidden="true"></i>
                             Periodo
                         </label>
-                        <input type="text" placeholder="Nombre del Periodo" [(ngModel)]="fecha.periodo" name="periodo" class="form-control input-text-ud" #periodo="ngModel" disabled>
+                        <!--  <input type="text" [(ngModel)]="periodo.Nombre" name="periodo" class="form-control input-text-ud" disabled> -->
+                        <input type="text" [(ngModel)]="fecha.periodo" name="periodo" class="form-control input-text-ud" disabled>
                     </div>
                     <!-- [class.is-invalid]="fecha.invalid && fecha.touched" -->
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label class=" label-color-ud">
                             <i class="fa fa-calendar-day " aria-hidden="true"></i>
                             Fecha 
@@ -38,7 +40,7 @@
                     obligatorio</small>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label class=" label-color-ud">
                             <i class="fas fa-comments"></i>
                             Descripcion
