@@ -33,7 +33,8 @@ export class FechaCrudComponent implements OnInit {
     private store: Store<IAppState>,
     private listService: ListService,
     private toastrService: NbToastrService,) {
-    this.listService.findServicioApoyo()
+    //this.listService.findServicioApoyo()
+    listService.findParametroPeriodo(348);
     this.loadPeriodo();
   }
 

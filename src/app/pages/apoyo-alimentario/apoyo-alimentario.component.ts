@@ -32,6 +32,16 @@ export class ApoyoAlimentarioComponent implements OnInit {
     this.router.navigate(['/pages/apoyo-alimentario/registro/consultar']);
     return false;
   }
+
+  navigateSolicitudTercero(){
+    this.router.navigate(['/pages/apoyo-alimentario/inscripciones/solicitud']);
+    return false;
+  }
+  navigateSolicitudes(){
+    this.router.navigate(['/pages/apoyo-alimentario/inscripciones/solicitudes']);
+    return false;
+
+  }
   //Asistencia
   navigateConsultarFallas(){
     this.router.navigate(['/pages/apoyo-alimentario/asistencia/consultar-fallas']);

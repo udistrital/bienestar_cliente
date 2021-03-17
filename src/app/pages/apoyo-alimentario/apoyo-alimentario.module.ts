@@ -28,6 +28,8 @@ import { PeriodosComponent } from './administracion/periodos/periodos.component'
 import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
 import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
 import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.component';
+import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
+import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 
 @NgModule({
     imports: [
@@ -64,6 +66,8 @@ import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.compo
     ConsultarCodigoComponent,
     InformacionEstudianteComponent,
     FechaCrudComponent,
+    SolicitudTerceroComponent,
+    SolicitudesComponent,
    ],
   providers: [
 

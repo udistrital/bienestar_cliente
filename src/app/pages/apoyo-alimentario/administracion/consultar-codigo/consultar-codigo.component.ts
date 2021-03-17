@@ -17,9 +17,7 @@ export class ConsultarCodigoComponent implements OnInit {
     var codigoValue = (<HTMLInputElement>document.getElementById("codigo")).value;
     console.log(codigoValue);
     this.router.navigate(['/pages/apoyo-alimentario/administracion/consulta-codigo/'+codigoValue]);
-    
     return false;
-
     
   }
  

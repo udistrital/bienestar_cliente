@@ -1,6 +1,14 @@
-{{ inscritos }}
 <nb-card *ngIf="periodo==null">
-    <h2>No hay un periodo activo</h2>
+    <div class="menu-header">
+        <h1>
+            No hay un periodo activo
+        </h1>
+        <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+
+    </div>
 </nb-card>
 <nb-card *ngIf="periodo!=null">
     <div class="container">

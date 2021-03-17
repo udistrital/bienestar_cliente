@@ -372,6 +372,24 @@ export class ListReducer {
     }
   }
 
+  static ListReducerSolicitudesRadicadas(state: Array<any> = new Array, action) {
+    switch (action.type) {
+      case REDUCER_LIST.SolicitudesRadicadas:
+        return [...state, action.payload];
+      default:
+        return state;
+    }
+  }
+  static ListReducerSolicitudTercero (state: Array<any> = new Array, action) {
+    switch (action.type) {
+      case REDUCER_LIST.SolicitudTercero:
+        return [...state, action.payload];
+      default:
+        return state;
+    }
+  }
+  
+  
 
   
 }

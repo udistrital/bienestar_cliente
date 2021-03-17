@@ -1,0 +1,55 @@
+<nb-card *ngIf="periodo==null">
+    <div class="menu-header">
+        <h1>
+            No hay un periodo activo para inscripcioes
+        </h1>
+        <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+
+    </div>
+</nb-card>
+<nb-card *ngIf="periodo!=null">
+    <div class="container">
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1>
+                    Solicitud apoyo alimentario {{ periodo.Nombre }}
+                </h1>
+                <button class="btn back-button" routerLink="../../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <div class="form-group input-group">
+                    <div class="label-color-ud input-group-prepend input-group-text mt-1n">
+                        <i class="fa fa-barcode mt-2n mr-1" aria-hidden="true"></i>
+                        <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                            Codigo
+                            <br>
+                            Estudiante
+                        </span>
+                    </div>
+                    <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante" pattern="[0-9]{11}" id="codigo" required>
+                </div>
+                <div class="small-ud">
+                    <small class="form-text text-danger mt-n4 mb-2">Tienes que
+                        ingresar un codigo correcto</small>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="registrar()" class="submit-button">
+                    <!-- <button mat-raised-button color="primary" (click)="consultar()"> -->
+                        <i class="fas fa-save mr-1"></i>
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nb-card>

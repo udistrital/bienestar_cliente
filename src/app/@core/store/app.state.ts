@@ -20,6 +20,7 @@ import { GrupoInvestigacion } from '../data/models/investigacion_cidc/grupo_inve
 import { Periodo } from '../data/models/parametro/periodo';
 import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
 import { ParametroPeriodo } from '../data/models/parametro/parametro_periodo';
+import { Solicitud } from '../data/models/solicitud/solicitud';
 // import { TipoPublicacionLibro } from '../data/models/tipo_publicacion_libro';
 
 export interface IAppState {
@@ -64,5 +65,7 @@ export interface IAppState {
   listDescuentoDependencia: any[],
   listParametros: ParametroPeriodo[];
   listServicioApoyo: ParametroPeriodo[];
+  listSolicitudesRadicadas: Solicitud [];
+  listSolicitudTercero: Solicitud[];
   // listTipoPublicacionLibro: TipoPublicacionLibro[],
 }

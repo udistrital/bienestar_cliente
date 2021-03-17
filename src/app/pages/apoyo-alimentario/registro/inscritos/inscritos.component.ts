@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 import { DatePipe } from '@angular/common';
 import {formatDate} from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class InscritosComponent implements OnInit {
   registroBase = new RegistroInscritoModel();
   periodo: Periodo = null;
   fechaActual = new FechaModel();
-  myDate = formatDate(new Date(), 'yyyy/MM/dd', 'en');
+  myDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
   constructor(private fechasService: FechasService,
     private registroInscritoService: RegistrosInscritosService,
@@ -44,13 +45,13 @@ export class InscritosComponent implements OnInit {
     private store: Store<IAppState>,
     private listService: ListService) { 
       this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-      listService.findServicioApoyo()
+      this.listService.findParametroPeriodo(environment.IDS.IDSERVICIOAPOYO);
       this.loadPeriodo();
     }
     public loadPeriodo() {
       this.store.select((state) => state).subscribe(
         (list) => {
-          const listaParam = list.listServicioApoyo;
+          const listaParam = list.listParametros;
           if (listaParam.length > 0 && this.periodo === null) {
             console.info("Periodo")
             console.info(listaParam)

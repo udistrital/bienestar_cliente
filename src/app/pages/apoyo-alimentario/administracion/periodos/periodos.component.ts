@@ -11,6 +11,7 @@ import { IAppState } from '../../../../@core/store/app.state';
 import { Store } from '@ngrx/store';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -19,10 +20,8 @@ import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parame
   styleUrls: ['./periodos.component.scss']
 })
 export class PeriodosComponent implements OnInit {
-  idInscripciones = 347
-  idServicio = 348
-  periodos: Periodo[] = []
-  parametros: ParametroPeriodo[] = []
+  periodos: Periodo[] = [];
+  parametros: ParametroPeriodo[] = [];
   constructor(private periodosService: PeriodosService,
     private route: ActivatedRoute,
     private router: Router,
@@ -78,9 +77,9 @@ export class PeriodosComponent implements OnInit {
     ).then(resp => {
       if (resp.value) {
         if(parametro==="inscripciones"){
-          this.listService.inciarParametroPeriodo(periodo,this.idInscripciones);             
+          this.listService.inciarParametroPeriodo(periodo,environment.IDS.IDINSCRIPCIONES);             
         }else if(parametro==="servicio"){
-          this.listService.inciarParametroPeriodo(periodo,this.idServicio);             
+          this.listService.inciarParametroPeriodo(periodo,environment.IDS.IDSERVICIOAPOYO);             
         }
       }
     });
@@ -97,9 +96,9 @@ export class PeriodosComponent implements OnInit {
     ).then(resp => {
       let idParametro=0
       if(parametro==="inscripciones"){
-        idParametro=this.idInscripciones;       
+        idParametro=environment.IDS.IDINSCRIPCIONES;       
       }else if(parametro==="servicio"){
-        idParametro=this.idServicio;            
+        idParametro=environment.IDS.IDSERVICIOAPOYO;            
       }
       if (resp.value) {
         let parametro: ParametroPeriodo;
@@ -130,9 +129,9 @@ export class PeriodosComponent implements OnInit {
     ).then(resp => {
       let idParametro=0
       if(parametro==="inscripciones"){
-        idParametro=this.idInscripciones;       
+        idParametro=environment.IDS.IDINSCRIPCIONES;       
       }else if(parametro==="servicio"){
-        idParametro=this.idServicio;            
+        idParametro=environment.IDS.IDSERVICIOAPOYO;            
       }
       if (resp.value) {
         let parametro: ParametroPeriodo;
@@ -158,7 +157,7 @@ export class PeriodosComponent implements OnInit {
     if (this.periodos[index].Activo) {
         for (let parametro of this.parametros) {
           if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-            if (parametro.ParametroId.Id == this.idInscripciones) {
+            if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
               return false;
             }
           }
@@ -171,7 +170,7 @@ export class PeriodosComponent implements OnInit {
   public mostrarDetenerInscripcion(index) {
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == this.idInscripciones) {
+        if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
           if (parametro.Activo)
             return true
         }
@@ -184,7 +183,7 @@ export class PeriodosComponent implements OnInit {
   public mostrarReactivarInscripcion(index) {
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == this.idInscripciones) {
+        if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
           if (!parametro.Activo)
             return true
         }
@@ -197,14 +196,14 @@ export class PeriodosComponent implements OnInit {
     if (this.periodos[index].Activo) {
         for (let parametro of this.parametros) {
           if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-            if (parametro.ParametroId.Id == this.idServicio) {
+            if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
               return false;
             }
           }
         }
         for (let parametro of this.parametros) {
           if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-            if (parametro.ParametroId.Id == this.idInscripciones) {
+            if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
               return true;
             }
           }
@@ -215,7 +214,7 @@ export class PeriodosComponent implements OnInit {
   public mostrarDetenerServicio(index) {
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == this.idServicio) {
+        if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
           if (parametro.Activo)
             return true
         }
@@ -226,7 +225,7 @@ export class PeriodosComponent implements OnInit {
   public mostrarReactivarServicio(index) {
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == this.idServicio) {
+        if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
           if (!parametro.Activo)
             return true
         }

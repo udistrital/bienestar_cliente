@@ -103,3 +103,36 @@ https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/parametro
 }      
 --------Inscripciones-------
 --------Prestando servicio---------
+
+
+----POST-----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud
+
+{
+  "Activo": true,
+  "DependenciaId": 0,
+  "EstadoId": { 
+      "Id": 1,
+      "Nombre": "Radicada",
+      "Descripcion": "",
+      "CodigoAbreviacion": "RAD",
+      "NumeroOrden": 1,
+      "FechaCreacion": "2020-11-28 09:57:40.286495 +0000 +0000",
+      "FechaModificacion": "2020-11-28 09:57:40.286495 +0000 +0000",
+      "Activo": true
+  },
+  "FechaCreacion": "string",
+  "FechaModificacion": "string",
+  "Id": 0,
+  "NumeroDias": 15,
+  "TipoSolicitud": {
+      "Id": 9,
+      "Nombre": "Apoyo Alimentario",
+      "Descripcion": "Solicitud de servicio de apoyo alimentario",
+      "CodigoAbreviacion": "APAL",
+      "NumeroOrden": 0,
+      "FechaCreacion": "2021-03-17 10:05:36.996627 +0000 +0000",
+      "FechaModificacion": "2021-03-17 10:05:36.996748 +0000 +0000",
+      "Activo": true
+  }
+}
