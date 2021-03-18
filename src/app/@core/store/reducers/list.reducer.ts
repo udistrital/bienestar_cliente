@@ -380,6 +380,7 @@ export class ListReducer {
         return state;
     }
   }
+
   static ListReducerSolicitudTercero (state: Array<any> = new Array, action) {
     switch (action.type) {
       case REDUCER_LIST.SolicitudTercero:
@@ -388,6 +389,16 @@ export class ListReducer {
         return state;
     }
   }
+
+  static ListReducerTerceroLog (state: Array<any> = new Array, action) {
+    switch (action.type) {
+      case REDUCER_LIST.TerceroLog:
+        return [...state, action.payload];
+      default:
+        return state;
+    }
+  }
+  
   
   
 

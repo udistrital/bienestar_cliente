@@ -18,6 +18,35 @@
     flex: 12%;
 }
 
+.menu-list {
+    padding-top: 5px;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.menu-list .item {
+    margin: auto;
+    flex: 60%;
+}
+
+.menu-item label .sub-item .label-color-ud {
+    margin-top: 1px;
+    flex: 42%;
+    size: 18px;
+    border-color: #4c1818;
+}
+
+.menu-item label .sub-item .field-color-ud {
+    margin-top: 1px;
+    flex: 42%;
+    size: 18px;
+    border-color: #e6b31c;
+}
+
 .small-ud {
     margin-left: 17%;
 }
@@ -69,6 +98,13 @@
 
 .label-color-ud {
     color: #4c1818;
+    font-weight: bold;
+    background-color: white;
+    margin-right: 2px;
+}
+
+.field-color-ud {
+    color: #212529;
     font-weight: bold;
     background-color: white;
     margin-right: 2px;

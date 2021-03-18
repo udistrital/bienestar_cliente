@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from './app.state';
 import { REDUCER_LIST } from './reducer.constants';
-import { CoreService } from '../data/core.service';
 import { ParametrosService } from '../data/parametros.service';
 import { TercerosService } from '../data/terceros.service';
 import { Periodo } from '../data/models/parametro/periodo';
@@ -15,12 +14,15 @@ import { SolicitudService } from '../data/solicitud.service';
 import { EstadoTipoSolicitud } from '../data/models/solicitud/estado-tipo-solicitud';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { ImplicitAutenticationService } from '../utils/implicit_autentication.service';
+import { Tercero } from '../data/models/terceros/tercero';
+import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicitud";
 
 @Injectable()
 
 export class ListService {
+
   constructor(
-    private coreService: CoreService,
     private parametrosService: ParametrosService,
     private solicitudService: SolicitudService,
     private tercerosService: TercerosService,
@@ -34,8 +36,6 @@ export class ListService {
           this.parametrosService.get('periodo/?query=CodigoAbreviacion:PA&sortby=Id&order=desc&limit=-1')
             .subscribe(
               (result: any[]) => {
-                console.info('Entro')
-                console.info(result)
                 this.addList(REDUCER_LIST.PeriodoAcademico, result);
               },
               error => {
@@ -73,12 +73,9 @@ export class ListService {
         if (res !== null && r.Type !== 'error') {
           console.info(res);
           const parametro = <Parametro>res['Data'][0];
-          console.info(parametro);
-          console.info(parametro.TipoParametroId);
           paramPeriodo.ParametroId = parametro
           this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
             .subscribe(res => {
-              console.info(res);
               window.location.reload();
             });
         }
@@ -90,10 +87,7 @@ export class ListService {
 
   public actualizarInscripcionesPeriodo(parametro: ParametroPeriodo) {
     let id = parametro.Id;
-    this.parametrosService.put('parametro_periodo', JSON.stringify(parametro), id)
-      .subscribe(res => {
-        console.info(res);
-      });
+    this.parametrosService.put('parametro_periodo', JSON.stringify(parametro), id).subscribe();
   }
 
   public findParametros() {
@@ -103,8 +97,6 @@ export class ListService {
           this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
             .subscribe(
               (result: any[]) => {
-                console.info('Entro')
-                console.info(result)
                 this.addList(REDUCER_LIST.Parametros, result);
               },
               error => {
@@ -136,6 +128,10 @@ export class ListService {
       },
     );
   }
+  findParametroPeriodoSp(idNumber: number): Observable<any[]> {
+    console.info(idNumber);
+    return this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=1`)
+  }
 
 
   /* findServicioApoyo() {
@@ -157,18 +153,18 @@ export class ListService {
       },
     );
   } */
-  async crearSolicitudApoyoAlimentario(idTercero: number) {
+  crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud ) {
     const solicitud: Solicitud = new Solicitud();
-    const idSolicitud = 23;
     solicitud.EstadoTipoSolicitudId = null;
-    this.solicitudService.get(`estado_tipo_solicitud?query=Id:${idSolicitud}`)
+    this.solicitudService.get(`estado_tipo_solicitud?query=Id:${environment.IDS.IDSOLICITUDRADICADA}`)
       .subscribe(res => {
         const r = <any>res;
         if (res !== null && r.Type !== 'error') {
           console.info(res);
           const estadoTipoSol = <EstadoTipoSolicitud>res['Data'][0];
           console.info(estadoTipoSol);
-          solicitud.EstadoTipoSolicitudId = estadoTipoSol
+          solicitud.EstadoTipoSolicitudId = estadoTipoSol;
+          solicitud.setReferencia(referenciaSol);
           this.solicitudService.post('solicitud', JSON.stringify(solicitud))
             .subscribe(res => {
               solicitud.Id = res['Data']['Id']
@@ -178,6 +174,7 @@ export class ListService {
               this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                 .subscribe(res => {
                   console.info(res)
+                  window.location.reload();
                 })
 
             });
@@ -218,10 +215,10 @@ export class ListService {
                 let solicitante: Solicitante;
                 for (solicitante of result) {
                   console.info(solicitante);
-                  const solicitud: Solicitud =solicitante.SolicitudId;
-                  if(solicitud.EstadoTipoSolicitudId.Id===environment.IDS.IDSOLICITUDRADICADA){
-                    this.addList(REDUCER_LIST.SolicitudTercero, [solicitud]); 
-                    break;   
+                  const solicitud: Solicitud = solicitante.SolicitudId;
+                  if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
+                    this.addList(REDUCER_LIST.SolicitudTercero, [solicitud]);
+                    break;
                   }
                 }
               },
@@ -233,30 +230,63 @@ export class ListService {
       },
     );
   }
+  findSolicitudTerceroSp(idTercero: number): any {
+    this.solicitudService.get(`solicitante?query=TerceroId:${idTercero}`)
+      .subscribe(
+        (result: any[]) => {
+          console.info('Entro solicitante')
+          console.info(result)
+          let solicitante: Solicitante;
+          for (solicitante of result) {
+            console.info(solicitante);
+            const solicitud: Solicitud = solicitante.SolicitudId;
+            if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
+              return solicitud;
+            }
+          }
+          return null;
+        },
+        error => {
+          this.addList(REDUCER_LIST.SolicitudTercero, []);
+        },
+      );
 
-  findSolicitudTerceroSync(idTercero: number) {
-    let returnGet: any[];
-   this.solicitudService.get(`solicitante?query=TerceroId:${idTercero}`)
-    console.info('Entro solicitante Sync')
-    console.info(returnGet)
-            /* .subscribe(
-              (result: any[]) => {
-                console.info('Entro solicitante')
-                console.info(result)
-                let solicitante: Solicitante;
-                for (solicitante of result) {
-                  console.info(solicitante);
-                  const solicitud: Solicitud =solicitante.SolicitudId;
-                  if(solicitud.EstadoTipoSolicitudId.Id===environment.IDS.IDSOLICITUDRADICADA){
-                    this.addList(REDUCER_LIST.SolicitudTercero, [solicitud]); 
-                    break;   
+
+
+  }
+
+  findTerceroEmail() {
+    let autenticacion = new ImplicitAutenticationService;
+    if (autenticacion.live()) {
+      const usuarioWSO2 = (autenticacion.getPayload()).email
+        ? ((autenticacion.getPayload()).email.split('@')).shift()
+        : (autenticacion.getPayload()).sub;
+      console.info(`Login de ${usuarioWSO2}`);
+
+      this.store.select(REDUCER_LIST.TerceroLog).subscribe(
+        (list: any) => {
+          if (!list || list.length === 0) {
+            this.tercerosService.get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
+              .subscribe(
+                (result: any[]) => {
+                  console.info('Entro buscando tercero')
+                  console.info(result)
+                  let tercero: Tercero;
+                  for (tercero of result) {
+                    console.info(tercero);
+                    this.addList(REDUCER_LIST.TerceroLog, [tercero]);
                   }
-                }
-              },
-              error => {
-                this.addList(REDUCER_LIST.SolicitudTercero, []);
-              },
-            );  */
+                },
+                error => {
+                  this.addList(REDUCER_LIST.SolicitudTercero, []);
+                },
+              );
+          }
+        },
+      );
+
+    }
+
   }
 
   private addList(type: string, object: Array<any>) {

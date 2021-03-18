@@ -1,3 +1,117 @@
+<nb-card *ngIf="solicitud!=null && periodo!=null">
+    <div class="container">
+        <div class="menu-header">
+            <h1>
+                DATOS SOLICITUD
+            </h1>
+            <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+        </div>
+        <hr>
+        <div class="menu-list">
+            <div class="item form-group ">
+                <label class="sub-item label-color-ud">
+                ID :
+            </label>
+                <label class="sub-item">
+                {{solicitud.Id}}
+            </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                Estado :
+            </label>
+                <label class="sub-item">
+                {{solicitud.Activo}}
+            </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                Fecha Radicación :
+            </label>
+                <label class="sub-item">
+                {{solicitud.FechaRadiacion}}
+            </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                Fecha Creación :
+            </label>
+                <label class="sub-item">
+                {{solicitud.FechaCreacion}}
+            </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                Fecha Modificación :
+            </label>
+                <label class="sub-item">
+                {{solicitud.FechaModificacion}}
+            </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Solicitud Finalizada :
+                </label>
+                <label class="sub-item">
+                    {{solicitud.SolicitudFinalizada}}
+                </label>
+
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Referencia :
+                </label>
+                <label class="sub-item">
+                    
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                Tipo Solicitud :
+            </label>
+                <label class="sub-item">
+                <!-- {{solicitud.TipoSolicitudId.Nombre}} -->
+            </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                Estado Solicitud :
+            </label>
+                <label class="sub-item">
+                <!-- {{solicitud.EstadoTipoSolicitudId.EstadoId.Nombre}} -->
+            </label>
+            </div>
+        </div>
+    </div>
+</nb-card>
+
+<nb-card *ngIf="solicitud==null && tercero!=null && username!='' ">
+    <div class="menu-header">
+        <h1>
+            DATOS TERCERO
+        </h1>
+        <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+
+    </div>
+</nb-card>
+<nb-card *ngIf="periodo!=null && tercero==null">
+    <div class="menu-header">
+        <h1>
+            Hubo un error con tus credenciales, intenta logear de nuevo.
+        </h1>
+        <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+
+    </div>
+</nb-card>
 <nb-card *ngIf="periodo==null">
     <div class="menu-header">
         <h1>
@@ -10,7 +124,7 @@
 
     </div>
 </nb-card>
-<nb-card *ngIf="periodo!=null">
+<nb-card *ngIf="periodo!=null && tercero!=null && solicitud==null">
     <div class="container">
         <div class="text-center pt-2">
             <div class="menu-header">
@@ -26,7 +140,25 @@
         <hr>
         <div class="row">
             <div class="col">
-                <div class="form-group input-group">
+                <div class="menu-list">
+                    <div class="item form-group ">
+                        <label class="sub-item label-color-ud">
+                        Nombre completo :
+                    </label>
+                        <label class="sub-item">
+                        {{tercero.NombreCompleto}}
+                    </label>
+                    </div>
+                    <div class="item">
+                        <label class="sub-item label-color-ud">
+                        Fecha nacimiento :
+                    </label>
+                        <label class="sub-item">
+                        {{tercero.FechaNacimiento |date: 'dd-MM-yyyy'}}
+                    </label>
+                    </div>
+                </div>
+                <!-- <div class="form-group input-group">
                     <div class="label-color-ud input-group-prepend input-group-text mt-1n">
                         <i class="fa fa-barcode mt-2n mr-1" aria-hidden="true"></i>
                         <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
@@ -40,7 +172,9 @@
                 <div class="small-ud">
                     <small class="form-text text-danger mt-n4 mb-2">Tienes que
                         ingresar un codigo correcto</small>
-                </div>
+                </div> -->
+
+
                 <hr>
                 <div class="form-group">
                     <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="registrar()" class="submit-button">

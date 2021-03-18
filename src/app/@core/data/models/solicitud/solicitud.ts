@@ -1,5 +1,6 @@
 import { formatDate } from "@angular/common";
 import { EstadoTipoSolicitud } from "./estado-tipo-solicitud";
+import { ReferenciaSolicitud } from "./referencia-solicitud";
 
 export class Solicitud {
     Activo: boolean;
@@ -23,5 +24,8 @@ export class Solicitud {
         this.Resultado= "";
         this.SolicitudFinalizada= false;
         this.SolicitudPadreId= null;
+    }
+    public setReferencia(refSol :ReferenciaSolicitud){
+      this.Referencia= JSON.stringify(refSol);
     }
 }

@@ -21,6 +21,7 @@ import { Periodo } from '../data/models/parametro/periodo';
 import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
 import { ParametroPeriodo } from '../data/models/parametro/parametro_periodo';
 import { Solicitud } from '../data/models/solicitud/solicitud';
+import { Tercero } from '../data/models/terceros/tercero';
 // import { TipoPublicacionLibro } from '../data/models/tipo_publicacion_libro';
 
 export interface IAppState {
@@ -63,9 +64,10 @@ export interface IAppState {
   listTipoOrganizacion: InfoComplementaria[],
   listDocumentoPrograma: any[],
   listDescuentoDependencia: any[],
-  listParametros: ParametroPeriodo[];
-  listServicioApoyo: ParametroPeriodo[];
-  listSolicitudesRadicadas: Solicitud [];
-  listSolicitudTercero: Solicitud[];
+  listParametros: ParametroPeriodo[],
+  listServicioApoyo: ParametroPeriodo[],
+  listSolicitudesRadicadas: Solicitud [],
+  listSolicitudTercero: Solicitud[],
+  listTerceroLog: Tercero[],
   // listTipoPublicacionLibro: TipoPublicacionLibro[],
 }

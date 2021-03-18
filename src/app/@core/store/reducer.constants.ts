@@ -42,5 +42,6 @@ export const REDUCER_LIST = {
     ServicioApoyo: 'ListServicioApoyo',
     SolicitudesRadicadas: 'ListSolicitudesRadicadas',
     SolicitudTercero: 'ListSolicitudTercero',
+    TerceroLog: 'ListTerceroLog',
     // TipoPublicacionLibro: 'listReducerTipoPublicacionLibro',
 };
