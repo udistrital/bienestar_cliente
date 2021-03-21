@@ -9,6 +9,8 @@ import { Store } from '@ngrx/store';
 
 import Swal from 'sweetalert2';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
+import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'ngx-solicitudes',
@@ -22,8 +24,7 @@ export class SolicitudesComponent implements OnInit {
     private store: Store<IAppState>,
     private listService: ListService,
   ) { 
-    this.listService.findSolicitudesRadicadas();
-    this.loadLists();
+    this.loadPeriodoSp();
   }
   public loadLists() {
     this.store.select((state) => state).subscribe(
@@ -32,11 +33,35 @@ export class SolicitudesComponent implements OnInit {
         if (listSR.length > 0 && this.solicitudes.length === 0) {
           console.log(listSR[0].length);
           for (let i = 0; i < listSR[0].length; i++) {
-            this.solicitudes.push(listSR[0][i]);
+            try{
+              let refSol :ReferenciaSolicitud =JSON.parse(listSR[0][i].Referencia);
+              if( refSol.Periodo===this.periodo.Nombre){
+                this.solicitudes.push(listSR[0][i]);
+              }
+            }catch{
+              console.error("Problema con la referencia de la solicitud")
+            }
+
           }
         }
       },
     );
+  }
+  public loadPeriodoSp() {
+    this.listService.findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
+      .subscribe(
+        (result: any[]) => {
+          console.info('Entro')
+          if (result['Data'].length > 0) {
+            this.periodo = result['Data'][0].PeriodoId;
+            this.listService.findSolicitudesRadicadas();
+            this.loadLists();
+          }
+        },
+        error => {
+          this.periodo = null;
+        },
+      );
   }
 
   ngOnInit() {

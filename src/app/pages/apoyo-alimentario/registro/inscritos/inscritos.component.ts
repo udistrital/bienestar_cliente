@@ -29,7 +29,7 @@ export class InscritosComponent implements OnInit {
   inscritos: boolean;
   sedesTemp: SedeModel[] = [];
   /* sedesAccesso: SedeModel[] = [] */
-  sedesAccesso = ["Ingenieria","Macarena","Vivero", "Bosa"];
+  sedesAccesso = ["Calle 40","Macarena","Vivero", "Bosa", "Tecnologica"];
   registosAprovados: string[] = [];
   registroBase = new RegistroInscritoModel();
   periodo: Periodo = null;

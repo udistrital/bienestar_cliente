@@ -16,6 +16,7 @@ import { InformacionEstudianteComponent } from './administracion/informacion-est
 import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.component'
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent  } from './inscripciones/solicitudes/solicitudes.component';
+import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
 
 const routes: Routes = [
   { 
@@ -43,6 +44,9 @@ const routes: Routes = [
     },
     {
       path:':solicitudes', component: SolicitudesComponent
+    },
+    {
+      path:':solicitudes/:idSolicitud', component: EvaluarSolicitudComponent
     },
     {
       path:'**', component: NotFoundComponent

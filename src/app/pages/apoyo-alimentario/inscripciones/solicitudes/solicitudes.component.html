@@ -2,8 +2,8 @@
     <div class="container">
         <div class="text-center pt-2">
             <div class="menu-header">
-                <h1>
-                    Listado de solicitudes radicadas "Periodo?"
+                <h1 *ngIf="periodo!=null">
+                    Listado de solicitudes radicadas {{periodo.Nombre}}"
                 </h1>
                 <button class="btn back-button" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -32,7 +32,7 @@
                     <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
                     <td>{{ item.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
                     <td>
-                         <button class="btn init-icon " (click)="console.log('click')" title="Ver solicitante">
+                         <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             Evaluar solicitud
                         </button>
