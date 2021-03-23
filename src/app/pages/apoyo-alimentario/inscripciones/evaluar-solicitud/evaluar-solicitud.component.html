@@ -1,7 +1,11 @@
+
 <nb-card *ngIf="solicitud != null">
     <h1>Solicitud apoyo alimentario No. {{ idSolicitud }}</h1>
     {{ solicitud | json }}
+
+    <h2>Datos personales</h2>
 </nb-card>
+
 
 <div *ngIf="solicitud==null" class="alert alert-warning text-center mt-3">
     <h3 class="alert-heading">No se encuentra la solicitud {{idSolicitud}}</h3>
