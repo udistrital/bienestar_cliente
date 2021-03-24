@@ -399,7 +399,14 @@ export class ListReducer {
     }
   }
   
-  
+  static ListReducerDatosIdentificacionTercero (state: Array<any> = new Array, action) {
+    switch (action.type) {
+      case REDUCER_LIST.DatosIdentificacionTercero:
+        return [...state, action.payload];
+      default:
+        return state;
+    }
+  }
   
 
   

@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { ImplicitAutenticationService } from '../utils/implicit_autentication.service';
 import { Tercero } from '../data/models/terceros/tercero';
 import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicitud";
+import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
 
 @Injectable()
 
@@ -250,9 +251,6 @@ export class ListService {
           this.addList(REDUCER_LIST.SolicitudTercero, []);
         },
       );
-
-
-
   }
 
   findTerceroEmail() {
@@ -286,6 +284,29 @@ export class ListService {
       );
 
     }
+  }
+
+  findDocumentoTercero(idTercero: number): any {
+    this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}`)
+      .subscribe(
+        (result: any[]) => {
+          console.info('Entro PETER PARKER')
+          console.info(result)
+          let documento: DatosIdentificacion;
+          for (documento of result) {
+            console.info(documento);
+            this.addList(REDUCER_LIST.DatosIdentificacionTercero, [documento]);
+            /* const solicitud: Solicitud = documento.SolicitudId;
+            if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
+              return solicitud;
+            } */
+          }
+          return null;
+        },
+        error => {
+          this.addList(REDUCER_LIST.DatosIdentificacionTercero, []);
+        },
+      );
 
   }
 

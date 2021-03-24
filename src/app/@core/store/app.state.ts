@@ -22,6 +22,7 @@ import { InfoComplementaria } from '../data/models/terceros/info_complementaria'
 import { ParametroPeriodo } from '../data/models/parametro/parametro_periodo';
 import { Solicitud } from '../data/models/solicitud/solicitud';
 import { Tercero } from '../data/models/terceros/tercero';
+import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
 // import { TipoPublicacionLibro } from '../data/models/tipo_publicacion_libro';
 
 export interface IAppState {
@@ -69,5 +70,6 @@ export interface IAppState {
   listSolicitudesRadicadas: Solicitud [],
   listSolicitudTercero: Solicitud[],
   listTerceroLog: Tercero[],
+  listDatosIdentificacionTercero: DatosIdentificacion[],
   // listTipoPublicacionLibro: TipoPublicacionLibro[],
 }
