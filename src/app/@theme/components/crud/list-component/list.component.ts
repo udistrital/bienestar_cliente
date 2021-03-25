@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
@@ -11,7 +11,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListEntityComponent implements OnInit {
+export class ListEntityComponent implements OnInit, OnChanges {
   // Local Inputs ...
   @Input('uuidReadFieldName') uuidReadField: string;
   @Input('paramsFieldsName') paramsFieldsName: object;
@@ -34,9 +34,11 @@ export class ListEntityComponent implements OnInit {
   @Input('listSettings') listSettings: any;
   @Input('externalCreate') externalCreate: boolean;
   @Input('viewItemSelected') viewItemSelected: boolean;
+  @Input('reloadTable') reloadTable: boolean;
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
+  @Output() reloadTableChange = new EventEmitter<boolean>();
   @Output() auxcambiotab = new EventEmitter<boolean>();
   @Output() crudcambiotab = new EventEmitter<boolean>();
   @Output() externalTabActivator = new EventEmitter<string>();
@@ -74,6 +76,11 @@ export class ListEntityComponent implements OnInit {
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
       this.loadData();
+    }
+    if (changes.reloadTable && changes.reloadTable.currentValue){
+      this.loadData();
+      this.reloadTable = false;
+      this.reloadTableChange.emit(this.reloadTable);
     }
 
   }
@@ -124,9 +131,9 @@ export class ListEntityComponent implements OnInit {
     this.translate.use(language);
   }
 
-  loadData(): void {
+  loadData(params?: any): void {
 
-    this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
+    this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '', params).subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
         this.source.load(data);

@@ -31,6 +31,7 @@ export class InscripcionEstComponent implements OnInit {
     modalObservaciones: FormGroup;
     observacion: any = {};
     estadoSolicitud: any = {};
+    idEstadoSolicitud: any;
 
     @ViewChild('dialogo', { read: null, static: null }) dialogo: TemplateRef<any>;
     @ViewChild('observaciones', { read: null, static: null }) observaciones: TemplateRef<any>;
@@ -134,7 +135,7 @@ export class InscripcionEstComponent implements OnInit {
         this.dialog.open(this.dialogo);
     }
 
-    aniadirObservacion(){
+    aniadirObservacion() {
         this.dialog.open(this.observaciones);
     }
 
@@ -150,7 +151,7 @@ export class InscripcionEstComponent implements OnInit {
                 terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
                 this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
                     this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
-                        this.guardarSolicitud(tipoSolicitud.Data, res2,  this.formularioReliquidacion.documentosCargados);
+                        this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
                     });
                 });
             }
@@ -196,8 +197,8 @@ export class InscripcionEstComponent implements OnInit {
         paquete.Nombre = 'Formulario de reliquidación';
         paquete.NumeroComite = 'Formulario de reliquidación';
         paquete.PaqueteRevisado = false;
-        this.reliquidacionHelper.grabarPaquete(paquete).subscribe((res)=>{
-            for(const doc of documentos){
+        this.reliquidacionHelper.grabarPaquete(paquete).subscribe((res) => {
+            for (const doc of documentos) {
                 const soporte: any = {};
                 soporte.Activo = true;
                 soporte.Descripcion = 'Paquete solicitud reliquidación';
@@ -206,7 +207,7 @@ export class InscripcionEstComponent implements OnInit {
                 soporte.FechaModificacion = this.dateCustomPipe.transform(new Date());
                 soporte.Id = null;
                 soporte.PaqueteId = res.Data;
-                this.reliquidacionHelper.grabarSoportePaquete(soporte).subscribe((res2)=>{
+                this.reliquidacionHelper.grabarSoportePaquete(soporte).subscribe((res2) => {
                     console.log(res2);
                 });
             }
@@ -216,7 +217,7 @@ export class InscripcionEstComponent implements OnInit {
             solicitudPaquete.Activo = true;
             solicitudPaquete.FechaCreacion = this.dateCustomPipe.transform(new Date());
             solicitudPaquete.FechaModificacion = this.dateCustomPipe.transform(new Date());
-            this.reliquidacionHelper.grabarPaqueteSolicitud(solicitudPaquete).subscribe((paqueteSol)=>{
+            this.reliquidacionHelper.grabarPaqueteSolicitud(solicitudPaquete).subscribe((paqueteSol) => {
                 console.log(paqueteSol);
             });
         })
@@ -231,7 +232,7 @@ export class InscripcionEstComponent implements OnInit {
         })
     }
 
-    guardarObservacion(){
+    guardarObservacion() {
         if (this.modalObservaciones.invalid) {
             this.validarObservacion = true;
             this.pUpManager.showErrorToast('Formulario no válido');
@@ -245,31 +246,42 @@ export class InscripcionEstComponent implements OnInit {
         observacion.TipoObservacionId = this.observacion.tipo_observacion_id;
         observacion.Titulo = 'Observación sobre reliquidación';
         observacion.Valor = this.observacion.valor;
-        this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res)=>{
-            this.grabarSolicitudEstado();
+        this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
+            this.grabarSolicitudEstado(undefined,true);
         })
     }
 
-    grabarSolicitudEstado(mensaje?: any){
+    grabarSolicitudEstado(mensaje?: any, esRevision?: any) {
         let solicitudEvolucion: any = {};
-            solicitudEvolucion.Activo = true;
-            solicitudEvolucion.EstadoTipoSolicitudId = {};
-            solicitudEvolucion.EstadoTipoSolicitudId.Id = this.estadoSolicitud;
-            solicitudEvolucion.EstadoTipoSolicitudIdAnterior = null;
-            solicitudEvolucion.Id = null;
-            solicitudEvolucion.SolicitudId = this.solicitud;
-            solicitudEvolucion.TerceroId = this.estudiante.Id;
-        this.reliquidacionHelper.grabarSolicitudEvolucion(solicitudEvolucion).subscribe((res2)=>{
-            this.solicitud.EstadoTipoSolicitudId.Id = this.estadoSolicitud;
-            this.reliquidacionHelper.actualizarSolicitud(this.solicitud).subscribe((res3)=>{
+        solicitudEvolucion.Activo = true;
+        solicitudEvolucion.EstadoTipoSolicitudId = {};
+        if (esRevision) {
+            solicitudEvolucion.EstadoTipoSolicitudId.Id = this.idEstadoSolicitud;
+        }
+        else {
+            solicitudEvolucion.EstadoTipoSolicitudId = this.estadoSolicitud;
+        }
+        solicitudEvolucion.EstadoTipoSolicitudIdAnterior = null;
+        solicitudEvolucion.Id = null;
+        solicitudEvolucion.SolicitudId = this.solicitud;
+        solicitudEvolucion.TerceroId = this.estudiante.Id;
+        solicitudEvolucion.FechaCreacion = this.dateCustomPipe.transform(new Date());
+        solicitudEvolucion.FechaLimite = this.dateCustomPipe.transform(new Date());
+        solicitudEvolucion.FechaModificacion = this.dateCustomPipe.transform(new Date());
+        this.reliquidacionHelper.grabarSolicitudEvolucion(solicitudEvolucion).subscribe((res2) => {
+            this.solicitud.EstadoTipoSolicitudId = solicitudEvolucion.EstadoTipoSolicitudId;
+            this.solicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
+            this.solicitud.FechaRadicacion = this.dateCustomPipe.transform(new Date());
+            this.solicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
+            this.reliquidacionHelper.actualizarSolicitud(this.solicitud).subscribe((res3) => {
                 this.pUpManager.showInfoToast(mensaje || 'Observación grabada');
                 let ruta = '/pages/revision';
-                if(this.rolesActivos[this.ROLES_CONSTANTS.ROLES_SISTEMA.ESTUDIANTE]){
+                if (this.rolesActivos[this.ROLES_CONSTANTS.ROLES_SISTEMA.ESTUDIANTE]) {
                     ruta = '/pages/revision-estudiante';
                 }
                 this.router.navigate([ruta]);
                 this.dialog.closeAll();
-            })
+            });
         });
     }
 

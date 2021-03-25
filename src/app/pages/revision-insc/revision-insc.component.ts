@@ -43,6 +43,10 @@ export class RevisionInscComponent implements OnInit {
   rolesActivos: any = [];
   esRevisionEstudiante: boolean;
   estudiante: any;
+  page = 0;
+  limit = 10;
+  offset= 0;
+  recargarTabla: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -59,7 +63,7 @@ export class RevisionInscComponent implements OnInit {
     this.isOnlyCrud = true;
     this.deleteConfirmMessage = 'PRODUCTO.confirmacion_eliminar';
     this.deleteMessage = 'PRODUCTO.mensaje_eliminar';
-    this.loadDataFunction = () => this.obtenerRegistros();
+    this.loadDataFunction = (...evento) => this.obtenerRegistros(evento);
     //this.deleteDataFunction = this.productoHelper.productoDelete;
     //    this.formEntity = FORM_PRODUCTO;
     this.formTittle = 'RUBRO.add-producto';
@@ -74,7 +78,6 @@ export class RevisionInscComponent implements OnInit {
       Fecha: {
         title: 'Fecha de radicación',
         valuePrepareFunction: (cell, dato) => {
-          console.log(dato);
           return this.datePipe.transform(UtilsService.parseDate(dato.SolicitudId.FechaRadicacion), 'yyyy-MM-dd');
         },
       },
@@ -82,7 +85,6 @@ export class RevisionInscComponent implements OnInit {
         title: 'Estado',
         // type: 'string;',
         valuePrepareFunction: (cell, dato) => {
-          console.log(dato);
           return dato.EstadoTipoSolicitudId.EstadoId.Nombre;
         },
       },
@@ -90,7 +92,6 @@ export class RevisionInscComponent implements OnInit {
         title: 'Estudiante',
         // type: 'string;',
         valuePrepareFunction: (cell, dato) => {
-          console.log(dato);
           const dato2 = JSON.parse(dato.SolicitudId.Referencia);
           if (dato2.TerceroId) {
             return dato2.TerceroId.NombreCompleto;
@@ -170,11 +171,18 @@ export class RevisionInscComponent implements OnInit {
   });
   }
 
-  obtenerRegistros(): any {
-    //this.params.query = `EstadoTipoSolicitudId.TipoSolicitud.Id:${ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION}`;
+  obtenerRegistros(evento): any {
+    this.params.query = `EstadoTipoSolicitudId.TipoSolicitud.Id:${ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION}`;
     if(this.estudiante){
       //this.params.query = `${this.params.query}&TerceroId9759`
     }
+    if(evento){
+      console.log(evento);
+      this.params.offset = this.offset;
+      this.params.limit = this.limit;
+    }
+    this.params.order='desc';
+    this.params.sortby='Id';
     return this.reliquidacionHelper.getSolicitudes(this.params);
   }
 }
