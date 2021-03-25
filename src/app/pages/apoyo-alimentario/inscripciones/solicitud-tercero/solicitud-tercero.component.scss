@@ -8,6 +8,13 @@
     margin-left: -12px;
 }
 
+.non-selectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .form-control {
     display: inline-flex;
     flex-wrap: wrap;
@@ -45,16 +52,15 @@
         margin-left: 1%;
     }
 }
+
 .item-list {
     align-items: center;
     margin-bottom: 10px;
-  
     &:last-child {
-      margin-bottom: 0;
+        margin-bottom: 0;
     }
-  }
-  
-   nb-accordion {
-     box-shadow: none;
-   }
-  
+}
+
+nb-accordion {
+    box-shadow: none;
+}

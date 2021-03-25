@@ -14,4 +14,11 @@ export class DatosIdentificacion
     Numero: string;
     TerceroId: Tercero;
     TipoDocumentoId: TipoDocumento;
+    constructor(){
+        this.Activo=false;
+        this.Id=0;
+        this.Numero='';
+        this.TipoDocumentoId= new TipoDocumento();
+    }
+
 }

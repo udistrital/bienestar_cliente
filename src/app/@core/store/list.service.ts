@@ -22,7 +22,6 @@ import { DatosIdentificacion } from '../data/models/terceros/datos_identificacio
 @Injectable()
 
 export class ListService {
-
   constructor(
     private parametrosService: ParametrosService,
     private solicitudService: SolicitudService,
@@ -154,7 +153,7 @@ export class ListService {
       },
     );
   } */
-  crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud ) {
+  crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud) {
     const solicitud: Solicitud = new Solicitud();
     solicitud.EstadoTipoSolicitudId = null;
     this.solicitudService.get(`estado_tipo_solicitud?query=Id:${environment.IDS.IDSOLICITUDRADICADA}`)

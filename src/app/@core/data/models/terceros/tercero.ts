@@ -5,4 +5,6 @@ export class Tercero {
   NombreCompleto: string;
   TipoContribuyenteId: TipoContribuyente;
   UsuarioWSO2: string;
+  FechaNacimiento: string;
+
 }

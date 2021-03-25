@@ -8,4 +8,9 @@ export class TipoDocumento
     Id: number;
     Nombre: string;
     NumeroOrden: number;
+    constructor(){
+        this.CodigoAbreviacion="";
+        this.Descripcion="";
+        this.Nombre="";
+    }
 }
