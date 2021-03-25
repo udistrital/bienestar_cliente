@@ -31,7 +31,7 @@ export class ListEntityComponent implements OnInit {
   @Input('updateConfirmMessage') updateConfirmMessage: string;
   @Input('createConfirmMessage') createConfirmMessage: string;
   @Input('isOnlyCrud') isOnlyCrud: boolean;
-  @Input('listSettings') listSettings: object;
+  @Input('listSettings') listSettings: any;
   @Input('externalCreate') externalCreate: boolean;
   @Input('viewItemSelected') viewItemSelected: boolean;
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
@@ -172,9 +172,22 @@ export class ListEntityComponent implements OnInit {
       case 'other':
         this.onAddOther(event);
         break;
+      case 'custom':
+        this.executeCustomAction(event);
+        break;
       default:
         this.onAddOther(event);
         break;
+    }
+  }
+
+  executeCustomAction(event: any) {
+    if(this.listSettings){
+      for(const action of this.listSettings.actions.custom){
+        if(action.name===event.action){
+          action.customFunction(event.data);
+        }
+      }
     }
   }
 
@@ -201,7 +214,7 @@ export class ListEntityComponent implements OnInit {
       if (willDelete.value) {
         this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
           if (res['Type'] === 'error') {
-            if ( res['Message']) {
+            if (res['Message']) {
               this.popUpManager.showErrorAlert(res['Message']);
             } else {
               this.popUpManager.showErrorAlert(res['Body']);
@@ -210,7 +223,7 @@ export class ListEntityComponent implements OnInit {
             this.loadData();
             this.popUpManager.showSuccessAlert(
               this.translate.instant(this.deleteConfirmMessage)
-              );
+            );
           }
         });
       }

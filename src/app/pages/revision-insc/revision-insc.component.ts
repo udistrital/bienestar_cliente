@@ -1,7 +1,13 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Util } from 'leaflet';
 import { Observable } from 'rxjs/Observable';
-import { ProductoHelper } from '../../@core/helpers/productos/productoHelper';
+import { ReliquidacionHelper } from '../../@core/helpers/reliquidacion/reliquidacionHelper';
+import { ImplicitAutenticationService } from '../../@core/utils/implicit_autentication.service';
+import { ApiConstanst } from '../../shared/constants/api.constans';
+import { UtilsService } from '../../shared/services/utils.service';
 
 
 
@@ -30,11 +36,22 @@ export class RevisionInscComponent implements OnInit {
   updateEntityFunction: (...params) => Observable<any>;
   createEntityFunction: (...params) => Observable<any>;
   listColumns: object;
+  settings: object = {};
+
+  params: any = {};
+  terceros: any = {};
+  rolesActivos: any = [];
+  esRevisionEstudiante: boolean;
+  estudiante: any;
 
   constructor(
     private translate: TranslateService,
-    private productoHelper: ProductoHelper,
-  ) {  }
+    private reliquidacionHelper: ReliquidacionHelper,
+    private datePipe: DatePipe,
+    private route: Router,
+    private router: ActivatedRoute,
+    private autenticacion: ImplicitAutenticationService,
+  ) { }
 
   ngOnInit() {
     this.uuidReadFieldName = '_id';
@@ -42,49 +59,122 @@ export class RevisionInscComponent implements OnInit {
     this.isOnlyCrud = true;
     this.deleteConfirmMessage = 'PRODUCTO.confirmacion_eliminar';
     this.deleteMessage = 'PRODUCTO.mensaje_eliminar';
-    this.loadDataFunction = this.productoHelper.getProductos;
-    this.deleteDataFunction = this.productoHelper.productoDelete;
-//    this.formEntity = FORM_PRODUCTO;
+    this.loadDataFunction = () => this.obtenerRegistros();
+    //this.deleteDataFunction = this.productoHelper.productoDelete;
+    //    this.formEntity = FORM_PRODUCTO;
     this.formTittle = 'RUBRO.add-producto';
     this.updateMessage = 'PRODUCTO.mensaje_actualizar';
     this.createMessage = 'PRODUCTO.mensaje_registrar';
     this.updateConfirmMessage = 'PRODUCTO.confirmacion_actualizacion';
     this.createConfirmMessage = 'PRODUCTO.confirmacion_creacion';
-    this.loadFormDataFunction = this.productoHelper.getProductos;
-    this.updateEntityFunction = this.productoHelper.productoUpdate;
-    this.createEntityFunction = this.productoHelper.productoRegister;
+    //this.loadFormDataFunction = this.productoHelper.getProductos;
+    //this.updateEntityFunction = this.productoHelper.productoUpdate;
+    //this.createEntityFunction = this.productoHelper.productoRegister;
     this.listColumns = {
-      Codigo: {
-        title: this.translate.instant('GLOBAL.codigo'),
-        // type: 'string;',
-        valuePrepareFunction: (value) => {
-          return value;
+      Fecha: {
+        title: 'Fecha de radicación',
+        valuePrepareFunction: (cell, dato) => {
+          console.log(dato);
+          return this.datePipe.transform(UtilsService.parseDate(dato.SolicitudId.FechaRadicacion), 'yyyy-MM-dd');
         },
       },
-      Nombre: {
-        title: this.translate.instant('GLOBAL.nombre'),
+      Estado: {
+        title: 'Estado',
         // type: 'string;',
-        valuePrepareFunction: (value) => {
-          return value;
+        valuePrepareFunction: (cell, dato) => {
+          console.log(dato);
+          return dato.EstadoTipoSolicitudId.EstadoId.Nombre;
         },
       },
-      Proyecto: {
-        title: this.translate.instant('GLOBAL.proyecto'),
+      Estudiante: {
+        title: 'Estudiante',
         // type: 'string;',
-        valuePrepareFunction: (value) => {
-          return value;
-        },
-      },
-      Documentos: {
-        title: this.translate.instant('GLOBAL.documentos'),
-        // type: 'string;',
-        valuePrepareFunction: (value) => {
-          return value;
+        valuePrepareFunction: (cell, dato) => {
+          console.log(dato);
+          const dato2 = JSON.parse(dato.SolicitudId.Referencia);
+          if (dato2.TerceroId) {
+            return dato2.TerceroId.NombreCompleto;
+          }
+          return 'No se encontro estudiante';
         },
       },
     };
+
+    this.settings = {
+      actions: {
+        add: false,
+        edit: false,
+        delete: false,
+        custom: [
+          { 
+            name: 'custom', 
+            title: '<i class="nb-search" title="Revisar reliquidación"></i>', 
+            customFunction: (evento) => this.showReliquidacion(evento) 
+          },
+          { 
+            name: 'custom', 
+            title: '<i class="nb-compose" title="Ver documentos adjuntos reliquidación"></i>', 
+            customFunction: (evento) => this.showDocumentsReliquidacion(evento) 
+          },
+          { 
+            name: 'custom', 
+            title: '<i class="nb-arrow-retweet" title="Cambiar estado reliquidación"></i>', 
+            customFunction: (evento) => this.updateReliquidacion(evento) 
+          }
+        ],
+        position: 'right'
+      },
+      mode: 'external',
+      columns: this.listColumns,
+    };
+
+    this.obtenerRolesYDatos();
   }
+
+  obtenerRolesYDatos() {
+    if (this.router.snapshot.data['roles']) {
+            for (const rol of this.router.snapshot.data['roles']) {
+                this.rolesActivos[rol] = true;
+            }
+        }
+        if (this.router.snapshot.data['esRevisionEstudiante']) {
+            this.esRevisionEstudiante = true;
+            this.obtenerDatosEstudiante();
+        }
+  }
+
+  showReliquidacion(evento?: any) {
+    if(evento){
+      const data = JSON.parse(evento.SolicitudId.Referencia);
+      this.route.navigate([`pages/revision/${data.Id}`], { queryParams: {codSolicitud: evento.SolicitudId.Id}});
+    }
+  }
+
+  updateReliquidacion(evento?: any) {
+    console.log(evento);
+  }
+
+  showDocumentsReliquidacion(evento?: any) {
+    console.log(evento);
+  }
+
   onChange(event) {
 
+  }
+
+  obtenerDatosEstudiante(){
+    this.reliquidacionHelper.getEstudiante(this.autenticacion.getPayload().sub).subscribe((res) => {
+      this.estudiante = res[0].TerceroId;
+      this.estudiante.documento = this.autenticacion.getPayload().documento;
+      this.estudiante.documento_compuesto = this.autenticacion.getPayload().documento_compuesto;
+  });
+  }
+
+  obtenerRegistros(): any {
+    //this.params.query = `EstadoTipoSolicitudId.TipoSolicitud.Id:${ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION}`;
+    if(this.estudiante){
+      //this.params.query = `${this.params.query}&TerceroId9759`
+    }
+    return this.reliquidacionHelper.getSolicitudes(this.params);
   }
 }

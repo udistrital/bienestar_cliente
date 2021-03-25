@@ -1,0 +1,27 @@
+<div class="row my-2">
+    <div class="col-md-4">{{etiqueta}}: {{requerido ? '*':''}}</div>
+    <div class="col-md-8" [formGroup]="grupo">
+        <input 
+            [(ngModel)]="modelo"
+            (ngModelChange)="modeloChange.emit(modelo)" 
+            *ngIf="tipo!=='caja'" 
+            [status]="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid ? 'danger': ''" 
+            nbInput fullWidth 
+            [formControlName]="nombreInput" 
+            [required]="requerido"
+            [readOnly]="deshabilitado"
+        >
+        <textarea 
+            [(ngModel)]="modelo"
+            (ngModelChange)="modeloChange.emit(modelo)"
+            *ngIf="tipo==='caja'" [status]="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid ? 'danger': ''"
+            nbInput 
+            fullWidth 
+            [formControlName]="nombreInput" 
+            [required]="requerido"
+            [readOnly]="deshabilitado"
+        ></textarea>
+        <span class="message-error" *ngIf="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid">Campo no válido</span>
+    </div>
+</div>
+

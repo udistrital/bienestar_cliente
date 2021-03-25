@@ -6,7 +6,11 @@
 export const environment = {
   production: true,
   NUXEO: {
-    PATH: 'https://documental.udistrital.edu.co/nuxeo/',
+    PATH: 'https://documental.portaloas.udistrital.edu.co/nuxeo/',
+    CREDENTIALS: {
+      USERNAME: 'desarrollooas',
+      PASS: 'desarrollooas2019',
+    },
   },
   WSO2_SERVICE: 'https://autenticacion.udistrital.edu.co/apioas/',
   ADMINISTRATIVA_PRUEBAS_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_amazon_api/v1/',
@@ -23,6 +27,8 @@ export const environment = {
   CONF_MENU_SERVICE: 'https://autenticacion.udistrital.edu.co/apioas/configuracion_crud_api/v1/menu_opcion_padre/ArbolMenus/',
   SOLICITUD_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/',
   TERCEROS_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/',
+  NUXEO_2020:'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1/',
+  DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
   INFO_ESTADO_CIVIL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria?query=GrupoInfoComplementariaId%3A2',
   TOKEN: {
     AUTORIZATION_URL: 'https://autenticacion.udistrital.edu.co/oauth2/authorize',

@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, OnChanges, Input } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy, OnChanges, Input, EventEmitter, Output } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ngx-combo-generico',
@@ -14,12 +14,20 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() metodo: any;
   @Input() parametros: any;
   @Input() grupo: FormGroup;
-  @Input() validar: any;
+  @Input() validar: any = false;
   @Input() etiqueta: any;
-
+  @Input() mostrarSeleccione = true;
+  @Input() requerido = false;
+  @Input() deshabilitado = false;
+  @Input() esAnidado = false;
+  @Input() camposValorAnidado = [];
+  @Input() modelo: any;
+  @Input() campoListado: any;
+  @Output() modeloChange = new EventEmitter<any>();
   subscriptor: any = {};
 
   objetos = [];
+  opcionSeleccione = {};
 
 
   constructor() { }
@@ -38,18 +46,51 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.parametros) {
       this.obtenerData();
     }
+    if (changes.requerido) {
+      this.grupo.get(this.nombreInput).setValidators([Validators.required]);
+    }
+    if (changes.modelo){
+      this.setModelo();
+    }
   }
 
+
+  
 
   obtenerData(){
     if(this.servicio){
       this.subscriptor.combo = this.servicio[this.metodo](this.parametros).subscribe((res)=>{
-        this.objetos = res;
+        this.objetos = (this.campoListado ? res[this.campoListado] : res);
+        this.setModelo();
       },
       (error)=>{
   
       });
     }
+  }
+
+  setModelo() {
+    if(this.modelo){
+      this.grupo.get(this.nombreInput).setValue(this.modelo);
+    }
+  }
+
+  emitirModelo(evento){
+    this.modelo = evento;
+    if(this.modelo!==''){
+      this.modeloChange.emit(this.modelo);
+    }
+  }
+
+  obtenerDatoAnidado(elemento){
+    if(elemento){
+      let dato: any = elemento;
+      for(const campo of this.camposValorAnidado){
+        dato = dato[campo];
+      }
+      return dato;
+    }
+    return '';
   }
 
   ngOnDestroy(){

@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ngx-radio-select-generico',
@@ -16,6 +16,10 @@ export class RadioSelectGenericoComponent implements OnInit, OnDestroy, OnChange
   @Input() grupo: FormGroup;
   @Input() validar: any;
   @Input() etiqueta: any;
+  @Input() requerido = false;
+  @Input() modelo: any;
+  @Input() deshabilitado = false;
+  @Output() modeloChange = new EventEmitter<any>();
 
   subscriptor: any = {};
 
@@ -38,6 +42,16 @@ export class RadioSelectGenericoComponent implements OnInit, OnDestroy, OnChange
     if (changes.parametros) {
       this.obtenerData();
     }
+    this.setValidatorsInput(changes);
+  }
+
+
+  setValidatorsInput(changes: any) {
+    const validators: any = [];
+    if(changes.requerido){
+      validators.push(Validators.required);
+    }
+    this.grupo.get(this.nombreInput).setValidators(validators);
   }
 
 

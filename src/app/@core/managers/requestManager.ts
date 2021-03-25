@@ -73,10 +73,11 @@ export class RequestManager {
    * Perform a POST http request
    * @param endpoint service's end-point
    * @param element data to send as JSON
+   * @param httpOptions httpOptionsCustom
    * @returns Observable<any>
    */
-  post(endpoint, element) {
-    return this.http.post<any>(`${this.path}${endpoint}`, element, this.httpOptions).pipe(
+  post(endpoint, element, httpOptions?) {
+    return this.http.post<any>(`${this.path}${endpoint}`, element, httpOptions || this.httpOptions).pipe(
       catchError(this.errManager.handleError),
       map(
         (res) => {
