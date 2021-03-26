@@ -12,6 +12,9 @@ export class InfoSocioEconomicaEstudiante {
     PagaArriendo: boolean; // NO EXISTE
     ZonaVulnerabilidad: boolean; // NO EXISTE
     NumeroHermanos: string;
+    ConQuienVive: string;
+    TipoColegio: string;  // No FORM APOYO
+    TipoVivienda: string; //Paga Arriendo
     constructor() {
         this.EstadoCivil="";
         this.Estrato=0;

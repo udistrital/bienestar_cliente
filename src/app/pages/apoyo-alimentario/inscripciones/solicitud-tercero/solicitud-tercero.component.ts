@@ -48,6 +48,10 @@ export class SolicitudTerceroComponent implements OnInit {
   registro: FormGroup;
   residencia: FormGroup;
   socioeconomica: FormGroup;
+  necesidades: FormGroup;
+  especial: FormGroup;
+  menores: FormGroup;
+
   colegio: FormGroup;
   vivienda: FormGroup;
   futurofort: FormGroup;
@@ -162,6 +166,7 @@ export class SolicitudTerceroComponent implements OnInit {
             Privado: InfoComplementariaId.Id:172
             Publico: InfoComplementariaId.Id:173
             */ 
+            this.estudiante.InfoSocioeconomica.TipoColegio = infComp.InfoComplementariaId.Nombre;
             break;
           case "Lugar de vivienda":
             /* 
@@ -169,31 +174,65 @@ export class SolicitudTerceroComponent implements OnInit {
             Familiar: InfoComplementariaId.Id:182
             Arriendo: InfoComplementariaId.Id:183
             */ 
+            this.estudiante.InfoSocioeconomica.TipoVivienda = infComp.InfoComplementariaId.Nombre;
             break;
 
           case "¿Con quién vive?":
+            /* 
+            Familia: InfoComplementariaId.Id:184
+            Solo: InfoComplementariaId.Id:185
+            Amigos: InfoComplementariaId.Id:186
+            */ 
+            this.estudiante.InfoSocioeconomica.ConQuienVive = infComp.InfoComplementariaId.Nombre;
+
             break;
+          /* 
           case "Lugar de residencia de la Familia":
+            INFO REPETIDA, NO VA
+            break; 
+
+          case "¿Responsable de la matricula desempleado?":
+            INFO NO VA
             break;
 
-          case "¿Responsabledelamatriculadesempleado?":
-            break;
           case "¿Elestudianteesdesplazadopolítico?":
+            INFO NO VA
             break;
+
           case "¿Fallecióresponsabledelamatricula?":
+            INFO NO VA
             break;
+          
           case "¿Elestudianteesmadreopadrecabezadefamilia?":
+            INFO REPETIDA
             break;
+
           case "¿ElestudiantecambiodeestratodespuésdesuingresoenlaUniversidad?":
             break;
-          case "¿PoseepersonasaCargo?":
+
+          */
+          case "¿Posee personas a Cargo?": //GRupoInfo:44
+            /* 
+            Si: InfoComplementariaId.Id:201
+            No: InfoComplementariaId.Id:231
+            */
+            if(infComp.InfoComplementariaId.Nombre=="Si"){
+              this.estudiante.InfoSocioeconomica.PersonasACargo =true; 
+            }else if(infComp.InfoComplementariaId.Nombre=="No"){
+              this.estudiante.InfoSocioeconomica.PersonasACargo =false; 
+            }
             break;
-          case "Presentacondicióndedesplazado":
+          case "Presenta condición de desplazado":
+            if(infComp.InfoComplementariaId.Nombre=="Si"){
+              this.estudiante.InfoSocioeconomica.PersonasACargo =true; 
+            }else if(infComp.InfoComplementariaId.Nombre=="No"){
+              this.estudiante.InfoSocioeconomica.PersonasACargo =false; 
+            }
             break;
-          case "Solicituddereliquidación":
+          /* case "Solicituddereliquidación":
             break;
           case "Comorbilidades":
-            break;
+            break; */
           case "Genero":
             this.estudiante.Genero = infComp.InfoComplementariaId.Nombre;
             break;
@@ -223,10 +262,6 @@ export class SolicitudTerceroComponent implements OnInit {
 
       case "CABEZA_FAMILIA":
         this.estudiante.InfoSocioeconomica.CabezaFamilar = JSON.parse(infComp.Dato);
-        break;
-
-      case "PERSONAS_A_CARGO":
-        this.estudiante.InfoSocioeconomica.PersonasACargo = JSON.parse(infComp.Dato);
         break;
 
       case "HIJOS":
@@ -312,7 +347,30 @@ export class SolicitudTerceroComponent implements OnInit {
           telefono: new FormControl({ value: this.estudiante.InfoResidencia.Telefono, disabled: true }),
           sisben: new FormControl({ value: this.estudiante.InfoResidencia.Sisben, disabled: true }),
           puntaje_Sisben: new FormControl({ value: this.estudiante.InfoResidencia.Puntaje_Sisben, disabled: true }),
+        });
 
+        this.especial = new FormGroup({
+          condicionDesplazado: new FormControl({ }),
+          condicionEspecial: new FormControl({ }),
+          discapacidad: new FormControl({ }),
+          patologia: new FormControl({ }),
+          seguridadSocial: new FormControl({ }),
+          serPiloPaga: new FormControl({ }),
+        });
+
+        this.menores = new FormGroup({
+          menoresEdad: new FormControl({ }),
+          menoresEstudiantes: new FormControl({ }),
+          grupoMenoresSisben: new FormControl({ }),
+        });
+
+        this.necesidades = new FormGroup({
+          calidadVivienda: new FormControl({ }),
+          cuartosDormir: new FormControl({ }),
+          personasHogar: new FormControl({ }),
+          serviciosPublicos: new FormControl({ }),
+          origenAgua: new FormControl({ }),
+          aguasNegras: new FormControl({ }),
         });
         /* 
          localidad: new FormControl({ value: this.estudiante.InfoResidencia.Localidad, disabled: true }),
@@ -322,8 +380,21 @@ export class SolicitudTerceroComponent implements OnInit {
           email: new FormControl('', Validators.required), */
 
         this.socioeconomica = new FormGroup({
-          ingresosmensuales: new FormControl(),
-          ing_mesual: new FormControl(),
+          estadocivil: new FormControl(),
+          estrato: new FormControl(),
+          ingresosMensuales: new FormControl(),
+          cabezaFamilar: new FormControl(),
+          dependenciaEconomica: new FormControl(),
+          valorMatricula: new FormControl(),
+          personasACargo: new FormControl(),
+          hijos: new FormControl(),
+          numeroHijos: new FormControl(),
+          pagaArriendo: new FormControl(),
+          zonaVulnerabilidad: new FormControl(),
+          numeroHermanos: new FormControl(),
+          conQuienVive: new FormControl(),
+          tipoColegio: new FormControl(),
+          tipoVivienda: new FormControl(),
           descDis: new FormControl(),
         });
 
@@ -376,10 +447,11 @@ export class SolicitudTerceroComponent implements OnInit {
   public loadInformacionTercero(): Promise<any> {
     return new Promise((resolve, reject) => {
       let procesosPendientes = 0;
-      const usuarioWSO2 = (this.autenticacion.getPayload()).email
+      let usuarioWSO2 = (this.autenticacion.getPayload()).email
         ? ((this.autenticacion.getPayload()).email.split('@')).shift()
         : (this.autenticacion.getPayload()).sub;
       console.info(`Login de ${usuarioWSO2}`);
+      usuarioWSO2 = "daromeror";
       /* const idTercero = 9823; */
       this.tercerosService.get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
         .subscribe(res => {

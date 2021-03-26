@@ -1,6 +1,8 @@
 import { InfoResidenciaEstudiante } from "./info-residencia-estudiante";
 import { DatosIdentificacion } from "../terceros/datos_identificacion"
 import { InfoSocioEconomicaEstudiante } from "./info-socioeconomica-estudiante";
+import { InfoNecesidadesEstudiante } from './info-necesidades-estudiante';
+import { InfoEspecialEstudiante } from './info-especial-estudiante';
 
 export class InfoCompletaEstudiante {
     IdTercero: number;
@@ -16,6 +18,8 @@ export class InfoCompletaEstudiante {
     Genero: string;
     InfoResidencia: InfoResidenciaEstudiante;
     InfoSocioeconomica: InfoSocioEconomicaEstudiante;
+    InfoNecesidades: InfoNecesidadesEstudiante;
+    InfoEspecial: InfoEspecialEstudiante;
 
     constructor(){
       this.IdTercero=0;
@@ -26,7 +30,10 @@ export class InfoCompletaEstudiante {
       this.ProyectoCurricular="";
       this.Facultad="";
       this.Correo="";
-      this.InfoResidencia=new InfoResidenciaEstudiante();
       this.Genero="";
+      this.InfoResidencia=new InfoResidenciaEstudiante();
+      this.InfoSocioeconomica= new InfoSocioEconomicaEstudiante();
+      this.InfoNecesidades= new InfoNecesidadesEstudiante();
+      this.InfoEspecial= new InfoEspecialEstudiante();
     }
   }
