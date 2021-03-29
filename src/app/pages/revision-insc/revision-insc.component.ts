@@ -4,9 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Util } from 'leaflet';
 import { Observable } from 'rxjs/Observable';
+import { DocumentoService } from '../../@core/data/documento.service';
 import { ReliquidacionHelper } from '../../@core/helpers/reliquidacion/reliquidacionHelper';
 import { PopUpManager } from '../../@core/managers/popUpManager';
 import { ImplicitAutenticationService } from '../../@core/utils/implicit_autentication.service';
+import { NuxeoService } from '../../@core/utils/nuxeo.service';
 import { ApiConstanst } from '../../shared/constants/api.constans';
 import { RolesConstanst } from '../../shared/constants/roles.constants';
 import { UtilsService } from '../../shared/services/utils.service';
@@ -60,6 +62,8 @@ export class RevisionInscComponent implements OnInit {
     private router: ActivatedRoute,
     private autenticacion: ImplicitAutenticationService,
     private pUpManager: PopUpManager,
+    private nuxeoService: NuxeoService,
+    private documentoService: DocumentoService,
   ) { }
 
   ngOnInit() {
@@ -80,12 +84,23 @@ export class RevisionInscComponent implements OnInit {
     //this.updateEntityFunction = this.productoHelper.productoUpdate;
     //this.createEntityFunction = this.productoHelper.productoRegister;
     this.listColumns = {
+      Codigo: {
+        title: 'Código de la solicitud',
+        valuePrepareFunction: (cell, dato) => {
+          try {
+            return dato.SolicitudId.Id;
+          } catch (error) {
+            console.log(error);
+          }
+          return '';
+        },
+      },
       Fecha: {
         title: 'Fecha de radicación',
         valuePrepareFunction: (cell, dato) => {
-          try{
+          try {
             return this.datePipe.transform(UtilsService.parseDate(dato.SolicitudId.FechaRadicacion), 'yyyy-MM-dd');
-          }catch(error){
+          } catch (error) {
             console.log(error);
           }
           return '';
@@ -95,7 +110,7 @@ export class RevisionInscComponent implements OnInit {
         title: 'Estado',
         type: 'html',
         valuePrepareFunction: (cell, dato) => {
-          try{
+          try {
             let data = '';
             switch (dato.EstadoTipoSolicitudId.EstadoId.Id) {
               case ApiConstanst.ESTADO_SOLICITUD.RECHAZADO:
@@ -112,7 +127,7 @@ export class RevisionInscComponent implements OnInit {
                 break;
             }
             return data;
-          }catch(error){
+          } catch (error) {
             console.log(error);
           }
           return '';
@@ -122,13 +137,13 @@ export class RevisionInscComponent implements OnInit {
         title: 'Estudiante',
         // type: 'string;',
         valuePrepareFunction: (cell, dato) => {
-          try{
+          try {
             const dato2 = JSON.parse(dato.SolicitudId.Referencia);
-          if (dato2.TerceroId) {
-            return dato2.TerceroId.NombreCompleto;
-          }
-          return 'No se encontro estudiante';
-          }catch(error){
+            if (dato2.TerceroId) {
+              return dato2.TerceroId.NombreCompleto;
+            }
+            return 'No se encontro estudiante';
+          } catch (error) {
             console.log(error);
           }
           return '';
@@ -194,12 +209,17 @@ export class RevisionInscComponent implements OnInit {
             {
               name: 'verDocAdjuntosCustom',
               title: '<i class="nb-compose" title="Ver documentos adjuntos reliquidación"></i>',
-              customFunction: (evento) => this.showDocumentsReliquidacion(evento)
+              customFunction: (evento) => this.obtenerInformacionReliquidacion(evento)
             },
             {
               name: 'estadoCustom',
               title: '<i class="nb-arrow-retweet" title="Cambiar estado reliquidación"></i>',
               customFunction: (evento) => this.updateReliquidacion(evento)
+            },
+            {
+              name: 'deleteCustom',
+              title: '<i class="nb-trash" title="Eliminar solicitud reliquidación"></i>',
+              customFunction: (evento) => this.deleteReliquidacion(evento)
             }
           ],
           position: 'right'
@@ -210,6 +230,40 @@ export class RevisionInscComponent implements OnInit {
     }
   }
 
+  obtenerInformacionReliquidacion(evento: any) {
+    const data = JSON.parse(evento.SolicitudId.Referencia);
+    this.reliquidacionHelper.getSolicitudTercero(data.Id).subscribe((res) => {
+        this.descargarArchivos(JSON.parse(res.Dato))
+    });
+}
+
+  descargarArchivos(formularioReliquidacion) {
+    this.pUpManager.showInfoAlert('Se esta descargando los archivos');
+    let archivos: any = [];
+    for (const archivo of Object.keys(formularioReliquidacion.documentosCargados)) {
+        let aux: any = formularioReliquidacion.documentosCargados[archivo];
+        aux.key = archivo;
+        archivos.push(aux);
+    }
+    this.nuxeoService.getDocumentoById$(archivos, this.documentoService).subscribe((res: Object) => {
+        if (Object.keys(res).length === archivos.length) {
+            for (const archivo of archivos) {
+                window.open(res[archivo.key]);
+            }
+        }
+    });
+}
+
+  nuevaSolicitud(){
+    this.route.navigate([`pages/inscripcion`]);
+  }
+
+  deleteReliquidacion(evento: any) {
+    this.reliquidacionHelper.deleteSolicitud(evento).subscribe((res)=>{
+      this.recargarTabla = true;
+    })
+  }
+
   showReliquidacion(evento?: any) {
     if (evento) {
       const data = JSON.parse(evento.SolicitudId.Referencia);
@@ -217,12 +271,13 @@ export class RevisionInscComponent implements OnInit {
         this.route.navigate([`pages/revision/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
       } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.RADICADA) {
         this.pUpManager.showInfoToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RADICADA. Se notificara cuando la solicitud cambie de estado.');
-      }
-      else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id !== ApiConstanst.ESTADO_SOLICITUD.RECHAZADO) {
-        this.route.navigate([`pages/revision-estudiante/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
-      }
-      else {
+      } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.REFORMADA) {
+        this.pUpManager.showErrorToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado REFORMADA. Puedes revisar las observaciones');
+      } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.RECHAZADO) {
         this.pUpManager.showErrorToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RECHAZADO. Puedes revisar las observaciones');
+      } else {
+        this.route.navigate([`pages/revision-estudiante/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
+
       }
     }
   }
@@ -231,16 +286,12 @@ export class RevisionInscComponent implements OnInit {
     console.log(evento);
   }
 
-  showDocumentsReliquidacion(evento?: any) {
-    console.log(evento);
-  }
-
   onChange(event) {
 
   }
 
   recargarTablaPage(pagina) {
-    this.limit = this.registrosPorPagina * (pagina+1);
+    this.limit = this.registrosPorPagina * (pagina + 1);
     this.offset = this.limit - this.registrosPorPagina;
     this.recargarTabla = true;
   }

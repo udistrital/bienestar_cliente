@@ -41,13 +41,24 @@ export class ArchivosGenericoComponent implements OnInit, OnChanges {
     if (changes.grupo) {
       this.grupo.addControl(this.nombreInput, new FormControl(''));
     }
-    if (changes.requerido) {
-      this.grupo.get(this.nombreInput).setValidators([Validators.required]);
+    if (changes.requerido && changes.requerido.currentValue || changes.mostrarResubir && changes.mostrarResubir.currentValue) {
+        this.setValidators();
     }
     if(changes.validar){
       this.inputTieneErrores();
     }
     this.mostrarDescargar();
+  }
+
+  setValidators() {
+    let validators: any = [];
+    if (this.requerido && !this.mostrarResubir) {
+      validators.push(Validators.required);
+    }
+    if(this.requerido && this.mostrarResubir){
+      validators = [];
+    }
+    this.grupo.get(this.nombreInput).setValidators(validators);
   }
 
   mostrarDescargar() {
@@ -71,6 +82,13 @@ export class ArchivosGenericoComponent implements OnInit, OnChanges {
     if(this.grupo.get(this.nombreInput).invalid && this.grupo.get(this.nombreInput).dirty || (this.validar && this.grupo.get(this.nombreInput).invalid && this.documentosCargados[this.nombreInput]===null)){
       this.eventoErrorInput.emit(true);
     }
+  }
+
+  archivoEsRequerido(): any{
+    if(this.mostrarResubir){
+      return false;
+    }
+    return this.requerido;
   }
 
   onFileSelected(event) {

@@ -29,10 +29,12 @@ export class ApiConstanst{
         REQUIERE_MOD: 2,
         ACEPTADA: 20,
         RADICADA: 1,
+        REFORMADA: 21,
     }
 
     public static SOLICITUDES = {
         ESTADO_SOLICITUD_RELIQUIDACION : '22',
+        ESTADO_SEGUNDA_REVISION: '27',
         TIPO_SOLICITUD_RELIQUDIACION: '8',
     }
 

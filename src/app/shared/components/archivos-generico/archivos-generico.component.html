@@ -12,7 +12,7 @@
                 {{(etiqueta || 'Adjuntar un archivo') }}{{requerido ? '*':''}}
             </button>
             <div class="col-md-8 file-upload--hidden">
-                <input fullWidth #fileUpload nbInput type="file" [formControlName]="nombreInput" [required]="requerido"
+                <input fullWidth #fileUpload nbInput type="file" [formControlName]="nombreInput" [required]="archivoEsRequerido()"
                     [multiple]="false" (change)="onFileSelected($event)">
             </div>
         </div>
@@ -30,7 +30,7 @@
                 {{('Volver a subir un archivo ' + documentosCargados[nombreInput]?.Nombre) }}{{requerido ? '*':''}}
             </button>
             <div class="col-md-8 file-upload--hidden">
-                <input fullWidth #fileUpload nbInput type="file" [formControlName]="nombreInput" [required]="requerido"
+                <input fullWidth #fileUpload nbInput type="file" [formControlName]="nombreInput" [required]="archivoEsRequerido()"
                     [multiple]="false" (change)="onFileSelected($event)">
             </div>
         </div>

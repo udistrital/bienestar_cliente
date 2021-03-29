@@ -65,6 +65,7 @@ export class InscripcionEstComponent implements OnInit {
         otrosDoc: {},
     };
     esRevisionEstudiante: boolean;
+    terceroInfoComplementaria: any;
 
     constructor(
         private httpClient: HttpClient,
@@ -134,6 +135,7 @@ export class InscripcionEstComponent implements OnInit {
 
     obtenerInformacionReliquidacion(id: any) {
         this.reliquidacionHelper.getSolicitudTercero(id).subscribe((res) => {
+            this.terceroInfoComplementaria = res;
             this.formularioReliquidacion = JSON.parse(res.Dato);
             this.estudiante = res.TerceroId;
         });
@@ -176,22 +178,82 @@ export class InscripcionEstComponent implements OnInit {
     }
 
     enviarInformacionReliquidacion() {
-        this.nuxeoService.getDocumentos$(this.formularioReliquidacion.documentosAdjuntos, this.documentoService).subscribe((res) => {
-            if (this.formularioReliquidacion.documentosAdjuntos.length === Object.keys(res).length) {
-                this.formularioReliquidacion.documentosCargados = res;
+        if (this.esRevisionEstudiante) {
+            const archivosAdjuntos = [];
+            for (const file of this.formularioReliquidacion.documentosAdjuntos) {
+                if (file.file instanceof File) {
+                    archivosAdjuntos.push(file);
+                }
+            }
+            if (archivosAdjuntos.length === 0) {
                 const terceroInfoComplementaria: any = {};
                 terceroInfoComplementaria.TerceroId = this.estudiante;
                 terceroInfoComplementaria.Id = null;
                 terceroInfoComplementaria.Activo = true;
                 terceroInfoComplementaria.InfoComplementariaId = this.bodyReliquidacion;
                 terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
-                this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
-                    this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
-                        this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
+                if (this.esRevisionEstudiante) {
+                    terceroInfoComplementaria.Id = this.terceroInfoComplementaria.Id;
+                    this.reliquidacionHelper.actualizarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
+                        this.reliquidacionHelper.obtenerTipoSolicitudEnviada(true).subscribe((tipoSolicitud) => {
+                            this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
+                        });
                     });
-                });
+                }
             }
-        });
+            else {
+                this.nuxeoService.getDocumentos$(archivosAdjuntos, this.documentoService).subscribe((res) => {
+                    if (archivosAdjuntos.length === Object.keys(res).length) {
+                        for(const archivoNuevo of Object.keys(res)){
+                            if(this.formularioReliquidacion.documentosCargados[archivoNuevo]){
+                                this.formularioReliquidacion.documentosCargados[archivoNuevo] = res[archivoNuevo];
+                            }
+                        }
+                        const terceroInfoComplementaria: any = {};
+                        terceroInfoComplementaria.TerceroId = this.estudiante;
+                        terceroInfoComplementaria.Id = null;
+                        terceroInfoComplementaria.Activo = true;
+                        terceroInfoComplementaria.InfoComplementariaId = this.bodyReliquidacion;
+                        terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
+                        if (this.esRevisionEstudiante) {
+                            terceroInfoComplementaria.Id = this.terceroInfoComplementaria.Id;
+                            this.reliquidacionHelper.actualizarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
+                                this.reliquidacionHelper.obtenerTipoSolicitudEnviada(true).subscribe((tipoSolicitud) => {
+                                    this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
+                                });
+                            });
+                        }
+                        else {
+                            this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
+                                this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
+                                    this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
+                                });
+                            });
+                        }
+                    }
+                });
+
+            }
+
+        } else {
+            this.nuxeoService.getDocumentos$(this.formularioReliquidacion.documentosAdjuntos, this.documentoService).subscribe((res) => {
+                if (this.formularioReliquidacion.documentosAdjuntos.length === Object.keys(res).length) {
+                    this.formularioReliquidacion.documentosCargados = res;
+                    const terceroInfoComplementaria: any = {};
+                    terceroInfoComplementaria.TerceroId = this.estudiante;
+                    terceroInfoComplementaria.Id = null;
+                    terceroInfoComplementaria.Activo = true;
+                    terceroInfoComplementaria.InfoComplementariaId = this.bodyReliquidacion;
+                    terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
+                    this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
+                        this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
+                            this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
+                        });
+                    });
+                }
+            });
+        }
+
 
     }
 
@@ -206,11 +268,19 @@ export class InscripcionEstComponent implements OnInit {
         solicitud.Resultado = '';
         solicitud.SolicitudFinalizada = false;
         solicitud.SolicitudPadreId = null;
-        this.reliquidacionHelper.grabarSolicitud(solicitud).subscribe((solicitud) => {
-            this.solicitud = solicitud.Data;
-            this.estadoSolicitud = solicitud.Data.EstadoTipoSolicitudId;
-            this.grabarSolicitante(solicitud.Data, documentos, tipoSolicitud);
-        })
+        if (this.esRevisionEstudiante) {
+            solicitud.Id = this.solicitud.Id;
+            this.solicitud = solicitud;
+            this.idEstadoSolicitud = tipoSolicitud.Id;
+            this.grabarSolicitudEstado('Se ha enviado con exito la solicitud', true);
+        }
+        else {
+            this.reliquidacionHelper.grabarSolicitud(solicitud).subscribe((solicitud) => {
+                this.solicitud = solicitud.Data;
+                this.estadoSolicitud = solicitud.Data.EstadoTipoSolicitudId;
+                this.grabarSolicitante(solicitud.Data, documentos, tipoSolicitud);
+            });
+        }
     }
 
     grabarSolicitante(solicitud: any, documentos: any, tipoSolicitud: any) {
@@ -297,7 +367,7 @@ export class InscripcionEstComponent implements OnInit {
         else {
             solicitudEvolucion.EstadoTipoSolicitudId = this.estadoSolicitud;
         }
-        solicitudEvolucion.EstadoTipoSolicitudIdAnterior = null;
+        solicitudEvolucion.EstadoTipoSolicitudIdAnterior = this.solicitud.EstadoTipoSolicitudId || null;
         solicitudEvolucion.Id = null;
         solicitudEvolucion.SolicitudId = this.solicitud;
         solicitudEvolucion.TerceroId = this.estudiante.Id;

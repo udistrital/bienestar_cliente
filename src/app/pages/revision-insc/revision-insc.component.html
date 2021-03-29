@@ -1,6 +1,11 @@
 <div class="col-md-12 col-lg-12 ">
     <nb-card>
-      <nb-card-header>Lista de solicitudes</nb-card-header>
+      <nb-card-header>
+        <div class="d-flex justify-content-between">
+          <h5>Lista de solicitudes</h5>
+          <button nbButton status="success" *ngIf="esRevisionEstudiante" class="mx-2" type="button" (click)="nuevaSolicitud()">Agregar nueva solicitud</button>
+        </div>
+      </nb-card-header>
       <nb-card-body>
         <ngx-list-entity
         [isOnlyCrud]="isOnlyCrud" 

@@ -13,7 +13,7 @@ const baseInfoComplementaria = 'info_complementaria?query=GrupoInfoComplementari
 })
 export class ReliquidacionHelper {
 
-    
+
 
     constructor(private rqManager: RequestManager,
         private pUpManager: PopUpManager) {
@@ -48,9 +48,9 @@ export class ReliquidacionHelper {
      * @param [user] user to request info from the API
      * @returns  branch information.
      */
-     async getEstudianteAsync(user): Promise<any>{
+    async getEstudianteAsync(user): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.getEstudiante(user).subscribe((res)=>{
+            this.getEstudiante(user).subscribe((res) => {
                 resolve(res);
             })
         });
@@ -116,32 +116,12 @@ export class ReliquidacionHelper {
     }
 
     /**
-     * Gets tipo de solicitud
+     * Gets INFO COMPLEMENTARIA
      *  returns one user level at once.
      */
-    obtenerTipoSolicitudEnviada(): any {
-        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.get('estado_tipo_solicitud/'+ApiConstanst.SOLICITUDES.ESTADO_SOLICITUD_RELIQUIDACION).pipe(
-            map(
-                (res) => {
-                    if (res['Type'] === 'error') {
-                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
-                        return undefined;
-                    }
-                    return res;
-                },
-            ),
-        );
-    }
-
-
-    /**
-     * Gets tipo de solicitud
-     *  returns one user level at once.
-     */
-     obtenerEstadoTipoSolicitud(): any {
-        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.get('estado_tipo_solicitud?query=TipoSolicitud.Id:'+ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION).pipe(
+    actualizarSolicitudReliquidacion(body: any): any {
+        this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
+        return this.rqManager.put('info_complementaria_tercero/', body, body.Id).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -158,7 +138,52 @@ export class ReliquidacionHelper {
      * Gets tipo de solicitud
      *  returns one user level at once.
      */
-     obtenerTipoObservacion(): any {
+    obtenerTipoSolicitudEnviada(esActualizar?: any): any {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        let tipoSolicitud = ApiConstanst.SOLICITUDES.ESTADO_SOLICITUD_RELIQUIDACION;
+        if (esActualizar) {
+            tipoSolicitud = ApiConstanst.SOLICITUDES.ESTADO_SEGUNDA_REVISION;
+        }
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.get('estado_tipo_solicitud/' + tipoSolicitud).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+        
+    }
+
+
+    /**
+     * Gets tipo de solicitud
+     *  returns one user level at once.
+     */
+    obtenerEstadoTipoSolicitud(): any {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.get('estado_tipo_solicitud?query=TipoSolicitud.Id:' + ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+    /**
+     * Gets tipo de solicitud
+     *  returns one user level at once.
+     */
+    obtenerTipoObservacion(): any {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
         return this.rqManager.get('tipo_observacion').pipe(
             map(
@@ -175,7 +200,7 @@ export class ReliquidacionHelper {
 
     grabarSolicitud(solicitud: any) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.post('solicitud',solicitud).pipe(
+        return this.rqManager.post('solicitud', solicitud).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -191,7 +216,7 @@ export class ReliquidacionHelper {
 
     grabarPaquete(paquete: any) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.post('paquete',paquete).pipe(
+        return this.rqManager.post('paquete', paquete).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -207,7 +232,7 @@ export class ReliquidacionHelper {
 
     grabarSoportePaquete(soporte: any) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.post('soporte_paquete',soporte).pipe(
+        return this.rqManager.post('soporte_paquete', soporte).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -222,7 +247,7 @@ export class ReliquidacionHelper {
 
     grabarPaqueteSolicitud(soporte: any) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.post('paquete_solicitud',soporte).pipe(
+        return this.rqManager.post('paquete_solicitud', soporte).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -238,7 +263,7 @@ export class ReliquidacionHelper {
 
     grabarSolicitante(solicitante: any) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.post('solicitante',solicitante).pipe(
+        return this.rqManager.post('solicitante', solicitante).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -252,7 +277,7 @@ export class ReliquidacionHelper {
     }
 
 
-    getSolicitudes(params){
+    getSolicitudes(params) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
         return this.rqManager.get(`solicitud_evolucion_estado?${UtilsService.crearQueryParams(params)}`).pipe(
             map(
@@ -268,7 +293,23 @@ export class ReliquidacionHelper {
 
     }
 
-    getSolicitud(id){
+    deleteSolicitud(params) {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.delete(`solicitud_evolucion_estado`,params.Id).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+
+    }
+
+    getSolicitud(id) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
         return this.rqManager.get(`solicitud/${id}`).pipe(
             map(
@@ -284,9 +325,9 @@ export class ReliquidacionHelper {
 
     }
 
-    grabarObservacion(params){
+    grabarObservacion(params) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.get(`observacion`,params).pipe(
+        return this.rqManager.get(`observacion`, params).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -300,10 +341,10 @@ export class ReliquidacionHelper {
 
     }
 
-    grabarSolicitudEvolucion(params){
+    grabarSolicitudEvolucion(params) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
         return this.rqManager.post(`solicitud_evolucion_estado`, params).pipe(
-            map( 
+            map(
                 (res) => {
                     if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
@@ -317,12 +358,12 @@ export class ReliquidacionHelper {
     }
 
 
-    actualizarSolicitud(params){
+    actualizarSolicitud(params) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
         const id = params.Id;
         params.Id = null;
-        return this.rqManager.put(`solicitud/`, params,id).pipe(
-            map( 
+        return this.rqManager.put(`solicitud/`, params, id).pipe(
+            map(
                 (res) => {
                     if (res['Type'] === 'error') {
                         this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
@@ -336,11 +377,11 @@ export class ReliquidacionHelper {
     }
 
 
-     /**
-     * Gets INFO COMPLEMENTARIA
-     *  returns one user level at once.
-     */
-      getSolicitudTercero(id: any): any {
+    /**
+    * Gets INFO COMPLEMENTARIA
+    *  returns one user level at once.
+    */
+    getSolicitudTercero(id: any): any {
         this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
         return this.rqManager.get(`info_complementaria_tercero/${id}`).pipe(
             map(
