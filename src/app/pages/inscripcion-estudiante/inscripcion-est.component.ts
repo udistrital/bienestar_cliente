@@ -49,6 +49,22 @@ export class InscripcionEstComponent implements OnInit {
     ROLES_CONSTANTS = RolesConstanst;
     deshabilitar: any = {};
     solicitud: any;
+    mostrar: any = {};
+    panelErrores: any = {
+        basica: {},
+        socioeconomica: {},
+        escolar: {},
+        residencia: {},
+        fortuita: {},
+        reliquidacion: {},
+        ingresos: {},
+        cargo: {},
+        hijos: {},
+        desplazado: {},
+        reciboPago: {},
+        otrosDoc: {},
+    };
+    esRevisionEstudiante: boolean;
 
     constructor(
         private httpClient: HttpClient,
@@ -74,18 +90,28 @@ export class InscripcionEstComponent implements OnInit {
                 this.rolesActivos[rol] = true;
             }
         }
-        if (this.route.snapshot.data['esRevision']) {
-            this.route.params.subscribe((params) => {
-                if (params.id) {
-                    this.obtenerInformacionReliquidacion(params.id);
-                }
-            });
-            this.route.queryParams.subscribe((params) => {
-                if (params.codSolicitud) {
-                    this.obtenerSolicitud(params.codSolicitud);
-                }
-            });
+        if (this.route.snapshot.data['esRevision'] || this.route.snapshot.data['esRevisionEstudiante']) {
+            this.obtenerDatosSolicituda(this.route.snapshot.data['esRevisionEstudiante']);
+        }
+    }
+
+    obtenerDatosSolicituda(esRevisionEstudiante?) {
+        this.route.params.subscribe((params) => {
+            if (params.id) {
+                this.obtenerInformacionReliquidacion(params.id);
+            }
+        });
+        this.route.queryParams.subscribe((params) => {
+            if (params.codSolicitud) {
+                this.obtenerSolicitud(params.codSolicitud);
+            }
+        });
+        if (!esRevisionEstudiante) {
             this.deshabilitar.esRevision = true;
+        } else if (esRevisionEstudiante) {
+            this.mostrar.resubir = true;
+            this.mostrar.verObservaciones = true;
+            this.esRevisionEstudiante = true;
         }
     }
 
@@ -93,6 +119,16 @@ export class InscripcionEstComponent implements OnInit {
         this.getInfoComplementariaSolicitudes();
         this.obtenerDataIngreso();
         this.getInfoEstudiante();
+    }
+
+    panelTieneErrores(panel) {
+        let valor = false;
+        for (const key of Object.keys(this.panelErrores[panel])) {
+            if (this.panelErrores[panel][key] === true) {
+                valor = true;
+            }
+        }
+        return valor;
     }
 
 
@@ -247,7 +283,7 @@ export class InscripcionEstComponent implements OnInit {
         observacion.Titulo = 'Observación sobre reliquidación';
         observacion.Valor = this.observacion.valor;
         this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
-            this.grabarSolicitudEstado(undefined,true);
+            this.grabarSolicitudEstado(undefined, true);
         })
     }
 
@@ -282,6 +318,23 @@ export class InscripcionEstComponent implements OnInit {
                 this.router.navigate([ruta]);
                 this.dialog.closeAll();
             });
+        });
+    }
+
+    descargarArchivos() {
+        this.pUpManager.showInfoAlert('Se esta descargando los archivos');
+        let archivos: any = [];
+        for (const archivo of Object.keys(this.formularioReliquidacion.documentosCargados)) {
+            let aux: any = this.formularioReliquidacion.documentosCargados[archivo];
+            aux.key = archivo;
+            archivos.push(aux);
+        }
+        this.nuxeoService.getDocumentoById$(archivos, this.documentoService).subscribe((res: Object) => {
+            if (Object.keys(res).length === archivos.length) {
+                for (const archivo of archivos) {
+                    window.open(res[archivo.key]);
+                }
+            }
         });
     }
 

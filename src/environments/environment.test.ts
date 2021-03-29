@@ -49,5 +49,5 @@ export const environment = {
     SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
     SIGN_OUT_REDIRECT_URL: 'https://pruebaspresupuesto.portaloas.udistrital.edu.co',
   },
-
+  INFO_USER: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/'
 };

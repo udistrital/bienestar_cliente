@@ -58,5 +58,5 @@ export const environment = {
         SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
         SIGN_OUT_REDIRECT_URL: 'http://localhost:4200/',
     },
-
+    INFO_USER: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/'
 };

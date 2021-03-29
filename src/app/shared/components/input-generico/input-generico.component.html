@@ -2,8 +2,8 @@
     <div class="col-md-4">{{etiqueta}}: {{requerido ? '*':''}}</div>
     <div class="col-md-8" [formGroup]="grupo">
         <input 
-            [(ngModel)]="modelo"
-            (ngModelChange)="modeloChange.emit(modelo)" 
+            [ngModel]="modelo"
+            (ngModelChange)="emitirModelo($event)" 
             *ngIf="tipo!=='caja'" 
             [status]="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid ? 'danger': ''" 
             nbInput fullWidth 
@@ -12,8 +12,8 @@
             [readOnly]="deshabilitado"
         >
         <textarea 
-            [(ngModel)]="modelo"
-            (ngModelChange)="modeloChange.emit(modelo)"
+            [ngModel]="modelo"
+            (ngModelChange)="emitirModelo($event)" 
             *ngIf="tipo==='caja'" [status]="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid ? 'danger': ''"
             nbInput 
             fullWidth 

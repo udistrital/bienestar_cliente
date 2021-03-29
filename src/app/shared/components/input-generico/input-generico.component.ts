@@ -18,6 +18,7 @@ export class InputGenericoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() deshabilitado = false;
   @Input() modelo: any;
   @Output() modeloChange = new EventEmitter<any>();
+  @Output() eventoErrorInput = new EventEmitter<any>();
   subscriptor: any = {};
 
   objetos = [];
@@ -26,28 +27,46 @@ export class InputGenericoComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  ngOnChanges(changes: any){
+  ngOnChanges(changes: any) {
     if (changes.grupo) {
-      this.grupo.addControl(this.nombreInput, new FormControl(''));
+      this.grupo.addControl(this.nombreInput, new FormControl(null));
+    }
+    if (changes.validar) {
+      this.inputTieneErrores();
+    }
+    if (changes.modelo && changes.modelo.currentValue) {
+      this.grupo.get(this.nombreInput).setValue(changes.modelo.currentValue);
     }
     this.setValidatorsInput(changes);
   }
 
   setValidatorsInput(changes: any) {
     const validators: any = [];
-    if(changes.patron){
+    if (changes.patron) {
       validators.push(Validators.pattern(this.patron));
     }
-    if(changes.requerido){
+    if (changes.requerido) {
       validators.push(Validators.required);
     }
     this.grupo.get(this.nombreInput).setValidators(validators);
   }
 
-  ngOnDestroy(){
-    Object.keys(this.subscriptor).forEach((key)=>{
+  emitirModelo(evento) {
+    this.modelo = evento !== '' ? evento : undefined;
+    this.modeloChange.emit(this.modelo);
+    this.inputTieneErrores();
+  }
+
+  inputTieneErrores() {
+    if (this.grupo.get(this.nombreInput).invalid && this.grupo.get(this.nombreInput).dirty || this.validar && this.grupo.get(this.nombreInput).invalid) {
+      this.eventoErrorInput.emit(true);
+    }
+  }
+
+  ngOnDestroy() {
+    Object.keys(this.subscriptor).forEach((key) => {
       this.subscriptor[key].unsubscribe();
     })
   }

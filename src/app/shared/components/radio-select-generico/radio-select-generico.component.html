@@ -8,7 +8,7 @@
             [formControlName]="nombreInput" 
             [required]="requerido"
             [(ngModel)]="modelo"
-            (ngModelChange)="modeloChange.emit(modelo)"
+            (ngModelChange)=" inputTieneErrores(); modeloChange.emit(modelo);"
             [disabled]="deshabilitado"
             >
             <nb-radio  *ngFor="let objeto of objetos"  [value]="objeto[campoCodigo]">{{objeto[campoValor] | titlecase }}</nb-radio>

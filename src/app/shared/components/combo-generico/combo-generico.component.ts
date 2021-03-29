@@ -24,6 +24,7 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() modelo: any;
   @Input() campoListado: any;
   @Output() modeloChange = new EventEmitter<any>();
+  @Output() eventoErrorInput = new EventEmitter<any>();
   subscriptor: any = {};
 
   objetos = [];
@@ -38,7 +39,7 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: any){
     if (changes.grupo) {
-      this.grupo.addControl(this.nombreInput, new FormControl(''));
+      this.grupo.addControl(this.nombreInput, new FormControl(null));
     }
     if (changes.servicio) {
       this.obtenerData();
@@ -51,6 +52,9 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (changes.modelo){
       this.setModelo();
+    }
+    if(changes.validar){
+      this.inputTieneErrores();
     }
   }
 
@@ -80,6 +84,7 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
     if(this.modelo!==''){
       this.modeloChange.emit(this.modelo);
     }
+    this.inputTieneErrores();
   }
 
   obtenerDatoAnidado(elemento){
@@ -91,6 +96,13 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
       return dato;
     }
     return '';
+  }
+
+  inputTieneErrores() {
+    this.grupo.get(this.nombreInput).updateValueAndValidity();
+    if(this.grupo.get(this.nombreInput).invalid && this.grupo.get(this.nombreInput).dirty || this.validar && this.grupo.get(this.nombreInput).invalid){
+      this.eventoErrorInput.emit(true);
+    }
   }
 
   ngOnDestroy(){

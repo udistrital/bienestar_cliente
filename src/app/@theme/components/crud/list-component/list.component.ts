@@ -43,6 +43,7 @@ export class ListEntityComponent implements OnInit, OnChanges {
   @Output() crudcambiotab = new EventEmitter<boolean>();
   @Output() externalTabActivator = new EventEmitter<string>();
   @Output() infooutput = new EventEmitter<any>();
+  @Output() totalElementosChange = new EventEmitter<any>();
   externalTabActive: boolean = true;
 
   uid: any;
@@ -51,6 +52,7 @@ export class ListEntityComponent implements OnInit, OnChanges {
 
   source: LocalDataSource = new LocalDataSource();
   cambiotab: boolean;
+  totalElementos: number = 0;
   constructor(
     private translate: TranslateService,
     private popUpManager: PopUpManager,
@@ -79,8 +81,10 @@ export class ListEntityComponent implements OnInit, OnChanges {
     }
     if (changes.reloadTable && changes.reloadTable.currentValue){
       this.loadData();
-      this.reloadTable = false;
-      this.reloadTableChange.emit(this.reloadTable);
+      setTimeout(()=>{
+        this.reloadTable = false;
+        this.reloadTableChange.emit(this.reloadTable);
+      },100);
     }
 
   }
@@ -136,6 +140,11 @@ export class ListEntityComponent implements OnInit, OnChanges {
     this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '', params).subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
+        this.totalElementos = data.length;
+        if(this.totalElementos === 1 && Object.keys(data[0]).length === 0){
+          this.totalElementos = 0;
+        }
+        this.totalElementosChange.emit(this.totalElementos);
         this.source.load(data);
       } else {
         this.source.load([]);
@@ -168,18 +177,17 @@ export class ListEntityComponent implements OnInit, OnChanges {
     this.activetab(event.action);
   }
   onCustom(event): void {
-    switch (event.action) {
-      case 'edit':
-        console.info(event);
+    switch (true) {
+      case event.action === 'edit':
         this.onEdit(event);
         break;
-      case 'delete':
+      case event.action === 'delete':
         this.onDelete(event);
         break;
-      case 'other':
+      case event.action === 'other':
         this.onAddOther(event);
         break;
-      case 'custom':
+      case event.action && event.action.endsWith('Custom'):
         this.executeCustomAction(event);
         break;
       default:

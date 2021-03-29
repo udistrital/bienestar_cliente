@@ -16,7 +16,11 @@
             <nb-accordion>
                 
                 <nb-accordion-item expanded>
-                    <nb-accordion-item-header>Información básica</nb-accordion-item-header>
+                    <nb-accordion-item-header 
+                        [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('basica')}"
+                    >
+                        Información básica
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <p>En el siguiente apartado, se deben llenar los datos relacionados con el lugar de residencia.</p>
 
@@ -27,6 +31,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.localidad"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].localidad = $event"
                                     >
                                 </ngx-combo-generico>
                             </div>
@@ -38,6 +43,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.municipio"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].municipio = $event"
                                     >
                                 </ngx-combo-generico>
                             </div>
@@ -59,6 +65,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.direccion"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].direccion = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -72,6 +79,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.barrio"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].barrio = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -85,6 +93,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.email"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].email = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -98,6 +107,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.telefono"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].telefono = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -108,6 +118,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar" 
                                     [(modelo)]="formularioReliquidacion.sisben"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['basica'].sisben = $event"
                                     >
 
                                 </ngx-radio-select-generico>
@@ -116,7 +127,10 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Información socioeconómica</nb-accordion-item-header>
+                    <nb-accordion-item-header 
+                        [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('socioeconomica')}"
+                        >Información socioeconómica
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil"
@@ -125,6 +139,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar" 
                                     [(modelo)]="formularioReliquidacion.estadocivil"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['socioeconomica'].estadocivil = $event"
                                     >
                                 </ngx-combo-generico>
                             </div>
@@ -136,6 +151,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.estrato"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['socioeconomica'].estrato = $event"
                                 >
                                 </ngx-combo-generico>
                             </div>
@@ -147,6 +163,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.dependenciaEconomica"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['socioeconomica'].dependenciaEconomica = $event"
                                     >
 
                                 </ngx-radio-select-generico>
@@ -162,6 +179,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.ing_mesual"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['socioeconomica'].ing_mesual = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -175,6 +193,7 @@
                                     [requerido]="true"
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.descDiscapacidad"
+                                    (eventoErrorInput)="panelErrores['socioeconomica'].descDiscapacidad = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -191,6 +210,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -198,7 +219,10 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Información escolar</nb-accordion-item-header>
+                    <nb-accordion-item-header 
+                        [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('escolar')}"
+                        >Información escolar
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <ngx-radio-select-generico class="col-12" etiqueta="Tipo de colegio"
@@ -208,6 +232,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.tipoColegio"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['escolar'].tipoColegio = $event"
                                     >
 
                                 </ngx-radio-select-generico>
@@ -223,6 +248,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.pension"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['escolar'].pension = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -252,6 +278,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['escolar'].archivoPension = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -259,7 +287,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Información residencial</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('residencia')}">Información residencial</nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="flex-container">
                                 <span>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</span>
@@ -273,6 +301,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.lugarResidencia"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['residencia'].lugarResidencia = $event"
                                     >
 
                                 </ngx-radio-select-generico>
@@ -285,6 +314,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.convive"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['residencia'].convive = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -297,6 +327,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.lugarResidenciaFamilia"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['residencia'].lugarResidenciaFamilia = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -314,6 +345,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['residencia'].archivoArriendo = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -331,6 +364,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['residencia'].archivoHipoteca = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -338,7 +373,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Situaciones de caso fortuito</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('fortuita')}">Situaciones de caso fortuito</nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <ngx-radio-select-generico class="col-12"
@@ -349,6 +384,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.responsableMatDesempleado"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['fortuita'].responsableMatDesempleado = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -361,6 +397,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.desplazadoPolitico"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['fortuita'].desplazadoPolitico = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -373,6 +410,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.resFallecio"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['fortuita'].resFallecio = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -386,6 +424,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.resCabezaHogar"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['fortuita'].resCabezaHogar = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -399,6 +438,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.detCambioEstrato"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['fortuita'].detCambioEstrato = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -406,7 +446,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Formulario Reliquidacion</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('reliquidacion')}">Formulario Reliquidacion</nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <span>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
@@ -425,6 +465,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['reliquidacion'].archivoFormReliquidacion = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -451,6 +493,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['reliquidacion'].archivoCartaBienestar = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -481,6 +525,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['reliquidacion'].archivoLugarResidencia = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -507,13 +553,15 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['reliquidacion'].archivoServicioPublico = $event"
                                 ></ngx-archivos-generico>
                             </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Certificado de ingresos</nb-accordion-item-header>
+                    <nb-accordion-item-header  [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('ingresos')}">Certificado de ingresos</nb-accordion-item-header>
                     <nb-accordion-item-body>
 
                             <div class="row item-list">
@@ -573,6 +621,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['ingresos'].archivoIngresos = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -580,7 +630,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Personas a cargo</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('cargo')}">Personas a cargo</nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <ngx-radio-select-generico class="col-12" etiqueta="¿Posee personas a Cargo?"
@@ -590,6 +640,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.detPersonasCargo"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['cargo'].detPersonasCargo = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -597,7 +648,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Registro civil</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('hijos')}">Registro civil</nb-accordion-item-header>
                     <nb-accordion-item-body>
 
                             <div class="row item-list">
@@ -610,6 +661,7 @@
                                     [(modelo)]="formularioReliquidacion.numero_hijos"
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    (eventoErrorInput)="panelErrores['hijos'].detPersonasCargo = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -623,6 +675,7 @@
                                     [(modelo)]="formularioReliquidacion.edad_hijos"
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    (eventoErrorInput)="panelErrores['hijos'].edad_hijos = $event"
                                 ></ngx-input-generico>
                             </div>
 
@@ -639,6 +692,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['hijos'].archivoRegistroCivil = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -646,7 +701,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Desplazado</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('desplazado')}">Desplazado</nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <ngx-radio-select-generico class="col-12"
@@ -656,6 +711,7 @@
                                     campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.detDesplazado"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['desplazado'].detDesplazado = $event"
                                     >
                                 </ngx-radio-select-generico>
                             </div>
@@ -673,6 +729,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['desplazado'].archivoDesplazado = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -680,7 +738,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Recibo de pago</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('reciboPago')}">Recibo de pago</nb-accordion-item-header>
                     <nb-accordion-item-body>
                             <div class="row item-list">
                                 <ngx-input-generico
@@ -692,6 +750,7 @@
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.valor_matricula"
                                     [deshabilitado]="deshabilitar.esRevision"
+                                    (eventoErrorInput)="panelErrores['reciboPago'].valor_matricula = $event"
                                 ></ngx-input-generico>
                             </div>
                             <div class="row item-list">
@@ -709,6 +768,8 @@
                                     [documentosCargados]="formularioReliquidacion.documentosCargados"
                                     [deshabilitarUpload]="deshabilitar.esRevision"
                                     (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['reciboPago'].archivoValorMatricula = $event"
                                     >
                                 </ngx-archivos-generico>
                             </div>
@@ -716,7 +777,7 @@
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header>Otros Documentos</nb-accordion-item-header>
+                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('otrosDoc')}">Otros Documentos</nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <div class="row item-list">
                             <span>Papeles que soporten la situación que describe en la carta dependiendo el caso
@@ -741,6 +802,8 @@
                                 [documentosCargados]="formularioReliquidacion.documentosCargados"
                                 [deshabilitarUpload]="deshabilitar.esRevision"
                                 (descargarArchivo)="visualizarArchivo($event)"
+                                [mostrarResubir]="mostrar.resubir"
+                                (eventoErrorInput)="panelErrores['otrosDoc'].archivoOtrosDoc = $event"
                                 >
                             </ngx-archivos-generico>
                         </div>
@@ -773,7 +836,8 @@
                 </div>
                 
                 <div class="d-flex flex-row-reverse">
-                    <button nbButton status="primary" type="submit" (click)="llamardialogo()">Enviar documentación</button>
+                    <button nbButton status="primary" type="submit" class="mx-2" (click)="llamardialogo()">Enviar documentación</button>
+                    <button nbButton status="success" type="button" class="mx-2" *ngIf="esRevisionEstudiante" (click)="(true)">Ver observaciones</button>
                 </div>
 
             </section>
@@ -781,7 +845,8 @@
             <section *ngIf="rolesActivos[ROLES_CONSTANTS.ROLES_SISTEMA.ADMIN_NECESITADES]">
 
                 <div class="d-flex flex-row-reverse">
-                    <button nbButton status="primary" type="button" (click)="aniadirObservacion()">Procesar solicitud</button>
+                    <button nbButton status="primary" class="my-2" type="button" (click)="aniadirObservacion()">Procesar solicitud</button>
+                    <button nbButton status="success" class="my-2" type="button" (click)="descargarArchivos()">Descargar archivos adjuntos</button>
                 </div>
 
             </section>

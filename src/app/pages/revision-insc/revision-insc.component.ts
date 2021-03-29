@@ -5,8 +5,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Util } from 'leaflet';
 import { Observable } from 'rxjs/Observable';
 import { ReliquidacionHelper } from '../../@core/helpers/reliquidacion/reliquidacionHelper';
+import { PopUpManager } from '../../@core/managers/popUpManager';
 import { ImplicitAutenticationService } from '../../@core/utils/implicit_autentication.service';
 import { ApiConstanst } from '../../shared/constants/api.constans';
+import { RolesConstanst } from '../../shared/constants/roles.constants';
 import { UtilsService } from '../../shared/services/utils.service';
 
 
@@ -45,8 +47,10 @@ export class RevisionInscComponent implements OnInit {
   estudiante: any;
   page = 0;
   limit = 10;
-  offset= 0;
+  offset = 0;
   recargarTabla: boolean = false;
+  registrosPorPagina = 10;
+  elementosEncontrados = 0;
 
   constructor(
     private translate: TranslateService,
@@ -55,6 +59,7 @@ export class RevisionInscComponent implements OnInit {
     private route: Router,
     private router: ActivatedRoute,
     private autenticacion: ImplicitAutenticationService,
+    private pUpManager: PopUpManager,
   ) { }
 
   ngOnInit() {
@@ -78,76 +83,147 @@ export class RevisionInscComponent implements OnInit {
       Fecha: {
         title: 'Fecha de radicación',
         valuePrepareFunction: (cell, dato) => {
-          return this.datePipe.transform(UtilsService.parseDate(dato.SolicitudId.FechaRadicacion), 'yyyy-MM-dd');
+          try{
+            return this.datePipe.transform(UtilsService.parseDate(dato.SolicitudId.FechaRadicacion), 'yyyy-MM-dd');
+          }catch(error){
+            console.log(error);
+          }
+          return '';
         },
       },
       Estado: {
         title: 'Estado',
-        // type: 'string;',
+        type: 'html',
         valuePrepareFunction: (cell, dato) => {
-          return dato.EstadoTipoSolicitudId.EstadoId.Nombre;
+          try{
+            let data = '';
+            switch (dato.EstadoTipoSolicitudId.EstadoId.Id) {
+              case ApiConstanst.ESTADO_SOLICITUD.RECHAZADO:
+                data = `<span class="badge badge-danger">${dato.EstadoTipoSolicitudId.EstadoId.Nombre}</span>`;
+                break;
+              case ApiConstanst.ESTADO_SOLICITUD.REQUIERE_MOD:
+                data = `<span class="badge badge-warning">${dato.EstadoTipoSolicitudId.EstadoId.Nombre}</span>`;
+                break;
+              case ApiConstanst.ESTADO_SOLICITUD.ACEPTADA:
+                data = `<span class="badge badge-success">${dato.EstadoTipoSolicitudId.EstadoId.Nombre}</span>`;
+                break;
+              default:
+                data = `<span class="badge badge-info">${dato.EstadoTipoSolicitudId.EstadoId.Nombre}</span>`;
+                break;
+            }
+            return data;
+          }catch(error){
+            console.log(error);
+          }
+          return '';
         },
       },
       Estudiante: {
         title: 'Estudiante',
         // type: 'string;',
         valuePrepareFunction: (cell, dato) => {
-          const dato2 = JSON.parse(dato.SolicitudId.Referencia);
+          try{
+            const dato2 = JSON.parse(dato.SolicitudId.Referencia);
           if (dato2.TerceroId) {
             return dato2.TerceroId.NombreCompleto;
           }
           return 'No se encontro estudiante';
+          }catch(error){
+            console.log(error);
+          }
+          return '';
         },
       },
     };
 
-    this.settings = {
-      actions: {
-        add: false,
-        edit: false,
-        delete: false,
-        custom: [
-          { 
-            name: 'custom', 
-            title: '<i class="nb-search" title="Revisar reliquidación"></i>', 
-            customFunction: (evento) => this.showReliquidacion(evento) 
-          },
-          { 
-            name: 'custom', 
-            title: '<i class="nb-compose" title="Ver documentos adjuntos reliquidación"></i>', 
-            customFunction: (evento) => this.showDocumentsReliquidacion(evento) 
-          },
-          { 
-            name: 'custom', 
-            title: '<i class="nb-arrow-retweet" title="Cambiar estado reliquidación"></i>', 
-            customFunction: (evento) => this.updateReliquidacion(evento) 
-          }
-        ],
-        position: 'right'
-      },
-      mode: 'external',
-      columns: this.listColumns,
-    };
-
     this.obtenerRolesYDatos();
+
   }
 
   obtenerRolesYDatos() {
     if (this.router.snapshot.data['roles']) {
-            for (const rol of this.router.snapshot.data['roles']) {
-                this.rolesActivos[rol] = true;
+      for (const rol of this.router.snapshot.data['roles']) {
+        this.rolesActivos[rol] = true;
+      }
+      this.determinarAccionesBotones();
+    }
+    if (this.router.snapshot.data['esRevisionEstudiante']) {
+      this.esRevisionEstudiante = true;
+      this.obtenerDatosEstudiante();
+    }
+  }
+
+  determinarAccionesBotones() {
+    if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]) {
+      this.settings = {
+        actions: {
+          add: false,
+          edit: false,
+          delete: false,
+          custom: [
+            {
+              name: 'revisarLiquidacionCustom',
+              title: '<i class="nb-search" title="Revisar reliquidación"></i>',
+              customFunction: (evento) => this.showReliquidacion(evento)
+            },
+            {
+              name: 'verComentariosCustom',
+              title: '<i class="nb-compose" title="Ver comentarios"></i>',
+              customFunction: (evento) => this.updateReliquidacion(evento)
             }
-        }
-        if (this.router.snapshot.data['esRevisionEstudiante']) {
-            this.esRevisionEstudiante = true;
-            this.obtenerDatosEstudiante();
-        }
+          ],
+          position: 'right'
+        },
+        mode: 'external',
+        columns: this.listColumns,
+      };
+
+    }
+    else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]) {
+      this.settings = {
+        actions: {
+          add: false,
+          edit: false,
+          delete: false,
+          custom: [
+            {
+              name: 'revisarReliquidacionCustom',
+              title: '<i class="nb-search" title="Revisar reliquidación"></i>',
+              customFunction: (evento) => this.showReliquidacion(evento)
+            },
+            {
+              name: 'verDocAdjuntosCustom',
+              title: '<i class="nb-compose" title="Ver documentos adjuntos reliquidación"></i>',
+              customFunction: (evento) => this.showDocumentsReliquidacion(evento)
+            },
+            {
+              name: 'estadoCustom',
+              title: '<i class="nb-arrow-retweet" title="Cambiar estado reliquidación"></i>',
+              customFunction: (evento) => this.updateReliquidacion(evento)
+            }
+          ],
+          position: 'right'
+        },
+        mode: 'external',
+        columns: this.listColumns,
+      };
+    }
   }
 
   showReliquidacion(evento?: any) {
-    if(evento){
+    if (evento) {
       const data = JSON.parse(evento.SolicitudId.Referencia);
-      this.route.navigate([`pages/revision/${data.Id}`], { queryParams: {codSolicitud: evento.SolicitudId.Id}});
+      if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]) {
+        this.route.navigate([`pages/revision/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
+      } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.RADICADA) {
+        this.pUpManager.showInfoToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RADICADA. Se notificara cuando la solicitud cambie de estado.');
+      }
+      else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id !== ApiConstanst.ESTADO_SOLICITUD.RECHAZADO) {
+        this.route.navigate([`pages/revision-estudiante/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
+      }
+      else {
+        this.pUpManager.showErrorToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RECHAZADO. Puedes revisar las observaciones');
+      }
     }
   }
 
@@ -163,26 +239,32 @@ export class RevisionInscComponent implements OnInit {
 
   }
 
-  obtenerDatosEstudiante(){
+  recargarTablaPage(pagina) {
+    this.limit = this.registrosPorPagina * (pagina+1);
+    this.offset = this.limit - this.registrosPorPagina;
+    this.recargarTabla = true;
+  }
+
+
+  obtenerDatosEstudiante() {
     this.reliquidacionHelper.getEstudiante(this.autenticacion.getPayload().sub).subscribe((res) => {
       this.estudiante = res[0].TerceroId;
       this.estudiante.documento = this.autenticacion.getPayload().documento;
       this.estudiante.documento_compuesto = this.autenticacion.getPayload().documento_compuesto;
-  });
+      this.recargarTabla = true;
+    });
   }
 
   obtenerRegistros(evento): any {
     this.params.query = `EstadoTipoSolicitudId.TipoSolicitud.Id:${ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION}`;
-    if(this.estudiante){
-      //this.params.query = `${this.params.query}&TerceroId9759`
+    if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && this.estudiante) {
+      const query = `,TerceroId:${this.estudiante.Id}`;
+      this.params.query = `${this.params.query}${query}`
     }
-    if(evento){
-      console.log(evento);
-      this.params.offset = this.offset;
-      this.params.limit = this.limit;
-    }
-    this.params.order='desc';
-    this.params.sortby='Id';
+    this.params.offset = this.offset;
+    this.params.limit = this.limit;
+    this.params.order = 'desc';
+    this.params.sortby = 'Id';
     return this.reliquidacionHelper.getSolicitudes(this.params);
   }
 }

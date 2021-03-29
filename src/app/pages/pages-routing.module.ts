@@ -14,6 +14,11 @@ const routes: Routes = [{
     component: PagesComponent,
     children: [
         {
+            path: '',
+            redirectTo: 'revision-estudiante',
+            pathMatch: 'full',
+        },
+        {
             path: 'inscripcion',
             component: InscripcionEstComponent,
             canActivate: [AuthGuard],
@@ -55,11 +60,6 @@ const routes: Routes = [{
                 roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES],
                 esRevision: true,
             }
-        },
-        {
-            path: '',
-            redirectTo: 'revision-estudiante',
-            pathMatch: 'full',
         },
         {
             path: '**',

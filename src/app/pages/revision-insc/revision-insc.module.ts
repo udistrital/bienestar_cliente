@@ -15,6 +15,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { RevisionInscComponent } from './revision-insc.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CustomPaginatorModule } from '../../shared/components/custom-paginator/custom-paginator.module';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
         NbRadioModule,
         NbLayoutModule,
         NbAccordionModule,
+        CustomPaginatorModule,
     ],
   declarations: [
     RevisionInscComponent,

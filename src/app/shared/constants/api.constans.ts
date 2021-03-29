@@ -24,6 +24,13 @@ export class ApiConstanst{
         INFO_COMPLEMENTARIA_SOLICITUD_RELIQUIDACION: '205',
     }
 
+    public static ESTADO_SOLICITUD = {
+        RECHAZADO: 18,
+        REQUIERE_MOD: 2,
+        ACEPTADA: 20,
+        RADICADA: 1,
+    }
+
     public static SOLICITUDES = {
         ESTADO_SOLICITUD_RELIQUIDACION : '22',
         TIPO_SOLICITUD_RELIQUDIACION: '8',

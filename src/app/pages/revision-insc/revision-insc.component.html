@@ -22,8 +22,10 @@
         [createEntityFunction]="createEntityFunction"
         [listSettings]="this.settings"
         [(reloadTable)]="recargarTabla"
+        (totalElementosChange)="elementosEncontrados = $event"
         >
       </ngx-list-entity>
       </nb-card-body>
     </nb-card>
+    <ngx-custom-paginator [(page)]="page" (pageChange)="recargarTablaPage($event)" [totalElementos]="elementosEncontrados"></ngx-custom-paginator>
   </div>

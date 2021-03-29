@@ -24,9 +24,11 @@ export class ArchivosGenericoComponent implements OnInit, OnChanges {
   @Input() documentos: any = [];
   @Input() documentosCargados: any;
   @Input() deshabilitarUpload = false;
+  @Input() mostrarResubir = false;
   @Output() modeloChange = new EventEmitter<any>();
   @Output() documentosChange = new EventEmitter<any>();
   @Output() descargarArchivo = new EventEmitter<any>();
+  @Output() eventoErrorInput = new EventEmitter<any>();
 
   mostrar: any = {};
 
@@ -42,21 +44,33 @@ export class ArchivosGenericoComponent implements OnInit, OnChanges {
     if (changes.requerido) {
       this.grupo.get(this.nombreInput).setValidators([Validators.required]);
     }
-    if (changes.documentosCargados) {
-      this.mostrarDescargar();
+    if(changes.validar){
+      this.inputTieneErrores();
     }
+    this.mostrarDescargar();
   }
 
   mostrarDescargar() {
+    this.mostrar = 'subir';
     if (this.documentosCargados && this.documentosCargados[this.nombreInput]) {
-      this.mostrar.descargar = true;
+      this.mostrar = 'descargar';
+    }
+    if(this.mostrarResubir && this.documentosCargados[this.nombreInput]){
+      this.mostrar = 'resubir';
     }
   }
 
 
-  onFileSelectedDownload(){
+  onFileSelectedDownload() {
     this.documentosCargados[this.nombreInput].key = this.nombreInput;
     this.descargarArchivo.emit(this.documentosCargados[this.nombreInput]);
+  }
+
+  inputTieneErrores() {
+    this.grupo.get(this.nombreInput).updateValueAndValidity();
+    if(this.grupo.get(this.nombreInput).invalid && this.grupo.get(this.nombreInput).dirty || (this.validar && this.grupo.get(this.nombreInput).invalid && this.documentosCargados[this.nombreInput]===null)){
+      this.eventoErrorInput.emit(true);
+    }
   }
 
   onFileSelected(event) {
@@ -69,6 +83,7 @@ export class ArchivosGenericoComponent implements OnInit, OnChanges {
     if (!this.documentos) {
       this.documentos = [];
     }
+    this.inputTieneErrores();
     this.documentos.push(fileTemporal);
     this.documentosChange.emit(this.documentos);
   }

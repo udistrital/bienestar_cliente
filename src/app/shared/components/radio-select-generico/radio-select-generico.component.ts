@@ -20,6 +20,7 @@ export class RadioSelectGenericoComponent implements OnInit, OnDestroy, OnChange
   @Input() modelo: any;
   @Input() deshabilitado = false;
   @Output() modeloChange = new EventEmitter<any>();
+  @Output() eventoErrorInput = new EventEmitter<any>();
 
   subscriptor: any = {};
 
@@ -42,6 +43,9 @@ export class RadioSelectGenericoComponent implements OnInit, OnDestroy, OnChange
     if (changes.parametros) {
       this.obtenerData();
     }
+    if(changes.validar){
+      this.inputTieneErrores();
+    }
     this.setValidatorsInput(changes);
   }
 
@@ -63,6 +67,13 @@ export class RadioSelectGenericoComponent implements OnInit, OnDestroy, OnChange
       (error)=>{
   
       });
+    }
+  }
+
+  inputTieneErrores() {
+    this.grupo.get(this.nombreInput).updateValueAndValidity();
+    if(this.grupo.get(this.nombreInput).invalid && this.grupo.get(this.nombreInput).dirty || this.validar && this.grupo.get(this.nombreInput).invalid){
+      this.eventoErrorInput.emit(true);
     }
   }
 
