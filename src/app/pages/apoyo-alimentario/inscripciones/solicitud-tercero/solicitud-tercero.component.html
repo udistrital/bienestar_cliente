@@ -134,7 +134,7 @@
                     <h1>
                         Solicitud apoyo alimentario {{ periodo?.Nombre }}
                     </h1>
-                     <small>Si deseas modificar la informacion de un campo no editable debes hacerlo desde el Sistema de Gestión Académica</small>
+                    <small>Si deseas modificar la informacion de un campo no editable debes hacerlo desde el Sistema de Gestión Académica</small>
                 </div>
             </div>
         </nb-card-header>
@@ -149,67 +149,67 @@
                     <nb-accordion-item-body>
                         <form [formGroup]="registro">
                             <div class="row item-list">
-                                <div class="col-md-4">Nombres y apellidos:</div>
+                                <div class="col-md-4">Nombres y apellidos: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="nombres">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Codigo:</div>
+                                <div class="col-md-4">Codigo: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="codigo">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Documento:</div>
+                                <div class="col-md-4">Documento: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="documento">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Tipo documento:</div>
+                                <div class="col-md-4">Tipo documento: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="tipoDocumento">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Proyecto:</div>
+                                <div class="col-md-4">Proyecto: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="proyecto">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Facultad:</div>
+                                <div class="col-md-4">Facultad: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="facultad">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Fecha de Nacimiento:</div>
+                                <div class="col-md-4">Fecha de Nacimiento: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="fechaNacimiento">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Correo Institucional:</div>
+                                <div class="col-md-4">Correo Institucional: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="email_institucional">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Correo Personal:</div>
+                                <div class="col-md-4">Correo Personal: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="email">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Genero:</div>
+                                <div class="col-md-4">Genero: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="genero">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Celular:</div>
+                                <div class="col-md-4">Celular: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="celular">
                                 </div>
@@ -245,55 +245,49 @@
                         </p>
                         <form [formGroup]="residencia">
                             <div class="row item-list">
-                                <div class="col-md-4">Localidad:</div>
+                                <div class="col-md-4">Localidad: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="localidad">
                                 </div>
                             </div>
                             <div class="row item-list">
-                                <div class="col-md-4">Municipio:</div>
+                                <div class="col-md-4">Municipio: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="municipio">
                                 </div>
                             </div>
 
                             <div class="row item-list" *ngIf="residencia.get('municipio')?.value === 'Otros'">
-                                <div class="col-md-4">¿Cuál?:</div>
+                                <div class="col-md-4">¿Cuál?: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput placeholder="Otro municipio">
                                 </div>
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Dirección:</div>
+                                <div class="col-md-4">Dirección: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="direccion">
                                 </div>
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Barrio:</div>
+                                <div class="col-md-4">Barrio: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="barrio">
                                 </div>
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Teléfono:</div>
+                                <div class="col-md-4">Teléfono: </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="telefono">
                                 </div>
                             </div>
-
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿Tiene sisben?" nombreInput="sisben" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.POSEE_SISBEN" campoCodigo="Id" campoValor="Nombre"
-                                    [grupo]="residencia">
-
-                                </ngx-radio-select-generico>
-                            </div>
                         </form>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
+
                 <!-- Informacion Socioeconomica -->
                 <nb-accordion-item>
                     <nb-accordion-item-header>
@@ -302,19 +296,42 @@
                     <nb-accordion-item-body>
                         <form [formGroup]="socioeconomica">
                             <div class="row item-list">
-                                <div class="col-md-4">Estado civil:</div>
+                                <div class="col-md-4">Estado civil: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="estadocivil">
                                 </div>
                             </div>
+
                             <div class="row item-list">
-                                <div class="col-md-4">Estrato:</div>
+                                <div class="col-md-4">Estrato: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="estrato">
                                 </div>
                             </div>
+
                             <div class="row item-list">
-                                <div class="col-md-4">Dependencia economica:</div>
+                                <div class="col-md-4">Valor matricula: </div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="valorMatricula">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Valor de ingresos mensuales: </div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="ingresosMensuales">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Sostiene el lugar en que vive: </div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="cabezaFamilar">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Dependencia economica: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="dependenciaEconomica">
                                 </div>
@@ -338,24 +355,39 @@
                             </div> -->
 
                             <div class="row item-list">
-                                <div class="col-md-4">Ingresos mensuales:</div>
+                                <div class="col-md-4">Lugar de vivienda: </div>
                                 <div class="col-md-8">
-                                    <input fullWidth nbInput formControlName="ingresosMensuales">
+                                    <input fullWidth nbInput formControlName="tipoVivienda">
                                 </div>
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Discapacidad</div>
+                                <div class="col-md-4">Carta o contrato de arrendamiento: </div>
                                 <div class="col-md-8">
-                                    <textarea nbInput fullWidth placeholder="Discapacidad" formControlName="descDis"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row item-list">
-                                <div class="col-12">
                                     <input nbInput type="file">
                                 </div>
                             </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Zona de Vulnerabilidad: </div>
+                                <div class="col-md-8">
+                                    <nb-radio-group>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="true">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="false" [disabled]=true>
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="true">
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="false" [disabled]=true>
+                                            No
+                                        </nb-radio>
+                                    </nb-radio-group>
+                                </div>
+                            </div>
+
                         </form>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
@@ -363,13 +395,13 @@
                 <!-- Personas a cargo -->
                 <nb-accordion-item>
                     <nb-accordion-item-header>
-                        <h4 class="non-selectable">Información de Personas a cargo</h4>
+                        <h4 class="non-selectable">Información de personas a cargo</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <form [formGroup]="personasacargo">
                             <div class="row item-list">
                                 <div class="col-md-4">
-                                    <label>¿Tiene personas a cargo?
+                                    <label>¿Tiene personas a cargo?: 
                                         <span class="required-asterisk">*</span>
                                     </label>
                                 </div>
@@ -384,16 +416,27 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Hijos</div>
+                                <div class="col-md-4">Hijos: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="hijos">
                                 </div>
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Número de Hijos</div>
+                                <div class="col-md-4">Número de Hijos: </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="numeroHijos">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Registro Civil Hijos:
+                                    <br>
+                                    <small *ngIf="this.estudiante.InfoPersonasACargo.NumeroHijos>1" class="small-color-ud">En el mismo archivo debe ir el registro civil de cada uno de sus hijos</small>
+                                </div>
+                                <div class="col-md-8">
+                                    <input nbInput type="file">
                                 </div>
                             </div>
 
@@ -413,12 +456,179 @@
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
+                <!-- Informacion Sisben -->
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        <h4 class="non-selectable">Información sisben</h4>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <form [formGroup]="sisben">
+                            <div class="row item-list">
+                                <div class="col-md-4">¿Tiene sisben?: </div>
+                                <div class="col-md-8">
+                                    <nb-radio-group>
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="false" [disabled]=true>
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true">
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="false" [disabled]=true>
+                                            No
+                                        </nb-radio>
+                                    </nb-radio-group>
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4"> Puntaje Sisben: </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="puntaje_Sisben">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4"> Grupo de Sisben: </div>
+                                <div class="col-md-8">
+                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" #required>
+                                        <nb-option value=""></nb-option>
+                                        <nb-option value="A">Grupo A</nb-option>
+                                        <nb-option value="B">Grupo B</nb-option>
+                                        <nb-option value="C">Grupo C</nb-option>
+                                        <nb-option value="D">Grupo D</nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Soporte Sisben: </div>
+                                <div class="col-md-8">
+                                    <input nbInput type="file">
+                                </div>
+                            </div>
+
+                        </form>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+
+                <!-- Informacion Necesidades Básicas -->
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        <h4 class="non-selectable">Información necesidades básicas</h4>
+                    </nb-accordion-item-header>
+
+                    <nb-accordion-item-body>
+                        <form [formGroup]="necesidades">
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Calidad de la Vivienda:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="calidadVivienda">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Número de cuartos para dormir:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="cuartosDormir">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Número de personas en el hogar:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="personasHogar">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Servicios Públicos:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="luz">
+                                        <label class="form-check-label">
+                                            Luz
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="gas">
+                                        <label class="form-check-label">
+                                            Gas Domiciliario
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="telefono">
+                                        <label class="form-check-label">
+                                            Teléfono
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="tv">
+                                        <label class="form-check-label">
+                                            Televisión por cable
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="todos">
+                                        <label class="form-check-label">
+                                            Todos los servicios
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Agua para consumo proviene de:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" #required>
+                                        <nb-option value=""></nb-option>
+                                        <nb-option value="acueducto">Acueducto</nb-option>
+                                        <nb-option value="lluvias">Aguas Lluvias</nb-option>
+                                        <nb-option value="poso">Poso o aljibe </nb-option>
+                                        <nb-option value="carro-tanques">Suministro de carro tanques </nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Eliminación de aguas negras:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <nb-radio-group>
+                                        <nb-radio> Alcantarillado </nb-radio>
+                                        <nb-radio> Poso séptico </nb-radio>
+                                    </nb-radio-group>
+                                </div>
+                            </div>
+                        </form>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+
                 <nb-accordion-item>
                     <nb-accordion-item-header>
                         <h4 class="non-selectable">Información acceso escolar a la educación</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                        <form [formGroup]="colegio">
+                        <form [formGroup]="menores">
                             <div class="row item-list">
                                 <ngx-radio-select-generico class="col-12" etiqueta="Tipo de colegio" nombreInput="tipoColegio" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_COLEGIO" campoCodigo="Id"
                                     campoValor="Nombre" [grupo]="socioeconomica">
@@ -453,48 +663,6 @@
 
                             <div class="d-flex justify-content-end">
                                 <button nbButton>Continuar</button>
-                            </div>
-                        </form>
-                    </nb-accordion-item-body>
-                </nb-accordion-item>
-
-                <nb-accordion-item>
-                    <nb-accordion-item-header>
-                        <h4 class="non-selectable">Información necesidades básicas</h4>
-                    </nb-accordion-item-header>
-                    <nb-accordion-item-body>
-                        <form [formGroup]="vivienda">
-                            <div class="flex-container">
-                                <label>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</label>
-                            </div>
-
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="Lugar de residencia del estudiante" nombreInput="lugarResidencia" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_VIVIENDA"
-                                    campoCodigo="Id" campoValor="Nombre" [grupo]="vivienda">
-
-                                </ngx-radio-select-generico>
-                            </div>
-
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿Con quién vive?" nombreInput="convive" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.CONVIVe_CON" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="vivienda">
-                                </ngx-radio-select-generico>
-                            </div>
-
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="Lugar de residencia de la Familia" nombreInput="lugarResidenciaFamilia" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LUGAR_RES_FAM"
-                                    campoCodigo="Id" campoValor="Nombre" [grupo]="vivienda">
-                                </ngx-radio-select-generico>
-                            </div>
-
-                            <div class="flex-container">
-                                <label>Adjuntar el soporte arriendo</label>
-                                <input nbInput type="file">
-                            </div>
-
-                            <div class="flex-container">
-                                <label>Adjuntar el soporte de hipoteca</label>
-                                <input nbInput type="file">
                             </div>
                         </form>
                     </nb-accordion-item-body>

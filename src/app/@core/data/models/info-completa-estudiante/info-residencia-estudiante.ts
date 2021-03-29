@@ -7,6 +7,7 @@ export class InfoResidenciaEstudiante {
     Telefono: string;
     Sisben: boolean;
     Puntaje_Sisben: string;
+    Grupo_Sisben: string;
     constructor() {
         this.Localidad= "LOCALIDAD PRUEBA";
         this.Municipio= "MUNICIPIO PRUEBA";
@@ -14,5 +15,7 @@ export class InfoResidenciaEstudiante {
         this.Telefono= "TELEFONO PB";
         this.Barrio="BARRIO PRUEBA";
         this.Sisben= false;
+        this.Puntaje_Sisben= "";
+        this.Grupo_Sisben= "";
     }
 }

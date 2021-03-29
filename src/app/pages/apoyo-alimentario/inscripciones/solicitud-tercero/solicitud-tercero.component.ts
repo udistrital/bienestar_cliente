@@ -45,9 +45,9 @@ export class SolicitudTerceroComponent implements OnInit {
   municipios: Array<string> = ['Bogota', 'Sumapaz', 'Otros'];
   estadocivil: Array<string> = ['Soltero', 'Casado', 'Separado'];
 
-
   registro: FormGroup;
   residencia: FormGroup;
+  sisben: FormGroup;
   socioeconomica: FormGroup;
   necesidades: FormGroup;
   especial: FormGroup;
@@ -107,7 +107,7 @@ export class SolicitudTerceroComponent implements OnInit {
               error.status = 409;
             }
             Swal.fire({
-              type: 'error',
+              icon: 'error',
               title: error.status + ' Load info tercero',
               text: this.translate.instant('ERROR.' + error.status),
               confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -121,7 +121,7 @@ export class SolicitudTerceroComponent implements OnInit {
       }
       Swal.close();
       Swal.fire({
-        type: 'error',
+        icon: 'error',
         title: error.status + '',
         text: this.translate.instant('ERROR.' + error.status),
         confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -190,6 +190,12 @@ export class SolicitudTerceroComponent implements OnInit {
             Arriendo: InfoComplementariaId.Id:183
             */
             this.estudiante.InfoSocioeconomica.TipoVivienda = infComp.InfoComplementariaId.Nombre;
+            if(this.estudiante.InfoSocioeconomica.TipoVivienda=="Arriendo"){
+              this.estudiante.InfoSocioeconomica.PagaArriendo==true;
+            }
+            else{
+              this.estudiante.InfoSocioeconomica.PagaArriendo==false;
+            }
             break;
 
           case "¿Con quién vive?":
@@ -367,8 +373,53 @@ export class SolicitudTerceroComponent implements OnInit {
           direccion: new FormControl({ value: this.estudiante.InfoResidencia.Direccion, disabled: true }),
           barrio: new FormControl({ value: this.estudiante.InfoResidencia.Barrio, disabled: true }),
           telefono: new FormControl({ value: this.estudiante.InfoResidencia.Telefono, disabled: true }),
-          sisben: new FormControl({ value: this.estudiante.InfoResidencia.Sisben, disabled: true }),
+        });
+
+        
+        this.socioeconomica = new FormGroup({
+          estadocivil: new FormControl({ value: this.estudiante.InfoSocioeconomica.EstadoCivil, disabled: true }),
+          estrato: new FormControl({ value: this.estudiante.InfoSocioeconomica.Estrato, disabled: true }),
+          valorMatricula: new FormControl(),
+          ingresosMensuales: new FormControl({ value: this.estudiante.InfoSocioeconomica.IngresosMensuales, disabled: true }),
+          cabezaFamilar: new FormControl({ value: this.estudiante.InfoSocioeconomica.CabezaFamilar, disabled: true }),
+          dependenciaEconomica: new FormControl({ value: this.estudiante.InfoSocioeconomica.DependenciaEconomica, disabled: true }),
+          pagaArriendo: new FormControl(),
+          zonaVulnerabilidad: new FormControl({ value: this.estudiante.InfoSocioeconomica.ZonaVulnerabilidad, disabled: true }),
+          numeroHermanos: new FormControl(),
+          conQuienVive: new FormControl(),
+          tipoColegio: new FormControl(),
+          tipoVivienda: new FormControl({ value: this.estudiante.InfoSocioeconomica.TipoVivienda, disabled: true }),
+          descDis: new FormControl(),
+          /* ing_mesual: new FormControl() */
+        });
+
+        
+        this.personasacargo = new FormGroup({
+          tieneperacargo: new FormControl({ value: this.estudiante.InfoPersonasACargo.TienePersonasACargo, disabled: true }),
+          hijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.Hijos, disabled: true }),
+          numeroHijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.NumeroHijos, disabled: true }),
+        });
+
+        this.sisben =new FormGroup({
+          tieneSisben: new FormControl({ value: this.estudiante.InfoResidencia.Sisben, disabled: true }),
           puntaje_Sisben: new FormControl({ value: this.estudiante.InfoResidencia.Puntaje_Sisben, disabled: true }),
+          grupo: new FormControl(),
+        });
+
+        this.necesidades = new FormGroup({
+          calidadVivienda: new FormControl({}),
+          cuartosDormir: new FormControl({}),
+          personasHogar: new FormControl({}),
+          serviciosPublicos: new FormControl({}),
+          origenAgua: new FormControl({}),
+          aguasNegras: new FormControl({}),
+        });
+
+       
+        this.menores = new FormGroup({
+          menoresEdad: new FormControl({}),
+          menoresEstudiantes: new FormControl({}),
+          grupoMenoresSisben: new FormControl({}),
         });
 
         this.especial = new FormGroup({
@@ -380,49 +431,12 @@ export class SolicitudTerceroComponent implements OnInit {
           serPiloPaga: new FormControl({}),
         });
 
-        this.menores = new FormGroup({
-          menoresEdad: new FormControl({}),
-          menoresEstudiantes: new FormControl({}),
-          grupoMenoresSisben: new FormControl({}),
-        });
-
-        this.necesidades = new FormGroup({
-          calidadVivienda: new FormControl({}),
-          cuartosDormir: new FormControl({}),
-          personasHogar: new FormControl({}),
-          serviciosPublicos: new FormControl({}),
-          origenAgua: new FormControl({}),
-          aguasNegras: new FormControl({}),
-        });
         /* 
          localidad: new FormControl({ value: this.estudiante.InfoResidencia.Localidad, disabled: true }),
           barrio: new FormControl({ value:this.estudiante.InfoResidencia.Barrio , disabled: true }),
           direccion: new FormControl({ value:this.estudiante.InfoResidencia.Direccion , disabled: true }),
           telefono: new FormControl({ value:this.estudiante.InfoResidencia.Telefono , disabled: true }),
           email: new FormControl('', Validators.required), */
-
-        this.socioeconomica = new FormGroup({
-          estadocivil: new FormControl({ value: this.estudiante.InfoSocioeconomica.EstadoCivil, disabled: true }),
-          estrato: new FormControl({ value: this.estudiante.InfoSocioeconomica.Estrato, disabled: true }),
-          ingresosMensuales: new FormControl({ value: this.estudiante.InfoSocioeconomica.IngresosMensuales, disabled: true }),
-          cabezaFamilar: new FormControl(),
-          dependenciaEconomica: new FormControl({ value: this.estudiante.InfoSocioeconomica.DependenciaEconomica, disabled: true }),
-          valorMatricula: new FormControl(),
-          pagaArriendo: new FormControl(),
-          zonaVulnerabilidad: new FormControl(),
-          numeroHermanos: new FormControl(),
-          conQuienVive: new FormControl(),
-          tipoColegio: new FormControl(),
-          tipoVivienda: new FormControl(),
-          descDis: new FormControl(),
-          /* ing_mesual: new FormControl() */
-        });
-
-        this.personasacargo = new FormGroup({
-          tieneperacargo: new FormControl({ value: this.estudiante.InfoPersonasACargo.TienePersonasACargo, disabled: true }),
-          hijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.Hijos, disabled: true }),
-          numeroHijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.NumeroHijos, disabled: true }),
-        });
 
         this.colegio = new FormGroup({
           pension: new FormControl(),
@@ -460,7 +474,7 @@ export class SolicitudTerceroComponent implements OnInit {
         error.status = 409;
       }
       Swal.fire({
-        type: 'error',
+        icon: 'error',
         title: error.status + ' Load info estudiante',
         text: this.translate.instant('ERROR.' + error.status),
         confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -499,7 +513,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
                 }, (error: HttpErrorResponse) => {
                   Swal.fire({
-                    type: 'error',
+                    icon: 'error',
                     title: error.status + '',
                     text: this.translate.instant('ERROR.' + error.status),
                     footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -561,7 +575,7 @@ export class SolicitudTerceroComponent implements OnInit {
         },
           (error: HttpErrorResponse) => {
             Swal.fire({
-              type: 'error',
+              icon: 'error',
               title: error.status + '',
               text: this.translate.instant('ERROR.' + error.status),
               footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -636,7 +650,7 @@ export class SolicitudTerceroComponent implements OnInit {
             }, (error: HttpErrorResponse) => {
               reject(error);
               Swal.fire({
-                type: 'error',
+                icon: 'error',
                 title: error.status + '',
                 text: this.translate.instant('ERROR.' + error.status),
                 footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -648,7 +662,7 @@ export class SolicitudTerceroComponent implements OnInit {
         }, (error: HttpErrorResponse) => {
           reject(error);
           Swal.fire({
-            type: 'error',
+            icon: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
             footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -688,7 +702,7 @@ export class SolicitudTerceroComponent implements OnInit {
           }, (error: HttpErrorResponse) => {
             reject(error);
             Swal.fire({
-              type: 'error',
+              icon: 'error',
               title: error.status + '',
               text: this.translate.instant('ERROR.' + error.status),
               footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -719,7 +733,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
         }, (error: HttpErrorResponse) => {
           Swal.fire({
-            type: 'error',
+            icon: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
             footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -743,7 +757,7 @@ export class SolicitudTerceroComponent implements OnInit {
                 this.INSTITUCION = rest
               }, (error: HttpErrorResponse) => {
                 Swal({
-                  type: 'error',
+                  icon: 'error',
                   title: error.status + '',
                   text: this.translate.instant('ERROR.' + error.status),
                   footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -753,7 +767,7 @@ export class SolicitudTerceroComponent implements OnInit {
               });
           }, (error: HttpErrorResponse) => {
             Swal({
-              type: 'error',
+              icon: 'error',
               title: error.status + '',
               text: this.translate.instant('ERROR.' + error.status),
               footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -763,7 +777,7 @@ export class SolicitudTerceroComponent implements OnInit {
           });
       }, (error: HttpErrorResponse) => {
         Swal({
-          type: 'error',
+          icon: 'error',
           title: error.status + '',
           text: this.translate.instant('ERROR.' + error.status),
           footer: this.translate.instant('GLOBAL.cargar') + '-' +
@@ -789,7 +803,7 @@ export class SolicitudTerceroComponent implements OnInit {
     Swal.fire({
       title: 'Está seguro?',
       text: `Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`,
-      type: 'question',
+      icon: 'question',
       showConfirmButton: true,
       showCancelButton: true
     }
@@ -799,7 +813,7 @@ export class SolicitudTerceroComponent implements OnInit {
         Swal.fire({
           title: 'Espere',
           text: 'Procesando su solicitud',
-          type: 'question',
+          icon: 'question',
           allowOutsideClick: false,
         });
         Swal.showLoading();
@@ -821,7 +835,7 @@ export class SolicitudTerceroComponent implements OnInit {
         Swal.fire({
           title: "titulo",
           text: 'Se cargaron los datos de forma correcta',
-          type: 'success'
+          icon: 'success'
         });
 
       }

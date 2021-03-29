@@ -63,7 +63,7 @@ export class PeriodosComponent implements OnInit {
     Swal.fire({
       title: 'Está seguro?',
       text: `Está seguro que desea iniciar ${parametro} de ${periodo.Nombre}`,
-      type: 'question',
+      icon: 'question',
       showConfirmButton: true,
       showCancelButton: true
     }
@@ -82,7 +82,7 @@ export class PeriodosComponent implements OnInit {
     Swal.fire({
       title: 'Está seguro?',
       text: `Está seguro que desea detener ${parametro} de ${periodo.Nombre}`,
-      type: 'question',
+      icon: 'question',
       showConfirmButton: true,
       showCancelButton: true
     }
@@ -114,7 +114,7 @@ export class PeriodosComponent implements OnInit {
     Swal.fire({
       title: 'Está seguro?',
       text: `Está seguro que desea reactivar ${parametro} de ${periodo.Nombre}`,
-      type: 'question',
+      icon: 'question',
       showConfirmButton: true,
       showCancelButton: true
     }
