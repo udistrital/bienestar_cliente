@@ -21,6 +21,7 @@ import { AcademicaService } from '../../../../@core/data/academica.service';
 import { InfoCompletaEstudiante } from '../../../../@core/data/models/info-completa-estudiante/info-completa-estudiante';
 import { DatePipe } from '@angular/common';
 import { InfoComplementariaTercero } from '../../../../@core/data/models/terceros/info_complementaria_tercero';
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
   selector: 'ngx-solicitud-tercero',
@@ -57,7 +58,7 @@ export class SolicitudTerceroComponent implements OnInit {
   futurofort: FormGroup;
   documentos: FormGroup;
   doccertificadoingreso: FormGroup;
-  peracargo: FormGroup;
+  personasacargo: FormGroup;
   registrocivil: FormGroup;
   desplazado: FormGroup;
   recibopago: FormGroup;
@@ -68,16 +69,28 @@ export class SolicitudTerceroComponent implements OnInit {
 
   APP_CONSTANTS = ApiConstanst;
   loading: boolean = true;
+  isPost: boolean= true;
 
 
   constructor(
     private translate: TranslateService,
+    private utilService: UtilService,
     private listService: ListService,
     private tercerosService: TercerosService,
     private academicaService: AcademicaService,
     private solicitudService: SolicitudService,
     private dialog: MatDialog,
   ) {
+    Swal.fire({
+      title: 'Por favor espere!',
+      html: `cargando información de formulario`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      /* willOpen: () => {
+          Swal.showLoading()
+        }, */
+    });
+    Swal.showLoading();
     this.loadPeriodo().then(() => {
       if (this.periodo != null) {
         console.log("Entro a buscar tercero")
@@ -106,6 +119,7 @@ export class SolicitudTerceroComponent implements OnInit {
       if (!error.status) {
         error.status = 409;
       }
+      Swal.close();
       Swal.fire({
         type: 'error',
         title: error.status + '',
@@ -127,18 +141,19 @@ export class SolicitudTerceroComponent implements OnInit {
       this.estudiante.FechaNacimiento = datePipe.transform(this.tercero.FechaNacimiento, 'dd/MM/yyyy');
       this.estudiante.Facultad = "Ingenieria :)"
       let infComp: InfoComplementariaTercero
-      
-      console.log(Object.keys(this.listInfoComplementaria).length );
+
+      console.log(Object.keys(this.listInfoComplementaria).length);
       for (infComp of this.listInfoComplementaria) {
         const nombreGrupoInfo = infComp.InfoComplementariaId.GrupoInfoComplementariaId.Nombre;
         switch (nombreGrupoInfo) {
           case "Información Contacto":
             this.agregarInformacionContacto(infComp);
             break;
-          case "":
+          case "Información Socioeconómica":
             this.agregarInformacionSocioEconomica(infComp);
             break;
           case "Dependencia económica":
+            this.estudiante.InfoSocioeconomica.DependenciaEconomica = infComp.InfoComplementariaId.Nombre;
             /* this.agregarInformacionSocioEconomica(infComp); 
             Padre: InfoComplementariaId.Id:166
             Madre: InfoComplementariaId.Id:167
@@ -150,22 +165,22 @@ export class SolicitudTerceroComponent implements OnInit {
 
             break;
           case "¿Tiene Sisben?":
-            if(infComp.InfoComplementariaId.Nombre=="SI"){
-              this.estudiante.InfoResidencia.Sisben=true; 
-            }else if(infComp.InfoComplementariaId.Nombre=="NO"){
-              this.estudiante.InfoResidencia.Sisben=false; 
+            if (infComp.InfoComplementariaId.Nombre == "SI") {
+              this.estudiante.InfoResidencia.Sisben = true;
+            } else if (infComp.InfoComplementariaId.Nombre == "NO") {
+              this.estudiante.InfoResidencia.Sisben = false;
             }
-            
+
             /* 
             SI: InfoComplementariaId.Id:170
             NO: InfoComplementariaId.Id:171
-            */ 
+            */
             break;
           case "Tipo de Colegio":
             /* 
             Privado: InfoComplementariaId.Id:172
             Publico: InfoComplementariaId.Id:173
-            */ 
+            */
             this.estudiante.InfoSocioeconomica.TipoColegio = infComp.InfoComplementariaId.Nombre;
             break;
           case "Lugar de vivienda":
@@ -173,7 +188,7 @@ export class SolicitudTerceroComponent implements OnInit {
             Propio: InfoComplementariaId.Id:181
             Familiar: InfoComplementariaId.Id:182
             Arriendo: InfoComplementariaId.Id:183
-            */ 
+            */
             this.estudiante.InfoSocioeconomica.TipoVivienda = infComp.InfoComplementariaId.Nombre;
             break;
 
@@ -182,7 +197,7 @@ export class SolicitudTerceroComponent implements OnInit {
             Familia: InfoComplementariaId.Id:184
             Solo: InfoComplementariaId.Id:185
             Amigos: InfoComplementariaId.Id:186
-            */ 
+            */
             this.estudiante.InfoSocioeconomica.ConQuienVive = infComp.InfoComplementariaId.Nombre;
 
             break;
@@ -216,17 +231,17 @@ export class SolicitudTerceroComponent implements OnInit {
             Si: InfoComplementariaId.Id:201
             No: InfoComplementariaId.Id:231
             */
-            if(infComp.InfoComplementariaId.Nombre=="Si"){
-              this.estudiante.InfoSocioeconomica.PersonasACargo =true; 
-            }else if(infComp.InfoComplementariaId.Nombre=="No"){
-              this.estudiante.InfoSocioeconomica.PersonasACargo =false; 
+            if (infComp.InfoComplementariaId.Nombre == "Si") {
+              this.estudiante.InfoPersonasACargo.TienePersonasACargo = true;
+            } else if (infComp.InfoComplementariaId.Nombre == "No") {
+              this.estudiante.InfoPersonasACargo.TienePersonasACargo = false;
             }
             break;
           case "Presenta condición de desplazado":
-            if(infComp.InfoComplementariaId.Nombre=="Si"){
-              this.estudiante.InfoSocioeconomica.PersonasACargo =true; 
-            }else if(infComp.InfoComplementariaId.Nombre=="No"){
-              this.estudiante.InfoSocioeconomica.PersonasACargo =false; 
+            if (infComp.InfoComplementariaId.Nombre == "Si") {
+              this.estudiante.InfoEspecial.CondicionDesplazado = true;
+            } else if (infComp.InfoComplementariaId.Nombre == "No") {
+              this.estudiante.InfoEspecial.CondicionDesplazado = false;
             }
             break;
           /* case "Solicituddereliquidación":
@@ -236,11 +251,14 @@ export class SolicitudTerceroComponent implements OnInit {
           case "Genero":
             this.estudiante.Genero = infComp.InfoComplementariaId.Nombre;
             break;
+
           case "Estado Civil":
-            /* this.estudiante.InfoSocioeconomica.EstadoCivil = infComp.InfoComplementariaId.Nombre; */
+            console.log("Se carga info estadocivil")
+            this.estudiante.InfoSocioeconomica.EstadoCivil = infComp.InfoComplementariaId.Nombre;
             break;
 
           default:
+            console.log("No se utiliza: ", nombreGrupoInfo);
 
         }
       }
@@ -265,17 +283,21 @@ export class SolicitudTerceroComponent implements OnInit {
         break;
 
       case "HIJOS":
-        this.estudiante.InfoSocioeconomica.Hijos = JSON.parse(infComp.Dato).value;
+        this.estudiante.InfoPersonasACargo.Hijos =  JSON.parse(infComp.Dato).value;
         break;
 
       case "NUMERO_HIJOS":
-        this.estudiante.InfoSocioeconomica.NumeroHijos = infComp.Dato;
+        this.estudiante.InfoPersonasACargo.NumeroHijos = JSON.parse(infComp.Dato).value;
         break;
 
       case "NUMERO_HERMANOS":
         this.estudiante.InfoSocioeconomica.NumeroHermanos = infComp.Dato;
         break;
-  
+      case "Información Socioeconómica":
+        console.log("Entro a ingresos mensuales");
+        this.estudiante.InfoSocioeconomica.IngresosMensuales = JSON.parse(infComp.Dato).value;
+        break
+
 
       default:
         break;
@@ -350,27 +372,27 @@ export class SolicitudTerceroComponent implements OnInit {
         });
 
         this.especial = new FormGroup({
-          condicionDesplazado: new FormControl({ }),
-          condicionEspecial: new FormControl({ }),
-          discapacidad: new FormControl({ }),
-          patologia: new FormControl({ }),
-          seguridadSocial: new FormControl({ }),
-          serPiloPaga: new FormControl({ }),
+          condicionDesplazado: new FormControl({}),
+          condicionEspecial: new FormControl({}),
+          discapacidad: new FormControl({}),
+          patologia: new FormControl({}),
+          seguridadSocial: new FormControl({}),
+          serPiloPaga: new FormControl({}),
         });
 
         this.menores = new FormGroup({
-          menoresEdad: new FormControl({ }),
-          menoresEstudiantes: new FormControl({ }),
-          grupoMenoresSisben: new FormControl({ }),
+          menoresEdad: new FormControl({}),
+          menoresEstudiantes: new FormControl({}),
+          grupoMenoresSisben: new FormControl({}),
         });
 
         this.necesidades = new FormGroup({
-          calidadVivienda: new FormControl({ }),
-          cuartosDormir: new FormControl({ }),
-          personasHogar: new FormControl({ }),
-          serviciosPublicos: new FormControl({ }),
-          origenAgua: new FormControl({ }),
-          aguasNegras: new FormControl({ }),
+          calidadVivienda: new FormControl({}),
+          cuartosDormir: new FormControl({}),
+          personasHogar: new FormControl({}),
+          serviciosPublicos: new FormControl({}),
+          origenAgua: new FormControl({}),
+          aguasNegras: new FormControl({}),
         });
         /* 
          localidad: new FormControl({ value: this.estudiante.InfoResidencia.Localidad, disabled: true }),
@@ -380,15 +402,12 @@ export class SolicitudTerceroComponent implements OnInit {
           email: new FormControl('', Validators.required), */
 
         this.socioeconomica = new FormGroup({
-          estadocivil: new FormControl(),
-          estrato: new FormControl(),
-          ingresosMensuales: new FormControl(),
+          estadocivil: new FormControl({ value: this.estudiante.InfoSocioeconomica.EstadoCivil, disabled: true }),
+          estrato: new FormControl({ value: this.estudiante.InfoSocioeconomica.Estrato, disabled: true }),
+          ingresosMensuales: new FormControl({ value: this.estudiante.InfoSocioeconomica.IngresosMensuales, disabled: true }),
           cabezaFamilar: new FormControl(),
-          dependenciaEconomica: new FormControl(),
+          dependenciaEconomica: new FormControl({ value: this.estudiante.InfoSocioeconomica.DependenciaEconomica, disabled: true }),
           valorMatricula: new FormControl(),
-          personasACargo: new FormControl(),
-          hijos: new FormControl(),
-          numeroHijos: new FormControl(),
           pagaArriendo: new FormControl(),
           zonaVulnerabilidad: new FormControl(),
           numeroHermanos: new FormControl(),
@@ -396,6 +415,13 @@ export class SolicitudTerceroComponent implements OnInit {
           tipoColegio: new FormControl(),
           tipoVivienda: new FormControl(),
           descDis: new FormControl(),
+          /* ing_mesual: new FormControl() */
+        });
+
+        this.personasacargo = new FormGroup({
+          tieneperacargo: new FormControl({ value: this.estudiante.InfoPersonasACargo.TienePersonasACargo, disabled: true }),
+          hijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.Hijos, disabled: true }),
+          numeroHijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.NumeroHijos, disabled: true }),
         });
 
         this.colegio = new FormGroup({
@@ -409,8 +435,6 @@ export class SolicitudTerceroComponent implements OnInit {
         this.documentos = new FormGroup({});
 
         this.doccertificadoingreso = new FormGroup({});
-
-        this.peracargo = new FormGroup({});
 
         this.registrocivil = new FormGroup({
 
@@ -428,6 +452,7 @@ export class SolicitudTerceroComponent implements OnInit {
         this.otrosdoc = new FormGroup({});
 
         this.loading = false;
+        Swal.close();
       }
     ).catch(error => {
       console.error(error);
@@ -632,18 +657,18 @@ export class SolicitudTerceroComponent implements OnInit {
           });
 
         });
-
+       
       /* Cargamos la informacion complementaria */
       if (!isNaN(this.tercero.Id)) {
         /* this.tercerosService.get('info_complementaria_tercero/?limit=1000') */
-          this.tercerosService.get('info_complementaria_tercero/?query=TerceroId__Id:' +
-            (this.tercero.Id) + '&limit=-1')
+        this.tercerosService.get('info_complementaria_tercero/?query=TerceroId__Id:' +
+          (this.tercero.Id) + '&limit=-1')
           .subscribe(resp => {
             console.log("Empezamos proceso info_complementaria", procesosPendientes)
 
             for (let i = 0; i < resp.length; i++) {
               /* console.log(resp[i]); */
-              if(Object.keys(resp[i]).length>0){
+              if (Object.keys(resp[i]).length > 0) {
                 this.listInfoComplementaria.push(resp[i]);
               }
             }
@@ -677,7 +702,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
   }
 
-  
+
 
   loadInfoComplementariaTercero(): void {
     if (!isNaN(this.tercero.Id)) {
@@ -803,9 +828,162 @@ export class SolicitudTerceroComponent implements OnInit {
     });
     return false;
   }
-  private update() {
-    console.log("Update");
-    console.log(this.solicitud);
+  async save() {
+
+
+    const isValidTerm = await this.utilService.termsAndConditional();
+    /* let caracterizaciones = [...this.comorbilidades, ...this.otros]; */
+
+    if (isValidTerm) {
+        console.log("Se guardoooo");
+      /* Swal.fire({
+        title: 'Información de caracterización',
+        text: `Se ${this.isPost ? 'almacenará' : 'actualizará'} la información correspondiente a la caracterización`,
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: this.isPost ? 'Guardar' : 'Actualizar',
+      }).then(result => {
+        if (result.value) {
+          Swal.fire({
+            title: '¡Por favor espere!',
+            html: this.isPost ? 'Guardando' : 'Actualizando' + ' caracterización',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+              Swal.showLoading();
+            },
+          });
+
+          if (this.tercero) {
+            Swal.fire({
+              title: this.isPost ? 'Guardando' : 'Actualizando' + ' caracterización',
+              html: `<b></b> de ${caracterizaciones.length + this.vinculaciones.length} registros ${this.isPost ? 'almacenados' : 'actualizados'}`,
+              timerProgressBar: true,
+              willOpen: () => {
+                Swal.showLoading();
+              },
+            });
+
+            let vinculacionesC = this.vinculaciones.map((vinculacion: any) => {
+              const newVinculacion = { ...vinculacion };
+              newVinculacion.Alternancia = newVinculacion.isSelected;
+              delete newVinculacion.label;
+              delete newVinculacion.isSelected;
+              delete newVinculacion.name;
+              delete newVinculacion.nombreVinculacion;
+              return newVinculacion
+            })
+            from(vinculacionesC)
+              .subscribe((vinculacionC: any) => {
+                this.request.put(environment.TERCEROS_SERVICE, 'vinculacion', vinculacionC, vinculacionC.Id)
+                  .subscribe((data) => {
+
+                  }),
+                  error => {
+                    Swal.fire({
+                      title: 'error',
+                      text: `${JSON.stringify(error)}`,
+                      icon: 'error',
+                      showCancelButton: true,
+                      cancelButtonText: 'Cancelar',
+                      confirmButtonText: `Aceptar`,
+                    });
+                  };
+              })
+
+            let updated = this.vinculaciones.length;
+            from(caracterizaciones)
+              .subscribe((caracterizacion: any) => {
+                let caracterizacionTercero = {
+                  TerceroId: { Id: this.tercero.Id },
+                  InfoComplementariaId: {
+                    Id: caracterizacion.Id,
+                  },
+                  Dato: JSON.stringify({ dato: caracterizacion.isSelected }),
+                  Activo: true,
+                };
+                this.updateStorage()
+
+                if (this.isPost) {
+                  this.request
+                    .post(environment.TERCEROS_SERVICE, 'info_complementaria_tercero/', caracterizacionTercero)
+                    .subscribe((data: any) => {
+                      const content = Swal.getContent();
+                      if (content) {
+                        const b = content.querySelector('b');
+                        if (b) {
+                          b.textContent = `${updated}`;
+                        }
+                      }
+                      updated += 1;
+                      if (updated === (caracterizaciones.length + this.vinculaciones.length)) {
+                        Swal.close();
+                        Swal.fire({
+                          title: `Registro correcto`,
+                          text: `Se ingresaron correctamente ${caracterizaciones.length + this.vinculaciones.length} registros`,
+                          icon: 'success',
+                        }).then((result) => {
+                          if (result.value) {
+                            this.router.navigate(['/pages']);
+                          }
+                        })
+                        this.isPost = false;
+                      }
+                    }),
+                    error => {
+                      Swal.fire({
+                        title: 'error',
+                        text: `${JSON.stringify(error)}`,
+                        icon: 'error',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: `Aceptar`,
+                      });
+                    };
+                } else {
+                  this.request
+                    .put(environment.TERCEROS_SERVICE, 'info_complementaria_tercero', caracterizacionTercero, caracterizacion.form.Id)
+                    .subscribe((data: any) => {
+                      const content = Swal.getContent();
+                      if (content) {
+                        const b = content.querySelector('b');
+                        if (b) {
+                          b.textContent = `${updated}`;
+                        }
+                      }
+                      updated += 1;
+                      if (updated === (caracterizaciones.length + this.vinculaciones.length)) {
+                        Swal.close();
+                        Swal.fire({
+                          title: `Actualización correcta`,
+                          text: `Se actualizaron correctamente ${caracterizaciones.length + this.vinculaciones.length} registros`,
+                          icon: 'success',
+                        }).then((result) => {
+                          if (result.value) {
+                            this.router.navigate(['/pages']);
+                          }
+                        })
+                      }
+                    }),
+                    error => {
+                      Swal.fire({
+                        title: 'error',
+                        text: `${JSON.stringify(error)}`,
+                        icon: 'error',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: `Aceptar`,
+                      });
+                    };
+                }
+              });
+          }
+        }
+      });
+    } */
   }
+
+}
 
 }

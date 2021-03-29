@@ -3,6 +3,7 @@ import { DatosIdentificacion } from "../terceros/datos_identificacion"
 import { InfoSocioEconomicaEstudiante } from "./info-socioeconomica-estudiante";
 import { InfoNecesidadesEstudiante } from './info-necesidades-estudiante';
 import { InfoEspecialEstudiante } from './info-especial-estudiante';
+import { InfoPersonasACargoEstudiante } from "./info-personas-a-cargo-estudiante";
 
 export class InfoCompletaEstudiante {
     IdTercero: number;
@@ -20,6 +21,7 @@ export class InfoCompletaEstudiante {
     InfoSocioeconomica: InfoSocioEconomicaEstudiante;
     InfoNecesidades: InfoNecesidadesEstudiante;
     InfoEspecial: InfoEspecialEstudiante;
+    InfoPersonasACargo: InfoPersonasACargoEstudiante;
 
     constructor(){
       this.IdTercero=0;
@@ -35,5 +37,6 @@ export class InfoCompletaEstudiante {
       this.InfoSocioeconomica= new InfoSocioEconomicaEstudiante();
       this.InfoNecesidades= new InfoNecesidadesEstudiante();
       this.InfoEspecial= new InfoEspecialEstudiante();
+      this.InfoPersonasACargo = new InfoPersonasACargoEstudiante();
     }
   }

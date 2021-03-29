@@ -1,7 +1,10 @@
-<!-- Mostrar mientras carga -->
-{{estudiante | json}}
-
-<h1 *ngIf="loading">Cargando......</h1>
+<!-- {{estudiante | json}} -->
+<nb-card>
+    <button class="btn back-button btn-block" routerLink="../../">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+</nb-card>
 
 <div *ngIf="!loading">
     <!-- Caso que no se pueda cargar periodo -->
@@ -131,16 +134,14 @@
                     <h1>
                         Solicitud apoyo alimentario {{ periodo?.Nombre }}
                     </h1>
-                    <button class="btn back-button" routerLink="../../">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        Regresar
-                    </button>
+                     <small>Si deseas modificar la informacion de un campo no editable debes hacerlo desde el Sistema de Gestión Académica</small>
                 </div>
             </div>
         </nb-card-header>
         <hr>
         <nb-card-body>
             <nb-accordion>
+                <!-- Informacion basica -->
                 <nb-accordion-item expanded>
                     <nb-accordion-item-header>
                         <h4 class="non-selectable">Información básica</h4>
@@ -234,7 +235,7 @@
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
-
+                <!-- Inforamcion de residencia -->
                 <nb-accordion-item>
                     <nb-accordion-item-header>
                         <h4 class="non-selectable">Información de residencia</h4>
@@ -293,7 +294,7 @@
                         </form>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
-
+                <!-- Informacion Socioeconomica -->
                 <nb-accordion-item>
                     <nb-accordion-item-header>
                         <h4 class="non-selectable">Información socioeconómica</h4>
@@ -301,39 +302,113 @@
                     <nb-accordion-item-body>
                         <form [formGroup]="socioeconomica">
                             <div class="row item-list">
+                                <div class="col-md-4">Estado civil:</div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="estadocivil">
+                                </div>
+                            </div>
+                            <div class="row item-list">
+                                <div class="col-md-4">Estrato:</div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="estrato">
+                                </div>
+                            </div>
+                            <div class="row item-list">
+                                <div class="col-md-4">Dependencia economica:</div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="dependenciaEconomica">
+                                </div>
+                            </div>
+
+                            <!-- <div class="row item-list">
                                 <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL" campoCodigo="Id"
                                     campoValor="Nombre" [grupo]="socioeconomica">
                                 </ngx-combo-generico>
-                            </div>
-                            <div class="row item-list">
+                            </div> -->
+                            <!--  <div class="row item-list">
                                 <ngx-combo-generico class="col-12" etiqueta="Estrato" nombreInput="estrato" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO" campoCodigo="Id" campoValor="Nombre"
                                     [grupo]="socioeconomica">
                                 </ngx-combo-generico>
-                            </div>
-                            <div class="row">
+                            </div> -->
+                            <!-- <div class="row">
                                 <ngx-radio-select-generico class="col-12" etiqueta="Dependecia económica" nombreInput="dependenciaEconomica" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DEPENDENCIA_ECONOMICA"
                                     campoCodigo="Id" campoValor="Nombre" [grupo]="socioeconomica">
 
                                 </ngx-radio-select-generico>
-                            </div>
+                            </div> -->
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <input nbInput placeholder="Ingresos mensuales" type="number" formControlName="ing_mesual">
+                            <div class="row item-list">
+                                <div class="col-md-4">Ingresos mensuales:</div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="ingresosMensuales">
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <textarea rows="4" nbInput placeholder="Discapacidad" maxlength="500" formControlName="descDis"></textarea>
+                            <div class="row item-list">
+                                <div class="col-md-4">Discapacidad</div>
+                                <div class="col-md-8">
+                                    <textarea nbInput fullWidth placeholder="Discapacidad" formControlName="descDis"></textarea>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row item-list">
                                 <div class="col-12">
                                     <input nbInput type="file">
                                 </div>
                             </div>
+                        </form>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+
+                <!-- Personas a cargo -->
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        <h4 class="non-selectable">Información de Personas a cargo</h4>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <form [formGroup]="personasacargo">
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    <label>¿Tiene personas a cargo?
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <!-- <nb-select fullWidth class="" size="large" placeholder="Personas a cargo" formControlName="tieneperacargo" #required>
+                                        <nb-option value=""></nb-option>
+                                        <nb-option value="1">Nuevo en el programa</nb-option>
+                                        <nb-option value="2">Antiguo en el programa</nb-option>
+                                    </nb-select> -->
+                                    <input fullWidth nbInput formControlName="tieneperacargo">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Hijos</div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="hijos">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Número de Hijos</div>
+                                <div class="col-md-8">
+                                    <input fullWidth nbInput formControlName="numeroHijos">
+                                </div>
+                            </div>
+
+                            <!-- <div class="row item-list">
+                                <div class="col-md-4">opciones</div>
+                                <div class="col-md-8">
+                                    <nb-radio-group>
+                                        <label>Hijos a cargo</label>
+                                        <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
+                                        </label>
+                                        <nb-radio value="si">SI</nb-radio>
+                                        <nb-radio value="no">NO</nb-radio>
+                                    </nb-radio-group>
+                                </div>
+                            </div> -->
                         </form>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
@@ -583,27 +658,7 @@
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
-                <nb-accordion-item>
-                    <nb-accordion-item-header>
-                        <h4 class="non-selectable">Personas a cargo</h4>
-                    </nb-accordion-item-header>
-                    <nb-accordion-item-body>
-                        <form [formGroup]="peracargo">
-                            <div class="row item-list">
-                                <div class="col-md-4">opciones</div>
-                                <div class="col-md-8">
-                                    <nb-radio-group>
-                                        <label>Hijos a cargo</label>
-                                        <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
-                                        </label>
-                                        <nb-radio value="si">SI</nb-radio>
-                                        <nb-radio value="no">NO</nb-radio>
-                                    </nb-radio-group>
-                                </div>
-                            </div>
-                        </form>
-                    </nb-accordion-item-body>
-                </nb-accordion-item>
+
 
                 <nb-accordion-item>
                     <nb-accordion-item-header>
@@ -729,7 +784,7 @@
 
                 <hr>
                 <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="llamardialogo()" class="submit-button">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
 
                         <i class="fas fa-save mr-1"></i>
                         Registrar
