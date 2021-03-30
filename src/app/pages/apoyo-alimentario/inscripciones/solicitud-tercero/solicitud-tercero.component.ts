@@ -398,6 +398,9 @@ export class SolicitudTerceroComponent implements OnInit {
           tieneperacargo: new FormControl({ value: this.estudiante.InfoPersonasACargo.TienePersonasACargo, disabled: true }),
           hijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.Hijos, disabled: true }),
           numeroHijos: new FormControl({ value: this.estudiante.InfoPersonasACargo.NumeroHijos, disabled: true }),
+          menoresEdad: new FormControl({ value: this.estudiante.InfoPersonasACargo.MenoresEdad, disabled: false }),
+          menoresEstudiantes: new FormControl({ value: this.estudiante.InfoPersonasACargo.MenoresEdad, disabled: false }),
+          menoresMatriculados: new FormControl({ value: this.estudiante.InfoPersonasACargo.MenoresMatriculados, disabled: false }),
         });
 
         this.sisben =new FormGroup({
@@ -407,26 +410,19 @@ export class SolicitudTerceroComponent implements OnInit {
         });
 
         this.necesidades = new FormGroup({
-          calidadVivienda: new FormControl({}),
-          cuartosDormir: new FormControl({}),
-          personasHogar: new FormControl({}),
-          serviciosPublicos: new FormControl({}),
-          origenAgua: new FormControl({}),
-          aguasNegras: new FormControl({}),
-        });
-
-       
-        this.menores = new FormGroup({
-          menoresEdad: new FormControl({}),
-          menoresEstudiantes: new FormControl({}),
-          grupoMenoresSisben: new FormControl({}),
+          calidadVivienda: new FormControl({ value: this.estudiante.InfoNecesidades.CalidadVivienda, disabled: false }),
+          cuartosDormir: new FormControl({ value: this.estudiante.InfoNecesidades.CuartosDormir, disabled: false }),
+          personasHogar: new FormControl({ value: this.estudiante.InfoNecesidades.PersonasHogar, disabled: false }),
+          serviciosPublicos: new FormControl({ value: this.estudiante.InfoNecesidades.ServiciosPublicos, disabled: false }),
+          origenAgua: new FormControl({ value: this.estudiante.InfoNecesidades.OrigenAgua, disabled: false }),
+          aguasNegras: new FormControl({ value: this.estudiante.InfoNecesidades.AguasNegras, disabled: false }),
         });
 
         this.especial = new FormGroup({
           condicionDesplazado: new FormControl({}),
           condicionEspecial: new FormControl({}),
-          discapacidad: new FormControl({}),
-          patologia: new FormControl({}),
+          discapacidad: new FormControl({ value: this.estudiante.InfoEspecial.Discapacidad, disabled: true }),
+          patologia: new FormControl({ value: this.estudiante.InfoEspecial.Patologia, disabled: true }),
           seguridadSocial: new FormControl({}),
           serPiloPaga: new FormControl({}),
         });

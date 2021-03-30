@@ -12,6 +12,7 @@ export class InfoSocioEconomicaEstudiante {
     ConQuienVive: string;  //  NO EXISTE
     TipoColegio: string;  // No FORM APOYO
     TipoVivienda: string; //Paga Arriendo
+    
     constructor() {
         this.Estrato=0;
         this.CabezaFamilar="";
