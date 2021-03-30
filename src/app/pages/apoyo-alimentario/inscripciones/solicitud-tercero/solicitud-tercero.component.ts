@@ -502,7 +502,6 @@ export class SolicitudTerceroComponent implements OnInit {
                   for (let i = 0; i < result.length; i++) {
                     if (result[i].TipoDocumentoId.CodigoAbreviacion == "CODE") {
                       this.estudiante.Carnet = result[i];
-                      this.estudiante.Carnet.Numero= "20192287035"
                     } else {
                       this.estudiante.Documento = result[i];
                     }

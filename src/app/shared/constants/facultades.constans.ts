@@ -214,6 +214,7 @@ export class FacultadesConstanst {
             {
                 "Id": 88,
                 "Nombre": "LICENCIATURA EN PEDAGOGIA INFANTIL",
+                
                 "Opciones": null
             },
             {
