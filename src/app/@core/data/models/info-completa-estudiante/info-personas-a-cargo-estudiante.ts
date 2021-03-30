@@ -4,13 +4,13 @@ export class InfoPersonasACargoEstudiante {
     NumeroHijos: number;
     MenoresEdad: number;
     MenoresEstudiantes: number;
-    GrupoMenoresSisben: string;
+    MenoresMatriculados: number;
     constructor() {
         this.TienePersonasACargo= false;
         this.Hijos= 0;
         this.NumeroHijos= 0;
         this.MenoresEdad= 0;
         this.MenoresEstudiantes= 0;
-        this.GrupoMenoresSisben= "";
+        this.MenoresMatriculados= 0;
     }
 }

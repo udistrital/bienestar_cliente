@@ -7,7 +7,7 @@ export class InfoNecesidadesEstudiante {
     AguasNegras:string;
     constructor() {
         this.CalidadVivienda= "";
-        this.CuartosDormir= "";
+        this.CuartosDormir= "4";
         this.PersonasHogar= 4;
         this.ServiciosPublicos= [""];
         this.OrigenAgua= "";
