@@ -81,6 +81,7 @@ export class SolicitudTerceroComponent implements OnInit {
     private solicitudService: SolicitudService,
     private dialog: MatDialog,
   ) {
+    
     Swal.fire({
       title: 'Por favor espere!',
       html: `cargando información de formulario`,
@@ -139,7 +140,6 @@ export class SolicitudTerceroComponent implements OnInit {
       this.estudiante.Nombre = this.tercero.NombreCompleto;
       var datePipe = new DatePipe('en-US');
       this.estudiante.FechaNacimiento = datePipe.transform(this.tercero.FechaNacimiento, 'dd/MM/yyyy');
-      this.estudiante.Facultad = "Ingenieria :)"
       let infComp: InfoComplementariaTercero
 
       console.log(Object.keys(this.listInfoComplementaria).length);
@@ -492,6 +492,7 @@ export class SolicitudTerceroComponent implements OnInit {
                   for (let i = 0; i < result.length; i++) {
                     if (result[i].TipoDocumentoId.CodigoAbreviacion == "CODE") {
                       this.estudiante.Carnet = result[i];
+                      this.estudiante.Carnet.Numero= "20192287035"
                     } else {
                       this.estudiante.Documento = result[i];
                     }
@@ -615,12 +616,13 @@ export class SolicitudTerceroComponent implements OnInit {
           console.info(cod_carrera);
           //this.academicaService.get(`carrera/${this.cod_carrera}`)
 
-          this.academicaService.get(`carrera/20`)
+          this.academicaService.get(`carrera/${cod_carrera}`)
             .subscribe(resp => {
               console.info(resp.carrerasCollection.carrera[0].nombre);
               const proyecto = resp.carrerasCollection.carrera[0].nombre;
               this.estudiante.ProyectoCurricular = proyecto;
-              console.info(this.estudiante.ProyectoCurricular)
+              this.estudiante.Facultad=this.utilService.facultadProyecto(proyecto);
+              console.info(this.estudiante.Facultad)
               procesosPendientes -= 1;
               console.log("Terminamos proceso proyecto", procesosPendientes)
               if (procesosPendientes == 0) {

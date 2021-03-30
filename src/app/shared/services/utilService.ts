@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { FacultadesConstanst } from "../constants/facultades.constans";
 
 @Injectable({
     providedIn: 'root',
@@ -70,6 +71,19 @@ export class UtilService {
             Swal.fire('You agreed with T&C :)')
         }
         return !!accept;       
+    }
+
+    facultadProyecto(nombreProyecto){
+        let facultades = new FacultadesConstanst().obj
+        for (var f of facultades){
+            let proyectos= f['Opciones'];
+            for (var p of proyectos){
+                if(p['Nombre']==nombreProyecto){
+                    return(f['Nombre']);
+                }
+            }
+        }
+        return 'Facultad no encontrada';
     }
 }
 
