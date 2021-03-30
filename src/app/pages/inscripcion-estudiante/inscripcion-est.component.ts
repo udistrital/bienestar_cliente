@@ -344,12 +344,12 @@ export class InscripcionEstComponent implements OnInit {
             this.pUpManager.showErrorToast('Formulario no válido');
             return;
         }
-        let observacion: any = {};
+        let observacion: any = {TipoObservacionId: {}};
         observacion.Activo = true;
         observacion.Id = null;
         observacion.SolicitudId = this.solicitud;
         observacion.TerceroId = this.estudiante.Id;
-        observacion.TipoObservacionId = this.observacion.tipo_observacion_id;
+        observacion.TipoObservacionId.Id = this.observacion.tipo_observacion_id;
         observacion.Titulo = 'Observación sobre reliquidación';
         observacion.Valor = this.observacion.valor;
         this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {

@@ -1,5 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Util } from 'leaflet';
@@ -11,6 +13,7 @@ import { ImplicitAutenticationService } from '../../@core/utils/implicit_autenti
 import { NuxeoService } from '../../@core/utils/nuxeo.service';
 import { ApiConstanst } from '../../shared/constants/api.constans';
 import { RolesConstanst } from '../../shared/constants/roles.constants';
+import { DateCustomPipePipe } from '../../shared/pipes/date-custom-pipe.pipe';
 import { UtilsService } from '../../shared/services/utils.service';
 
 
@@ -21,6 +24,11 @@ import { UtilsService } from '../../shared/services/utils.service';
   styleUrls: ['./revision-insc.component.scss']
 })
 export class RevisionInscComponent implements OnInit {
+
+  @ViewChild('observaciones', { read: null, static: null }) observaciones: TemplateRef<any>;
+  @ViewChild('verObservaciones', { read: null, static: null }) verObservaciones: TemplateRef<any>;
+
+  ROLES_CONSTANTS = RolesConstanst;
 
   uuidReadFieldName: string;
   uuidDeleteFieldName: string;
@@ -53,6 +61,13 @@ export class RevisionInscComponent implements OnInit {
   recargarTabla: boolean = false;
   registrosPorPagina = 10;
   elementosEncontrados = 0;
+  modalObservaciones: any;
+  validarObservacion = false;
+  idEstadoSolicitud: any;
+  observacion: any = {};
+  solicitud: any;
+  terceroId: any;
+  observacionesSolicitud: any = [];
 
   constructor(
     private translate: TranslateService,
@@ -64,7 +79,11 @@ export class RevisionInscComponent implements OnInit {
     private pUpManager: PopUpManager,
     private nuxeoService: NuxeoService,
     private documentoService: DocumentoService,
-  ) { }
+    public dialog: MatDialog,
+    private dateCustomPipe: DateCustomPipePipe,
+  ) {
+    this.modalObservaciones = new FormGroup({});
+  }
 
   ngOnInit() {
     this.uuidReadFieldName = '_id';
@@ -184,7 +203,7 @@ export class RevisionInscComponent implements OnInit {
             {
               name: 'verComentariosCustom',
               title: '<i class="nb-compose" title="Ver comentarios"></i>',
-              customFunction: (evento) => this.updateReliquidacion(evento)
+              customFunction: (evento) => this.verObservacionesSolicitud(evento)
             }
           ],
           position: 'right'
@@ -233,33 +252,33 @@ export class RevisionInscComponent implements OnInit {
   obtenerInformacionReliquidacion(evento: any) {
     const data = JSON.parse(evento.SolicitudId.Referencia);
     this.reliquidacionHelper.getSolicitudTercero(data.Id).subscribe((res) => {
-        this.descargarArchivos(JSON.parse(res.Dato))
+      this.descargarArchivos(JSON.parse(res.Dato))
     });
-}
+  }
 
   descargarArchivos(formularioReliquidacion) {
     this.pUpManager.showInfoAlert('Se esta descargando los archivos');
     let archivos: any = [];
     for (const archivo of Object.keys(formularioReliquidacion.documentosCargados)) {
-        let aux: any = formularioReliquidacion.documentosCargados[archivo];
-        aux.key = archivo;
-        archivos.push(aux);
+      let aux: any = formularioReliquidacion.documentosCargados[archivo];
+      aux.key = archivo;
+      archivos.push(aux);
     }
     this.nuxeoService.getDocumentoById$(archivos, this.documentoService).subscribe((res: Object) => {
-        if (Object.keys(res).length === archivos.length) {
-            for (const archivo of archivos) {
-                window.open(res[archivo.key]);
-            }
+      if (Object.keys(res).length === archivos.length) {
+        for (const archivo of archivos) {
+          window.open(res[archivo.key]);
         }
+      }
     });
-}
+  }
 
-  nuevaSolicitud(){
+  nuevaSolicitud() {
     this.route.navigate([`pages/inscripcion`]);
   }
 
   deleteReliquidacion(evento: any) {
-    this.reliquidacionHelper.deleteSolicitud(evento).subscribe((res)=>{
+    this.reliquidacionHelper.deleteSolicitud(evento).subscribe((res) => {
       this.recargarTabla = true;
     })
   }
@@ -283,7 +302,7 @@ export class RevisionInscComponent implements OnInit {
   }
 
   updateReliquidacion(evento?: any) {
-    console.log(evento);
+    this.aniadirObservacion(evento.SolicitudId, evento.TerceroId);
   }
 
   onChange(event) {
@@ -317,5 +336,71 @@ export class RevisionInscComponent implements OnInit {
     this.params.order = 'desc';
     this.params.sortby = 'Id';
     return this.reliquidacionHelper.getSolicitudes(this.params);
+  }
+
+  guardarObservacion() {
+    if (this.modalObservaciones.invalid) {
+      this.validarObservacion = true;
+      this.pUpManager.showErrorToast('Formulario no válido');
+      return;
+    }
+    let observacion: any = { TipoObservacionId: {} };
+    observacion.Activo = true;
+    observacion.Id = null;
+    observacion.SolicitudId = this.solicitud;
+    observacion.TerceroId = this.terceroId;
+    observacion.TipoObservacionId.Id = this.observacion.tipo_observacion_id;
+    observacion.Titulo = 'Observación sobre reliquidación';
+    observacion.Valor = this.observacion.valor;
+    this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
+      this.grabarSolicitudEstado();
+    })
+  }
+
+  aniadirObservacion(evento, terceroId) {
+    if (evento && terceroId) {
+      this.solicitud = evento;
+      this.terceroId = terceroId;
+      this.dialog.open(this.observaciones);
+    }
+  }
+
+  verObservacionesSolicitud(evento) {
+    if (evento) {
+      this.solicitud = evento;
+      this.reliquidacionHelper.getObservaciones(this.solicitud).subscribe((observaciones) => {
+        this.observacionesSolicitud = observaciones;
+      })
+      this.dialog.open(this.verObservaciones);
+    }
+  }
+
+  grabarSolicitudEstado() {
+    let solicitudEvolucion: any = {};
+    solicitudEvolucion.Activo = true;
+    solicitudEvolucion.EstadoTipoSolicitudId = {};
+    solicitudEvolucion.EstadoTipoSolicitudId.Id = this.idEstadoSolicitud;
+    solicitudEvolucion.EstadoTipoSolicitudIdAnterior = this.solicitud.EstadoTipoSolicitudId || null;
+    solicitudEvolucion.Id = null;
+    solicitudEvolucion.SolicitudId = this.solicitud;
+    solicitudEvolucion.TerceroId = this.terceroId;
+    solicitudEvolucion.FechaCreacion = this.dateCustomPipe.transform(new Date());
+    solicitudEvolucion.FechaLimite = this.dateCustomPipe.transform(new Date());
+    solicitudEvolucion.FechaModificacion = this.dateCustomPipe.transform(new Date());
+    this.reliquidacionHelper.grabarSolicitudEvolucion(solicitudEvolucion).subscribe((res2) => {
+      this.solicitud.EstadoTipoSolicitudId = solicitudEvolucion.EstadoTipoSolicitudId;
+      this.solicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
+      this.solicitud.FechaRadicacion = this.dateCustomPipe.transform(new Date());
+      this.solicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
+      this.reliquidacionHelper.actualizarSolicitud(this.solicitud).subscribe((res3) => {
+        this.pUpManager.showInfoToast('Observación grabada');
+        let ruta = '/pages/revision';
+        if (this.rolesActivos[this.ROLES_CONSTANTS.ROLES_SISTEMA.ESTUDIANTE]) {
+          ruta = '/pages/revision-estudiante';
+        }
+        this.dialog.closeAll();
+        this.recargarTabla = true;
+      });
+    });
   }
 }

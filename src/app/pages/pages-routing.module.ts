@@ -8,6 +8,7 @@ import {RevisionInscComponent} from './revision-insc/revision-insc.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { AuthGuard } from '../@core/_guards/auth.guard';
 import { RolesConstanst } from '../shared/constants/roles.constants';
+import { ParametriaGuard } from '../@core/_guards/parametria.guard';
 
 const routes: Routes = [{
     path: '',
@@ -21,7 +22,7 @@ const routes: Routes = [{
         {
             path: 'inscripcion',
             component: InscripcionEstComponent,
-            canActivate: [AuthGuard],
+            canActivate: [AuthGuard, ParametriaGuard],
             data:{
                 roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
             }
@@ -29,7 +30,7 @@ const routes: Routes = [{
         {
             path: 'revision-estudiante/:id',
             component: InscripcionEstComponent,
-            canActivate: [AuthGuard],
+            canActivate: [AuthGuard, ParametriaGuard],
             data:{
                 roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
                 esRevisionEstudiante: true,
@@ -38,7 +39,7 @@ const routes: Routes = [{
         {
             path: 'revision-estudiante',
             component: RevisionInscComponent,
-            canActivate: [AuthGuard],
+            canActivate: [AuthGuard, ParametriaGuard],
             data:{
                 roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
                 esRevisionEstudiante: true,

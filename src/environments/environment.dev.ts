@@ -39,5 +39,6 @@ export const environment = {
     SIGN_OUT_URL: 'https://autenticacion.udistrital.edu.co/oidc/logout',
     SIGN_OUT_REDIRECT_URL: 'http://10.20.0.254/presupuesto/',
   },
-  INFO_USER: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/'
+  INFO_USER: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/',
+  PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/'
 };

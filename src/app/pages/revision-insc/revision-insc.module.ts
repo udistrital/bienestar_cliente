@@ -16,6 +16,8 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { RevisionInscComponent } from './revision-insc.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CustomPaginatorModule } from '../../shared/components/custom-paginator/custom-paginator.module';
+import { ComboGenericoModule } from '../../shared/components/combo-generico/combo-generico.module';
+import { InputGenericoModule } from '../../shared/components/input-generico/input-generico.module';
 
 @NgModule({
     imports: [
@@ -37,6 +39,8 @@ import { CustomPaginatorModule } from '../../shared/components/custom-paginator/
         NbLayoutModule,
         NbAccordionModule,
         CustomPaginatorModule,
+        ComboGenericoModule,
+        InputGenericoModule,
     ],
   declarations: [
     RevisionInscComponent,

@@ -327,7 +327,7 @@ export class ReliquidacionHelper {
 
     grabarObservacion(params) {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.get(`observacion`, params).pipe(
+        return this.rqManager.post(`observacion`, params).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {
@@ -384,6 +384,26 @@ export class ReliquidacionHelper {
     getSolicitudTercero(id: any): any {
         this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
         return this.rqManager.get(`info_complementaria_tercero/${id}`).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+
+     /**
+    * Gets INFO COMPLEMENTARIA
+    *  returns one user level at once.
+    */
+      getObservaciones(solicitud: any): any {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.get(`observacion?order=desc&sortby=Id&query=SolicitudId.Id:${solicitud.SolicitudId.Id}`).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

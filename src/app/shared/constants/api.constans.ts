@@ -32,6 +32,10 @@ export class ApiConstanst{
         REFORMADA: 21,
     }
 
+    public static PARAMETRIAS = {
+        FORMULARIO_RELIQUIDACION: '11',
+    }
+
     public static SOLICITUDES = {
         ESTADO_SOLICITUD_RELIQUIDACION : '22',
         ESTADO_SEGUNDA_REVISION: '27',
