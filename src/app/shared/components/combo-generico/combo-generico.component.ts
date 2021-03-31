@@ -47,7 +47,7 @@ export class ComboGenericoComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.parametros) {
       this.obtenerData();
     }
-    if (changes.requerido) {
+    if (this.requerido) {
       this.grupo.get(this.nombreInput).setValidators([Validators.required]);
     }
     if (changes.modelo){

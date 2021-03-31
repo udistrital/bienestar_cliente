@@ -27,6 +27,7 @@ export class RevisionInscComponent implements OnInit {
 
   @ViewChild('observaciones', { read: null, static: null }) observaciones: TemplateRef<any>;
   @ViewChild('verObservaciones', { read: null, static: null }) verObservaciones: TemplateRef<any>;
+  @ViewChild('dialogParametria', { read: null, static: null }) dialogParametria: TemplateRef<any>;
 
   ROLES_CONSTANTS = RolesConstanst;
 
@@ -68,6 +69,7 @@ export class RevisionInscComponent implements OnInit {
   solicitud: any;
   terceroId: any;
   observacionesSolicitud: any = [];
+  solicitudAnterior: any;
 
   constructor(
     private translate: TranslateService,
@@ -287,13 +289,15 @@ export class RevisionInscComponent implements OnInit {
     if (evento) {
       const data = JSON.parse(evento.SolicitudId.Referencia);
       if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]) {
-        this.route.navigate([`pages/revision/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
+        this.route.navigate([`pages/revision/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id, codActual: evento.Id } });
       } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.RADICADA) {
         this.pUpManager.showInfoToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RADICADA. Se notificara cuando la solicitud cambie de estado.');
       } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.REFORMADA) {
         this.pUpManager.showErrorToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado REFORMADA. Puedes revisar las observaciones');
       } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.RECHAZADO) {
         this.pUpManager.showErrorToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RECHAZADO. Puedes revisar las observaciones');
+      } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.ACEPTADA) {
+        this.pUpManager.showInfoToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado ACEPTADA. Puedes revisar las observaciones');
       } else {
         this.route.navigate([`pages/revision-estudiante/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id } });
 
@@ -302,7 +306,7 @@ export class RevisionInscComponent implements OnInit {
   }
 
   updateReliquidacion(evento?: any) {
-    this.aniadirObservacion(evento.SolicitudId, evento.TerceroId);
+    this.aniadirObservacion(evento.SolicitudId, evento.TerceroId, evento);
   }
 
   onChange(event) {
@@ -326,7 +330,7 @@ export class RevisionInscComponent implements OnInit {
   }
 
   obtenerRegistros(evento): any {
-    this.params.query = `EstadoTipoSolicitudId.TipoSolicitud.Id:${ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION}`;
+    this.params.query = `EstadoTipoSolicitudId.TipoSolicitud.Id:${ApiConstanst.SOLICITUDES.TIPO_SOLICITUD_RELIQUDIACION},Activo:true`;
     if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && this.estudiante) {
       const query = `,TerceroId:${this.estudiante.Id}`;
       this.params.query = `${this.params.query}${query}`
@@ -344,25 +348,33 @@ export class RevisionInscComponent implements OnInit {
       this.pUpManager.showErrorToast('Formulario no válido');
       return;
     }
-    let observacion: any = { TipoObservacionId: {} };
-    observacion.Activo = true;
-    observacion.Id = null;
-    observacion.SolicitudId = this.solicitud;
-    observacion.TerceroId = this.terceroId;
-    observacion.TipoObservacionId.Id = this.observacion.tipo_observacion_id;
-    observacion.Titulo = 'Observación sobre reliquidación';
-    observacion.Valor = this.observacion.valor;
-    this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
-      this.grabarSolicitudEstado();
-    })
+    this.solicitudAnterior.Activo = false;
+    this.reliquidacionHelper.updateSolicitudEstado(this.solicitudAnterior).subscribe((solicitudAnt)=>{
+      let observacion: any = { TipoObservacionId: {} };
+      observacion.Activo = true;
+      observacion.Id = null;
+      observacion.SolicitudId = this.solicitud;
+      observacion.TerceroId = this.terceroId;
+      observacion.TipoObservacionId.Id = this.observacion.tipo_observacion_id;
+      observacion.Titulo = 'Observación sobre reliquidación';
+      observacion.Valor = this.observacion.valor;
+      this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
+        this.grabarSolicitudEstado();
+      })
+    });
   }
 
-  aniadirObservacion(evento, terceroId) {
-    if (evento && terceroId) {
+  aniadirObservacion(evento, terceroId, estadoSolicitud) {
+    if (evento && terceroId && estadoSolicitud) {
       this.solicitud = evento;
       this.terceroId = terceroId;
+      this.solicitudAnterior = estadoSolicitud;
       this.dialog.open(this.observaciones);
     }
+  }
+
+  abrirParametria(){
+    this.dialog.open(this.dialogParametria);
   }
 
   verObservacionesSolicitud(evento) {

@@ -18,6 +18,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CustomPaginatorModule } from '../../shared/components/custom-paginator/custom-paginator.module';
 import { ComboGenericoModule } from '../../shared/components/combo-generico/combo-generico.module';
 import { InputGenericoModule } from '../../shared/components/input-generico/input-generico.module';
+import { ParametriaPeriodoModule } from '../../shared/components/parametria-periodo/parametria-periodo.module';
 
 @NgModule({
     imports: [
@@ -41,6 +42,7 @@ import { InputGenericoModule } from '../../shared/components/input-generico/inpu
         CustomPaginatorModule,
         ComboGenericoModule,
         InputGenericoModule,
+        ParametriaPeriodoModule,
     ],
   declarations: [
     RevisionInscComponent,

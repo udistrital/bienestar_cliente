@@ -401,9 +401,47 @@ export class ReliquidacionHelper {
     * Gets INFO COMPLEMENTARIA
     *  returns one user level at once.
     */
-      getObservaciones(solicitud: any): any {
+      getObservaciones(solicitud: any, solicitudId?: any): any {
         this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
-        return this.rqManager.get(`observacion?order=desc&sortby=Id&query=SolicitudId.Id:${solicitud.SolicitudId.Id}`).pipe(
+        return this.rqManager.get(`observacion?order=desc&sortby=Id&query=SolicitudId.Id:${(solicitudId || solicitud.SolicitudId.Id)}`).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+     /**
+    * Gets INFO COMPLEMENTARIA
+    *  returns one user level at once.
+    */
+      updateSolicitudEstado(solicitudAnterior: any): any {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.put('solicitud_evolucion_estado/',solicitudAnterior,solicitudAnterior.Id).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se se pudo cargar la información.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
+
+     /**
+    * Gets INFO COMPLEMENTARIA
+    *  returns one user level at once.
+    */
+      getSolicitudEstado(id: any): any {
+        this.rqManager.setPath('SOLICITUD_CRUD_SERVICE');
+        return this.rqManager.get(`solicitud_evolucion_estado/${id}`).pipe(
             map(
                 (res) => {
                     if (res['Type'] === 'error') {

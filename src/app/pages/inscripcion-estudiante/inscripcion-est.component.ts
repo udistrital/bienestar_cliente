@@ -32,9 +32,11 @@ export class InscripcionEstComponent implements OnInit {
     observacion: any = {};
     estadoSolicitud: any = {};
     idEstadoSolicitud: any;
+    guardandoObservacion: any = false;
 
     @ViewChild('dialogo', { read: null, static: null }) dialogo: TemplateRef<any>;
     @ViewChild('observaciones', { read: null, static: null }) observaciones: TemplateRef<any>;
+    @ViewChild('verObservaciones', { read: null, static: null }) verObservaciones: TemplateRef<any>;
 
     estudiante: any;
     validar = false;
@@ -66,6 +68,8 @@ export class InscripcionEstComponent implements OnInit {
     };
     esRevisionEstudiante: boolean;
     terceroInfoComplementaria: any;
+    observacionesSolicitud: any = [];
+    solicitudAnterior: any;
 
     constructor(
         private httpClient: HttpClient,
@@ -105,6 +109,9 @@ export class InscripcionEstComponent implements OnInit {
         this.route.queryParams.subscribe((params) => {
             if (params.codSolicitud) {
                 this.obtenerSolicitud(params.codSolicitud);
+            }
+            if(params.codActual){
+                this.obtenerEstadoSolicitud(params.codActual);
             }
         });
         if (!esRevisionEstudiante) {
@@ -147,6 +154,12 @@ export class InscripcionEstComponent implements OnInit {
         });
     }
 
+    obtenerEstadoSolicitud(id: any) {
+        this.reliquidacionHelper.getSolicitudEstado(id).subscribe((res) => {
+            this.solicitudAnterior = res.Data;
+        });
+    }
+
     getInfoComplementariaSolicitudes() {
         this.reliquidacionHelper.obtenerInfoComplementaria(ApiConstanst.INFO_COMPLEMENTARIA.INFO_COMPLEMENTARIA_SOLICITUD_RELIQUIDACION).subscribe((res) => {
             this.bodyReliquidacion = res;
@@ -165,6 +178,7 @@ export class InscripcionEstComponent implements OnInit {
 
 
     llamardialogo() {
+        console.log(this.formulario);
         if (this.formulario.invalid) {
             this.validar = true;
             this.pUpManager.showErrorToast('Formulario no válido');
@@ -178,6 +192,7 @@ export class InscripcionEstComponent implements OnInit {
     }
 
     enviarInformacionReliquidacion() {
+        this.guardandoObservacion = true;
         if (this.esRevisionEstudiante) {
             const archivosAdjuntos = [];
             for (const file of this.formularioReliquidacion.documentosAdjuntos) {
@@ -204,8 +219,8 @@ export class InscripcionEstComponent implements OnInit {
             else {
                 this.nuxeoService.getDocumentos$(archivosAdjuntos, this.documentoService).subscribe((res) => {
                     if (archivosAdjuntos.length === Object.keys(res).length) {
-                        for(const archivoNuevo of Object.keys(res)){
-                            if(this.formularioReliquidacion.documentosCargados[archivoNuevo]){
+                        for (const archivoNuevo of Object.keys(res)) {
+                            if (this.formularioReliquidacion.documentosCargados[archivoNuevo]) {
                                 this.formularioReliquidacion.documentosCargados[archivoNuevo] = res[archivoNuevo];
                             }
                         }
@@ -344,17 +359,20 @@ export class InscripcionEstComponent implements OnInit {
             this.pUpManager.showErrorToast('Formulario no válido');
             return;
         }
-        let observacion: any = {TipoObservacionId: {}};
-        observacion.Activo = true;
-        observacion.Id = null;
-        observacion.SolicitudId = this.solicitud;
-        observacion.TerceroId = this.estudiante.Id;
-        observacion.TipoObservacionId.Id = this.observacion.tipo_observacion_id;
-        observacion.Titulo = 'Observación sobre reliquidación';
-        observacion.Valor = this.observacion.valor;
-        this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
-            this.grabarSolicitudEstado(undefined, true);
-        })
+        this.solicitudAnterior.Activo = false;
+        this.reliquidacionHelper.updateSolicitudEstado(this.solicitudAnterior).subscribe((solicitudAnt)=>{
+            let observacion: any = { TipoObservacionId: {} };
+            observacion.Activo = true;
+            observacion.Id = null;
+            observacion.SolicitudId = this.solicitud;
+            observacion.TerceroId = this.estudiante.Id;
+            observacion.TipoObservacionId.Id = this.observacion.tipo_observacion_id;
+            observacion.Titulo = 'Observación sobre reliquidación';
+            observacion.Valor = this.observacion.valor;
+            this.reliquidacionHelper.grabarObservacion(observacion).subscribe((res) => {
+                this.grabarSolicitudEstado(undefined,true);
+            })
+        });
     }
 
     grabarSolicitudEstado(mensaje?: any, esRevision?: any) {
@@ -387,6 +405,7 @@ export class InscripcionEstComponent implements OnInit {
                 }
                 this.router.navigate([ruta]);
                 this.dialog.closeAll();
+                this.guardandoObservacion = false;
             });
         });
     }
@@ -406,6 +425,13 @@ export class InscripcionEstComponent implements OnInit {
                 }
             }
         });
+    }
+
+    verObservacioneSolicitud() {
+        this.reliquidacionHelper.getObservaciones(undefined, this.solicitud.Id).subscribe((observaciones) => {
+            this.observacionesSolicitud = observaciones;
+        })
+        this.dialog.open(this.verObservaciones);
     }
 
 }

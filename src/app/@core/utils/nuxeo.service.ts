@@ -164,7 +164,7 @@ export class NuxeoService {
                                         .then(function (blob) {
                                             blob.blob()
                                                 .then(function (responseblob) {
-                                                    const url = URL.createObjectURL(responseblob)
+                                                    const url = URL.createObjectURL(responseblob);
                                                     nuxeoservice.blobDocument[file.key] = url;
                                                     nuxeoservice.blobDocument$.next(nuxeoservice.blobDocument);
                                                 });

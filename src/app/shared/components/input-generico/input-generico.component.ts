@@ -44,10 +44,10 @@ export class InputGenericoComponent implements OnInit, OnDestroy, OnChanges {
 
   setValidatorsInput(changes: any) {
     const validators: any = [];
-    if (changes.patron) {
+    if (this.patron) {
       validators.push(Validators.pattern(this.patron));
     }
-    if (changes.requerido) {
+    if (this.requerido) {
       validators.push(Validators.required);
     }
     this.grupo.get(this.nombreInput).setValidators(validators);
@@ -60,6 +60,7 @@ export class InputGenericoComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   inputTieneErrores() {
+    this.grupo.get(this.nombreInput).updateValueAndValidity();
     if (this.grupo.get(this.nombreInput).invalid && this.grupo.get(this.nombreInput).dirty || this.validar && this.grupo.get(this.nombreInput).invalid) {
       this.eventoErrorInput.emit(true);
     }

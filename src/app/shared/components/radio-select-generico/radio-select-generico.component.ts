@@ -52,7 +52,7 @@ export class RadioSelectGenericoComponent implements OnInit, OnDestroy, OnChange
 
   setValidatorsInput(changes: any) {
     const validators: any = [];
-    if(changes.requerido){
+    if(this.requerido){
       validators.push(Validators.required);
     }
     this.grupo.get(this.nombreInput).setValidators(validators);

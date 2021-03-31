@@ -41,9 +41,7 @@ export class ArchivosGenericoComponent implements OnInit, OnChanges {
     if (changes.grupo) {
       this.grupo.addControl(this.nombreInput, new FormControl(''));
     }
-    if (changes.requerido && changes.requerido.currentValue || changes.mostrarResubir && changes.mostrarResubir.currentValue) {
-        this.setValidators();
-    }
+    this.setValidators();
     if(changes.validar){
       this.inputTieneErrores();
     }

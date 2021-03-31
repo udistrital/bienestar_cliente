@@ -4,6 +4,7 @@
         <div class="d-flex justify-content-between">
           <h5>Lista de solicitudes</h5>
           <button nbButton status="success" *ngIf="esRevisionEstudiante" class="mx-2" type="button" (click)="nuevaSolicitud()">Agregar nueva solicitud</button>
+          <button nbButton status="success" *ngIf="!esRevisionEstudiante" class="mx-2" type="button" (click)="abrirParametria()">Cambiar fecha formulario</button>
         </div>
       </nb-card-header>
       <nb-card-body>
@@ -112,4 +113,9 @@
   <div mat-dialog-actions class="d-flex flex-row-reverse">
     <button nbButton status="success" class="mx-2" type="button" (click)="dialog.closeAll()">Cerrar</button>
   </div>
+</ng-template>
+
+<ng-template #dialogParametria>
+  <h4 mat-dialog-title>Cambiar fecha de parametría</h4>
+  <ngx-parametria-periodo (cerrar)="dialog.closeAll()"></ngx-parametria-periodo>
 </ng-template>
