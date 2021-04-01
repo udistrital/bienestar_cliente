@@ -129,7 +129,7 @@ export class ListService {
     );
   }
   findParametroPeriodoSp(idNumber: number): Observable<any[]> {
-    console.info(idNumber);
+   /*  console.info(idNumber); */
     return this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=1`)
   }
 

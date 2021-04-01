@@ -1,3 +1,5 @@
+{{ facultadAccesso | json }}
+
 <nb-card *ngIf="periodo==null">
     <div class="menu-header">
         <h1>
@@ -57,7 +59,7 @@
                             <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Sede</span>
                         </div>
                         <select class="form-control custom-select input-text-ud" name="sede" [disabled]="sedesAccesso.length === 0" [class.is-invalid]="sede.invalid && sede.touched" [ngModel]="registroBase.sede" nombre="sede" required placeholder="Sede" required #sede="ngModel">
-                    <option *ngFor="let sede of sedesAccesso" [value]="sede">{{sede}}</option>
+                    <option *ngFor="let sede of sedesAccesso; let i=index;" [value]="i">{{sede}}</option>
                 </select>
                     </div>
                     <div class="small-ud">
@@ -74,7 +76,7 @@
                                 Estudiante
                             </span>
                         </div>
-                        <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante" [(ngModel)]="registroBase.codigo" #codigo="ngModel" [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{11}" required>
+                        <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante" [(ngModel)]="registroBase.codigo" #codigo="ngModel" [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{9,}" required>
                     </div>
                     <div class="small-ud">
                         <small *ngIf="codigo.invalid && codigo.touched " class="form-text text-danger mt-n4 mb-2">Tienes que ingresar un codigo correcto</small>
@@ -82,7 +84,7 @@
                     <hr>
                     <div class="form-group">
                         <!-- <button type="submit" class="btn btn-warning btn-block"> -->
-                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" (click)="showToast()" class="submit-button">
+                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button">
                             <i class="fas fa-save mr-1"></i>
                             Guardar
                         </button>
