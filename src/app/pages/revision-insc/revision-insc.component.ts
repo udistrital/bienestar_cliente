@@ -266,11 +266,13 @@ export class RevisionInscComponent implements OnInit {
       aux.key = archivo;
       archivos.push(aux);
     }
+    let terminoDescargar = false;
     this.nuxeoService.getDocumentoById$(archivos, this.documentoService).subscribe((res: Object) => {
-      if (Object.keys(res).length === archivos.length) {
+      if (Object.keys(res).length === archivos.length && !terminoDescargar) {
         for (const archivo of archivos) {
           window.open(res[archivo.key]);
         }
+        terminoDescargar = true;
       }
     });
   }
@@ -349,7 +351,7 @@ export class RevisionInscComponent implements OnInit {
       return;
     }
     this.solicitudAnterior.Activo = false;
-    this.reliquidacionHelper.updateSolicitudEstado(this.solicitudAnterior).subscribe((solicitudAnt)=>{
+    this.reliquidacionHelper.updateSolicitudEstado(this.solicitudAnterior).subscribe((solicitudAnt) => {
       let observacion: any = { TipoObservacionId: {} };
       observacion.Activo = true;
       observacion.Id = null;
@@ -373,7 +375,7 @@ export class RevisionInscComponent implements OnInit {
     }
   }
 
-  abrirParametria(){
+  abrirParametria() {
     this.dialog.open(this.dialogParametria);
   }
 

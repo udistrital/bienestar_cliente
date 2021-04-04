@@ -12,6 +12,21 @@ const baseInfoComplementaria = 'info_complementaria?query=GrupoInfoComplementari
     providedIn: 'root',
 })
 export class ReliquidacionHelper {
+    getInfoTercero(sub: any, TIPO_INFO: string) {
+        this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
+
+        return this.rqManager.get(`info_complementaria_tercero?query=TerceroId.UsuarioWSO2:${sub},InfoComplementariaId.GrupoInfoComplementariaId.Id:${TIPO_INFO}`).pipe(
+            map(
+                (res) => {
+                    if (res['Type'] === 'error') {
+                        this.pUpManager.showErrorAlert('No se Pudo registrar el rubro, compruebe que no exista un rubro con el mismo código o que este código sea admitido.');
+                        return undefined;
+                    }
+                    return res;
+                },
+            ),
+        );
+    }
 
 
 

@@ -172,13 +172,38 @@ export class InscripcionEstComponent implements OnInit {
                 this.estudiante = res[0].TerceroId;
                 this.estudiante.documento = this.autenticacion.getPayload().documento;
                 this.estudiante.documento_compuesto = this.autenticacion.getPayload().documento_compuesto;
+                this.getInfoTerceros();
             });
         }
     }
 
 
+    getInfoTerceros(){
+        this.reliquidacionHelper.getInfoTercero(this.autenticacion.getPayload().sub,ApiConstanst.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL).subscribe((res)=>{
+            this.formularioReliquidacion.estadocivil = res[0].InfoComplementariaId.Id;
+        });
+        this.reliquidacionHelper.getInfoTercero(this.autenticacion.getPayload().sub,ApiConstanst.INFO_COMPLEMENTARIA.INFO_SOCIOECONOMICA).subscribe((res)=>{
+            for(const dato of res){
+                if(dato.InfoComplementariaId.Id.toString()===ApiConstanst.INFO_COMPLEMENTARIA.ESTRATO_ESCRITO){
+                    this.formularioReliquidacion.estrato = ApiConstanst.ESTRATOS_SOCIALES[JSON.parse(dato.Dato).value];
+                }
+            }
+        });
+        this.reliquidacionHelper.getInfoTercero(this.autenticacion.getPayload().sub,ApiConstanst.INFO_COMPLEMENTARIA.INFO_ESTUDIANTE).subscribe((res)=>{
+            for(const dato of res){
+                console.log(JSON.parse(dato.Dato));
+                if(dato.InfoComplementariaId.Id.toString()===ApiConstanst.INFO_COMPLEMENTARIA.INFO_DIRECCION){
+                    this.formularioReliquidacion.direccion = JSON.parse(dato.Dato).address;
+                }
+            }
+        });
+        this.reliquidacionHelper.getInfoTercero(this.autenticacion.getPayload().sub,ApiConstanst.INFO_COMPLEMENTARIA.INFO_ACADEMICA).subscribe((res)=>{
+            console.log(res);
+        });
+    }
+
+
     llamardialogo() {
-        console.log(this.formulario);
         if (this.formulario.invalid) {
             this.validar = true;
             this.pUpManager.showErrorToast('Formulario no válido');
@@ -418,11 +443,13 @@ export class InscripcionEstComponent implements OnInit {
             aux.key = archivo;
             archivos.push(aux);
         }
+        let terminoDescargar = false;
         this.nuxeoService.getDocumentoById$(archivos, this.documentoService).subscribe((res: Object) => {
-            if (Object.keys(res).length === archivos.length) {
+            if (Object.keys(res).length === archivos.length && !terminoDescargar) {
                 for (const archivo of archivos) {
                     window.open(res[archivo.key]);
                 }
+                terminoDescargar = true;
             }
         });
     }

@@ -8,6 +8,7 @@ export class ApiConstanst{
         LOCALIDADES: '29',
         MUNICIPIOS: '30',
         ESTRATO: '31',
+        ESTRATO_ESCRITO : '41',
         DEPENDENCIA_ECONOMICA: '32',
         POSEE_SISBEN: '33',
         TIPO_COLEGIO: '34',
@@ -22,6 +23,19 @@ export class ApiConstanst{
         DET_PERS_CARGO: '44',
         DET_DESPLAZADO: '45',
         INFO_COMPLEMENTARIA_SOLICITUD_RELIQUIDACION: '205',
+        INFO_ESTUDIANTE: '10',
+        INFO_DIRECCION : '54',
+        INFO_ACADEMICA : '17',
+    }
+
+    public static ESTRATOS_SOCIALES = {
+        "0": 159,
+        "1": 160,
+        "2": 161,
+        "3": 162,
+        "4": 163,
+        "5": 164,
+        "6": 165,
     }
 
     public static ESTADO_SOLICITUD = {
