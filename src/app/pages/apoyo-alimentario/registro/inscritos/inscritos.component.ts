@@ -24,9 +24,11 @@ import { Solicitud } from "../../../../@core/data/models/solicitud/solicitud";
 import { SolicitudService } from "../../../../@core/data/solicitud.service";
 import { ReferenciaSolicitud } from "../../../../@core/data/models/solicitud/referencia-solicitud";
 
-import { id } from "@swimlane/ngx-charts/release/utils";
 import { Registro } from "../../../../@core/data/models/registro";
 import { AcademicaService } from "../../../../@core/data/academica.service";
+import { ImplicitAutenticationService } from "../../../../@core/utils/implicit_autentication.service";
+import { CoreService } from "../../../../@core/data/core.service";
+import { RegistroApoyo } from "../../../../@core/data/models/solicitud/registro-apoyo";
 
 @Component({
   selector: "ngx-inscritos",
@@ -42,7 +44,8 @@ export class InscritosComponent implements OnInit {
   periodo: Periodo = null;
   fechaActual = new FechaModel();
   myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
-
+  usuarioWSO2 = "";
+  private autenticacion = new ImplicitAutenticationService();
 
   constructor(
     private toastrService: NbToastrService,
@@ -53,8 +56,20 @@ export class InscritosComponent implements OnInit {
     private store: Store<IAppState>,
     private solicitudService: SolicitudService,
     private academicaService: AcademicaService,
-    private listService: ListService
+    private listService: ListService,
+    private coreService: CoreService
   ) {
+    Swal.fire({
+      title: "Por favor espere!",
+      html: `cargando información de formulario`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+    Swal.showLoading();
+    this.usuarioWSO2 = this.autenticacion.getPayload().email
+      ? this.autenticacion.getPayload().email.split("@").shift()
+      : this.autenticacion.getPayload().sub;
+
     this.myDate = this.datePipe.transform(this.myDate, "yyyy-MM-dd");
     this.listService.findParametroPeriodo(environment.IDS.IDSERVICIOAPOYO);
     this.loadPeriodo();
@@ -64,8 +79,9 @@ export class InscritosComponent implements OnInit {
           this.cargarFacultades();
         }
       })
-      .catch(() => {
-        console.error("Error en cargar sedes");
+      .catch((error) => {
+        Swal.close();
+        Swal.fire("Error", `<p>${error}</p>`, "error");
       });
   }
 
@@ -77,9 +93,9 @@ export class InscritosComponent implements OnInit {
         if (listaParam.length > 0 && this.periodo === null) {
           console.info("Periodo");
           console.info(listaParam);
-          for (let parametro of <Array<ParametroPeriodo>>listaParam[0]["Data"]){
+          for (let parametro of <Array<ParametroPeriodo>>listaParam[0]["Data"]) {
             console.log(parametro);
-            if(parametro.Activo){
+            if (parametro.Activo) {
               this.periodo = parametro.PeriodoId;
               break;
             }
@@ -113,26 +129,31 @@ export class InscritosComponent implements OnInit {
         console.log(terceroReg);
         this.registrarInscrito(terceroReg.Id).then((resp) => {
           console.log(resp);
-          this.showToast("Registro beneficiario", `Estudiante: ${this.registroBase.codigo}`);
+          this.registrar(this.registroBase.sede, resp.Id, terceroReg.Id).then((msj) => {
+            this.showToast(`${this.registroBase.codigo}`, `${msj} (Beneficiario)`);
+          }).catch((error) => {
+            this.showError(`${this.registroBase.codigo}`, error);
+          });
         }
         ).catch((error) => {
-          console.log("Error desde Guardar",error);
           if (error == "No se encuentra inscrito" && this.noBeneficiarios) {
             this.registrarNoInscrito(terceroReg.Id).then((resp) => {
-              console.log(resp);
-              this.showToast("Registro NO beneficiario", `Estudiante: ${this.registroBase.codigo}`);
+              this.registrar(this.registroBase.sede, 0, terceroReg.Id).then((msj) => {
+                this.showToast(`${this.registroBase.codigo}`, `${msj} (No beneficiario)`);
+              }).catch((error) => {
+                this.showError(`${this.registroBase.codigo}`, error);
+              });
             }
             ).catch((err) => {
-              this.showError(`${err} ${this.registroBase.codigo}`);
+              this.showError(`${this.registroBase.codigo}`, `${err}`);
             });
           } else {
-            this.showError(`${error} ${this.registroBase.codigo}`);
+            this.showError(`${this.registroBase.codigo}`, `${error}`);
           }
-
         });
         /* Sin fallos pero no se encuentra */
       } else {
-        this.showError(`No se encuentra el documento ${this.registroBase.codigo}`);
+        this.showError(`${this.registroBase.codigo}`, "No se encuentra el documento");
       }
     })
       .catch(() => {
@@ -144,6 +165,24 @@ export class InscritosComponent implements OnInit {
     });
     form.value["codigo"] = "";
   }
+  registrar(idSede: string, idSolicitud: number, idTercero: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      //resolve(`Registro #${145}`);
+      const idSed = this.sedesAccesso[idSede].Id;
+      const newReg: RegistroApoyo =
+        new RegistroApoyo(this.periodo.Id,
+          this.myDate.toString(),
+          idSed,
+          idSolicitud,
+          idTercero,
+          this.usuarioWSO2);
+      this.solicitudService.post('registro_apoyo', JSON.stringify(newReg))
+        .subscribe(res => {
+          newReg.id = res['Data']['Id']
+          resolve(`Registro #${newReg.id}`);
+        }, (error) => reject(error));
+    });
+  }
 
   registrarInscrito(Id: number): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -152,8 +191,8 @@ export class InscritosComponent implements OnInit {
           this.loadFacultadTercero(Id).then((respDependencia) => {
             console.log(respDependencia);
             resolve(resp);
-          }).catch((error)=> {
-          reject(error);
+          }).catch((error) => {
+            reject(error);
           });
         } else {
           reject("No se encuentra inscrito");
@@ -193,7 +232,7 @@ export class InscritosComponent implements OnInit {
                   if (resp[0].PadreId.Nombre == this.facultadAccesso[this.registroBase.sede]) {
                     console.log("Iguales");
                     resolve(true);
-                  } else {                  
+                  } else {
                     Swal.fire({
                       title: 'Estudiante de otra facultad',
                       text: "¿Deseas aceptar este registro?",
@@ -240,8 +279,12 @@ export class InscritosComponent implements OnInit {
   registrarNoInscrito(Idtercero: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this.cargarEstadoTercero(Idtercero).then((estado) => {
-        console.log(estado);
-        resolve("Se registra no inscrito");
+        this.loadFacultadTercero(Idtercero).then((respDependencia) => {
+          console.log(respDependencia);
+          resolve("Se registra no inscrito");
+        }).catch((error) => {
+          reject(error);
+        });
       }).catch((error) => reject(error));
     });
   }
@@ -261,7 +304,6 @@ export class InscritosComponent implements OnInit {
         } else {
           reject("No se encuentra carnet asociado");
         }
-
       }).catch((error) => reject(error));
 
 
@@ -395,9 +437,13 @@ export class InscritosComponent implements OnInit {
         .subscribe(
           (result) => {
             for (let i = 0; i < result.length; i++) {
-              this.sedesAccesso.push(result[i].EspacioFisicoId.Nombre);
+              this.sedesAccesso.push(result[i].EspacioFisicoId);
             }
-            resolve(true);
+            if (this.sedesAccesso.length > 0) {
+              resolve(true);
+            } else {
+              reject("Error al cargar las sedes")
+            }
           },
           (error: HttpErrorResponse) => {
             Swal.fire({
@@ -415,22 +461,6 @@ export class InscritosComponent implements OnInit {
         );
     });
 
-    //temporal
-    /* let ingenieria = new SedeModel();
-    ingenieria.id = "1";
-    ingenieria.nombre = "Ingenieria";
-
-    let macarena = new SedeModel();
-    macarena.id = "2";
-    macarena.nombre = "Macarena";
-
-    let vivero = new SedeModel();
-    vivero.id = "3";
-    vivero.nombre = "Vivero"; */
-    /* 
-    this.sedesAccesso.push(ingenieria);
-    this.sedesAccesso.push(macarena);
-    this.sedesAccesso.push(vivero); */
   }
 
   async cargarFacultades() {
@@ -442,7 +472,7 @@ export class InscritosComponent implements OnInit {
       console.log("Buscando facultad de:", this.sedesAccesso[i]);
       this.oikosService
         .get(
-          `asignacion_espacio_fisico_dependencia?query=EspacioFisicoId.Nombre:${this.sedesAccesso[i]}&limit=-1`
+          `asignacion_espacio_fisico_dependencia?query=EspacioFisicoId.Nombre:${this.sedesAccesso[i].Nombre}&limit=-1`
         )
         .subscribe((result) => {
           for (let j = 0; j < result.length; j++) {
@@ -453,6 +483,7 @@ export class InscritosComponent implements OnInit {
               break;
             }
           }
+          Swal.close();
           /* console.log(
             "se encuenta facultad de:",
             result[0].DependenciaId.Nombre
@@ -481,17 +512,17 @@ export class InscritosComponent implements OnInit {
     this.registroBase.codigo = "";
   }
 
-  showError(error) {
-    let reg = new Registro("Error", error, "alert-danger");
+  showError(titulo, error) {
+    let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
     this.toastrService.show(
       error,
       /* `Estudiante: ${this.registroBase.codigo}`, */
-      "Error: ",
+      titulo,
       {
         position: NbGlobalPhysicalPosition.TOP_RIGHT,
         status: "danger",
-        duration: 2000,
+        duration: 3000,
         icon: "checkmark-square-outline",
       }
     );

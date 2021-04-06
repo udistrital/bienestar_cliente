@@ -64,7 +64,7 @@
                             <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Sede</span>
                         </div>
                         <select class="form-control custom-select input-text-ud" name="sede" [disabled]="sedesAccesso.length === 0" [class.is-invalid]="sede.invalid && sede.touched" [ngModel]="registroBase.sede" nombre="sede" required placeholder="Sede" required #sede="ngModel">
-                            <option *ngFor="let sede of sedesAccesso; let i=index;" [value]="i">{{sede}}</option>
+                            <option *ngFor="let sede of sedesAccesso; let i=index;" [value]="i">{{sede.Nombre}}</option>
                         </select>
                         <br>
                     </div>
@@ -118,11 +118,9 @@
                     <h4 class="non-selectable">Registros</h4>
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    <div *ngFor="let registoAprovado of registosAprovados.reverse();" class="alert alert-warning" role="alert">
-                    </div>
                     <div *ngFor="let reg of registros.reverse()">
                         <div [ngClass]="reg.Clase" class="alert" role="alert">
-                            {{reg.Titulo}} <strong> {{reg.Mensaje}} </strong>
+                             <strong> {{reg.Titulo}} </strong> {{reg.Mensaje}}
                         </div>
                     </div>
                 </nb-accordion-item-body>

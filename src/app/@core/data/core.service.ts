@@ -25,6 +25,7 @@ export class CoreService {
     return this.requestManager.get(endpoint);
   }
   post(endpoint, element) {
+    console.log(element);
     this.requestManager.setPath('CORE_SERVICE');
     return this.requestManager.post(endpoint, element);
   }
