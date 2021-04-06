@@ -37,6 +37,9 @@ import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.compo
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
+import { PeriodoComponent } from './informes/periodo/periodo.component';
+import { DiarioComponent } from './informes/diario/diario.component';
+import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
 
 @NgModule({
     imports: [
@@ -76,6 +79,9 @@ import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/eva
     SolicitudTerceroComponent,
     SolicitudesComponent,
     EvaluarSolicitudComponent,
+    PeriodoComponent,
+    DiarioComponent,
+    InformePeriodoComponent,
    ],
   providers: [
 

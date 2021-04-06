@@ -3,7 +3,7 @@
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
-                    Listado de Periodos
+                    Listado de Informes por Periodo
                 </h1>
                 <button class="btn back-button" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -14,26 +14,27 @@
     </nb-card-header>
     <hr>
     <nb-card-body>
-        <table *ngIf="periodos.length>0" class="table mt-2"  style="text-align:center;">
+        <table *ngIf="periodos.length>0" class="table mt-3">
             <thead class="bg-ud-table">
                 <tr>
                     <th scope="col">Periodo</th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-ud-table-cell">
                 <tr *ngFor="let item of periodos; let i = index">
-                    <th>
+
+                    <td *ngIf="mostrarInforme(i)">
                         {{ item.Nombre }} &nbsp; &nbsp;
                         <span *ngIf="item.Activo" class="badge rounded-pill bg-success">Activo</span>
                         <span *ngIf="!item.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
-                    </th>
-                    <td>
-                        <button *ngIf="mostrarIniciarInscripcion(i)" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
-                                <i class="fa fa-play " aria-hidden="true"></i>
-                                Iniciar inscripciones
-                            </button>
-                        <button *ngIf="mostrarDetenerInscripcion(i)" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
+                    </td>
+                    <td *ngIf="mostrarInforme(i)">
+                        <button class="btn student-icon " (click)="navigateInformePeriodo(item.Id)" title="Mostrar Informacion del periodo">
+                            <i class="fa fa-file-invoice " aria-hidden="true"></i>
+                            Ver Informe de Cierre
+                        </button>
+                        <!-- <button *ngIf="mostrarDetenerInscripcion(i)" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
                                 <i class="fa fa-stop " aria-hidden="true"></i>
                                 Detener inscripciones
                             </button>
@@ -57,23 +58,13 @@
                                 <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
                                 Cerrar periodo
                         </button>
-                        <button *ngIf="mostrarReactivarPeriodo(i)" class="btn student-icon" (click)="detenerParametro(i,'cierre')" title="Reactivar servicio">
-                            <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
-                            Reactivar periodo
-                        </button>
-                        <button *ngIf="mostrarVolverACerrarPeriodo(i)" class="btn delete-icon" (click)="reactivarParametro(i, 'cierre')" title="Volver a cerrar periodo">
-                            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
-                            Cerrar periodo
-                        </button>
-
-                        <p *ngIf="periodoCerrado(i) && !mostrarReactivarPeriodo(i)">
+                        <p *ngIf="periodoCerrado(i)">
                             Periodo cerrado
-                        </p>
+                        </p> -->
                     </td>
                 </tr>
             </tbody>
         </table>
-    
         <div *ngIf="periodos.length==0" class="alert alert-warning text-center mt-3">
             <h3 class="alert-heading">No hay registros</h3>
             <p>
