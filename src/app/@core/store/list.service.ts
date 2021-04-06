@@ -71,7 +71,6 @@ export class ListService {
       .subscribe(res => {
         const r = <any>res;
         if (res !== null && r.Type !== 'error') {
-          console.info(res);
           const parametro = <Parametro>res['Data'][0];
           paramPeriodo.ParametroId = parametro
           this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
@@ -97,7 +96,11 @@ export class ListService {
           this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
             .subscribe(
               (result: any[]) => {
-                this.addList(REDUCER_LIST.Parametros, result);
+                if(Object.keys(result['Data'][0]).length > 0){
+                  this.addList(REDUCER_LIST.Parametros, result);
+                }else{
+                  this.addList(REDUCER_LIST.Parametros, []);
+                }
               },
               error => {
                 this.addList(REDUCER_LIST.Parametros, []);
@@ -109,15 +112,12 @@ export class ListService {
   }
 
   findParametroPeriodo(idNumber: number) {
-    console.info(idNumber);
     this.store.select(REDUCER_LIST.Parametros).subscribe(
       (list: any) => {
         if (!list || list.length === 0) {
           this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber}&sortby=id&order=desc&limit=1`)
             .subscribe(
               (result: any[]) => {
-                console.info('Entro')
-                console.info(result)
                 this.addList(REDUCER_LIST.Parametros, result);
               },
               error => {
@@ -129,7 +129,6 @@ export class ListService {
     );
   }
   findParametroPeriodoSp(idNumber: number): Observable<any[]> {
-   /*  console.info(idNumber); */
     return this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=1`)
   }
 

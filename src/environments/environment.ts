@@ -40,6 +40,7 @@ export const environment = {
     IDS:{
         IDINSCRIPCIONES: 347,
         IDSERVICIOAPOYO: 348,
+        IDCIERREPERIODO: 356,
         IDSOLICITUDRADICADA: 23,
     },
     KNOWAGE: {

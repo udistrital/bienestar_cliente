@@ -1,10 +1,24 @@
 <!-- {{estudiante | json}} -->
-<nb-card>
+<!-- <nb-card>
     <button class="btn back-button btn-block" routerLink="../../">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>
         Regresar
     </button>
-</nb-card>
+</nb-card> -->
+<div *ngIf="loading">
+    <nb-card>
+        <div class="menu-header m-4">
+            <h1 *ngIf="periodo==null">
+                No hay un periodo activo
+            </h1>
+            <button class="btn back-button" routerLink="../../">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Regresar
+            </button>
+        </div>
+    </nb-card>
+</div>
+
 
 <div *ngIf="!loading">
     <!-- Caso que no se pueda cargar periodo -->

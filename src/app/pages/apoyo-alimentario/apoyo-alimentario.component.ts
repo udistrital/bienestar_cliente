@@ -13,13 +13,9 @@ export class ApoyoAlimentarioComponent implements OnInit {
 
   ngOnInit() {
   }
-  navigateRegistroInscritos(){
-    this.router.navigate(['/pages/apoyo-alimentario/registro/inscritos']);
+  navigateRegistroDiario(){
+    this.router.navigate(['/pages/apoyo-alimentario/registro/diario']);
     //this.router.navigateByUrl('registro/inscritos');
-    return false;
-  }
-  navigateRegistroNoInscritos(){
-    this.router.navigate(['/pages/apoyo-alimentario/registro/no-inscritos']);
     return false;
   }
 

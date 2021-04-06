@@ -50,16 +50,20 @@ export class PeriodosComponent implements OnInit {
         const listaParam = list.listParametros;
         if (listaParam.length > 0 && this.parametros.length === 0) {
           const parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
-          parametros.forEach(element => {
-            this.parametros.push(element);
-          })
+          if (parametros != undefined) {
+            parametros.forEach(element => {
+              this.parametros.push(element);
+            });
+          }
         }
       },
     );
   }
 
   public iniciarParametro(i: number, parametro: string) {
+    console.log("Desde iniciar parametro",parametro);
     let periodo = this.periodos[i];
+    console.log(i);
     Swal.fire({
       title: 'Está seguro?',
       text: `Está seguro que desea iniciar ${parametro} de ${periodo.Nombre}`,
@@ -73,6 +77,8 @@ export class PeriodosComponent implements OnInit {
           this.listService.inciarParametroPeriodo(periodo, environment.IDS.IDINSCRIPCIONES);
         } else if (parametro === "servicio") {
           this.listService.inciarParametroPeriodo(periodo, environment.IDS.IDSERVICIOAPOYO);
+        } else if (parametro === "cierre"){
+          this.listService.inciarParametroPeriodo(periodo, environment.IDS.IDCIERREPERIODO);
         }
       }
     });
@@ -164,11 +170,13 @@ export class PeriodosComponent implements OnInit {
         }
       }
     }
-
     return false;
   }
 
   public mostrarReactivarInscripcion(index) {
+    if(this.periodoCerrado(index)){
+      return false;
+    }else{
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
         if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
@@ -176,12 +184,13 @@ export class PeriodosComponent implements OnInit {
             return true
         }
       }
-    }
+    }}
 
     return false;
   }
   public mostrarIniciarServicio(index) {
     if (this.periodos[index].Activo) {
+      console.log(this.periodos[index]);
       for (let parametro of this.parametros) {
         if (parametro.PeriodoId.Id === this.periodos[index].Id) {
           if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
@@ -189,13 +198,7 @@ export class PeriodosComponent implements OnInit {
           }
         }
       }
-      for (let parametro of this.parametros) {
-        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-          if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
-            return true;
-          }
-        }
-      }
+      return true;
     }
     return false;
   }
@@ -211,10 +214,41 @@ export class PeriodosComponent implements OnInit {
     return false;
   }
   public mostrarReactivarServicio(index) {
+    if(this.periodoCerrado(index)){
+      return false;
+    }else{
+
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
         if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
           if (!parametro.Activo)
+            return true
+        }
+      }
+    }}
+
+    return false;
+  }
+  public mostrarFinalizarPeriodo(index){
+    if(this.periodoCerrado(index)){
+      return false;
+    }else{
+      for (let parametro of this.parametros) {
+        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+          if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
+            if (!parametro.Activo)
+              return true
+          }
+        }
+      }
+    }
+    return false;
+  }
+  public periodoCerrado(index){
+    for (let parametro of this.parametros) {
+      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+        if (parametro.ParametroId.Id == environment.IDS.IDCIERREPERIODO) {
+          if (parametro.Activo)
             return true
         }
       }

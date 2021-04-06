@@ -9,7 +9,13 @@ import {
     NbUserModule,
     NbIconModule,
     NbSelectModule,
-    NbListModule, NbStepperModule, NbInputModule, NbRadioModule, NbLayoutModule, NbAccordionModule,
+    NbListModule, 
+    NbStepperModule, 
+    NbInputModule, 
+    NbRadioModule, 
+    NbLayoutModule, 
+    NbAccordionModule,
+    NbBadgeModule
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -21,7 +27,7 @@ import { ApoyoAlimentarioRoutingModule } from './apoyo-alimentario-routing.modul
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario.component';
 import { InscritosComponent } from './registro/inscritos/inscritos.component';
 import { MiscellaneousModule } from '../miscellaneous/miscellaneous.module';
-import { NoInscritosComponent } from './registro/no-inscritos/no-inscritos.component';
+
 import { ConsultarComponent } from './registro/consultar/consultar.component';
 import { FechasComponent } from './administracion/fechas/fechas.component';
 import { PeriodosComponent } from './administracion/periodos/periodos.component';
@@ -56,11 +62,11 @@ import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/eva
         NbAccordionModule,
         ComboGenericoModule,
         RadioSelectGenericoModule,
+        NbBadgeModule
     ],
   declarations: [ 
     ApoyoAlimentarioComponent,
     InscritosComponent,
-    NoInscritosComponent,
     ConsultarComponent,
     FechasComponent,
     PeriodosComponent,

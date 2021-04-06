@@ -115,6 +115,9 @@ export class SolicitudTerceroComponent implements OnInit {
                 confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
               });
             });
+        }else{
+          Swal.close();
+          console.log("no hay periodo F");
         }
       })
       .catch((error) => {
@@ -704,9 +707,10 @@ export class SolicitudTerceroComponent implements OnInit {
         .findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
         .subscribe(
           (result: any[]) => {
-            if (result["Data"].length > 0) {
+            console.log(result);
+            if(Object.keys(result["Data"][0]).length){
               this.periodo = result["Data"][0].PeriodoId;
-            } 
+            }
             resolve(true);
           },
           (error) => {
@@ -882,6 +886,7 @@ export class SolicitudTerceroComponent implements OnInit {
     /* let caracterizaciones = [...this.comorbilidades, ...this.otros]; */
 
     if (isValidTerm) {
+      this.registrar();
       console.log("Se guardoooo");
       /* Swal.fire({
         title: 'Información de caracterización',

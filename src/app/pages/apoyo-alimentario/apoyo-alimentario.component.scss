@@ -148,12 +148,18 @@
 .bg-ud-table {
     background: #4c1818;
     color: whitesmoke;
+    min-width: 80%;
+    margin: auto;
+    text-align: center;
 }
 
 .bg-ud-table-cell {
     color: #212529;
     background-color: #fff3cd;
     border-color: #ffeeba;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .student-icon {
@@ -212,4 +218,12 @@
     font-weight: bold;
     margin-left: 3px;
     font-size: 1.2em;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #e6b31c;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: rgba(170, 133, 22, 0.493);
 }

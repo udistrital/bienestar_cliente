@@ -7,7 +7,6 @@ import { ApoyoAlimentarioComponent } from '../apoyo-alimentario/apoyo-alimentari
 import { HomeComponent } from '../home/home.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario.module';
 import { InscritosComponent } from './registro/inscritos/inscritos.component'
-import { NoInscritosComponent } from './registro/no-inscritos/no-inscritos.component'
 import { ConsultarComponent } from './registro/consultar/consultar.component'
 import { FechasComponent } from './administracion/fechas/fechas.component'
 import { PeriodosComponent } from './administracion/periodos/periodos.component'
@@ -29,7 +28,7 @@ const routes: Routes = [
       path:'consultar', component: ConsultarComponent
     },
     {
-      path:':tipo', component: InscritosComponent
+      path:'diario', component: InscritosComponent
     },
     {
       path:'**', component: NotFoundComponent
