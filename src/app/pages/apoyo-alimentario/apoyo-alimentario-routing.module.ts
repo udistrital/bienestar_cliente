@@ -16,6 +16,9 @@ import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.compo
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent  } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
+import { PeriodoComponent } from './informes/periodo/periodo.component';
+import { DiarioComponent } from './informes/diario/diario.component';
+import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
 
 const routes: Routes = [
   { 
@@ -46,6 +49,26 @@ const routes: Routes = [
     },
     {
       path:':solicitudes/:idSolicitud', component: EvaluarSolicitudComponent
+    },
+    {
+      path:'**', component: NotFoundComponent
+    },
+    
+     ],
+  },
+  {
+    path: 'informes', children:[
+    {
+      path:'periodo', component: PeriodoComponent
+    },
+    {
+      path:'periodo/:idPeriodo', component: InformePeriodoComponent
+    },
+    {
+      path:'diario', component: DiarioComponent
+    },
+    {
+      path:'diario/:idInforme', component: DiarioComponent
     },
     {
       path:'**', component: NotFoundComponent

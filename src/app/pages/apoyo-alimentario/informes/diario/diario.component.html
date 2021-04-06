@@ -1,0 +1,121 @@
+<nb-card *ngIf="periodo==null">
+    <div class="text-center pt-2">
+        <div class="menu-header m-3">
+            <h1>
+                Ocurrio un error al cargar el periodo
+            </h1>
+            <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Regresar
+        </button>
+        </div>
+    </div>
+</nb-card>
+<nb-card *ngIf="periodo!=null">
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1>
+                    Informe del Día {{myDate}}
+                </h1>
+                <button class="btn back-button" routerLink="../../">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Regresar
+            </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <hr>
+    <nb-card-body>
+        <div class="menu-list">
+            <div class="item form-group ">
+                <label class="sub-item label-color-ud">
+                    ID :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.Id}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Nombre :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.Nombre}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Descripcion:
+                </label>
+                <label class="sub-item">
+                    {{periodo?.Descripcion}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Año :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.Year}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Ciclo :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.Ciclo}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Estado :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.Activo}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Inicio Vigencia :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.InicioVigencia}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Fin Vigencia :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.FinVigencia}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Abreviacion:
+                </label>
+                <label class="sub-item">
+                    {{periodo?.CodigoAbreviacion}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Fecha Creación :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.FechaCreacion}}
+                </label>
+            </div>
+            <div class="item">
+                <label class="sub-item label-color-ud">
+                    Fecha Modificación :
+                </label>
+                <label class="sub-item">
+                    {{periodo?.FechaModificacion}}
+                </label>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

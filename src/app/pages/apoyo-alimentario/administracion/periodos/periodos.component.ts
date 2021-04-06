@@ -165,8 +165,9 @@ export class PeriodosComponent implements OnInit {
     for (let parametro of this.parametros) {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
         if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-          if (parametro.Activo)
+          if (parametro.Activo){
             return true
+          }    
         }
       }
     }
@@ -177,20 +178,21 @@ export class PeriodosComponent implements OnInit {
     if(this.periodoCerrado(index)){
       return false;
     }else{
-    for (let parametro of this.parametros) {
-      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-          if (!parametro.Activo)
-            return true
+      for (let parametro of this.parametros) {
+        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
+          if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
+            if (!parametro.Activo){
+              return true
+            }
+          }
         }
       }
-    }}
-
+    }
     return false;
   }
   public mostrarIniciarServicio(index) {
     if (this.periodos[index].Activo) {
-      console.log(this.periodos[index]);
+      /* console.log(this.periodos[index]); */
       for (let parametro of this.parametros) {
         if (parametro.PeriodoId.Id === this.periodos[index].Id) {
           if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
