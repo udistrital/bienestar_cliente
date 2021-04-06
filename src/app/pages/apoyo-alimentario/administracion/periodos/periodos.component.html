@@ -16,66 +16,62 @@
     </nb-card-header>
     <hr>
     <nb-card-body>
-        <div class="container">
-            <table mdbTable *ngIf="periodos.length>0" class="table mt-3">
-                <thead class="dark white-text">
-                    <tr>
+        <table *ngIf="periodos.length>0" class="table mt-3">
+            <thead class="bg-ud-table">
+                <tr>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-ud-table-cell">
+                <tr *ngFor="let item of periodos; let i = index">
 
-                        <th scope="col">Periodo</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-ud-table-cell">
-                    <tr *ngFor="let item of periodos; let i = index">
-
-                        <td>
-                            {{ item.Nombre }} &nbsp; &nbsp;
-                            <span *ngIf="item.Activo" class="badge rounded-pill bg-success">Activo</span>
-                            <span *ngIf="!item.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
-                        </td>
-                        <td>
-                            <button *ngIf="mostrarIniciarInscripcion(i)" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
+                    <td>
+                        {{ item.Nombre }} &nbsp; &nbsp;
+                        <span *ngIf="item.Activo" class="badge rounded-pill bg-success">Activo</span>
+                        <span *ngIf="!item.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
+                    </td>
+                    <td>
+                        <button *ngIf="mostrarIniciarInscripcion(i)" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
                                 <i class="fa fa-play " aria-hidden="true"></i>
                                 Iniciar inscripciones
                             </button>
-                            <button *ngIf="mostrarDetenerInscripcion(i)" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
+                        <button *ngIf="mostrarDetenerInscripcion(i)" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
                                 <i class="fa fa-stop " aria-hidden="true"></i>
                                 Detener inscripciones
                             </button>
-                            <button *ngIf="mostrarReactivarInscripcion(i)" class="btn student-icon" (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
+                        <button *ngIf="mostrarReactivarInscripcion(i)" class="btn student-icon" (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
                                 <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
                                 Reactivar inscripciones
                             </button>
-                            <button *ngIf="mostrarIniciarServicio(i)" class="btn init-icon" (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
+                        <button *ngIf="mostrarIniciarServicio(i)" class="btn init-icon" (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
                                 <i class="fa fa-play " aria-hidden="true"></i>
                                 Iniciar servicio
                             </button>
-                            <button *ngIf="mostrarDetenerServicio(i)" class="btn delete-icon" (click)="detenerParametro(i,'servicio')" title="Detener servicio">
+                        <button *ngIf="mostrarDetenerServicio(i)" class="btn delete-icon" (click)="detenerParametro(i,'servicio')" title="Detener servicio">
                                 <i class="fa fa-stop " aria-hidden="true"></i>
                                 Detener servicio
                             </button>
-                            <button *ngIf="mostrarReactivarServicio(i)" class="btn student-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
+                        <button *ngIf="mostrarReactivarServicio(i)" class="btn student-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
                                 <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
                                 Reactivar servicio
                             </button>
-                            <button *ngIf="mostrarFinalizarPeriodo(i)" class="btn delete-icon" (click)="iniciarParametro(i, 'cierre')" title="Cerrar periodo">
+                        <button *ngIf="mostrarFinalizarPeriodo(i)" class="btn delete-icon" (click)="iniciarParametro(i, 'cierre')" title="Cerrar periodo">
                                 <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
                                 Cerrar periodo
                             </button>
-                            <p *ngIf="periodoCerrado(i)">
-                                Periodo cerrado
-                            </p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div *ngIf="periodos.length==0" class="alert alert-warning text-center mt-3">
-                <h3 class="alert-heading">No hay registros</h3>
-                <p>
-                    <i class="fa fa-exclamation fa-2x    "></i>
-                </p>
-            </div>
-
+                        <p *ngIf="periodoCerrado(i)">
+                            Periodo cerrado
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="periodos.length==0" class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No hay registros</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x    "></i>
+            </p>
         </div>
     </nb-card-body>
 </nb-card>
