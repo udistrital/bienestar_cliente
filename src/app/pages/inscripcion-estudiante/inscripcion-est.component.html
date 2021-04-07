@@ -1,8 +1,10 @@
 <nb-card>
     <nb-card-header>
         <div class="row my-3">
-            <h1 class="ml-3" *ngIf="rolesActivos[ROLES_CONSTANTS.ROLES_SISTEMA.ESTUDIANTE]">Solicitud de reliquidación</h1>
-            <h1 class="ml-3" *ngIf="rolesActivos[ROLES_CONSTANTS.ROLES_SISTEMA.ADMIN_NECESITADES]">Revisión de solicitud de reliquidación</h1>
+            <h1 class="ml-3" *ngIf="rolesActivos[ROLES_CONSTANTS.ROLES_SISTEMA.ESTUDIANTE]">Solicitud de
+                reliquidación</h1>
+            <h1 class="ml-3" *ngIf="rolesActivos[ROLES_CONSTANTS.ROLES_SISTEMA.ADMIN_NECESITADES]">Revisión de solicitud
+                de reliquidación</h1>
         </div>
         <div class="row">
             <div class="col-md-6"><b>Nombres y apellidos:</b> {{estudiante?.NombreCompleto}}</div>
@@ -12,51 +14,71 @@
     </nb-card-header>
 
     <nb-card-body>
+        <p>Es interés de la Universidad Distrital Francisco José de Caldas, salvaguardar la privacidad de la información
+            personal del Usuario obtenida a través de la paginas web institucionales, para lo cual se compromete a
+            adoptar una política de protección de acuerdo con lo que se establece a continuación: El Usuario reconoce
+            que el ingreso de información personal, lo realiza de manera voluntaria, libre, expresa e informada y ante
+            la solicitud de requerimientos específicos por parte de la Universidad para realizar un trámite, solicitar
+            información, responder una encuesta, acceder al proceso de Admisiones o a los diferentes mecanismos
+            interactivos a través de la web. El usuario que entrega sus datos a la Universidad, consiente y autoriza de
+            manera expresa e inequívoca que sus datos personales sean tratados y administrados, conforme a lo previsto
+            tanto en la Resolución Número 432 del 30 de agosto de 2016 y a la Política de Tratamiento de Datos
+            Personales <a href="http://sgral.udistrital.edu.co/xdata/rec/res_2016-432.pdf">http://sgral.udistrital.edu.co/xdata/rec/res_2016-432.pdf</a>
+            como a la Política de Privacidad de
+            Google <a href="https://policies.google.com/privacy?lh=es">https://policies.google.com/privacy?lh=es</a></p>
+
+        <p>Señor Estudiante por favor diligenciar todos los campos requeridos para su registro en línea del Proceso de
+            Reliquidación y en la sección DOCUMENTOS adjunte los documentos de acuerdo a la información requerida.</p>
         <form [formGroup]="formulario">
             <nb-accordion>
-                
+
                 <nb-accordion-item expanded>
-                    <nb-accordion-item-header 
-                        [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('basica')}"
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('basica')}"
                     >
                         Información básica
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                        <p>En el siguiente apartado, se deben llenar los datos relacionados con el lugar de residencia.</p>
+                        <p>En el siguiente apartado, se deben llenar los datos relacionados con el lugar de
+                            residencia.</p><br>
 
-                            <div class="row item-list">
-                                <ngx-combo-generico class="col-12" etiqueta="Localidad" nombreInput="localidad"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LOCALIDADES" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.localidad"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['basica'].localidad = $event"
-                                    >
-                                </ngx-combo-generico>
+                        <div class="row item-list">
+                            <ngx-combo-generico class="col-12" etiqueta="Localidad" nombreInput="localidad"
+                                                [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
+                                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LOCALIDADES"
+                                                campoCodigo="Id"
+                                                campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                [validar]="validar"
+                                                [(modelo)]="formularioReliquidacion.localidad"
+                                                [deshabilitado]="deshabilitar.esRevision"
+                                                (eventoErrorInput)="panelErrores['basica'].localidad = $event"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+
+                        <div class="row item-list">
+                            <ngx-combo-generico class="col-12" etiqueta="Municipios" nombreInput="municipio"
+                                                [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
+                                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.MUNICIPIOS"
+                                                campoCodigo="Id"
+                                                campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                [validar]="validar"
+                                                [(modelo)]="formularioReliquidacion.municipio"
+                                                [deshabilitado]="deshabilitar.esRevision"
+                                                (eventoErrorInput)="panelErrores['basica'].municipio = $event"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+
+                        <div class="row item-list" *ngIf="formulario.get('municipio')?.value === 'Otros'">
+                            <div class="col-md-4">¿Cuál?:</div>
+                            <div class="col-md-8">
+                                <input fullWidth nbInput placeholder="Otro municipio">
                             </div>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-combo-generico class="col-12" etiqueta="Municipios" nombreInput="municipio"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.MUNICIPIOS" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.municipio"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['basica'].municipio = $event"
-                                    >
-                                </ngx-combo-generico>
-                            </div>
-
-                            <div class="row item-list" *ngIf="formulario.get('municipio')?.value === 'Otros'">
-                                <div class="col-md-4">¿Cuál?:</div>
-                                <div class="col-md-8">
-                                    <input fullWidth nbInput placeholder="Otro municipio">
-                                </div>
-                            </div>
-
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="direccion"
                                     [grupo]="formulario"
@@ -66,11 +88,11 @@
                                     [(modelo)]="formularioReliquidacion.direccion"
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['basica'].direccion = $event"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="barrio"
                                     [grupo]="formulario"
@@ -80,11 +102,11 @@
                                     [(modelo)]="formularioReliquidacion.barrio"
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['basica'].barrio = $event"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="email"
                                     [grupo]="formulario"
@@ -95,11 +117,11 @@
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['basica'].email = $event"
                                     patron="\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="telefono"
                                     [grupo]="formulario"
@@ -110,101 +132,113 @@
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['basica'].telefono = $event"
                                     patron="[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿Tiene sisben?" nombreInput="sisben"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.POSEE_SISBEN" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar" 
-                                    [(modelo)]="formularioReliquidacion.sisben"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['basica'].sisben = $event"
-                                    >
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="¿Tiene sisben?" nombreInput="sisben"
+                                                       [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.POSEE_SISBEN"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.sisben"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['basica'].sisben = $event"
+                            >
 
-                                </ngx-radio-select-generico>
-                            </div>
+                            </ngx-radio-select-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header 
-                        [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('socioeconomica')}"
-                        >Información socioeconómica
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('socioeconomica')}"
+                    >Información socioeconómica
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar" 
-                                    [(modelo)]="formularioReliquidacion.estadocivil"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['socioeconomica'].estadocivil = $event"
-                                    >
-                                </ngx-combo-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil"
+                                                [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
+                                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL"
+                                                campoCodigo="Id"
+                                                campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                [validar]="validar"
+                                                [(modelo)]="formularioReliquidacion.estadocivil"
+                                                [deshabilitado]="deshabilitar.esRevision"
+                                                (eventoErrorInput)="panelErrores['socioeconomica'].estadocivil = $event"
+                            >
+                            </ngx-combo-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-combo-generico class="col-12" etiqueta="Estrato" nombreInput="estrato"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.estrato"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['socioeconomica'].estrato = $event"
-                                >
-                                </ngx-combo-generico>
-                            </div>
-                            <div class="row">
-                                <ngx-radio-select-generico class="col-12" etiqueta="Dependecia económica"
-                                    nombreInput="dependenciaEconomica" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DEPENDENCIA_ECONOMICA" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.dependenciaEconomica"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['socioeconomica'].dependenciaEconomica = $event"
-                                    >
+                        <div class="row item-list">
+                            <ngx-combo-generico class="col-12" etiqueta="El estrato socioeconómico de la vivienda en la cual l reside
+(conforme al Certificado de Estratificación expedido por Planeación
+Distrital o Catastro o por las Alcaldías Municipales)" nombreInput="estrato"
+                                                [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
+                                                [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO"
+                                                campoCodigo="Id"
+                                                campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                [validar]="validar"
+                                                [(modelo)]="formularioReliquidacion.estrato"
+                                                [deshabilitado]="deshabilitar.esRevision"
+                                                (eventoErrorInput)="panelErrores['socioeconomica'].estrato = $event"
+                            >
+                            </ngx-combo-generico>
+                        </div>
+                        <div class="row">
+                            <ngx-radio-select-generico class="col-12" etiqueta="El estudiante depende económicamente de"
+                                                       nombreInput="dependenciaEconomica"
+                                                       [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DEPENDENCIA_ECONOMICA"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.dependenciaEconomica"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['socioeconomica'].dependenciaEconomica = $event"
+                            >
 
-                                </ngx-radio-select-generico>
-                            </div>
+                            </ngx-radio-select-generico>
+                        </div>
 
-                            <div class="row">
-                                <ngx-input-generico
+                        <div class="row">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="ing_mesual"
                                     [grupo]="formulario"
-                                    etiqueta="Ingresos mensuales"
+                                    etiqueta="El valor de los ingresos mensuales de quién depende el estudiante es de"
                                     [requerido]="true"
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.ing_mesual"
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['socioeconomica'].ing_mesual = $event"
                                     patron="[0-9]*"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row">
-                                <ngx-input-generico
+                        <div class="row">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="descDiscapacidad"
                                     [grupo]="formulario"
-                                    etiqueta="Discapacidad"
+                                    etiqueta="¿El estudiante o acudiente encargado de la matricula presenta algún tipo de discapacidad física o mental?"
                                     tipo="caja"
                                     [requerido]="true"
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.descDiscapacidad"
                                     (eventoErrorInput)="panelErrores['socioeconomica'].descDiscapacidad = $event"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row">
-                                <ngx-archivos-generico 
-                                    class="col-12" 
-                                    nombreInput="archivoDiscapacidad" 
-                                    [grupo]="formulario"  
+                        <div class="row">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    nombreInput="archivoDiscapacidad"
+                                    [grupo]="formulario"
                                     etiqueta="Documento soporte de Discapacidad"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -215,64 +249,67 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header 
-                        [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('escolar')}"
-                        >Información escolar
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('escolar')}"
+                    >Información escolar
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="Tipo de colegio"
-                                    nombreInput="tipoColegio" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_COLEGIO" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.tipoColegio"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['escolar'].tipoColegio = $event"
-                                    >
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="El estudiante es egresado de un Colegio"
+                                                       nombreInput="tipoColegio" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_COLEGIO"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.tipoColegio"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['escolar'].tipoColegio = $event"
+                            >
 
-                                </ngx-radio-select-generico>
-                            </div>
+                            </ngx-radio-select-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="pension"
                                     [grupo]="formulario"
-                                    etiqueta="Pensión"
+                                    etiqueta="Ingrese el valor de la Pensión Mensual del colegio del último año de bachillerato"
                                     [requerido]="true"
                                     [validar]="validar"
                                     [(modelo)]="formularioReliquidacion.pension"
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['escolar'].pension = $event"
                                     patron="[0-9]*"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
+                        <br><br>
 
-                            <div>
-                                <p>Certificado del valor cancelado por pensión del último año de bachillerato aclarando el
-                                    valor mensual, si el (la) estudiante fue becado debe especificarlo en la
-                                    certificación.</p>
-                                <ul>
-                                    <li>Egresado de Colegio Privado: Anexar Certificación del colegio donde se determine el
-                                        valor cancelado en el último año de Bachillerato.
-                                    </li>
-                                    <li>Egresado de Colegio público: Anexar acta y diploma de grado.</li>
-                                </ul>
-                                <p><b>Nota: No anexar recibos de pago ni notas adicionales.</b></p>
-                            </div>
+                        <div>
+                            <p>Certificado del valor cancelado por pensión del último año de bachillerato aclarando el
+                                valor mensual, si el (la) estudiante fue becado debe especificarlo en la
+                                certificación.</p>
+                            <ul>
+                                <li>Egresado de Colegio Privado: Anexar Certificación del colegio donde se determine el
+                                    valor cancelado en el último año de Bachillerato.
+                                </li>
+                                <li>Egresado de Colegio público: Anexar acta y diploma de grado.</li>
+                            </ul>
+                            <p><b>Nota: No anexar recibos de pago ni notas adicionales.</b></p>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-archivos-generico 
-                                    class="col-12"  
-                                    nombreInput="archivoPension" 
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    nombreInput="archivoPension"
                                     [grupo]="formulario"
                                     etiqueta="ADJUNTAR CERTIFICADO"
                                     [servicio]="nuxeoHelper"
@@ -284,63 +321,77 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['escolar'].archivoPension = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('residencia')}">Información residencial</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('residencia')}">
+                        Información residencial
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="flex-container">
-                                <span>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</span>
-                            </div>
+                        <div class="flex-container">
+                            <span>VIVIENDA DEL ESTUDIANTE Y SU FAMILIA</span><br><br><br>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="Lugar de residencia del estudiante"
-                                    nombreInput="lugarResidencia" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_VIVIENDA" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.lugarResidencia"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['residencia'].lugarResidencia = $event"
-                                    >
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="Lugar de residencia del estudiante"
+                                                       nombreInput="lugarResidencia" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_VIVIENDA"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.lugarResidencia"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['residencia'].lugarResidencia = $event"
+                            >
 
-                                </ngx-radio-select-generico>
-                            </div>
+                            </ngx-radio-select-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿Con quién vive?" nombreInput="convive"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.CONVIVe_CON" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.convive"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['residencia'].convive = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="¿Con quién vive?" nombreInput="convive"
+                                                       [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.CONVIVe_CON"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.convive"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['residencia'].convive = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="Lugar de residencia de la Familia"
-                                    nombreInput="lugarResidenciaFamilia" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LUGAR_RES_FAM" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.lugarResidenciaFamilia"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['residencia'].lugarResidenciaFamilia = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="Lugar de residencia de la Familia"
+                                                       nombreInput="lugarResidenciaFamilia"
+                                                       [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.LUGAR_RES_FAM"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.lugarResidenciaFamilia"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['residencia'].lugarResidenciaFamilia = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+                        <br><br>
+                        <p>Si el (la) estudiante vive en arriendo, presentar carta del arrendador o contrato de
+                            arrendamiento firmados.</p>
 
-                            <div class="row item-list">
-                                <ngx-archivos-generico 
-                                    nombreInput="archivoArriendo" 
-                                    [grupo]="formulario" 
-                                    class="col-12" 
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    nombreInput="archivoArriendo"
+                                    [grupo]="formulario"
+                                    class="col-12"
                                     etiqueta="ADJUNTAR SOPORTE DE ARRIENDO"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -351,15 +402,17 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['residencia'].archivoArriendo = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
-
-                            <div class="row item-list">
-                                <ngx-archivos-generico 
-                                    nombreInput="archivoHipoteca" 
-                                    [grupo]="formulario" 
-                                    class="col-12" 
+                            >
+                            </ngx-archivos-generico>
+                        </div>
+                        <br><br>
+                        <p>Si el lugar de residencia de la familia del estudian es hipotecado anexe documento soporte de
+                            hipoteca </p>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    nombreInput="archivoHipoteca"
+                                    [grupo]="formulario"
+                                    class="col-12"
                                     etiqueta="ADJUNTAR SOPORTE DE HIPOTECA"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -370,97 +423,118 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['residencia'].archivoHipoteca = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('fortuita')}">Situaciones de caso fortuito</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('fortuita')}">
+                        Situaciones de caso fortuito
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12"
-                                    etiqueta="¿Responsable de la matricula desempleado?"
-                                    nombreInput="responsableMatDesempleado" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_MAT_DESEMPLEADO" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.responsableMatDesempleado"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['fortuita'].responsableMatDesempleado = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12"
+                                                       etiqueta="¿Responsable de la matricula desempleado?"
+                                                       nombreInput="responsableMatDesempleado"
+                                                       [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_MAT_DESEMPLEADO"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.responsableMatDesempleado"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['fortuita'].responsableMatDesempleado = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+                        <br><br>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿El estudiante es desplazado político?"
-                                    nombreInput="desplazadoPolitico" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DESPLAZADO_POLITICO" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.desplazadoPolitico"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['fortuita'].desplazadoPolitico = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="¿El estudiante es desplazado político?"
+                                                       nombreInput="desplazadoPolitico" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DESPLAZADO_POLITICO"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.desplazadoPolitico"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['fortuita'].desplazadoPolitico = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+                        <br><br>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿Falleció responsable de la matricula?"
-                                    nombreInput="resFallecio" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_FALLECIO" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.resFallecio"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['fortuita'].resFallecio = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="¿Falleció responsable de la matricula?"
+                                                       nombreInput="resFallecio" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_FALLECIO"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.resFallecio"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['fortuita'].resFallecio = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+                        <br><br>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12"
-                                    etiqueta="¿El estudiante es madre o padre cabeza de familia?"
-                                    nombreInput="resCabezaHogar" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.resCabezaHogar"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['fortuita'].resCabezaHogar = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12"
+                                                       etiqueta="¿El estudiante es madre o padre cabeza de familia?"
+                                                       nombreInput="resCabezaHogar" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.resCabezaHogar"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['fortuita'].resCabezaHogar = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
+                        <br><br>
 
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12"
-                                    etiqueta="¿El estudiante cambio de estrato después de su ingreso en la Universidad?"
-                                    nombreInput="detCambioEstrato" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.detCambioEstrato"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['fortuita'].detCambioEstrato = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12"
+                                                       etiqueta="¿El estudiante cambio de estrato después de su ingreso en la Universidad?"
+                                                       nombreInput="detCambioEstrato" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.detCambioEstrato"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['fortuita'].detCambioEstrato = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('reliquidacion')}">Formulario Reliquidacion</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('reliquidacion')}">
+                        DOCUMENTOS
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <span>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y
-                                    escaneado.
-                                </span>
-                                <ngx-archivos-generico 
-                                    class="col-12" 
-                                    [requerido]="true" 
-                                    nombreInput="archivoFormReliquidacion" 
-                                    [grupo]="formulario" 
+                        <p>Adjunte los documentos en el siguiente orden:</p><br><br>
+
+                        <p>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y escaneado.</p>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    [requerido]="true"
+                                    nombreInput="archivoFormReliquidacion"
+                                    [grupo]="formulario"
                                     etiqueta="FORMULARIO RELIQUIDACIÓN"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -471,24 +545,18 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['reliquidacion'].archivoFormReliquidacion = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
-
-                            <div class="row item-list">
-                                <span>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO
-                                    GUTIERREZ DAZA
-                                    Explicando los
-                                    motivos por los cuales solicita la Reliquidación (elaborada y firmada por el (la)
-                                    estudiante).
-                                </span>
-
-                                <ngx-archivos-generico 
-                                    class="col-12" 
-                                    nombreInput="archivoCartaBienestar" 
-                                    [grupo]="formulario" 
-                                    [requerido]="true" 
-                                    [validar]="validar" 
+                            >
+                            </ngx-archivos-generico>
+                        </div>
+                        <br>
+                        <p>Carta Dirigida al Director del Centro de Bienestar Institucional TITO ERNESTO GUTIERREZ DAZA Explicando los motivos por los cuales  solicita la Reliquidación  (elaborada y firmada por el (la) estudiante).</p>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    nombreInput="archivoCartaBienestar"
+                                    [grupo]="formulario"
+                                    [requerido]="true"
+                                    [validar]="validar"
                                     etiqueta="CARTA DE SOLICITUD A BIENESTAR"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -499,28 +567,18 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['reliquidacion'].archivoCartaBienestar = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
-
-
-                            <div class="row item-list">
-                                <span>Certificado de estratificación del lugar de residencia del estudiante -
-                                    Estudiantes
-                                    que
-                                    residen en Bogotá expedido por Catastro o Supercade
-                                    (no superior a 1 año) - Para estudiantes que residen fuera de Bogotá anexar
-                                    Certificado
-                                    de
-                                    estratificación por las Alcaldías Municipales (no superior a 1 año).
-                                </span>
-
-                                <ngx-archivos-generico 
-                                    class="col-12" 
-                                    nombreInput="archivoLugarResidencia" 
-                                    [grupo]="formulario" 
-                                    [requerido]="true" 
-                                    [validar]="validar" 
+                            >
+                            </ngx-archivos-generico>
+                        </div>
+                        <br>
+                        <p>Certificado de estratificación del lugar de residencia del  estudiante -  Estudiantes que residen en Bogotá  expedido por Catastro o Supercade    (no superior a 1 año)  - Para estudiantes que residen fuera de Bogotá anexar Certificado de estratificación por las Alcaldías Municipales  (no superior a 1 año).</p>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    nombreInput="archivoLugarResidencia"
+                                    [grupo]="formulario"
+                                    [requerido]="true"
+                                    [validar]="validar"
                                     etiqueta="CERTIFICADO ESTRATIFICACIÓN"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -531,24 +589,18 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['reliquidacion'].archivoLugarResidencia = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
-
-                            <div class="row item-list">
-                                <span>Fotocopia de un recibo de Servicio Público (agua, luz, gas) del lugar de
-                                    residencia
-                                    del
-                                    estudiante donde
-                                    se especifique la dirección y estrato, con una vigencia de tres (3) meses.
-                                </span>
-
-                                <ngx-archivos-generico 
-                                    class="col-12" 
-                                    nombreInput="archivoServicioPublico" 
-                                    [grupo]="formulario" 
-                                    [requerido]="true" 
-                                    [validar]="validar" 
+                            >
+                            </ngx-archivos-generico>
+                        </div>
+                        <br>
+                        <p>Fotocopia de  un recibo de Servicio Público (agua, luz, gas) del lugar de residencia del estudiante donde se especifique la dirección y estrato, con una vigencia de tres (3) meses.</p>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    nombreInput="archivoServicioPublico"
+                                    [grupo]="formulario"
+                                    [requerido]="true"
+                                    [validar]="validar"
                                     etiqueta="RECIBO PÚBLICO"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -559,64 +611,69 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['reliquidacion'].archivoServicioPublico = $event"
-                                ></ngx-archivos-generico>
-                            </div>
+                            ></ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header  [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('ingresos')}">Certificado de ingresos</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('ingresos')}">
+                        Certificado de ingresos
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
 
-                            <div class="row item-list">
-
-                                <span>
+                        <span>
                                     Continúe adjuntando los documentos
 
                                     Señor estudiante NO se acepta el Formato de certificado de no declarante o certificado
                                     de no
                                     contribuyente, que adjunto en el momento de ingresar a la universidad.
                                 </span>
-                                <span>Tenga en cuenta cuál es su caso con el fin de adjuntar el documento
+                        <span>Tenga en cuenta cuál es su caso con el fin de adjuntar el documento
                                     correspondiente:</span>
 
-                                <ul>
-                                    <li>Para Independientes: Si la persona de quién depende económicamente el estudiante es
-                                        trabajador
-                                        independiente o el (la) estudiante trabaja como independiente,
-                                        debe presentar una carta donde especifique la labor que desempeña y los ingresos que
-                                        recibe
-                                        mensualmente, debe venir firmada, con número de Cédula, número de teléfono y
-                                        dirección.
-                                    </li>
-                                    <li>Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el
-                                        (la)
-                                        estudiante es
-                                        empleado, debe presentar una carta laboral vigente, especificando los ingresos
-                                        mensuales
-                                        y
-                                        la
-                                        actividad,
-                                        con número de teléfono y dirección del empleador.</li>
-                                    <li>Si presenta Certificado de ingresos y retenciones debe corresponder al año 2018.
-                                    </li>
-                                    <li>Cabeza de familia: Si el (la) estudiante depende únicamente de madre o padre cabeza
-                                        de
-                                        familia
-                                        debe
-                                        anexar fotocopia del documento de identidad del Padre o Madre del Estudiante y
-                                        Registro
-                                        civil de
-                                        Nacimiento del Estudiante.
-                                        Certificado de ingresos de la persona de quien depende el (la) estudiante.
-                                    </li>
-                                </ul>
-                                <ngx-archivos-generico 
-                                    class="col-12" 
-                                    nombreInput="archivoIngresos" 
-                                    [grupo]="formulario" 
-                                    [requerido]="true" 
-                                    [validar]="validar" 
+                        <ul>
+                            <li>Para Independientes: Si la persona de quién depende económicamente el estudiante es
+                                trabajador
+                                independiente o el (la) estudiante trabaja como independiente,
+                                debe presentar una carta donde especifique la labor que desempeña y los ingresos que
+                                recibe
+                                mensualmente, debe venir firmada, con número de Cédula, número de teléfono y
+                                dirección.
+                            </li>
+                            <li>Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el
+                                (la)
+                                estudiante es
+                                empleado, debe presentar una carta laboral vigente, especificando los ingresos
+                                mensuales
+                                y
+                                la
+                                actividad,
+                                con número de teléfono y dirección del empleador.
+                            </li>
+                            <li>Si presenta Certificado de ingresos y retenciones debe corresponder al año 2018.
+                            </li>
+                            <li>Cabeza de familia: Si el (la) estudiante depende únicamente de madre o padre cabeza
+                                de
+                                familia
+                                debe
+                                anexar fotocopia del documento de identidad del Padre o Madre del Estudiante y
+                                Registro
+                                civil de
+                                Nacimiento del Estudiante.
+                                Certificado de ingresos de la persona de quien depende el (la) estudiante.
+                            </li>
+                        </ul><br><br>
+
+                        <span>Certificado de ingresos de la persona de quien depende el (la) estudiante</span><br><br>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    class="col-12"
+                                    nombreInput="archivoIngresos"
+                                    [grupo]="formulario"
+                                    [requerido]="true"
+                                    [validar]="validar"
                                     etiqueta="CERTIFICADO DE INGRESOS"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -627,36 +684,48 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['ingresos'].archivoIngresos = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('cargo')}">Personas a cargo</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('cargo')}">Personas
+                        a cargo
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12" etiqueta="¿Posee personas a Cargo?"
-                                    nombreInput="detPersonasCargo" [servicio]="reliquidacionHelper"
-                                    metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.detPersonasCargo"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['cargo'].detPersonasCargo = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <span>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él</span><br><br>
+
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12" etiqueta="¿Tiene hijos a cargo?"
+                                                       nombreInput="detPersonasCargo" [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.RES_CABEZA_HOGAR"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.detPersonasCargo"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['cargo'].detPersonasCargo = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('hijos')}">Registro civil</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('hijos')}">Registro
+                        civil
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
 
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <p>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él, debe presentar Registro (s) Civil(es).</p><br>
+
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="numero_hijos"
                                     [grupo]="formulario"
@@ -667,11 +736,11 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     (eventoErrorInput)="panelErrores['hijos'].detPersonasCargo = $event"
                                     patron="[0-9]*"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div>
 
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="edad_hijos"
                                     [grupo]="formulario"
@@ -682,14 +751,14 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     (eventoErrorInput)="panelErrores['hijos'].edad_hijos = $event"
                                     patron="\d+(,\d+)*"
-                                ></ngx-input-generico>
-                            </div>
+                            ></ngx-input-generico>
+                        </div><br>
 
-                            <div class="row item-list">
-                                <ngx-archivos-generico 
-                                    nombreInput="archivoRegistroCivil" 
-                                    [grupo]="formulario" 
-                                    class="col-12" 
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    nombreInput="archivoRegistroCivil"
+                                    [grupo]="formulario"
+                                    class="col-12"
                                     etiqueta="ADJUNTAR REGISTRO CIVIL"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -700,33 +769,41 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['hijos'].archivoRegistroCivil = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('desplazado')}">Desplazado</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('desplazado')}">
+                        Condición de desplazado
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <ngx-radio-select-generico class="col-12"
-                                    etiqueta="Determina si presenta condición de desplazado" nombreInput="detDesplazado"
-                                    [servicio]="reliquidacionHelper" metodo="obtenerGrupoInfoComplementaria"
-                                    [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DET_DESPLAZADO" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="formulario" [requerido]="true" [validar]="validar"
-                                    [(modelo)]="formularioReliquidacion.detDesplazado"
-                                    [deshabilitado]="deshabilitar.esRevision"
-                                    (eventoErrorInput)="panelErrores['desplazado'].detDesplazado = $event"
-                                    >
-                                </ngx-radio-select-generico>
-                            </div>
+                        <p>Si el (la) estudiante está en condición de desplazado, debe presentar documento expedido por entidad competente.</p><br>
+                        <div class="row item-list">
+                            <ngx-radio-select-generico class="col-12"
+                                                       etiqueta="Indique si el estudiante esta en condición de desplazado"
+                                                       nombreInput="detDesplazado"
+                                                       [servicio]="reliquidacionHelper"
+                                                       metodo="obtenerGrupoInfoComplementaria"
+                                                       [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.DET_DESPLAZADO"
+                                                       campoCodigo="Id"
+                                                       campoValor="Nombre" [grupo]="formulario" [requerido]="true"
+                                                       [validar]="validar"
+                                                       [(modelo)]="formularioReliquidacion.detDesplazado"
+                                                       [deshabilitado]="deshabilitar.esRevision"
+                                                       (eventoErrorInput)="panelErrores['desplazado'].detDesplazado = $event"
+                            >
+                            </ngx-radio-select-generico>
+                        </div><br>
 
-                            <div class="row item-list">
-                                <ngx-archivos-generico 
-                                    nombreInput="archivoDesplazado" 
-                                    [grupo]="formulario" 
-                                    class="col-12" 
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    nombreInput="archivoDesplazado"
+                                    [grupo]="formulario"
+                                    class="col-12"
                                     etiqueta="ADJUNTAR SOPORTE DE DESPLAZADO"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -737,17 +814,21 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['desplazado'].archivoDesplazado = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('reciboPago')}">Recibo de pago</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('reciboPago')}">
+                        Documento - Recibo de Pago de la Universidad
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                            <div class="row item-list">
-                                <ngx-input-generico
+                        <p>Indique SOLO el valor de la matrícula del semestre anterior sin incluir el seguro estudiantil,carnet y sistematización.</p><br>
+                        <div class="row item-list">
+                            <ngx-input-generico
                                     class="col-12"
                                     nombreInput="valor_matricula"
                                     [grupo]="formulario"
@@ -758,15 +839,17 @@
                                     [deshabilitado]="deshabilitar.esRevision"
                                     (eventoErrorInput)="panelErrores['reciboPago'].valor_matricula = $event"
                                     patron="[0-9]*"
-                                ></ngx-input-generico>
-                            </div>
-                            <div class="row item-list">
-                                <ngx-archivos-generico 
-                                    nombreInput="archivoValorMatricula" 
-                                    [grupo]="formulario" 
-                                    class="col-12" 
-                                    [validar]="validar" 
-                                    [requerido]="true" 
+                            ></ngx-input-generico>
+                        </div><br>
+
+                        <p>Fotocopia del último recibo de pago de la Universidad cancelado.</p><br>
+                        <div class="row item-list">
+                            <ngx-archivos-generico
+                                    nombreInput="archivoValorMatricula"
+                                    [grupo]="formulario"
+                                    class="col-12"
+                                    [validar]="validar"
+                                    [requerido]="true"
                                     etiqueta="ADJUNTAR RECIBO DE PAGO"
                                     [servicio]="nuxeoHelper"
                                     metodo="guardarBatch"
@@ -777,41 +860,45 @@
                                     (descargarArchivo)="visualizarArchivo($event)"
                                     [mostrarResubir]="mostrar.resubir"
                                     (eventoErrorInput)="panelErrores['reciboPago'].archivoValorMatricula = $event"
-                                    >
-                                </ngx-archivos-generico>
-                            </div>
+                            >
+                            </ngx-archivos-generico>
+                        </div>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
                 <nb-accordion-item>
-                    <nb-accordion-item-header [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('otrosDoc')}">Otros Documentos</nb-accordion-item-header>
+                    <nb-accordion-item-header
+                            [ngClass]="{'accordion-item-header-collapsed--error': panelTieneErrores('otrosDoc')}">Otros
+                        Documentos
+                    </nb-accordion-item-header>
                     <nb-accordion-item-body>
+                        <p>Papeles que soporten la situación que describe en la carta dependiendo el caso
+                            (Hipotecas,
+                            acta de
+                            defunción, demandas),<br>
+                            Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o
+                            SISBEN
+                            donde
+                            se
+                            determina el porcentaje de la discapacidad, etc.
+                        </p><br>
+
                         <div class="row item-list">
-                            <span>Papeles que soporten la situación que describe en la carta dependiendo el caso
-                                (Hipotecas,
-                                acta de
-                                defunción, demandas),<br>
-                                Discapacidad física (si existe) del estudiante o acudiente certificada por la EPS o
-                                SISBEN
-                                donde
-                                se
-                                determina el porcentaje de la discapacidad, etc.
-                            </span>
-                            <ngx-archivos-generico 
-                                nombreInput="archivoOtrosDoc" 
-                                [grupo]="formulario" 
-                                class="col-12" 
-                                etiqueta="ADJUNTAR PAPELES ADICIONALES"
-                                [servicio]="nuxeoHelper"
-                                metodo="guardarBatch"
-                                [(documentos)]="formularioReliquidacion.documentosAdjuntos"
-                                [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_OTROS_DOCUMENTOS"
-                                [documentosCargados]="formularioReliquidacion.documentosCargados"
-                                [deshabilitarUpload]="deshabilitar.esRevision"
-                                (descargarArchivo)="visualizarArchivo($event)"
-                                [mostrarResubir]="mostrar.resubir"
-                                (eventoErrorInput)="panelErrores['otrosDoc'].archivoOtrosDoc = $event"
-                                >
+                            <ngx-archivos-generico
+                                    nombreInput="archivoOtrosDoc"
+                                    [grupo]="formulario"
+                                    class="col-12"
+                                    etiqueta="ADJUNTAR PAPELES ADICIONALES"
+                                    [servicio]="nuxeoHelper"
+                                    metodo="guardarBatch"
+                                    [(documentos)]="formularioReliquidacion.documentosAdjuntos"
+                                    [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_OTROS_DOCUMENTOS"
+                                    [documentosCargados]="formularioReliquidacion.documentosCargados"
+                                    [deshabilitarUpload]="deshabilitar.esRevision"
+                                    (descargarArchivo)="visualizarArchivo($event)"
+                                    [mostrarResubir]="mostrar.resubir"
+                                    (eventoErrorInput)="panelErrores['otrosDoc'].archivoOtrosDoc = $event"
+                            >
                             </ngx-archivos-generico>
                         </div>
                     </nb-accordion-item-body>
@@ -825,26 +912,26 @@
                             El envío de documentos solo puede realizarse una vez.
                         </h6>
                     </div>
-                    <div class="row my-3 p-3">
-                        <span>
-
-                            Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
+                    <div class="row p-3">
+                        <span>Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el
                             primer
                             envío,
-                            se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.
-            
-                        </span>
+                            se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.</span>
                     </div>
-                    <div class="row my-3 p-3">
+                    <div class="row p-3">
                         <span>
-                            Si está seguro(a) de enviar los documentos presione el botón <strong>enviar documentación</strong>.
+                            Si está seguro(a) de enviar los documentos presione el botón <strong>Enviar documentación</strong>.
                         </span>
                     </div>
                 </div>
-                
+
                 <div class="d-flex flex-row-reverse">
-                    <button nbButton status="primary" type="submit" class="mx-2" (click)="llamardialogo()">Enviar documentación</button>
-                    <button nbButton status="success" type="button" class="mx-2" *ngIf="esRevisionEstudiante" (click)="verObservacioneSolicitud()">Ver observaciones</button>
+                    <button nbButton status="primary" type="submit" class="mx-2" (click)="llamardialogo()">Enviar
+                        documentación
+                    </button>
+                    <button nbButton status="success" type="button" class="mx-2" *ngIf="esRevisionEstudiante"
+                            (click)="verObservacioneSolicitud()">Ver observaciones
+                    </button>
                 </div>
 
             </section>
@@ -852,8 +939,12 @@
             <section *ngIf="rolesActivos[ROLES_CONSTANTS.ROLES_SISTEMA.ADMIN_NECESITADES]">
 
                 <div class="d-flex flex-row-reverse">
-                    <button nbButton status="primary" class="mx-2" type="button" (click)="aniadirObservacion()">Procesar solicitud</button>
-                    <button nbButton status="success" class="mx-2" type="button" (click)="descargarArchivos()">Descargar archivos adjuntos</button>
+                    <button nbButton status="primary" class="mx-2" type="button" (click)="aniadirObservacion()">Procesar
+                        solicitud
+                    </button>
+                    <button nbButton status="success" class="mx-2" type="button" (click)="descargarArchivos()">Descargar
+                        archivos adjuntos
+                    </button>
                 </div>
 
             </section>
@@ -869,72 +960,75 @@
             primer
             envío,
             se realizará la validación y dará respuesta únicamente basándose en el primer diligenciamiento.</p>
-            <div class="spinner-border text-warning" *ngIf="guardandoObservacion" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+        <div class="spinner-border text-warning" *ngIf="guardandoObservacion" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
     <div mat-dialog-actions class="d-flex justify-content-end">
         <button nbButton status="basic" class="mx-2" type="button" (click)="this.dialog.closeAll()">Cancelar</button>
-        <button nbButton status="primary" class="mx-2" type="button" [disabled]="guardandoObservacion" (click)="enviarInformacionReliquidacion()">Aceptar</button>
+        <button nbButton status="primary" class="mx-2" type="button" [disabled]="guardandoObservacion"
+                (click)="enviarInformacionReliquidacion()">Aceptar
+        </button>
     </div>
 </ng-template>
 
 <ng-template #observaciones>
     <h4 mat-dialog-title>Enviar observación</h4>
     <form [formGroup]="modalObservaciones" (ngSubmit)="guardarObservacion()">
-    <div mat-dialog-content class="container">
+        <div mat-dialog-content class="container">
             <div class="row item-list">
-                <ngx-combo-generico 
-                    class="col-12" 
-                    etiqueta="Tipo de observacion" 
-                    nombreInput="tipoObservacion"
-                    [servicio]="reliquidacionHelper" 
-                    metodo="obtenerTipoObservacion"
-                    campoListado="Data"
-                    campoCodigo="Id"
-                    campoValor="Nombre" 
-                    [grupo]="modalObservaciones" 
-                    [requerido]="true" 
-                    [validar]="validarObservacion"
-                    [(modelo)]="observacion.tipo_observacion_id"
-                    >
+                <ngx-combo-generico
+                        class="col-12"
+                        etiqueta="Tipo de observacion"
+                        nombreInput="tipoObservacion"
+                        [servicio]="reliquidacionHelper"
+                        metodo="obtenerTipoObservacion"
+                        campoListado="Data"
+                        campoCodigo="Id"
+                        campoValor="Nombre"
+                        [grupo]="modalObservaciones"
+                        [requerido]="true"
+                        [validar]="validarObservacion"
+                        [(modelo)]="observacion.tipo_observacion_id"
+                >
                 </ngx-combo-generico>
             </div>
             <div class="row item-list">
-                <ngx-combo-generico 
-                    class="col-12" 
-                    etiqueta="Estado de la solicitud" 
-                    nombreInput="estadoSolicitud"
-                    [servicio]="reliquidacionHelper" 
-                    metodo="obtenerEstadoTipoSolicitud"
-                    campoListado="Data"
-                    campoCodigo="Id"
-                    [esAnidado]="true"
-                    [camposValorAnidado]="['EstadoId','Nombre']"
-                    [grupo]="modalObservaciones" 
-                    [requerido]="true" 
-                    [validar]="validarObservacion"
-                    [(modelo)]="idEstadoSolicitud"
+                <ngx-combo-generico
+                        class="col-12"
+                        etiqueta="Estado de la solicitud"
+                        nombreInput="estadoSolicitud"
+                        [servicio]="reliquidacionHelper"
+                        metodo="obtenerEstadoTipoSolicitud"
+                        campoListado="Data"
+                        campoCodigo="Id"
+                        [esAnidado]="true"
+                        [camposValorAnidado]="['EstadoId','Nombre']"
+                        [grupo]="modalObservaciones"
+                        [requerido]="true"
+                        [validar]="validarObservacion"
+                        [(modelo)]="idEstadoSolicitud"
                 >
                 </ngx-combo-generico>
             </div>
             <div class="row item-list">
                 <ngx-input-generico
-                    class="col-12"
-                    nombreInput="descObservacion"
-                    [grupo]="modalObservaciones"
-                    etiqueta="Observación"
-                    tipo="caja"
-                    [requerido]="true"
-                    [validar]="validarObservacion"
-                    [(modelo)]="observacion.valor"
+                        class="col-12"
+                        nombreInput="descObservacion"
+                        [grupo]="modalObservaciones"
+                        etiqueta="Observación"
+                        tipo="caja"
+                        [requerido]="true"
+                        [validar]="validarObservacion"
+                        [(modelo)]="observacion.valor"
                 ></ngx-input-generico>
             </div>
-    </div>
-    <div mat-dialog-actions class="d-flex justify-content-end">
-        <button nbButton status="basic" class="mx-2" type="button" (click)="this.dialog.closeAll()">Cancelar</button>
-        <button nbButton status="primary" class="mx-2" type="submit">Aceptar</button>
-    </div>
+        </div>
+        <div mat-dialog-actions class="d-flex justify-content-end">
+            <button nbButton status="basic" class="mx-2" type="button" (click)="this.dialog.closeAll()">Cancelar
+            </button>
+            <button nbButton status="primary" class="mx-2" type="submit">Aceptar</button>
+        </div>
     </form>
 </ng-template>
 
@@ -942,19 +1036,19 @@
 <ng-template #verObservaciones>
     <h4 mat-dialog-title>Observaciones de la solicitud</h4>
     <div mat-dialog-content class="container mx-0">
-      <div class="row" *ngFor="let observacion of observacionesSolicitud">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{observacion.Valor}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Observación realizada sobre la solicitud</h6>
-              <p class="card-text">{{'Estado de la solicitud: ' + observacion.TipoObservacionId.Nombre}}</p>
+        <div class="row" *ngFor="let observacion of observacionesSolicitud">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{observacion.Valor}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Observación realizada sobre la solicitud</h6>
+                        <p class="card-text">{{'Estado de la solicitud: ' + observacion.TipoObservacionId.Nombre}}</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
     <div mat-dialog-actions class="d-flex flex-row-reverse">
-      <button nbButton status="success" class="mx-2" type="button" (click)="dialog.closeAll()">Cerrar</button>
+        <button nbButton status="success" class="mx-2" type="button" (click)="dialog.closeAll()">Cerrar</button>
     </div>
-  </ng-template>
+</ng-template>
