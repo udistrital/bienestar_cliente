@@ -24,6 +24,7 @@ export class ApoyoAlimentarioComponent implements OnInit {
     return false;
   }
 
+  /* Inscripciones */
   navigateInscripciones(){
     this.router.navigate(['/pages/apoyo-alimentario/registro/consultar']);
     return false;
@@ -36,8 +37,12 @@ export class ApoyoAlimentarioComponent implements OnInit {
   navigateSolicitudes(){
     this.router.navigate(['/pages/apoyo-alimentario/inscripciones/solicitudes']);
     return false;
-
   }
+  navigateBuscarSolicitud(){
+    this.router.navigate(['/pages/apoyo-alimentario/inscripciones/buscarSolicitud']);
+    return false;
+  }
+
   //Asistencia
   navigateConsultarFallas(){
     this.router.navigate(['/pages/apoyo-alimentario/asistencia/consultar-fallas']);

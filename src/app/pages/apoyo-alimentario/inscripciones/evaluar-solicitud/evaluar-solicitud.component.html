@@ -1,14 +1,118 @@
+<nb-card *ngIf="solicitud!=null || nueva">
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1 *ngIf="expression">
+                    ng
+                    Solicitud apoyo alimentario No. {{ idSolicitud }}
+                </h1>
+                
+            </div>
+        </div>
+    </nb-card-header>
+    <hr>
+    <nb-card-body>
+        <nb-accordion>
+            <!-- Informacion solicitante -->
+            <nb-accordion-item expanded>
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Información solicitante</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    {{ solicitante | json }}
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-<nb-card *ngIf="solicitud != null">
-    <h1>Solicitud apoyo alimentario No. {{ idSolicitud }}</h1>
-    {{ solicitud | json }}
+            <!-- Informacion solicitud -->
+            <nb-accordion-item >
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Información solicitud</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="menu-list">
+                        <div class="item form-group ">
+                            <label class="sub-item label-color-ud">
+                                ID :
+                            </label>
+                            
+                            
+                                <input ng-readonly="!nuevo" fullWidth nbInput value={{solicitud?.Id}} formControlName="codigo">
+                                
+                            
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Estado :
+                            </label>
+                            <label class="sub-item">
+                                {{solicitud.Activo}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha Radicación :
+                            </label>
+                            <label class="sub-item">
+                                {{solicitud.FechaRadicacion}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha Creación :
+                            </label>
+                            <label class="sub-item">
+                                {{solicitud.FechaCreacion}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha Modificación :
+                            </label>
+                            <label class="sub-item">
+                                {{solicitud.FechaModificacion}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Solicitud Finalizada :
+                            </label>
+                            <label class="sub-item">
+                                {{solicitud.SolicitudFinalizada}}
+                            </label>
+        
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Referencia :
+                            </label>
+                            <label class="sub-item">
+        
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Tipo Solicitud :
+                            </label>
+                            <label class="sub-item">
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Estado Solicitud :
+                            </label>
+                            <label class="sub-item">
+                            </label>
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
 
-    <h2>Datos personales</h2>
-    {{ solicitante | json }}
+        </nb-accordion>
+
+    </nb-card-body>
 </nb-card>
 
-
-<div *ngIf="solicitud==null" class="alert alert-warning text-center mt-3">
+<div *ngIf="solicitud==null && !nuevo" class="alert alert-warning text-center mt-3">
     <h3 class="alert-heading">No se encuentra la solicitud {{idSolicitud}}</h3>
     <p>
         <i class="fa fa-exclamation fa-2x    "></i>

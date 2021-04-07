@@ -10,6 +10,7 @@ import { SolicitudService } from '../../../../@core/data/solicitud.service';
   styleUrls: ['./evaluar-solicitud.component.scss']
 })
 export class EvaluarSolicitudComponent implements OnInit {
+  nueva = false;
   idSolicitud = 0;
   solicitud: Solicitud = null;
   solicitante: Solicitante = null;
@@ -20,6 +21,8 @@ export class EvaluarSolicitudComponent implements OnInit {
     this.idSolicitud = parseInt(this.route.snapshot.paramMap.get('idSolicitud'));
     if (this.idSolicitud != 0) {
       this.loadSolicitudSp();
+    }else{
+      this.nueva=true;
     }
   }
 

@@ -3,7 +3,7 @@
     Regresar
 </button>
 
-<!-- Sin solicitudes -->
+
 <nb-card *ngIf="periodo!=null">
     <nb-card-header>
         <div class="text-center pt-2">
@@ -17,7 +17,7 @@
     </nb-card-header>
 
     <nb-card-body *ngIf="solicitudes.length>0">
-        <div class="container">
+        <div>
             <mat-form-field>
                 <mat-label>Tamaño de Tabla</mat-label>
                 <select matNativeControl [(ngModel)]="itemSelect">
@@ -78,6 +78,7 @@
             </div>
         </div>
     </nb-card-body>
+    <!-- Sin solicitudes -->
     <nb-card-body *ngIf="solicitudes.length==0">
         <div class="alert alert-warning text-center mt-3">
             <h3 class="alert-heading">No hay registros</h3>
@@ -87,6 +88,11 @@
         </div>
     </nb-card-body>
 </nb-card>
+<button class="btn btn-success btn-block" routerLink="./0">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    Agregar solicitud
+</button>
+
 
 <nb-card *ngIf="periodo==null">
     <div class="alert alert-warning text-center mt-3">

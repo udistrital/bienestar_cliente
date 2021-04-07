@@ -42,6 +42,7 @@ import { DiarioComponent } from './informes/diario/diario.component';
 import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
 import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 import { NgxPaginationModule} from 'ngx-pagination';
+import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
 
 @NgModule({
     imports: [
@@ -86,6 +87,7 @@ import { NgxPaginationModule} from 'ngx-pagination';
     DiarioComponent,
     InformePeriodoComponent,
     InformeDiarioComponent,
+    BuscarSolicitudComponent,
    ],
   providers: [
 
