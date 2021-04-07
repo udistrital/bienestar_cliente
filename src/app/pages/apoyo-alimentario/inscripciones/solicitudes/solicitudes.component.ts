@@ -20,6 +20,10 @@ import { environment } from '../../../../../environments/environment';
 export class SolicitudesComponent implements OnInit {
   solicitudes: Solicitud[] = [];
   periodo: Periodo = null;  
+  pagActual:number=1;
+  contPag:number=0;
+  itemsPag:number[]=[1,5,10,15,20,25,50,75,100];
+  itemSelect:number=10;
   constructor(
     private store: Store<IAppState>,
     private listService: ListService,
@@ -37,6 +41,9 @@ export class SolicitudesComponent implements OnInit {
               let refSol :ReferenciaSolicitud =JSON.parse(listSR[0][i].Referencia);
               if( refSol.Periodo===this.periodo.Nombre){
                 this.solicitudes.push(listSR[0][i]);
+                for (let j = 0; j <240; j++) {
+                  this.solicitudes.push(listSR[0][i]);
+                }
               }
             }catch{
               console.error("Problema con la referencia de la solicitud")

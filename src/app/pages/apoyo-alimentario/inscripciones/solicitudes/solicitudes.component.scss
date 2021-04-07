@@ -1,1 +1,37 @@
 @import "../../apoyo-alimentario.component.scss";
+.pag ::ng-deep .ngx-pagination {
+    background: #01579b;
+    color: whitesmoke !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+.pag ::ng-deep .ngx-pagination .pag {
+    color: whitesmoke !important;
+}
+
+.pag ::ng-deep .ngx-pagination .current {
+    background: whitesmoke;
+    color: black;
+}
+
+.pag ::ng-deep .ngx-pagination a,
+.ngx-pagination button {
+    color: whitesmoke !important;
+}
+
+.pag ::ng-deep .ngx-pagination a:hover,
+.ngx-pagination button:hover {
+    background: #073355b4;
+}
+
+mat-form-field {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    align-content: center;
+    text-align: center;
+}

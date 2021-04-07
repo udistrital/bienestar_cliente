@@ -40,6 +40,8 @@ import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/eva
 import { PeriodoComponent } from './informes/periodo/periodo.component';
 import { DiarioComponent } from './informes/diario/diario.component';
 import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
+import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
+import { NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
     imports: [
@@ -57,6 +59,7 @@ import { InformePeriodoComponent } from './informes/informe-periodo/informe-peri
         NbProgressBarModule,
         NgxEchartsModule,
         NgxChartsModule,
+        NgxPaginationModule,
         LeafletModule,
         NbStepperModule,
         NbInputModule,
@@ -82,6 +85,7 @@ import { InformePeriodoComponent } from './informes/informe-periodo/informe-peri
     PeriodoComponent,
     DiarioComponent,
     InformePeriodoComponent,
+    InformeDiarioComponent,
    ],
   providers: [
 

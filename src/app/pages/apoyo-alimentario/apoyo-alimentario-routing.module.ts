@@ -19,6 +19,7 @@ import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/eva
 import { PeriodoComponent } from './informes/periodo/periodo.component';
 import { DiarioComponent } from './informes/diario/diario.component';
 import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
+import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 
 const routes: Routes = [
   { 
@@ -68,7 +69,7 @@ const routes: Routes = [
       path:'diario', component: DiarioComponent
     },
     {
-      path:'diario/:idInforme', component: DiarioComponent
+      path:'diario/:fecha', component: InformeDiarioComponent
     },
     {
       path:'**', component: NotFoundComponent

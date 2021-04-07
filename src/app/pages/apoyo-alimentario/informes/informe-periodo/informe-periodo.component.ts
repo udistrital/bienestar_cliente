@@ -21,6 +21,7 @@ export class InformePeriodoComponent implements OnInit {
     private listService: ListService,
     private route: ActivatedRoute
   ) {
+    this.listService.findPeriodosAcademico();
     this.loadPeriodo();
    }
 

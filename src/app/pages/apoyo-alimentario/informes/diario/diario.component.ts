@@ -1,11 +1,8 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
+import { Router } from '@angular/router';
+import { FechaModel } from '../../../../@core/data/models/fecha/fecha.model';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
-import { IAppState } from '../../../../@core/store/app.state';
-import { ListService } from '../../../../@core/store/list.service';
-import { FechaModel } from '../../modelos/fecha.model';
 
 @Component({
   selector: 'ngx-diario',
@@ -15,35 +12,26 @@ import { FechaModel } from '../../modelos/fecha.model';
 export class DiarioComponent implements OnInit {
 
   periodo: Periodo;
-  fechaActual = new FechaModel();
-  myDate = formatDate(new Date(), "dd-MM-yyyy", "en");
+  fecha = new FechaModel();
+  //myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
 
   constructor(
-    private store: Store<IAppState>,
-    private listService: ListService,
+    private router: Router,
   ) {
-    this.loadPeriodo();
+
    }
 
   ngOnInit() {
-    this.fechaActual.fechaDia = new Date();
   }
 
-  public loadPeriodo() {
-    this.store
-      .select((state) => state)
-      .subscribe((list) => {
-        const listaParam = list.listParametros;
-        if (listaParam.length > 0) {
-          for (let parametro of <Array<ParametroPeriodo>>listaParam[0]["Data"]){
-            console.log(parametro);
-            if(parametro.Activo){
-              this.periodo = parametro.PeriodoId;
-              break;
-            }
-          }
-        }
-      });
+  navigateInformeDiario(){
+    let date=formatDate(this.fecha.fechaDia, "dd-MM-yyyy", "en");
+    console.log(date);
+    this.router.navigate([`/pages/apoyo-alimentario/informes/diario/${date}`]);
+    return false;
   }
+
+
+
 
 }

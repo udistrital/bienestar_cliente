@@ -16,23 +16,30 @@
         </div>
     </nb-card-header>
 
-    <nb-card-body *ngIf="solicitudes.length>0" >
+    <nb-card-body *ngIf="solicitudes.length>0">
         <div class="container">
-            <hr>
-            <table class="table mt-3">
+            <mat-form-field>
+                <mat-label>Tamaño de Tabla</mat-label>
+                <select matNativeControl [(ngModel)]="itemSelect">
+                    <option *ngFor="let option of itemsPag" [value]="option"
+                            [selected]="itemSelect === option">{{ option }}</option>
+                  </select>
+            </mat-form-field>
+            <table class="table">
                 <thead class="bg-ud-table">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Tipo solicitud</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Fecha radicacion</th>
-    
+
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
                 <tbody class="bg-ud-table-cell">
-                    <tr *ngFor="let item of solicitudes; let i = index">
-                        <th scope="row">{{ i +1 }}</th>
+                    <tr *ngFor="let item of solicitudes | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
+                        <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
+                        <th scope="row">{{ (i+1) + (pagActual -1)*itemSelect }}</th>
                         <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
                         <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
                         <td>{{ item.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
@@ -41,7 +48,7 @@
                                 <i class="fa fa-user" aria-hidden="true"></i>
                                 Evaluar solicitud
                             </button>
-    
+
                             <!-- <button *ngIf="mostrarIniciarInscripcion(i)" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
                                 <i class="fa fa-play " aria-hidden="true"></i>
                             </button>
@@ -60,16 +67,19 @@
                             <button *ngIf="mostrarReactivarServicio(i)" class="btn init-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
                                 <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
                             </button> -->
-    
+
                         </td>
                     </tr>
                 </tbody>
             </table>
-            
+            <div class="center-block">
+                <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
+                </pagination-controls>
+            </div>
         </div>
     </nb-card-body>
     <nb-card-body *ngIf="solicitudes.length==0">
-        <div  class="alert alert-warning text-center mt-3">
+        <div class="alert alert-warning text-center mt-3">
             <h3 class="alert-heading">No hay registros</h3>
             <p>
                 <i class="fa fa-exclamation fa-2x    "></i>
@@ -79,7 +89,7 @@
 </nb-card>
 
 <nb-card *ngIf="periodo==null">
-    <div  class="alert alert-warning text-center mt-3">
+    <div class="alert alert-warning text-center mt-3">
         <h3 class="alert-heading">No hay un periodo activo</h3>
         <p>
             <i class="fa fa-exclamation fa-2x    "></i>
