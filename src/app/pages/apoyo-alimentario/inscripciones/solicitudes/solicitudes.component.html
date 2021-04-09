@@ -1,7 +1,7 @@
-<button class="btn back-button btn-block" routerLink="../../">
+<!-- <button class="btn back-button btn-block" routerLink="../../">
     <i class="fa fa-arrow-left" aria-hidden="true"></i>
     Regresar
-</button>
+</button> -->
 
 
 <nb-card *ngIf="periodo!=null">
@@ -11,20 +11,45 @@
                 <h1 *ngIf="periodo!=null">
                     Listado de solicitudes radicadas {{periodo?.Nombre}}"
                 </h1>
+                <button class="btn back-button btn-block" routerLink="../../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
 
             </div>
         </div>
     </nb-card-header>
 
     <nb-card-body *ngIf="solicitudes.length>0">
-        <div>
-            <mat-form-field>
+
+        <div class="contain">
+
+
+            <mat-form-field class="search">
+
+                <mat-label>Periodo</mat-label>
+                <select matNativeControl [(ngModel)]="periodo.Nombre" (change)="onSelect($event)">
+                    <option *ngFor="let option of periodos" [value]="option.Nombre"
+                            [selected]="periodo === option">{{ option.Nombre }}</option>
+                    </select>
+
+                <!-- <mat-label>Buscar</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ej. 2020-1 // Radicada" #input> -->
+            </mat-form-field>
+
+            <button class="btn btn-success" routerLink="./0">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Agregar solicitud
+            </button>
+            <mat-form-field class="page">
                 <mat-label>Tamaño de Tabla</mat-label>
                 <select matNativeControl [(ngModel)]="itemSelect">
                     <option *ngFor="let option of itemsPag" [value]="option"
                             [selected]="itemSelect === option">{{ option }}</option>
                   </select>
             </mat-form-field>
+        </div>
+        <div>
             <table class="table">
                 <thead class="bg-ud-table">
                     <tr>
@@ -37,7 +62,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-ud-table-cell">
-                    <tr *ngFor="let item of solicitudes | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
+                    <tr *ngFor="let item of filSols | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
                         <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
                         <th scope="row">{{ (i+1) + (pagActual -1)*itemSelect }}</th>
                         <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
@@ -88,10 +113,6 @@
         </div>
     </nb-card-body>
 </nb-card>
-<button class="btn btn-success btn-block" routerLink="./0">
-    <i class="fa fa-plus" aria-hidden="true"></i>
-    Agregar solicitud
-</button>
 
 
 <nb-card *ngIf="periodo==null">

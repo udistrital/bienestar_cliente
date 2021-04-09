@@ -14,7 +14,7 @@ import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { environment } from '../../../../../environments/environment';
 import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-buscar-solicitud',

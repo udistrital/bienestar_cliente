@@ -115,6 +115,7 @@ export class ListService {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
       (list: any) => {
         if (!list || list.length === 0) {
+          /* this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=-1`) */
           this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber}&sortby=id&order=desc&limit=1`)
             .subscribe(
               (result: any[]) => {
