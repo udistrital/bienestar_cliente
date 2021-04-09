@@ -28,9 +28,9 @@
             <mat-form-field class="search">
 
                 <mat-label>Periodo</mat-label>
-                <select matNativeControl [(ngModel)]="periodo.Nombre" (change)="onSelect($event)">
-                    <option *ngFor="let option of periodos" [value]="option.Nombre"
-                            [selected]="periodo === option">{{ option.Nombre }}</option>
+                <select matNativeControl [(ngModel)]="periodo" (change)="onSelect($event)">
+                    <option *ngFor="let option of periodos;let i = index;" [value]="i"
+                            [selected]="periodo == i">{{ option.Nombre }}</option>
                     </select>
 
                 <!-- <mat-label>Buscar</mat-label>

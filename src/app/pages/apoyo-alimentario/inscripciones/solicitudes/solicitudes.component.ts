@@ -23,7 +23,7 @@ export class SolicitudesComponent implements OnInit {
   filSols: Solicitud[] = [];
   filtroPeriodo:boolean = false;
   periodos: Periodo[] = [];
-  periodo: Periodo = null;  
+  periodo: number = null;  
   busqueda:string;
   pagActual:number=1;
   contPag:number=0;
@@ -34,9 +34,10 @@ export class SolicitudesComponent implements OnInit {
     private listService: ListService,
   ) { 
     //this.listService.findPeriodosAcademico();
-    this.listService.findParametroPeriodo(environment.IDS.IDINSCRIPCIONES);
+    //this.listService.findParametroPeriodo(environment.IDS.IDINSCRIPCIONES);
+    this.listService.findParametros();
     this.loadPeriodo();
-    //this.loadPeriodos();
+    this.listService.findSolicitudesRadicadas();
     //this.loadPeriodoSp();
 
   }
@@ -50,8 +51,8 @@ export class SolicitudesComponent implements OnInit {
             try{
               let refSol :ReferenciaSolicitud =JSON.parse(listSR[0][i].Referencia);
               console.log('referencia',refSol);
-              console.log('periodo',this.periodo.Nombre);
-              if( refSol.Periodo===this.periodo.Nombre){
+              /* console.log('periodo',this.periodo.Nombre); */
+              if( refSol.Periodo===this.periodos[this.periodo].Nombre){
                 this.solicitudes.push(listSR[0][i]);
                 for (let j = 0; j <240; j++) {
                   this.solicitudes.push(listSR[0][i]);
@@ -62,27 +63,13 @@ export class SolicitudesComponent implements OnInit {
             }catch{
               console.error("Problema con la referencia de la solicitud")
             }
-
           }
         }
       },
     );
   }
 
-  public loadPeriodos() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listPA = list.listPeriodoAcademico
-        if (listPA.length > 0 ) {
-          const periodos = <Array<Periodo>>listPA[0]['Data'];
-          periodos.forEach(element => {
-            this.periodos.push(element);
-          })
-        }
-      },
-    );
-  }
-
+  
 
   public loadPeriodoSp() {
     this.listService.findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
@@ -101,7 +88,7 @@ export class SolicitudesComponent implements OnInit {
       );
   }
 
-  public loadPeriodo() {
+  public loadPeriodo(){
     this.store.select((state) => state).subscribe(
       (list) => {
         const listaParam = list.listParametros;
@@ -112,17 +99,23 @@ export class SolicitudesComponent implements OnInit {
           
           for(let param of parametros){
             //console.log(param);
-            this.periodos.push(param.PeriodoId);
+            if(param.ParametroId.Id==environment.IDS.IDINSCRIPCIONES){
+              this.periodos.push(param.PeriodoId);
+            }
           }
-          this.periodo= parametros[0].PeriodoId
+          if(this.periodos.length>0){
+            this.periodo = 0;
+            this.loadLists();
+          }           
           console.info(this.periodo)
-          this.listService.findSolicitudesRadicadas();
-          this.loadLists();
+          
         }
       },
-    );   
+    );  
+
   }
 
+  
   onSelect($event){
     console.log("Hola, Solicitudes nuevas de este periodo papuuuu");
     this.solicitudes=[];
