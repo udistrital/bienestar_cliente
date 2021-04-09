@@ -39,6 +39,8 @@ export const environment = {
     PARAMETROS: "https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/",
     SOLICITUD: "https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/",
     IDS:{
+        IDTIPOPARAMETRO: 21,
+        IDTIPOSOLICITUD: 9,
         IDINSCRIPCIONES: 347,
         IDSERVICIOAPOYO: 348,
         IDCIERREPERIODO: 356,

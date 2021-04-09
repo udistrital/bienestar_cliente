@@ -71,7 +71,8 @@ export class InscritosComponent implements OnInit {
       : this.autenticacion.getPayload().sub;
 
     this.myDate = this.datePipe.transform(this.myDate, "yyyy-MM-dd");
-    this.listService.findParametroPeriodo(environment.IDS.IDSERVICIOAPOYO);
+    //this.listService.findParametroPeriodo(environment.IDS.IDSERVICIOAPOYO);
+    this.listService.findParametros();
     this.loadPeriodo();
     this.cargarSedes()
       .then(() => {
@@ -92,12 +93,15 @@ export class InscritosComponent implements OnInit {
         const listaParam = list.listParametros;
         if (listaParam.length > 0 && this.periodo === null) {
           console.info("Periodo");
-          console.info(listaParam);
+          console.info(listaParam[0]);
           for (let parametro of <Array<ParametroPeriodo>>listaParam[0]["Data"]) {
             console.log(parametro);
-            if (parametro.Activo) {
+            if (parametro.ParametroId.Id==environment.IDS.IDSERVICIOAPOYO && parametro.Activo) {
+              console.log("Paso");         
               this.periodo = parametro.PeriodoId;
               break;
+            }else{
+              console.log("No paso");            
             }
           }
         }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import Swal from 'sweetalert2';
-import { PeriodosService } from '../../servicios/periodos.service'
-import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../../../@core/store/list.service';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo'
 import { IAppState } from '../../../../@core/store/app.state';
@@ -18,7 +16,10 @@ import { environment } from '../../../../../environments/environment';
 })
 export class PeriodosComponent implements OnInit {
   periodos: Periodo[] = [];
+  estadoPeriodo: String[][] = [];
   parametros: ParametroPeriodo[] = [];
+
+
   constructor(
     private store: Store<IAppState>,
     private listService: ListService) {
@@ -31,6 +32,56 @@ export class PeriodosComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  cargarEstadoPeriodos(): void {
+    for (let i = 0; i < this.periodos.length; i++) {
+      const periodo = this.periodos[i];
+      this.estadoPeriodo[i] = ["", "", ""];
+      /* Para inscripciones */
+      let parametro = this.getParametroByPerido_Tipo(periodo.Id, environment.IDS.IDINSCRIPCIONES, null);
+      if (parametro == undefined) {
+        if (periodo.Activo) {
+          this.estadoPeriodo[i][0] = "iniciar";
+        }
+      } else if (parametro.Activo) {
+        this.estadoPeriodo[i][0] = "detener";
+      } else {
+        this.estadoPeriodo[i][0] = "reiniciar";
+      }
+      /* Para servicio */
+      parametro = this.getParametroByPerido_Tipo(periodo.Id, environment.IDS.IDSERVICIOAPOYO, null);
+      if (parametro == undefined) {
+        if (periodo.Activo) {
+          this.estadoPeriodo[i][1] = "iniciar";
+        }
+      } else if (parametro.Activo) {
+        this.estadoPeriodo[i][1] = "detener";
+      } else {
+        this.estadoPeriodo[i][1] = "reiniciar";
+      }
+
+      /* Para cierre */
+      parametro = this.getParametroByPerido_Tipo(periodo.Id, environment.IDS.IDCIERREPERIODO, null);
+      if (parametro == undefined) {
+        if (this.estadoPeriodo[i][1] == "reiniciar" && this.estadoPeriodo[i][0] == "reiniciar") {
+          this.estadoPeriodo[i][2] = "iniciar";
+        }
+      } else if (parametro.Activo) {
+        if (periodo.Activo) {
+          this.estadoPeriodo[i][2] = "detener";
+        } else {
+          this.estadoPeriodo[i][2] = "cerrado";
+        }
+        this.estadoPeriodo[i][1] = "";
+        this.estadoPeriodo[i][0] = "";
+      } else {
+        if (this.estadoPeriodo[i][1] == "reiniciar" && this.estadoPeriodo[i][0] == "reiniciar") {
+          this.estadoPeriodo[i][2] = "reiniciar";
+        }
+      }
+    }
+  }
+
+
   public loadLists() {
     this.store.select((state) => state).subscribe(
       (list) => {
@@ -39,11 +90,14 @@ export class PeriodosComponent implements OnInit {
           const periodos = <Array<Periodo>>listPA[0]['Data'];
           periodos.forEach(element => {
             this.periodos.push(element);
+            let vacio = ["", "", ""];
+            this.estadoPeriodo.push(vacio);
           })
         }
       },
     );
   }
+
   public loadParametros() {
     this.store.select((state) => state).subscribe(
       (list) => {
@@ -54,233 +108,106 @@ export class PeriodosComponent implements OnInit {
             parametros.forEach(element => {
               this.parametros.push(element);
             });
+            this.cargarEstadoPeriodos();
           }
         }
       },
     );
   }
 
-  public iniciarParametro(i: number, parametro: string) {
+  private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
+    for (let parametro of this.parametros) {
+      if (Object.keys(parametro).length > 0) {
+        if (idPeriodo === parametro.PeriodoId.Id) {
+          if (parametro.ParametroId.Id == idParametro) {
+            if (activo == null || activo == parametro.Activo) {
+              return parametro;
+            }
+          }
+        }
+      }
+    }
+    return undefined;
+  }
+
+  private getIdParametro(nombreParam: String): number {
+    switch (nombreParam) {
+      case "inscripciones":
+        return environment.IDS.IDINSCRIPCIONES;
+      case "servicio":
+        return environment.IDS.IDSERVICIOAPOYO;
+      case "cierre":
+        return environment.IDS.IDCIERREPERIODO;
+      default:
+        return 0;
+    }
+  }
+
+
+  public iniciarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    Swal.fire({
-      title: 'Está seguro?',
-      text: `Está seguro que desea iniciar ${parametro} de ${periodo.Nombre}`,
-      icon: 'question',
-      showConfirmButton: true,
-      showCancelButton: true
-    }
-    ).then(resp => {
+    this.mensajeConfirmacion(`iniciar ${nombreParam} de ${periodo.Nombre}`).then(resp => {
       if (resp.value) {
-        if (parametro === "inscripciones") {
-          this.listService.inciarParametroPeriodo(periodo, environment.IDS.IDINSCRIPCIONES);
-        } else if (parametro === "servicio") {
-          this.listService.inciarParametroPeriodo(periodo, environment.IDS.IDSERVICIOAPOYO);
-        } else if (parametro === "cierre") {
-          this.listService.inciarParametroPeriodo(periodo, environment.IDS.IDCIERREPERIODO);
+        const idParametro = this.getIdParametro(nombreParam);
+        if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
+          this.listService.inciarParametroPeriodo(periodo, idParametro);
+        } else {
+          this.ventanaError(`Ya existe ${nombreParam} en el ${periodo.Nombre}`);
         }
       }
     });
   }
-  public detenerParametro(i: number, parametro: string) {
+
+  public detenerParametro(i: number, nombreParam: string) {
+    let periodo = this.periodos[i];
+    this.mensajeConfirmacion(`detener ${nombreParam} de ${periodo.Nombre}`)
+      .then(resp => {
+        let idParametro = this.getIdParametro(nombreParam);
+        if (resp.value && idParametro != 0) {
+          let parametro: ParametroPeriodo = this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, true);
+          if (parametro != undefined) {
+            parametro.Activo = false
+            this.listService.actualizarInscripcionesPeriodo(parametro);
+            this.cargarEstadoPeriodos();
+          } else {
+            this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
+          }
+        }
+      });
+  }
+
+
+  public reactivarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i]
-    Swal.fire({
-      title: 'Está seguro?',
-      text: `Está seguro que desea detener ${parametro} de ${periodo.Nombre}`,
-      icon: 'question',
-      showConfirmButton: true,
-      showCancelButton: true
-    }
-    ).then(resp => {
-      let idParametro = 0
-      if (parametro === "inscripciones") {
-        idParametro = environment.IDS.IDINSCRIPCIONES;
-      } else if (parametro === "servicio") {
-        idParametro = environment.IDS.IDSERVICIOAPOYO;
-      } else if (parametro === "cierre") {
-        idParametro = environment.IDS.IDCIERREPERIODO;
-      }
-      if (resp.value) {
-        let parametro: ParametroPeriodo;
-        for (parametro of this.parametros) {
-          if (this.periodos[i].Id === parametro.PeriodoId.Id) {
-            if (parametro.ParametroId.Id == idParametro) {
-              if (parametro.Activo) {
-                parametro.Activo = false
-                this.listService.actualizarInscripcionesPeriodo(parametro);
-                break;
-              }
-            }
+    this.mensajeConfirmacion(`Reactivar ${nombreParam} de ${periodo.Nombre}`)
+      .then(resp => {
+        let idParametro = this.getIdParametro(nombreParam);
+        if (resp.value && idParametro != 0) {
+          let parametro: ParametroPeriodo = this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, false);
+          if (parametro != undefined) {
+            parametro.Activo = true;
+            this.listService.actualizarInscripcionesPeriodo(parametro);
+            this.cargarEstadoPeriodos();
+          } else {
+            this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
           }
         }
-      }
+      });
+  }
+
+  private mensajeConfirmacion(msj: String): Promise<any> {
+    return new Promise((resolve) => {
+      Swal.fire({
+        title: '¿Está seguro?',
+        text: '' + msj,
+        icon: 'question',
+        showConfirmButton: true,
+        showCancelButton: true
+      }).then((result) => resolve(result)).catch(() => resolve(false));
     });
   }
-  public reactivarParametro(i: number, parametro: string) {
-    let periodo = this.periodos[i]
-    Swal.fire({
-      title: 'Está seguro?',
-      text: `Está seguro que desea reactivar ${parametro} de ${periodo.Nombre}`,
-      icon: 'question',
-      showConfirmButton: true,
-      showCancelButton: true
-    }
-    ).then(resp => {
-      let idParametro = 0
-      if (parametro === "inscripciones") {
-        idParametro = environment.IDS.IDINSCRIPCIONES;
-      } else if (parametro === "servicio") {
-        idParametro = environment.IDS.IDSERVICIOAPOYO;
-      } else if (parametro === "cierre") {
-        idParametro = environment.IDS.IDCIERREPERIODO;
-      }
-      if (resp.value) {
-        let parametro: ParametroPeriodo;
-        for (parametro of this.parametros) {
-          if (this.periodos[i].Id === parametro.PeriodoId.Id) {
-            if (parametro.ParametroId.Id == idParametro) {
-              if (!parametro.Activo) {
-                parametro.Activo = true
-                this.listService.actualizarInscripcionesPeriodo(parametro);
-                break;
-              }
-            }
-          }
-        }
-      }
-    });
+  private ventanaError(msj: String) {
+    Swal.fire("Error",
+      `<p>${msj}</p>`, "error");
   }
-
-  public mostrarIniciarInscripcion(index) {
-    if (this.periodos[index].Activo) {
-      for (let parametro of this.parametros) {
-        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-          if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-    return false;
-  }
-  public mostrarDetenerInscripcion(index) {
-    for (let parametro of this.parametros) {
-      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-          if (parametro.Activo) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  public mostrarReactivarInscripcion(index) {
-    if (this.periodoCerrado(index)) {
-      return false;
-    } else {
-      for (let parametro of this.parametros) {
-        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-          if (parametro.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-            if (!parametro.Activo) {
-              return true
-            }
-          }
-        }
-      }
-    }
-    return false;
-  }
-  public mostrarIniciarServicio(index) {
-    if (this.periodos[index].Activo) {
-      for (let parametro of this.parametros) {
-        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-          if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-    return false;
-  }
-  public mostrarDetenerServicio(index) {
-    for (let parametro of this.parametros) {
-      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
-          if (parametro.Activo)
-            return true
-        }
-      }
-    }
-    return false;
-  }
-  public mostrarReactivarServicio(index) {
-    if (this.periodoCerrado(index)) {
-      return false;
-    } else {
-
-      for (let parametro of this.parametros) {
-        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-          if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
-            if (!parametro.Activo)
-              return true
-          }
-        }
-      }
-    }
-
-    return false;
-  }
-  public mostrarFinalizarPeriodo(index) {
-    if (this.periodoCerrado(index)) {
-      return false;
-    } else {
-      if(this.mostrarReactivarServicio(index) && !this.mostrarVolverACerrarPeriodo(index)){
-        return true;
-      }
-      return false;
-    }
-    
-  }
-
-  public mostrarReactivarPeriodo(index) {
-    if (this.periodoCerrado(index) && this.periodos[index].Activo) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public mostrarVolverACerrarPeriodo(index) {
-    if (this.periodoCerrado(index)) {
-      return false;
-    } else {
-      for (let parametro of this.parametros) {
-        if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-          if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO) {
-            if (!parametro.Activo) {
-              return true;
-            }
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  public periodoCerrado(index) {
-    for (let parametro of this.parametros) {
-      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == environment.IDS.IDCIERREPERIODO) {
-          if (parametro.Activo)
-            return true
-        }
-      }
-    }
-    return false;
-  }
-
-
 }

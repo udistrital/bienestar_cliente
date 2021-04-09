@@ -89,16 +89,16 @@ export class ListService {
     this.parametrosService.put('parametro_periodo', JSON.stringify(parametro), id).subscribe();
   }
 
-  public findParametros() {
+ /*  public findParametros() {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
       (list: any) => {
         if (!list || list.length === 0) {
           this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
             .subscribe(
               (result: any[]) => {
-                if(Object.keys(result['Data'][0]).length > 0){
+                if (Object.keys(result['Data'][0]).length > 0) {
                   this.addList(REDUCER_LIST.Parametros, result);
-                }else{
+                } else {
                   this.addList(REDUCER_LIST.Parametros, []);
                 }
               },
@@ -109,7 +109,26 @@ export class ListService {
         }
       },
     );
+  } */
+
+  findParametros() {
+    this.store.select(REDUCER_LIST.Parametros).subscribe(
+      (list: any) => {
+        if (!list || list.length === 0) {
+          this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${environment.IDS.IDTIPOPARAMETRO}&sortby=id&order=desc&limit=-1`)
+            .subscribe(
+              (result: any[]) => {
+                this.addList(REDUCER_LIST.Parametros, result);
+              },
+              error => {
+                this.addList(REDUCER_LIST.Parametros, []);
+              },
+            );
+        }
+      },
+    );
   }
+
 
   findParametroPeriodo(idNumber: number) {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
@@ -128,9 +147,11 @@ export class ListService {
       },
     );
   }
+
   findParametroPeriodoSp(idNumber: number): Observable<any[]> {
     return this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=1`)
   }
+
 
 
   /* findServicioApoyo() {
@@ -308,6 +329,62 @@ export class ListService {
 
   }
 
+  /* Carga informacion un tercero */
+  loadTerceroByDocumento(documento: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.tercerosService
+        .get(`datos_identificacion?query=Numero:${documento}`)
+        .subscribe(
+          (result) => {
+            resolve(result[0].TerceroId);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+
+  loadSolicitudSolicitante_Periodo(terceroId: number, nomPeriodo: String): Promise<any> {
+    return new Promise((resolve, reject) => {
+      /* Cargamos solicitud */
+      this.solicitudService
+        .get(`solicitante?query=TerceroId:${terceroId}`)
+        .subscribe(
+          (result: any[]) => {
+            let solicitante: Solicitante;
+            if (Object.keys(result[0]).length > 0) {
+              /* Consultamos las solicitudes de un solicitante */
+              for (solicitante of result) {
+                const sol: Solicitud = solicitante.SolicitudId;
+                /* Se busca una solicitud radicada */
+                if (sol.EstadoTipoSolicitudId.TipoSolicitud.Id === environment.IDS.IDTIPOSOLICITUD) {
+                  /* Se busca una referencia correspondiente al periodo actual */
+                  let refSol: ReferenciaSolicitud;
+                  try {
+                    refSol = JSON.parse(sol.Referencia);
+                    if (refSol != null) {
+                      if (refSol.Periodo === nomPeriodo) {
+                        resolve(sol);
+                      }
+                    }
+                  } catch (error) {
+                    reject(error);
+                  }
+                }
+
+              }
+              reject("No se encontro ningunas solicitud asociada al " + nomPeriodo);
+
+            } else {
+              reject("El usuario no tiene solicitudes");
+            }
+          });
+    });
+  }
+  
+
   private addList(type: string, object: Array<any>) {
     this.store.dispatch({
       type: type,
@@ -315,6 +392,9 @@ export class ListService {
     });
   }
 }
+
+
+
 function reject(error: HttpErrorResponse) {
   throw new Error('Function not implemented.');
 }
