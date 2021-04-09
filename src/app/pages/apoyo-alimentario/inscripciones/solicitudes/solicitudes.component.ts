@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
 import { environment } from '../../../../../environments/environment';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'ngx-solicitudes',
@@ -19,7 +20,11 @@ import { environment } from '../../../../../environments/environment';
 })
 export class SolicitudesComponent implements OnInit {
   solicitudes: Solicitud[] = [];
+  filSols: Solicitud[] = [];
+  filtroPeriodo:boolean = false;
+  periodos: Periodo[] = [];
   periodo: Periodo = null;  
+  busqueda:string;
   pagActual:number=1;
   contPag:number=0;
   itemsPag:number[]=[1,5,10,15,20,25,50,75,100];
@@ -28,7 +33,12 @@ export class SolicitudesComponent implements OnInit {
     private store: Store<IAppState>,
     private listService: ListService,
   ) { 
-    this.loadPeriodoSp();
+    //this.listService.findPeriodosAcademico();
+    this.listService.findParametroPeriodo(environment.IDS.IDINSCRIPCIONES);
+    this.loadPeriodo();
+    //this.loadPeriodos();
+    //this.loadPeriodoSp();
+
   }
   public loadLists() {
     this.store.select((state) => state).subscribe(
@@ -39,11 +49,15 @@ export class SolicitudesComponent implements OnInit {
           for (let i = 0; i < listSR[0].length; i++) {
             try{
               let refSol :ReferenciaSolicitud =JSON.parse(listSR[0][i].Referencia);
+              console.log('referencia',refSol);
+              console.log('periodo',this.periodo.Nombre);
               if( refSol.Periodo===this.periodo.Nombre){
                 this.solicitudes.push(listSR[0][i]);
                 for (let j = 0; j <240; j++) {
                   this.solicitudes.push(listSR[0][i]);
                 }
+                this.filSols=this.solicitudes;
+                break;
               }
             }catch{
               console.error("Problema con la referencia de la solicitud")
@@ -54,6 +68,22 @@ export class SolicitudesComponent implements OnInit {
       },
     );
   }
+
+  public loadPeriodos() {
+    this.store.select((state) => state).subscribe(
+      (list) => {
+        const listPA = list.listPeriodoAcademico
+        if (listPA.length > 0 ) {
+          const periodos = <Array<Periodo>>listPA[0]['Data'];
+          periodos.forEach(element => {
+            this.periodos.push(element);
+          })
+        }
+      },
+    );
+  }
+
+
   public loadPeriodoSp() {
     this.listService.findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
       .subscribe(
@@ -70,6 +100,58 @@ export class SolicitudesComponent implements OnInit {
         },
       );
   }
+
+  public loadPeriodo() {
+    this.store.select((state) => state).subscribe(
+      (list) => {
+        const listaParam = list.listParametros;
+        if (listaParam.length > 0 && this.periodo === null) {
+          console.info(listaParam)
+          let parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
+          console.log(parametros);
+          
+          for(let param of parametros){
+            //console.log(param);
+            this.periodos.push(param.PeriodoId);
+          }
+          this.periodo= parametros[0].PeriodoId
+          console.info(this.periodo)
+          this.listService.findSolicitudesRadicadas();
+          this.loadLists();
+        }
+      },
+    );   
+  }
+
+  onSelect($event){
+    console.log("Hola, Solicitudes nuevas de este periodo papuuuu");
+    this.solicitudes=[];
+    this.filSols=[];
+    for (let j = 0; j <240; j++) {
+      this.solicitudes.pop();
+      this.filSols.pop();
+    }
+    
+    this.loadLists();
+  }
+
+  
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    let filtro = filterValue.trim().toLowerCase();
+    console.log(filtro);
+    this.filSols=[];
+    
+    for (let i of this.solicitudes){
+      if(i.EstadoTipoSolicitudId.EstadoId.Nombre==filterValue){
+        this.filSols.push(i); 
+      }
+    }  
+    console.log(this.solicitudes);
+    
+    
+  }
+ 
 
   ngOnInit() {
   }

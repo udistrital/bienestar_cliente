@@ -6,7 +6,7 @@ import { ListService } from '../../../../@core/store/list.service';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 import Swal from 'sweetalert2';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-buscar-solicitud',
