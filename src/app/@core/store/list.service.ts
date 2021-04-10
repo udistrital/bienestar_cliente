@@ -18,14 +18,19 @@ import { ImplicitAutenticationService } from '../utils/implicit_autentication.se
 import { Tercero } from '../data/models/terceros/tercero';
 import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicitud";
 import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
+import { OikosService } from "../data/oikos.service"
+import { AcademicaService } from '../data/academica.service';
 
 @Injectable()
 
 export class ListService {
+  
   constructor(
     private parametrosService: ParametrosService,
     private solicitudService: SolicitudService,
     private tercerosService: TercerosService,
+    private oikosService: OikosService,
+    private academicaService: AcademicaService,
     private store: Store<IAppState>
   ) { }
 
@@ -89,27 +94,27 @@ export class ListService {
     this.parametrosService.put('parametro_periodo', JSON.stringify(parametro), id).subscribe();
   }
 
- /*  public findParametros() {
-    this.store.select(REDUCER_LIST.Parametros).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
-            .subscribe(
-              (result: any[]) => {
-                if (Object.keys(result['Data'][0]).length > 0) {
-                  this.addList(REDUCER_LIST.Parametros, result);
-                } else {
-                  this.addList(REDUCER_LIST.Parametros, []);
-                }
-              },
-              error => {
-                this.addList(REDUCER_LIST.Parametros, []);
-              },
-            );
-        }
-      },
-    );
-  } */
+  /*  public findParametros() {
+     this.store.select(REDUCER_LIST.Parametros).subscribe(
+       (list: any) => {
+         if (!list || list.length === 0) {
+           this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
+             .subscribe(
+               (result: any[]) => {
+                 if (Object.keys(result['Data'][0]).length > 0) {
+                   this.addList(REDUCER_LIST.Parametros, result);
+                 } else {
+                   this.addList(REDUCER_LIST.Parametros, []);
+                 }
+               },
+               error => {
+                 this.addList(REDUCER_LIST.Parametros, []);
+               },
+             );
+         }
+       },
+     );
+   } */
 
   findParametros() {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
@@ -224,6 +229,98 @@ export class ListService {
       },
     );
   }
+
+  loadFacultadTercero(Id: number) {
+    return new Promise((resolve, reject) => {
+      /* Cargamos vinculacion*/
+      this.tercerosService
+        .get(
+          `vinculacion?query=TerceroPrincipalId.Id:${Id}&sortby=Id&order=desc&limit=-1`
+        )
+        .subscribe(
+          (result) => {
+            let vinculacionDep = 0;
+            for (let i = 0; i < result.length; i++) {
+              if (Object.keys(result[i]).length > 0) {
+                if (result[i].TipoVinculacionId == 346) {
+                  console.log(result[i].DependenciaId);
+                  vinculacionDep = result[i].DependenciaId;
+                  break;
+                }
+              }
+            }
+            /* Si se encuenta vinculacion como estudiante a un departamento */
+            if (vinculacionDep != 0) {
+              /* Cargamos facultad y proyecto */
+              this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
+                .subscribe((resp) => {
+                  if (Object.keys(resp[0]).length > 0) {
+                    resolve(resp[0].PadreId.Nombre);
+                  } else {
+                    reject("Dependencia padre no encontrada");
+                  }
+                }, 
+                error => {
+                  reject(error);
+                });
+            }else{
+              reject("Vinculacion del estudiante no encontrada");
+            }
+          }, err => {
+            reject(err);
+          });
+    });
+  }
+ 
+  loadSolicitudesTercero(IdTercero: number, tipoSolicitud: number, nomPeriodo: String, estado: boolean): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService
+        .get(`solicitante?query=TerceroId:${IdTercero}`)
+        .subscribe(
+          (result: any[]) => {
+            let solicitante: Solicitante;
+            if (Object.keys(result[0]).length > 0) {
+              /* Consultamos las solicitudes de un solicitante */
+              let listSolicitudes = [];
+              for (solicitante of result) {
+                const sol: Solicitud = solicitante.SolicitudId;
+                /* Se busca una solicitud radicada */
+                if (tipoSolicitud == null ||
+                  sol.EstadoTipoSolicitudId.Id ==
+                  tipoSolicitud
+                ) {
+                  /* Se busca una referencia correspondiente al periodo actual */
+                  let refSol: ReferenciaSolicitud;
+                  try {
+                    refSol = JSON.parse(sol.Referencia);
+                    if (refSol != null) {
+                      if (nomPeriodo == null || refSol.Periodo === nomPeriodo) {
+                        if(estado == null || sol.Activo==estado){
+                          listSolicitudes.push(sol);
+                        }
+                      }
+                    }
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }
+              }
+              if (listSolicitudes.length > 0) {
+                resolve(listSolicitudes);
+              }
+              resolve([]);
+            } else {
+              resolve([]);
+            }
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+
   findSolicitudTercero(idTercero: number) {
     this.store.select(REDUCER_LIST.SolicitudTercero).subscribe(
       (list: any) => {
@@ -330,7 +427,7 @@ export class ListService {
 
   }
 
-  /* Carga informacion un tercero */
+    /* Carga informacion un tercero */
   loadTerceroByDocumento(documento: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.tercerosService
@@ -384,7 +481,51 @@ export class ListService {
           });
     });
   }
+
+  cargarCarnetTecero(Idtercero: number, CodAbreviacion: String) {
+    return new Promise((resolve, reject) => {
+      this.tercerosService
+        .get(
+          `datos_identificacion?query=TerceroId.Id:${Idtercero},TipoDocumentoId.CodigoAbreviacion:${CodAbreviacion}&sortby=id&order=desc`
+        )
+        .subscribe(
+          (result) => {
+            if (Object.keys(result[0]).length > 0) {
+              resolve(result[0]);
+            } else {
+              resolve(undefined);
+            }
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  buscarSolicitudTercero(Id: number) {
+    throw new Error("Method not implemented.");
+  }
+
+  cargarEstadoTercero(Idtercero: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.cargarCarnetTecero(Idtercero,'CODE').then((carnet) => {
+        if (carnet != undefined) {
+          this.academicaService.get(`datos_basicos_estudiante/${carnet['Numero']}`).subscribe((result) => {
+            /* Cambiar por A */
+            resolve(result.datosEstudianteCollection.datosBasicosEstudiante[0].estado);
+          });
+        } else {
+          reject("No se encuentra carnet asociado");
+        }
+      }).catch((error) => reject(error));
+
+
+    });
+  }
+
   
+
 
   private addList(type: string, object: Array<any>) {
     this.store.dispatch({
@@ -393,6 +534,7 @@ export class ListService {
     });
   }
 }
+
 
 
 
