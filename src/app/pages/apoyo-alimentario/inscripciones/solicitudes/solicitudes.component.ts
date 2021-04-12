@@ -39,10 +39,10 @@ export class SolicitudesComponent implements OnInit {
   ) {
     //this.listService.findPeriodosAcademico();
     //this.listService.findParametroPeriodo(environment.IDS.IDINSCRIPCIONES);
-    this.listService.findParametros();
-    this.loadPeriodo();
+    //this.listService.findParametros();
+    this.loadPeriodoSp();
+    //this.loadPeriodo();
     this.listService.findSolicitudesRadicadas();
-    //this.loadPeriodoSp();
 
   }
   public loadLists() {
@@ -76,23 +76,34 @@ export class SolicitudesComponent implements OnInit {
 
 
   public loadPeriodoSp() {
-    this.listService.findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
-      .subscribe(
-        (result: any[]) => {
-          console.info('Entro')
-          if (result['Data'].length > 0) {
-            this.periodo = result['Data'][0].PeriodoId;
-            this.listService.findSolicitudesRadicadas();
-            this.loadLists();
+    this.listService.findParametrosSp(environment.IDS.IDTIPOPARAMETRO)
+      .subscribe( (result: any[]) =>{
+        if (result['Data'].length > 0) {
+          let parametros = <Array<ParametroPeriodo>>result['Data'];
+
+          for(let param of parametros){
+            //console.log(param);
+            if(param.ParametroId.Id==environment.IDS.IDINSCRIPCIONES){
+              this.periodos.push(param.PeriodoId);
+            }
           }
-        },
-        error => {
-          this.periodo = null;
-        },
+          if(this.periodos.length>0){
+            this.periodo = 0;
+            this.loadLists();
+          }           
+          console.info(this.periodo);
+          //this.periodo = result['Data'][0].PeriodoId;
+          //this.listService.findSolicitudesRadicadas();
+          //this.loadLists();
+        }
+      },
+      error => {
+        this.periodo = null;
+      }
       );
   }
 
-  public loadPeriodo() {
+ /*  public loadPeriodo(){
     this.store.select((state) => state).subscribe(
       (list) => {
         const listaParam = list.listParametros;
@@ -117,7 +128,7 @@ export class SolicitudesComponent implements OnInit {
       },
     );
 
-  }
+  } */
 
 
   onSelect($event) {

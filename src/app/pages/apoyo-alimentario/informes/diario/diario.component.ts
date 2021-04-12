@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { FechaModel } from '../../../../@core/data/models/fecha/fecha.model';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 
@@ -13,10 +14,11 @@ export class DiarioComponent implements OnInit {
 
   periodo: Periodo;
   fecha = new FechaModel();
-  //myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
+  
 
   constructor(
     private router: Router,
+    private toastrService: NbToastrService
   ) {
 
    }
@@ -26,9 +28,30 @@ export class DiarioComponent implements OnInit {
 
   navigateInformeDiario(){
     let date=formatDate(this.fecha.fechaDia, "dd-MM-yyyy", "en");
-    console.log(date);
-    this.router.navigate([`/pages/apoyo-alimentario/informes/diario/${date}`]);
-    return false;
+    let actual = formatDate(new Date(), "dd-MM-yyyy", "en");
+    console.log(actual);
+    if(date>actual){
+      this.showError("Fecha Erronea","La fecha ingresada aún no existe");
+      return false;
+    }else{
+      this.router.navigate([`/pages/apoyo-alimentario/informes/diario/${date}`]);
+      return true;
+    }
+    
+  }
+
+  showError(titulo, error) {
+    this.toastrService.show(
+      error,
+      /* `Estudiante: ${this.registroBase.codigo}`, */
+      titulo,
+      {
+        position: NbGlobalPhysicalPosition.TOP_RIGHT,
+        status: "danger",
+        duration: 3000,
+        icon: "checkmark-square-outline",
+      }
+    );
   }
 
 

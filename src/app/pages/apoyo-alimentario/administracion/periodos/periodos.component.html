@@ -29,48 +29,39 @@
                         <span *ngIf="!item.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                     </th>
                     <td>
-                        <button *ngIf="estadoPeriodo[i][0]=='iniciar'" class="btn init-icon "
-                            (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
+                        <button *ngIf="estadoPeriodo[i][0]=='iniciar'" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
                             <i class="fa fa-play " aria-hidden="true"></i>
                             Iniciar inscripciones
                         </button>
-                        <button *ngIf="estadoPeriodo[i][0]=='detener'" class="btn delete-icon "
-                            (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
+                        <button *ngIf="estadoPeriodo[i][0]=='detener'" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
                             <i class="fa fa-stop " aria-hidden="true"></i>
                             Detener inscripciones
                         </button>
-                        <button *ngIf="estadoPeriodo[i][0]=='reiniciar'" class="btn student-icon"
-                            (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
+                        <button *ngIf="estadoPeriodo[i][0]=='reiniciar'" class="btn student-icon" (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
                             <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
                             Reactivar inscripciones
                         </button>
-                        <button *ngIf="estadoPeriodo[i][1]=='iniciar'" class="btn init-icon"
-                            (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
+                        <button *ngIf="estadoPeriodo[i][1]=='iniciar'" class="btn init-icon" (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
                             <i class="fa fa-play " aria-hidden="true"></i>
                             Iniciar servicio
                         </button>
-                        <button *ngIf="estadoPeriodo[i][1]=='detener'" class="btn delete-icon"
-                            (click)="detenerParametro(i,'servicio')" title="Detener servicio">
+                        <button *ngIf="estadoPeriodo[i][1]=='detener'" class="btn delete-icon" (click)="detenerParametro(i,'servicio')" title="Detener servicio">
                             <i class="fa fa-stop " aria-hidden="true"></i>
                             Detener servicio
                         </button>
-                        <button *ngIf="estadoPeriodo[i][1]=='reiniciar'" class="btn student-icon"
-                            (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
+                        <button *ngIf="estadoPeriodo[i][1]=='reiniciar'" class="btn student-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
                             <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
                             Reactivar servicio
                         </button>
-                        <button *ngIf="estadoPeriodo[i][2]=='iniciar'" class="btn delete-icon"
-                            (click)="iniciarParametro(i, 'cierre')" title="Cerrar periodo">
+                        <button *ngIf="estadoPeriodo[i][2]=='iniciar'" class="btn delete-icon" (click)="iniciarParametro(i, 'cierre')" title="Cerrar periodo">
                             <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
                             Cerrar periodo
                         </button>
-                        <button *ngIf="estadoPeriodo[i][2]=='detener'" class="btn student-icon"
-                            (click)="detenerParametro(i,'cierre')" title="Reactivar servicio">
+                        <button *ngIf="estadoPeriodo[i][2]=='detener'" class="btn student-icon" (click)="detenerParametro(i,'cierre')" title="Reactivar servicio">
                             <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
                             Reactivar periodo
                         </button>
-                        <button *ngIf="estadoPeriodo[i][2]=='reiniciar'" class="btn delete-icon"
-                            (click)="reactivarParametro(i, 'cierre')" title="Volver a cerrar periodo">
+                        <button *ngIf="estadoPeriodo[i][2]=='reiniciar'" class="btn delete-icon" (click)="reactivarParametro(i, 'cierre')" title="Volver a cerrar periodo">
                             <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
                             Cerrar periodo
                         </button>
