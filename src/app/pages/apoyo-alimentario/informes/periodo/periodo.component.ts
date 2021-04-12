@@ -15,6 +15,7 @@ import { ListService } from '../../../../@core/store/list.service';
 export class PeriodoComponent implements OnInit {
   periodos: Periodo[] = [];
   parametros: ParametroPeriodo[] = [];
+  informe:boolean[]=[];
   constructor(
     private store: Store<IAppState>,
     private router: Router,
@@ -34,9 +35,11 @@ export class PeriodoComponent implements OnInit {
         const listPA = list.listPeriodoAcademico
         if (listPA.length > 0 && this.periodos.length === 0) {
           const periodos = <Array<Periodo>>listPA[0]['Data'];
+          
           periodos.forEach(element => {
             this.periodos.push(element);
-          })
+          });
+          this.loadParametros();
         }
       },
     );
@@ -51,6 +54,10 @@ export class PeriodoComponent implements OnInit {
             parametros.forEach(element => {
               this.parametros.push(element);
             });
+
+            for(let i=0;i<this.periodos.length;i++){
+              this.informe[i]=this.mostrarInforme(i);
+            }
           }
         }
       },
@@ -62,7 +69,7 @@ export class PeriodoComponent implements OnInit {
       if (parametro.PeriodoId.Id === this.periodos[index].Id) {
         if (parametro.ParametroId.Id == environment.IDS.IDCIERREPERIODO) {
           if (parametro.Activo)
-            return true
+            return true;
         }
       }
     }

@@ -1,12 +1,31 @@
+<nb-card *ngIf="solicitud==null && !nueva">
+    <div class="text-center pt-2">
+        <div class="menu-header">
+            <h1>
+                No se encontro la solicitud
+            </h1>
+            <button class="btn back-button btn-block" routerLink="../">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Regresar
+            </button>
+        </div>
+    </div>
+</nb-card>
 <nb-card *ngIf="solicitud!=null || nueva">
     <nb-card-header>
         <div class="text-center pt-2">
             <div class="menu-header">
-                <h1 *ngIf="expression">
-                    ng
+                <h1 *ngIf="!nueva">
                     Solicitud apoyo alimentario No. {{ idSolicitud }}
                 </h1>
-                
+                <h1 *ngIf="nueva">
+                    Nueva solicitud apoyo alimentario
+                </h1>
+                <button class="btn back-button btn-block" routerLink="../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+
             </div>
         </div>
     </nb-card-header>
@@ -24,26 +43,28 @@
             </nb-accordion-item>
 
             <!-- Informacion solicitud -->
-            <nb-accordion-item >
+            <nb-accordion-item>
                 <nb-accordion-item-header>
                     <h4 class="non-selectable">Información solicitud</h4>
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
                     <div class="menu-list">
-                        <div class="item form-group ">
+                        <div class="item ">
+                            <!-- form-group  -->
                             <label class="sub-item label-color-ud">
                                 ID :
-                            </label >                        
-                                <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}} formControlName="codigo">
-                                
-                            
+                            </label >       
+                            <label ng-readonly="!nueva" class="sub-item ">
+                                {{solicitud?.Id}}
+                            </label >                   
+                            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Estado :
                             </label>
                             <label class="sub-item">
-                                {{solicitud.Activo}}
+                                {{solicitud?.Activo}}
                             </label>
                         </div>
                         <div class="item">
@@ -51,7 +72,7 @@
                                 Fecha Radicación :
                             </label>
                             <label class="sub-item">
-                                {{solicitud.FechaRadicacion}}
+                                {{solicitud?.FechaRadicacion}}
                             </label>
                         </div>
                         <div class="item">
@@ -59,7 +80,7 @@
                                 Fecha Creación :
                             </label>
                             <label class="sub-item">
-                                {{solicitud.FechaCreacion}}
+                                {{solicitud?.FechaCreacion}}
                             </label>
                         </div>
                         <div class="item">
@@ -67,7 +88,7 @@
                                 Fecha Modificación :
                             </label>
                             <label class="sub-item">
-                                {{solicitud.FechaModificacion}}
+                                {{solicitud?.FechaModificacion}}
                             </label>
                         </div>
                         <div class="item">
@@ -75,9 +96,9 @@
                                 Solicitud Finalizada :
                             </label>
                             <label class="sub-item">
-                                {{solicitud.SolicitudFinalizada}}
+                                {{solicitud?.SolicitudFinalizada}}
                             </label>
-        
+
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
@@ -110,7 +131,7 @@
     </nb-card-body>
 </nb-card>
 
-<div *ngIf="solicitud==null && !nuevo" class="alert alert-warning text-center mt-3">
+<div *ngIf="solicitud==null && !nueva" class="alert alert-warning text-center mt-3">
     <h3 class="alert-heading">No se encuentra la solicitud {{idSolicitud}}</h3>
     <p>
         <i class="fa fa-exclamation fa-2x    "></i>

@@ -24,9 +24,8 @@ export class PeriodosComponent implements OnInit {
     private store: Store<IAppState>,
     private listService: ListService) {
     this.listService.findPeriodosAcademico();
-    this.listService.findParametros();
-    this.loadLists();
-    this.loadParametros();
+    //this.listService.findParametros();
+    this.loadParametrosSp();  
   }
 
   ngOnInit(): void {
@@ -88,17 +87,39 @@ export class PeriodosComponent implements OnInit {
         const listPA = list.listPeriodoAcademico
         if (listPA.length > 0 && this.periodos.length === 0) {
           const periodos = <Array<Periodo>>listPA[0]['Data'];
+          console.log('List - periodos :>> ', periodos.length);
           periodos.forEach(element => {
             this.periodos.push(element);
             let vacio = ["", "", ""];
             this.estadoPeriodo.push(vacio);
           })
+          console.log('periodos cargados:>> ', this.periodos.length);
+          this.cargarEstadoPeriodos();
         }
       },
     );
   }
+  
+  public loadParametrosSp() {
+    this.listService.findParametrosSp(environment.IDS.IDTIPOPARAMETRO)
+      .subscribe( (result: any[]) =>{
+        if (result['Data'].length > 0 && this.parametros.length === 0) {
+          const params = <Array<ParametroPeriodo>>result['Data'];
+          if (params != undefined) {
+            for(let p of params){
+              this.parametros.push(p);
+            }
+            this.loadLists();
+          }
+        }
+      },
+      error => {
+        this.parametros = null;
+      }
+      );
+  }
 
-  public loadParametros() {
+/*   public loadParametros() {
     this.store.select((state) => state).subscribe(
       (list) => {
         const listaParam = list.listParametros;
@@ -113,7 +134,7 @@ export class PeriodosComponent implements OnInit {
         }
       },
     );
-  }
+  } */
 
   private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
     for (let parametro of this.parametros) {

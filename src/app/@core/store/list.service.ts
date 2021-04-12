@@ -134,6 +134,26 @@ export class ListService {
     );
   }
 
+  findParametrosSp(idNumber: number) {
+    /* return this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${environment.IDS.IDTIPOPARAMETRO}&sortby=id&order=desc&limit=-1`) */
+    return this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${idNumber}&sortby=id&order=desc&limit=-1`)
+    /* this.store.select(REDUCER_LIST.Parametros).subscribe(
+      (list: any) => {
+        if (!list || list.length === 0) {
+          this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${environment.IDS.IDTIPOPARAMETRO}&sortby=id&order=desc&limit=-1`)
+            .subscribe(
+              (result: any[]) => {
+                this.addList(REDUCER_LIST.Parametros, result);
+              },
+              error => {
+                this.addList(REDUCER_LIST.Parametros, []);
+              },
+            );
+        }
+      },
+    ); */
+  }
+
 
   findParametroPeriodo(idNumber: number) {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
