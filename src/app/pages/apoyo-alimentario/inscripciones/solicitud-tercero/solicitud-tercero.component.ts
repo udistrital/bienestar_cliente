@@ -881,6 +881,8 @@ export class SolicitudTerceroComponent implements OnInit {
     });
     return false;
   }
+
+
   async save() {
     const isValidTerm = await this.utilService.termsAndConditional();
     /* let caracterizaciones = [...this.comorbilidades, ...this.otros]; */

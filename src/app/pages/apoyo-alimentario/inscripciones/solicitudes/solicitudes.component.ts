@@ -12,6 +12,9 @@ import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
 import { environment } from '../../../../../environments/environment';
 import { MatTableDataSource } from '@angular/material';
+import { UtilService } from '../../../../shared/services/utilService'
+
+
 
 @Component({
   selector: 'ngx-solicitudes',
@@ -21,18 +24,19 @@ import { MatTableDataSource } from '@angular/material';
 export class SolicitudesComponent implements OnInit {
   solicitudes: Solicitud[] = [];
   filSols: Solicitud[] = [];
-  filtroPeriodo:boolean = false;
+  filtroPeriodo: boolean = false;
   periodos: Periodo[] = [];
-  periodo: number = null;  
-  busqueda:string;
-  pagActual:number=1;
-  contPag:number=0;
-  itemsPag:number[]=[1,5,10,15,20,25,50,75,100];
-  itemSelect:number=10;
+  periodo: number = null;
+  busqueda: string;
+  pagActual: number = 1;
+  contPag: number = 0;
+  itemsPag: number[] = [1, 5, 10, 15, 20, 25, 50, 75, 100];
+  itemSelect: number = 10;
   constructor(
     private store: Store<IAppState>,
     private listService: ListService,
-  ) { 
+    private utilService: UtilService
+  ) {
     //this.listService.findPeriodosAcademico();
     //this.listService.findParametroPeriodo(environment.IDS.IDINSCRIPCIONES);
     this.listService.findParametros();
@@ -48,19 +52,19 @@ export class SolicitudesComponent implements OnInit {
         if (listSR.length > 0 && this.solicitudes.length === 0) {
           console.log(listSR[0].length);
           for (let i = 0; i < listSR[0].length; i++) {
-            try{
-              let refSol :ReferenciaSolicitud =JSON.parse(listSR[0][i].Referencia);
-              console.log('referencia',refSol);
+            try {
+              let refSol: ReferenciaSolicitud = JSON.parse(listSR[0][i].Referencia);
+              console.log('referencia', refSol);
               /* console.log('periodo',this.periodo.Nombre); */
-              if( refSol.Periodo===this.periodos[this.periodo].Nombre){
+              if (refSol.Periodo === this.periodos[this.periodo].Nombre) {
                 this.solicitudes.push(listSR[0][i]);
-                for (let j = 0; j <240; j++) {
+                for (let j = 0; j < 240; j++) {
                   this.solicitudes.push(listSR[0][i]);
                 }
-                this.filSols=this.solicitudes;
+                this.filSols = this.solicitudes;
                 break;
               }
-            }catch{
+            } catch {
               console.error("Problema con la referencia de la solicitud")
             }
           }
@@ -69,7 +73,7 @@ export class SolicitudesComponent implements OnInit {
     );
   }
 
-  
+
 
   public loadPeriodoSp() {
     this.listService.findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
@@ -88,7 +92,7 @@ export class SolicitudesComponent implements OnInit {
       );
   }
 
-  public loadPeriodo(){
+  public loadPeriodo() {
     this.store.select((state) => state).subscribe(
       (list) => {
         const listaParam = list.listParametros;
@@ -96,57 +100,82 @@ export class SolicitudesComponent implements OnInit {
           console.info(listaParam)
           let parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
           console.log(parametros);
-          
-          for(let param of parametros){
+
+          for (let param of parametros) {
             //console.log(param);
-            if(param.ParametroId.Id==environment.IDS.IDINSCRIPCIONES){
+            if (param.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
               this.periodos.push(param.PeriodoId);
             }
           }
-          if(this.periodos.length>0){
+          if (this.periodos.length > 0) {
             this.periodo = 0;
             this.loadLists();
-          }           
+          }
           console.info(this.periodo)
-          
+
         }
       },
-    );  
+    );
 
   }
 
-  
-  onSelect($event){
+
+  onSelect($event) {
     console.log("Hola, Solicitudes nuevas de este periodo papuuuu");
-    this.solicitudes=[];
-    this.filSols=[];
-    for (let j = 0; j <240; j++) {
+    this.solicitudes = [];
+    this.filSols = [];
+    for (let j = 0; j < 240; j++) {
       this.solicitudes.pop();
       this.filSols.pop();
     }
-    
+
     this.loadLists();
   }
 
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     let filtro = filterValue.trim().toLowerCase();
     console.log(filtro);
-    this.filSols=[];
-    
-    for (let i of this.solicitudes){
-      if(i.EstadoTipoSolicitudId.EstadoId.Nombre==filterValue){
-        this.filSols.push(i); 
-      }
-    }  
-    console.log(this.solicitudes);
-    
-    
-  }
- 
+    this.filSols = [];
 
-  ngOnInit() {
+    for (let i of this.solicitudes) {
+      if (i.EstadoTipoSolicitudId.EstadoId.Nombre == filterValue) {
+        this.filSols.push(i);
+      }
+    }
+    console.log(this.solicitudes);
+
+
   }
+
+  exportarCsv() {
+    const headers = {
+      id: "id",
+      activo: "activo",
+      estado: "Estado",
+      fechaCreacion: "Fecha creacion",
+      referencia: "referencia",
+      solicitudFinalizada: "Finalizada"
+    };
+    const data = [];
+    for (const s of this.solicitudes) {
+      data.push({ id: s.Id, 
+          activo: s.Activo, 
+          estado : s.EstadoTipoSolicitudId.EstadoId.Nombre, 
+          fechaCreacion: s.FechaCreacion,
+          refencia: s.Referencia.split(':')[1][-1],
+          solicitudFinalizada: s.SolicitudFinalizada
+        })
+       
+    }
+    this.utilService.exportCSVFile(headers, data, `solicitudes ${this.periodos[this.periodo].Nombre}`);
+  }
+
+
+
+
+ngOnInit() {
+}
 
 }

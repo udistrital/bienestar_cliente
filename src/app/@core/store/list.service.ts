@@ -186,9 +186,7 @@ export class ListService {
       .subscribe(res => {
         const r = <any>res;
         if (res !== null && r.Type !== 'error') {
-          console.info(res);
           const estadoTipoSol = <EstadoTipoSolicitud>res['Data'][0];
-          console.info(estadoTipoSol);
           solicitud.EstadoTipoSolicitudId = estadoTipoSol;
           solicitud.setReferencia(referenciaSol);
           this.solicitudService.post('solicitud', JSON.stringify(solicitud))
@@ -199,7 +197,6 @@ export class ListService {
               solicitante.SolicitudId = solicitud;
               this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                 .subscribe(res => {
-                  console.info(res)
                   window.location.reload();
                 })
 
@@ -217,8 +214,6 @@ export class ListService {
           this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.Id:${environment.IDS.IDSOLICITUDRADICADA}`)
             .subscribe(
               (result: any[]) => {
-                console.info('Entro')
-                console.info(result)
                 this.addList(REDUCER_LIST.SolicitudesRadicadas, result);
               },
               error => {
@@ -243,7 +238,6 @@ export class ListService {
             for (let i = 0; i < result.length; i++) {
               if (Object.keys(result[i]).length > 0) {
                 if (result[i].TipoVinculacionId == 346) {
-                  console.log(result[i].DependenciaId);
                   vinculacionDep = result[i].DependenciaId;
                   break;
                 }
@@ -328,11 +322,8 @@ export class ListService {
           this.solicitudService.get(`solicitante?query=TerceroId:${idTercero}`)
             .subscribe(
               (result: any[]) => {
-                console.info('Entro solicitante')
-                console.info(result)
                 let solicitante: Solicitante;
                 for (solicitante of result) {
-                  console.info(solicitante);
                   const solicitud: Solicitud = solicitante.SolicitudId;
                   if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
                     this.addList(REDUCER_LIST.SolicitudTercero, [solicitud]);
@@ -352,11 +343,8 @@ export class ListService {
     this.solicitudService.get(`solicitante?query=TerceroId:${idTercero}`)
       .subscribe(
         (result: any[]) => {
-          console.info('Entro solicitante')
-          console.info(result)
           let solicitante: Solicitante;
           for (solicitante of result) {
-            console.info(solicitante);
             const solicitud: Solicitud = solicitante.SolicitudId;
             if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
               return solicitud;
@@ -376,7 +364,6 @@ export class ListService {
       const usuarioWSO2 = (autenticacion.getPayload()).email
         ? ((autenticacion.getPayload()).email.split('@')).shift()
         : (autenticacion.getPayload()).sub;
-      console.info(`Login de ${usuarioWSO2}`);
 
       this.store.select(REDUCER_LIST.TerceroLog).subscribe(
         (list: any) => {
@@ -384,11 +371,8 @@ export class ListService {
             this.tercerosService.get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
               .subscribe(
                 (result: any[]) => {
-                  console.info('Entro buscando tercero')
-                  console.info(result)
                   let tercero: Tercero;
                   for (tercero of result) {
-                    console.info(tercero);
                     this.addList(REDUCER_LIST.TerceroLog, [tercero]);
                   }
                 },
@@ -407,11 +391,8 @@ export class ListService {
     this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}`)
       .subscribe(
         (result: any[]) => {
-          console.info('Entro PETER PARKER')
-          console.info(result)
           let documento: DatosIdentificacion;
           for (documento of result) {
-            console.info(documento);
             this.addList(REDUCER_LIST.DatosIdentificacionTercero, [documento]);
             /* const solicitud: Solicitud = documento.SolicitudId;
             if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {

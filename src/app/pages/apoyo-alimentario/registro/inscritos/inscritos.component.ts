@@ -15,17 +15,11 @@ import { environment } from "../../../../../environments/environment";
 import { OikosService } from "../../../../@core/data/oikos.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TranslateService } from "@ngx-translate/core";
-import { TercerosService } from "../../../../@core/data/terceros.service";
 import { Tercero } from "../../../../@core/data/models/terceros/tercero";
-import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante";
-import { Solicitud } from "../../../../@core/data/models/solicitud/solicitud";
 import { SolicitudService } from "../../../../@core/data/solicitud.service";
-import { ReferenciaSolicitud } from "../../../../@core/data/models/solicitud/referencia-solicitud";
 
 import { Registro } from "../../../../@core/data/models/registro";
-import { AcademicaService } from "../../../../@core/data/academica.service";
 import { ImplicitAutenticationService } from "../../../../@core/utils/implicit_autentication.service";
-import { CoreService } from "../../../../@core/data/core.service";
 import { RegistroApoyo } from "../../../../@core/data/models/solicitud/registro-apoyo";
 
 @Component({
@@ -48,12 +42,10 @@ export class InscritosComponent implements OnInit {
   constructor(
     private toastrService: NbToastrService,
     private oikosService: OikosService,
-    private tercerosService: TercerosService,
     private translate: TranslateService,
     private datePipe: DatePipe,
     private store: Store<IAppState>,
     private solicitudService: SolicitudService,
-    private academicaService: AcademicaService,
     private listService: ListService
   ) {
     Swal.fire({
@@ -67,7 +59,6 @@ export class InscritosComponent implements OnInit {
       ? this.autenticacion.getPayload().email.split("@").shift()
       : this.autenticacion.getPayload().sub;
     this.myDate = this.datePipe.transform(this.myDate, "yyyy-MM-dd");
-    //this.listService.findParametroPeriodo(environment.IDS.IDSERVICIOAPOYO);
     this.listService.findParametros();
     this.loadPeriodo();
     this.cargarSedes()
@@ -112,7 +103,6 @@ export class InscritosComponent implements OnInit {
       return;
     }
     this.registroBase.sede = form.value["sede"];
-    console.log("Registro base: ", this.registroBase);
 
     /* Asociamos tercero con el documento */
     this.listService.loadTerceroByDocumento(this.registroBase.codigo).then((resp) => {
@@ -120,42 +110,39 @@ export class InscritosComponent implements OnInit {
       let solicitudId: number = 0;
       /* Se encuentra el tercero */
       if (terceroReg !== undefined) {
-        console.log(terceroReg);
         this.listService.loadSolicitudesTercero(terceroReg.Id, environment.IDS.IDSOLICITUDRADICADA, this.periodo.Nombre, true)
-          .then(async (resp) => {
-
-            /* Aca hay un bug por que la respuesta no vuelve rapido :c*/
-            const permitirReg=await this.permitirRegistro(resp,terceroReg.Id);
-            if (permitirReg=="") {
-              this.listService.loadFacultadTercero(terceroReg.Id).then((nomFacultad) => {
-                if (nomFacultad == this.facultadAccesso[this.registroBase.sede]) {
-                  this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
-                    this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
-                  }).catch((error) => {
+          .then((resp) => {
+            /* Validamos si esta inscrito, o si se permiten no inscritos y el estudiante esta activo */
+            this.permitirRegistroNoInscrito(resp, terceroReg.Id).then(
+              (permitir) => {
+                this.listService.loadFacultadTercero(terceroReg.Id).then((nomFacultad) => {
+                  if (nomFacultad == this.facultadAccesso[this.registroBase.sede]) {
+                    this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
+                      this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
+                    }).catch((error) => {
+                      this.showError(`${this.registroBase.codigo}`, error);
+                    });
+                  }
+                  else {
+                    this.showFacultadDiferente().then(
+                      (resp) => {
+                        if (resp.isConfirmed) {
+                          this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
+                            this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
+                          }).catch((error) => {
+                            this.showError(`${this.registroBase.codigo}`, error);
+                          });
+                        } else {
+                          this.showError(`${this.registroBase.codigo}`, "Estudiante de otra facultad");
+                        }
+                      });
+                  }
+                })
+                  .catch((error) => {
                     this.showError(`${this.registroBase.codigo}`, error);
                   });
-                }
-                else {
-                  this.showFacultadDiferente().then(
-                    (resp) => {
-                      if (resp.isConfirmed) {
-                        this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
-                          this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
-                        }).catch((error) => {
-                          this.showError(`${this.registroBase.codigo}`, error);
-                        });
-                      } else {
-                        this.showError(`${this.registroBase.codigo}`, permitirReg);
-                      }
-                    });
-                }
-              })
-                .catch((error) => {
-                  this.showError(`${this.registroBase.codigo}`, error);
-                });
-            } else {
-              this.showError(`${this.registroBase.codigo}`, "Estudiante no inscrito");
-            }
+              }
+            ).catch((error) => this.showError(`${this.registroBase.codigo}`, error));
             Object.values(form.controls).forEach((control) => {
               control.markAsUntouched();
             });
@@ -167,25 +154,29 @@ export class InscritosComponent implements OnInit {
       }
     });
   }
-  async permitirRegistro(resp: any, terceroId: number) { 
-
-    if (resp.length == 0) {
-      if (this.noBeneficiarios) {
-        this.listService.cargarEstadoTercero(terceroId).then((estado) => {
-          console.log(estado);
-          if (estado=='V') {
-            return  "";
-          }else{
-            return `El estudiante tiene el estado: ${estado}`;
-          }
-        }).catch((error) =>{
-          return error;
-        });
-        return "Informacion basica estudiante no encontrada";
+  
+  permitirRegistroNoInscrito(resp: any, terceroId: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (resp.length == 0) {
+        if (this.noBeneficiarios) {
+          this.listService.cargarEstadoTercero(terceroId).then((estado) => {
+            if (estado == 'V') {
+              resolve(true);
+            } else {
+              reject(`El estudiante tiene el estado: ${estado}`);
+            }
+          }).catch((error) => {
+            reject(error);
+          });
+          return "Informacion basica estudiante no encontrada";
+        } else {
+          reject("El estudiante no es beneficiario")
+        }
+      } else {
+        resolve(true);
       }
-    } else {
-      return "";
-    }
+
+    });
   }
 
   registrar(idSede: string, idSolicitud: number, idTercero: number): Promise<any> {
@@ -199,11 +190,11 @@ export class InscritosComponent implements OnInit {
           idSolicitud,
           idTercero,
           this.usuarioWSO2);
-      this.solicitudService.post('registro_apoyo', JSON.stringify(newReg))
+     /*  this.solicitudService.post('registro_apoyo', JSON.stringify(newReg))
         .subscribe(res => {
           newReg.id = res['Data']['Id']
           resolve(`Registro #${newReg.id}`);
-        }, (error) => reject(error));
+        }, (error) => reject(error)); */
     });
   }
 
