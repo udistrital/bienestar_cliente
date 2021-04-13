@@ -28,19 +28,32 @@
     background: #073355b4;
 }
 
+nb-card {
+    min-width: 75vh;
+}
+
 .contain {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;
     flex-wrap: wrap;
     flex-direction: row-reverse;
-    //justify-content: space-evenly;
+    justify-content: space-around;
+    min-width: 75vh;
 }
 
-.contain .search {
-    justify-self: flex-start;
+.contain .periodo {
+    justify-self: center;
     align-self: center;
-    text-align: left;
+    text-align: center;
+    grid-column: span 1;
+    grid-row: 1;
+}
+
+.contain .estado {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
     grid-column: span 1;
     grid-row: 1;
 }
@@ -49,14 +62,50 @@
     justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 2/3;
+    grid-column: 3/4;
     grid-row: 1;
 }
 
 .contain .btn {
-    justify-self: flex-end;
+    justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 3/4;
+    grid-column: 4/5;
     grid-row: 1;
+}
+
+.download {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    text-align: center;
+    min-width: 70vh;
+}
+
+.download .btn {
+    align-self: center;
+    grid-column: span 1;
+}
+
+@media (max-width: 840px) {
+    .contain {
+        grid-template-rows: repeat(2, 1fr);
+        min-width: 72vh;
+    }
+    .contain .periodo {
+        grid-column: span 2;
+        grid-row: 1;
+    }
+    .contain .estado {
+        grid-column: span 2;
+        grid-row: 2;
+    }
+    .contain .page {
+        grid-column: span 2;
+        grid-row: 1;
+    }
+    .contain .btn {
+        grid-column: span 2;
+        grid-row: 2;
+    }
 }
