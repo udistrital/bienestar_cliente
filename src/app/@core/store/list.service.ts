@@ -24,6 +24,7 @@ import { AcademicaService } from '../data/academica.service';
 @Injectable()
 
 export class ListService {
+
   constructor(
     private parametrosService: ParametrosService,
     private solicitudService: SolicitudService,
@@ -33,6 +34,135 @@ export class ListService {
     private store: Store<IAppState>
   ) { }
 
+
+  /* TERCEROS SERVICE  */
+
+  /* Cargamos tercero por el ID */
+  loadTercero(TerceroId: number): Promise<Tercero> {
+    return new Promise((resolve, reject) => {
+      this.tercerosService.get(`tercero?query=Id:${TerceroId}`)
+        .subscribe(
+          (result: any[]) => {
+            console.log(result)
+            if (result.length > 0) {
+              resolve(result[0]);
+            }
+            else {
+              resolve(undefined);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+
+  }
+
+  /* Cargamos tercero por el usuario WS02 */
+  loadTerceroByWSO2(usuarioWSO2: string): Promise<Tercero> {
+    return new Promise((resolve, reject) => {
+      this.tercerosService.get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
+        .subscribe(
+          (res) => {
+            if (Object.keys(res[0]).length > 0) {
+              resolve(<Tercero>res[0]);
+            } else {
+              reject("Datos personales no encontrados");
+            }
+          }, (error) => reject(error));
+
+    });
+  }
+
+  /* Carga tercero por numero de Documento */
+  loadTerceroByDocumento(documento: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.tercerosService
+        .get(`datos_identificacion?query=Numero:${documento}`)
+        .subscribe(
+          (result) => {
+            resolve(result[0].TerceroId);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  
+  /* Buscamos documentos asociados a un tercero por la ID  */
+  findDocumentosTercero(idTercero: number, codAbreviacion: String): Promise<DatosIdentificacion[]> {
+    return new Promise((resolve, reject) => {
+      this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}${codAbreviacion==null ? "" : ",TipoDocumentoId.CodigoAbreviacion:"+codAbreviacion}`)
+        .subscribe(
+          (result: any[]) => {
+            console.log(result);
+
+            if (Object.keys(result[0]).length > 0) {
+              let documentos: DatosIdentificacion[] = [];
+              for (const documento of result) {
+                documentos.push(documento);
+              }
+              resolve(documentos);
+            } else {
+              reject("No se encuentran datos de identificacion");
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+  }
+
+  /* Cargamos la vinculacion de un tercero */
+  loadFacultadTercero(Id: number) {
+    return new Promise((resolve, reject) => {
+      /* Cargamos vinculacion*/
+      this.tercerosService
+        .get(
+          `vinculacion?query=TerceroPrincipalId.Id:${Id}&sortby=Id&order=desc&limit=-1`
+        )
+        .subscribe(
+          (result) => {
+            let vinculacionDep = 0;
+            for (let i = 0; i < result.length; i++) {
+              if (Object.keys(result[i]).length > 0) {
+                if (result[i].TipoVinculacionId == 346) {
+                  vinculacionDep = result[i].DependenciaId;
+                  break;
+                }
+              }
+            }
+            /* Si se encuenta vinculacion como estudiante a un departamento */
+            if (vinculacionDep != 0) {
+              /* Cargamos facultad y proyecto */
+              this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
+                .subscribe((resp) => {
+                  if (Object.keys(resp[0]).length > 0) {
+                    resolve(resp[0].PadreId.Nombre);
+                  } else {
+                    reject("Dependencia padre no encontrada");
+                  }
+                },
+                  error => {
+                    reject(error);
+                  });
+            } else {
+              reject("Vinculacion del estudiante no encontrada");
+            }
+          }, err => {
+            reject(err);
+          });
+    });
+  }
+
+  /* ************PARAMETOS SERVICE ********************* */
+
+
+  /* Listamos los periodos academicos */
   public findPeriodosAcademico() {
     this.store.select(REDUCER_LIST.PeriodoAcademico).subscribe(
       (list: any) => {
@@ -51,54 +181,40 @@ export class ListService {
     );
   }
 
-  public inciarParametroPeriodo(periodo: Periodo, idParam: number) {
-    const paramPeriodo: ParametroPeriodo = new ParametroPeriodo();
-    paramPeriodo.PeriodoId = periodo;
-
-    this.parametrosService.get(`parametro?query=id:${idParam}`)
-      .subscribe(res => {
-        const r = <any>res;
-        if (res !== null && r.Type !== 'error') {
-          const parametro = <Parametro>res['Data'][0];
-          paramPeriodo.ParametroId = parametro
-          this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
-            .subscribe(res => {
-              window.location.reload();
-            });
-        }
-      },
-        (error: HttpErrorResponse) => {
-          reject(error);
-        });
+  /* Creamos un parametro_periodo*/
+  public inciarParametroPeriodo(periodo: Periodo, idParam: number): Promise<any> {
+    return new Promise((resolve,reject)=>{
+      const paramPeriodo: ParametroPeriodo = new ParametroPeriodo();
+      paramPeriodo.PeriodoId = periodo;
+      this.parametrosService.get(`parametro?query=id:${idParam}`)
+        .subscribe(res => {
+          const r = <any>res;
+          if (res !== null && r.Type !== 'error') {
+            const parametro = <Parametro>res['Data'][0];
+            paramPeriodo.ParametroId = parametro
+            this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
+              .subscribe(res => {
+                this.addList(REDUCER_LIST.Parametros, res['Data']);  
+                resolve(true);
+                /* window.location.reload(); */
+              });
+          }else{
+            reject("Error al cargar el parametro asociado");
+          }
+        },
+          (error: HttpErrorResponse) => {
+            reject(error);
+          });
+    });
   }
 
+  /* Actulizamos un parametro */
   public actualizarInscripcionesPeriodo(parametro: ParametroPeriodo) {
     let id = parametro.Id;
     this.parametrosService.put('parametro_periodo', JSON.stringify(parametro), id).subscribe();
   }
 
-  /*  public findParametros() {
-     this.store.select(REDUCER_LIST.Parametros).subscribe(
-       (list: any) => {
-         if (!list || list.length === 0) {
-           this.parametrosService.get('parametro_periodo?query=ParametroId.TipoParametroId.id:21')
-             .subscribe(
-               (result: any[]) => {
-                 if (Object.keys(result['Data'][0]).length > 0) {
-                   this.addList(REDUCER_LIST.Parametros, result);
-                 } else {
-                   this.addList(REDUCER_LIST.Parametros, []);
-                 }
-               },
-               error => {
-                 this.addList(REDUCER_LIST.Parametros, []);
-               },
-             );
-         }
-       },
-     );
-   } */
-
+  /* Cargamos todos los parametros */
   findParametros() {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
       (list: any) => {
@@ -174,25 +290,9 @@ export class ListService {
 
 
 
-  /* findServicioApoyo() {
-    this.store.select(REDUCER_LIST.ServicioApoyo).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.parametrosService.get('parametro_periodo?query=ParametroId.id%3A348%2Cactivo%3Atrue&sortby=Id&order=desc&limit=1')
-            .subscribe(
-              (result: any[]) => {
-                console.info('Entro')
-                console.info(result)
-                this.addList(REDUCER_LIST.ServicioApoyo, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.ServicioApoyo, []);
-              },
-            );
-        }
-      },
-    );
-  } */
+  /* ********SOLICITUDES SERVICE*************** */
+
+
   crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud) {
     const solicitud: Solicitud = new Solicitud();
     solicitud.EstadoTipoSolicitudId = null;
@@ -421,182 +521,13 @@ export class ListService {
   }
 
 
-  loadTercero(TerceroId: number): Promise<Tercero> {
-    return new Promise((resolve, reject) => {
-      this.tercerosService.get(`tercero?query=Id:${TerceroId}`)
-        .subscribe(
-          (result: any[]) => {
-            console.log(result)
-            if (result.length > 0) {
-              resolve(result[0]);
-            }
-            else {
-              resolve(undefined);
-            }
-          },
-          error => {
-            reject(error);
-          },
-        );
-    });
-
-  }
-
-  public findTerceroInfo() {
-    this.store.select(REDUCER_LIST.EstadoCivil).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.tercerosService.get('info_complementaria/?query=GrupoInfoComplementariaId.Id:2')
-            .subscribe(
-              (result: any[]) => {
-                this.addList(REDUCER_LIST.EstadoCivil, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.EstadoCivil, []);
-              },
-            );
-        }
-      },
-    );
-  }
-
-  findTerceroEmail() {
-    let autenticacion = new ImplicitAutenticationService;
-    if (autenticacion.live()) {
-      const usuarioWSO2 = (autenticacion.getPayload()).email
-        ? ((autenticacion.getPayload()).email.split('@')).shift()
-        : (autenticacion.getPayload()).sub;
-
-      this.store.select(REDUCER_LIST.TerceroLog).subscribe(
-        (list: any) => {
-          if (!list || list.length === 0) {
-            this.tercerosService.get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
-              .subscribe(
-                (result: any[]) => {
-                  let tercero: Tercero;
-                  for (tercero of result) {
-                    this.addList(REDUCER_LIST.TerceroLog, [tercero]);
-                  }
-                },
-                error => {
-                  this.addList(REDUCER_LIST.SolicitudTercero, []);
-                },
-              );
-          }
-        },
-      );
-
-    }
-  }
-
-  findDocumentoTercero(idTercero: number): any {
-    this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}`)
-      .subscribe(
-        (result: any[]) => {
-          let documento: DatosIdentificacion;
-          for (documento of result) {
-            this.addList(REDUCER_LIST.DatosIdentificacionTercero, [documento]);
-            /* const solicitud: Solicitud = documento.SolicitudId;
-            if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
-              return solicitud;
-            } */
-          }
-          return null;
-        },
-        error => {
-          this.addList(REDUCER_LIST.DatosIdentificacionTercero, []);
-        },
-      );
-
-  }
-
-  /* Carga informacion un tercero */
-  loadTerceroByDocumento(documento: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.tercerosService
-        .get(`datos_identificacion?query=Numero:${documento}`)
-        .subscribe(
-          (result) => {
-            resolve(result[0].TerceroId);
-          },
-          (error: HttpErrorResponse) => {
-            reject(error);
-          }
-        );
-    });
-  }
-
-  loadFacultadTercero(Id: number) {
-    return new Promise((resolve, reject) => {
-      /* Cargamos vinculacion*/
-      this.tercerosService
-        .get(
-          `vinculacion?query=TerceroPrincipalId.Id:${Id}&sortby=Id&order=desc&limit=-1`
-        )
-        .subscribe(
-          (result) => {
-            let vinculacionDep = 0;
-            for (let i = 0; i < result.length; i++) {
-              if (Object.keys(result[i]).length > 0) {
-                if (result[i].TipoVinculacionId == 346) {
-                  vinculacionDep = result[i].DependenciaId;
-                  break;
-                }
-              }
-            }
-            /* Si se encuenta vinculacion como estudiante a un departamento */
-            if (vinculacionDep != 0) {
-              /* Cargamos facultad y proyecto */
-              this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
-                .subscribe((resp) => {
-                  if (Object.keys(resp[0]).length > 0) {
-                    resolve(resp[0].PadreId.Nombre);
-                  } else {
-                    reject("Dependencia padre no encontrada");
-                  }
-                },
-                  error => {
-                    reject(error);
-                  });
-            } else {
-              reject("Vinculacion del estudiante no encontrada");
-            }
-          }, err => {
-            reject(err);
-          });
-    });
-  }
-
-  cargarCarnetTecero(Idtercero: number, CodAbreviacion: String) {
-    return new Promise((resolve, reject) => {
-      this.tercerosService
-        .get(
-          `datos_identificacion?query=TerceroId.Id:${Idtercero},TipoDocumentoId.CodigoAbreviacion:${CodAbreviacion}&sortby=id&order=desc`
-        )
-        .subscribe(
-          (result) => {
-            if (Object.keys(result[0]).length > 0) {
-              resolve(result[0]);
-            } else {
-              resolve(undefined);
-            }
-          },
-          (error: HttpErrorResponse) => {
-            reject(error);
-          }
-        );
-    });
-  }
-
-  buscarSolicitudTercero(Id: number) {
-    throw new Error("Method not implemented.");
-  }
-
+  /* ******** ACADEMICA SERVICE *********** */
   cargarEstadoTercero(Idtercero: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.cargarCarnetTecero(Idtercero, 'CODE').then((carnet) => {
-        if (carnet != undefined) {
-          this.academicaService.get(`datos_basicos_estudiante/${carnet['Numero']}`).subscribe((result) => {
+      this.findDocumentosTercero(Idtercero,'CODE').then((carnet) => {
+        if (carnet.length > 0) {
+          this.academicaService.get(`datos_basicos_estudiante/${carnet[0]['Numero']}`).subscribe((result) => {
+            console.log(result);
             /* Cambiar por A */
             resolve(result.datosEstudianteCollection.datosBasicosEstudiante[0].estado);
           });

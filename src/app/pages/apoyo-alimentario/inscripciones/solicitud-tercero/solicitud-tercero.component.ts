@@ -93,47 +93,68 @@ export class SolicitudTerceroComponent implements OnInit {
     Swal.showLoading();
 
     /* Cargamos periodo con inscripciones activas */
-    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,true).then(
-      (resp)=>{
-        if(resp!=[]){
-          this.periodo = resp[0].PeriodoId
-          /* Cargamos Id tercero por el correo */
-          this.loadInformacionTercero()
-            .then(() => {
-              this.loadInformacionCompletaEstudiante().then(() => {
-                this.inicializarFormularios();
-              });
-            })
-            .catch((error) => {
-              if (!error.status) {
-                error.status = 409;
+    this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
+      (resp) => {
+        console.log(resp);
+        if (resp != []) {
+          this.periodo = resp[0].PeriodoId;
+          console.log(this.periodo);
+
+          let usuarioWSO2 = this.autenticacion.getPayload().email
+            ? this.autenticacion.getPayload().email.split("@").shift()
+            : this.autenticacion.getPayload().sub;
+          //usuarioWSO2 = "daromeror";
+          usuarioWSO2 = "sagomezl";
+
+          this.listService.loadTerceroByWSO2(usuarioWSO2).then((respTecero) => {
+            console.log("loadTerceroByWSO2");
+            this.tercero = respTecero;
+            console.log(this.tercero);
+            this.listService.findDocumentosTercero(this.tercero.Id,null).then((respDocs) => {
+              console.log("findDocumentosTercero");
+              for (const documento of respDocs) {
+                if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
+                  this.estudiante.Carnet=documento;
+                } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
+                  this.estudiante.Documento=documento;
+                }
               }
-              Swal.close();
-              Swal.fire({
-                icon: "error",
-                title: error.status + " Load info tercero",
-                text: this.translate.instant("ERROR." + error.status),
-                confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-              });
-            });
-        }else{
-          Swal.close();
-          console.log("no hay periodo F");
+              if(this.estudiante.Carnet!=null && this.estudiante.Documento){
+                this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null)
+                  .then((listSolicitantes) => {
+                    console.log("loadSolicitanteByIdTercero");
+                    
+                    if(listSolicitantes.length>0){
+                      this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol)=>{
+                        this.solicitud=sol;
+                        console.log(this.solicitud);
+                        this.loading=false;
+                        Swal.close();
+                      }).catch((errorSol)=> this.showError(errorSol));
+                    }else{
+                      console.log("Iniciamos formularios");
+                      
+                      this.inicializarFormularios();
+                    }
+                  }).catch((errorSolT) => {
+                    this.showError(errorSolT);
+                  });
+              }else{
+                this.showError("No se encontro el carnet y documento de indentificacion");
+              }
+            }).catch((errorDocs)=>this.showError(errorDocs));
+
+          }).catch((errorT) => this.showError(errorT));
+
+        } else {
+          this.showError("no hay periodo F");
         }
       }).catch((error) => {
-        if (!error.status) {
-          error.status = 409;
-        }
-        Swal.close();
-        Swal.fire({
-          icon: "error",
-          title: error.status + "",
-          text: this.translate.instant("ERROR." + error.status),
-          confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-        });
+        this.showError(error);
       });
-      
+
   }
+ 
 
   /* Clasifica la informacion de listInfoComplementaria */
   loadEstudiante(): Promise<any> {
@@ -372,6 +393,7 @@ export class SolicitudTerceroComponent implements OnInit {
   private inicializarFormularios() {
     this.loadEstudiante()
       .then(() => {
+        console.log("Se carga el estudiante");
         this.registro = new FormGroup({
           nombres: new FormControl({
             value: this.estudiante.Nombre,
@@ -579,280 +601,10 @@ export class SolicitudTerceroComponent implements OnInit {
       });
   }
 
-
-  /* Carga informacion un tercero */
-  public loadInformacionTercero(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let procesosPendientes = 0;
-      let usuarioWSO2 = this.autenticacion.getPayload().email
-        ? this.autenticacion.getPayload().email.split("@").shift()
-        : this.autenticacion.getPayload().sub;
-      /* console.info(`Login de ${usuarioWSO2}`); */
-      usuarioWSO2 = "daromeror";
-      /* const idTercero = 9823; */
-      this.tercerosService
-        .get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
-        .subscribe(
-          (res) => {
-            procesosPendientes += 1;
-            if (Object.keys(res[0]).length > 0) {
-              this.tercero = <Tercero>res[0];
-
-              //Se carga el carnet estudiantil y los documentos.
-              if (!isNaN(this.tercero.Id)) {
-                this.tercerosService
-                  .get(
-                    `datos_identificacion?query=TerceroId.Id:${this.tercero.Id}&sortby=id&order=desc`
-                  )
-                  .subscribe(
-                    (result) => {
-                      for (let i = 0; i < result.length; i++) {
-                        if (
-                          result[i].TipoDocumentoId.CodigoAbreviacion == "CODE"
-                        ) {
-                          this.estudiante.Carnet = result[i];
-                        } else {
-                          this.estudiante.Documento = result[i];
-                        }
-                      }
-                    },
-                    (error: HttpErrorResponse) => {
-                      Swal.fire({
-                        icon: "error",
-                        title: error.status + "",
-                        text: this.translate.instant("ERROR." + error.status),
-                        footer:
-                          this.translate.instant("GLOBAL.cargar") +
-                          "-" +
-                          this.translate.instant("GLOBAL.info_complementaria"),
-                        confirmButtonText: this.translate.instant(
-                          "GLOBAL.aceptar"
-                        ),
-                      });
-                    }
-                  );
-
-                /* Cargamos solicitud */
-
-          
-                this.listService.loadSolicitanteByIdTercero(this.tercero.Id,null,this.periodo.Nombre,null)
-                .then((listSolicitantes) => {
-                    procesosPendientes -= 1;
-                }).catch((error) => {
-                    procesosPendientes -= 1;
-                });
-                      
-                /* this.solicitudService
-                  .get(`solicitante?query=TerceroId:${this.tercero.Id}`)
-                  .subscribe(
-                    (result: any[]) => {
-                      let solicitante: Solicitante;
-                      if (Object.keys(result[0]).length > 0) {
-                        //Consultamos las solicitudes de un solicitante 
-                        for (solicitante of result) {
-                          const sol: Solicitud = solicitante.SolicitudId;
-                          //Se busca una solicitud radicada
-                          if (
-                            sol.EstadoTipoSolicitudId.Id ===
-                            environment.IDS.IDSOLICITUDRADICADA
-                          ) {
-                            //Se busca una referencia correspondiente al periodo actual
-                            let refSol: ReferenciaSolicitud;
-                            try {
-                              refSol = JSON.parse(sol.Referencia);
-                              if (refSol != null) {
-                                if (refSol.Periodo === this.periodo.Nombre) {
-                                  this.solicitud = sol;
-                                  this.referenciaSolicitud = refSol;
-                                }
-                              }
-                            } catch (error) {
-                              console.error(error);
-                            }
-                          }
-
-                          procesosPendientes -= 1;
-                          if (procesosPendientes == 0) {
-                            resolve(true);
-                          } else {
-                            resolve(false);
-                          }
-                        }
-                      } else {
-                        this.solicitud = null;
-                        procesosPendientes -= 1;
-                        if (procesosPendientes == 0) {
-                          resolve(true);
-                        }
-                      }
-                    },
-                    (error) => {
-                      this.solicitud = null;
-                    }
-                  ); */
-              }
-            }
-          },
-          (error: HttpErrorResponse) => {
-            Swal.fire({
-              icon: "error",
-              title: error.status + "",
-              text: this.translate.instant("ERROR." + error.status),
-              footer:
-                this.translate.instant("GLOBAL.cargar") +
-                "-" +
-                this.translate.instant("GLOBAL.info_persona"),
-              confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-            });
-            reject(error);
-          }
-        );
-    });
-  }
-
-  /* Buscamos un periodo relacionado a un parametro de inscripciones */
-  public loadPeriodo(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.listService
-        .findParametroPeriodoSp(environment.IDS.IDINSCRIPCIONES)
-        .subscribe(
-          (result: any[]) => {
-            console.log(result);
-            if(Object.keys(result["Data"][0]).length){
-              this.periodo = result["Data"][0].PeriodoId;
-            }
-            resolve(true);
-          },
-          (error) => {
-            this.periodo = null;
-
-            reject(error);
-          }
-        );
-    });
-  }
-
-
-  /* Cargamos proyecto,facultad y informacion complementaria */
-  public loadInformacionCompletaEstudiante(): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-      /* Modificar por el numero de procesos que se van a hacer */
-      let procesosPendientes = 2;
-
-      /* Cargamos vinculacion*/
-      this.tercerosService
-        .get(
-          `vinculacion?query=TerceroPrincipalId.Id:${this.tercero.Id}&sortby=Id&order=desc&limit=-1`
-        )
-        .subscribe(
-          (result) => {
-            let vinculacionDep = 0;
-            for (let i = 0; i < result.length; i++) {
-              if (Object.keys(result[i]).length > 0) {
-                if (result[i].TipoVinculacionId == 346) {
-                  vinculacionDep = result[i].DependenciaId;
-                  break;
-                }
-              }
-            }
-            
-            /* Si se encuenta vinculacion como estudiante a un departamento */
-            if (vinculacionDep != 0) {
-              /* Cargamos facultad y proyecto */
-              this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
-                .subscribe((resp) => {
-                  this.estudiante.ProyectoCurricular=resp[0].HijaId.Nombre;
-                  this.estudiante.Facultad=resp[0].PadreId.Nombre;
-                  procesosPendientes -= 1;
-                  if (procesosPendientes == 0) {
-                    resolve(true);
-                  } 
-                },
-                (error: HttpErrorResponse) => {
-                  reject(error);
-                  Swal.fire({
-                    icon: "error",
-                    title: error.status + "",
-                    text: this.translate.instant("ERROR." + error.status),
-                    footer:
-                      this.translate.instant("GLOBAL.cargar") +
-                      "-" +
-                      this.translate.instant("GLOBAL.academica"),
-                    confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-                  });
-                });
-            }else{
-              this.estudiante.ProyectoCurricular="No se encontro Proyecto";
-              this.estudiante.Facultad="No se encontro Facultad";
-              procesosPendientes -= 1;
-                  if (procesosPendientes == 0) {
-                    resolve(true);
-                  } 
-            }
-          },
-          (error: HttpErrorResponse) => {
-            reject(error);
-            Swal.fire({
-              icon: "error",
-              title: error.status + "",
-              text: this.translate.instant("ERROR." + error.status),
-              footer:
-                this.translate.instant("GLOBAL.cargar") +
-                "-" +
-                this.translate.instant("GLOBAL.academica"),
-              confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-            });
-          }
-        );
-
-      /* Cargamos la informacion complementaria del estudiante */
-      if (!isNaN(this.tercero.Id)) {
-        this.tercerosService
-          .get(
-            "info_complementaria_tercero/?query=TerceroId__Id:" +
-              this.tercero.Id +
-              "&limit=-1"
-          )
-          .subscribe(
-            (resp) => {
-              for (let i = 0; i < resp.length; i++) {
-                if (Object.keys(resp[i]).length > 0) {
-                  this.listInfoComplementaria.push(resp[i]);
-                }
-              }
-              procesosPendientes -= 1;
-              if (procesosPendientes === 0) {
-                resolve(true);
-              } 
-            },
-            (error: HttpErrorResponse) => {
-              reject(error);
-              Swal.fire({
-                icon: "error",
-                title: error.status + "",
-                text: this.translate.instant("ERROR." + error.status),
-                footer:
-                  this.translate.instant("GLOBAL.cargar") +
-                  "-" +
-                  this.translate.instant("GLOBAL.info_complementaria"),
-                confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-              });
-            }
-          );
-      }
-    });
-  }
-
   ngOnInit() {
-    
   }
 
-  sendData(form: NgForm) {}
-
-  llamardialogo() {
-    this.dialog.open(this.dialogo);
-  }
+  sendData(form: NgForm) { }
 
   registrar() {
     /* var codigoValue = (<HTMLInputElement>document.getElementById("codigo")).value; */
@@ -892,6 +644,12 @@ export class SolicitudTerceroComponent implements OnInit {
       }
     });
     return false;
+  }
+
+  showError(msj: string) {
+    this.loading=false;
+    Swal.close();
+    Swal.fire("Error",msj,"error");
   }
 
 

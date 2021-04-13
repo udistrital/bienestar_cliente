@@ -24,8 +24,9 @@ export class PeriodosComponent implements OnInit {
     private store: Store<IAppState>,
     private listService: ListService) {
     this.listService.findPeriodosAcademico();
-    //this.listService.findParametros();
-    this.loadParametrosSp();  
+    this.loadLists();
+    this.listService.findParametros();
+    this.loadParametros();  
   }
 
   ngOnInit(): void {
@@ -100,43 +101,31 @@ export class PeriodosComponent implements OnInit {
     );
   }
   
-  public loadParametrosSp() {
-    this.listService.findParametrosSp(environment.IDS.IDTIPOPARAMETRO)
-      .subscribe( (result: any[]) =>{
-        if (result['Data'].length > 0 && this.parametros.length === 0) {
-          const params = <Array<ParametroPeriodo>>result['Data'];
-          if (params != undefined) {
-            for(let p of params){
-              this.parametros.push(p);
-            }
-            this.loadLists();
-          }
-        }
-      },
-      error => {
-        this.parametros = null;
-      }
-      );
-  }
-
-/*   public loadParametros() {
+  public loadParametros() {
+    console.log("Cargando parametros");
     this.store.select((state) => state).subscribe(
       (list) => {
         const listaParam = list.listParametros;
-        if (listaParam.length > 0 && this.parametros.length === 0) {
+        console.log(listaParam);
+        if (listaParam.length > 0) {
+          this.parametros=[];
           const parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
+          console.log(parametros);
           if (parametros != undefined) {
             parametros.forEach(element => {
               this.parametros.push(element);
             });
-            this.cargarEstadoPeriodos();
           }
+          for (let i = 1; i < listaParam.length; i++) {
+            this.parametros.push(listaParam[i]);
+          }
+          this.cargarEstadoPeriodos();
         }
       },
     );
-  } */
+  }
 
-  private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
+    private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
     for (let parametro of this.parametros) {
       if (Object.keys(parametro).length > 0) {
         if (idPeriodo === parametro.PeriodoId.Id) {
@@ -171,7 +160,10 @@ export class PeriodosComponent implements OnInit {
       if (resp.value) {
         const idParametro = this.getIdParametro(nombreParam);
         if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
-          this.listService.inciarParametroPeriodo(periodo, idParametro);
+          this.listService.inciarParametroPeriodo(periodo, idParametro).then((resp)=>{
+            this.loadParametros();
+            Swal.fire(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`,"success");
+          }).catch((error)=>this.ventanaError(error));
         } else {
           this.ventanaError(`Ya existe ${nombreParam} en el ${periodo.Nombre}`);
         }

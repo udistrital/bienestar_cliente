@@ -26,8 +26,8 @@ export class InfoCompletaEstudiante {
     constructor(){
       this.IdTercero=0;
       this.Nombre="";
-      this.Carnet= new DatosIdentificacion();
-      this.Documento= new DatosIdentificacion();
+      this.Carnet= null;
+      this.Documento= null;
       this.FechaNacimiento="";
       this.ProyectoCurricular="";
       this.Facultad="";
