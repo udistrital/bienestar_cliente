@@ -1,7 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
-import { saveAs } from 'file-saver'
 
 @Injectable({
     providedIn: 'root',

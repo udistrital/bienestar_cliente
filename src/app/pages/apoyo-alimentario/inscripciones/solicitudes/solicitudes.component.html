@@ -2,14 +2,14 @@
     <i class="fa fa-arrow-left" aria-hidden="true"></i>
     Regresar
 </button> -->
+{{ estados | json}}
 
-
-<nb-card *ngIf="periodo!=null">
+<nb-card *ngIf="periodos!=[]">
     <nb-card-header>
         <div class="text-center pt-2">
             <div class="menu-header">
-                <h1 *ngIf="periodo!=null">
-                    Listado de solicitudes radicadas {{periodos[periodo]?.Nombre}}
+                <h1>
+                    Listado de solicitudes radicadas {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
                 </h1>
                 <button class="btn back-button btn-block" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -29,12 +29,21 @@
 
                 <mat-label>Periodo</mat-label>
                 <select matNativeControl [(ngModel)]="periodo" (change)="onSelect($event)">
-                    <option *ngFor="let option of periodos;let i = index;" [value]="i"
-                            [selected]="periodo == i">{{ option.Nombre }}</option>
-                    </select>
+                    <option *ngFor="let option of periodos;let i = index;" [ngValue]="i">
+                        {{ i }} - {{option.Nombre }}</option>
+                    <option [ngValue]="null">Todos los periodos</option>
+                </select>
 
-                <!-- <mat-label>Buscar</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ej. 2020-1 // Radicada" #input> -->
+                <br>
+            </mat-form-field>
+
+            <mat-form-field class="search">
+                <mat-label>Estado Solicitud</mat-label>
+                <select matNativeControl [(ngModel)]="estado" (change)="onSelect($event)">
+                    <option [ngValue]="null" >Todos los estados</option>
+                    <option *ngFor="let estado of estados;let i = index;" [ngValue]="i">
+                        {{estado.Nombre }}</option>
+                </select>
             </mat-form-field>
 
             <button class="btn btn-success" routerLink="./0">
@@ -44,9 +53,9 @@
             <mat-form-field class="page">
                 <mat-label>Tamaño de Tabla</mat-label>
                 <select matNativeControl [(ngModel)]="itemSelect">
-                    <option *ngFor="let option of itemsPag" [value]="option"
-                            [selected]="itemSelect === option">{{ option }}</option>
-                  </select>
+                    <option *ngFor="let option of itemsPag" [value]="option" [selected]="itemSelect === option">{{
+                        option }}</option>
+                </select>
             </mat-form-field>
         </div>
         <div>
@@ -62,7 +71,8 @@
                     </tr>
                 </thead>
                 <tbody class="bg-ud-table-cell">
-                    <tr *ngFor="let item of filSols | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
+                    <tr
+                        *ngFor="let item of filSols | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
                         <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
                         <th scope="row">{{ (i+1) + (pagActual -1)*itemSelect }}</th>
                         <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
@@ -98,11 +108,13 @@
                 </tbody>
             </table>
             <div class="center-block">
-                <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
+                <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior"
+                    nextLabel="Siguiente" (pageChange)="pagActual = $event">
                 </pagination-controls>
             </div>
         </div>
-        <button (click)="exportarCsv()" class="btn btn-primary btn-block"><i class="fa fa-download"></i>Descargar solicitudes</button>
+        <button (click)="exportarCsv()" class="btn btn-primary btn-block"><i class="fa fa-download"></i>Descargar
+            solicitudes</button>
     </nb-card-body>
     <!-- Sin solicitudes -->
     <nb-card-body *ngIf="solicitudes.length==0">
@@ -116,13 +128,11 @@
 </nb-card>
 
 
-<nb-card *ngIf="periodo==null">
+<nb-card *ngIf="periodos==[]">
     <div class="alert alert-warning text-center mt-3">
-        <h3 class="alert-heading">No hay un periodo activo</h3>
+        <h3 class="alert-heading">No hay un periodos</h3>
         <p>
             <i class="fa fa-exclamation fa-2x    "></i>
         </p>
     </div>
 </nb-card>
-
-

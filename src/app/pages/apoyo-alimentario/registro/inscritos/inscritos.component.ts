@@ -110,10 +110,10 @@ export class InscritosComponent implements OnInit {
       let solicitudId: number = 0;
       /* Se encuentra el tercero */
       if (terceroReg !== undefined) {
-        this.listService.loadSolicitudesTercero(terceroReg.Id, environment.IDS.IDSOLICITUDRADICADA, this.periodo.Nombre, true)
-          .then((resp) => {
+        this.listService.loadSolicitanteByIdTercero(terceroReg.Id, environment.IDS.IDSOLICITUDRADICADA, this.periodo.Nombre, true)
+          .then((listSolicitante) => {
             /* Validamos si esta inscrito, o si se permiten no inscritos y el estudiante esta activo */
-            this.permitirRegistroNoInscrito(resp, terceroReg.Id).then(
+            this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
               (permitir) => {
                 this.listService.loadFacultadTercero(terceroReg.Id).then((nomFacultad) => {
                   if (nomFacultad == this.facultadAccesso[this.registroBase.sede]) {

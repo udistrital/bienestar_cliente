@@ -93,9 +93,10 @@ export class SolicitudTerceroComponent implements OnInit {
     Swal.showLoading();
 
     /* Cargamos periodo con inscripciones activas */
-    this.loadPeriodo()
-      .then(() => {
-        if (this.periodo != null) {
+    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,true).then(
+      (resp)=>{
+        if(resp!=[]){
+          this.periodo = resp[0].PeriodoId
           /* Cargamos Id tercero por el correo */
           this.loadInformacionTercero()
             .then(() => {
@@ -119,8 +120,7 @@ export class SolicitudTerceroComponent implements OnInit {
           Swal.close();
           console.log("no hay periodo F");
         }
-      })
-      .catch((error) => {
+      }).catch((error) => {
         if (!error.status) {
           error.status = 409;
         }
@@ -132,6 +132,7 @@ export class SolicitudTerceroComponent implements OnInit {
           confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
         });
       });
+      
   }
 
   /* Clasifica la informacion de listInfoComplementaria */
@@ -632,21 +633,30 @@ export class SolicitudTerceroComponent implements OnInit {
                   );
 
                 /* Cargamos solicitud */
-                this.solicitudService
+
+          
+                this.listService.loadSolicitanteByIdTercero(this.tercero.Id,null,this.periodo.Nombre,null)
+                .then((listSolicitantes) => {
+                    procesosPendientes -= 1;
+                }).catch((error) => {
+                    procesosPendientes -= 1;
+                });
+                      
+                /* this.solicitudService
                   .get(`solicitante?query=TerceroId:${this.tercero.Id}`)
                   .subscribe(
                     (result: any[]) => {
                       let solicitante: Solicitante;
                       if (Object.keys(result[0]).length > 0) {
-                        /* Consultamos las solicitudes de un solicitante */ 
+                        //Consultamos las solicitudes de un solicitante 
                         for (solicitante of result) {
                           const sol: Solicitud = solicitante.SolicitudId;
-                          /* Se busca una solicitud radicada */
+                          //Se busca una solicitud radicada
                           if (
                             sol.EstadoTipoSolicitudId.Id ===
                             environment.IDS.IDSOLICITUDRADICADA
                           ) {
-                            /* Se busca una referencia correspondiente al periodo actual */
+                            //Se busca una referencia correspondiente al periodo actual
                             let refSol: ReferenciaSolicitud;
                             try {
                               refSol = JSON.parse(sol.Referencia);
@@ -679,7 +689,7 @@ export class SolicitudTerceroComponent implements OnInit {
                     (error) => {
                       this.solicitud = null;
                     }
-                  );
+                  ); */
               }
             }
           },
@@ -834,7 +844,9 @@ export class SolicitudTerceroComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   sendData(form: NgForm) {}
 

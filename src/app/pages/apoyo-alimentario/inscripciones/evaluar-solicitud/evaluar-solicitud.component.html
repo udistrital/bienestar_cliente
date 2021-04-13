@@ -1,4 +1,4 @@
-
+{{ tercero | json}} SOLICITUD {{ solicitud | json}}
 <nb-card *ngIf="solicitud==null && !nueva">
     <div class="text-center pt-2">
         <div class="menu-header">
@@ -19,8 +19,8 @@
                 <h1 *ngIf="!nueva">
                     Solicitud apoyo alimentario No. {{ idSolicitud }}
                 </h1>
-                <h1 *ngIf="nueva">
-                    Nueva solicitud apoyo alimentario
+                <h1 *ngIf="nueva && periodo!=null">
+                    Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
                 </h1>
                 <button class="btn back-button btn-block" routerLink="../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -38,13 +38,72 @@
                 <nb-accordion-item-header>
                     <h4 class="non-selectable">Información solicitante</h4>
                 </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    {{ solicitante | json }}
+
+                <nb-accordion-item-body *ngIf="tercero==null">
+                    <p>Documento del solicitante</p>
+                    <input #documentoNew fullWidth nbInput value={{solicitante?.Id}}>
+                    <br>
+                    <button class="btn btn-success" (click)="cargarSolicitante(documentoNew.value)">Cargar solicitante</button>
+                </nb-accordion-item-body>
+
+                <nb-accordion-item-body *ngIf="tercero!=null">
+                    <!-- <input [disabled]="!nueva" fullWidth nbInput value={{solicitante?.Id}}> -->
+                    <div class="menu-list">
+                        <div class="item ">
+                            <label class="sub-item label-color-ud">
+                                ID :
+                            </label >       
+                            <label class="sub-item ">
+                                {{tercero?.Id}}
+                            </label >                   
+                            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Nombres:
+                            </label>
+                            <label class="sub-item">
+                                {{tercero?.PrimerNombre}} {{tercero?.SegundoNombre}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Apellidos :
+                            </label>
+                            <label class="sub-item">
+                                {{tercero?.PrimerApellido}} {{tercero?.SegundoApellido}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha de Nacimiento :
+                            </label>
+                            <label class="sub-item">
+                                {{tercero?.FechaNacimiento}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Activo:
+                            </label>
+                            <label class="sub-item">
+                                {{tercero?.Activo}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Usuario App:
+                            </label>
+                            <label class="sub-item">
+                                {{tercero?.UsuarioWSO2}}
+                            </label>
+                        </div>
+                    </div>
                 </nb-accordion-item-body>
             </nb-accordion-item>
 
             <!-- Informacion solicitud -->
-            <nb-accordion-item>
+            <nb-accordion-item *ngIf="solicitud!=null">
                 <nb-accordion-item-header>
                     <h4 class="non-selectable">Información solicitud</h4>
                 </nb-accordion-item-header>
@@ -59,14 +118,6 @@
                                 {{solicitud?.Id}}
                             </label >                   
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
-                        </div>
-                        <div class="item">
-                            <label class="sub-item label-color-ud">
-                                Estado :
-                            </label>
-                            <label class="sub-item">
-                                {{solicitud?.Activo}}
-                            </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
@@ -99,14 +150,13 @@
                             <label class="sub-item">
                                 {{solicitud?.SolicitudFinalizada}}
                             </label>
-
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Referencia :
                             </label>
                             <label class="sub-item">
-        
+                                {{solicitud?.Referencia['Periodo']}}    
                             </label>
                         </div>
                         <div class="item">
@@ -114,13 +164,15 @@
                                 Tipo Solicitud :
                             </label>
                             <label class="sub-item">
+                                {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
-                                Estado Solicitud :
+                                Estado :
                             </label>
                             <label class="sub-item">
+                                {{solicitud?.Activo}}
                             </label>
                         </div>
                     </div>
