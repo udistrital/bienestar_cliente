@@ -73,7 +73,9 @@
                     Estado :
                 </label>
                 <label class="sub-item">
-                    {{periodo?.Activo}}
+                    <!-- {{periodo?.Activo}} -->
+                    <span *ngIf="periodo?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                    <span *ngIf="!periodo?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                 </label>
             </div>
             <div class="item">

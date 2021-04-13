@@ -1,16 +1,103 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UtilService {
 
-    constructor() { }
+    constructor(
+        private toastrService: NbToastrService,
+        private translate: TranslateService,
+        ) { }
+    
+    /**
+    *
+    * Muestra un SweetAlert de que se realizo una operacion correctamente
+    * 
+    * @param objArray
+    */
+    showSwAlertSuccess(titulo, mensaje, icono?) {
+        Swal.fire({
+            title: titulo,
+            text: mensaje,
+            icon: icono!=null ? icono:'success'
+          });
+    }
 
     /**
     *
+    * Muestra un SweetAlert de Error
+    * 
+    * @param objArray
+    */
+    showSwAlertError(titulo, error) {
+        Swal.fire({
+            icon: "error",
+            title: titulo,
+            text: this.translate.instant("ERROR." + error),
+            confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
+        });
+    }
+
+    /**
+    *
+    * Muestra un SweetAlert para consultar una opcion es especifico
+    * 
+    * @param objArray
+    */
+    showSwAlertQuery(titulo, query,confirmBtnText) : Promise<any> {
+        return new Promise((resolve) => { 
+            Swal.fire({
+                title: titulo,
+                text: query,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmBtnText
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    resolve(result);
+                }else{
+                    resolve(false);
+                }
+            })
+        });
+    }
+    
+     /**
+    *
+    * Muestra un SweetAlert para confirmacion simple
+    * 
+    * @param objArray
+    */
+    showSwAlertConfirmation(msj: String): Promise<any> {
+        return new Promise((resolve) => {
+          Swal.fire({
+            title: '¿Está seguro?',
+            text: '' + msj,
+            icon: 'question',
+            showConfirmButton: true,
+            showCancelButton: true
+          }).then((result) => {
+                if (result.isConfirmed) {
+                    resolve(result);
+                }else{
+                    resolve(false);
+                }
+            }
+          ).catch(() => resolve(false));
+        });
+    }
+
+    /**
+    *
+    * Convierte un Json a Csv
+    * 
     * @param objArray
     */
     convertToCSV(objArray) {
@@ -29,6 +116,8 @@ export class UtilService {
 
     /**
      *
+     * Exporta un tipo CSV a un archivo en disco
+     * 
      * @param headers
      * @param items
      * @param fileName

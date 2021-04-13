@@ -87,7 +87,9 @@
                                 Activo:
                             </label>
                             <label class="sub-item">
-                                {{tercero?.Activo}}
+                                <!-- {{tercero?.Activo}} -->
+                                <span *ngIf="tercero?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                                <span *ngIf="!tercero?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                             </label>
                         </div>
                         <div class="item">
@@ -156,7 +158,7 @@
                                 Referencia :
                             </label>
                             <label class="sub-item">
-                                {{solicitud?.Referencia['Periodo']}}    
+                                {{solicitud?.Referencia}}    
                             </label>
                         </div>
                         <div class="item">
@@ -172,7 +174,9 @@
                                 Estado :
                             </label>
                             <label class="sub-item">
-                                {{solicitud?.Activo}}
+                                <!-- {{solicitud?.Activo}} -->
+                                <span *ngIf="solicitud?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                                <span *ngIf="!solicitud?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                             </label>
                         </div>
                     </div>

@@ -21,6 +21,7 @@ import { SolicitudService } from "../../../../@core/data/solicitud.service";
 import { Registro } from "../../../../@core/data/models/registro";
 import { ImplicitAutenticationService } from "../../../../@core/utils/implicit_autentication.service";
 import { RegistroApoyo } from "../../../../@core/data/models/solicitud/registro-apoyo";
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
   selector: "ngx-inscritos",
@@ -46,6 +47,7 @@ export class InscritosComponent implements OnInit {
     private datePipe: DatePipe,
     private store: Store<IAppState>,
     private solicitudService: SolicitudService,
+    private utilsService :UtilService,
     private listService: ListService
   ) {
     Swal.fire({
@@ -279,7 +281,7 @@ export class InscritosComponent implements OnInit {
     let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
     this.toastrService.show(
-      error,
+      error,+
       /* `Estudiante: ${this.registroBase.codigo}`, */
       titulo,
       {
@@ -294,15 +296,8 @@ export class InscritosComponent implements OnInit {
 
   private showFacultadDiferente(): Promise<any> {
     return new Promise((resolve) => {
-      Swal.fire({
-        title: 'Estudiante de otra facultad',
-        text: "¿Deseas aceptar este registro?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Registrar'
-      }).then((result) => resolve(result)).catch(() => resolve(false));
+      this.utilsService.showSwAlertQuery('Estudiante de otra facultad',"¿Deseas aceptar este registro?",'Registrar')
+      .then((result) => resolve(result)).catch(() => resolve(false));
     });
   }
 

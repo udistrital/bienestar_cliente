@@ -31,7 +31,7 @@ export class DiarioComponent implements OnInit {
     let actual = formatDate(new Date(), "dd-MM-yyyy", "en");
     console.log(actual);
     if(date>actual){
-      this.showError("Fecha Erronea","La fecha ingresada aún no existe");
+      this.showError("ERROR. Consultar Fecha","La fecha ingresada aún no existe");
       return false;
     }else{
       this.router.navigate([`/pages/apoyo-alimentario/informes/diario/${date}`]);

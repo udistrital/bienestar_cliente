@@ -3,8 +3,7 @@
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
-                    Listado de solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} {{periodo==null ? "todos los periodos" :
-                    periodos[periodo]?.Nombre}}
+                    Listado de solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
                 </h1>
                 <button class="btn back-button btn-block" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -20,7 +19,7 @@
         <div class="contain">
 
 
-            <mat-form-field class="search">
+            <mat-form-field class="periodo">
 
                 <mat-label>Periodo</mat-label>
                 <select matNativeControl [(ngModel)]="periodo" (change)="onSelect($event)">
@@ -32,7 +31,7 @@
                 <br>
             </mat-form-field>
 
-            <mat-form-field class="search">
+            <mat-form-field class="estado">
                 <mat-label>Estado Solicitud</mat-label>
                 <select matNativeControl [(ngModel)]="estado" (change)="onSelect($event)">
                     <option [ngValue]="null">Todos los estados</option>
@@ -41,10 +40,6 @@
                 </select>
             </mat-form-field>
 
-            <button class="btn btn-success" routerLink="./0">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                Agregar solicitud
-            </button>
             <mat-form-field class="page">
                 <mat-label>Tamaño de Tabla</mat-label>
                 <select matNativeControl [(ngModel)]="itemSelect">
@@ -52,6 +47,11 @@
                         option }}</option>
                 </select>
             </mat-form-field>
+
+            <button class="btn btn-success" routerLink="./0">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Agregar solicitud
+            </button>
         </div>
         <div *ngIf="filSols.length>0">
             <table class="table">
@@ -66,8 +66,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-ud-table-cell">
-                    <tr
-                        *ngFor="let item of filSols | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
+                    <tr *ngFor="let item of filSols | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
                         <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
                         <th scope="row">{{ (i+1) + (pagActual -1)*itemSelect }}</th>
                         <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
@@ -103,22 +102,22 @@
                 </tbody>
             </table>
             <div class="center-block">
-                <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior"
-                    nextLabel="Siguiente" (pageChange)="pagActual = $event">
+                <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
                 </pagination-controls>
             </div>
-            <button (click)="exportarCsv()" class="btn btn-primary btn-block"><i class="fa fa-download"></i>Descargar
-                solicitudes</button>
+            <div class="download">
+                <button (click)="exportarCsv()" class="btn btn-primary"><i class="fa fa-download"></i>Descargar
+                    solicitudes</button>
+            </div>
         </div>
-<!-- 
+        <!-- 
         <div *ngIf="filSols.length==0">
             No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en {{periodo==null ? "todos los
             periodos" : periodos[periodo]?.Nombre}}
         </div> -->
         <nb-card-body *ngIf="filSols.length==0">
-            <div class="alert alert-warning text-center mt-3">
-                <h3 class="alert-heading">No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en
-                    {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+            <div class="alert alert-warning text-center mt-3 justify-content-center">
+                <h3 class="alert-heading">No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
                 </h3>
                 <p>
                     <i class="fa fa-exclamation fa-2x    "></i>
@@ -127,7 +126,7 @@
         </nb-card-body>
 
     </nb-card-body>
-    {{filSols.length}}
+
     <!-- Sin solicitudes -->
     <nb-card-body *ngIf="solicitudes.length==0">
         <div class="alert alert-warning text-center mt-3">
