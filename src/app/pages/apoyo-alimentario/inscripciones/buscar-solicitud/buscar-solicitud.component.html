@@ -31,17 +31,11 @@
                         </div>
 
                         <select class="form-control custom-select input-text-ud" name="periodo" [(ngModel)]="periodo" [disabled]="periodos.length === 0" [class.is-invalid]="periodo.invalid && periodo.touched" required placeholder="Periodos academicos" #periodoM="ngModel">
+                            <option [value]="-1">Todos los periodos</option>
                             <option *ngFor="let periodo of periodos; let i=index;" [value]="i">{{periodo.Nombre}}
                             </option>
                         </select>
                         <br>
-                    </div>
-
-                    <div class="small-ud">
-                        <small *ngIf="periodoM.invalid && periodoM.touched" class="form-text text-danger mt-n3 mb-2">Tienes que
-                            seleccionar un sede</small>
-                        <small *ngIf="periodos.length === 0" class="form-text text-danger mt-n3 mb-2">No hay periodos
-                            disponibles</small>
                     </div>
 
                     <div class="form-group input-group">
@@ -72,4 +66,43 @@
         </div>
     </nb-card-body>
 </nb-card>
-{{ periodo }} {{ codigo }}
+<nb-card *ngIf="solicitudes!=null">
+    <table *ngIf="solicitudes.length>0" class="table">
+        <thead class="bg-ud-table">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">JSON</th>
+                <th scope="col">Tipo solicitud</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha radicacion</th>
+
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody class="bg-ud-table-cell">
+            <tr
+                *ngFor="let item of solicitudes; let i = index">
+                <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
+                <th scope="row">{{ (i+1) }}</th>
+                <td>{{ item | json }}</td>
+                <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
+                <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
+                <td>{{ item.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Evaluar solicitud
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div *ngIf="solicitudes.length==0" class="alert alert-warning text-center mt-3">
+        <h3 class="alert-heading">No hay solicitudes</h3>
+        <p>
+            <i class="fa fa-exclamation fa-2x    "></i>
+        </p>
+    </div>
+</nb-card>

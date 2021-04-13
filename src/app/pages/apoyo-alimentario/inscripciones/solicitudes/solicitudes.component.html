@@ -1,15 +1,10 @@
-<!-- <button class="btn back-button btn-block" routerLink="../../">
-    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-    Regresar
-</button> -->
-{{ estados | json}}
-
 <nb-card *ngIf="periodos!=[]">
     <nb-card-header>
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
-                    Listado de solicitudes radicadas {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                    Listado de solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} {{periodo==null ? "todos los periodos" :
+                    periodos[periodo]?.Nombre}}
                 </h1>
                 <button class="btn back-button btn-block" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -40,7 +35,7 @@
             <mat-form-field class="search">
                 <mat-label>Estado Solicitud</mat-label>
                 <select matNativeControl [(ngModel)]="estado" (change)="onSelect($event)">
-                    <option [ngValue]="null" >Todos los estados</option>
+                    <option [ngValue]="null">Todos los estados</option>
                     <option *ngFor="let estado of estados;let i = index;" [ngValue]="i">
                         {{estado.Nombre }}</option>
                 </select>
@@ -58,7 +53,7 @@
                 </select>
             </mat-form-field>
         </div>
-        <div>
+        <div *ngIf="filSols.length>0">
             <table class="table">
                 <thead class="bg-ud-table">
                     <tr>
@@ -112,14 +107,31 @@
                     nextLabel="Siguiente" (pageChange)="pagActual = $event">
                 </pagination-controls>
             </div>
+            <button (click)="exportarCsv()" class="btn btn-primary btn-block"><i class="fa fa-download"></i>Descargar
+                solicitudes</button>
         </div>
-        <button (click)="exportarCsv()" class="btn btn-primary btn-block"><i class="fa fa-download"></i>Descargar
-            solicitudes</button>
+<!-- 
+        <div *ngIf="filSols.length==0">
+            No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en {{periodo==null ? "todos los
+            periodos" : periodos[periodo]?.Nombre}}
+        </div> -->
+        <nb-card-body *ngIf="filSols.length==0">
+            <div class="alert alert-warning text-center mt-3">
+                <h3 class="alert-heading">No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en
+                    {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                </h3>
+                <p>
+                    <i class="fa fa-exclamation fa-2x    "></i>
+                </p>
+            </div>
+        </nb-card-body>
+
     </nb-card-body>
+    {{filSols.length}}
     <!-- Sin solicitudes -->
     <nb-card-body *ngIf="solicitudes.length==0">
         <div class="alert alert-warning text-center mt-3">
-            <h3 class="alert-heading">No hay registros</h3>
+            <h3 class="alert-heading">No hay solicitudes</h3>
             <p>
                 <i class="fa fa-exclamation fa-2x    "></i>
             </p>
@@ -130,7 +142,7 @@
 
 <nb-card *ngIf="periodos==[]">
     <div class="alert alert-warning text-center mt-3">
-        <h3 class="alert-heading">No hay un periodos</h3>
+        <h3 class="alert-heading">No hay ningun periodo para consultar</h3>
         <p>
             <i class="fa fa-exclamation fa-2x    "></i>
         </p>

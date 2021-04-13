@@ -129,7 +129,7 @@ export class ListService {
       idPeriodo != null ? query.push(`PeriodoId.Id:${idPeriodo}`) : "";
       let consulta = "";
       for (let i = 0; i < query.length; i++) {
-        consulta += query[i]+(i+1==query.length ? "&" : ",");
+        consulta += query[i] + (i + 1 == query.length ? "&" : ",");
       }
       this.parametrosService.get(`parametro_periodo?query=${consulta}sortby=id&order=desc&limit=-1`).subscribe(
         (result: any[]) => {
@@ -344,24 +344,26 @@ export class ListService {
               let listSolicitantes = [];
               for (solicitante of result) {
                 const sol: Solicitud = solicitante.SolicitudId;
-                /* Se busca una solicitud radicada */
-                if (tipoSolicitud == null ||
-                  sol.EstadoTipoSolicitudId.Id ==
-                  tipoSolicitud
-                ) {
-                  /* Se busca una referencia correspondiente al periodo actual */
-                  let refSol: ReferenciaSolicitud;
-                  try {
-                    refSol = JSON.parse(sol.Referencia);
-                    if (refSol != null) {
-                      if (nomPeriodo == null || refSol.Periodo === nomPeriodo) {
-                        if (estado == null || sol.Activo == estado) {
-                          listSolicitantes.push(solicitante);
+                if (sol.EstadoTipoSolicitudId.TipoSolicitud.Id == environment.IDS.IDTIPOSOLICITUD) {
+                  /* Se busca una solicitud radicada */
+                  if (tipoSolicitud == null ||
+                    sol.EstadoTipoSolicitudId.Id ==
+                    tipoSolicitud
+                  ) {
+                    /* Se busca una referencia correspondiente al periodo actual */
+                    let refSol: ReferenciaSolicitud;
+                    try {
+                      refSol = JSON.parse(sol.Referencia);
+                      if (refSol != null) {
+                        if (nomPeriodo == null || refSol.Periodo === nomPeriodo) {
+                          if (estado == null || sol.Activo == estado) {
+                            listSolicitantes.push(solicitante);
+                          }
                         }
                       }
+                    } catch (error) {
+                      console.error(error);
                     }
-                  } catch (error) {
-                    console.error(error);
                   }
                 }
               }

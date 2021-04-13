@@ -7,6 +7,7 @@ import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 import Swal from 'sweetalert2';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 import { Router } from '@angular/router';
+import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 
 @Component({
   selector: 'ngx-buscar-solicitud',
@@ -18,6 +19,7 @@ export class BuscarSolicitudComponent implements OnInit {
   periodos = [];
   periodo: number = 0;
   codigo = "";
+  solicitudes: Solicitud[]=null;
 
   constructor(
     private router: Router,
@@ -55,12 +57,18 @@ export class BuscarSolicitudComponent implements OnInit {
     this.listService.loadTerceroByDocumento(this.codigo).then((resp) => {
       const terceroReg: Tercero = resp;
       if (terceroReg !== undefined) {
-        this.listService.loadSolicitudSolicitante_Periodo(terceroReg.Id, this.periodos[this.periodo].Nombre).then((sol) => {
-          this.router.navigate(['/pages/apoyo-alimentario/inscripciones/solicitudes/' + sol.Id],);
-        }).catch(
-          (err) => Swal.fire("Error",
-            `<p>${err}</p>`, "error")
-        );
+        let nombrePeriodo: string=null
+        if(this.periodo>=0){
+          nombrePeriodo=this.periodos[this.periodo].Nombre;
+        }
+        this.listService.loadSolicitanteByIdTercero(terceroReg.Id,null,nombrePeriodo,null).then(
+          (resp)=>{
+            this.solicitudes=[];
+            for (const solicitante of resp) {
+              this.solicitudes.push(solicitante.SolicitudId);
+            }
+          }
+        ).catch((error)=>console.error(error));
       } else {
         Swal.fire("Error",
           `<p>No se encuentra el tercero</p>`, "error");

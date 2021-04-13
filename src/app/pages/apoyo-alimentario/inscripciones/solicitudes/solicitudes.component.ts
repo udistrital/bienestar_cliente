@@ -87,8 +87,8 @@ export class SolicitudesComponent implements OnInit {
 
 
   public filtrarSolicitudes() {
-    console.log("Periodo =====>", this.periodo);
-    console.log("Estado =====>", this.estado);
+
+    this.pagActual=1
     this.filSols=[];
     /* let nombrePeriodo = this.periodo == null ? "" : this.periodos[this.periodo].Nombre;
     console.log("nombre periodo =>", nombrePeriodo); */
