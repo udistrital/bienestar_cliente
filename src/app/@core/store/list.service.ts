@@ -21,6 +21,7 @@ import { DatosIdentificacion } from '../data/models/terceros/datos_identificacio
 import { OikosService } from "../data/oikos.service"
 import { AcademicaService } from '../data/academica.service';
 import { SolicitudEvolucionEstado } from '../data/models/solicitud/solicitud-evolucion-estado';
+import { formatDate } from '@angular/common';
 
 @Injectable()
 
@@ -250,10 +251,12 @@ export class ListService {
       }
       this.parametrosService.get(`parametro_periodo?query=${consulta}sortby=id&order=desc&limit=-1`).subscribe(
         (result: any[]) => {
-          console.log(result['Data']);
-          if (Object.keys(result['Data']).length > 0) {
+          //console.log(Object.keys(result['Data'][0]).length);
+          
+          if (Object.keys(result['Data'][0]).length > 0) {
             resolve(result['Data']);
           } else {
+            console.log("Periodo Vacio");
             resolve([]);
           }
         },
@@ -297,6 +300,7 @@ export class ListService {
   crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud) {
     const solicitud: Solicitud = new Solicitud();
     solicitud.EstadoTipoSolicitudId = null;
+    solicitud.FechaRadicacion = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.solicitudService.get(`estado_tipo_solicitud?query=Id:${environment.IDS.IDSOLICITUDRADICADA}`)
       .subscribe(res => {
         const r = <any>res;
@@ -313,10 +317,10 @@ export class ListService {
               const solicitante: Solicitante = new Solicitante();
               solicitante.TerceroId = idTercero;
               solicitante.SolicitudId = solicitud;
-              /* this.solicitudService.post('solicitante', JSON.stringify(solicitante))
+              this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                 .subscribe(res => {
-                  window.location.reload();
-                }); */
+                window.location.reload();
+              });
 
             });
         }

@@ -1,4 +1,3 @@
-<!-- {{estudiante | json}} -->
 <!-- <nb-card>
     <button class="btn back-button btn-block" routerLink="../../">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -23,9 +22,22 @@
 <div *ngIf="!loading">
     <!-- Caso que no se pueda cargar periodo -->
     <nb-card *ngIf="periodo==null">
-        <div class="menu-header">
+        <div class="menu-header m-4">
             <h1>
-                No hay un periodo activo para inscripcioes
+                No hay un periodo activo para inscripciones
+            </h1>
+            <button class="btn back-button" routerLink="../../">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Regresar
+            </button>
+
+        </div>
+    </nb-card>
+
+    <nb-card *ngIf="tercero!==null && (estudiante.Documento==null || estudiante.Carnet==null)">
+        <div class="menu-header m-4">
+            <h1>
+                No se encontraron documentos de identificación del estudiante
             </h1>
             <button class="btn back-button" routerLink="../../">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -36,8 +48,8 @@
     </nb-card>
 
     <!-- Caso que no se pueda cargar tercero -->
-    <nb-card *ngIf="periodo!=null && tercero==null">
-        <div class="menu-header">
+    <nb-card *ngIf="periodo!==null && tercero==null">
+        <div class="menu-header m-4">
             <h1>
                 Hubo un error con tus credenciales, intenta logear de nuevo.
             </h1>
@@ -51,7 +63,7 @@
 
 
     <!-- Caso que exista solicitud -->
-    <nb-card *ngIf="solicitud!=null && periodo!=null">
+    <nb-card *ngIf="solicitud!==null && periodo!==null ">
         <div class="container">
             <div class="menu-header">
                 <h1>
@@ -141,7 +153,7 @@
 
     <!-- Formulario nueva solicitud --------------------------------->
 
-    <nb-card *ngIf="tercero!=null && solicitud==null">
+    <nb-card *ngIf="tercero!=null && solicitud==null && (estudiante.Documento!==null || estudiante.Carnet!==null)">
         <nb-card-header>
             <div class="text-center pt-2">
                 <div class="menu-header">

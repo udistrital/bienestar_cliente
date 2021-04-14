@@ -184,7 +184,7 @@
             </nb-accordion-item>
 
             <!-- Estado de la solicitud -->
-            <nb-accordion-item *ngIf="solicitud!=null">
+            <nb-accordion-item *ngIf="solicitud!=null && !nueva">
                 <nb-accordion-item-header>
                     <h4 class="non-selectable">Estado solicitud</h4>
                 </nb-accordion-item-header>
@@ -200,13 +200,16 @@
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
-                        <hr>
-                        <h5>Cambiar estado</h5>
+                        <div class="item">
+                            <hr>
+                            <h6>Cambiar estado</h6>
+                            <br>
+                        </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Nuevo estado :
                             </label>
-                            <select matNativeControl [(ngModel)]="nuevoEstado">
+                            <select class="sub-item border-warning" matNativeControl [(ngModel)]="nuevoEstado">
                                 <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
                                     {{estadoTipo.EstadoId.Nombre }}</option>
                             </select>
@@ -216,9 +219,7 @@
                             <label class="sub-item label-color-ud">
                                 Observacion:
                             </label>
-                            <textarea [(ngModel)]="obseravcionText" nbinput="" fullwidth="" placeholder="Observacion"
-                                class="input-full-width size-medium status-basic shape-rectangle nb-transition"
-                                style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                            <textarea [(ngModel)]="obseravcionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
 
                         </div>
                     </div>
@@ -227,7 +228,7 @@
             </nb-accordion-item>
 
         </nb-accordion>
-<hr>
+        <hr>
         <div class="form-group">
             <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                 <i class="fas fa-save mr-1"></i>

@@ -37,8 +37,9 @@ export class UtilService {
     showSwAlertError(titulo, error) {
         Swal.fire({
             icon: "error",
-            title: titulo,
-            text: this.translate.instant("ERROR." + error),
+            title: "ERROR." + titulo,
+            //text: this.translate.instant(error),
+            text: error,
             confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
         });
     }

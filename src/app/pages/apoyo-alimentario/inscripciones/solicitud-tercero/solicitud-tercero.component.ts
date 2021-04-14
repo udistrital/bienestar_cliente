@@ -96,15 +96,18 @@ export class SolicitudTerceroComponent implements OnInit {
     this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
       (resp) => {
         console.log(resp);
-        if (resp != []) {
+        console.log(resp != []);
+        //if (resp != []) {
+        if (resp.length > 0) {
           this.periodo = resp[0].PeriodoId;
           console.log(this.periodo);
 
           let usuarioWSO2 = this.autenticacion.getPayload().email
             ? this.autenticacion.getPayload().email.split("@").shift()
             : this.autenticacion.getPayload().sub;
-          usuarioWSO2 = "daromeror";
-          //usuarioWSO2 = "sagomezl";
+          //usuarioWSO2 = "daromeror";
+          //usuarioWSO2 = "";
+          usuarioWSO2 = "sagomezl";
 
           this.listService.loadTerceroByWSO2(usuarioWSO2).then((respTecero) => {
             console.log("loadTerceroByWSO2");
@@ -114,12 +117,13 @@ export class SolicitudTerceroComponent implements OnInit {
               console.log("findDocumentosTercero");
               for (const documento of respDocs) {
                 if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-                  this.estudiante.Carnet=documento;
+                  this.estudiante.Carnet=documento;                  
                 } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
                   this.estudiante.Documento=documento;
                 }
               }
-              if(this.estudiante.Carnet!=null && this.estudiante.Documento){
+              //Change this.estudiante.Documento
+              if(this.estudiante.Carnet!=null && this.estudiante.Documento!=null){
                 this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null)
                   .then((listSolicitantes) => {
                     console.log("loadSolicitanteByIdTercero");
@@ -130,27 +134,27 @@ export class SolicitudTerceroComponent implements OnInit {
                         console.log(this.solicitud);
                         this.loading=false;
                         Swal.close();
-                      }).catch((errorSol)=> this.showError(errorSol));
+                      }).catch((errorSol)=> this.showError("Solicitud no encontrada",errorSol));
                     }else{
                       console.log("Iniciamos formularios");
                       
                       this.inicializarFormularios();
                     }
                   }).catch((errorSolT) => {
-                    this.showError(errorSolT);
+                    this.showError("Solicitud no existe",errorSolT);
                   });
               }else{
-                this.showError("No se encontro el carnet y documento de indentificacion");
+                this.showError("Documentos del estudiante no encontrados","No se encontro el carnet y documento de identificacion");
               }
-            }).catch((errorDocs)=>this.showError(errorDocs));
+            }).catch((errorDocs)=>this.showError("Documentos no encontrados",errorDocs));
 
-          }).catch((errorT) => this.showError(errorT));
+          }).catch((errorT) => this.showError("Estudiante no existe",errorT));
 
         } else {
-          this.showError("no hay periodo F");
+          this.showError("Periodo Vacio","No se encuentra un periodo activo para inscripciones");
         }
       }).catch((error) => {
-        this.showError(error);
+        this.showError("Periodo Vacio",error);
       });
 
   }
@@ -646,10 +650,10 @@ export class SolicitudTerceroComponent implements OnInit {
     return false;
   }
 
-  showError(msj: string) {
+  showError(titulo: string,msj: string) {
     this.loading=false;
     Swal.close();
-    Swal.fire("Error",msj,"error");
+    this.utilService.showSwAlertError(titulo,msj);
   }
 
 
