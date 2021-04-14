@@ -24,7 +24,7 @@
                 <mat-label>Periodo</mat-label>
                 <select matNativeControl [(ngModel)]="periodo" (change)="onSelect($event)">
                     <option *ngFor="let option of periodos;let i = index;" [ngValue]="i">
-                        {{ i }} - {{option.Nombre }}</option>
+                      {{option.Nombre }}</option>
                     <option [ngValue]="null">Todos los periodos</option>
                 </select>
 

@@ -9,6 +9,9 @@ import Swal from "sweetalert2";
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 import { environment } from '../../../../../environments/environment';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
+import { Estado } from '../../../../@core/data/models/solicitud/estado';
+import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/estado-tipo-solicitud';
+import { SolicitudEvolucionEstado } from '../../../../@core/data/models/solicitud/solicitud-evolucion-estado';
 
 @Component({
     selector: 'ngx-evaluar-solicitud',
@@ -22,6 +25,10 @@ export class EvaluarSolicitudComponent implements OnInit {
     solicitud: Solicitud = null;
     solicitante: Solicitante = null;
     tercero: Tercero = null;
+    estadosTipoSolicitud: EstadoTipoSolicitud[]= [];
+    nuevoEstado: number= null;
+    obseravcionText: string = "";
+    
 
     constructor(
         private route: ActivatedRoute,
@@ -31,6 +38,7 @@ export class EvaluarSolicitudComponent implements OnInit {
         this.idSolicitud = parseInt(this.route.snapshot.paramMap.get('idSolicitud'));
         if (this.idSolicitud != 0) {
             this.loadSolicitud();
+            this.loadEstadoTipoSolicitud();
         } else {
             this.nueva = true;
             this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,true).then(
@@ -65,6 +73,22 @@ export class EvaluarSolicitudComponent implements OnInit {
         }).catch((error) => this.showError(error));
     }
 
+    loadEstadoTipoSolicitud() {
+        this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)
+          .subscribe((result: any[]) => {
+            if (result['Data'].length > 0) {
+              let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
+              for (let estadoTipo of estadosTiposolicitud) {
+                this.estadosTipoSolicitud.push(estadoTipo);
+              }
+            }
+          },
+            error => {
+              console.error(error);
+            }
+          );
+      }
+
     cargarSolicitante(documento: string) {
         console.log(documento);
         this.listService.loadTerceroByDocumento(documento).then((respDoc) => {
@@ -96,6 +120,39 @@ export class EvaluarSolicitudComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    save(){
+        if(this.obseravcionText.length>0){
+            this.agregarObservacion(this.obseravcionText);
+        }else{
+            this.showError("La obseravacion esta vacia")
+        }
+        if(this.nuevoEstado!=null){
+            const nuevoEstadoTipo= this.estadosTipoSolicitud[this.nuevoEstado]
+            if(this.solicitud.EstadoTipoSolicitudId.Id!=nuevoEstadoTipo.Id){
+                this.cambiarEstado(nuevoEstadoTipo);
+            }else{
+                this.showError("El estado es el mismo");
+            }
+
+        }
+        
+        console.log(this.obseravcionText);
+        console.log(this.nuevoEstado)
+        console.log(this.estadosTipoSolicitud[this.nuevoEstado].EstadoId.Nombre)
+        
+    }
+    cambiarEstado(nuevoEstadoTipo: EstadoTipoSolicitud) {
+        this.listService.cambiarEstadoSolicitud(this.solicitud,nuevoEstadoTipo,this.tercero.Id).then((resp)=>{
+            this.solicitud.EstadoTipoSolicitudId=resp;
+        }).catch((err)=>{
+            this.showError(err);
+        })
+    }
+    agregarObservacion(obseravcionText: string) {
+        this.listService.crearObservacion(this.solicitud,this.tercero.Id,obseravcionText);
+    }
+ 
 
 }
 

@@ -10,8 +10,8 @@ export class Solicitante {
     TerceroId: number;
     constructor(){
         this.Activo=true;
-        this.FechaCreacion= formatDate(new Date(), 'yyyy-MM-dd', 'en');;
-        this.FechaModificacion=formatDate(new Date(), 'yyyy-MM-dd', 'en');;
+        this.FechaCreacion= formatDate(new Date(), 'yyyy-MM-dd', 'en');
+        this.FechaModificacion=formatDate(new Date(), 'yyyy-MM-dd', 'en');
         this.Id=0
     }
 }

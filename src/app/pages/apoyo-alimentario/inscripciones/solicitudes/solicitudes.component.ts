@@ -44,7 +44,7 @@ export class SolicitudesComponent implements OnInit {
     private utilService: UtilService
   ) {
 
-    this.listService.findSolicitudesRadicadas();
+    this.listService.findSolicitudes();
     this.loadPeriodoSp();
     this.loadEstadoTipoSolicitud();
 

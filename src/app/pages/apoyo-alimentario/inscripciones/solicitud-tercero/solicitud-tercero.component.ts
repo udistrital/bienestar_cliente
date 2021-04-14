@@ -103,8 +103,8 @@ export class SolicitudTerceroComponent implements OnInit {
           let usuarioWSO2 = this.autenticacion.getPayload().email
             ? this.autenticacion.getPayload().email.split("@").shift()
             : this.autenticacion.getPayload().sub;
-          //usuarioWSO2 = "daromeror";
-          usuarioWSO2 = "sagomezl";
+          usuarioWSO2 = "daromeror";
+          //usuarioWSO2 = "sagomezl";
 
           this.listService.loadTerceroByWSO2(usuarioWSO2).then((respTecero) => {
             console.log("loadTerceroByWSO2");

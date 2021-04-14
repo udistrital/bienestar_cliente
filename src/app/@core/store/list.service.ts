@@ -20,10 +20,12 @@ import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicit
 import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
 import { OikosService } from "../data/oikos.service"
 import { AcademicaService } from '../data/academica.service';
+import { SolicitudEvolucionEstado } from '../data/models/solicitud/solicitud-evolucion-estado';
 
 @Injectable()
 
 export class ListService {
+
 
   constructor(
     private parametrosService: ParametrosService,
@@ -91,11 +93,11 @@ export class ListService {
     });
   }
 
-  
+
   /* Buscamos documentos asociados a un tercero por la ID  */
   findDocumentosTercero(idTercero: number, codAbreviacion: String): Promise<DatosIdentificacion[]> {
     return new Promise((resolve, reject) => {
-      this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}${codAbreviacion==null ? "" : ",TipoDocumentoId.CodigoAbreviacion:"+codAbreviacion}`)
+      this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}${codAbreviacion == null ? "" : ",TipoDocumentoId.CodigoAbreviacion:" + codAbreviacion}`)
         .subscribe(
           (result: any[]) => {
             console.log(result);
@@ -183,7 +185,7 @@ export class ListService {
 
   /* Creamos un parametro_periodo*/
   public inciarParametroPeriodo(periodo: Periodo, idParam: number): Promise<any> {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       const paramPeriodo: ParametroPeriodo = new ParametroPeriodo();
       paramPeriodo.PeriodoId = periodo;
       this.parametrosService.get(`parametro?query=id:${idParam}`)
@@ -194,11 +196,10 @@ export class ListService {
             paramPeriodo.ParametroId = parametro
             this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
               .subscribe(res => {
-                this.addList(REDUCER_LIST.Parametros, res['Data']);  
                 resolve(true);
                 /* window.location.reload(); */
               });
-          }else{
+          } else {
             reject("Error al cargar el parametro asociado");
           }
         },
@@ -306,13 +307,16 @@ export class ListService {
           this.solicitudService.post('solicitud', JSON.stringify(solicitud))
             .subscribe(res => {
               solicitud.Id = res['Data']['Id']
+              /* No se si funciona */
+              this.crearEvolucionEstado(idTercero,solicitud,null);
+  
               const solicitante: Solicitante = new Solicitante();
               solicitante.TerceroId = idTercero;
               solicitante.SolicitudId = solicitud;
-              this.solicitudService.post('solicitante', JSON.stringify(solicitante))
+              /* this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                 .subscribe(res => {
                   window.location.reload();
-                })
+                }); */
 
             });
         }
@@ -320,6 +324,24 @@ export class ListService {
         (error: HttpErrorResponse) => {
           reject(error);
         });
+  }
+
+  findSolicitudes() {
+    this.store.select(REDUCER_LIST.SolicitudesRadicadas).subscribe(
+      (list: any) => {
+        if (!list || list.length === 0) {
+          this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
+            .subscribe(
+              (result: any[]) => {
+                this.addList(REDUCER_LIST.SolicitudesRadicadas, result);
+              },
+              error => {
+                this.addList(REDUCER_LIST.SolicitudesRadicadas, []);
+              },
+            );
+        }
+      },
+    );
   }
 
   findSolicitudesRadicadas() {
@@ -520,11 +542,45 @@ export class ListService {
     });
   }
 
+  cambiarEstadoSolicitud(solicitud: Solicitud, nuevoEstadoTipo: EstadoTipoSolicitud, idTercero: number): Promise<EstadoTipoSolicitud> {
+    return new Promise((resolve,reject)=>{
+      let estadoTipoAnterior = solicitud.EstadoTipoSolicitudId;
+      solicitud.EstadoTipoSolicitudId = nuevoEstadoTipo;
+      this.solicitudService.put('solicitud', JSON.stringify(solicitud), solicitud.Id)
+        .subscribe(res => {
+          this.crearEvolucionEstado(idTercero, solicitud, estadoTipoAnterior).then((resp)=>{
+            resolve(nuevoEstadoTipo);
+          }).catch((error)=>reject(error));
+        },(err=>reject(err)));
+    });
+  }
+
+  crearObservacion(solicitud: Solicitud, idTercero: number, obseravcionText: string) {
+    console.log("Se crea observacion=>",);
+    console.log(solicitud);
+    console.log(idTercero);
+    console.log(obseravcionText);
+  }
+
+  crearEvolucionEstado(idTercero: number, solicitud: Solicitud, anteriorEstado: EstadoTipoSolicitud): Promise<any>{
+    return new Promise((resolve,reject)=>{
+      let see= new SolicitudEvolucionEstado();
+      see.TerceroId=idTercero;
+      see.SolicitudId=solicitud;
+      see.EstadoTipoSolicitudIdAnterior=anteriorEstado;
+      see.EstadoTipoSolicitudId=solicitud.EstadoTipoSolicitudId;
+      this.solicitudService.post('solicitud_evolucion_estado', JSON.stringify(see))
+      .subscribe(res => {
+        resolve(true);
+      },error=>{reject(error)});
+    });
+  }
+
 
   /* ******** ACADEMICA SERVICE *********** */
   cargarEstadoTercero(Idtercero: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.findDocumentosTercero(Idtercero,'CODE').then((carnet) => {
+      this.findDocumentosTercero(Idtercero, 'CODE').then((carnet) => {
         if (carnet.length > 0) {
           this.academicaService.get(`datos_basicos_estudiante/${carnet[0]['Numero']}`).subscribe((result) => {
             console.log(result);
@@ -547,6 +603,8 @@ export class ListService {
       payload: object,
     });
   }
+
+
 }
 
 

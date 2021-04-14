@@ -109,17 +109,15 @@ export class PeriodosComponent implements OnInit {
         console.log(listaParam);
         if (listaParam.length > 0) {
           this.parametros=[];
-          const parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
+          const parametros = <Array<ParametroPeriodo>>listaParam[(listaParam.length-1)]['Data'];
           console.log(parametros);
           if (parametros != undefined) {
             parametros.forEach(element => {
               this.parametros.push(element);
             });
+            this.cargarEstadoPeriodos();
           }
-          for (let i = 1; i < listaParam.length; i++) {
-            this.parametros.push(listaParam[i]);
-          }
-          this.cargarEstadoPeriodos();
+          
         }
       },
     );
@@ -161,7 +159,8 @@ export class PeriodosComponent implements OnInit {
         const idParametro = this.getIdParametro(nombreParam);
         if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
           this.listService.inciarParametroPeriodo(periodo, idParametro).then((resp)=>{
-            this.loadParametros();
+            this.listService.findParametros();
+            this.loadParametros();  
             Swal.fire(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`,"success");
           }).catch((error)=>this.ventanaError(error));
         } else {

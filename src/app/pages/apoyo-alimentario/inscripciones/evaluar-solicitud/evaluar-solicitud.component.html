@@ -1,4 +1,3 @@
-{{ tercero | json}} SOLICITUD {{ solicitud | json}}
 <nb-card *ngIf="solicitud==null && !nueva">
     <div class="text-center pt-2">
         <div class="menu-header">
@@ -43,7 +42,8 @@
                     <p>Documento del solicitante</p>
                     <input #documentoNew fullWidth nbInput value={{solicitante?.Id}}>
                     <br>
-                    <button class="btn btn-success" (click)="cargarSolicitante(documentoNew.value)">Cargar solicitante</button>
+                    <button class="btn btn-success" (click)="cargarSolicitante(documentoNew.value)">Cargar
+                        solicitante</button>
                 </nb-accordion-item-body>
 
                 <nb-accordion-item-body *ngIf="tercero!=null">
@@ -52,10 +52,10 @@
                         <div class="item ">
                             <label class="sub-item label-color-ud">
                                 ID :
-                            </label >       
+                            </label>
                             <label class="sub-item ">
                                 {{tercero?.Id}}
-                            </label >                   
+                            </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
                         <div class="item">
@@ -115,10 +115,10 @@
                             <!-- form-group  -->
                             <label class="sub-item label-color-ud">
                                 ID :
-                            </label >       
+                            </label>
                             <label ng-readonly="!nueva" class="sub-item ">
                                 {{solicitud?.Id}}
-                            </label >                   
+                            </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
                         <div class="item">
@@ -158,7 +158,7 @@
                                 Referencia :
                             </label>
                             <label class="sub-item">
-                                {{solicitud?.Referencia}}    
+                                {{solicitud?.Referencia}}
                             </label>
                         </div>
                         <div class="item">
@@ -183,8 +183,57 @@
                 </nb-accordion-item-body>
             </nb-accordion-item>
 
-        </nb-accordion>
+            <!-- Estado de la solicitud -->
+            <nb-accordion-item *ngIf="solicitud!=null">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Estado solicitud</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="menu-list">
+                        <div class="item ">
+                            <!-- form-group  -->
+                            <label class="sub-item label-color-ud">
+                                Estado actual :
+                            </label>
+                            <label ng-readonly="!nueva" class="sub-item ">
+                                {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
+                            </label>
+                            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+                        </div>
+                        <hr>
+                        <h5>Cambiar estado</h5>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Nuevo estado :
+                            </label>
+                            <select matNativeControl [(ngModel)]="nuevoEstado">
+                                <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                                    {{estadoTipo.EstadoId.Nombre }}</option>
+                            </select>
 
+                        </div>
+                        <div *ngIf="nuevoEstado!=null" class="item">
+                            <label class="sub-item label-color-ud">
+                                Observacion:
+                            </label>
+                            <textarea [(ngModel)]="obseravcionText" nbinput="" fullwidth="" placeholder="Observacion"
+                                class="input-full-width size-medium status-basic shape-rectangle nb-transition"
+                                style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+                <hr>
+            </nb-accordion-item>
+
+        </nb-accordion>
+<hr>
+        <div class="form-group">
+            <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                <i class="fas fa-save mr-1"></i>
+                Guardar cambios
+            </button>
+        </div>
     </nb-card-body>
 </nb-card>
 
