@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
+import { ImplicitAutenticationService } from '../../@core/utils/implicit_autentication.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,8 +13,8 @@ export class UtilService {
     constructor(
         private toastrService: NbToastrService,
         private translate: TranslateService,
-        ) { }
-    
+    ) { }
+
     /**
     *
     * Muestra un SweetAlert de que se realizo una operacion correctamente
@@ -24,8 +25,8 @@ export class UtilService {
         Swal.fire({
             title: titulo,
             text: mensaje,
-            icon: icono!=null ? icono:'success'
-          });
+            icon: icono != null ? icono : 'success'
+        });
     }
 
     /**
@@ -50,48 +51,44 @@ export class UtilService {
     * 
     * @param objArray
     */
-    showSwAlertQuery(titulo, query,confirmBtnText) : Promise<any> {
-        return new Promise((resolve) => { 
+    showSwAlertQuery(titulo, query, confirmBtnText): Promise<boolean> {
+        return new Promise((resolve) => {
             Swal.fire({
                 title: titulo,
-                text: query,
+                html: query,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: confirmBtnText
             }).then((result) => {
-                if (result.isConfirmed) {
-                    resolve(result);
-                }else{
-                    resolve(false);
-                }
-            })
+                resolve(result.isConfirmed);
+            }).catch(() => resolve(false));
         });
     }
-    
-     /**
-    *
-    * Muestra un SweetAlert para confirmacion simple
-    * 
-    * @param objArray
-    */
+
+    /**
+   *
+   * Muestra un SweetAlert para confirmacion simple
+   * 
+   * @param objArray
+   */
     showSwAlertConfirmation(msj: String): Promise<any> {
         return new Promise((resolve) => {
-          Swal.fire({
-            title: '¿Está seguro?',
-            text: '' + msj,
-            icon: 'question',
-            showConfirmButton: true,
-            showCancelButton: true
-          }).then((result) => {
+            Swal.fire({
+                title: '¿Está seguro?',
+                text: '' + msj,
+                icon: 'question',
+                showConfirmButton: true,
+                showCancelButton: true
+            }).then((result) => {
                 if (result.isConfirmed) {
                     resolve(result);
-                }else{
+                } else {
                     resolve(false);
                 }
             }
-          ).catch(() => resolve(false));
+            ).catch(() => resolve(false));
         });
     }
 
@@ -147,6 +144,24 @@ export class UtilService {
         }
     }
 
+    /**
+     *
+     * Valida la sesion y retorna el usuario WSO2
+     * 
+    */
+
+    getUsuarioWSO2() {
+        const autenticacion = new ImplicitAutenticationService();
+        if (autenticacion.live()) {
+            let usuarioWSO2 = autenticacion.getPayload().email
+                ? autenticacion.getPayload().email.split("@").shift()
+                : autenticacion.getPayload().sub;
+            return (usuarioWSO2);
+        }else{
+            autenticacion.logout();
+        }
+    }
+
 
     async termsAndConditional() {
         const { value: accept } = await Swal.fire({
@@ -159,6 +174,7 @@ export class UtilService {
             inputPlaceholder: "Acepto términos y condiciones",
             confirmButtonText:
                 'Continue&nbsp;<i class="fa fa-arrow-right"></i>',
+            showCloseButton: true,
             inputValidator: (result) => {
                 return !result && `Necesita aceptar términos y condiciones para continuar`
             }

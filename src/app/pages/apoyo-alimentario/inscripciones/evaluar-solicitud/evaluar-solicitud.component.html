@@ -183,6 +183,35 @@
                 </nb-accordion-item-body>
             </nb-accordion-item>
 
+            <!-- Observaciones -->
+            <nb-accordion-item *ngIf="observaciones!=[]">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Observaciones</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Titulo</th>
+                                <th scope="col">Mensaje</th>
+                                <th scope="col">Fecha creacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let obs of observaciones">
+                                <th><b>{{obs.Titulo}}</b></th>
+                                <td> {{obs.Valor}}</td>
+                                <td> {{ obs.FechaCreacion.split('.')[0] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success btn-block" (click)="agregarObservacion()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Agregar observacion
+                    </button>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
             <!-- Estado de la solicitud -->
             <nb-accordion-item *ngIf="solicitud!=null && !nueva">
                 <nb-accordion-item-header>
@@ -209,23 +238,30 @@
                             <label class="sub-item label-color-ud">
                                 Nuevo estado :
                             </label>
-                            <select class="sub-item border-warning" matNativeControl [(ngModel)]="nuevoEstado">
+
+                            <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                                <option [ngValue]="null">Selecciona el siguiente estado</option>
                                 <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
                                     {{estadoTipo.EstadoId.Nombre }}</option>
                             </select>
+                            <br>
 
                         </div>
-                        <div *ngIf="nuevoEstado!=null" class="item">
+                        <br>
+                        <div *ngIf="nuevoEstado!=null" class="item mt-3">
                             <label class="sub-item label-color-ud">
-                                Observacion:
+                                Observacion cambio de estado:
                             </label>
-                            <textarea [(ngModel)]="obseravcionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
-
+                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion"
+                                class="input-full-width size-medium status-basic shape-rectangle nb-transition"
+                                style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
                         </div>
                     </div>
                 </nb-accordion-item-body>
                 <hr>
             </nb-accordion-item>
+
+
 
         </nb-accordion>
         <hr>

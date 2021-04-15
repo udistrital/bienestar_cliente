@@ -9,9 +9,9 @@ import Swal from "sweetalert2";
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 import { environment } from '../../../../../environments/environment';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
-import { Estado } from '../../../../@core/data/models/solicitud/estado';
+import { Observacion } from '../../../../@core/data/models/solicitud/observacion';
 import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/estado-tipo-solicitud';
-import { SolicitudEvolucionEstado } from '../../../../@core/data/models/solicitud/solicitud-evolucion-estado';
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
     selector: 'ngx-evaluar-solicitud',
@@ -25,15 +25,16 @@ export class EvaluarSolicitudComponent implements OnInit {
     solicitud: Solicitud = null;
     solicitante: Solicitante = null;
     tercero: Tercero = null;
-    estadosTipoSolicitud: EstadoTipoSolicitud[]= [];
-    nuevoEstado: number= null;
-    obseravcionText: string = "";
-    
+    estadosTipoSolicitud: EstadoTipoSolicitud[] = [];
+    nuevoEstado: number = null;
+    obseravacionText: string = "";
+    observaciones: Observacion[] = [];
 
     constructor(
         private route: ActivatedRoute,
         private translate: TranslateService,
-        private listService: ListService
+        private listService: ListService,
+        private utilsService: UtilService
     ) {
         this.idSolicitud = parseInt(this.route.snapshot.paramMap.get('idSolicitud'));
         if (this.idSolicitud != 0) {
@@ -41,15 +42,15 @@ export class EvaluarSolicitudComponent implements OnInit {
             this.loadEstadoTipoSolicitud();
         } else {
             this.nueva = true;
-            this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,true).then(
-                (resp)=>{
-                  if(resp!=[]){
-                    this.periodo = resp[0].PeriodoId
-                  }else{
-                      this.showError("No hay un periodo para crear inscripciones");
-                  }
+            this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
+                (resp) => {
+                    if (resp != []) {
+                        this.periodo = resp[0].PeriodoId
+                    } else {
+                        this.showError("No hay un periodo para crear inscripciones");
+                    }
                 }
-            ).catch((error)=>this.showError(error));
+            ).catch((error) => this.showError(error));
         }
     }
 
@@ -59,6 +60,7 @@ export class EvaluarSolicitudComponent implements OnInit {
             if (this.solicitud != undefined) {
                 this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {
                     this.solicitante = respSolicitante;
+                    console.log("Solicitante=>", respSolicitante);
                     if (this.solicitante != undefined) {
                         this.listService.loadTercero(this.solicitante.TerceroId).then((respTerc) => {
                             this.tercero = respTerc;
@@ -67,6 +69,10 @@ export class EvaluarSolicitudComponent implements OnInit {
                         this.showError("No se encontro el solicitante");
                     }
                 }).catch((err) => this.showError(err));
+                this.listService.findObservacion(this.solicitud.Id).then((respObs) => {
+                    console.log(respObs);
+                    this.observaciones = respObs;
+                }).catch((errObs) => this.showError(errObs));
             } else {
                 this.showError("No se encontro la solicitud");
             }
@@ -75,19 +81,19 @@ export class EvaluarSolicitudComponent implements OnInit {
 
     loadEstadoTipoSolicitud() {
         this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)
-          .subscribe((result: any[]) => {
-            if (result['Data'].length > 0) {
-              let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
-              for (let estadoTipo of estadosTiposolicitud) {
-                this.estadosTipoSolicitud.push(estadoTipo);
-              }
-            }
-          },
-            error => {
-              console.error(error);
-            }
-          );
-      }
+            .subscribe((result: any[]) => {
+                if (result['Data'].length > 0) {
+                    let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
+                    for (let estadoTipo of estadosTiposolicitud) {
+                        this.estadosTipoSolicitud.push(estadoTipo);
+                    }
+                }
+            },
+                error => {
+                    console.error(error);
+                }
+            );
+    }
 
     cargarSolicitante(documento: string) {
         console.log(documento);
@@ -121,38 +127,104 @@ export class EvaluarSolicitudComponent implements OnInit {
     ngOnInit() {
     }
 
-    save(){
-        if(this.obseravcionText.length>0){
-            this.agregarObservacion(this.obseravcionText);
-        }else{
-            this.showError("La obseravacion esta vacia")
+    save() {
+        if (this.nuevoEstado == null) {
+            this.showError("El nuevo estado es obligatorio");
+            return;
         }
-        if(this.nuevoEstado!=null){
-            const nuevoEstadoTipo= this.estadosTipoSolicitud[this.nuevoEstado]
-            if(this.solicitud.EstadoTipoSolicitudId.Id!=nuevoEstadoTipo.Id){
-                this.cambiarEstado(nuevoEstadoTipo);
-            }else{
-                this.showError("El estado es el mismo");
-            }
+        const nuevoEstadoTipo = this.estadosTipoSolicitud[this.nuevoEstado];
+        if (nuevoEstadoTipo.Id == this.solicitud.EstadoTipoSolicitudId.Id) {
+            this.showError("El nuevo estado no puede ser igual al actual");
+            return;
+        }
+        if (this.obseravacionText == null) {
+            this.showError("Agregar una observacion es obligatorio");
+            return;
+        }
 
-        }
-        
-        console.log(this.obseravcionText);
-        console.log(this.nuevoEstado)
-        console.log(this.estadosTipoSolicitud[this.nuevoEstado].EstadoId.Nombre)
-        
+        let tituloObservacion = `Cambio estado ${this.solicitud.EstadoTipoSolicitudId.EstadoId.Nombre} a ` +
+            `${nuevoEstadoTipo.EstadoId.Nombre}`;
+
+        let obseracionCompleta = `${this.obseravacionText} // ${this.utilsService.getUsuarioWSO2()}`;
+
+        this.utilsService.showSwAlertQuery('¿Cambiar estado?', `<p>Su nuevo estado sera <strong>${nuevoEstadoTipo.EstadoId.Nombre}</strong></p>` +
+            `<p> <strong> Observacion:</strong>${obseracionCompleta}</p>`, 'Cambiar estado')
+            .then((result) => {
+                if (result) {
+                    this.listService.cambiarEstadoSolicitud(this.solicitud, nuevoEstadoTipo, this.tercero.Id).then((resp) => {
+                        this.solicitud.EstadoTipoSolicitudId = resp;
+                        Swal.fire("Cambio de estado", "Se cambio el estado de forma correcta", "success");
+                        this.listService.loadTiposObservacion(1).then((resp) => {
+                            /*  Agregar observacion*/
+                            let observacionObj = new Observacion();
+                            observacionObj.SolicitudId = this.solicitud;
+                            observacionObj.TerceroId = this.tercero.Id;
+                            observacionObj.Titulo = tituloObservacion;
+                            observacionObj.Valor = obseracionCompleta;
+                            observacionObj.TipoObservacionId = resp['Data'][0];
+                            this.listService.crearObservacion(observacionObj).then((resp) => {
+                                this.observaciones.push(observacionObj);
+                                Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                            }).catch();
+                        }).catch((err) => this.showError(err));
+
+                    }).catch((err) => {
+                        this.showError(err);
+                    })
+                } else {
+                    console.log("Se cancela");
+                }
+
+            });
+
+
+
+
+
+
     }
-    cambiarEstado(nuevoEstadoTipo: EstadoTipoSolicitud) {
-        this.listService.cambiarEstadoSolicitud(this.solicitud,nuevoEstadoTipo,this.tercero.Id).then((resp)=>{
-            this.solicitud.EstadoTipoSolicitudId=resp;
-        }).catch((err)=>{
-            this.showError(err);
+    agregarObservacion() {
+        Swal.mixin({
+            input: 'textarea',
+            confirmButtonText: 'Next &rarr;',
+            showCancelButton: true,
+            progressSteps: ['1', '2']
+        }).queue([
+            {
+                title: 'Titulo observacion',
+                text: 'Coloca el titulo de la observacion'
+            },{
+                title: 'Contenido de la observacion',
+                text: 'Coloca toda la infromacion necesaria para dejar un registro'
+            }
+        ]).then((result) => {            
+            if (result['value'][0]!="" && result['value'][1]!="") {
+                this.utilsService.showSwAlertQuery("¿Agregar observacion?",
+                `<b>${result['value'][0]}</b> ${result['value'][1]}`,"Agregar").then((respq)=>{
+                    if(respq){
+                        this.listService.loadTiposObservacion(1).then((resp) => {
+                            /*  Agregar observacion*/
+                            let observacionObj = new Observacion();
+                            observacionObj.SolicitudId = this.solicitud;
+                            observacionObj.TerceroId = this.tercero.Id;
+                            observacionObj.Titulo = result['value'][0];
+                            observacionObj.Valor = result['value'][1]+" // "+this.utilsService.getUsuarioWSO2();
+                            observacionObj.TipoObservacionId = resp['Data'][0];
+                            this.listService.crearObservacion(observacionObj).then((resp) => {
+                                this.observaciones.push(observacionObj);
+                                Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                            }).catch((errOb)=>this.showError(errOb));
+                        }).catch((err) => this.showError(err));
+                    }
+                });
+            }else{
+                this.showError("Todos los campos de la observacion deben ir llenos");
+            }
         })
+
     }
-    agregarObservacion(obseravcionText: string) {
-        this.listService.crearObservacion(this.solicitud,this.tercero.Id,obseravcionText);
-    }
- 
+
+
 
 }
 

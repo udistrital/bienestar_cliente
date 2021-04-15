@@ -38,7 +38,6 @@ export class InscritosComponent implements OnInit {
   fechaActual = new FechaModel();
   myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
   usuarioWSO2 = "";
-  private autenticacion = new ImplicitAutenticationService();
 
   constructor(
     private toastrService: NbToastrService,
@@ -57,9 +56,7 @@ export class InscritosComponent implements OnInit {
       showConfirmButton: false,
     });
     Swal.showLoading();
-    this.usuarioWSO2 = this.autenticacion.getPayload().email
-      ? this.autenticacion.getPayload().email.split("@").shift()
-      : this.autenticacion.getPayload().sub;
+    this.usuarioWSO2 = this.utilsService.getUsuarioWSO2();
     this.myDate = this.datePipe.transform(this.myDate, "yyyy-MM-dd");
     this.listService.findParametros();
     this.loadPeriodo();
@@ -115,10 +112,13 @@ export class InscritosComponent implements OnInit {
         this.listService.loadSolicitanteByIdTercero(terceroReg.Id, environment.IDS.IDSOLICITUDRADICADA, this.periodo.Nombre, true)
           .then((listSolicitante) => {
             /* Validamos si esta inscrito, o si se permiten no inscritos y el estudiante esta activo */
+            if (listSolicitante.length > 0) {
+              solicitudId=listSolicitante[0].Id;
+            }
             this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
               (permitir) => {
-                this.listService.loadFacultadTercero(terceroReg.Id).then((nomFacultad) => {
-                  if (nomFacultad == this.facultadAccesso[this.registroBase.sede]) {
+                this.listService.loadFacultadProyectoTercero(terceroReg.Id).then((nomFacultad) => {
+                  if (nomFacultad[0] == this.facultadAccesso[this.registroBase.sede]) {
                     this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
                       this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
                     }).catch((error) => {
@@ -126,9 +126,10 @@ export class InscritosComponent implements OnInit {
                     });
                   }
                   else {
-                    this.showFacultadDiferente().then(
+                    this.utilsService.showSwAlertQuery('Estudiante de otra facultad',"¿Deseas aceptar este registro?",'Registrar')
+                    .then(
                       (resp) => {
-                        if (resp.isConfirmed) {
+                        if (resp) {
                           this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
                             this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
                           }).catch((error) => {
@@ -293,12 +294,5 @@ export class InscritosComponent implements OnInit {
     );
   }
 
-
-  private showFacultadDiferente(): Promise<any> {
-    return new Promise((resolve) => {
-      this.utilsService.showSwAlertQuery('Estudiante de otra facultad',"¿Deseas aceptar este registro?",'Registrar')
-      .then((result) => resolve(result)).catch(() => resolve(false));
-    });
-  }
 
 }

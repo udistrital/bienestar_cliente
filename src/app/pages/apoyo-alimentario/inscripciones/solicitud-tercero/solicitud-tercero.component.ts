@@ -105,9 +105,9 @@ export class SolicitudTerceroComponent implements OnInit {
           let usuarioWSO2 = this.autenticacion.getPayload().email
             ? this.autenticacion.getPayload().email.split("@").shift()
             : this.autenticacion.getPayload().sub;
-          //usuarioWSO2 = "daromeror";
+          usuarioWSO2 = "daromeror";
           //usuarioWSO2 = "";
-          usuarioWSO2 = "sagomezl";
+          //usuarioWSO2 = "sagomezl";
 
           this.listService.loadTerceroByWSO2(usuarioWSO2).then((respTecero) => {
             console.log("loadTerceroByWSO2");
@@ -136,13 +136,25 @@ export class SolicitudTerceroComponent implements OnInit {
                         Swal.close();
                       }).catch((errorSol)=> this.showError("Solicitud no encontrada",errorSol));
                     }else{
+                      this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC)=>{
+                        this.listInfoComplementaria=respIC;
+                        this.inicializarFormularios();
+                      }).catch((errIC)=>{
+                        this.showError("error",errIC);
+                        this.inicializarFormularios();
+                      });
                       console.log("Iniciamos formularios");
                       
-                      this.inicializarFormularios();
+                      
                     }
                   }).catch((errorSolT) => {
                     this.showError("Solicitud no existe",errorSolT);
                   });
+                  this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
+                    this.estudiante.Facultad=nomFacultad[0];
+                    this.estudiante.ProyectoCurricular=nomFacultad[1];
+                  });
+
               }else{
                 this.showError("Documentos del estudiante no encontrados","No se encontro el carnet y documento de identificacion");
               }
@@ -156,7 +168,6 @@ export class SolicitudTerceroComponent implements OnInit {
       }).catch((error) => {
         this.showError("Periodo Vacio",error);
       });
-
   }
  
 
@@ -170,6 +181,8 @@ export class SolicitudTerceroComponent implements OnInit {
         "dd/MM/yyyy"
       );
       let infComp: InfoComplementariaTercero;
+      
+      console.log(this.listInfoComplementaria);
 
       for (infComp of this.listInfoComplementaria) {
         const nombreGrupoInfo =
@@ -351,8 +364,10 @@ export class SolicitudTerceroComponent implements OnInit {
   /* Clasifica informacion de contacto */
   agregarInformacionContacto(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
+    console.log(infComp);
     switch (nombreInfComp) {
       case "CORREO INSTITUCIONAL":
+        console.log(infComp);
         this.estudiante.Correo_Institucional = JSON.parse(infComp.Dato).value;
         break;
 

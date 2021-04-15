@@ -14,7 +14,6 @@ import { SolicitudService } from '../data/solicitud.service';
 import { EstadoTipoSolicitud } from '../data/models/solicitud/estado-tipo-solicitud';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { ImplicitAutenticationService } from '../utils/implicit_autentication.service';
 import { Tercero } from '../data/models/terceros/tercero';
 import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicitud";
 import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
@@ -22,11 +21,12 @@ import { OikosService } from "../data/oikos.service"
 import { AcademicaService } from '../data/academica.service';
 import { SolicitudEvolucionEstado } from '../data/models/solicitud/solicitud-evolucion-estado';
 import { formatDate } from '@angular/common';
+import { Observacion } from '../data/models/solicitud/observacion';
+import { InfoComplementariaTercero } from '../data/models/terceros/info_complementaria_tercero';
 
 @Injectable()
 
 export class ListService {
-
 
   constructor(
     private parametrosService: ParametrosService,
@@ -42,22 +42,27 @@ export class ListService {
 
   /* Cargamos tercero por el ID */
   loadTercero(TerceroId: number): Promise<Tercero> {
+    console.log("IDTERCERO===>", TerceroId);
     return new Promise((resolve, reject) => {
-      this.tercerosService.get(`tercero?query=Id:${TerceroId}`)
-        .subscribe(
-          (result: any[]) => {
-            console.log(result)
-            if (result.length > 0) {
-              resolve(result[0]);
-            }
-            else {
-              resolve(undefined);
-            }
-          },
-          error => {
-            reject(error);
-          },
-        );
+      if (TerceroId != undefined && TerceroId > 0) {
+        this.tercerosService.get(`tercero?query=Id:${TerceroId}`)
+          .subscribe(
+            (result: any[]) => {
+              console.log(result)
+              if (result.length > 0) {
+                resolve(result[0]);
+              }
+              else {
+                resolve(undefined);
+              }
+            },
+            error => {
+              reject(error);
+            },
+          );
+      } else {
+        reject("No se tiene la referencia del tercero");
+      }
     });
 
   }
@@ -121,7 +126,7 @@ export class ListService {
   }
 
   /* Cargamos la vinculacion de un tercero */
-  loadFacultadTercero(Id: number) {
+  loadFacultadProyectoTercero(Id: number) : Promise<string[]>{
     return new Promise((resolve, reject) => {
       /* Cargamos vinculacion*/
       this.tercerosService
@@ -144,8 +149,10 @@ export class ListService {
               /* Cargamos facultad y proyecto */
               this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
                 .subscribe((resp) => {
+                  console.log("======FACULTAD==========");
+                  console.log(resp);
                   if (Object.keys(resp[0]).length > 0) {
-                    resolve(resp[0].PadreId.Nombre);
+                    resolve([resp[0].PadreId.Nombre,resp[0].HijaId.Nombre]);
                   } else {
                     reject("Dependencia padre no encontrada");
                   }
@@ -160,6 +167,30 @@ export class ListService {
             reject(err);
           });
     });
+  }
+
+
+  findInfoComplementariaTercero(idTercero: number): Promise<InfoComplementariaTercero[]> {
+    return new Promise((resolve, reject) => {
+      if (idTercero != null && idTercero > 0) {
+        this.tercerosService.get(`info_complementaria_tercero?query=TerceroId.Id:${idTercero}&limit=-1`).subscribe(
+          (result: any[]) => {
+            if(Object.keys(result[0]).length>0){
+              resolve(result);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+
+      } else {
+        reject("Id del tercero erronea")
+      }
+    });
+
+
+    /* info_complementaria_tercero?query=TerceroId.Id%3A9823 */
   }
 
   /* ************PARAMETOS SERVICE ********************* */
@@ -252,7 +283,7 @@ export class ListService {
       this.parametrosService.get(`parametro_periodo?query=${consulta}sortby=id&order=desc&limit=-1`).subscribe(
         (result: any[]) => {
           //console.log(Object.keys(result['Data'][0]).length);
-          
+
           if (Object.keys(result['Data'][0]).length > 0) {
             resolve(result['Data']);
           } else {
@@ -312,15 +343,15 @@ export class ListService {
             .subscribe(res => {
               solicitud.Id = res['Data']['Id']
               /* No se si funciona */
-              this.crearEvolucionEstado(idTercero,solicitud,null);
-  
+              this.crearEvolucionEstado(idTercero, solicitud, null);
+
               const solicitante: Solicitante = new Solicitante();
               solicitante.TerceroId = idTercero;
               solicitante.SolicitudId = solicitud;
               this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                 .subscribe(res => {
-                window.location.reload();
-              });
+                  window.location.reload();
+                });
 
             });
         }
@@ -393,7 +424,7 @@ export class ListService {
       this.solicitudService.get(`solicitante?query=SolicitudId.Id:${idSolicitud}`)
         .subscribe(
           (result: any[]) => {
-            if (result.length > 0) {
+            if (Object.keys(result[0]).length > 0) {
               resolve(result[0]);
             }
             else {
@@ -547,39 +578,78 @@ export class ListService {
   }
 
   cambiarEstadoSolicitud(solicitud: Solicitud, nuevoEstadoTipo: EstadoTipoSolicitud, idTercero: number): Promise<EstadoTipoSolicitud> {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       let estadoTipoAnterior = solicitud.EstadoTipoSolicitudId;
       solicitud.EstadoTipoSolicitudId = nuevoEstadoTipo;
       this.solicitudService.put('solicitud', JSON.stringify(solicitud), solicitud.Id)
         .subscribe(res => {
-          this.crearEvolucionEstado(idTercero, solicitud, estadoTipoAnterior).then((resp)=>{
+          this.crearEvolucionEstado(idTercero, solicitud, estadoTipoAnterior).then((resp) => {
             resolve(nuevoEstadoTipo);
-          }).catch((error)=>reject(error));
-        },(err=>reject(err)));
+          }).catch((error) => reject(error));
+        }, (err => reject(err)));
     });
   }
 
-  crearObservacion(solicitud: Solicitud, idTercero: number, obseravcionText: string) {
-    console.log("Se crea observacion=>",);
-    console.log(solicitud);
-    console.log(idTercero);
-    console.log(obseravcionText);
+  crearObservacion(observacion: Observacion) {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('observacion', JSON.stringify(observacion))
+        .subscribe(res => {
+          resolve(true);
+        }, error => { reject(error) });
+    });
+
   }
 
-  crearEvolucionEstado(idTercero: number, solicitud: Solicitud, anteriorEstado: EstadoTipoSolicitud): Promise<any>{
-    return new Promise((resolve,reject)=>{
-      let see= new SolicitudEvolucionEstado();
-      see.TerceroId=idTercero;
-      see.SolicitudId=solicitud;
-      see.EstadoTipoSolicitudIdAnterior=anteriorEstado;
-      see.EstadoTipoSolicitudId=solicitud.EstadoTipoSolicitudId;
+  crearEvolucionEstado(idTercero: number, solicitud: Solicitud, anteriorEstado: EstadoTipoSolicitud): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let see = new SolicitudEvolucionEstado();
+      see.TerceroId = idTercero;
+      see.SolicitudId = solicitud;
+      see.EstadoTipoSolicitudIdAnterior = anteriorEstado;
+      see.EstadoTipoSolicitudId = solicitud.EstadoTipoSolicitudId;
       this.solicitudService.post('solicitud_evolucion_estado', JSON.stringify(see))
-      .subscribe(res => {
-        resolve(true);
-      },error=>{reject(error)});
+        .subscribe(res => {
+          resolve(true);
+        }, error => { reject(error) });
     });
   }
 
+  loadTiposObservacion(idTipo: number): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      let query = "";
+      if (idTipo != null) {
+        query = `?query=Id:${idTipo}`
+      }
+      this.solicitudService.get(`tipo_observacion${query}`)
+        .subscribe(
+          (result: any[]) => {
+            resolve(result);
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+  }
+
+  findObservacion(idSolicitud: number): Promise<Observacion[]> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc`)
+        .subscribe(
+          (result: any[]) => {
+            console.log("===Obsevaciones===");
+            if (Object.keys(result[0]).length == 0) {
+              resolve([])
+            } else {
+              resolve(result)
+            }
+          },
+          error => {
+            reject(error)
+          },
+        );
+    });
+  }
 
   /* ******** ACADEMICA SERVICE *********** */
   cargarEstadoTercero(Idtercero: number): Promise<any> {
