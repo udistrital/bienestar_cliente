@@ -115,6 +115,8 @@ export class InscritosComponent implements OnInit {
             if (listSolicitante.length > 0) {
               solicitudId=listSolicitante[0].Id;
             }
+            console.log(solicitudId );
+            
             this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
               (permitir) => {
                 this.listService.loadFacultadProyectoTercero(terceroReg.Id).then((nomFacultad) => {
@@ -184,7 +186,7 @@ export class InscritosComponent implements OnInit {
 
   registrar(idSede: string, idSolicitud: number, idTercero: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      resolve(`Registro #${145}`);
+  /*     resolve(`Registro #${145}`); */
       const idSed = this.sedesAccesso[idSede].Id;
       const newReg: RegistroApoyo =
         new RegistroApoyo(this.periodo.Id,
@@ -193,11 +195,11 @@ export class InscritosComponent implements OnInit {
           idSolicitud,
           idTercero,
           this.usuarioWSO2);
-     /*  this.solicitudService.post('registro_apoyo', JSON.stringify(newReg))
+      this.solicitudService.post('registro_apoyo', JSON.stringify(newReg))
         .subscribe(res => {
           newReg.id = res['Data']['Id']
           resolve(`Registro #${newReg.id}`);
-        }, (error) => reject(error)); */
+        }, (error) => reject(error));
     });
   }
 

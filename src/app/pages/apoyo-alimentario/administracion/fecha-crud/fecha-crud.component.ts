@@ -34,7 +34,6 @@ export class FechaCrudComponent implements OnInit {
     private listService: ListService,
     private toastrService: NbToastrService,) {
     //this.listService.findServicioApoyo()
-    listService.findParametroPeriodo(348);
     this.loadPeriodo();
   }
 

@@ -38,11 +38,16 @@ export class ListService {
   ) { }
 
 
-  /* TERCEROS SERVICE  */
+  /* *******TERCEROS SERVICE**************  */
 
-  /* Cargamos tercero por el ID */
+  /**
+   *Cargamos un tercero por su ID
+   *
+   * @param {number} TerceroId
+   * @return {*}  {Promise<Tercero>}
+   * @memberof ListService
+   */
   loadTercero(TerceroId: number): Promise<Tercero> {
-    console.log("IDTERCERO===>", TerceroId);
     return new Promise((resolve, reject) => {
       if (TerceroId != undefined && TerceroId > 0) {
         this.tercerosService.get(`tercero?query=Id:${TerceroId}`)
@@ -64,10 +69,15 @@ export class ListService {
         reject("No se tiene la referencia del tercero");
       }
     });
-
   }
 
-  /* Cargamos tercero por el usuario WS02 */
+  /**
+   *Cargamos un tercero por su Usuario WSO2
+   *
+   * @param {string} usuarioWSO2
+   * @return {*}  {Promise<Tercero>}
+   * @memberof ListService
+   */
   loadTerceroByWSO2(usuarioWSO2: string): Promise<Tercero> {
     return new Promise((resolve, reject) => {
       this.tercerosService.get(`tercero?query=UsuarioWSO2:${usuarioWSO2}`)
@@ -83,8 +93,14 @@ export class ListService {
     });
   }
 
-  /* Carga tercero por numero de Documento */
-  loadTerceroByDocumento(documento: string): Promise<any> {
+  /**
+   * Carga tercero por numero de Documento 
+   *
+   * @param {string} documento
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  loadTerceroByDocumento(documento: string): Promise<Tercero> {
     return new Promise((resolve, reject) => {
       this.tercerosService
         .get(`datos_identificacion?query=Numero:${documento}`)
@@ -101,13 +117,20 @@ export class ListService {
 
 
   /* Buscamos documentos asociados a un tercero por la ID  */
+  /**
+   * Buscamos datos de identificacion por la ID del tercero
+   * y el codigo abreviacion del documento (opcional)A
+   *
+   * @param {number} idTercero
+   * @param {String} codAbreviacion
+   * @return {*}  {Promise<DatosIdentificacion[]>}
+   * @memberof ListService
+   */
   findDocumentosTercero(idTercero: number, codAbreviacion: String): Promise<DatosIdentificacion[]> {
     return new Promise((resolve, reject) => {
       this.tercerosService.get(`datos_identificacion?query=TerceroId.Id:${idTercero}${codAbreviacion == null ? "" : ",TipoDocumentoId.CodigoAbreviacion:" + codAbreviacion}`)
         .subscribe(
           (result: any[]) => {
-            console.log(result);
-
             if (Object.keys(result[0]).length > 0) {
               let documentos: DatosIdentificacion[] = [];
               for (const documento of result) {
@@ -126,12 +149,20 @@ export class ListService {
   }
 
   /* Cargamos la vinculacion de un tercero */
-  loadFacultadProyectoTercero(Id: number) : Promise<string[]>{
+  /**
+   *Cargamos facultad y proyecto curricular de un tercero por su ID
+   *
+   * @param {number} terceroId
+   * @return {*}  {Promise<string[]>}
+   * [facultad, proyecto]
+   * @memberof ListService
+   */
+  loadFacultadProyectoTercero(terceroId: number): Promise<string[]> {
     return new Promise((resolve, reject) => {
       /* Cargamos vinculacion*/
       this.tercerosService
         .get(
-          `vinculacion?query=TerceroPrincipalId.Id:${Id}&sortby=Id&order=desc&limit=-1`
+          `vinculacion?query=TerceroPrincipalId.Id:${terceroId}&sortby=Id&order=desc&limit=-1`
         )
         .subscribe(
           (result) => {
@@ -152,7 +183,7 @@ export class ListService {
                   console.log("======FACULTAD==========");
                   console.log(resp);
                   if (Object.keys(resp[0]).length > 0) {
-                    resolve([resp[0].PadreId.Nombre,resp[0].HijaId.Nombre]);
+                    resolve([resp[0].PadreId.Nombre, resp[0].HijaId.Nombre]);
                   } else {
                     reject("Dependencia padre no encontrada");
                   }
@@ -169,13 +200,19 @@ export class ListService {
     });
   }
 
-
+  /**
+   *Busca la informacion de un tercero por su ID
+   *
+   * @param {number} idTercero
+   * @return {*}  {Promise<InfoComplementariaTercero[]>}
+   * @memberof ListService
+   */
   findInfoComplementariaTercero(idTercero: number): Promise<InfoComplementariaTercero[]> {
     return new Promise((resolve, reject) => {
       if (idTercero != null && idTercero > 0) {
         this.tercerosService.get(`info_complementaria_tercero?query=TerceroId.Id:${idTercero}&limit=-1`).subscribe(
           (result: any[]) => {
-            if(Object.keys(result[0]).length>0){
+            if (Object.keys(result[0]).length > 0) {
               resolve(result);
             }
           },
@@ -189,14 +226,15 @@ export class ListService {
       }
     });
 
-
-    /* info_complementaria_tercero?query=TerceroId.Id%3A9823 */
   }
 
   /* ************PARAMETOS SERVICE ********************* */
 
-
-  /* Listamos los periodos academicos */
+  /**
+   *Carga los periodos academicos en el store
+   *
+   * @memberof ListService
+   */
   public findPeriodosAcademico() {
     this.store.select(REDUCER_LIST.PeriodoAcademico).subscribe(
       (list: any) => {
@@ -215,7 +253,31 @@ export class ListService {
     );
   }
 
-  /* Creamos un parametro_periodo*/
+  public findPeriodosAcademicoProm(): Promise<Periodo[]> {
+    return new Promise((resolve, reject) => {
+      this.parametrosService.get('periodo/?query=CodigoAbreviacion:PA&sortby=Id&order=desc&limit=-1')
+        .subscribe(
+          (result: any[]) => {
+            if(result['Data'].length>0)
+              resolve(result['Data']);
+            else{
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          });
+    });
+  }
+
+  /**
+   *Creamos un parametro asociado a un periodo
+   *
+   * @param {Periodo} periodo
+   * @param {number} idParam
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
   public inciarParametroPeriodo(periodo: Periodo, idParam: number): Promise<any> {
     return new Promise((resolve, reject) => {
       const paramPeriodo: ParametroPeriodo = new ParametroPeriodo();
@@ -228,7 +290,7 @@ export class ListService {
             paramPeriodo.ParametroId = parametro
             this.parametrosService.post('parametro_periodo', JSON.stringify(paramPeriodo))
               .subscribe(res => {
-                resolve(true);
+                resolve(res['Data']);
                 /* window.location.reload(); */
               });
           } else {
@@ -241,13 +303,22 @@ export class ListService {
     });
   }
 
-  /* Actulizamos un parametro */
+  /**
+   *Hacemos un update a un Parametro_periodo
+   *
+   * @param {ParametroPeriodo} parametro
+   * @memberof ListService
+   */
   public actualizarInscripcionesPeriodo(parametro: ParametroPeriodo) {
     let id = parametro.Id;
     this.parametrosService.put('parametro_periodo', JSON.stringify(parametro), id).subscribe();
   }
 
-  /* Cargamos todos los parametros */
+  /**
+   *Buscamos parametros asociados a apoyo alimentario y los guardamos en el store
+   *
+   * @memberof ListService
+   */
   findParametros() {
     this.store.select(REDUCER_LIST.Parametros).subscribe(
       (list: any) => {
@@ -266,10 +337,26 @@ export class ListService {
     );
   }
 
+  /**
+   *Busca parametros
+   *
+   * @param {number} idNumber
+   * @return {*} 
+   * @memberof ListService
+   */
   findParametrosSp(idNumber: number) {
     return this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${idNumber}&sortby=id&order=desc&limit=-1`)
   }
 
+  /**
+   *Busca Parametos de apoyo alimentario 
+   * Los parametos son opcionales
+   * @param {number} idPeriodo
+   * @param {number} idTipo
+   * @param {boolean} estado
+   * @return {*}  {Promise<ParametroPeriodo[]>}
+   * @memberof ListService
+   */
   findParametrosByPeriodoTipoEstado(idPeriodo: number, idTipo: number, estado: boolean): Promise<ParametroPeriodo[]> {
     return new Promise((resolve, reject) => {
       let query = [];
@@ -280,7 +367,10 @@ export class ListService {
       for (let i = 0; i < query.length; i++) {
         consulta += query[i] + (i + 1 == query.length ? "&" : ",");
       }
-      this.parametrosService.get(`parametro_periodo?query=${consulta}sortby=id&order=desc&limit=-1`).subscribe(
+      if(consulta.length>0){
+        consulta="query="+consulta;
+      }
+      this.parametrosService.get(`parametro_periodo?${consulta}sortby=id&order=desc&limit=-1`).subscribe(
         (result: any[]) => {
           //console.log(Object.keys(result['Data'][0]).length);
 
@@ -299,35 +389,15 @@ export class ListService {
     });
   }
 
-
-  findParametroPeriodo(idNumber: number) {
-    this.store.select(REDUCER_LIST.Parametros).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          /* this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=-1`) */
-          this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber}&sortby=id&order=desc&limit=1`)
-            .subscribe(
-              (result: any[]) => {
-                this.addList(REDUCER_LIST.Parametros, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.Parametros, []);
-              },
-            );
-        }
-      },
-    );
-  }
-
-  findParametroPeriodoSp(idNumber: number): Observable<any[]> {
-    return this.parametrosService.get(`parametro_periodo?query=ParametroId.id:${idNumber},Activo:true&sortby=id&order=desc&limit=1`)
-  }
-
-
-
   /* ********SOLICITUDES SERVICE*************** */
 
-
+  /**
+   *Crea una solicitud Apoyo Alimentario
+   *
+   * @param {number} idTercero
+   * @param {ReferenciaSolicitud} referenciaSol
+   * @memberof ListService
+   */
   crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud) {
     const solicitud: Solicitud = new Solicitud();
     solicitud.EstadoTipoSolicitudId = null;
@@ -361,6 +431,12 @@ export class ListService {
         });
   }
 
+
+  /**
+   *Busca solicitudes relacionadas a apoyo alimentario
+   *
+   * @memberof ListService
+   */
   findSolicitudes() {
     this.store.select(REDUCER_LIST.SolicitudesRadicadas).subscribe(
       (list: any) => {
@@ -379,26 +455,14 @@ export class ListService {
     );
   }
 
-  findSolicitudesRadicadas() {
-    this.store.select(REDUCER_LIST.SolicitudesRadicadas).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.Id:${environment.IDS.IDSOLICITUDRADICADA}`)
-            .subscribe(
-              (result: any[]) => {
-                this.addList(REDUCER_LIST.SolicitudesRadicadas, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.SolicitudesRadicadas, []);
-              },
-            );
-        }
-      },
-    );
-  }
-
-
-  loadSolicitud(idSolicitud: number): Promise<any> {
+  /**
+   *Carga solicitud por la ID
+   *
+   * @param {number} idSolicitud
+   * @return {*}  {Promise<Solicitud>}
+   * @memberof ListService
+   */
+  loadSolicitud(idSolicitud: number): Promise<Solicitud> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitud?query=Id:${idSolicitud}`)
         .subscribe(
@@ -419,7 +483,14 @@ export class ListService {
     });
   }
 
-  loadSolicitanteBySolicitud(idSolicitud: any): Promise<any> {
+  /**
+   *Carga el solicitante de una solicitud
+   *
+   * @param {number} idSolicitud
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  loadSolicitanteBySolicitud(idSolicitud: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitante?query=SolicitudId.Id:${idSolicitud}`)
         .subscribe(
@@ -439,56 +510,28 @@ export class ListService {
 
   }
 
-  findSolicitudTercero(idTercero: number) {
-    this.store.select(REDUCER_LIST.SolicitudTercero).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.solicitudService.get(`solicitante?query=TerceroId:${idTercero}`)
-            .subscribe(
-              (result: any[]) => {
-                let solicitante: Solicitante;
-                for (solicitante of result) {
-                  const solicitud: Solicitud = solicitante.SolicitudId;
-                  if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
-                    this.addList(REDUCER_LIST.SolicitudTercero, [solicitud]);
-                    break;
-                  }
-                }
-              },
-              error => {
-                this.addList(REDUCER_LIST.SolicitudTercero, []);
-              },
-            );
-        }
-      },
-    );
-  }
-
-  findSolicitudTerceroSp(idTercero: number): any {
-    this.solicitudService.get(`solicitante?query=TerceroId:${idTercero}`)
-      .subscribe(
-        (result: any[]) => {
-          let solicitante: Solicitante;
-          for (solicitante of result) {
-            const solicitud: Solicitud = solicitante.SolicitudId;
-            if (solicitud.EstadoTipoSolicitudId.Id === environment.IDS.IDSOLICITUDRADICADA) {
-              return solicitud;
-            }
-          }
-          return null;
-        },
-        error => {
-          this.addList(REDUCER_LIST.SolicitudTercero, []);
-        },
-      );
-  }
-
-
+  /**
+   *Carga el estado_tipo_solicitud por su ID
+   *
+   * @param {number} idTipoSol
+   * @return {*} 
+   * @memberof ListService
+   */
   findEstadoTipoSolicitud(idTipoSol: number) {
     return this.solicitudService.get(`estado_tipo_solicitud?query=TipoSolicitud.Id:${idTipoSol}`);
   }
 
-
+  /**
+   *Carga lista de solicitantes  basado en el ID del tercero
+   *Se pueden agregar filtros de tipo, periodo y estado
+   * 
+   * @param {number} IdTercero
+   * @param {number} tipoSolicitud
+   * @param {String} nomPeriodo
+   * @param {boolean} estado
+   * @return {*}  {Promise<Solicitante[]>}
+   * @memberof ListService
+   */
   loadSolicitanteByIdTercero(IdTercero: number, tipoSolicitud: number, nomPeriodo: String, estado: boolean): Promise<Solicitante[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService
@@ -539,44 +582,16 @@ export class ListService {
     });
   }
 
-  loadSolicitudSolicitante_Periodo(terceroId: number, nomPeriodo: String): Promise<any> {
-    return new Promise((resolve, reject) => {
-      /* Cargamos solicitud */
-      this.solicitudService
-        .get(`solicitante?query=TerceroId:${terceroId}`)
-        .subscribe(
-          (result: any[]) => {
-            let solicitante: Solicitante;
-            if (Object.keys(result[0]).length > 0) {
-              /* Consultamos las solicitudes de un solicitante */
-              for (solicitante of result) {
-                const sol: Solicitud = solicitante.SolicitudId;
-                /* Se busca una solicitud radicada */
-                if (sol.EstadoTipoSolicitudId.TipoSolicitud.Id === environment.IDS.IDTIPOSOLICITUD) {
-                  /* Se busca una referencia correspondiente al periodo actual */
-                  let refSol: ReferenciaSolicitud;
-                  try {
-                    refSol = JSON.parse(sol.Referencia);
-                    if (refSol != null) {
-                      if (refSol.Periodo === nomPeriodo) {
-                        resolve(sol);
-                      }
-                    }
-                  } catch (error) {
-                    reject(error);
-                  }
-                }
 
-              }
-              reject("No se encontro ningunas solicitud asociada al " + nomPeriodo);
-
-            } else {
-              reject("El usuario no tiene solicitudes");
-            }
-          });
-    });
-  }
-
+  /**
+   *Cambia el estado de una solicitud y registra la evolucion
+   *
+   * @param {Solicitud} solicitud
+   * @param {EstadoTipoSolicitud} nuevoEstadoTipo
+   * @param {number} idTercero
+   * @return {*}  {Promise<EstadoTipoSolicitud>}
+   * @memberof ListService
+   */
   cambiarEstadoSolicitud(solicitud: Solicitud, nuevoEstadoTipo: EstadoTipoSolicitud, idTercero: number): Promise<EstadoTipoSolicitud> {
     return new Promise((resolve, reject) => {
       let estadoTipoAnterior = solicitud.EstadoTipoSolicitudId;
@@ -590,17 +605,17 @@ export class ListService {
     });
   }
 
-  crearObservacion(observacion: Observacion) {
-    return new Promise((resolve, reject) => {
-      this.solicitudService.post('observacion', JSON.stringify(observacion))
-        .subscribe(res => {
-          resolve(true);
-        }, error => { reject(error) });
-    });
-
-  }
-
-  crearEvolucionEstado(idTercero: number, solicitud: Solicitud, anteriorEstado: EstadoTipoSolicitud): Promise<any> {
+  /**
+   *Crea la evolucion de los estados de una solicitud
+   *
+   * @private
+   * @param {number} idTercero
+   * @param {Solicitud} solicitud
+   * @param {EstadoTipoSolicitud} anteriorEstado
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  private crearEvolucionEstado(idTercero: number, solicitud: Solicitud, anteriorEstado: EstadoTipoSolicitud): Promise<any> {
     return new Promise((resolve, reject) => {
       let see = new SolicitudEvolucionEstado();
       see.TerceroId = idTercero;
@@ -614,6 +629,30 @@ export class ListService {
     });
   }
 
+  /**
+   *Crea una observacion asociada a una solicitud
+   *
+   * @param {Observacion} observacion
+   * @return {*} 
+   * @memberof ListService
+   */
+  crearObservacion(observacion: Observacion) {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('observacion', JSON.stringify(observacion))
+        .subscribe(res => {
+          resolve(true);
+        }, error => { reject(error) });
+    });
+
+  }
+
+  /**
+   *Carga los tipos de observacion
+   *
+   * @param {number} idTipo
+   * @return {*}  {Promise<any[]>}
+   * @memberof ListService
+   */
   loadTiposObservacion(idTipo: number): Promise<any[]> {
     return new Promise((resolve, reject) => {
       let query = "";
@@ -632,6 +671,13 @@ export class ListService {
     });
   }
 
+  /**
+   *Busca observaciones de una solicitud
+   *
+   * @param {number} idSolicitud
+   * @return {*}  {Promise<Observacion[]>}
+   * @memberof ListService
+   */
   findObservacion(idSolicitud: number): Promise<Observacion[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc`)
@@ -652,6 +698,14 @@ export class ListService {
   }
 
   /* ******** ACADEMICA SERVICE *********** */
+
+  /**
+   *Carga los datos basicos de un tercero
+   *
+   * @param {number} Idtercero
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
   cargarEstadoTercero(Idtercero: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this.findDocumentosTercero(Idtercero, 'CODE').then((carnet) => {
@@ -665,8 +719,6 @@ export class ListService {
           reject("No se encuentra carnet asociado");
         }
       }).catch((error) => reject(error));
-
-
     });
   }
 

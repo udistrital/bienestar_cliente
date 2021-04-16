@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ListService } from '../../../../@core/store/list.service';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo'
-import { IAppState } from '../../../../@core/store/app.state';
-import { Store } from '@ngrx/store';
 import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 import { environment } from '../../../../../environments/environment';
 
@@ -21,12 +19,23 @@ export class PeriodosComponent implements OnInit {
 
 
   constructor(
-    private store: Store<IAppState>,
     private listService: ListService) {
-    this.listService.findPeriodosAcademico();
-    this.loadLists();
-    this.listService.findParametros();
-    this.loadParametros();  
+    this.listService.findPeriodosAcademicoProm().then((resp)=>{
+      console.log(resp);
+      if(resp.length>0){
+        resp.forEach(element => {
+          this.periodos.push(element);
+          let vacio = ["", "", ""];
+          this.estadoPeriodo.push(vacio);
+        })
+      }else{
+        this.ventanaError("No se encontraron periodos")
+      }
+    }).catch((err)=>this.ventanaError(err));
+    this.listService.findParametrosByPeriodoTipoEstado(null,null,null).then((resp)=>{
+      this.parametros=resp;
+      this.cargarEstadoPeriodos();
+    });
   }
 
   ngOnInit(): void {
@@ -80,50 +89,8 @@ export class PeriodosComponent implements OnInit {
       }
     }
   }
-
-
-  public loadLists() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listPA = list.listPeriodoAcademico
-        if (listPA.length > 0 && this.periodos.length === 0) {
-          const periodos = <Array<Periodo>>listPA[0]['Data'];
-          console.log('List - periodos :>> ', periodos.length);
-          periodos.forEach(element => {
-            this.periodos.push(element);
-            let vacio = ["", "", ""];
-            this.estadoPeriodo.push(vacio);
-          })
-          console.log('periodos cargados:>> ', this.periodos.length);
-          this.cargarEstadoPeriodos();
-        }
-      },
-    );
-  }
   
-  public loadParametros() {
-    console.log("Cargando parametros");
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listaParam = list.listParametros;
-        console.log(listaParam);
-        if (listaParam.length > 0) {
-          this.parametros=[];
-          const parametros = <Array<ParametroPeriodo>>listaParam[(listaParam.length-1)]['Data'];
-          console.log(parametros);
-          if (parametros != undefined) {
-            parametros.forEach(element => {
-              this.parametros.push(element);
-            });
-            this.cargarEstadoPeriodos();
-          }
-          
-        }
-      },
-    );
-  }
-
-    private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
+   private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
     for (let parametro of this.parametros) {
       if (Object.keys(parametro).length > 0) {
         if (idPeriodo === parametro.PeriodoId.Id) {
@@ -159,8 +126,9 @@ export class PeriodosComponent implements OnInit {
         const idParametro = this.getIdParametro(nombreParam);
         if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
           this.listService.inciarParametroPeriodo(periodo, idParametro).then((resp)=>{
-            this.listService.findParametros();
-            this.loadParametros();  
+            console.log(resp);
+            this.parametros.push(resp);
+            this.cargarEstadoPeriodos();
             Swal.fire(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`,"success");
           }).catch((error)=>this.ventanaError(error));
         } else {

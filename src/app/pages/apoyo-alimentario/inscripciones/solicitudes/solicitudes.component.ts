@@ -131,7 +131,6 @@ export class SolicitudesComponent implements OnInit {
           }
           console.info(this.periodo);
           //this.periodo = result['Data'][0].PeriodoId;
-          //this.listService.findSolicitudesRadicadas();
           //this.loadLists();
         }
       },
