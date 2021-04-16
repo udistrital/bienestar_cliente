@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { environment } from '../../../../../environments/environment';
 import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
-import { IAppState } from '../../../../@core/store/app.state';
 import { ListService } from '../../../../@core/store/list.service';
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
   selector: 'ngx-periodo',
@@ -15,65 +14,26 @@ import { ListService } from '../../../../@core/store/list.service';
 export class PeriodoComponent implements OnInit {
   periodos: Periodo[] = [];
   parametros: ParametroPeriodo[] = [];
-  informe:boolean[]=[];
   constructor(
-    private store: Store<IAppState>,
     private router: Router,
-    private listService: ListService) {
-    this.listService.findPeriodosAcademico();
-    this.listService.findParametros();
-    this.loadLists();
-    this.loadParametros();
+    private listService: ListService,
+    private utilService: UtilService) {
+    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDCIERREPERIODO,true).then((resp)=>{
+      this.parametros=resp;
+      this.loadPeriodos();
+    }).catch((err)=>this.utilService.showSwAlertError("Carga de parametos",err));
+
+  }
+  loadPeriodos() {
+    for (const parametro of this.parametros) {
+      console.log(parametro);
+      this.periodos.push(parametro.PeriodoId);
+    }
+    console.log(this.periodos);
+    
   }
 
   ngOnInit(): void {
-  }
-
-  public loadLists() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listPA = list.listPeriodoAcademico
-        if (listPA.length > 0 && this.periodos.length === 0) {
-          const periodos = <Array<Periodo>>listPA[0]['Data'];
-          
-          periodos.forEach(element => {
-            this.periodos.push(element);
-          });
-          this.loadParametros();
-        }
-      },
-    );
-  }
-  public loadParametros() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listaParam = list.listParametros;
-        if (listaParam.length > 0 && this.parametros.length === 0) {
-          const parametros = <Array<ParametroPeriodo>>listaParam[0]['Data'];
-          if (parametros != undefined) {
-            parametros.forEach(element => {
-              this.parametros.push(element);
-            });
-
-            for(let i=0;i<this.periodos.length;i++){
-              this.informe[i]=this.mostrarInforme(i);
-            }
-          }
-        }
-      },
-    );
-  }
-
-  public mostrarInforme(index){
-    for (let parametro of this.parametros) {
-      if (parametro.PeriodoId.Id === this.periodos[index].Id) {
-        if (parametro.ParametroId.Id == environment.IDS.IDCIERREPERIODO) {
-          if (parametro.Activo)
-            return true;
-        }
-      }
-    }
-    return false;
   }
 
   navigateInformePeriodo(idPeriodo){

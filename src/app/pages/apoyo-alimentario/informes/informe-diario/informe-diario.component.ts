@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { Store } from '@ngrx/store';
-import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
-import { IAppState } from '../../../../@core/store/app.state';
 import { ListService } from '../../../../@core/store/list.service';
-import { FechaModel } from '../../modelos/fecha.model';
+import { UtilService } from '../../../../shared/services/utilService';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -19,29 +17,19 @@ export class InformeDiarioComponent implements OnInit {
   myDate = formatDate(new Date(), "dd-MM-yyyy", "en");
   
   constructor(
-    private store: Store<IAppState>,
     private listService: ListService,
+    private utilsService: UtilService
   ){
-    this.listService.findParametros();
-    this.loadPeriodo();
+    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDSERVICIOAPOYO,true).then((resp)=>{
+      if(resp.length>0){
+        this.periodo=resp[0].PeriodoId;
+      }else{
+        this.periodo=null;
+      }
+    }).catch((err)=>this.utilsService.showSwAlertError("Cargar periodo",err));
    }
   
   ngOnInit() {
   }
   
-  public loadPeriodo() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listaParam = list.listParametros;
-        if (listaParam.length > 0) {
-          for (let parametro of <Array<ParametroPeriodo>>listaParam[0]["Data"]){
-            console.log(parametro);
-            if(parametro.Activo){
-              this.periodo = parametro.PeriodoId;
-              break;
-            }
-          }
-        }
-    });
-  }
 }

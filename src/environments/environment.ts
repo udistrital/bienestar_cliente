@@ -10,6 +10,7 @@ export const environment = {
         PATH: 'https://documental.udistrital.edu.co/nuxeo/',
     },
     CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
+    APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/sintomas_crud/v1/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
     CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
     WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',
@@ -38,6 +39,7 @@ export const environment = {
     TERCEROS_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/',
     PARAMETROS: "https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/",
     SOLICITUD: "https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/",
+    
     IDS:{
         IDTIPOPARAMETRO: 21,
         IDTIPOSOLICITUD: 9,

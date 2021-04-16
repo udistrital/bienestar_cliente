@@ -6,8 +6,6 @@ import { FechaModel } from "../../modelos/fecha.model";
 import { NbGlobalPhysicalPosition, NbToastrService } from "@nebular/theme";
 import { ListService } from "../../../../@core/store/list.service";
 import { Periodo } from "../../../../@core/data/models/parametro/periodo";
-import { IAppState } from "../../../../@core/store/app.state";
-import { Store } from "@ngrx/store";
 import { ParametroPeriodo } from "../../../../@core/data/models/parametro/parametro_periodo";
 import { DatePipe } from "@angular/common";
 import { formatDate } from "@angular/common";
@@ -17,11 +15,12 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TranslateService } from "@ngx-translate/core";
 import { Tercero } from "../../../../@core/data/models/terceros/tercero";
 import { SolicitudService } from "../../../../@core/data/solicitud.service";
-
+import { ApoyoAlimentarioService } from "../../../../@core/data/apoyo-alimentario.service";
 import { Registro } from "../../../../@core/data/models/registro";
 import { ImplicitAutenticationService } from "../../../../@core/utils/implicit_autentication.service";
 import { RegistroApoyo } from "../../../../@core/data/models/solicitud/registro-apoyo";
 import { UtilService } from '../../../../shared/services/utilService';
+import { ApoyoAlimentario } from "../../../../@core/data/models/apoyo-alimentario";
 
 @Component({
   selector: "ngx-inscritos",
@@ -44,10 +43,9 @@ export class InscritosComponent implements OnInit {
     private oikosService: OikosService,
     private translate: TranslateService,
     private datePipe: DatePipe,
-    private store: Store<IAppState>,
-    private solicitudService: SolicitudService,
-    private utilsService :UtilService,
-    private listService: ListService
+    private utilsService: UtilService,
+    private listService: ListService,
+    private apoyoAlimentarioService: ApoyoAlimentarioService
   ) {
     Swal.fire({
       title: "Por favor espere!",
@@ -58,8 +56,14 @@ export class InscritosComponent implements OnInit {
     Swal.showLoading();
     this.usuarioWSO2 = this.utilsService.getUsuarioWSO2();
     this.myDate = this.datePipe.transform(this.myDate, "yyyy-MM-dd");
-    this.listService.findParametros();
-    this.loadPeriodo();
+    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDSERVICIOAPOYO,true).then((resp)=>{
+      if(resp.length>0){
+        this.periodo=resp[0].PeriodoId;
+      }else{
+        this.periodo=null;
+      }
+    }).catch((err)=>this.utilsService.showSwAlertError("Cargar periodo",err));
+
     this.cargarSedes()
       .then(() => {
         if (this.sedesAccesso != []) {
@@ -69,23 +73,6 @@ export class InscritosComponent implements OnInit {
       .catch((error) => {
         Swal.close();
         Swal.fire("Error", `<p>${error}</p>`, "error");
-      });
-  }
-
-
-  public loadPeriodo() {
-    this.store
-      .select((state) => state)
-      .subscribe((list) => {
-        const listaParam = list.listParametros;
-        if (listaParam.length > 0 && this.periodo === null) {
-          for (let parametro of <Array<ParametroPeriodo>>listaParam[0]["Data"]) {
-            if (parametro.ParametroId.Id == environment.IDS.IDSERVICIOAPOYO && parametro.Activo) {
-              this.periodo = parametro.PeriodoId;
-              break;
-            }
-          }
-        }
       });
   }
 
@@ -113,10 +100,10 @@ export class InscritosComponent implements OnInit {
           .then((listSolicitante) => {
             /* Validamos si esta inscrito, o si se permiten no inscritos y el estudiante esta activo */
             if (listSolicitante.length > 0) {
-              solicitudId=listSolicitante[0].Id;
+              solicitudId = listSolicitante[0].Id;
             }
-            console.log(solicitudId );
-            
+            console.log(solicitudId);
+
             this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
               (permitir) => {
                 this.listService.loadFacultadProyectoTercero(terceroReg.Id).then((nomFacultad) => {
@@ -128,19 +115,19 @@ export class InscritosComponent implements OnInit {
                     });
                   }
                   else {
-                    this.utilsService.showSwAlertQuery('Estudiante de otra facultad',"¿Deseas aceptar este registro?",'Registrar')
-                    .then(
-                      (resp) => {
-                        if (resp) {
-                          this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
-                            this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
-                          }).catch((error) => {
-                            this.showError(`${this.registroBase.codigo}`, error);
-                          });
-                        } else {
-                          this.showError(`${this.registroBase.codigo}`, "Estudiante de otra facultad");
-                        }
-                      });
+                    this.utilsService.showSwAlertQuery('Estudiante de otra facultad', "¿Deseas aceptar este registro?", 'Registrar')
+                      .then(
+                        (resp) => {
+                          if (resp) {
+                            this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
+                              this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
+                            }).catch((error) => {
+                              this.showError(`${this.registroBase.codigo}`, error);
+                            });
+                          } else {
+                            this.showError(`${this.registroBase.codigo}`, "Estudiante de otra facultad");
+                          }
+                        });
                   }
                 })
                   .catch((error) => {
@@ -159,7 +146,7 @@ export class InscritosComponent implements OnInit {
       }
     });
   }
-  
+
   permitirRegistroNoInscrito(resp: any, terceroId: number): Promise<any> {
     return new Promise((resolve, reject) => {
       if (resp.length == 0) {
@@ -186,22 +173,28 @@ export class InscritosComponent implements OnInit {
 
   registrar(idSede: string, idSolicitud: number, idTercero: number): Promise<any> {
     return new Promise((resolve, reject) => {
-  /*     resolve(`Registro #${145}`); */
-      const idSed = this.sedesAccesso[idSede].Id;
-      const newReg: RegistroApoyo =
-        new RegistroApoyo(this.periodo.Id,
-          this.myDate.toString(),
-          idSed,
-          idSolicitud,
-          idTercero,
-          this.usuarioWSO2);
-      this.solicitudService.post('registro_apoyo', JSON.stringify(newReg))
-        .subscribe(res => {
-          newReg.id = res['Data']['Id']
-          resolve(`Registro #${newReg.id}`);
-        }, (error) => reject(error));
+      /*     resolve(`Registro #${145}`); */
+      if (idTercero != null && idTercero > 0) {
+        const idSed = this.sedesAccesso[idSede].Id;
+        let apoyoAlimentario = new ApoyoAlimentario();
+        apoyoAlimentario.espacioFisicoId = idSed;
+        apoyoAlimentario.periodoId = this.periodo.Id;
+        apoyoAlimentario.solicitudId = idSolicitud;
+        apoyoAlimentario.terceroId = idTercero;
+        apoyoAlimentario.usuarioAdministrador = this.usuarioWSO2;
+
+
+        this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
+          .subscribe(res => {
+            
+            resolve(`Registro #${res._id}`);
+          }, (error) => reject(error));
+      } else {
+        this.utilsService.showSwAlertError('Error al registrar', "No se encontro el usuario que se va a registrar, intente nuevamente")
+      }
     });
   }
+
 
 
 
@@ -284,9 +277,9 @@ export class InscritosComponent implements OnInit {
     let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
     this.toastrService.show(
-      error,+
-      /* `Estudiante: ${this.registroBase.codigo}`, */
-      titulo,
+      error, +
+    /* `Estudiante: ${this.registroBase.codigo}`, */
+    titulo,
       {
         position: NbGlobalPhysicalPosition.TOP_RIGHT,
         status: "danger",

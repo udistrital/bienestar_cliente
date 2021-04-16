@@ -24,12 +24,12 @@
             <tbody class="bg-ud-table-cell">
                 <tr *ngFor="let item of periodos; let i = index">
 
-                    <td *ngIf="informe[i]">
+                    <td>
                         {{ item.Nombre }} &nbsp; &nbsp;
                         <span *ngIf="item.Activo" class="badge rounded-pill bg-success">Activo</span>
                         <span *ngIf="!item.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                     </td>
-                    <td *ngIf="informe[i]">
+                    <td>
                         <button class="btn student-icon " (click)="navigateInformePeriodo(item.Id)" title="Mostrar Informacion del periodo">
                             <i class="fa fa-file-invoice " aria-hidden="true"></i>
                             Ver Informe de Cierre

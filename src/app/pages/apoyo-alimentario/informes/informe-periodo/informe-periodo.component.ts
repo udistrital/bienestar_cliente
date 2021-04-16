@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { environment } from '../../../../../environments/environment';
-import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
-import { IAppState } from '../../../../@core/store/app.state';
 import { ListService } from '../../../../@core/store/list.service';
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
   selector: 'ngx-informe-periodo',
@@ -17,35 +14,29 @@ export class InformePeriodoComponent implements OnInit {
   periodo: Periodo;
 
   constructor(
-    private store: Store<IAppState>,
     private listService: ListService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private utilService: UtilService,
   ) {
-    this.listService.findPeriodosAcademico();
-    this.loadPeriodo();
-   }
+    let idPeriodo: number;
+    this.route.params.subscribe(params => {
+      idPeriodo = params['idPeriodo'];
+    });
+    this.listService.findPeriodoAcademico(idPeriodo).then((resp) => {
 
-  ngOnInit() { 
+      if (resp != undefined) {
+        this.periodo = resp;
+      } else {
+        this.periodo = null;
+        this.utilService.showSwAlertError("Cargar periodo", "No se encontraron periodos");
+      }
+    }).catch((err) => this.utilService.showSwAlertError("Cargar periodo", err));
   }
 
-  public loadPeriodo() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listPA = list.listPeriodoAcademico
-        if (listPA.length > 0 ) {
-          let idPeriodo :number;
-          this.route.params.subscribe(params => {
-            idPeriodo=params['idPeriodo'];
-          });
-          const periodos = <Array<Periodo>>listPA[0]['Data'];
-          periodos.forEach(element => {
-            if(idPeriodo==element.Id){
-              this.periodo=element;
-            }
-          })
-        }
-      },
-    );
+
+
+  ngOnInit() {
   }
+
 
 }

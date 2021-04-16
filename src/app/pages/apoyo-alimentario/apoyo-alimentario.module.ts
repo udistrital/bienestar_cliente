@@ -33,7 +33,6 @@ import { FechasComponent } from './administracion/fechas/fechas.component';
 import { PeriodosComponent } from './administracion/periodos/periodos.component';
 import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
 import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
-import { FechaCrudComponent } from './administracion/fecha-crud/fecha-crud.component';
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
@@ -79,7 +78,6 @@ import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/busca
     PeriodosComponent,
     ConsultarCodigoComponent,
     InformacionEstudianteComponent,
-    FechaCrudComponent,
     SolicitudTerceroComponent,
     SolicitudesComponent,
     EvaluarSolicitudComponent,

@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
-import { IAppState } from '../../../../@core/store/app.state';
-import { Store } from '@ngrx/store';
 import { ListService } from '../../../../@core/store/list.service';
-import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 import Swal from 'sweetalert2';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
-import { Router } from '@angular/router';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
   selector: 'ngx-buscar-solicitud',
@@ -22,27 +19,14 @@ export class BuscarSolicitudComponent implements OnInit {
   solicitudes: Solicitud[]=null;
 
   constructor(
-    private router: Router,
-    private store: Store<IAppState>,
+    private utilService: UtilService,
     private listService: ListService,
   ) {
-    this.listService.findPeriodosAcademico();
-    this.loadLists();
+    this.listService.findPeriodosAcademico().then((resp)=>{
+      this.periodos=resp;
+    }).catch((err)=>this.utilService.showSwAlertError("Cargar periodos",err));
   }
 
-  public loadLists() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const listPA = list.listPeriodoAcademico
-        if (listPA.length > 0 && this.periodos.length === 0) {
-          const periodos = <Array<Periodo>>listPA[0]['Data'];
-          periodos.forEach(element => {
-            this.periodos.push(element);
-          })
-        }
-      },
-    );
-  }
 
   ngOnInit() {
   }

@@ -1,22 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../../../@core/store/list.service';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo'
-import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
-import { IAppState } from '../../../../@core/store/app.state';
-import { Store } from '@ngrx/store';
-
-import Swal from 'sweetalert2';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
 import { environment } from '../../../../../environments/environment';
-import { MatTableDataSource } from '@angular/material';
 import { UtilService } from '../../../../shared/services/utilService'
 import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/estado-tipo-solicitud';
-import { TipoSolicitud } from '../../../../@core/data/models/solicitud/tipo_solicitud';
 import { Estado } from '../../../../@core/data/models/solicitud/estado';
-
 
 
 @Component({
@@ -27,7 +17,6 @@ import { Estado } from '../../../../@core/data/models/solicitud/estado';
 export class SolicitudesComponent implements OnInit {
   solicitudes: Solicitud[] = [];
   filSols: Solicitud[] = [];
-  filtroPeriodo: boolean = false;
   periodos: Periodo[] = [];
   estadosTipoSolicitud: EstadoTipoSolicitud[] = [];
   estados: Estado[] = [];
@@ -39,13 +28,23 @@ export class SolicitudesComponent implements OnInit {
   itemsPag: number[] = [1, 5, 10, 15, 20, 25, 50, 75, 100];
   itemSelect: number = 10;
   constructor(
-    private store: Store<IAppState>,
     private listService: ListService,
     private utilService: UtilService
   ) {
+    this.loadPeriodo();
+    
+    this.listService.findSolicitudes().then((result)=>{
+      console.info(result);
+      if(result!=[]) {
+        for (let solicitud of result) {
+          this.solicitudes.push(solicitud);
+        }
+        this.filtrarSolicitudes();
+      }else{
+        this.utilService.showSwAlertError("Solicitudes no encontrados","No se encontraron solicitudes para ningun periodo");
+      }
+    }).catch((err)=>this.utilService.showSwAlertError("Error",err));
 
-    this.listService.findSolicitudes();
-    this.loadPeriodoSp();
     this.loadEstadoTipoSolicitud();
 
   }
@@ -58,7 +57,6 @@ export class SolicitudesComponent implements OnInit {
             this.estadosTipoSolicitud.push(estadoTipo);
             this.estados.push(estadoTipo.EstadoId);
           }
-
         }
       },
         error => {
@@ -67,33 +65,29 @@ export class SolicitudesComponent implements OnInit {
       );
   }
 
+  private loadPeriodo() {
+    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,null)
+    .then((result) => {
+      console.info(result);
+      if(result!=[]) {
+        for (let params of result) {
+          this.periodos.push(params.PeriodoId);
+        }
+        if (this.periodos.length > 0) {
+          this.periodo = 0;
+        }
+      }else{
+        this.utilService.showSwAlertError("Parametros no encontrados","No se encontraron periodos con solicitudes");
+      }
+    }).catch((err) => {this.utilService.showSwAlertError("Parametros no encontrados",err)} );
+  }
+
   ngOnInit() {
   }
 
-  public loadLists() {
-    this.store.select((state) => state).subscribe(
-      (list) => {
-        const objList = list.listSolicitudesRadicadas;
-        if (objList.length > 0 && this.solicitudes.length === 0) {
-          const listSolicitudes = objList[0];
-          for (let i = 0; i < listSolicitudes.length; i++) {
-            this.solicitudes.push(listSolicitudes[i]);
-          }
-          this.filtrarSolicitudes();
-        }
-      });
-  }
-
-
-
-  public filtrarSolicitudes() {
-
+   private filtrarSolicitudes() {
     this.pagActual=1
     this.filSols=[];
-    /* let nombrePeriodo = this.periodo == null ? "" : this.periodos[this.periodo].Nombre;
-    console.log("nombre periodo =>", nombrePeriodo); */
-
-
     for (const solicitud of this.solicitudes) {
       try {
         let refSol: ReferenciaSolicitud = JSON.parse(solicitud.Referencia);
@@ -111,43 +105,7 @@ export class SolicitudesComponent implements OnInit {
 
 
 
-
-
-  public loadPeriodoSp() {
-    this.listService.findParametrosSp(environment.IDS.IDTIPOPARAMETRO)
-      .subscribe((result: any[]) => {
-        if (result['Data'].length > 0) {
-          let parametros = <Array<ParametroPeriodo>>result['Data'];
-
-          for (let param of parametros) {
-            //console.log(param);
-            if (param.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-              this.periodos.push(param.PeriodoId);
-            }
-          }
-          if (this.periodos.length > 0) {
-            this.periodo = 0;
-            this.loadLists();
-          }
-          console.info(this.periodo);
-          //this.periodo = result['Data'][0].PeriodoId;
-          //this.loadLists();
-        }
-      },
-        error => {
-          console.error(error);
-        }
-      );
-  }
-
-
-
   onSelect($event) {
-    console.log("-----Nueva busqueda----------")
-    /* for (let j = 0; j < 240; j++) {
-      this.solicitudes.pop();
-      this.filSols.pop();
-    } */
     this.filtrarSolicitudes();
   }
 
@@ -164,8 +122,6 @@ export class SolicitudesComponent implements OnInit {
       }
     }
     console.log(this.solicitudes);
-
-
   }
 
   exportarCsv() {
@@ -194,5 +150,4 @@ export class SolicitudesComponent implements OnInit {
     (this.periodos[this.periodo]!=null ? this.periodos[this.periodo].Nombre: "historico");
     this.utilService.exportCSVFile(headers, data, nombre);
   }
-
 }

@@ -20,7 +20,7 @@ export class PeriodosComponent implements OnInit {
 
   constructor(
     private listService: ListService) {
-    this.listService.findPeriodosAcademicoProm().then((resp)=>{
+    this.listService.findPeriodosAcademico().then((resp)=>{
       console.log(resp);
       if(resp.length>0){
         resp.forEach(element => {

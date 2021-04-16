@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { IAppState } from './app.state';
 import { REDUCER_LIST } from './reducer.constants';
 import { ParametrosService } from '../data/parametros.service';
@@ -19,14 +18,18 @@ import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicit
 import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
 import { OikosService } from "../data/oikos.service"
 import { AcademicaService } from '../data/academica.service';
+import { ApoyoAlimentarioService } from '../data/apoyo-alimentario.service';
 import { SolicitudEvolucionEstado } from '../data/models/solicitud/solicitud-evolucion-estado';
 import { formatDate } from '@angular/common';
 import { Observacion } from '../data/models/solicitud/observacion';
 import { InfoComplementariaTercero } from '../data/models/terceros/info_complementaria_tercero';
+import { ApoyoAlimentario } from '../data/models/apoyo-alimentario';
 
 @Injectable()
 
 export class ListService {
+
+
 
   constructor(
     private parametrosService: ParametrosService,
@@ -34,9 +37,36 @@ export class ListService {
     private tercerosService: TercerosService,
     private oikosService: OikosService,
     private academicaService: AcademicaService,
-    private store: Store<IAppState>
+    private apoyoAlimentarioService: ApoyoAlimentarioService
   ) { }
 
+  /*  ****APOYO ALIMENTARIO SERVICE ********** */
+
+  /**
+   *Busca los registros de apoyo alimentario
+   *
+   * @return {*}  {Promise<ApoyoAlimentario[]>}
+   * @memberof ListService
+   */
+  findApoyoAlimentario(): Promise<ApoyoAlimentario[]> {
+    return new Promise((resolve, reject) => {
+      this.apoyoAlimentarioService.get(`sintomas`)
+        .subscribe(
+          (result: any[]) => {
+            if (Object.keys(result['Data'][0]).length > 0) {
+              resolve(result['Data']);
+            } else {
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+
+
+    });
+  }
 
   /* *******TERCEROS SERVICE**************  */
 
@@ -231,36 +261,18 @@ export class ListService {
   /* ************PARAMETOS SERVICE ********************* */
 
   /**
-   *Carga los periodos academicos en el store
+   *Carga los periodos academicos
    *
    * @memberof ListService
    */
-  public findPeriodosAcademico() {
-    this.store.select(REDUCER_LIST.PeriodoAcademico).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.parametrosService.get('periodo/?query=CodigoAbreviacion:PA&sortby=Id&order=desc&limit=-1')
-            .subscribe(
-              (result: any[]) => {
-                this.addList(REDUCER_LIST.PeriodoAcademico, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.PeriodoAcademico, []);
-              },
-            );
-        }
-      },
-    );
-  }
-
-  public findPeriodosAcademicoProm(): Promise<Periodo[]> {
+  public findPeriodosAcademico(): Promise<Periodo[]> {
     return new Promise((resolve, reject) => {
       this.parametrosService.get('periodo/?query=CodigoAbreviacion:PA&sortby=Id&order=desc&limit=-1')
         .subscribe(
           (result: any[]) => {
-            if(result['Data'].length>0)
+            if (result['Data'].length > 0)
               resolve(result['Data']);
-            else{
+            else {
               resolve([]);
             }
           },
@@ -270,6 +282,29 @@ export class ListService {
     });
   }
 
+  /**
+   *Carga un periodo academico por su ID
+   *
+   * @param {number} idPeriodo
+   * @return {*}  {Promise<Periodo[]>}
+   * @memberof ListService
+   */
+  findPeriodoAcademico(idPeriodo: number): Promise<Periodo> {
+    return new Promise((resolve, reject) => {
+      this.parametrosService.get(`periodo/?query=Id:${idPeriodo}&limit=1`)
+        .subscribe(
+          (result: any) => {
+            if (result['Data'].length > 0)
+              resolve(result['Data']);
+            else {
+              resolve(undefined);
+            }
+          },
+          error => {
+            reject(error);
+          });
+    });
+  }
   /**
    *Creamos un parametro asociado a un periodo
    *
@@ -315,37 +350,45 @@ export class ListService {
   }
 
   /**
-   *Buscamos parametros asociados a apoyo alimentario y los guardamos en el store
-   *
-   * @memberof ListService
-   */
-  findParametros() {
-    this.store.select(REDUCER_LIST.Parametros).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${environment.IDS.IDTIPOPARAMETRO}&sortby=id&order=desc&limit=-1`)
-            .subscribe(
-              (result: any[]) => {
-                this.addList(REDUCER_LIST.Parametros, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.Parametros, []);
-              },
-            );
-        }
-      },
-    );
-  }
-
-  /**
    *Busca parametros
    *
    * @param {number} idNumber
    * @return {*} 
    * @memberof ListService
    */
-  findParametrosSp(idNumber: number) {
-    return this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${idNumber}&sortby=id&order=desc&limit=-1`)
+  findParametrosSp(idNumber: number): Promise<ParametroPeriodo[]> {
+    return new Promise((resolve, reject) => {
+      this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${idNumber}&sortby=id&order=desc&limit=-1`)
+        .subscribe((result: any[]) => {
+          console.log("result", result);
+          if (Object.keys(result['Data'][0]).length > 0) {
+            let parametros = <Array<ParametroPeriodo>>result['Data'];
+            console.log("parametros", parametros);
+            resolve(result['Data']);
+          } else {
+            console.log("No hay parametros para la Id", idNumber);
+            resolve([]);
+          }
+          /* for (let param of parametros) {
+            //console.log(param);
+            if (param.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
+              this.periodos.push(param.PeriodoId);
+            }
+          }
+          if (this.periodos.length > 0) {
+            this.periodo = 0;
+            this.loadLists();
+          }
+          console.info(this.periodo); */
+          //this.periodo = result['Data'][0].PeriodoId;
+          //this.loadLists();
+        },
+          error => {
+            console.error(error);
+            reject(error);
+          }
+        );
+    });
   }
 
   /**
@@ -360,17 +403,18 @@ export class ListService {
   findParametrosByPeriodoTipoEstado(idPeriodo: number, idTipo: number, estado: boolean): Promise<ParametroPeriodo[]> {
     return new Promise((resolve, reject) => {
       let query = [];
-      idTipo != null ? query.push(`ParametroId.id:${idTipo}`) : "";
+      if (idTipo == null) {
+        query.push(`?query=ParametroId.TipoParametroId.Id:${environment.IDS.IDTIPOPARAMETRO}`)
+      } else {
+        query.push(`?query=ParametroId.id:${idTipo}`)
+      }
       estado != null ? query.push(`Activo:${estado}`) : "";
       idPeriodo != null ? query.push(`PeriodoId.Id:${idPeriodo}`) : "";
       let consulta = "";
       for (let i = 0; i < query.length; i++) {
         consulta += query[i] + (i + 1 == query.length ? "&" : ",");
       }
-      if(consulta.length>0){
-        consulta="query="+consulta;
-      }
-      this.parametrosService.get(`parametro_periodo?${consulta}sortby=id&order=desc&limit=-1`).subscribe(
+      this.parametrosService.get(`parametro_periodo${consulta}sortby=id&order=desc&limit=-1`).subscribe(
         (result: any[]) => {
           //console.log(Object.keys(result['Data'][0]).length);
 
@@ -437,22 +481,22 @@ export class ListService {
    *
    * @memberof ListService
    */
-  findSolicitudes() {
-    this.store.select(REDUCER_LIST.SolicitudesRadicadas).subscribe(
-      (list: any) => {
-        if (!list || list.length === 0) {
-          this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
-            .subscribe(
-              (result: any[]) => {
-                this.addList(REDUCER_LIST.SolicitudesRadicadas, result);
-              },
-              error => {
-                this.addList(REDUCER_LIST.SolicitudesRadicadas, []);
-              },
-            );
-        }
-      },
-    );
+  findSolicitudes(): Promise<Solicitud[]> {
+    return new Promise((resolve, reject)=>{
+      this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
+        .subscribe(
+          (result: any[]) => {
+            if(Object.keys(result[0]).length>0){
+              resolve(result);
+            }else{
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
   }
 
   /**
@@ -721,16 +765,6 @@ export class ListService {
       }).catch((error) => reject(error));
     });
   }
-
-
-  private addList(type: string, object: Array<any>) {
-    this.store.dispatch({
-      type: type,
-      payload: object,
-    });
-  }
-
-
 }
 
 
