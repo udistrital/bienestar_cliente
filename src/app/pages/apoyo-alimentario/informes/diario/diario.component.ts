@@ -2,7 +2,6 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
-import { FechaModel } from '../../../../@core/data/models/fecha/fecha.model';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 
 @Component({
@@ -13,7 +12,7 @@ import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 export class DiarioComponent implements OnInit {
 
   periodo: Periodo;
-  fecha = new FechaModel();
+  fecha = new Date();
   
 
   constructor(
@@ -27,7 +26,7 @@ export class DiarioComponent implements OnInit {
   }
 
   navigateInformeDiario(){
-    let date=formatDate(this.fecha.fechaDia, "dd-MM-yyyy", "en");
+    let date=formatDate(this.fecha, "dd-MM-yyyy", "en");
     let actual = formatDate(new Date(), "dd-MM-yyyy", "en");
     console.log(actual);
     if(date>actual){

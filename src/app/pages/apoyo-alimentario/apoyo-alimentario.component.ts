@@ -74,10 +74,6 @@ export class ApoyoAlimentarioComponent implements OnInit {
     return false;
   }
   
-  navigateFechas(){
-    this.router.navigate(['/pages/apoyo-alimentario/administracion/fechas']);
-    return false;
-  }
   
   navigateCargarInscripciones(){
     this.router.navigate(['/pages/apoyo-alimentario/administracion/cargar-inscripciones']);

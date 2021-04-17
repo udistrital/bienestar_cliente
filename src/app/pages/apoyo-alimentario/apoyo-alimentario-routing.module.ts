@@ -8,7 +8,6 @@ import { HomeComponent } from '../home/home.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario.module';
 import { InscritosComponent } from './registro/inscritos/inscritos.component'
 import { ConsultarComponent } from './registro/consultar/consultar.component'
-import { FechasComponent } from './administracion/fechas/fechas.component'
 import { PeriodosComponent } from './administracion/periodos/periodos.component'
 import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component'
 import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component'
@@ -87,9 +86,6 @@ const routes: Routes = [
     path: 'administracion', children:[
     {
       path:'periodos', component: PeriodosComponent
-    },
-    {
-      path:'fechas', component: FechasComponent
     },
     {
       path:'carga-inscripciones', component: ConsultarComponent

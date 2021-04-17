@@ -29,7 +29,6 @@ import { InscritosComponent } from './registro/inscritos/inscritos.component';
 import { MiscellaneousModule } from '../miscellaneous/miscellaneous.module';
 
 import { ConsultarComponent } from './registro/consultar/consultar.component';
-import { FechasComponent } from './administracion/fechas/fechas.component';
 import { PeriodosComponent } from './administracion/periodos/periodos.component';
 import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
 import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
@@ -74,7 +73,6 @@ import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/busca
     ApoyoAlimentarioComponent,
     InscritosComponent,
     ConsultarComponent,
-    FechasComponent,
     PeriodosComponent,
     ConsultarCodigoComponent,
     InformacionEstudianteComponent,

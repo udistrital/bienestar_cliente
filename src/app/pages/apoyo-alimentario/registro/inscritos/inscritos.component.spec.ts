@@ -8,9 +8,9 @@ describe('InscritosComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InscritosComponent ]
+      declarations: [InscritosComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +21,14 @@ describe('InscritosComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+});
+
+describe('Cargar sedes', function () {
+  let component: InscritosComponent;
+  component.cargarSedes().then((resp) => {
+    expect(resp).toBe(true);
+  }).catch((err) => {
+    expect(typeof (err)).toBe(typeof ("err"));
   });
 });
