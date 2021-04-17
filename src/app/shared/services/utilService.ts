@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { ImplicitAutenticationService } from '../../@core/utils/implicit_autentication.service';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
     providedIn: 'root',
@@ -35,15 +36,15 @@ export class UtilService {
     * 
     * @param objArray
     */
-    showSwAlertError(titulo, error) {
+    showSwAlertError(titulo, error: any) {
         Swal.fire({
             icon: "error",
             title: "ERROR." + titulo,
-            //text: this.translate.instant(error),
-            text: error,
+            text: typeof(error) !== 'object' ? this.translate.instant(error) : error,
             confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
         });
     }
+    
 
     /**
     *
@@ -144,12 +145,41 @@ export class UtilService {
         }
     }
 
+  /**
+     *
+     * Valida una fecha para que se muestre en la vista correctamente.
+     * 
+     * @param headers
+     * @param items
+     * @param fileName
+     */  
+  validDateFormat(dateString) {
+    if(dateString) {
+      //return dateString.replace(/\s/, 'T');      
+      let datePipe = new DatePipe('en-US');
+      let dateCreated:string="";
+      for(let i of dateString){
+        if(i=='+'){
+          break;
+        }else if (i==' '){
+          dateCreated+='T';
+        }
+        else{
+          dateCreated+=i;
+        }
+      }
+      dateCreated = dateCreated.slice(0, -1);
+      //dateCreated=dateCreated.toString();
+      return datePipe.transform(dateCreated,'yyyy-MM-dd');
+    }
+    return null;
+  }
+
     /**
      *
      * Valida la sesion y retorna el usuario WSO2
      * 
     */
-
     getUsuarioWSO2() {
         const autenticacion = new ImplicitAutenticationService();
         if (autenticacion.live()) {

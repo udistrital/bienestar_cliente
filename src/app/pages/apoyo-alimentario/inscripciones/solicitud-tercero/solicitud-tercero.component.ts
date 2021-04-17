@@ -97,6 +97,7 @@ export class SolicitudTerceroComponent implements OnInit {
       (resp) => {
         console.log(resp);
         console.log(resp != []);
+        
         //if (resp != []) {
         if (resp.length > 0) {
           this.periodo = resp[0].PeriodoId;
@@ -165,7 +166,7 @@ export class SolicitudTerceroComponent implements OnInit {
         } else {
           this.showError("Periodo Vacio","No se encuentra un periodo activo para inscripciones");
         }
-      }).catch((error) => {
+      }).catch((error) => {  
         this.showError("Periodo Vacio",error);
       });
   }
@@ -665,7 +666,7 @@ export class SolicitudTerceroComponent implements OnInit {
     return false;
   }
 
-  showError(titulo: string,msj: string) {
+  showError(titulo: string,msj: any) {
     this.loading=false;
     Swal.close();
     this.utilService.showSwAlertError(titulo,msj);

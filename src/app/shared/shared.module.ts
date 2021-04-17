@@ -11,6 +11,7 @@ import { ComboGenericoModule } from './components/combo-generico/combo-generico.
     TranslateModule,
     ComboGenericoModule,
   ],
+  declarations: [],
 })
 
 export class SharedModule { }

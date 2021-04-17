@@ -7,6 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { UtilService } from '../../../../shared/services/utilService'
 import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/estado-tipo-solicitud';
 import { Estado } from '../../../../@core/data/models/solicitud/estado';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -29,15 +30,19 @@ export class SolicitudesComponent implements OnInit {
   itemSelect: number = 10;
   constructor(
     private listService: ListService,
-    private utilService: UtilService
+    private utilService: UtilService,
   ) {
     this.loadPeriodo();
     
     this.listService.findSolicitudes().then((result)=>{
-      console.info(result);
       if(result!=[]) {
         for (let solicitud of result) {
           this.solicitudes.push(solicitud);
+        }
+        for(let solicitud of this.solicitudes){
+          solicitud.FechaCreacion=this.utilService.validDateFormat(solicitud.FechaCreacion);
+          solicitud.FechaModificacion=this.utilService.validDateFormat(solicitud.FechaModificacion);
+          solicitud.FechaRadicacion=this.utilService.validDateFormat(solicitud.FechaRadicacion);
         }
         this.filtrarSolicitudes();
       }else{
@@ -56,7 +61,7 @@ export class SolicitudesComponent implements OnInit {
           for (let estadoTipo of estadosTiposolicitud) {
             this.estadosTipoSolicitud.push(estadoTipo);
             this.estados.push(estadoTipo.EstadoId);
-          }
+          } 
         }
       },
         error => {
@@ -68,7 +73,6 @@ export class SolicitudesComponent implements OnInit {
   private loadPeriodo() {
     this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,null)
     .then((result) => {
-      console.info(result);
       if(result!=[]) {
         for (let params of result) {
           this.periodos.push(params.PeriodoId);
@@ -103,25 +107,8 @@ export class SolicitudesComponent implements OnInit {
     }
   }
 
-
-
   onSelect($event) {
     this.filtrarSolicitudes();
-  }
-
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    let filtro = filterValue.trim().toLowerCase();
-    console.log(filtro);
-    this.filSols = [];
-
-    for (let i of this.solicitudes) {
-      if (i.EstadoTipoSolicitudId.EstadoId.Nombre == filterValue) {
-        this.filSols.push(i);
-      }
-    }
-    console.log(this.solicitudes);
   }
 
   exportarCsv() {

@@ -28,17 +28,18 @@ export class PeriodosComponent implements OnInit {
           let vacio = ["", "", ""];
           this.estadoPeriodo.push(vacio);
         })
+        this.listService.findParametrosByPeriodoTipoEstado(null,null,null).then((resp)=>{
+          this.parametros=resp;
+          this.cargarEstadoPeriodos();
+        });
       }else{
         this.ventanaError("No se encontraron periodos")
       }
     }).catch((err)=>this.ventanaError(err));
-    this.listService.findParametrosByPeriodoTipoEstado(null,null,null).then((resp)=>{
-      this.parametros=resp;
-      this.cargarEstadoPeriodos();
-    });
   }
 
   ngOnInit(): void {
+    
   }
 
   cargarEstadoPeriodos(): void {

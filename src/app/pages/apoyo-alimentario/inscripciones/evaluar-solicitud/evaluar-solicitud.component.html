@@ -31,20 +31,27 @@
     </nb-card-header>
     <hr>
     <nb-card-body>
-        <nb-accordion>
+        <div class="container" *ngIf="tercero==null && nueva">
+
+            <h5>Documento del solicitante</h5>
+            <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné" alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
+            <br>
+            <hr>
+            <div class="mt-2">
+                <button nbButton fullWidth hero shape="semi-round" status="success" (click)="cargarSolicitante(documentoNew.value)" class="submit-button">
+                <i class="far fa-id-card mr-1"></i>
+                    Cargar solicitante
+                </button>
+            </div>
+
+        </div>
+
+        <nb-accordion *ngIf="tercero!=null">
             <!-- Informacion solicitante -->
             <nb-accordion-item expanded>
                 <nb-accordion-item-header>
                     <h4 class="non-selectable">Información solicitante</h4>
                 </nb-accordion-item-header>
-
-                <nb-accordion-item-body *ngIf="tercero==null">
-                    <p>Documento del solicitante</p>
-                    <input #documentoNew fullWidth nbInput value={{solicitante?.Id}}>
-                    <br>
-                    <button class="btn btn-success" (click)="cargarSolicitante(documentoNew.value)">Cargar
-                        solicitante</button>
-                </nb-accordion-item-body>
 
                 <nb-accordion-item-body *ngIf="tercero!=null">
                     <!-- <input [disabled]="!nueva" fullWidth nbInput value={{solicitante?.Id}}> -->
@@ -84,7 +91,7 @@
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
-                                Activo:
+                                Estado:
                             </label>
                             <label class="sub-item">
                                 <!-- {{tercero?.Activo}} -->
@@ -184,7 +191,7 @@
             </nb-accordion-item>
 
             <!-- Observaciones -->
-            <nb-accordion-item *ngIf="observaciones!=[]">
+            <nb-accordion-item *ngIf="observaciones!=[] && !nueva">
                 <nb-accordion-item-header>
                     <h4 class="non-selectable">Observaciones</h4>
                 </nb-accordion-item-header>
@@ -252,9 +259,7 @@
                             <label class="sub-item label-color-ud">
                                 Observacion cambio de estado:
                             </label>
-                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion"
-                                class="input-full-width size-medium status-basic shape-rectangle nb-transition"
-                                style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
                         </div>
                     </div>
                 </nb-accordion-item-body>
@@ -264,11 +269,15 @@
 
 
         </nb-accordion>
-        <hr>
-        <div class="form-group">
-            <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+        <hr *ngIf="tercero!=null">
+        <div class="form-group" *ngIf="tercero!=null">
+            <button *ngIf="!nueva" nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                 <i class="fas fa-save mr-1"></i>
                 Guardar cambios
+            </button>
+            <button *ngIf="nueva" nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                <i class="fas fa-save mr-1"></i>
+                Crear Solicitud
             </button>
         </div>
     </nb-card-body>

@@ -42,15 +42,20 @@ export class EvaluarSolicitudComponent implements OnInit {
             this.loadEstadoTipoSolicitud();
         } else {
             this.nueva = true;
-            this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
+            /*
+            EVALUAR CASOOOOOOO
+            EVALUAR CASOOOOOOO
+            EVALUAR CASOOOOOOO
+            */
+            this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, null).then(
                 (resp) => {
                     if (resp != []) {
                         this.periodo = resp[0].PeriodoId
                     } else {
-                        this.showError("No hay un periodo para crear inscripciones");
+                        this.utilsService.showSwAlertError("Parametos no encontrados","No hay un periodo para crear inscripciones");
                     }
                 }
-            ).catch((error) => this.showError(error));
+            ).catch((error) => this.utilsService.showSwAlertError("Parametos no encontrados",error));
         }
     }
 
@@ -64,19 +69,19 @@ export class EvaluarSolicitudComponent implements OnInit {
                     if (this.solicitante != undefined) {
                         this.listService.loadTercero(this.solicitante.TerceroId).then((respTerc) => {
                             this.tercero = respTerc;
-                        }).catch((errT) => this.showError(errT));
+                        }).catch((errT) => this.utilsService.showSwAlertError("Estudiante(tercero) no encontrado",errT));
                     } else {
-                        this.showError("No se encontro el solicitante");
+                        this.utilsService.showSwAlertError("Solicitante no encontrado","No se encontro un solicitante para la solicitud");
                     }
-                }).catch((err) => this.showError(err));
+                }).catch((err) => this.utilsService.showSwAlertError("Solicitante no encontrado",err));
                 this.listService.findObservacion(this.solicitud.Id).then((respObs) => {
                     console.log(respObs);
                     this.observaciones = respObs;
-                }).catch((errObs) => this.showError(errObs));
+                }).catch((errObs) =>  this.utilsService.showSwAlertError("Observación no encontrada",errObs));
             } else {
-                this.showError("No se encontro la solicitud");
+                this.utilsService.showSwAlertError("Solicitud no encontrada","No se encontro la solicitud para el periodo actual");
             }
-        }).catch((error) => this.showError(error));
+        }).catch((error) => this.utilsService.showSwAlertError("Solicitud no encontrada",error));
     }
 
     loadEstadoTipoSolicitud() {
@@ -110,9 +115,10 @@ export class EvaluarSolicitudComponent implements OnInit {
                     }
                 });
             } else {
-                this.showError("No se encontro ningun estudiante con el documento " + documento);
+                //this.showError();
+                this.utilsService.showSwAlertError("Estudiante no encontrado","No se encontro ningun estudiante con el documento " + documento);
             }
-        }).catch((error) => this.showError(error))
+        }).catch((error) => this.utilsService.showSwAlertError("Error al buscar documentos",error))
     }
 
     showError(error: any) {
@@ -125,6 +131,10 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    create(){
+
     }
 
     save() {
@@ -213,12 +223,12 @@ export class EvaluarSolicitudComponent implements OnInit {
                             this.listService.crearObservacion(observacionObj).then((resp) => {
                                 this.observaciones.push(observacionObj);
                                 Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-                            }).catch((errOb)=>this.showError(errOb));
+                            }).catch((errOb)=>this.utilsService.showSwAlertError("No se pudo crear la observacion",errOb));
                         }).catch((err) => this.showError(err));
                     }
                 });
             }else{
-                this.showError("Todos los campos de la observacion deben ir llenos");
+                this.utilsService.showSwAlertError("Campos Incompletos","Todos los campos de la observacion deben ir llenos");
             }
         })
 
