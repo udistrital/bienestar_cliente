@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { FechaModel } from '../../../../@core/data/models/fecha/fecha.model';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
+import { UtilService } from '../../../../shared/services/utilService';
 
 @Component({
   selector: 'ngx-diario',
@@ -13,11 +14,11 @@ import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 export class DiarioComponent implements OnInit {
 
   periodo: Periodo;
-  fecha = new FechaModel();
   
 
   constructor(
     private router: Router,
+    private utilService :UtilService,
     private toastrService: NbToastrService
   ) {
 
@@ -26,35 +27,26 @@ export class DiarioComponent implements OnInit {
   ngOnInit() {
   }
 
-  navigateInformeDiario(){
-    let date=formatDate(this.fecha.fechaDia, "dd-MM-yyyy", "en");
-    let actual = formatDate(new Date(), "dd-MM-yyyy", "en");
-    console.log(actual);
-    if(date>actual){
-      this.showError("ERROR. Consultar Fecha","La fecha ingresada aún no existe");
-      return false;
-    }else{
-      this.router.navigate([`/pages/apoyo-alimentario/informes/diario/${date}`]);
-      return true;
-    }
+  navigateInformeDiario(fechaInforme: string){
     
-  }
+    if(fechaInforme!=""){
 
-  showError(titulo, error) {
-    this.toastrService.show(
-      error,
-      /* `Estudiante: ${this.registroBase.codigo}`, */
-      titulo,
-      {
-        position: NbGlobalPhysicalPosition.TOP_RIGHT,
-        status: "danger",
-        duration: 3000,
-        icon: "checkmark-square-outline",
+      fechaInforme+="T00:00:00"; //Se ajusta la hora para que al convertir a date no tome el dia anterior
+
+      let dateActual = new Date();
+      let dateInforme = new Date(fechaInforme);
+      
+      if(dateInforme.getTime()>dateActual.getTime()){
+        this.utilService.showToastError("Fecha Invalida","La fecha ingresada no es valida");
+        return false;
+      }else{
+        let date=formatDate(dateInforme, "dd-MM-yyyy", "en");
+        this.router.navigate([`/pages/apoyo-alimentario/informes/diario/${date}`]);
+        return true;
       }
-    );
+    }else{
+      this.utilService.showToastError("Consultar Fecha","Ingrese una fecha antes de consultar","alert-circle-outline");
+    }
   }
-
-
-
 
 }

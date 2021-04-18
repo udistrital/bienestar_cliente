@@ -4,6 +4,7 @@ import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 import { ListService } from '../../../../@core/store/list.service';
 import { UtilService } from '../../../../shared/services/utilService';
 import { environment } from '../../../../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,15 +15,19 @@ import { environment } from '../../../../../environments/environment';
 export class InformeDiarioComponent implements OnInit {
 
   periodo: Periodo;
-  myDate = formatDate(new Date(), "dd-MM-yyyy", "en");
+  myDate : string;
   
   constructor(
     private listService: ListService,
+    private activatedRoute: ActivatedRoute,
     private utilsService: UtilService
   ){
     this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDSERVICIOAPOYO,true).then((resp)=>{
       if(resp.length>0){
         this.periodo=resp[0].PeriodoId;
+        this.activatedRoute.params.subscribe(params => {
+          this.myDate=params['fecha'];
+        });
       }else{
         this.periodo=null;
       }
@@ -30,6 +35,7 @@ export class InformeDiarioComponent implements OnInit {
    }
   
   ngOnInit() {
+    
   }
   
 }

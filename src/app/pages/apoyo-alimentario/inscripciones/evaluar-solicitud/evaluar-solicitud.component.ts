@@ -139,16 +139,16 @@ export class EvaluarSolicitudComponent implements OnInit {
 
     save() {
         if (this.nuevoEstado == null) {
-            this.showError("El nuevo estado es obligatorio");
+            this.utilsService.showSwAlertError("Nuevo estado vacio","El nuevo estado es obligatorio");
             return;
         }
         const nuevoEstadoTipo = this.estadosTipoSolicitud[this.nuevoEstado];
         if (nuevoEstadoTipo.Id == this.solicitud.EstadoTipoSolicitudId.Id) {
-            this.showError("El nuevo estado no puede ser igual al actual");
+            this.utilsService.showSwAlertError("Cambio de Estado","El nuevo estado no puede ser igual al actual");
             return;
         }
         if (this.obseravacionText == null) {
-            this.showError("Agregar una observacion es obligatorio");
+            this.utilsService.showSwAlertError("Observación Vacia","Agregar una observacion es obligatorio");
             return;
         }
 
@@ -163,7 +163,8 @@ export class EvaluarSolicitudComponent implements OnInit {
                 if (result) {
                     this.listService.cambiarEstadoSolicitud(this.solicitud, nuevoEstadoTipo, this.tercero.Id).then((resp) => {
                         this.solicitud.EstadoTipoSolicitudId = resp;
-                        Swal.fire("Cambio de estado", "Se cambio el estado de forma correcta", "success");
+                        //Swal.fire("Cambio de estado", "Se cambio el estado de forma correcta", "success");
+                        this.utilsService.showSwAlertSuccess("Cambio de estado", "Se cambio el estado de forma correcta", "success");
                         this.listService.loadTiposObservacion(1).then((resp) => {
                             /*  Agregar observacion*/
                             let observacionObj = new Observacion();
@@ -174,15 +175,16 @@ export class EvaluarSolicitudComponent implements OnInit {
                             observacionObj.TipoObservacionId = resp['Data'][0];
                             this.listService.crearObservacion(observacionObj).then((resp) => {
                                 this.observaciones.push(observacionObj);
-                                Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                             }).catch();
-                        }).catch((err) => this.showError(err));
+                        }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas",err));
 
                     }).catch((err) => {
-                        this.showError(err);
+                        this.utilsService.showSwAlertError("Cambio de estado de la solicitud",err);
                     })
                 } else {
-                    console.log("Se cancela");
+                    console.log("Se cancela");        
                 }
 
             });
@@ -222,9 +224,10 @@ export class EvaluarSolicitudComponent implements OnInit {
                             observacionObj.TipoObservacionId = resp['Data'][0];
                             this.listService.crearObservacion(observacionObj).then((resp) => {
                                 this.observaciones.push(observacionObj);
-                                Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                             }).catch((errOb)=>this.utilsService.showSwAlertError("No se pudo crear la observacion",errOb));
-                        }).catch((err) => this.showError(err));
+                        }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas",err));
                     }
                 });
             }else{

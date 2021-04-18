@@ -93,6 +93,31 @@ export class UtilService {
         });
     }
 
+
+
+    /**
+     *
+     * Muestra un Toast en la posición superior derecha para un error
+     * 
+     * @param titulo
+     * @param error
+     * @param icon
+     */
+    showToastError(titulo, error, icon?, duration?) {
+        this.toastrService.show(
+          error,
+          "ERROR. "+titulo,
+          {
+            position: NbGlobalPhysicalPosition.TOP_RIGHT,
+            status: "danger",
+                        //duration: 3000,
+            duration: duration != null ? duration : 3000,
+            //icon: "danger",
+            icon: icon != null ? icon : 'slash-outline',
+          }
+        );
+      }
+
     /**
     *
     * Convierte un Json a Csv
