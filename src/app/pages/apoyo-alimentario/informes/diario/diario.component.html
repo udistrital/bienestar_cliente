@@ -19,11 +19,11 @@
                         <i class="fa fa-calendar-day " aria-hidden="true"></i>
                         <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Fecha</span>
                     </div>
-                    <input type="date" placeholder="Fecha de Informe" [(ngModel)]="fecha.fechaDia" name="fechaDia" class="form-control" required #fechaDia="ngModel">
+                    <input type="date" placeholder="Fecha de Informe" name="fechaDia" class="form-control" required #fechaDia>
                 </div>
                 <hr>
                 <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="navigateInformeDiario()" class="submit-button">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="navigateInformeDiario(fechaDia.value)" class="submit-button">
                     <!-- <button mat-raised-button color="primary" (click)="consultar()"> -->
                         <i class="fas fa-search mr-1"></i>
                         Consultar
