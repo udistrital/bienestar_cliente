@@ -319,6 +319,47 @@
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
+
+                <!-- Inforamcion académica-->
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        <h4 class="non-selectable">Información académica</h4>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <form [formGroup]="academica">
+                            <div class="row item-list">
+                                <div class="col-md-4">Valor Matricula: </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="valorMatricula">
+                                </div>
+                            </div>
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Número de creditos inscritos para el semestre actual:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="numeroCreditos">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Promedio: </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="promedio">
+                                </div>
+                            </div>
+
+                            <div class="row item-list">
+                                <div class="col-md-4">Semestre: </div>
+                                <div class="col-md-8">
+                                    <input nbInput fullWidth formControlName="semestre">
+                                </div>
+                            </div>
+                        </form>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+
                 <!-- Informacion Socioeconomica -->
                 <nb-accordion-item>
                     <nb-accordion-item-header>
@@ -340,12 +381,6 @@
                                 </div>
                             </div>
 
-                            <div class="row item-list">
-                                <div class="col-md-4">Valor matricula: </div>
-                                <div class="col-md-8">
-                                    <input fullWidth nbInput formControlName="valorMatricula">
-                                </div>
-                            </div>
 
                             <div class="row item-list">
                                 <div class="col-md-4">Valor de ingresos mensuales: </div>
@@ -368,6 +403,21 @@
                                 </div>
                             </div>
 
+                            <div class="row item-list">
+                                <div class="col-md-4">
+                                    Nucleo familiar con el que reside actualmente:
+                                    <span class="required-asterisk">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <nb-select fullWidth size="large" placeholder="Con Quien Vive" formControlName="conQuienVive" #required>
+                                        <nb-option value=""></nb-option>
+                                        <nb-option value="familia">Familia</nb-option>
+                                        <nb-option value="amigos">Amigos</nb-option>
+                                        <nb-option value="solo">Solo</nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+
                             <!-- <div class="row item-list">
                                 <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL" campoCodigo="Id"
                                     campoValor="Nombre" [grupo]="socioeconomica">
@@ -386,7 +436,8 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Lugar de vivienda: </div>
+                                <div class="col-md-4">Lugar de vivienda:
+                                </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="tipoVivienda">
                                 </div>
@@ -445,11 +496,6 @@
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <!-- <nb-select fullWidth class="" size="large" placeholder="Personas a cargo" formControlName="tieneperacargo" #required>
-                                        <nb-option value=""></nb-option>
-                                        <nb-option value="1">Nuevo en el programa</nb-option>
-                                        <nb-option value="2">Antiguo en el programa</nb-option>
-                                    </nb-select> -->
                                     <input fullWidth nbInput formControlName="tieneperacargo">
                                 </div>
                             </div>

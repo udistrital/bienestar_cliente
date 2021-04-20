@@ -54,6 +54,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
   registro: FormGroup;
   residencia: FormGroup;
+  academica: FormGroup;
   sisben: FormGroup;
   socioeconomica: FormGroup;
   necesidades: FormGroup;
@@ -491,6 +492,13 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
         });
 
+        this.academica = new FormGroup({
+          valorMatricula: new FormControl({value: this.estudiante.InfoAcademica.ValorMatricula,disabled: true}),
+          numeroCreditos: new FormControl({value: this.estudiante.InfoAcademica.NumeroCreditos,disabled: false}),
+          promedio:  new FormControl({value: this.estudiante.InfoAcademica.Promedio,disabled: true}),
+          semestre:  new FormControl({value: this.estudiante.InfoAcademica.Semestre,disabled: true}),
+        });
+
         this.socioeconomica = new FormGroup({
           estadocivil: new FormControl({
             value: this.estudiante.InfoSocioeconomica.EstadoCivil,
@@ -500,7 +508,6 @@ export class SolicitudTerceroComponent implements OnInit {
             value: this.estudiante.InfoSocioeconomica.Estrato,
             disabled: true,
           }),
-          valorMatricula: new FormControl(),
           ingresosMensuales: new FormControl({
             value: this.estudiante.InfoSocioeconomica.IngresosMensuales,
             disabled: true,
