@@ -36,6 +36,8 @@ export class SolicitudTerceroComponent implements OnInit {
   referenciaSolicitud: ReferenciaSolicitud = null;
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   listInfoComplementaria = [];
+  infoComeplementariaPut = [];
+  materialVivienda = ["Ladrillo","Madera","Placa asfaltica"]
 
   username: string = "";
   private autenticacion = new ImplicitAutenticationService();
@@ -74,14 +76,8 @@ export class SolicitudTerceroComponent implements OnInit {
   isPost: boolean = true;
 
   constructor(
-    private translate: TranslateService,
     private utilService: UtilService,
-    private listService: ListService,
-    private tercerosService: TercerosService,
-    private academicaService: AcademicaService,
-    private solicitudService: SolicitudService,
-    private oikosService: OikosService,
-    private dialog: MatDialog
+    private listService: ListService
   ) {
     Swal.fire({
       title: "Por favor espere!",
@@ -96,7 +92,7 @@ export class SolicitudTerceroComponent implements OnInit {
       (resp) => {
         console.log(resp);
         console.log(resp != []);
-        
+
         //if (resp != []) {
         if (resp.length > 0) {
           this.periodo = resp[0].PeriodoId;
@@ -113,63 +109,63 @@ export class SolicitudTerceroComponent implements OnInit {
             console.log("loadTerceroByWSO2");
             this.tercero = respTecero;
             console.log(this.tercero);
-            this.listService.findDocumentosTercero(this.tercero.Id,null).then((respDocs) => {
+            this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
               console.log("findDocumentosTercero");
               for (const documento of respDocs) {
                 if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-                  this.estudiante.Carnet=documento;                  
+                  this.estudiante.Carnet = documento;
                 } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
-                  this.estudiante.Documento=documento;
+                  this.estudiante.Documento = documento;
                 }
               }
               //Change this.estudiante.Documento
-              if(this.estudiante.Carnet!=null && this.estudiante.Documento!=null){
+              if (this.estudiante.Carnet != null && this.estudiante.Documento != null) {
                 this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null)
                   .then((listSolicitantes) => {
                     console.log("loadSolicitanteByIdTercero");
-                    
-                    if(listSolicitantes.length>0){
-                      this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol)=>{
-                        this.solicitud=sol;
+
+                    if (listSolicitantes.length > 0) {
+                      this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
+                        this.solicitud = sol;
                         console.log(this.solicitud);
-                        this.loading=false;
+                        this.loading = false;
                         Swal.close();
-                      }).catch((errorSol)=> this.showError("Solicitud no encontrada",errorSol));
-                    }else{
-                      this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC)=>{
-                        this.listInfoComplementaria=respIC;
+                      }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
+                    } else {
+                      this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
+                        this.listInfoComplementaria = respIC;
                         this.inicializarFormularios();
-                      }).catch((errIC)=>{
-                        this.showError("error",errIC);
+                      }).catch((errIC) => {
+                        this.showError("error", errIC);
                         this.inicializarFormularios();
                       });
                       console.log("Iniciamos formularios");
-                      
-                      
+
+
                     }
                   }).catch((errorSolT) => {
-                    this.showError("Solicitud no existe",errorSolT);
+                    this.showError("Solicitud no existe", errorSolT);
                   });
-                  this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
-                    this.estudiante.Facultad=nomFacultad[0];
-                    this.estudiante.ProyectoCurricular=nomFacultad[1];
-                  });
+                this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
+                  this.estudiante.Facultad = nomFacultad[0];
+                  this.estudiante.ProyectoCurricular = nomFacultad[1];
+                });
 
-              }else{
-                this.showError("Documentos del estudiante no encontrados","No se encontro el carnet y documento de identificacion");
+              } else {
+                this.showError("Documentos del estudiante no encontrados", "No se encontro el carnet y documento de identificacion");
               }
-            }).catch((errorDocs)=>this.showError("Documentos no encontrados",errorDocs));
+            }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));
 
-          }).catch((errorT) => this.showError("Estudiante no existe",errorT));
+          }).catch((errorT) => this.showError("Estudiante no existe", errorT));
 
         } else {
-          this.showError("Periodo Vacio","No se encuentra un periodo activo para inscripciones");
+          this.showError("Periodo Vacio", "No se encuentra un periodo activo para inscripciones");
         }
-      }).catch((error) => {  
-        this.showError("Periodo Vacio",error);
+      }).catch((error) => {
+        this.showError("Periodo Vacio", error);
       });
   }
- 
+
 
   /* Clasifica la informacion de listInfoComplementaria */
   loadEstudiante(): Promise<any> {
@@ -181,7 +177,7 @@ export class SolicitudTerceroComponent implements OnInit {
         "dd/MM/yyyy"
       );
       let infComp: InfoComplementariaTercero;
-      
+
       console.log(this.listInfoComplementaria);
 
       for (infComp of this.listInfoComplementaria) {
@@ -194,18 +190,12 @@ export class SolicitudTerceroComponent implements OnInit {
           case "Información Socioeconómica":
             this.agregarInformacionSocioEconomica(infComp);
             break;
+          case "Apoyo Alimentario":
+            this.agregarInformacionApoyoAlimentario(infComp);
+            break;
           case "Dependencia económica":
             this.estudiante.InfoSocioeconomica.DependenciaEconomica =
               infComp.InfoComplementariaId.Nombre;
-            /* this.agregarInformacionSocioEconomica(infComp); 
-            Padre: InfoComplementariaId.Id:166
-            Madre: InfoComplementariaId.Id:167
-            Familiar: InfoComplementariaId.Id:168
-            El mismo: InfoComplementariaId.Id:169
-
-            this.estudiante.InfoSocioeconomica.DependenciaEconomica = infComp.InfoComplementariaId.Nombre;
-            */
-
             break;
           case "¿Tiene Sisben?":
             if (infComp.InfoComplementariaId.Nombre == "SI") {
@@ -360,7 +350,24 @@ export class SolicitudTerceroComponent implements OnInit {
         break;
     }
   }
+  /* Clasifica la informacion correspondiente a apoyo alimentario del estudiante */
+  agregarInformacionApoyoAlimentario(infComp: InfoComplementariaTercero) {
+    this.infoComeplementariaPut.push(infComp.InfoComplementariaId.Id);
+    const nombreInfComp = infComp.InfoComplementariaId.Nombre;
+    switch (nombreInfComp) {
+      case "CALIDAD_VIVIENDA":
+        this.estudiante.InfoNecesidades.CalidadVivienda = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
 
+  
+
+      default:
+        break;
+    }
+  }
+  
   /* Clasifica informacion de contacto */
   agregarInformacionContacto(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
@@ -611,7 +618,7 @@ export class SolicitudTerceroComponent implements OnInit {
         if (!error.status) {
           error.status = 409;
         }
-        this.utilService.showSwAlertError(error.status + " Load info estudiante",error.status);
+        this.utilService.showSwAlertError(error.status + " Load info estudiante", error.status);
         /* Swal.fire({
           icon: "error",
           title: error.status + " Load info estudiante",
@@ -636,39 +643,41 @@ export class SolicitudTerceroComponent implements OnInit {
       showConfirmButton: true,
       showCancelButton: true,
     }) */
-    this.utilService.showSwAlertQuery("Está seguro?",`Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`,"Solicitar","question")
-    .then(async (resp) => {
-      if (resp) {
-        Swal.fire({
-          title: "Espere",
-          text: "Procesando su solicitud",
-          icon: "question",
-          allowOutsideClick: false,
-        });
-        Swal.showLoading();
+    this.utilService.showSwAlertQuery("Está seguro?", `Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`, "Solicitar", "question")
+      .then(async (resp) => {
+        if (resp) {
+          Swal.fire({
+            title: "Espere",
+            text: "Procesando su solicitud",
+            icon: "question",
+            allowOutsideClick: false,
+          });
+          this.actualizarInfoEstudiante();
+          Swal.showLoading();
+          if (this.solicitud == null) {
+            let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
+            refSol.Periodo = this.periodo.Nombre;
+            this.listService.crearSolicitudApoyoAlimentario(
+              +this.tercero.Id,
+              refSol
+            );
+          } else {
+            console.log("ya existe no se crea");
+          }
 
-        if (this.solicitud == null) {
-          let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
-
-          refSol.Periodo = this.periodo.Nombre;
-          this.listService.crearSolicitudApoyoAlimentario(
-            +this.tercero.Id,
-            refSol
-          );
-        } else {
-          console.log("ya existe no se crea");
+          this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
         }
-
-        this.utilService.showSwAlertSuccess("Solicitud creada","Se cargaron los datos de forma correcta");
-      }
-    });
+      });
     return false;
   }
+  actualizarInfoEstudiante() {
+    console.log(this.estudiante);
+  }
 
-  showError(titulo: string,msj: any) {
-    this.loading=false;
+  showError(titulo: string, msj: any) {
+    this.loading = false;
     Swal.close();
-    this.utilService.showSwAlertError(titulo,msj);
+    this.utilService.showSwAlertError(titulo, msj);
   }
 
 
