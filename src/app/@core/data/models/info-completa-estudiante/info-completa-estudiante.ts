@@ -4,6 +4,7 @@ import { InfoSocioEconomicaEstudiante } from "./info-socioeconomica-estudiante";
 import { InfoNecesidadesEstudiante } from './info-necesidades-estudiante';
 import { InfoEspecialEstudiante } from './info-especial-estudiante';
 import { InfoPersonasACargoEstudiante } from "./info-personas-a-cargo-estudiante";
+import { InfoAcademicaEstudiante } from "./info-academica-estudiante";
 
 export class InfoCompletaEstudiante {
     IdTercero: number;
@@ -17,6 +18,7 @@ export class InfoCompletaEstudiante {
     Correo: string;
     Celular: string;
     Genero: string;
+    InfoAcademica: InfoAcademicaEstudiante;
     InfoResidencia: InfoResidenciaEstudiante;
     InfoSocioeconomica: InfoSocioEconomicaEstudiante;
     InfoNecesidades: InfoNecesidadesEstudiante;
@@ -33,6 +35,7 @@ export class InfoCompletaEstudiante {
       this.Facultad="";
       this.Correo="";
       this.Genero="";
+      this.InfoAcademica=new InfoAcademicaEstudiante();
       this.InfoResidencia=new InfoResidenciaEstudiante();
       this.InfoSocioeconomica= new InfoSocioEconomicaEstudiante();
       this.InfoNecesidades= new InfoNecesidadesEstudiante();
