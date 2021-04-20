@@ -56,14 +56,13 @@ export class SolicitudTerceroComponent implements OnInit {
   socioeconomica: FormGroup;
   necesidades: FormGroup;
   especial: FormGroup;
-  menores: FormGroup;
+  personasacargo: FormGroup;
+  documentos: FormGroup;
 
   colegio: FormGroup;
   vivienda: FormGroup;
   futurofort: FormGroup;
-  documentos: FormGroup;
   doccertificadoingreso: FormGroup;
-  personasacargo: FormGroup;
   registrocivil: FormGroup;
   desplazado: FormGroup;
   recibopago: FormGroup;
@@ -612,12 +611,13 @@ export class SolicitudTerceroComponent implements OnInit {
         if (!error.status) {
           error.status = 409;
         }
-        Swal.fire({
+        this.utilService.showSwAlertError(error.status + " Load info estudiante",error.status);
+        /* Swal.fire({
           icon: "error",
           title: error.status + " Load info estudiante",
           text: this.translate.instant("ERROR." + error.status),
           confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-        });
+        }); */
       });
   }
 
@@ -628,14 +628,17 @@ export class SolicitudTerceroComponent implements OnInit {
 
   registrar() {
     /* var codigoValue = (<HTMLInputElement>document.getElementById("codigo")).value; */
-    Swal.fire({
+
+    /* Swal.fire({
       title: "Está seguro?",
       text: `Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`,
       icon: "question",
       showConfirmButton: true,
       showCancelButton: true,
-    }).then(async (resp) => {
-      if (resp.value) {
+    }) */
+    this.utilService.showSwAlertQuery("Está seguro?",`Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`,"Solicitar","question")
+    .then(async (resp) => {
+      if (resp) {
         Swal.fire({
           title: "Espere",
           text: "Procesando su solicitud",
@@ -656,11 +659,7 @@ export class SolicitudTerceroComponent implements OnInit {
           console.log("ya existe no se crea");
         }
 
-        Swal.fire({
-          title: "titulo",
-          text: "Se cargaron los datos de forma correcta",
-          icon: "success",
-        });
+        this.utilService.showSwAlertSuccess("Solicitud creada","Se cargaron los datos de forma correcta");
       }
     });
     return false;

@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import Swal from "sweetalert2";
 import { RegistroInscritoModel } from "../../modelos/registroInscrito.model";
-import { NbGlobalPhysicalPosition, NbToastrService } from "@nebular/theme";
 import { ListService } from "../../../../@core/store/list.service";
 import { Periodo } from "../../../../@core/data/models/parametro/periodo";
 import { DatePipe } from "@angular/common";
@@ -35,7 +34,6 @@ export class InscritosComponent implements OnInit {
   usuarioWSO2 = "";
 
   constructor(
-    private toastrService: NbToastrService,
     private oikosService: OikosService,
     private translate: TranslateService,
     private datePipe: DatePipe,
@@ -330,21 +328,12 @@ export class InscritosComponent implements OnInit {
     let reg = new Registro(titulo, mensaje, "alert-success");
     this.registros.push(reg);
 
-    this.toastrService.show(
-      mensaje,
-      titulo,
-      {
-        position: NbGlobalPhysicalPosition.TOP_RIGHT,
-        status: "success",
-        duration: 2000,
-        icon: "checkmark-square-outline",
-      }
-    );
+    this.utilsService.showToastAlert(titulo,mensaje,null,2000,null);
     this.registroBase.codigo = "";
   }
 
   /**
-   *Muestra Toasat de que salio algo mal y guarda el registro
+   *Muestra Toast de que salio algo mal y guarda el registro
    *
    * @param {*} titulo
    * @param {*} error
@@ -354,16 +343,8 @@ export class InscritosComponent implements OnInit {
     Swal.close();
     let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
-    this.toastrService.show(
-      error, +
-    titulo,
-      {
-        position: NbGlobalPhysicalPosition.TOP_RIGHT,
-        status: "danger",
-        duration: 3000,
-        icon: "alert-circle-outline",
-      }
-    );
+
+    this.utilsService.showToastError(titulo,error,"alert-circle-outline");
   }
 
 }

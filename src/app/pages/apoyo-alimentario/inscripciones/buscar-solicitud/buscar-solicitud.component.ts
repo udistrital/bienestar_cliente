@@ -54,13 +54,15 @@ export class BuscarSolicitudComponent implements OnInit {
           }
         ).catch((error)=>console.error(error));
       } else {
-        Swal.fire("Error",
-          `<p>No se encuentra el tercero</p>`, "error");
+        this.utilService.showSwAlertError("Estudiante no encontrado",'No se encuentra el tercero');
+        /* Swal.fire("Error",
+          `<p>No se encuentra el tercero</p>`, "error"); */
       }
     }).catch(
       (error) => {
-        Swal.fire("Error",
-          `<p>${error}</p>`, "error");
+        this.utilService.showSwAlertError("Estudiante no encontrado",`<p>${error}</p>`);
+        /* Swal.fire("Error",
+          `<p>${error}</p>`, "error"); */
       }
     );
 

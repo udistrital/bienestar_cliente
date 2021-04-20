@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo';
 import { UtilService } from '../../../../shared/services/utilService';
 
@@ -19,7 +18,6 @@ export class DiarioComponent implements OnInit {
   constructor(
     private router: Router,
     private utilService :UtilService,
-    private toastrService: NbToastrService
   ) {
 
    }

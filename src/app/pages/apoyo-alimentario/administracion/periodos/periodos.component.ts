@@ -5,6 +5,7 @@ import { ListService } from '../../../../@core/store/list.service';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo'
 import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
 import { environment } from '../../../../../environments/environment';
+import { UtilService } from '../../../../shared/services/utilService';
 
 
 @Component({
@@ -19,7 +20,9 @@ export class PeriodosComponent implements OnInit {
 
 
   constructor(
-    private listService: ListService) {
+    private listService: ListService,
+    private utilService: UtilService,
+    ) {
     this.listService.findPeriodosAcademico().then((resp)=>{
       console.log(resp);
       if(resp.length>0){
@@ -33,9 +36,10 @@ export class PeriodosComponent implements OnInit {
           this.cargarEstadoPeriodos();
         });
       }else{
-        this.ventanaError("No se encontraron periodos")
+        //this.ventanaError("No se encontraron periodos")
+        this.utilService.showSwAlertError("Buscando periodos","No se encontraron periodos");
       }
-    }).catch((err)=>this.ventanaError(err));
+    }).catch((err)=>this.utilService.showSwAlertError("Buscando periodos",err));
   }
 
   ngOnInit(): void {
@@ -122,8 +126,10 @@ export class PeriodosComponent implements OnInit {
 
   public iniciarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    this.mensajeConfirmacion(`iniciar ${nombreParam} de ${periodo.Nombre}`).then(resp => {
-      if (resp.value) {
+    /* this.mensajeConfirmacion(`iniciar ${nombreParam} de ${periodo.Nombre}`) */
+    this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea iniciar ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
+    .then(resp => {
+      if (resp) {
         const idParametro = this.getIdParametro(nombreParam);
         if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
           this.listService.inciarParametroPeriodo(periodo, idParametro).then((resp)=>{
@@ -131,9 +137,10 @@ export class PeriodosComponent implements OnInit {
             this.parametros.push(resp);
             this.cargarEstadoPeriodos();
             Swal.fire(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`,"success");
-          }).catch((error)=>this.ventanaError(error));
+          }).catch((error)=>this.utilService.showSwAlertError("Cargando parametros de periodos",error));
         } else {
-          this.ventanaError(`Ya existe ${nombreParam} en el ${periodo.Nombre}`);
+          this.utilService.showSwAlertError("Cargando parametro",`Ya existe ${nombreParam} en el ${periodo.Nombre}`);
+          /* this.ventanaError(`Ya existe ${nombreParam} en el ${periodo.Nombre}`); */
         }
       }
     });
@@ -141,17 +148,19 @@ export class PeriodosComponent implements OnInit {
 
   public detenerParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    this.mensajeConfirmacion(`detener ${nombreParam} de ${periodo.Nombre}`)
+    /* this.mensajeConfirmacion(`detener ${nombreParam} de ${periodo.Nombre}`) */
+    this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea detener ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
       .then(resp => {
         let idParametro = this.getIdParametro(nombreParam);
-        if (resp.value && idParametro != 0) {
+        if (resp && idParametro != 0) {
           let parametro: ParametroPeriodo = this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, true);
           if (parametro != undefined) {
             parametro.Activo = false
             this.listService.actualizarInscripcionesPeriodo(parametro);
             this.cargarEstadoPeriodos();
           } else {
-            this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
+            this.utilService.showSwAlertError("Parametro no encontrado",`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
+            /* this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`); */
           }
         }
       });
@@ -160,35 +169,21 @@ export class PeriodosComponent implements OnInit {
 
   public reactivarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i]
-    this.mensajeConfirmacion(`Reactivar ${nombreParam} de ${periodo.Nombre}`)
+    /* this.mensajeConfirmacion(`Reactivar ${nombreParam} de ${periodo.Nombre}`) */
+    this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea reactivar ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
       .then(resp => {
         let idParametro = this.getIdParametro(nombreParam);
-        if (resp.value && idParametro != 0) {
+        if (resp && idParametro != 0) {
           let parametro: ParametroPeriodo = this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, false);
           if (parametro != undefined) {
             parametro.Activo = true;
             this.listService.actualizarInscripcionesPeriodo(parametro);
             this.cargarEstadoPeriodos();
           } else {
-            this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
+            this.utilService.showSwAlertError("Parametro no encontrado",`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
+            /* this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`); */
           }
         }
       });
-  }
-
-  private mensajeConfirmacion(msj: String): Promise<any> {
-    return new Promise((resolve) => {
-      Swal.fire({
-        title: '¿Está seguro?',
-        text: '' + msj,
-        icon: 'question',
-        showConfirmButton: true,
-        showCancelButton: true
-      }).then((result) => resolve(result)).catch(() => resolve(false));
-    });
-  }
-  private ventanaError(msj: String) {
-    Swal.fire("Error",
-      `<p>${msj}</p>`, "error");
   }
 }

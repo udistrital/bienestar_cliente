@@ -20,7 +20,10 @@ export class UtilService {
     *
     * Muestra un SweetAlert de que se realizo una operacion correctamente
     * 
-    * @param objArray
+    * @param titulo
+    * @param mensaje
+    * @param icono? 
+    * 
     */
     showSwAlertSuccess(titulo, mensaje, icono?) {
         Swal.fire({
@@ -34,12 +37,14 @@ export class UtilService {
     *
     * Muestra un SweetAlert de Error
     * 
-    * @param objArray
+    * @param titulo
+    * @param error
+    * 
     */
     showSwAlertError(titulo, error: any) {
         Swal.fire({
             icon: "error",
-            title: "ERROR." + titulo,
+            title: "ERROR. " + titulo,
             text: typeof(error) !== 'object' ? this.translate.instant(error) : error,
             confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
         });
@@ -50,14 +55,17 @@ export class UtilService {
     *
     * Muestra un SweetAlert para consultar una opcion es especifico
     * 
-    * @param objArray
+    * @param titulo
+    * @param query
+    * @param confirmBtnText
+    * 
     */
-    showSwAlertQuery(titulo, query, confirmBtnText): Promise<boolean> {
+    showSwAlertQuery(titulo, query,confirmBtnText,icon?): Promise<boolean> {
         return new Promise((resolve) => {
             Swal.fire({
                 title: titulo,
                 html: query,
-                icon: 'warning',
+                icon: icon!=null ? icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -72,7 +80,7 @@ export class UtilService {
    *
    * Muestra un SweetAlert para confirmacion simple
    * 
-   * @param objArray
+   * @param msj
    */
     showSwAlertConfirmation(msj: String): Promise<any> {
         return new Promise((resolve) => {
@@ -93,6 +101,31 @@ export class UtilService {
         });
     }
 
+    /**
+     *
+     * Muestra un Toast en la posición superior derecha para un error
+     * 
+     * @param titulo
+     * @param error
+     * @param icon?
+     * @param duration?
+     * @param status?
+     * 
+     */
+     showToastAlert(titulo, mensaje, icon?, duration?, status?) {
+        this.toastrService.show(
+          mensaje,
+          titulo,
+          {
+            position: NbGlobalPhysicalPosition.TOP_RIGHT,
+            status: status != null ? status : "success",
+                        //duration: 3000,
+            duration: duration != null ? duration : 3000,
+            //icon: "danger",
+            icon: icon != null ? icon : 'checkmark-square-outline',
+          }
+        );
+    }
 
 
     /**
@@ -101,7 +134,9 @@ export class UtilService {
      * 
      * @param titulo
      * @param error
-     * @param icon
+     * @param icon?
+     * @param duration?
+     * 
      */
     showToastError(titulo, error, icon?, duration?) {
         this.toastrService.show(
@@ -116,7 +151,7 @@ export class UtilService {
             icon: icon != null ? icon : 'slash-outline',
           }
         );
-      }
+    }
 
     /**
     *
