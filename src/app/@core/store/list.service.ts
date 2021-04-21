@@ -24,10 +24,13 @@ import { formatDate } from '@angular/common';
 import { Observacion } from '../data/models/solicitud/observacion';
 import { InfoComplementariaTercero } from '../data/models/terceros/info_complementaria_tercero';
 import { ApoyoAlimentario } from '../data/models/apoyo-alimentario';
+import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
 
 @Injectable()
 
 export class ListService {
+  
+  
 
 
 
@@ -255,8 +258,28 @@ export class ListService {
         reject("Id del tercero erronea")
       }
     });
-
   }
+
+
+  crearInfoComplementariaTercero(infoComp: InfoComplementariaTercero) {
+    this.tercerosService.post('info_complementaria_tercero', JSON.stringify(infoComp))
+              .subscribe();
+  }
+  
+
+  actualizarInfoComplementaria(infoComp: InfoComplementariaTercero) {
+    let id = infoComp.Id;
+    this.tercerosService.put('info_complementaria_tercero', JSON.stringify(infoComp), id ).subscribe();
+  }
+
+  findInfoComplementaria(nombreInfoComp: string): Promise<InfoComplementaria> {
+    return new Promise((resolve, reject) => {
+      this.tercerosService.get(`info_complementaria?query=Nombre:${nombreInfoComp}`).subscribe((resp)=>{
+        resolve(resp[0]);
+      },(error)=>reject(error));
+    });
+  }
+
 
   /* ************PARAMETOS SERVICE ********************* */
 
@@ -277,6 +300,7 @@ export class ListService {
             }
           },
           error => {
+            console.log(error);
             reject(error);
           });
     });
@@ -416,8 +440,6 @@ export class ListService {
       }
       this.parametrosService.get(`parametro_periodo${consulta}sortby=id&order=desc&limit=-1`).subscribe(
         (result: any[]) => {
-          //console.log(Object.keys(result['Data'][0]).length);
-
           if (Object.keys(result['Data'][0]).length > 0) {
             resolve(result['Data']);
           } else {
@@ -426,7 +448,7 @@ export class ListService {
           }
         },
         error => {
-          reject(error);
+          reject(`${error.status}. ${error.statusText}`);
         },
       );
 

@@ -654,12 +654,13 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" #required>
-                                        <nb-option value=""></nb-option>
-                                        <nb-option value="ladrillo">Ladrillo</nb-option>
-                                        <nb-option value="madera">Madera</nb-option>
-                                        <nb-option value="tela">Tela asfáltica</nb-option>
-                                        <nb-option value="lamina">Lamina metálica</nb-option>
+                                        <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option>
+                                        
+                                        <!-- <nb-option *ngFor="let material of materialVivienda" n="0"></nb-option>{{material}}</nb-option> -->
                                     </nb-select>
+                                    
+                                        
+                                    
                                 </div>
                             </div>
 
@@ -1048,8 +1049,9 @@
                 <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
 
                 <hr>
+                <!-- Cambiar por save() -->
                 <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="actualizarInfoEstudiante()" class="submit-button">
 
                         <i class="fas fa-save mr-1"></i>
                         Registrar

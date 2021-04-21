@@ -35,9 +35,9 @@ export class SolicitudTerceroComponent implements OnInit {
   periodo: Periodo = null;
   referenciaSolicitud: ReferenciaSolicitud = null;
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-  listInfoComplementaria = [];
+  listInfoComplementaria: InfoComplementariaTercero[] = [];
   infoComeplementariaPut = [];
-  materialVivienda = ["Ladrillo","Madera","Placa asfaltica"]
+  materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"]
 
   username: string = "";
   private autenticacion = new ImplicitAutenticationService();
@@ -54,7 +54,6 @@ export class SolicitudTerceroComponent implements OnInit {
 
   registro: FormGroup;
   residencia: FormGroup;
-  academica: FormGroup;
   sisben: FormGroup;
   socioeconomica: FormGroup;
   necesidades: FormGroup;
@@ -70,6 +69,8 @@ export class SolicitudTerceroComponent implements OnInit {
   desplazado: FormGroup;
   recibopago: FormGroup;
   otrosdoc: FormGroup;
+
+  academica: FormGroup;
   @ViewChild("dialogo", { read: null, static: null }) dialogo: TemplateRef<any>;
 
   APP_CONSTANTS = ApiConstanst;
@@ -362,13 +363,13 @@ export class SolicitudTerceroComponent implements OnInit {
         ).value;
         break;
 
-  
+
 
       default:
         break;
     }
   }
-  
+
   /* Clasifica informacion de contacto */
   agregarInformacionContacto(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
@@ -493,10 +494,10 @@ export class SolicitudTerceroComponent implements OnInit {
         });
 
         this.academica = new FormGroup({
-          valorMatricula: new FormControl({value: this.estudiante.InfoAcademica.ValorMatricula,disabled: true}),
-          numeroCreditos: new FormControl({value: this.estudiante.InfoAcademica.NumeroCreditos,disabled: false}),
-          promedio:  new FormControl({value: this.estudiante.InfoAcademica.Promedio,disabled: true}),
-          semestre:  new FormControl({value: this.estudiante.InfoAcademica.Semestre,disabled: true}),
+          valorMatricula: new FormControl({ value: this.estudiante.InfoAcademica.ValorMatricula, disabled: true }),
+          numeroCreditos: new FormControl({ value: this.estudiante.InfoAcademica.NumeroCreditos, disabled: false }),
+          promedio: new FormControl({ value: this.estudiante.InfoAcademica.Promedio, disabled: true }),
+          semestre: new FormControl({ value: this.estudiante.InfoAcademica.Semestre, disabled: true }),
         });
 
         this.socioeconomica = new FormGroup({
@@ -508,6 +509,7 @@ export class SolicitudTerceroComponent implements OnInit {
             value: this.estudiante.InfoSocioeconomica.Estrato,
             disabled: true,
           }),
+          valorMatricula: new FormControl(),
           ingresosMensuales: new FormControl({
             value: this.estudiante.InfoSocioeconomica.IngresosMensuales,
             disabled: true,
@@ -572,6 +574,9 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
           grupo: new FormControl(),
         });
+
+        console.log("Material--->", this.estudiante.InfoNecesidades.CalidadVivienda);
+
 
         this.necesidades = new FormGroup({
           calidadVivienda: new FormControl({
@@ -678,7 +683,42 @@ export class SolicitudTerceroComponent implements OnInit {
     return false;
   }
   actualizarInfoEstudiante() {
-    console.log(this.estudiante);
+    this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
+    
+    /* console.log("MaterialForm--->",this.necesidades.get('calidadVivienda').value);
+    
+    console.log("Material--->", this.estudiante.InfoNecesidades.CalidadVivienda);
+    console.log(this.estudiante); */
+  }
+
+  buscarInfoComplemetaria(nombreInfoComp: string, valor: any){
+    for (const infoComp of this.listInfoComplementaria) {
+      if(infoComp.InfoComplementariaId.Nombre==nombreInfoComp){
+        let objDato = JSON.parse(
+          infoComp.Dato
+        );
+        if(objDato.value!=valor){
+          console.log(`Actualizar ${objDato.value} 4 ${valor}`);
+          objDato.value=valor;
+          infoComp.Dato=JSON.stringify(objDato);
+          this.listService.actualizarInfoComplementaria(infoComp);
+        }
+        console.log(`Se actualizo ${nombreInfoComp}`);
+        return true;
+      }
+    }
+    this.listService.findInfoComplementaria(nombreInfoComp).then((respInfo)=>{
+      console.log(respInfo);
+      let infoComp = new InfoComplementariaTercero();
+      infoComp.TerceroId=this.tercero;
+      var objDato = { 
+        value: ""
+      };
+      objDato.value=valor;
+      infoComp.Dato=JSON.stringify(objDato);
+      infoComp.InfoComplementariaId=respInfo;
+      this.listService.crearInfoComplementariaTercero(infoComp);
+    }).catch((err)=>this.showError('Actualizar informacion',err));
   }
 
   showError(titulo: string, msj: any) {

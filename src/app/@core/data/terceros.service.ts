@@ -22,9 +22,9 @@ export class TercerosService {
     return this.requestManager.post(endpoint, element);
   }
 
-  put(endpoint, element) {
+  put(endpoint, element, id) {
     this.requestManager.setPath('TERCEROS_CRUD_SERVICE');
-    return this.requestManager.put(endpoint, element, element.id);
+    return this.requestManager.put(endpoint, element, id);
   }
 
   delete(endpoint, element) {
