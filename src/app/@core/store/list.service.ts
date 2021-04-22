@@ -275,7 +275,12 @@ export class ListService {
   findInfoComplementaria(nombreInfoComp: string): Promise<InfoComplementaria> {
     return new Promise((resolve, reject) => {
       this.tercerosService.get(`info_complementaria?query=Nombre:${nombreInfoComp}`).subscribe((resp)=>{
-        resolve(resp[0]);
+        if (Object.keys(resp[0]).length > 0) {
+          resolve(resp[0]);
+        }else{
+          resolve(undefined);
+        }
+        //resolve(resp[0]);
       },(error)=>reject(error));
     });
   }

@@ -161,7 +161,11 @@
                         Solicitud apoyo alimentario {{ periodo?.Nombre }}
                     </h1>
                     <br>
-                    <small>Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de Gestión Académica</small>
+                    <small>
+                        Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de Gestión Académica
+                        <br>
+                        Los campos con <span class="required-asterisk">*</span>, traen información ya existente pero se puede cambiar dependiendo de su situación actual.
+                    </small>
                 </div>
                 <button class="btn btn-block back-button" routerLink="../../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -252,8 +256,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth class="" size="large" placeholder="Vigencia en el programa" formControlName="programa" #required>
-                                        <nb-option value=""></nb-option>
+                                    <nb-select fullWidth class="" size="large" placeholder="Vigencia en el programa" formControlName="programa" required>
                                         <nb-option value="1">Nuevo en el programa</nb-option>
                                         <nb-option value="2">Antiguo en el programa</nb-option>
                                     </nb-select>
@@ -409,7 +412,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Con Quien Vive" formControlName="conQuienVive" #required>
+                                    <nb-select fullWidth size="large" placeholder="Con Quien Vive" formControlName="conQuienVive" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="familia">Familia</nb-option>
                                         <nb-option value="amigos">Amigos</nb-option>
@@ -496,7 +499,21 @@
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <input fullWidth nbInput formControlName="tieneperacargo">
+                                    <nb-radio-group formControlName="tieneperacargo" required>
+                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" [checked]="true">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" [disabled]=true>
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" [checked]="true">
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" [disabled]=true>
+                                            No
+                                        </nb-radio>
+                                    </nb-radio-group>
+                                    <!-- <input fullWidth nbInput formControlName="tieneperacargo" required> -->
                                 </div>
                             </div>
 
@@ -535,7 +552,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="menoresEdad">
+                                    <input nbInput fullWidth formControlName="menoresEdad" required>
                                 </div>
                             </div>
 
@@ -545,7 +562,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="menoresEstudiantes">
+                                    <input nbInput fullWidth formControlName="menoresEstudiantes" required>
                                 </div>
                             </div>
 
@@ -555,7 +572,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="menoresEstudiantes">
+                                    <input nbInput fullWidth formControlName="menoresMatriculados" required>
                                 </div>
                             </div>
 
@@ -585,14 +602,14 @@
                             <div class="row item-list">
                                 <div class="col-md-4">¿Tiene sisben?: </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group>
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true">
+                                    <nb-radio-group formControlName="tieneSisben" name="tieneSisben">
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true" value="si">
                                             Si
                                         </nb-radio>
                                         <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [disabled]=true>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true">
+                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true" value="no">
                                             No
                                         </nb-radio>
                                         <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [disabled]=true>
@@ -612,7 +629,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4"> Grupo de Sisben: </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" #required>
+                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="A">Grupo A</nb-option>
                                         <nb-option value="B">Grupo B</nb-option>
@@ -653,14 +670,14 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" #required>
+                                    <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
                                         <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option>
-                                        
+
                                         <!-- <nb-option *ngFor="let material of materialVivienda" n="0"></nb-option>{{material}}</nb-option> -->
                                     </nb-select>
-                                    
-                                        
-                                    
+
+
+
                                 </div>
                             </div>
 
@@ -670,7 +687,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" #required>
+                                    <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="1">1</nb-option>
                                         <nb-option value="2">2</nb-option>
@@ -687,7 +704,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="personasHogar">
+                                    <input nbInput fullWidth formControlName="personasHogar" required>
                                 </div>
                             </div>
 
@@ -736,7 +753,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" #required>
+                                    <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="acueducto">Acueducto</nb-option>
                                         <nb-option value="lluvias">Aguas Lluvias</nb-option>
@@ -752,9 +769,26 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group>
-                                        <nb-radio> Alcantarillado </nb-radio>
-                                        <nb-radio> Poso séptico </nb-radio>
+                                    <nb-radio-group formControlName="aguasNegras" name="aguasNegras">
+
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'" [checked]="true" value="alcantarillado">
+                                            Alcantarillado
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'" [checked]="false" value="poso-septico">
+                                            Poso séptico
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'" [checked]="false" value="alcantarillado">
+                                            Alcantarillado
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'" [checked]="true" value="poso-septico">
+                                            Poso séptico
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''" value="alcantarillado">
+                                            Alcantarillado
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''" value="poso-septico">
+                                            Poso séptico
+                                        </nb-radio>
                                     </nb-radio-group>
                                 </div>
                             </div>
@@ -775,7 +809,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" #required>
+                                    <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="victima-violencia">Victima de violencia</nb-option>
                                         <nb-option value="desplazado">Desplazado</nb-option>
@@ -885,7 +919,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" #required>
+                                    <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="sisben">Sisben</nb-option>
                                         <nb-option value="eps">EPS</nb-option>

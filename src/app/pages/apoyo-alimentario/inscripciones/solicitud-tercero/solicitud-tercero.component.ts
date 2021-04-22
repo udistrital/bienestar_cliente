@@ -125,33 +125,33 @@ export class SolicitudTerceroComponent implements OnInit {
                 this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null)
                   .then((listSolicitantes) => {
                     console.log("loadSolicitanteByIdTercero");
+                    this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
+                      this.estudiante.Facultad = nomFacultad[0];
+                      this.estudiante.ProyectoCurricular = nomFacultad[1];
+                      
+                      if (listSolicitantes.length > 0) {
+                        this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
+                          this.solicitud = sol;
+                          console.log(this.solicitud);
+                          this.loading = false;
+                          Swal.close();
+                        }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
+                      } else {
+                        this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
+                          this.listInfoComplementaria = respIC;
+                          this.inicializarFormularios();
+                        }).catch((errIC) => {
+                          this.showError("error", errIC);
+                          this.inicializarFormularios();
+                        });
+                        console.log("Iniciamos formularios");
+                      }
 
-                    if (listSolicitantes.length > 0) {
-                      this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
-                        this.solicitud = sol;
-                        console.log(this.solicitud);
-                        this.loading = false;
-                        Swal.close();
-                      }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
-                    } else {
-                      this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
-                        this.listInfoComplementaria = respIC;
-                        this.inicializarFormularios();
-                      }).catch((errIC) => {
-                        this.showError("error", errIC);
-                        this.inicializarFormularios();
-                      });
-                      console.log("Iniciamos formularios");
-
-
-                    }
+                    });
+                    
                   }).catch((errorSolT) => {
                     this.showError("Solicitud no existe", errorSolT);
                   });
-                this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
-                  this.estudiante.Facultad = nomFacultad[0];
-                  this.estudiante.ProyectoCurricular = nomFacultad[1];
-                });
 
               } else {
                 this.showError("Documentos del estudiante no encontrados", "No se encontro el carnet y documento de identificacion");
@@ -363,6 +363,17 @@ export class SolicitudTerceroComponent implements OnInit {
         ).value;
         break;
 
+      case "AGUA_PARA_CONSUMO":
+        this.estudiante.InfoNecesidades.OrigenAgua = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "ELIMINACION_AGUAS_NEGRAS":
+        this.estudiante.InfoNecesidades.AguasNegras = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
 
 
       default:
@@ -539,7 +550,7 @@ export class SolicitudTerceroComponent implements OnInit {
         this.personasacargo = new FormGroup({
           tieneperacargo: new FormControl({
             value: this.estudiante.InfoPersonasACargo.TienePersonasACargo,
-            disabled: true,
+            disabled: false,
           }),
           hijos: new FormControl({
             value: this.estudiante.InfoPersonasACargo.Hijos,
@@ -605,6 +616,8 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
         });
 
+        console.log("AGUAS--->", this.estudiante.InfoNecesidades.AguasNegras);
+
         this.especial = new FormGroup({
           condicionDesplazado: new FormControl({}),
           condicionEspecial: new FormControl({}),
@@ -641,6 +654,8 @@ export class SolicitudTerceroComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("CUANDO CARGO");
+    
   }
 
   sendData(form: NgForm) { }
@@ -665,6 +680,8 @@ export class SolicitudTerceroComponent implements OnInit {
             allowOutsideClick: false,
           });
           this.actualizarInfoEstudiante();
+          console.log("SALi estudiante jajaja salu2 xd");
+          
           Swal.showLoading();
           if (this.solicitud == null) {
             let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
@@ -683,8 +700,14 @@ export class SolicitudTerceroComponent implements OnInit {
     return false;
   }
   actualizarInfoEstudiante() {
-    this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
-    
+    if(this.validacionesForm()){
+      let proof=this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
+      let proof2=this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
+      let proof3=this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO",this.necesidades.get('origenAgua').value);
+    }else{
+      console.log("F PAPUU");
+      
+    }
     /* console.log("MaterialForm--->",this.necesidades.get('calidadVivienda').value);
     
     console.log("Material--->", this.estudiante.InfoNecesidades.CalidadVivienda);
@@ -692,11 +715,14 @@ export class SolicitudTerceroComponent implements OnInit {
   }
 
   buscarInfoComplemetaria(nombreInfoComp: string, valor: any){
+    
     for (const infoComp of this.listInfoComplementaria) {
       if(infoComp.InfoComplementariaId.Nombre==nombreInfoComp){
         let objDato = JSON.parse(
           infoComp.Dato
         );
+        console.log(valor);
+        
         if(objDato.value!=valor){
           console.log(`Actualizar ${objDato.value} 4 ${valor}`);
           objDato.value=valor;
@@ -709,15 +735,20 @@ export class SolicitudTerceroComponent implements OnInit {
     }
     this.listService.findInfoComplementaria(nombreInfoComp).then((respInfo)=>{
       console.log(respInfo);
-      let infoComp = new InfoComplementariaTercero();
-      infoComp.TerceroId=this.tercero;
-      var objDato = { 
-        value: ""
-      };
-      objDato.value=valor;
-      infoComp.Dato=JSON.stringify(objDato);
-      infoComp.InfoComplementariaId=respInfo;
-      this.listService.crearInfoComplementariaTercero(infoComp);
+      if(respInfo!=undefined){
+        let infoComp = new InfoComplementariaTercero();
+        infoComp.TerceroId=this.tercero;
+        var objDato = { 
+          value: ""
+        };
+        objDato.value=valor;
+        console.log("Dato",respInfo);
+        infoComp.Dato=JSON.stringify(objDato);
+        infoComp.InfoComplementariaId=respInfo;
+        this.listService.crearInfoComplementariaTercero(infoComp);
+      }else{
+        this.showError('Nueva informacion',"El nombre no coincide con un tipo de informacion complementaria");
+      }
     }).catch((err)=>this.showError('Actualizar informacion',err));
   }
 
@@ -727,6 +758,51 @@ export class SolicitudTerceroComponent implements OnInit {
     this.utilService.showSwAlertError(titulo, msj);
   }
 
+  validacionesForm():boolean{
+    let msj=" información ";
+    let style="color: #ff0000; font-weight: bold; font-size: 1.2em;"
+    let valido:boolean=false;
+    if(!this.registro.valid){
+      msj+=" básica,";
+    }if(!this.residencia.valid){
+      msj+=" residencia,";
+    }
+    if(!this.academica.valid){
+      msj+=" académica,";
+    }
+    if(!this.socioeconomica.valid){
+      msj+=" socioeconomica,";
+    }
+    if(!this.personasacargo.valid){
+      msj+=" personas a cargo,";
+    }
+    if(!this.sisben.valid){
+      msj+=" sisben,";
+    }
+    if(!this.necesidades.valid){
+      msj+=" necesidades básicas,";
+    }
+    if(!this.especial.valid){
+      msj+=" población especial,";
+    }
+    if(!this.documentos.valid){
+      if(msj.length<15){
+        msj=" documentos,";
+      }else{
+        msj+=" documentos,";
+      }
+    }
+
+    msj=msj.slice(0, -1);
+
+    if(!valido){
+      this.utilService.showSwAlertError("Campos Vacios",`Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
+    }else{
+      valido=true;
+    }
+
+    return valido;
+  }
 
   async save() {
     const isValidTerm = await this.utilService.termsAndConditional();

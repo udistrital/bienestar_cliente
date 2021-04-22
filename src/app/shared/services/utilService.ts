@@ -28,7 +28,7 @@ export class UtilService {
     showSwAlertSuccess(titulo, mensaje, icono?) {
         Swal.fire({
             title: titulo,
-            text: mensaje,
+            html: mensaje,
             icon: icono != null ? icono : 'success'
         });
     }
@@ -45,9 +45,26 @@ export class UtilService {
         Swal.fire({
             icon: "error",
             title: "ERROR. " + titulo,
-            text: typeof(error) !== 'object' ? this.translate.instant(error) : error,
+            html: typeof(error) !== 'object' ? this.translate.instant(error) : error,
             confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-        });
+        });       
+    }
+
+    isHtml(error:any) {
+        if(typeof(error) !== 'object'){
+            let cont=0;
+            for(let e of error){
+                if(e=="<" || e==">"){
+                    cont+=1;
+                }
+            }
+            if(cont>=2){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
     
 
@@ -86,7 +103,7 @@ export class UtilService {
         return new Promise((resolve) => {
             Swal.fire({
                 title: '¿Está seguro?',
-                text: '' + msj,
+                html: '' + msj,
                 icon: 'question',
                 showConfirmButton: true,
                 showCancelButton: true
