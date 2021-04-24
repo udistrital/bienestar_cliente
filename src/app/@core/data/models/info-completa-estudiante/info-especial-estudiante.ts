@@ -4,13 +4,13 @@ export class InfoEspecialEstudiante {
     Discapacidad: boolean;
     Patologia: boolean;
     SeguridadSocial: string;
-    SerPiloPaga:boolean;
+    SerPiloPaga:string;
     constructor() {
         this.CondicionDesplazado= false;
         this.CondicionEspecial= "";
         this.Discapacidad= false;
         this.Patologia= false;
         this.SeguridadSocial= "";
-        this.SerPiloPaga= false;
+        this.SerPiloPaga= "no";
     }
 }

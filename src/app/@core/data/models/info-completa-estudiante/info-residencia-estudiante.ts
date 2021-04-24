@@ -13,7 +13,7 @@ export class InfoResidenciaEstudiante {
         this.Municipio= "MUNICIPIO PRUEBA";
         this.Direccion= "DIRECCION PRUEBA";
         this.Telefono= "TELEFONO PB";
-        this.Barrio="BARRIO PRUEBA";
+        this.Barrio="pre: BARRIO PRUEBA";
         this.Sisben= false;
         this.Puntaje_Sisben= "50";
         this.Grupo_Sisben= "";

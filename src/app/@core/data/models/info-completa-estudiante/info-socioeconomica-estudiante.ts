@@ -20,7 +20,7 @@ export class InfoSocioEconomicaEstudiante {
         this.DependenciaEconomica="";
         this.NumeroHermanos="";
         this.ConQuienVive="";
-        this.ZonaVulnerabilidad=true;
+        this.ZonaVulnerabilidad=null;
         this.TipoColegio="";
         this.TipoVivienda="pre: Arriendo";
     }

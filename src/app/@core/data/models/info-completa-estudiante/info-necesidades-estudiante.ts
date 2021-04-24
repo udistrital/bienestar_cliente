@@ -1,14 +1,14 @@
 export class InfoNecesidadesEstudiante {
     CalidadVivienda: string;
     CuartosDormir: string;
-    PersonasHogar: number;
+    PersonasHogar: string;
     ServiciosPublicos: string[];
     OrigenAgua: string;
     AguasNegras:string;
     constructor() {
         this.CalidadVivienda= "";
-        this.CuartosDormir= "4";
-        this.PersonasHogar= 4;
+        this.CuartosDormir= "pre: 4";
+        this.PersonasHogar= "pre: 4";
         this.ServiciosPublicos= [""];
         this.OrigenAgua= "";
         this.AguasNegras= "";

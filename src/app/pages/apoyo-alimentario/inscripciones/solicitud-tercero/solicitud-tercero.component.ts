@@ -241,7 +241,7 @@ export class SolicitudTerceroComponent implements OnInit {
             Amigos: InfoComplementariaId.Id:186
             */
             this.estudiante.InfoSocioeconomica.ConQuienVive =
-              infComp.InfoComplementariaId.Nombre;
+            infComp.InfoComplementariaId.Nombre;
 
             break;
           /* 
@@ -322,9 +322,15 @@ export class SolicitudTerceroComponent implements OnInit {
         break;
 
       case "CABEZA_FAMILIA":
+        /* 
+          Padre
+          Madre
+          Familiar
+          El mismo
+        */
         this.estudiante.InfoSocioeconomica.CabezaFamilar = JSON.parse(
           infComp.Dato
-        );
+        ).value;
         break;
 
       case "HIJOS":
@@ -342,6 +348,7 @@ export class SolicitudTerceroComponent implements OnInit {
       case "NUMERO_HERMANOS":
         this.estudiante.InfoSocioeconomica.NumeroHermanos = infComp.Dato;
         break;
+
       case "Información Socioeconómica":
         this.estudiante.InfoSocioeconomica.IngresosMensuales = JSON.parse(
           infComp.Dato
@@ -520,7 +527,6 @@ export class SolicitudTerceroComponent implements OnInit {
             value: this.estudiante.InfoSocioeconomica.Estrato,
             disabled: true,
           }),
-          valorMatricula: new FormControl(),
           ingresosMensuales: new FormControl({
             value: this.estudiante.InfoSocioeconomica.IngresosMensuales,
             disabled: true,
@@ -536,11 +542,17 @@ export class SolicitudTerceroComponent implements OnInit {
           pagaArriendo: new FormControl(),
           zonaVulnerabilidad: new FormControl({
             value: this.estudiante.InfoSocioeconomica.ZonaVulnerabilidad,
-            disabled: true,
+            disabled: false,
           }),
           numeroHermanos: new FormControl(),
-          conQuienVive: new FormControl(),
-          tipoColegio: new FormControl(),
+          conQuienVive: new FormControl({
+            value: this.estudiante.InfoSocioeconomica.ConQuienVive,
+            disabled: true,
+          }),
+          tipoColegio: new FormControl({
+            value: this.estudiante.InfoSocioeconomica.TipoColegio,
+            disabled: true,
+          }),
           tipoVivienda: new FormControl({
             value: this.estudiante.InfoSocioeconomica.TipoVivienda,
             disabled: true,
@@ -550,7 +562,7 @@ export class SolicitudTerceroComponent implements OnInit {
         this.personasacargo = new FormGroup({
           tieneperacargo: new FormControl({
             value: this.estudiante.InfoPersonasACargo.TienePersonasACargo,
-            disabled: false,
+            disabled: true,
           }),
           hijos: new FormControl({
             value: this.estudiante.InfoPersonasACargo.Hijos,
@@ -623,15 +635,20 @@ export class SolicitudTerceroComponent implements OnInit {
           condicionEspecial: new FormControl({}),
           discapacidad: new FormControl({
             value: this.estudiante.InfoEspecial.Discapacidad,
-            disabled: true,
+            disabled: false,
           }),
           patologia: new FormControl({
             value: this.estudiante.InfoEspecial.Patologia,
-            disabled: true,
+            disabled: false,
           }),
           seguridadSocial: new FormControl({}),
-          serPiloPaga: new FormControl({}),
+          serPiloPaga: new FormControl({
+            value: this.estudiante.InfoEspecial.SerPiloPaga,
+            disabled: false,
+          }),
         });
+
+        console.log("PILO PAGA--->", this.estudiante.InfoEspecial.SerPiloPaga);
 
         this.documentos = new FormGroup({});
 
