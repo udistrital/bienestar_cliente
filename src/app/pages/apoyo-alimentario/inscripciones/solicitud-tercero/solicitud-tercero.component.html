@@ -145,7 +145,29 @@
                         Estado Solicitud :
                     </label>
                     <label class="sub-item">
+                        <p>{{solicitud.EstadoTipoSolicitudId.EstadoId.Nombre}}</p>
                     </label>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="observaciones.length>0">
+            <hr>
+            <h4>Observaciones</h4>
+            <div class="timeline">
+                <div *ngFor="let obs of observaciones" class="timeline__group">
+                    <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | date:'medium' }}
+                    </span>
+                    <div class="timeline__cards">
+                        <div class="timeline__card card">
+                            <header class="card__header">
+                                <b>{{obs.Titulo}}</b>
+                            </header>
+                            <div class="card__content">
+                                <p>{{obs.Valor.split('//')[0]}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

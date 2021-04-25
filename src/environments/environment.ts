@@ -12,6 +12,7 @@ export const environment = {
     CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
     APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/sintomas_crud/v1/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
+    UBICACIONES: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/ubicaciones_crud/v1/ ',
     CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
     WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',
     NECESIDADES_CRUD_SERVICE: 'http://pruebasapi.intranetoas.udistrital.edu.co:8201/v1/',

@@ -25,14 +25,12 @@ import { Observacion } from '../data/models/solicitud/observacion';
 import { InfoComplementariaTercero } from '../data/models/terceros/info_complementaria_tercero';
 import { ApoyoAlimentario } from '../data/models/apoyo-alimentario';
 import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
+import { UbicacionesService } from '../data/ubicaciones.service';
+import { Lugar } from '../data/models/lugar/lugar';
 
 @Injectable()
 
 export class ListService {
-  
-  
-
-
 
   constructor(
     private parametrosService: ParametrosService,
@@ -40,7 +38,8 @@ export class ListService {
     private tercerosService: TercerosService,
     private oikosService: OikosService,
     private academicaService: AcademicaService,
-    private apoyoAlimentarioService: ApoyoAlimentarioService
+    private apoyoAlimentarioService: ApoyoAlimentarioService,
+    private ubicacionesService: UbicacionesService
   ) { }
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
@@ -263,25 +262,25 @@ export class ListService {
 
   crearInfoComplementariaTercero(infoComp: InfoComplementariaTercero) {
     this.tercerosService.post('info_complementaria_tercero', JSON.stringify(infoComp))
-              .subscribe();
+      .subscribe();
   }
-  
+
 
   actualizarInfoComplementaria(infoComp: InfoComplementariaTercero) {
     let id = infoComp.Id;
-    this.tercerosService.put('info_complementaria_tercero', JSON.stringify(infoComp), id ).subscribe();
+    this.tercerosService.put('info_complementaria_tercero', JSON.stringify(infoComp), id).subscribe();
   }
 
   findInfoComplementaria(nombreInfoComp: string): Promise<InfoComplementaria> {
     return new Promise((resolve, reject) => {
-      this.tercerosService.get(`info_complementaria?query=Nombre:${nombreInfoComp}`).subscribe((resp)=>{
+      this.tercerosService.get(`info_complementaria?query=Nombre:${nombreInfoComp}`).subscribe((resp) => {
         if (Object.keys(resp[0]).length > 0) {
           resolve(resp[0]);
-        }else{
+        } else {
           resolve(undefined);
         }
         //resolve(resp[0]);
-      },(error)=>reject(error));
+      }, (error) => reject(error));
     });
   }
 
@@ -509,13 +508,13 @@ export class ListService {
    * @memberof ListService
    */
   findSolicitudes(): Promise<Solicitud[]> {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
         .subscribe(
           (result: any[]) => {
-            if(Object.keys(result[0]).length>0){
+            if (Object.keys(result[0]).length > 0) {
               resolve(result);
-            }else{
+            } else {
               resolve([]);
             }
           },
@@ -767,6 +766,31 @@ export class ListService {
         );
     });
   }
+  /**
+   *Busca Evolucion Estado de una solicitud
+   *
+   * @param {number} idSolicitud
+   * @return {*}  {Promise<Observacion[]>}
+   * @memberof ListService
+   */
+  findEvolucionEstado(idSolicitud: number): Promise<SolicitudEvolucionEstado[]> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.get(`solicitud_evolucion_estado?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc`)
+        .subscribe(
+          (result: any[]) => {
+            console.log("===Evolucion===");
+            if (Object.keys(result[0]).length == 0) {
+              resolve([])
+            } else {
+              resolve(result)
+            }
+          },
+          error => {
+            reject(error)
+          },
+        );
+    });
+  }
 
   /* ******** ACADEMICA SERVICE *********** */
 
@@ -792,8 +816,25 @@ export class ListService {
       }).catch((error) => reject(error));
     });
   }
-}
 
+  /* ******** UBICACIONES SERVICE *********** */
+
+  /**
+   *Carga los datos basicos de un lugar
+   *
+   * @param {number} Idlugar
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  cargarLugar(Idlugar: number): Promise<Lugar> {
+    return new Promise((resolve, reject) => {
+      this.ubicacionesService.get(`lugar/${Idlugar}`).subscribe((result) => {
+        console.log(result);
+        resolve(result);
+      }, (err) => reject(err));
+    })
+  }
+}
 
 
 
