@@ -17,6 +17,7 @@ import { FormControl } from '@angular/forms';
 import { InfoCompletaEstudiante } from '../../../../@core/data/models/info-completa-estudiante/info-completa-estudiante';
 import { InfoComplementariaTercero } from '../../../../@core/data/models/terceros/info_complementaria_tercero';
 import { DatePipe } from '@angular/common';
+import { SolicitudEvolucionEstado } from '../../../../@core/data/models/solicitud/solicitud-evolucion-estado';
 
 @Component({
     selector: 'ngx-evaluar-solicitud',
@@ -34,6 +35,7 @@ export class EvaluarSolicitudComponent implements OnInit {
     nuevoEstado: number = null;
     obseravacionText: string = "";
     observaciones: Observacion[] = [];
+    evolucionesEstado: SolicitudEvolucionEstado[] = [];
 
     estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
 
@@ -99,6 +101,10 @@ export class EvaluarSolicitudComponent implements OnInit {
                     console.log(respObs);
                     this.observaciones = respObs;
                 }).catch((errObs) =>  this.utilsService.showSwAlertError("Observación no encontrada",errObs));
+                this.listService.findEvolucionEstado(this.solicitud.Id).then((respObs) => {
+                  console.log(respObs);
+                  this.evolucionesEstado = respObs;
+              }).catch((errObs) =>  this.utilsService.showSwAlertError("Observación no encontrada",errObs));
             } else {
                 this.utilsService.showSwAlertError("Solicitud no encontrada","No se encontro la solicitud para el periodo actual");
             }

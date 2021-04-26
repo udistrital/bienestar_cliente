@@ -23,6 +23,7 @@ import { DatePipe } from "@angular/common";
 import { InfoComplementariaTercero } from "../../../../@core/data/models/terceros/info_complementaria_tercero";
 import { UtilService } from "../../../../shared/services/utilService";
 import { OikosService } from '../../../../@core/data/oikos.service';
+import { Observacion } from "../../../../@core/data/models/solicitud/observacion";
 
 @Component({
   selector: "ngx-solicitud-tercero",
@@ -37,7 +38,8 @@ export class SolicitudTerceroComponent implements OnInit {
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   listInfoComplementaria: InfoComplementariaTercero[] = [];
   infoComeplementariaPut = [];
-  materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"]
+  materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"];
+  observaciones: Observacion[] = [];
 
   username: string = "";
   private autenticacion = new ImplicitAutenticationService();
@@ -128,13 +130,17 @@ export class SolicitudTerceroComponent implements OnInit {
                     this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
                       this.estudiante.Facultad = nomFacultad[0];
                       this.estudiante.ProyectoCurricular = nomFacultad[1];
-                      
+
                       if (listSolicitantes.length > 0) {
                         this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
                           this.solicitud = sol;
                           console.log(this.solicitud);
                           this.loading = false;
                           Swal.close();
+                          this.listService.findObservacion(sol.Id).then((respObs) => {
+                            console.log(respObs);
+                            this.observaciones = respObs;
+                          }).catch((errObs) => this.showError("Observación no encontrada", errObs));
                         }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
                       } else {
                         this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
@@ -148,7 +154,7 @@ export class SolicitudTerceroComponent implements OnInit {
                       }
 
                     });
-                    
+
                   }).catch((errorSolT) => {
                     this.showError("Solicitud no existe", errorSolT);
                   });
@@ -241,7 +247,7 @@ export class SolicitudTerceroComponent implements OnInit {
             Amigos: InfoComplementariaId.Id:186
             */
             this.estudiante.InfoSocioeconomica.ConQuienVive =
-            infComp.InfoComplementariaId.Nombre;
+              infComp.InfoComplementariaId.Nombre;
 
             break;
           /* 
@@ -420,15 +426,18 @@ export class SolicitudTerceroComponent implements OnInit {
         break;
 
       case "LUGAR_RESIDENCIA":
-        /* "Dato": "447" */
-        this.estudiante.InfoResidencia.Municipio = JSON.parse(infComp.Dato);
+        this.listService.cargarLugar(JSON.parse(infComp.Dato)).then((resp) => {
+          this.estudiante.InfoResidencia.Municipio = resp.Nombre;
+          this.residencia.get('municipio').setValue(resp.Nombre);
+        });
+        break;
+      case "LOCALIDAD":
+        this.listService.cargarLugar(JSON.parse(infComp.Dato).LOCALIDAD).then((resp) => {
+          this.estudiante.InfoResidencia.Localidad = resp.Nombre;
+          this.residencia.get('localidad').setValue(resp.Nombre);
+        });
         break;
 
-      case "LOCALIDAD":
-        this.estudiante.InfoResidencia.Localidad = JSON.parse(
-          infComp.Dato
-        ).LOCALIDAD;
-        break;
 
       default:
         break;
@@ -672,7 +681,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
   ngOnInit() {
     console.log("CUANDO CARGO");
-    
+
   }
 
   sendData(form: NgForm) { }
@@ -698,7 +707,7 @@ export class SolicitudTerceroComponent implements OnInit {
           });
           this.actualizarInfoEstudiante();
           console.log("SALi estudiante jajaja salu2 xd");
-          
+
           Swal.showLoading();
           if (this.solicitud == null) {
             let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
@@ -735,7 +744,7 @@ export class SolicitudTerceroComponent implements OnInit {
       // SER PILO PAGA?
     }else{
       console.log("F PAPUU");
-      
+
     }
     /* console.log("MaterialForm--->",this.necesidades.get('calidadVivienda').value);
     
@@ -743,42 +752,42 @@ export class SolicitudTerceroComponent implements OnInit {
     console.log(this.estudiante); */
   }
 
-  buscarInfoComplemetaria(nombreInfoComp: string, valor: any){
-    
+  buscarInfoComplemetaria(nombreInfoComp: string, valor: any) {
+
     for (const infoComp of this.listInfoComplementaria) {
-      if(infoComp.InfoComplementariaId.Nombre==nombreInfoComp){
+      if (infoComp.InfoComplementariaId.Nombre == nombreInfoComp) {
         let objDato = JSON.parse(
           infoComp.Dato
         );
         console.log(valor);
-        
-        if(objDato.value!=valor){
+
+        if (objDato.value != valor) {
           console.log(`Actualizar ${objDato.value} 4 ${valor}`);
-          objDato.value=valor;
-          infoComp.Dato=JSON.stringify(objDato);
+          objDato.value = valor;
+          infoComp.Dato = JSON.stringify(objDato);
           this.listService.actualizarInfoComplementaria(infoComp);
         }
         console.log(`Se actualizo ${nombreInfoComp}`);
         return true;
       }
     }
-    this.listService.findInfoComplementaria(nombreInfoComp).then((respInfo)=>{
+    this.listService.findInfoComplementaria(nombreInfoComp).then((respInfo) => {
       console.log(respInfo);
-      if(respInfo!=undefined){
+      if (respInfo != undefined) {
         let infoComp = new InfoComplementariaTercero();
-        infoComp.TerceroId=this.tercero;
-        var objDato = { 
+        infoComp.TerceroId = this.tercero;
+        var objDato = {
           value: ""
         };
-        objDato.value=valor;
-        console.log("Dato",respInfo);
-        infoComp.Dato=JSON.stringify(objDato);
-        infoComp.InfoComplementariaId=respInfo;
+        objDato.value = valor;
+        console.log("Dato", respInfo);
+        infoComp.Dato = JSON.stringify(objDato);
+        infoComp.InfoComplementariaId = respInfo;
         this.listService.crearInfoComplementariaTercero(infoComp);
-      }else{
-        this.showError('Nueva informacion',"El nombre no coincide con un tipo de informacion complementaria");
+      } else {
+        this.showError('Nueva informacion', "El nombre no coincide con un tipo de informacion complementaria");
       }
-    }).catch((err)=>this.showError('Actualizar informacion',err));
+    }).catch((err) => this.showError('Actualizar informacion', err));
   }
 
   showError(titulo: string, msj: any) {
@@ -787,47 +796,47 @@ export class SolicitudTerceroComponent implements OnInit {
     this.utilService.showSwAlertError(titulo, msj);
   }
 
-  validacionesForm():boolean{
-    let msj=" información ";
-    let style="color: #ff0000; font-weight: bold; font-size: 1.2em;"
-    let valido:boolean=false;
-    if(!this.registro.valid){
-      msj+=" básica,";
-    }if(!this.residencia.valid){
-      msj+=" residencia,";
+  validacionesForm(): boolean {
+    let msj = " información ";
+    let style = "color: #ff0000; font-weight: bold; font-size: 1.2em;"
+    let valido: boolean = false;
+    if (!this.registro.valid) {
+      msj += " básica,";
+    } if (!this.residencia.valid) {
+      msj += " residencia,";
     }
-    if(!this.academica.valid){
-      msj+=" académica,";
+    if (!this.academica.valid) {
+      msj += " académica,";
     }
-    if(!this.socioeconomica.valid){
-      msj+=" socioeconomica,";
+    if (!this.socioeconomica.valid) {
+      msj += " socioeconomica,";
     }
-    if(!this.personasacargo.valid){
-      msj+=" personas a cargo,";
+    if (!this.personasacargo.valid) {
+      msj += " personas a cargo,";
     }
-    if(!this.sisben.valid){
-      msj+=" sisben,";
+    if (!this.sisben.valid) {
+      msj += " sisben,";
     }
-    if(!this.necesidades.valid){
-      msj+=" necesidades básicas,";
+    if (!this.necesidades.valid) {
+      msj += " necesidades básicas,";
     }
-    if(!this.especial.valid){
-      msj+=" población especial,";
+    if (!this.especial.valid) {
+      msj += " población especial,";
     }
-    if(!this.documentos.valid){
-      if(msj.length<15){
-        msj=" documentos,";
-      }else{
-        msj+=" documentos,";
+    if (!this.documentos.valid) {
+      if (msj.length < 15) {
+        msj = " documentos,";
+      } else {
+        msj += " documentos,";
       }
     }
 
-    msj=msj.slice(0, -1);
+    msj = msj.slice(0, -1);
 
-    if(!valido){
-      this.utilService.showSwAlertError("Campos Vacios",`Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
-    }else{
-      valido=true;
+    if (!valido) {
+      this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
+    } else {
+      valido = true;
     }
 
     return valido;
