@@ -164,6 +164,8 @@
                     <small>
                         Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de Gestión Académica
                         <br>
+                        Los campos con <span class="oas-asterisk">*</span>, información que trae la OAS.
+                        <br>
                         Los campos con <span class="required-asterisk">*</span>, traen información ya existente pero se puede cambiar dependiendo de su situación actual.
                     </small>
                 </div>
@@ -306,7 +308,9 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Barrio: </div>
+                                <div class="col-md-4">Barrio:
+                                    <span class="oas-asterisk">(*)</span>
+                                </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="barrio">
                                 </div>
@@ -331,7 +335,9 @@
                     <nb-accordion-item-body>
                         <form [formGroup]="academica">
                             <div class="row item-list">
-                                <div class="col-md-4">Valor Matricula: </div>
+                                <div class="col-md-4">Valor Matricula:
+                                    <span class="oas-asterisk">(*)</span>
+                                </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="valorMatricula">
                                 </div>
@@ -347,14 +353,18 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Promedio: </div>
+                                <div class="col-md-4">Promedio:
+                                    <span class="oas-asterisk">(*)</span>
+                                </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="promedio">
                                 </div>
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Semestre: </div>
+                                <div class="col-md-4">Semestre:
+                                    <span class="oas-asterisk">(*)</span>
+                                </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth formControlName="semestre">
                                 </div>
@@ -440,6 +450,7 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">Lugar de vivienda:
+                                    <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="tipoVivienda">
@@ -462,7 +473,10 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Zona de Vulnerabilidad: </div>
+                                <div class="col-md-4">
+                                    Zona de Vulnerabilidad:
+                                    <span class="oas-asterisk">(*)</span>
+                                </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="zonaVulnerabilidad">
                                         <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" [checked]="true">
@@ -630,7 +644,9 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4"> Grupo de Sisben: </div>
+                                <div class="col-md-4"> Grupo de Sisben:
+                                    <span class="oas-asterisk">(*)</span>
+                                </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" required>
                                         <nb-option value=""></nb-option>
@@ -718,31 +734,31 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="luz">
+                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="luz">
                                         <label class="form-check-label">
                                             Luz
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="gas">
+                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="gas">
                                         <label class="form-check-label">
                                             Gas Domiciliario
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="telefono">
+                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="telefono">
                                         <label class="form-check-label">
                                             Teléfono
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="tv">
+                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="tv">
                                         <label class="form-check-label">
                                             Televisión por cable
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="todos">
+                                        <input type="checkbox" formControlName="personasHogar" ng-model="all" class="form-check-input" value="todos">
                                         <label class="form-check-label">
                                             Todos los servicios
                                         </label>
@@ -813,7 +829,6 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" required>
-                                        <nb-option value=""></nb-option>
                                         <nb-option value="victima-violencia">Victima de violencia</nb-option>
                                         <nb-option value="desplazado">Desplazado</nb-option>
                                         <nb-option value="indigena">Indigena</nb-option>
@@ -842,30 +857,32 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Presenta algún tipo de discapacidad:
+                                    <span class="oas-asterisk">(*)</span>
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group formControlName="discapacidad" name="discapacidad">
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="no">
-                                            No
-                                        </nb-radio>
-
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==true" [checked]="true" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==false" [checked]="false" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==false" [checked]="true" value="no">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==true" [checked]="false" value="no">
-                                            No
-                                        </nb-radio>
-                                    </nb-radio-group>
+                                    <form formControl="discapacidad">
+                                        <nb-radio-group formControlName="discapacidad" name="discapacidad" [(ngModel)]="estudiante.InfoEspecial.Discapacidad">
+                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="si">
+                                                Si
+                                            </nb-radio>
+                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="no">
+                                                No
+                                            </nb-radio>
+                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="true" value="si" checked>
+                                                Si
+                                            </nb-radio>
+                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="false" value="si">
+                                                Si
+                                            </nb-radio>
+                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="true" value="no" checked>
+                                                No
+                                            </nb-radio>
+                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="false" value="no">
+                                                No
+                                            </nb-radio>
+                                        </nb-radio-group>
+                                    </form>
                                 </div>
                             </div>
 
@@ -897,16 +914,16 @@
                                         <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==null" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==true" [checked]="true" value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="true" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==false" [checked]="false" value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="false" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==false" [checked]="true" value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="true" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==true" [checked]="false" value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="false" value="no">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -936,7 +953,6 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
-                                        <nb-option value=""></nb-option>
                                         <nb-option value="sisben">Sisben</nb-option>
                                         <nb-option value="eps">EPS</nb-option>
                                         <nb-option value="prepagada">Prepagada</nb-option>
@@ -948,6 +964,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Pertenece al programa ser pilo paga:
+                                    <span class="oas-asterisk">(*)</span>
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">

@@ -648,7 +648,7 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
         });
 
-        console.log("PILO PAGA--->", this.estudiante.InfoEspecial.SerPiloPaga);
+        console.log("DISCAPACIDAD--->", this.estudiante.InfoEspecial.Discapacidad);
 
         this.documentos = new FormGroup({});
 
@@ -718,9 +718,21 @@ export class SolicitudTerceroComponent implements OnInit {
   }
   actualizarInfoEstudiante() {
     if(this.validacionesForm()){
+      let proof0=this.buscarInfoComplemetaria("ANTIGUEDAD",this.registro.get('programa').value);
+      let proof01=this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL",this.academica.get('numeroCreditos').value);
+      let proof001=this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE",this.personasacargo.get('menoresEdad').value);
+      let proof002=this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES",this.personasacargo.get('menoresEstudiantes').value);
+      let proof003=this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS",this.personasacargo.get('menoresMatriculados').value);
+      // GRUPO SISBEN?
       let proof=this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
-      let proof2=this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
+      let proof1=this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR",this.necesidades.get('cuartosDormir').value);
+      let proof2=this.buscarInfoComplemetaria("NUMERO_PERSONAS_HOGAR",this.necesidades.get('personasHogar').value);
       let proof3=this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO",this.necesidades.get('origenAgua').value);
+      let proof4=this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
+      let proof5=this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.necesidades.get('condicionEspecial').value);
+      // DISCAPACIDAD?
+      let proof6=this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.necesidades.get('seguridadSocial').value);
+      // SER PILO PAGA?
     }else{
       console.log("F PAPUU");
       
