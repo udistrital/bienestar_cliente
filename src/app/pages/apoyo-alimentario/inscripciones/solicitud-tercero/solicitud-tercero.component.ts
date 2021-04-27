@@ -38,7 +38,10 @@ export class SolicitudTerceroComponent implements OnInit {
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   listInfoComplementaria: InfoComplementariaTercero[] = [];
   infoComeplementariaPut = [];
-  materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"];
+  allServicesP:boolean=false;
+  oneServicesP:boolean=false;
+
+  /* materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"]; */
   observaciones: Observacion[] = [];
 
   username: string = "";
@@ -62,6 +65,7 @@ export class SolicitudTerceroComponent implements OnInit {
   especial: FormGroup;
   personasacargo: FormGroup;
   documentos: FormGroup;
+  serviciosPublicos: FormGroup;
 
   colegio: FormGroup;
   vivienda: FormGroup;
@@ -370,8 +374,51 @@ export class SolicitudTerceroComponent implements OnInit {
     this.infoComeplementariaPut.push(infComp.InfoComplementariaId.Id);
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
+
+      case "ANTIGUEDAD_PROGRAMA":
+        this.estudiante.AntiguedadPrograma = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "CREDITOS_SEMESTRE_ACTUAL":
+        this.estudiante.InfoAcademica.NumeroCreditos = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+      
+      case "MENORES_EDAD_CONVIVE":
+        this.estudiante.InfoPersonasACargo.MenoresEdad = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "MENORES_EDAD_ESTUDIANTES":
+        this.estudiante.InfoPersonasACargo.MenoresEstudiantes = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "MENORES_EDAD_MATRICULADOS":
+        this.estudiante.InfoPersonasACargo.MenoresMatriculados = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
       case "CALIDAD_VIVIENDA":
         this.estudiante.InfoNecesidades.CalidadVivienda = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "NUMERO_CUARTOS_DORMIR":
+        this.estudiante.InfoNecesidades.CuartosDormir = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "NUMERO_PERSONAS_HOGAR":
+        this.estudiante.InfoNecesidades.PersonasHogar = JSON.parse(
           infComp.Dato
         ).value;
         break;
@@ -388,6 +435,30 @@ export class SolicitudTerceroComponent implements OnInit {
         ).value;
         break;
 
+      case "POBLACION_CONDICION_ESPECIAL":
+        this.estudiante.InfoEspecial.CondicionEspecial = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+        
+      case "SEGURIDAD_SOCIAL":
+        this.estudiante.InfoEspecial.SeguridadSocial = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "SERVICIOS_PUBLICOS_HOGAR":
+        let dato=JSON.parse(infComp.Dato).value
+        for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
+          if(dato[i[0]]==true){
+            i[1]="true";   
+          }
+        }  
+        /* this.estudiante.InfoNecesidades.AguasNegras = JSON.parse(
+          infComp.Dato
+        ).value; */
+        console.log('ServiciosPublicos :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos);
+        break;
 
       default:
         break;
@@ -429,12 +500,16 @@ export class SolicitudTerceroComponent implements OnInit {
         this.listService.cargarLugar(JSON.parse(infComp.Dato)).then((resp) => {
           this.estudiante.InfoResidencia.Municipio = resp.Nombre;
           this.residencia.get('municipio').setValue(resp.Nombre);
+        }).catch ((err)=>{
+          this.showError("Ubicación no disponible","Ocurrió un error al obtener el LUGAR_RESIDENCIA, intente más tarde");
         });
         break;
       case "LOCALIDAD":
         this.listService.cargarLugar(JSON.parse(infComp.Dato).LOCALIDAD).then((resp) => {
           this.estudiante.InfoResidencia.Localidad = resp.Nombre;
           this.residencia.get('localidad').setValue(resp.Nombre);
+        }).catch ((err)=>{
+          this.showError("Ubicación no disponible","Ocurrió un error al obtener la LOCALIDAD, intente más tarde");
         });
         break;
 
@@ -490,7 +565,10 @@ export class SolicitudTerceroComponent implements OnInit {
             value: this.estudiante.Celular,
             disabled: true,
           }),
-          programa: new FormControl(),
+          programa: new FormControl({
+            value: this.estudiante.AntiguedadPrograma,
+            disabled: false,
+          }),
           genero: new FormControl({
             value: this.estudiante.Genero,
             disabled: true,
@@ -520,9 +598,15 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
         });
 
+        
+
+        console.log("Localidad--->", this.estudiante.InfoResidencia.Localidad);
+        
+        console.log("Municipio--->", this.estudiante.InfoResidencia.Municipio);
+
         this.academica = new FormGroup({
           valorMatricula: new FormControl({ value: this.estudiante.InfoAcademica.ValorMatricula, disabled: true }),
-          numeroCreditos: new FormControl({ value: this.estudiante.InfoAcademica.NumeroCreditos, disabled: false }),
+          numeroCreditos: new FormControl({ value: this.estudiante.InfoAcademica.NumeroCreditos, disabled: false }, Validators.required),
           promedio: new FormControl({ value: this.estudiante.InfoAcademica.Promedio, disabled: true }),
           semestre: new FormControl({ value: this.estudiante.InfoAcademica.Semestre, disabled: true }),
         });
@@ -608,7 +692,8 @@ export class SolicitudTerceroComponent implements OnInit {
         });
 
         console.log("Material--->", this.estudiante.InfoNecesidades.CalidadVivienda);
-
+        //this.estudiante.InfoNecesidades.ServiciosPublicos=this.serviciosPublicos;
+        
 
         this.necesidades = new FormGroup({
           calidadVivienda: new FormControl({
@@ -623,10 +708,6 @@ export class SolicitudTerceroComponent implements OnInit {
             value: this.estudiante.InfoNecesidades.PersonasHogar,
             disabled: false,
           }),
-          serviciosPublicos: new FormControl({
-            value: this.estudiante.InfoNecesidades.ServiciosPublicos,
-            disabled: false,
-          }),
           origenAgua: new FormControl({
             value: this.estudiante.InfoNecesidades.OrigenAgua,
             disabled: false,
@@ -636,12 +717,39 @@ export class SolicitudTerceroComponent implements OnInit {
             disabled: false,
           }),
         });
+        
+        /* console.log("LUZ",this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]); */
+        
+
+        this.serviciosPublicos = new FormGroup({
+          luz: new FormControl({
+            value: this.estudiante.InfoNecesidades.ServiciosPublicos[0][1],
+            disabled: false,
+          }),
+          gas: new FormControl({
+            value: this.estudiante.InfoNecesidades.ServiciosPublicos[1][1],
+            disabled: false,
+          }),
+          telefono: new FormControl({
+            value: this.estudiante.InfoNecesidades.ServiciosPublicos[2][1],
+            disabled: false,
+          }),
+          tv: new FormControl({
+            value: this.estudiante.InfoNecesidades.ServiciosPublicos[3][1],
+            disabled: false,
+          }),
+        });
+
+
 
         console.log("AGUAS--->", this.estudiante.InfoNecesidades.AguasNegras);
 
         this.especial = new FormGroup({
           condicionDesplazado: new FormControl({}),
-          condicionEspecial: new FormControl({}),
+          condicionEspecial: new FormControl({
+            value: this.estudiante.InfoEspecial.CondicionEspecial,
+            disabled: false,
+          }),
           discapacidad: new FormControl({
             value: this.estudiante.InfoEspecial.Discapacidad,
             disabled: false,
@@ -650,7 +758,10 @@ export class SolicitudTerceroComponent implements OnInit {
             value: this.estudiante.InfoEspecial.Patologia,
             disabled: false,
           }),
-          seguridadSocial: new FormControl({}),
+          seguridadSocial: new FormControl({
+            value: this.estudiante.InfoEspecial.SeguridadSocial,
+            disabled: false,
+          }),
           serPiloPaga: new FormControl({
             value: this.estudiante.InfoEspecial.SerPiloPaga,
             disabled: false,
@@ -725,22 +836,26 @@ export class SolicitudTerceroComponent implements OnInit {
       });
     return false;
   }
+
   actualizarInfoEstudiante() {
+
+    
     if(this.validacionesForm()){
-      let proof0=this.buscarInfoComplemetaria("ANTIGUEDAD",this.registro.get('programa').value);
-      let proof01=this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL",this.academica.get('numeroCreditos').value);
-      let proof001=this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE",this.personasacargo.get('menoresEdad').value);
-      let proof002=this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES",this.personasacargo.get('menoresEstudiantes').value);
-      let proof003=this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS",this.personasacargo.get('menoresMatriculados').value);
+      this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA",this.registro.get('programa').value);
+      this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL",this.academica.get('numeroCreditos').value);
+      this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE",this.personasacargo.get('menoresEdad').value);
+      this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES",this.personasacargo.get('menoresEstudiantes').value);
+      this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS",this.personasacargo.get('menoresMatriculados').value);
       // GRUPO SISBEN?
-      let proof=this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
-      let proof1=this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR",this.necesidades.get('cuartosDormir').value);
-      let proof2=this.buscarInfoComplemetaria("NUMERO_PERSONAS_HOGAR",this.necesidades.get('personasHogar').value);
-      let proof3=this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO",this.necesidades.get('origenAgua').value);
-      let proof4=this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
-      let proof5=this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.necesidades.get('condicionEspecial').value);
+      this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
+      this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR",this.necesidades.get('cuartosDormir').value);
+      this.buscarInfoComplemetaria("NUMERO_PERSONAS_HOGAR",this.necesidades.get('personasHogar').value);
+      this.buscarInfoComplemetaria("SERVICIOS_PUBLICOS_HOGAR",this.serviciosPublicos.value);
+      this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO",this.necesidades.get('origenAgua').value);
+      this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
       // DISCAPACIDAD?
-      let proof6=this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.necesidades.get('seguridadSocial').value);
+      this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.especial.get('condicionEspecial').value);
+      this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.especial.get('seguridadSocial').value);
       // SER PILO PAGA?
     }else{
       console.log("F PAPUU");
@@ -759,7 +874,8 @@ export class SolicitudTerceroComponent implements OnInit {
         let objDato = JSON.parse(
           infoComp.Dato
         );
-        console.log(valor);
+        console.log("objDato",typeof(objDato));
+        console.log("valor",typeof(valor));
 
         if (objDato.value != valor) {
           console.log(`Actualizar ${objDato.value} 4 ${valor}`);
@@ -802,9 +918,10 @@ export class SolicitudTerceroComponent implements OnInit {
     let valido: boolean = false;
     if (!this.registro.valid) {
       msj += " básica,";
-    } if (!this.residencia.valid) {
+    } 
+    /* if (!this.residencia.valid) {
       msj += " residencia,";
-    }
+    } */
     if (!this.academica.valid) {
       msj += " académica,";
     }
@@ -825,7 +942,7 @@ export class SolicitudTerceroComponent implements OnInit {
     }
     if (!this.documentos.valid) {
       if (msj.length < 15) {
-        msj = " documentos,";
+        msj = " documentos ";
       } else {
         msj += " documentos,";
       }
@@ -833,7 +950,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
     msj = msj.slice(0, -1);
 
-    if (!valido) {
+    if (!valido && msj!=" información") {
       this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
     } else {
       valido = true;
@@ -842,13 +959,58 @@ export class SolicitudTerceroComponent implements OnInit {
     return valido;
   }
 
+  allSelected(check: boolean){
+    this.allServicesP=check;
+    this.oneServicesP=check;
+    for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
+      if(this.allServicesP){
+        i[1]="true";   
+        this.serviciosPublicos.get(i[0]).setValue(true);
+      }else{
+        i[1]="false";
+        this.serviciosPublicos.get(i[0]).setValue(false);
+      }
+    }
+  }
+
+  oneSelected(check: boolean){
+    
+    if(check){
+      if(this.serviciosPublicos.get('luz').value==true
+      && this.serviciosPublicos.get('gas').value==true
+      && this.serviciosPublicos.get('telefono').value==true
+      && this.serviciosPublicos.get('tv').value==true){
+        this.oneServicesP=true;
+      }else if(this.serviciosPublicos.get('luz').value==false
+      || this.serviciosPublicos.get('gas').value ==false
+      || this.serviciosPublicos.get('telefono').value==false
+      || this.serviciosPublicos.get('tv').value==false){
+        this.oneServicesP=false;
+      }
+    }else{
+      this.oneServicesP=check;
+    }
+    
+  }
+
+  cargarServiciosPublicos(dato:any){
+    for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
+      if(dato[i[0]]==true){
+        i[1]="true";   
+      }
+    }  
+  }
+
   async save() {
     const isValidTerm = await this.utilService.termsAndConditional();
+
     /* let caracterizaciones = [...this.comorbilidades, ...this.otros]; */
 
-    if (isValidTerm) {
-      this.registrar();
-      console.log("Se guardoooo");
+    if(isValidTerm) {
+      if(this.validacionesForm()){
+        this.registrar();
+        console.log("Se guardoooo");
+      }
       /* Swal.fire({
         title: 'Información de caracterización',
         text: `Se ${this.isPost ? 'almacenará' : 'actualizará'} la información correspondiente a la caracterización`,

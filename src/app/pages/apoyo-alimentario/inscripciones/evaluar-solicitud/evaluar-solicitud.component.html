@@ -38,13 +38,11 @@
         <div class="container" *ngIf="tercero==null && nueva">
 
             <h5>Documento del solicitante</h5>
-            <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné"
-                alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
+            <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné" alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
             <br>
             <hr>
             <div class="mt-2">
-                <button nbButton fullWidth hero shape="semi-round" status="success"
-                    (click)="cargarSolicitante(documentoNew.value)" class="submit-button">
+                <button nbButton fullWidth hero shape="semi-round" status="success" (click)="cargarSolicitante(documentoNew.value)" class="submit-button">
                     <i class="far fa-id-card mr-1"></i>
                     Cargar solicitante
                 </button>
@@ -222,10 +220,11 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-success btn-block" (click)="agregarObservacion()">
+                    <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Agregar observacion
                     </button>
+
                 </nb-accordion-item-body>
             </nb-accordion-item>
 
@@ -269,9 +268,7 @@
                             <label class="sub-item label-color-ud">
                                 Observacion cambio de estado:
                             </label>
-                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion"
-                                class="input-full-width size-medium status-basic shape-rectangle nb-transition"
-                                style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
                         </div>
                     </div>
                 </nb-accordion-item-body>
@@ -365,8 +362,7 @@
                                 </label>
                             </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth class="" size="large" placeholder="Vigencia en el programa"
-                                    formControlName="programa" #required>
+                                <nb-select fullWidth class="" size="large" placeholder="Vigencia en el programa" formControlName="programa" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="1">Nuevo en el programa</nb-option>
                                     <nb-option value="2">Antiguo en el programa</nb-option>
@@ -533,8 +529,7 @@
                                     <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [disabled]=true>
                                         Si
                                     </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad"
-                                        [checked]="true">
+                                    <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="true">
                                         No
                                     </nb-radio>
                                     <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [disabled]=true>
@@ -589,8 +584,7 @@
                             <div class="col-md-4">
                                 Registro Civil Hijos:
                                 <br>
-                                <small *ngIf="this.estudiante.InfoPersonasACargo.NumeroHijos>1"
-                                    class="small-color-ud">En el mismo archivo debe ir el registro civil de cada uno de
+                                <small *ngIf="this.estudiante.InfoPersonasACargo.NumeroHijos>1" class="small-color-ud">En el mismo archivo debe ir el registro civil de cada uno de
                                     sus hijos</small>
                                 <hr>
                                 <small class="small-info-ud">Sólo si el (la) estudiante tiene HIJOS y ellos dependen
@@ -686,8 +680,7 @@
                         <div class="row item-list">
                             <div class="col-md-4"> Grupo de Sisben: </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo"
-                                    #required>
+                                <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="A">Grupo A</nb-option>
                                     <nb-option value="B">Grupo B</nb-option>
@@ -729,8 +722,7 @@
                                 <span class="required-asterisk">*</span>
                             </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Calidad Vivienda"
-                                    formControlName="calidadVivienda" #required>
+                                <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="ladrillo">Ladrillo</nb-option>
                                     <nb-option value="madera">Madera</nb-option>
@@ -746,8 +738,7 @@
                                 <span class="required-asterisk">*</span>
                             </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Cuartos para Dormir"
-                                    formControlName="cuartosDormir" #required>
+                                <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="1">1</nb-option>
                                     <nb-option value="2">2</nb-option>
@@ -775,36 +766,31 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input"
-                                        value="luz">
+                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="luz">
                                     <label class="form-check-label">
                                         Luz
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input"
-                                        value="gas">
+                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="gas">
                                     <label class="form-check-label">
                                         Gas Domiciliario
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input"
-                                        value="telefono">
+                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="telefono">
                                     <label class="form-check-label">
                                         Teléfono
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input"
-                                        value="tv">
+                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="tv">
                                     <label class="form-check-label">
                                         Televisión por cable
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input"
-                                        value="todos">
+                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="todos">
                                     <label class="form-check-label">
                                         Todos los servicios
                                     </label>
@@ -818,8 +804,7 @@
                                 <span class="required-asterisk">*</span>
                             </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua"
-                                    #required>
+                                <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="acueducto">Acueducto</nb-option>
                                     <nb-option value="lluvias">Aguas Lluvias</nb-option>
@@ -858,8 +843,7 @@
                                 <span class="required-asterisk">*</span>
                             </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Población Especial"
-                                    formControlName="condicionEspecial" #required>
+                                <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="victima-violencia">Victima de violencia</nb-option>
                                     <nb-option value="desplazado">Desplazado</nb-option>
@@ -974,8 +958,7 @@
                                 <span class="required-asterisk">*</span>
                             </div>
                             <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Seguridad Social"
-                                    formControlName="seguridadSocial" #required>
+                                <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" #required>
                                     <nb-option value=""></nb-option>
                                     <nb-option value="sisben">Sisben</nb-option>
                                     <nb-option value="eps">EPS</nb-option>
@@ -1150,15 +1133,12 @@
 
         <div class="form-group" *ngIf="tercero!=null && solicitud==null  && nueva">
             <mat-label>Enviar documentación</mat-label>
-            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este
-                formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la
-                validación y dará respuesta únicamente basándose en
+            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la validación y dará respuesta únicamente basándose en
                 el primer diligenciamiento.
                 <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
 
                 <hr>
-                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="create()"
-                    class="submit-button">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="create()" class="submit-button">
                     <i class="fas fa-save mr-1"></i>
                     Crear Solicitud
                 </button>

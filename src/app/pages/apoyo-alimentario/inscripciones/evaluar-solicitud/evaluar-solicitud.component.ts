@@ -716,7 +716,7 @@ export class EvaluarSolicitudComponent implements OnInit {
                                 this.observaciones.push(observacionObj);
                                 this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                                 //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-                            }).catch();
+                            }).catch( (error) => this.utilsService.showSwAlertError("No se creo la Observación",error));
                         }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas",err));
 
                     }).catch((err) => {
@@ -727,13 +727,8 @@ export class EvaluarSolicitudComponent implements OnInit {
                 }
 
             });
-
-
-
-
-
-
     }
+
     agregarObservacion() {
         Swal.mixin({
             input: 'textarea',

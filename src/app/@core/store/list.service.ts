@@ -27,6 +27,7 @@ import { ApoyoAlimentario } from '../data/models/apoyo-alimentario';
 import { InfoComplementaria } from '../data/models/terceros/info_complementaria';
 import { UbicacionesService } from '../data/ubicaciones.service';
 import { Lugar } from '../data/models/lugar/lugar';
+import { UtilService } from '../../shared/services/utilService';
 
 @Injectable()
 
@@ -39,7 +40,8 @@ export class ListService {
     private oikosService: OikosService,
     private academicaService: AcademicaService,
     private apoyoAlimentarioService: ApoyoAlimentarioService,
-    private ubicacionesService: UbicacionesService
+    private ubicacionesService: UbicacionesService,
+    private utilsService: UtilService
   ) { }
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
@@ -484,14 +486,36 @@ export class ListService {
               solicitud.Id = res['Data']['Id']
               /* No se si funciona */
               this.crearEvolucionEstado(idTercero, solicitud, null);
+                
+              this.loadTiposObservacion(1).then((resp) => {
+                /*  Agregar observacion*/
+                console.log("Creando observacion");
 
-              const solicitante: Solicitante = new Solicitante();
-              solicitante.TerceroId = idTercero;
-              solicitante.SolicitudId = solicitud;
-              this.solicitudService.post('solicitante', JSON.stringify(solicitante))
-                .subscribe(res => {
-                  window.location.reload();
-                });
+                console.log("solicitud",solicitud);
+                console.log("tipo observacion",resp['Data'][0]);
+                
+                let observacionObj = new Observacion();
+                observacionObj.SolicitudId = solicitud;
+                observacionObj.TerceroId = idTercero;
+                observacionObj.Titulo = "Nueva Solicitud Creada";
+                observacionObj.Valor = "Se crea una nueva solicitud para apoyo alimentario con estado Radicada";
+                observacionObj.TipoObservacionId = resp['Data'][0];
+                this.crearObservacion(observacionObj).then((resp) => {
+
+                    this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
+                    const solicitante: Solicitante = new Solicitante();
+                    solicitante.TerceroId = idTercero;
+                    solicitante.SolicitudId = solicitud;
+                    this.solicitudService.post('solicitante', JSON.stringify(solicitante))
+                      .subscribe(res => {
+                        window.location.reload();
+                        
+                    });
+
+                }).catch( (error) => this.utilsService.showSwAlertError("No se creo la Observación",error));
+              }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas",err));
+
+             
 
             });
         }
@@ -828,10 +852,15 @@ export class ListService {
    */
   cargarLugar(Idlugar: number): Promise<Lugar> {
     return new Promise((resolve, reject) => {
+      console.log("ACA FALLOS");
+      
       this.ubicacionesService.get(`lugar/${Idlugar}`).subscribe((result) => {
-        console.log(result);
+        console.log("lugar res ->",result);
         resolve(result);
-      }, (err) => reject(err));
+      }, (err) => {
+        console.log("Efectivamente F :(");
+        reject(err);
+      });
     })
   }
 }

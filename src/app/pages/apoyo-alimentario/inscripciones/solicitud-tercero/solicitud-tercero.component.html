@@ -64,7 +64,7 @@
 
     <!-- Caso que exista solicitud -->
     <nb-card *ngIf="solicitud!==null && periodo!==null ">
-        <div class="container">
+        <nb-card-header>
             <div class="menu-header m-3">
                 <h1>
                     Solicitud apoyo alimentario {{ periodo?.Nombre }}
@@ -74,7 +74,9 @@
                     Regresar
                 </button>
             </div>
-            <hr>
+        </nb-card-header>
+        <hr>
+        <nb-card-body>
             <div class="menu-list">
                 <div class="item form-group ">
                     <label class="sub-item label-color-ud">
@@ -149,28 +151,31 @@
                     </label>
                 </div>
             </div>
-        </div>
 
-        <div *ngIf="observaciones.length>0">
-            <hr>
-            <h4>Observaciones</h4>
-            <div class="timeline">
-                <div *ngFor="let obs of observaciones" class="timeline__group">
-                    <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | date:'medium' }}
+
+            <div *ngIf="observaciones.length>0">
+                <hr>
+                <div class="container">
+                    <h4>Observaciones</h4>
+                    <div class="timeline">
+                        <div *ngFor="let obs of observaciones" class="timeline__group">
+                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | date:'medium' }}
                     </span>
-                    <div class="timeline__cards">
-                        <div class="timeline__card card">
-                            <header class="card__header">
-                                <b>{{obs.Titulo}}</b>
-                            </header>
-                            <div class="card__content">
-                                <p>{{obs.Valor.split('//')[0]}}</p>
+                            <div class="timeline__cards">
+                                <div class="timeline__card card">
+                                    <header class="card__header">
+                                        <b>{{obs.Titulo}}</b>
+                                    </header>
+                                    <div class="card__content">
+                                        <p>{{obs.Valor.split('//')[0]}}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </nb-card-body>
     </nb-card>
 
     <!-- Formulario nueva solicitud --------------------------------->
@@ -276,13 +281,17 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     <label>Antiguedad:
-                                        <span class="required-asterisk">*</span>
+                                        <span *ngIf="estudiante.AntiguedadPrograma==null" class="required-asterisk">*</span>
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth class="" size="large" placeholder="Vigencia en el programa" formControlName="programa" required>
-                                        <nb-option value="1">Nuevo en el programa</nb-option>
-                                        <nb-option value="2">Antiguo en el programa</nb-option>
+                                    <nb-select *ngIf="estudiante.AntiguedadPrograma==null" fullWidth size="large" placeholder="Vigencia en el programa" formControlName="programa" required>
+                                        <nb-option value="nuevo">Nuevo en el programa</nb-option>
+                                        <nb-option value="antiguo">Antiguo en el programa</nb-option>
+                                    </nb-select>
+                                    <nb-select *ngIf="estudiante.AntiguedadPrograma!=null" fullWidth size="large" formControlName="programa" disabled>
+                                        <nb-option value="nuevo" disabled>Nuevo en el programa</nb-option>
+                                        <nb-option value="antiguo" disabled>Antiguo en el programa</nb-option>
                                     </nb-select>
                                 </div>
                             </div>
@@ -370,7 +379,8 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="numeroCreditos">
+                                    <!-- required> -->
+                                    <input type="number" nbInput fullWidth formControlName="numeroCreditos" required>
                                 </div>
                             </div>
 
@@ -591,7 +601,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="menoresEdad" required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresEdad" required>
                                 </div>
                             </div>
 
@@ -601,7 +611,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="menoresEstudiantes" required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresEstudiantes" required>
                                 </div>
                             </div>
 
@@ -611,7 +621,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="menoresMatriculados" required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresMatriculados" required>
                                 </div>
                             </div>
 
@@ -670,8 +680,8 @@
                                     <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" required>
-                                        <nb-option value=""></nb-option>
+                                    <!-- required> -->
+                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo">
                                         <nb-option value="A">Grupo A</nb-option>
                                         <nb-option value="B">Grupo B</nb-option>
                                         <nb-option value="C">Grupo C</nb-option>
@@ -712,13 +722,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
-                                        <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option>
-
-                                        <!-- <nb-option *ngFor="let material of materialVivienda" n="0"></nb-option>{{material}}</nb-option> -->
+                                        <!-- <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option> -->
+                                        <nb-option value="ladrillo"> Ladrillo </nb-option>
+                                        <nb-option value="madera"> Madera </nb-option>
+                                        <nb-option value="tela-asfaltica"> Tela asfáltica </nb-option>
+                                        <nb-option value="lamina-metalica"> Lamina metálica </nb-option>
                                     </nb-select>
-
-
-
                                 </div>
                             </div>
 
@@ -729,7 +738,6 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
-                                        <nb-option value="pre: 4">pre : 4</nb-option>
                                         <nb-option value="1">1</nb-option>
                                         <nb-option value="2">2</nb-option>
                                         <nb-option value="3">3</nb-option>
@@ -745,7 +753,19 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="personasHogar" required>
+                                    <nb-select fullWidth size="large" placeholder="Personas en el hogar" formControlName="personasHogar" required>
+                                        <nb-option value="1">1</nb-option>
+                                        <nb-option value="2">2</nb-option>
+                                        <nb-option value="3">3</nb-option>
+                                        <nb-option value="4">4</nb-option>
+                                        <nb-option value="5">5</nb-option>
+                                        <nb-option value="6">6</nb-option>
+                                        <nb-option value="7">7</nb-option>
+                                        <nb-option value="8">8</nb-option>
+                                        <nb-option value="9">9</nb-option>
+                                        <nb-option value="+">Más de 10</nb-option>
+                                    </nb-select>
+                                    <!-- <input nbInput fullWidth formControlName="personasHogar" required> -->
                                 </div>
                             </div>
 
@@ -755,36 +775,13 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="luz">
-                                        <label class="form-check-label">
-                                            Luz
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="gas">
-                                        <label class="form-check-label">
-                                            Gas Domiciliario
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="telefono">
-                                        <label class="form-check-label">
-                                            Teléfono
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" ng-checked="all" class="form-check-input" value="tv">
-                                        <label class="form-check-label">
-                                            Televisión por cable
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" formControlName="personasHogar" ng-model="all" class="form-check-input" value="todos">
-                                        <label class="form-check-label">
-                                            Todos los servicios
-                                        </label>
-                                    </div>
+                                    <form [formGroup]="serviciosPublicos">
+                                        <nb-checkbox formControlName="luz" [checked]="allServicesP" (change)="oneSelected($event)"> Luz </nb-checkbox>
+                                        <nb-checkbox formControlName="gas" [checked]="allServicesP" (change)="oneSelected($event)"> Gas </nb-checkbox>
+                                        <nb-checkbox formControlName="telefono" [checked]="allServicesP" (change)="oneSelected($event)"> Teléfono </nb-checkbox>
+                                        <nb-checkbox formControlName="tv" [checked]="allServicesP" (change)="oneSelected($event)"> Televisión por cable </nb-checkbox>
+                                        <nb-checkbox [checked]="oneServicesP" (checkedChange)="allSelected($event)"> Todos los servicios </nb-checkbox>
+                                    </form>
                                 </div>
                             </div>
 
@@ -883,28 +880,26 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <form formControl="discapacidad">
-                                        <nb-radio-group formControlName="discapacidad" name="discapacidad" [(ngModel)]="estudiante.InfoEspecial.Discapacidad">
-                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="si">
-                                                Si
-                                            </nb-radio>
-                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="no">
-                                                No
-                                            </nb-radio>
-                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="true" value="si" checked>
-                                                Si
-                                            </nb-radio>
-                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="false" value="si">
-                                                Si
-                                            </nb-radio>
-                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="true" value="no" checked>
-                                                No
-                                            </nb-radio>
-                                            <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="false" value="no">
-                                                No
-                                            </nb-radio>
-                                        </nb-radio-group>
-                                    </form>
+                                    <nb-radio-group formControlName="discapacidad" name="discapacidad">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="si">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="no">
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="true" value="si" checked>
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="false" value="si">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="true" value="no" checked>
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="false" value="no">
+                                            No
+                                        </nb-radio>
+                                    </nb-radio-group>
                                 </div>
                             </div>
 

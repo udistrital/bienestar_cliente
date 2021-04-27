@@ -18,6 +18,7 @@ export class InfoCompletaEstudiante {
     Correo: string;
     Celular: string;
     Genero: string;
+    AntiguedadPrograma: string;
     InfoAcademica: InfoAcademicaEstudiante;
     InfoResidencia: InfoResidenciaEstudiante;
     InfoSocioeconomica: InfoSocioEconomicaEstudiante;
@@ -35,6 +36,7 @@ export class InfoCompletaEstudiante {
       this.Facultad="";
       this.Correo="";
       this.Genero="";
+      this.AntiguedadPrograma=null;
       this.InfoAcademica=new InfoAcademicaEstudiante();
       this.InfoResidencia=new InfoResidenciaEstudiante();
       this.InfoSocioeconomica= new InfoSocioEconomicaEstudiante();
