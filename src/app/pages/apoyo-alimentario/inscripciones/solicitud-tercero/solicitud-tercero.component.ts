@@ -386,6 +386,12 @@ export class SolicitudTerceroComponent implements OnInit {
           infComp.Dato
         ).value;
         break;
+
+      case "ZONA_VULNERABILIDAD":
+        this.estudiante.InfoSocioeconomica.ZonaVulnerabilidad = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
       
       case "MENORES_EDAD_CONVIVE":
         this.estudiante.InfoPersonasACargo.MenoresEdad = JSON.parse(
@@ -440,6 +446,12 @@ export class SolicitudTerceroComponent implements OnInit {
           infComp.Dato
         ).value;
         break;
+
+      case "PATOLOGIA_NUTRICION_ALIMENTACION":
+        this.estudiante.InfoEspecial.Patologia = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
         
       case "SEGURIDAD_SOCIAL":
         this.estudiante.InfoEspecial.SeguridadSocial = JSON.parse(
@@ -448,12 +460,19 @@ export class SolicitudTerceroComponent implements OnInit {
         break;
 
       case "SERVICIOS_PUBLICOS_HOGAR":
-        let dato=JSON.parse(infComp.Dato).value
+        let contServices=0;
+        let servicios=JSON.parse(infComp.Dato).value
         for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
-          if(dato[i[0]]==true){
-            i[1]="true";   
+          if(servicios[i[0]]==true){
+            i[1]="true"; 
+            contServices++;  
           }
-        }  
+        } 
+        console.log('num es :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos.length);
+        console.log('numsssss :>> ', contServices);
+        if(contServices==this.estudiante.InfoNecesidades.ServiciosPublicos.length){
+          this.oneServicesP=true;
+        } 
         /* this.estudiante.InfoNecesidades.AguasNegras = JSON.parse(
           infComp.Dato
         ).value; */
@@ -608,8 +627,10 @@ export class SolicitudTerceroComponent implements OnInit {
           valorMatricula: new FormControl({ value: this.estudiante.InfoAcademica.ValorMatricula, disabled: true }),
           numeroCreditos: new FormControl({ value: this.estudiante.InfoAcademica.NumeroCreditos, disabled: false }, Validators.required),
           promedio: new FormControl({ value: this.estudiante.InfoAcademica.Promedio, disabled: true }),
-          semestre: new FormControl({ value: this.estudiante.InfoAcademica.Semestre, disabled: true }),
+          matriculas: new FormControl({ value: this.estudiante.InfoAcademica.Matriculas, disabled: true }),
         });
+
+        console.log("VULNERABILIDAD--->", this.estudiante.InfoSocioeconomica.ZonaVulnerabilidad);
 
         this.socioeconomica = new FormGroup({
           estadocivil: new FormControl({
@@ -718,24 +739,24 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
         });
         
-        /* console.log("LUZ",this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]); */
+        console.log("LUZ",this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]);
         
 
         this.serviciosPublicos = new FormGroup({
           luz: new FormControl({
-            value: this.estudiante.InfoNecesidades.ServiciosPublicos[0][1],
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]=="true"),
             disabled: false,
           }),
           gas: new FormControl({
-            value: this.estudiante.InfoNecesidades.ServiciosPublicos[1][1],
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[1][1]=="true"),
             disabled: false,
           }),
           telefono: new FormControl({
-            value: this.estudiante.InfoNecesidades.ServiciosPublicos[2][1],
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[2][1]=="true"),
             disabled: false,
           }),
           tv: new FormControl({
-            value: this.estudiante.InfoNecesidades.ServiciosPublicos[3][1],
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[3][1]=="true"),
             disabled: false,
           }),
         });
@@ -840,9 +861,14 @@ export class SolicitudTerceroComponent implements OnInit {
   actualizarInfoEstudiante() {
 
     
-    if(this.validacionesForm()){
+    let nel=true;
+    if(this.validacionesForm() && nel ){
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA",this.registro.get('programa').value);
+
       this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL",this.academica.get('numeroCreditos').value);
+
+      this.buscarInfoComplemetaria("ZONA_VULNERABILIDAD",this.socioeconomica.get('zonaVulnerabilidad').value);
+
       this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE",this.personasacargo.get('menoresEdad').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES",this.personasacargo.get('menoresEstudiantes').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS",this.personasacargo.get('menoresMatriculados').value);
@@ -854,12 +880,12 @@ export class SolicitudTerceroComponent implements OnInit {
       this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO",this.necesidades.get('origenAgua').value);
       this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
       // DISCAPACIDAD?
-      this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.especial.get('condicionEspecial').value);
-      this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.especial.get('seguridadSocial').value);
+      this.buscarInfoComplemetaria("PATOLOGIA_NUTRICION_ALIMENTACION",this.especial.get('patologia').value);
+      /* this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.especial.get('condicionEspecial').value); */
+      /* this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.especial.get('seguridadSocial').value); */
       // SER PILO PAGA?
     }else{
       console.log("F PAPUU");
-
     }
     /* console.log("MaterialForm--->",this.necesidades.get('calidadVivienda').value);
     
@@ -874,10 +900,24 @@ export class SolicitudTerceroComponent implements OnInit {
         let objDato = JSON.parse(
           infoComp.Dato
         );
-        console.log("objDato",typeof(objDato));
-        console.log("valor",typeof(valor));
+        /*console.log("objDato",typeof(objDato), objDato);
+        console.log("valor",typeof(valor), valor); */
 
         if (objDato.value != valor) {
+          if(typeof(valor)=='object'){
+            let cont=0;
+            for(let i=0;i<Object.keys(valor).length ;i++){
+              /* console.log('o :>> ', Object.keys(objDato.value)[i]);
+              console.log('valor :>> ', Object.keys(valor)[i]); */
+              if(Object.values(objDato.value)[i] !== Object.values(valor)[i]){
+                cont++;
+              }
+            }
+            if(cont==0){
+              console.log(`Se actualizo objetos ${nombreInfoComp}`);
+              return true;
+            }
+          }
           console.log(`Actualizar ${objDato.value} 4 ${valor}`);
           objDato.value = valor;
           infoComp.Dato = JSON.stringify(objDato);
@@ -991,14 +1031,6 @@ export class SolicitudTerceroComponent implements OnInit {
       this.oneServicesP=check;
     }
     
-  }
-
-  cargarServiciosPublicos(dato:any){
-    for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
-      if(dato[i[0]]==true){
-        i[1]="true";   
-      }
-    }  
   }
 
   async save() {

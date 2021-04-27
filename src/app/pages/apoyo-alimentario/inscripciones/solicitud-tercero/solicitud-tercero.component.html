@@ -394,11 +394,11 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Semestre:
+                                <div class="col-md-4">Número de Matriculas:
                                     <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="semestre">
+                                    <input nbInput fullWidth formControlName="matriculas">
                                 </div>
                             </div>
                         </form>
@@ -482,7 +482,6 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">Lugar de vivienda:
-                                    <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="tipoVivienda">
@@ -507,23 +506,31 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Zona de Vulnerabilidad:
-                                    <span class="oas-asterisk">(*)</span>
+                                    <span class="required-asterisk">*</span>
+                                    <hr>
+                                    <small class="small-info-ud">
+                                        Reside en zonas de alto grado de vulnerabilidad SOCIAL Y ECONÓMICA. 
+                                        Incluye Zona rural, municipios aledaños a la capital
+                                    </small>
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="zonaVulnerabilidad">
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" [checked]="true">
-                                            No Existe Info
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==true" [checked]="true">
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'" [checked]="true" value="true" checked>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==false" [disabled]=true>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'" [checked]="false" value="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==false" [checked]="true">
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'" [checked]="true" value="false" checked>
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==true" [disabled]=true>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'" [checked]="false" value="false">
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" value="true">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" value="false">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -844,6 +851,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Usted o su grupo familiar esta certificado como:
+                                    <span class="oas-asterisk">(*)</span>
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
@@ -967,6 +975,7 @@
                                 <div class="col-md-4">
                                     Qué tipo de seguridad social tiene:
                                     <span class="required-asterisk">*</span>
+                                    <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
@@ -998,10 +1007,10 @@
                                         <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="true">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="false">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="no">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>

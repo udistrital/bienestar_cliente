@@ -11,6 +11,6 @@ export class InfoPersonasACargoEstudiante {
         this.NumeroHijos= 0;
         this.MenoresEdad= 0;
         this.MenoresEstudiantes= 0;
-        this.MenoresMatriculados= null;
+        this.MenoresMatriculados= 0;
     }
 }

@@ -42,6 +42,7 @@ import { InformePeriodoComponent } from './informes/informe-periodo/informe-peri
 import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
+import { FechaFormatPipe } from './pipes/fecha-format.pipe';
 
 @NgModule({
     imports: [
@@ -86,6 +87,7 @@ import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/busca
     InformePeriodoComponent,
     InformeDiarioComponent,
     BuscarSolicitudComponent,
+    FechaFormatPipe,
    ],
   providers: [
 

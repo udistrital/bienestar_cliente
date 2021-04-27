@@ -9,7 +9,7 @@ export class InfoEspecialEstudiante {
         this.CondicionDesplazado= false;
         this.CondicionEspecial= null;
         this.Discapacidad= 'si';
-        this.Patologia= "si";
+        this.Patologia= null;
         this.SeguridadSocial= null;
         this.SerPiloPaga= "no";
     }

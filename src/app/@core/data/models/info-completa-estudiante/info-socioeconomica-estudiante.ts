@@ -6,9 +6,9 @@ export class InfoSocioEconomicaEstudiante {
     CabezaFamilar: string; //COMO ESTUDIANTE SOSTIENE EL HOGAR EN QUE VIVE
     DependenciaEconomica: string; //COMO ESTUDIANTE SE SOSTIENE ECONÓMICAMENTE A SI MISMO
     PagaArriendo: boolean; // NO EXISTE
-    ZonaVulnerabilidad: boolean; // NO EXISTE
+    ZonaVulnerabilidad: string; 
     NumeroHermanos: string;
-    ConQuienVive: string;  //  NO EXISTE
+    ConQuienVive: string;  
     TipoColegio: string;  // No FORM APOYO
     TipoVivienda: string; //Paga Arriendo
     

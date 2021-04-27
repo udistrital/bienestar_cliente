@@ -39,11 +39,6 @@ export class SolicitudesComponent implements OnInit {
         for (let solicitud of result) {
           this.solicitudes.push(solicitud);
         }
-        for(let solicitud of this.solicitudes){
-          solicitud.FechaCreacion=this.utilService.validDateFormat(solicitud.FechaCreacion);
-          solicitud.FechaModificacion=this.utilService.validDateFormat(solicitud.FechaModificacion);
-          solicitud.FechaRadicacion=this.utilService.validDateFormat(solicitud.FechaRadicacion);
-        }
         this.filtrarSolicitudes();
       }else{
         this.utilService.showSwAlertError("Solicitudes no encontrados","No se encontraron solicitudes para ningun periodo");

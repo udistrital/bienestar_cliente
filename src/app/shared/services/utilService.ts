@@ -222,7 +222,7 @@ export class UtilService {
         }
     }
 
-  /**
+    /**
      *
      * Valida una fecha para que se muestre en la vista correctamente.
      * 
@@ -230,27 +230,37 @@ export class UtilService {
      * @param items
      * @param fileName
      */  
-  validDateFormat(dateString) {
-    if(dateString) {
-      //return dateString.replace(/\s/, 'T');      
-      let datePipe = new DatePipe('en-US');
-      let dateCreated:string="";
-      for(let i of dateString){
-        if(i=='+'){
-          break;
-        }else if (i==' '){
-          dateCreated+='T';
+    validDateFormat(dateString, typeTransform?) {
+        if(dateString) {
+            //return dateString.replace(/\s/, 'T');    
+            console.log(dateString);
+            
+            let datePipe = new DatePipe('en-US');
+            let dateCreated:string="";
+            for(let i of dateString){
+            if(i=='+'){
+                break;
+            }else if (i==' '){
+                dateCreated+='T';
+            }
+            else{
+                dateCreated+=i;
+            }
+            }
+            dateCreated = dateCreated.slice(0, -1);   
+            //dateCreated=dateCreated.toString();
+            if(typeTransform==null){
+            return datePipe.transform(dateCreated,'yyyy-MM-dd');
+            }else if(typeTransform==""){
+            return datePipe.transform(dateCreated);
+            }else{
+            console.log(datePipe.transform(dateCreated,typeTransform))
+            return datePipe.transform(dateCreated,typeTransform);
+            }
+            
         }
-        else{
-          dateCreated+=i;
-        }
-      }
-      dateCreated = dateCreated.slice(0, -1);
-      //dateCreated=dateCreated.toString();
-      return datePipe.transform(dateCreated,'yyyy-MM-dd');
+        return null;
     }
-    return null;
-  }
 
     /**
      *

@@ -71,7 +71,8 @@
                         <th scope="row">{{ (i+1) + (pagActual -1)*itemSelect }}</th>
                         <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
                         <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
-                        <td>{{ item.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ item.FechaRadicacion | fechaFormat }}</td>
+                        <!-- | date: 'dd/MM/yyyy' -->
                         <td>
                             <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
                                 <i class="fa fa-user" aria-hidden="true"></i>

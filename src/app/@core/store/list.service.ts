@@ -774,7 +774,7 @@ export class ListService {
    */
   findObservacion(idSolicitud: number): Promise<Observacion[]> {
     return new Promise((resolve, reject) => {
-      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc`)
+      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc&limit=-1`)
         .subscribe(
           (result: any[]) => {
             console.log("===Obsevaciones===");

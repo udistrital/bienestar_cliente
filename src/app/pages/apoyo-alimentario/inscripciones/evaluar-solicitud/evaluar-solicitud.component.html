@@ -202,7 +202,7 @@
                 <nb-accordion-item-body>
                     <div *ngIf="observaciones.length>0" class="timeline">
                         <div *ngFor="let obs of observaciones" class="timeline__group">
-                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | date:'medium' }}
+                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
                             </span>
                             <div class="timeline__cards">
                                 <div class="timeline__card card">
