@@ -6,19 +6,19 @@ import { HorariosComponent } from "./especialista/horarios/horarios.component";
 import { ListarPacienteComponent } from "./paciente/listar-paciente/listar-paciente.component";
 import { HomeComponent } from "./home/home.component";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
-import { FullCalendarModule } from '@fullcalendar/angular'; 
-import dayGridPlugin from '@fullcalendar/daygrid'; 
-import interactionPlugin from '@fullcalendar/interaction';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
+// import { FullCalendarModule } from '@fullcalendar/angular'; 
+// import dayGridPlugin from '@fullcalendar/daygrid'; 
+// import interactionPlugin from '@fullcalendar/interaction';
+// import timeGridPlugin from '@fullcalendar/timegrid';
+// import listPlugin from '@fullcalendar/list';
 import { HistoriaClinicaComponent } from "./historia-clinica/historia-clinica.component";
 import { PacienteCitaComponent } from "./paciente/paciente-cita/paciente-cita.component";
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin,
-  interactionPlugin,
-  timeGridPlugin,
-  listPlugin,
-]);
+// FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+//   dayGridPlugin,
+//   interactionPlugin,
+//   timeGridPlugin,
+//   listPlugin,
+// ]);
 
 const routes: Routes = [
   {
@@ -39,7 +39,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes), 
     NgxMaterialTimepickerModule,
-    FullCalendarModule,
+    // FullCalendarModule,
   ],
   exports: [RouterModule],
 })
