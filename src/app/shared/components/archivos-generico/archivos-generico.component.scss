@@ -1,0 +1,123 @@
+.input-archivo {
+    width: 100%;
+    height: 5rem;
+    box-sizing: border-box;
+    background-color: #fcf8ef;
+    border-radius: 1px 1px 1px 1px #faad0b;
+    padding: 10px;
+
+    button {
+        border: 1px dashed #faad0b;
+        height: 100%;
+        cursor: pointer;
+        color: #000000;
+        background-color: #fcf8ef;
+        width: 100%;
+        transition: background-color, 0.3s, ease-in-out;
+    }
+
+    button:hover {
+        background-color: #faad0b;
+        color: #ffffff;
+    }
+
+    button:hover svg {
+        opacity: 1;
+        fill: #ffffff;
+    }
+
+    button:focus {
+        outline: 0;
+    }
+
+    button > svg {
+        width: 25px;
+        vertical-align: middle;
+        margin-right: 8px;
+        opacity: 0.7;
+        fill: #faad0b;
+        transition: opacity, 0.3s, ease-in-out;
+    }
+    .file-upload--hidden{
+        display: none;
+    }
+
+    &.error{
+        button {
+            border: 1px dashed #ff708d;
+            height: 100%;
+            cursor: pointer;
+            color: #000000;
+            background-color: #fcf8ef;
+            width: 100%;
+            transition: background-color, 0.3s, ease-in-out;
+        }
+    
+        button:hover {
+            background-color: #ff708d;
+            color: #ffffff;
+        }
+    
+        button:hover svg {
+            opacity: 1;
+            fill: #ffffff;
+        }
+    
+        button:focus {
+            outline: 0;
+        }
+    
+        button > svg {
+            width: 25px;
+            vertical-align: middle;
+            margin-right: 8px;
+            opacity: 0.7;
+            fill: #ff708d;
+            transition: opacity, 0.3s, ease-in-out;
+        }
+        .file-upload--hidden{
+            display: none;
+        }
+    }
+
+    &.deshabilitado{
+
+        button {
+            border: 1px dashed #f7f7f7;
+            height: 100%;
+            cursor: pointer;
+            color: #f7f7f7;
+            background-color: #757575;
+            width: 100%;
+            transition: background-color, 0.3s, ease-in-out;
+            cursor: no-drop;
+        }
+    
+        button:hover {
+            background-color: #757575;
+            color: #f7f7f7;
+        }
+    
+        button:hover svg {
+            opacity: 1;
+            fill: #f7f7f7;
+        }
+    
+        button:focus {
+            outline: 0;
+        }
+    
+        button > svg {
+            width: 25px;
+            vertical-align: middle;
+            margin-right: 8px;
+            opacity: 0.7;
+            fill: #f7f7f7;
+            transition: opacity, 0.3s, ease-in-out;
+        }
+        .file-upload--hidden{
+            display: none;
+        }
+
+    }
+}

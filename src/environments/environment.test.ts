@@ -6,7 +6,11 @@
 export const environment = {
   production: true,
   NUXEO: {
-    PATH: 'https://documental.udistrital.edu.co/nuxeo/',
+    PATH: 'https://documental.portaloas.udistrital.edu.co/nuxeo/',
+    CREDENTIALS: {
+      USERNAME: 'desarrollooas',
+      PASS: 'desarrollooas2019',
+    },
   },
   CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
   CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
@@ -25,6 +29,9 @@ export const environment = {
   NOTIFICACION_SERVICE: 'wss://autenticacion.portaloas.udistrital.edu.co/apioas/notificacion_ws/v1/',
   CONF_MENU_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/menu_opcion_padre/ArbolMenus/',
   TERCEROS_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/',
+  NUXEO_2020:'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1/',
+  DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
+  SOLICITUD_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/',
   KNOWAGE: {
     PROTOCOL: 'https',
     HOST: 'tuleap.udistrital.edu.co',
@@ -42,5 +49,6 @@ export const environment = {
     SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
     SIGN_OUT_REDIRECT_URL: 'https://pruebaspresupuesto.portaloas.udistrital.edu.co',
   },
-
+  INFO_USER: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/',
+  PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/'
 };

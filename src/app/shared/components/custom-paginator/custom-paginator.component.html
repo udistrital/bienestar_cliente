@@ -1,0 +1,7 @@
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <button nbButton status="primary" class="mx-2" type="button" [disabled]="page===0" (click)="pageChange.emit(page-1)">Anterior</button>
+        <h5 class="mx-3">Página actual: {{page+1}}</h5>
+        <button nbButton status="primary" class="mx-2" type="button" [disabled]="totalElementos===0" (click)="pageChange.emit(page+1)">Siguiente</button>
+    </div>
+</div>

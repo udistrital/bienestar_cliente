@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 import { PopUpManager } from '../../../../@core/managers/popUpManager';
@@ -11,7 +11,7 @@ import { RequestManager } from '../../../../@core/managers/requestManager';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListEntityComponent implements OnInit {
+export class ListEntityComponent implements OnInit, OnChanges {
   // Local Inputs ...
   @Input('uuidReadFieldName') uuidReadField: string;
   @Input('paramsFieldsName') paramsFieldsName: object;
@@ -31,16 +31,19 @@ export class ListEntityComponent implements OnInit {
   @Input('updateConfirmMessage') updateConfirmMessage: string;
   @Input('createConfirmMessage') createConfirmMessage: string;
   @Input('isOnlyCrud') isOnlyCrud: boolean;
-  @Input('listSettings') listSettings: object;
+  @Input('listSettings') listSettings: any;
   @Input('externalCreate') externalCreate: boolean;
   @Input('viewItemSelected') viewItemSelected: boolean;
+  @Input('reloadTable') reloadTable: boolean;
   @Input('loadFormDataFunction') loadFormData: (...params) => Observable<any>;
   @Input('updateEntityFunction') updateEntityFunction: (...params) => Observable<any>;
   @Input('createEntityFunction') createEntityFunction: (...params) => Observable<any>;
+  @Output() reloadTableChange = new EventEmitter<boolean>();
   @Output() auxcambiotab = new EventEmitter<boolean>();
   @Output() crudcambiotab = new EventEmitter<boolean>();
   @Output() externalTabActivator = new EventEmitter<string>();
   @Output() infooutput = new EventEmitter<any>();
+  @Output() totalElementosChange = new EventEmitter<any>();
   externalTabActive: boolean = true;
 
   uid: any;
@@ -49,6 +52,7 @@ export class ListEntityComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
   cambiotab: boolean;
+  totalElementos: number = 0;
   constructor(
     private translate: TranslateService,
     private popUpManager: PopUpManager,
@@ -74,6 +78,13 @@ export class ListEntityComponent implements OnInit {
     if (changes['paramsFieldsName'] && changes['paramsFieldsName'].currentValue) {
       this.paramsFieldsName = changes['paramsFieldsName'].currentValue;
       this.loadData();
+    }
+    if (changes.reloadTable && changes.reloadTable.currentValue){
+      this.loadData();
+      setTimeout(()=>{
+        this.reloadTable = false;
+        this.reloadTableChange.emit(this.reloadTable);
+      },100);
     }
 
   }
@@ -124,11 +135,16 @@ export class ListEntityComponent implements OnInit {
     this.translate.use(language);
   }
 
-  loadData(): void {
+  loadData(params?: any): void {
 
-    this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
+    this.loadDataFunction('', this.paramsFieldsName ? this.paramsFieldsName : '', params).subscribe(res => {
       if (res !== null) {
         const data = <Array<any>>res;
+        this.totalElementos = data.length;
+        if(this.totalElementos === 1 && Object.keys(data[0]).length === 0){
+          this.totalElementos = 0;
+        }
+        this.totalElementosChange.emit(this.totalElementos);
         this.source.load(data);
       } else {
         this.source.load([]);
@@ -161,20 +177,32 @@ export class ListEntityComponent implements OnInit {
     this.activetab(event.action);
   }
   onCustom(event): void {
-    switch (event.action) {
-      case 'edit':
-        console.info(event);
+    switch (true) {
+      case event.action === 'edit':
         this.onEdit(event);
         break;
-      case 'delete':
+      case event.action === 'delete':
         this.onDelete(event);
         break;
-      case 'other':
+      case event.action === 'other':
         this.onAddOther(event);
+        break;
+      case event.action && event.action.endsWith('Custom'):
+        this.executeCustomAction(event);
         break;
       default:
         this.onAddOther(event);
         break;
+    }
+  }
+
+  executeCustomAction(event: any) {
+    if(this.listSettings){
+      for(const action of this.listSettings.actions.custom){
+        if(action.name===event.action){
+          action.customFunction(event.data);
+        }
+      }
     }
   }
 
@@ -201,7 +229,7 @@ export class ListEntityComponent implements OnInit {
       if (willDelete.value) {
         this.deleteDataFunction(event.data[this.uuidDeleteField], this.paramsFieldsName ? this.paramsFieldsName : '').subscribe(res => {
           if (res['Type'] === 'error') {
-            if ( res['Message']) {
+            if (res['Message']) {
               this.popUpManager.showErrorAlert(res['Message']);
             } else {
               this.popUpManager.showErrorAlert(res['Body']);
@@ -210,7 +238,7 @@ export class ListEntityComponent implements OnInit {
             this.loadData();
             this.popUpManager.showSuccessAlert(
               this.translate.instant(this.deleteConfirmMessage)
-              );
+            );
           }
         });
       }
