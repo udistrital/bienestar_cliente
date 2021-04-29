@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateReliquidacion(){
-    this.router.navigate(['/pages/inscripcion']);
+    this.router.navigate(['/pages/revision-estudiante']);
     return false;
   }
 

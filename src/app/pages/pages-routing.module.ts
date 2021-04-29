@@ -22,11 +22,11 @@ const routes: Routes = [
     component: PagesComponent,
     children: [
         
-        {
+        /* {
             path: '',
             redirectTo: 'revision-estudiante',
             pathMatch: 'full',
-        },
+        }, */
         {
             path: 'inscripcion',
             component: InscripcionEstComponent,

@@ -1,45 +1,46 @@
 <div class="header-container">
-  <div class="logo-container">
-    <!-- <a class="logo" href="#" (click)="navigateHome()">ngx-<span>admin</span></a> -->
-    <div class="logo" (click)="navigateHome()">
-      <img class="logo-kronos" src="../../../../assets/images/kronos.logo.png">
+    <div class="logo-container">
+        <!-- <a class="logo" href="#" (click)="navigateHome()">ngx-<span>admin</span></a> -->
+        <div class="logo" (click)="navigateHome()">
+            <img class="logo-kronos" src="../../../../assets/images/logoBienestar.png">
+        </div>
+        <h1> SIBUD </h1>
     </div>
-  </div>
 </div>
 
 <div class="header-container">
-<!--   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+    <!--   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
     <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
   </nb-select> -->
-  <nb-actions size="small">
-    <nb-action [hidden]="liveTokenValue">
-      <div class="dropdown ghost-dropdown">
-        <div class="btn-with-icon-example">
-          <button type="button" class="btn btn-success btn-with-icon login " (click)="login()">
+    <nb-actions size="small">
+        <nb-action [hidden]="liveTokenValue">
+            <div class="dropdown ghost-dropdown">
+                <div class="btn-with-icon-example">
+                    <button type="button" class="btn btn-success btn-with-icon login " (click)="login()">
             <i class="nb-user icono"></i>
             <!-- <span>{{ 'HOME.LOGIN' | translate }}</span> -->
             <span>Iniciar sesión</span>
           </button>
-        </div>
-      </div>
-    </nb-action>
+                </div>
+            </div>
+        </nb-action>
         <nb-action [hidden]="!liveTokenValue">
-          <div class="dropdown ghost-dropdown" ngbDropdown>
-            <button type="button" class="btn user" type="button" ngbDropdownToggle>
+            <div class="dropdown ghost-dropdown" ngbDropdown>
+                <button type="button" class="btn user" type="button" ngbDropdownToggle>
               <i class="nb-person icono"></i> <span class="usuario">{{username}}</span>
             </button>
-            <ul class="dropdown-menu" ngbDropdownMenu>
-              <!-- <li class="dropdown-item" (click)="logout()">{{ 'HOME.LOGOUT' | translate }}</li> -->
-              <li class="dropdown-item" (click)="logout()">Cerrar sesión</li>
-            </ul>
-          </div>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                    <!-- <li class="dropdown-item" (click)="logout()">{{ 'HOME.LOGOUT' | translate }}</li> -->
+                    <li class="dropdown-item" (click)="logout()">Cerrar sesión</li>
+                </ul>
+            </div>
         </nb-action>
-<!--     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
+        <!--     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
       [onlyPicture]="userPictureOnly"
       [name]="user?.name"
       [picture]="user?.picture">
     </nb-user>
   </nb-action> -->
-</nb-actions>
+    </nb-actions>
 </div>
