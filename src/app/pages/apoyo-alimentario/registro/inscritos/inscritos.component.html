@@ -1,0 +1,128 @@
+<!-- No hay periodo activo -->
+<nb-card *ngIf="periodo==null">
+    <div class="menu-header m-4">
+        <h1>
+            No hay un periodo activo
+        </h1>
+        <button class="btn back-button" routerLink="../../">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+    </div>
+</nb-card>
+
+
+<nb-card *ngIf="periodo!=null">
+    <nb-card-header>
+        <div class="text-center m-2">
+            <div class="menu-header">
+                <h1>
+                    Registro diario
+                    <u>Beneficiarios</u>
+                    <u *ngIf="noBeneficiarios"> y no beneficiarios</u>
+                </h1>
+                <button class="btn back-button" routerLink="../../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <hr>
+    <div class="container">
+        <form (ngSubmit)="guardar( f )" #f="ngForm">
+            <div class="form-group input-group">
+                <div class="label-color-ud input-group-prepend input-group-text">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <span class="label-color-ud ml-1" id="inputGroup-sizing-default"> 
+                                Permitir <br>
+                                no Beneficiarios</span>
+                </div>
+                <mat-slide-toggle name="noBeneficiarios" class="ml-5 mt-3" [(ngModel)]="noBeneficiarios"></mat-slide-toggle>
+            </div>
+
+            <div class="form-group input-group">
+                <div class="label-color-ud input-group-prepend input-group-text">
+                    <i class="fa fa-file-signature " aria-hidden="true"></i>
+                    <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
+                </div>
+                <input type="text" [(ngModel)]="periodo.Nombre" name="periodo" class="form-control" disabled>
+            </div>
+
+            <div class="form-group input-group">
+                <div class="label-color-ud input-group-prepend input-group-text">
+                    <i class="fa fa-calendar-day " aria-hidden="true"></i>
+                    <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Fecha</span>
+                </div>
+                <input type="date" placeholder="Fecha a registrar" [(ngModel)]="myDate" name="fechaDia" class="form-control" required #fechaDia="ngModel" disabled>
+            </div>
+
+            <div class="form-group input-group">
+                <div class="label-color-ud input-group-prepend input-group-text">
+                    <i class="fa fa-university " aria-hidden="true"></i>
+                    <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Sede</span>
+                </div>
+                <select class="form-control custom-select input-text-ud" name="sede" [disabled]="sedesAccesso.length === 0" [class.is-invalid]="sede.invalid && sede.touched" [ngModel]="registroBase.sede" nombre="sede" required placeholder="Sede" required #sede="ngModel">
+                            <option *ngFor="let sede of sedesAccesso; let i=index;" [value]="i">{{sede.Nombre}}</option>
+                        </select>
+                <br>
+            </div>
+            <div class="small-ud">
+                <small class="form-text mt-n3 mb-2 text-success">
+                            {{facultadAccesso[sede.value]}}
+                        </small>
+            </div>
+            <div class="small-ud">
+                <small *ngIf="sede.invalid && sede.touched" class="form-text text-danger mt-n3 mb-2">Tienes que
+                            seleccionar un sede</small>
+                <small *ngIf="sedesAccesso.length === 0" class="form-text text-danger mt-n3 mb-2">No hay sedes
+                            disponibles</small>
+            </div>
+
+            <div class="form-group input-group">
+                <div class="label-color-ud input-group-prepend input-group-text mt-1n">
+                    <i class="fa fa-barcode mt-2n mr-1" aria-hidden="true"></i>
+                    <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                                Codigo
+                                <br>
+                                Estudiante
+                            </span>
+                </div>
+                <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante" [(ngModel)]="registroBase.codigo" #codigo="ngModel" [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{9,}" required>
+            </div>
+            <div class="small-ud">
+                <small *ngIf="codigo.invalid && codigo.touched " class="form-text text-danger mt-n4 mb-2">Tienes
+                            que ingresar un codigo correcto</small>
+            </div>
+
+            <div class="form-group align-items-center">
+                <hr>
+                <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button ">
+                            <i class="fas fa-save mr-1"></i>
+                            Guardar
+                        </button>
+            </div>
+
+        </form>
+    </div>
+</nb-card>
+
+<!-- Mostrar registros y erroes  -->
+<nb-card *ngIf="registros.length>0">
+    <nb-card-body>
+        <nb-accordion>
+            <nb-accordion-item>
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Registros</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div *ngFor="let reg of registros.reverse()">
+                        <div [ngClass]="reg.Clase" class="alert" role="alert">
+                            <strong> {{reg.Titulo}} </strong> {{reg.Mensaje}}
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+    </nb-card-body>
+</nb-card>

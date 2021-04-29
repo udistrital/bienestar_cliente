@@ -1,0 +1,150 @@
+<nb-card *ngIf="periodos!=[]">
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1>
+                    Listado de solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                </h1>
+                <button class="btn back-button btn-block" routerLink="../../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+
+            </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body *ngIf="solicitudes.length>0">
+
+        <div class="contain">
+
+
+            <mat-form-field class="periodo">
+
+                <mat-label>Periodo</mat-label>
+                <select matNativeControl [(ngModel)]="periodo" (change)="onSelect($event)">
+                    <option *ngFor="let option of periodos;let i = index;" [ngValue]="i">
+                      {{option.Nombre }}</option>
+                    <option [ngValue]="null">Todos los periodos</option>
+                </select>
+
+                <br>
+            </mat-form-field>
+
+            <mat-form-field class="estado">
+                <mat-label>Estado Solicitud</mat-label>
+                <select matNativeControl [(ngModel)]="estado" (change)="onSelect($event)">
+                    <option [ngValue]="null">Todos los estados</option>
+                    <option *ngFor="let estado of estados;let i = index;" [ngValue]="i">
+                        {{estado.Nombre }}</option>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="page">
+                <mat-label>Tamaño de Tabla</mat-label>
+                <select matNativeControl [(ngModel)]="itemSelect">
+                    <option *ngFor="let option of itemsPag" [value]="option" [selected]="itemSelect === option">{{
+                        option }}</option>
+                </select>
+            </mat-form-field>
+
+            <button class="btn btn-success" routerLink="./0">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Agregar solicitud
+            </button>
+        </div>
+        <div *ngIf="filSols.length>0">
+            <table class="table">
+                <thead class="bg-ud-table">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tipo solicitud</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Fecha radicacion</th>
+
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-ud-table-cell">
+                    <tr *ngFor="let item of filSols | paginate: {itemsPerPage: itemSelect, currentPage: pagActual} ; let i = index">
+                        <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
+                        <th scope="row">{{ (i+1) + (pagActual -1)*itemSelect }}</th>
+                        <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
+                        <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
+                        <td>{{ item.FechaRadicacion | fechaFormat }}</td>
+                        <!-- | date: 'dd/MM/yyyy' -->
+                        <td>
+                            <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                Evaluar solicitud
+                            </button>
+
+                            <!-- <button *ngIf="mostrarIniciarInscripcion(i)" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
+                                <i class="fa fa-play " aria-hidden="true"></i>
+                            </button>
+                            <button *ngIf="mostrarDetenerInscripcion(i)" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
+                                <i class="fa fa-stop " aria-hidden="true"></i>
+                            </button>
+                            <button *ngIf="mostrarReactivarInscripcion(i)" class="btn student-icon" (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
+                                <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
+                            </button>
+                            <button *ngIf="mostrarIniciarServicio(i)" class="btn init-icon" (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
+                                <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
+                            </button>
+                            <button *ngIf="mostrarDetenerServicio(i)" class="btn init-icon" (click)="detenerParametro(i,'servicio')" title="Detener servicio">
+                                <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
+                            </button>
+                            <button *ngIf="mostrarReactivarServicio(i)" class="btn init-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
+                                <i class="fas fa-drumstick-bite fa-lg fa-rotate-270"></i>   
+                            </button> -->
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="center-block">
+                <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
+                </pagination-controls>
+            </div>
+            <div class="download">
+                <button (click)="exportarCsv()" class="btn btn-primary"><i class="fa fa-download"></i>Descargar
+                    solicitudes</button>
+            </div>
+        </div>
+        <!-- 
+        <div *ngIf="filSols.length==0">
+            No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en {{periodo==null ? "todos los
+            periodos" : periodos[periodo]?.Nombre}}
+        </div> -->
+        <nb-card-body *ngIf="filSols.length==0">
+            <div class="alert alert-warning text-center mt-3 justify-content-center">
+                <h3 class="alert-heading">No hay solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} en {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                </h3>
+                <p>
+                    <i class="fa fa-exclamation fa-2x    "></i>
+                </p>
+            </div>
+        </nb-card-body>
+
+    </nb-card-body>
+
+    <!-- Sin solicitudes -->
+    <nb-card-body *ngIf="solicitudes.length==0">
+        <div class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No hay solicitudes</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x    "></i>
+            </p>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+
+<nb-card *ngIf="periodos==[]">
+    <div class="alert alert-warning text-center mt-3">
+        <h3 class="alert-heading">No hay ningun periodo para consultar</h3>
+        <p>
+            <i class="fa fa-exclamation fa-2x    "></i>
+        </p>
+    </div>
+</nb-card>

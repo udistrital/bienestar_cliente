@@ -6,14 +6,22 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {InscripcionEstComponent} from './inscripcion-estudiante/inscripcion-est.component';
 import {RevisionInscComponent} from './revision-insc/revision-insc.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
+
+import { HomeComponent } from './home/home.component';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
+import { InscritosComponent } from './apoyo-alimentario/registro/inscritos/inscritos.component';
+
 import { AuthGuard } from '../@core/_guards/auth.guard';
 import { RolesConstanst } from '../shared/constants/roles.constants';
 import { ParametriaGuard } from '../@core/_guards/parametria.guard';
 
-const routes: Routes = [{
+
+const routes: Routes = [
+    {
     path: '',
     component: PagesComponent,
     children: [
+        
         {
             path: '',
             redirectTo: 'revision-estudiante',
@@ -25,6 +33,15 @@ const routes: Routes = [{
             canActivate: [AuthGuard, ParametriaGuard],
             data:{
                 roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
+            }
+        },
+        {
+            path: 'revision/:id',
+            component: InscripcionEstComponent,
+            canActivate: [AuthGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES],
+                esRevision: true,
             }
         },
         {
@@ -54,13 +71,23 @@ const routes: Routes = [{
             }
         },
         {
-            path: 'revision/:id',
-            component: InscripcionEstComponent,
-            canActivate: [AuthGuard],
-            data:{
-                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES],
-                esRevision: true,
-            }
+            path: 'home',
+            component: HomeComponent,
+        },
+        {
+            path: 'apoyo-alimentario',
+            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
+            .then (m => m.ApoyoAlimentarioModule),
+        },  
+        {
+            path:'citas', 
+            loadChildren: ( ) =>import ('./citas/citas.module')
+            .then (m => m.CitasModule),
+        },
+        {
+            path: '',
+            redirectTo: 'home',
+            pathMatch: 'full',
         },
         {
             path: '**',

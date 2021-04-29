@@ -12,6 +12,7 @@ import { CustomPaginatorComponent } from './components/custom-paginator/custom-p
     TranslateModule,
     ComboGenericoModule,
   ],
+  declarations: [],
 })
 
 export class SharedModule { }

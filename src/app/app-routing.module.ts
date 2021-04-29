@@ -7,6 +7,7 @@ import {
   NbRegisterComponent,
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
+  
 } from '@nebular/auth';
 import { LoginGuard } from './@core/_guards/login.guard';
 

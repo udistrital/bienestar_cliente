@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
+import { NbMenuModule, NbSpinnerModule,NbIconModule } from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -10,7 +10,10 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { ConfiguracionService } from '../@core/data/configuracion.service';
 import { MenuService } from '../@core/data/menu.service';
 import { SharedModule } from '../shared/shared.module';
-import { NbIconModule } from '@nebular/theme';
+import { HomeModule } from './home/home.module';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
+import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
+import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -21,6 +24,8 @@ import { NbIconModule } from '@nebular/theme';
     DashboardModule,
     SharedModule,
     InscripcionEstModule,
+    ApoyoAlimentarioModule,
+    HomeModule,
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
