@@ -12,7 +12,6 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-pages',
   template: `
     <ngx-one-column-layout>
-      <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-one-column-layout>
   `,
@@ -51,7 +50,7 @@ export class PagesComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           Swal.fire({
-            type: 'error',
+            icon: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
             footer: this.translate.instant('GLOBAL.cargar') + '-' +

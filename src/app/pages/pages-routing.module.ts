@@ -1,43 +1,58 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ECommerceComponent } from './e-commerce/e-commerce.component';
-import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import {PagesComponent} from './pages.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {InscripcionEstComponent} from './inscripcion-estudiante/inscripcion-est.component';
+import {RevisionInscComponent} from './revision-insc/revision-insc.component';
+import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
+import { HomeComponent } from './home/home.component';
+import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
+import { InscritosComponent } from './apoyo-alimentario/registro/inscritos/inscritos.component'
 
-const routes: Routes = [{
-  path: '',
-  component: PagesComponent,
-  children: [
+const routes: Routes = [
     {
-      path: 'dashboard',
-      component: ECommerceComponent,
-    },
-    {
-      path: 'iot-dashboard',
-      component: DashboardComponent,
-    },
-    {
-      path: 'plan-cuentas',
-      loadChildren: () => import('./plan-cuentas/plan-cuentas.module')
-      .then(m => m.PlanCuentasModule),
-    },
-    {
-      path: '',
-      redirectTo: 'plan-cuentas',
-      pathMatch: 'full',
-    },
-    {
-      path: '**',
-      component: NotFoundComponent,
-    },
-  ],
+    path: '',
+    component: PagesComponent,
+    children: [
+        
+        {
+            path: 'inscripcion',
+            component: InscripcionEstComponent,
+        },
+        {
+            path: 'revision',
+            component: RevisionInscComponent,
+        },
+        {
+            path: 'home',
+            component: HomeComponent,
+        },
+        {
+            path: 'apoyo-alimentario',
+            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
+            .then (m => m.ApoyoAlimentarioModule),
+        },  
+        {
+            path:'citas', 
+            loadChildren: ( ) =>import ('./citas/citas.module')
+            .then (m => m.CitasModule),
+        },
+        {
+            path: '',
+            redirectTo: 'home',
+            pathMatch: 'full',
+        },
+        {
+            path: '**',
+            component: NotFoundComponent,
+        },
+    ],
 }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class PagesRoutingModule {
 }

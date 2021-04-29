@@ -21,6 +21,7 @@ export class RequestManager {
       headers: new HttpHeaders({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        
       }),
     };
   }
@@ -98,7 +99,14 @@ export class RequestManager {
    * @returns Observable<any>
    */
   put(endpoint, element, id) {
-    return this.http.put<any>(`${this.path}${endpoint}${id}`, JSON.stringify(element), this.httpOptions).pipe(
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json'
+      }),
+    };
+    return this.http.put<any>(`${this.path}${endpoint}/${id}`, element, this.httpOptions).pipe(
       catchError(this.errManager.handleError),
     );
   }
