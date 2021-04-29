@@ -6,7 +6,8 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import LocaleEs from "@angular/common/locales/es-CO";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -84,7 +85,9 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { CdkTableModule } from '@angular/cdk/table';
+import { registerLocaleData } from "@angular/common";
 
+registerLocaleData(LocaleEs);
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -147,7 +150,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatTreeModule,
   ],
 })
-export class MaterialModule {}
+export class MaterialModule { }
 
 @NgModule({
   declarations: [AppComponent],
@@ -185,6 +188,7 @@ export class MaterialModule {}
   providers: [ImplicitAutenticationService,
     ListService,
     { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: LOCALE_ID, useValue: 'es-CO' }
   ],
 })
 export class AppModule {
