@@ -1,0 +1,79 @@
+<!-- Titulo -->
+<div class="card text-center">
+  <span class="h3">Historia Clínica</span>
+  <div>
+    <button class="m-auto" mat-button routerLink="../">
+      <mat-icon>keyboard_backspace</mat-icon> Volver
+    </button>
+  </div>
+</div>
+<!-- Datos Básicos -->
+<mat-card>
+  <ngx-datos-basicos></ngx-datos-basicos>
+</mat-card>
+<!-- Medicina General -->
+<div class="card mt-2">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <strong>Medicina</strong>
+        </mat-panel-title>
+        <mat-panel-description>
+          Aspectos básicos de medicina
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h5 class="titulo mt-4 mb-4">Medicina General</h5>
+      <hr />
+      <ngx-medicina></ngx-medicina>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<!-- Fisioterapia -->
+<div class="card mt-2">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <strong>Fisioterapia</strong>
+        </mat-panel-title>
+        <mat-panel-description>
+          Aspectos básicos fisioterapia
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ngx-fisioterapia></ngx-fisioterapia>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<!-- Odontología -->
+<div class="card mt-2">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <strong>Odontología</strong>
+        </mat-panel-title>
+        <mat-panel-description>
+          Aspectos básicos odontología
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ngx-odontologia></ngx-odontologia>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<!-- Psicología -->
+<div class="card mt-2">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <strong>Psicología</strong>
+        </mat-panel-title>
+        <mat-panel-description>
+          Aspectos básicos psicología
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ngx-psicologia></ngx-psicologia>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

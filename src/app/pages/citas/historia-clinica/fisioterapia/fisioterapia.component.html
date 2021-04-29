@@ -1,0 +1,70 @@
+<form [formGroup]="fisioterapiaForm" (ngSubmit)="guardarHistoriaFisioterapia()">
+    <h5 class="titulo mt-4 mb-4"> Fisioterapia</h5>
+    <hr />
+    <div class="row">
+        <div class="col md-12 mt-4 mb-4 me-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-big" formControlName="motivoConsultaFisio"
+                    placeholder="Motivo de consulta y enfermedad actual" id="motivoFisio"></textarea>
+                <label for="motivoFisio"> Motivo de consulta y enfermedad actual</label>
+            </div>
+        </div>
+        <h6 class="titulo mt-2">Valoración</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-big" formControlName="valoracion" placeholder="Valoración"
+                    id="valoracion"></textarea>
+                <label for="valoracion">Valoración</label>
+            </div>
+        </div>
+        <h6 class="titulo mt-2">Plan de Manejo</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-big" formControlName="planDeManejoFisio"
+                    placeholder="Plan de Manejo" id="planDeManejoFisio"></textarea>
+                <label for="planDeManejoFisio">Plan de Manejo</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Evolución</h6>
+    <div class="row mt-4 mb-4">
+        <div class="col md-6 me-4 mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" (keyup.enter)="agregarEvolucionFisio()"
+                    name="nuevaEvolucionFisio" placeholder="Agregar" [formControl]="nuevaEvolucionFisio" />
+                <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionFisio()">
+                    Agregar
+                </button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col md-6 me-4 mb-4" formArrayName="evolucionFisio">
+                <div class="input-group mb-1" *ngFor="let evolucion of evolucionFisioArr.controls; let i = index">
+                    <input class="form-control" *ngIf="evolucionFisioArr.length > 0" [formControlName]="i" />
+                    <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionFisio(i)">
+                        Borrar
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h6 class="titulo mt-4">Observaciones</h6>
+        <div class="row mt-4">
+          <div class="col md-12 me-4">
+            <div class="form-floating">
+              <textarea class="form-control textArea-big" formControlName="observacionesFisioterapia" placeholder="Observaciones"
+                id="observacionesFisioterapia"></textarea>
+              <label for="observacionesFisioterapia"> Observaciones</label>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col titulo">
+            <label><strong>Realizó: </strong>{{ pruebaEspecialista.nombre | ngxCapitalize }}</label>
+            <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
+                [disabled]="!fisioterapiaForm.valid">
+                <mat-icon>save</mat-icon> Guardar
+            </button>
+        </div>
+    </div>
+</form>

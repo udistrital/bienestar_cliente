@@ -1,0 +1,69 @@
+<div class="card text-center">
+    <span class="h3">Listado de Citas</span>
+             <h5 *ngIf="citas.length > 0" style="margin-top: 30px">
+            <h2>Cargando</h2>
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p> Espere por favor</p>
+          </h5>
+       
+    <div *ngIf="citas.length == 0" ><button class="m-auto" mat-button routerLink="../crearCita" [ngStyle]="{color: 'var(--azul-claro)'}">
+      <mat-icon>add</mat-icon> Asignar nueva cita
+    </button>
+    <button class="m-auto" mat-button routerLink="../" [ngStyle]="{color: 'var(--azul-claro)'}">
+      <mat-icon>keyboard_backspace</mat-icon> Volver
+    </button>
+    </div>
+    </div>
+        <table *ngIf="citas.length > 0"  mat-table [dataSource]="datasource" matSort class="mat-elevation-z8">
+        <caption style="display: none">
+          Citas 
+      </caption>
+          <ng-container matColumnDef="nombre">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+            Usuario
+          </th>
+          <td mat-cell *matCellDef="let cita">{{ cita.nombre }}</td>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+            Fecha
+          </th>
+          <td mat-cell *matCellDef="let cita"> {{ cita.fecha*1000 | date: "dd-MM" }} </td>
+        </ng-container>
+        <ng-container matColumnDef="hora">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+            Hora
+          </th>
+          <td mat-cell *matCellDef="let cita">
+            {{cita.hora}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="facultad">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+            Facultad
+          </th>
+          <td mat-cell *matCellDef="let cita">
+            {{cita.facultad}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="tipocita">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+            Tipo de cita
+          </th>
+          <td mat-cell *matCellDef="let cita"> {{cita.tipocita}} </td>
+        </ng-container>
+        <ng-container matColumnDef="especialista">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+            Especialista
+          </th>
+          <td mat-cell *matCellDef="let cita">
+            {{cita.especialista}}
+          </td>
+        </ng-container>
+    
+        <!-- elementos necesarios para el mat-table de angular material-->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>

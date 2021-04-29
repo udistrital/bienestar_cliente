@@ -20,6 +20,11 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ImplicitAutenticationService } from './@core/utils/implicit_autentication.service';
 import { ListService } from './@core/store/list.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -82,6 +87,12 @@ import { CdkTableModule } from '@angular/cdk/table';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+  listPlugin,
+]);
 
 @NgModule({
   exports: [
@@ -146,6 +157,7 @@ export class MaterialModule {}
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
+    FullCalendarModule,
     NbEvaIconsModule,
     ThemeModule.forRoot(),
 

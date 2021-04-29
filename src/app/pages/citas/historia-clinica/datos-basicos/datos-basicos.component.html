@@ -1,0 +1,131 @@
+<form [formGroup]="datosBasicos">
+  <h5 class="titulo">Datos Básicos</h5>
+  <hr />
+  <div class="row">
+    <div class="col md-3"><strong>Nombre: </strong> {{ nombre }}</div>
+    <div class="col md-3"><strong>Código: </strong>{{codigo }}</div>
+    <div class="col md-3">
+      <strong>Documento: </strong>{{ 'documento' }}
+    </div>
+    <div class="col md-3"><strong>EPS: </strong>{{ 'prueba.eps' }}</div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Fecha de nacimiento: </strong>
+      {{ fechaNacimiento | date: "dd-MMMM-yyyy":"":"es-CO" }}
+    </div>
+    <div class="col md-6">
+      <strong>Lugar de Nacimiento: </strong>{{ lugarNacimiento}}
+    </div>
+    <div class="col md-4"><strong>Edad: </strong>{{ edad }}</div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-4">
+      <strong>Vinculación: </strong>
+      <br />
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="vinculacion" id="estudiante" value="Estudiante" />
+        <label class="form-check-label" for="estudiante">Estudiante</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="vinculacion" id="funcionario"
+          value="Funcionario" />
+        <label class="form-check-label" for="funcionario">Funcionario</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="vinculacion" id="docente" value="Docente" />
+        <label class="form-check-label" for="docente">Docente</label>
+      </div>
+    </div>
+    <!-- <div class="col md-4" *ngIf="prueba.vinculacion !== 'Estudiante'"> -->
+    <div class="col md-4">
+      <strong>Tipo: </strong>
+      <br />
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="tipo" id="escpecial" value="Especial" />
+        <label class="form-check-label">Especial</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="tipo" id="otro" value="Otro" />
+        <label class="form-check-label">Otro</label>
+      </div>
+    </div>
+    <!-- <div class="col md-4" *ngIf="prueba.tipo === 'Otro'"> -->
+    <div class="col md-4">
+      <strong>¿Cuál? </strong>
+      <br />
+      {{ 'prueba.cualTipo' }}
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Facultad: </strong> {{ 'Facultad' }}
+    </div>
+    <div class="col md-6">
+      <strong>Proyecto curricular: </strong>{{ carrera | ngxCapitalize }}
+    </div>
+    <!-- <div class="col md-4" *ngIf="prueba.dependencia !== null"> -->
+    <div class="col md-4">
+      <strong>Dependencia: </strong>
+    </div>
+    <!-- <div class="col md-4" *ngIf="prueba.procedenteDe !== null"> -->
+    <div class="col md-4">
+      <strong>Procedente de: </strong>
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Dirección: </strong> {{ direccion }}
+    </div>
+    <div class="col md-6">
+      <strong>Teléfono: </strong> {{ telefono}}
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="flex-column col float-right md-6">
+      <strong>Contacto de emergencia: </strong>
+      {{' prueba.contactoEmergencia' }}
+    </div>
+    <div class="col md-6">
+      <strong>Parentesco: </strong> {{ 'prueba.parentesco' }}
+    </div>
+  </div>
+  <div class="row mt-3 mb-4">
+    <div class="col md-6">
+      <strong>Dirección: </strong> {{' prueba.direccionContacto '}}
+    </div>
+    <div class="col md-6">
+      <strong>Teléfono: </strong> {{ 'prueba.telefonoContacto' }}
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Situación Académica: </strong>
+      <br />
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="situacionAcademica" id="prueba"
+          value="Prueba Académica" />
+        <label class="form-check-label" for="prueba">Prueba Académica</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="situacionAcademica" id="activo" value="Activo" />
+        <label class="form-check-label" for="activo">Activo</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" formControlName="situacionAcademica" id="otra" value="Otro" />
+        <label class="form-check-label" for="otra">Otro</label>
+      </div>
+    </div>
+    <div class="col md-6">
+      <strong>¿Cuál?</strong>
+      <br />
+      {{ 'prueba.cualSituacion' }}
+    </div>
+  </div>
+</form>
