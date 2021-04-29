@@ -7,8 +7,12 @@ export const environment = {
 
     production: false,
     NUXEO: {
-        PATH: 'https://documental.udistrital.edu.co/nuxeo/',
-    },
+        PATH: 'https://documental.portaloas.udistrital.edu.co/nuxeo/',
+        CREDENTIALS: {
+          USERNAME: 'desarrollooas',
+          PASS: 'desarrollooas2019',
+        },
+      },
     CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
     APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/sintomas_crud/v1/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
@@ -37,6 +41,7 @@ export const environment = {
     CORE_AMAZON_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/core_amazon_crud/v1/',
     CONFIGURACION_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/',
     CONF_MENU_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/configuracion_crud_api/v1/menu_opcion_padre/ArbolMenus/',
+  
     TERCEROS_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/',
     PARAMETROS: "https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/",
     SOLICITUD: "https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/",
@@ -49,6 +54,11 @@ export const environment = {
         IDCIERREPERIODO: 356,
         IDSOLICITUDRADICADA: 23,
     },
+
+    NUXEO_2020:'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1/',
+    DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
+    SOLICITUD_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/',
+  
     KNOWAGE: {
         PROTOCOL: 'https',
         HOST: 'tuleap.udistrital.edu.co',
@@ -66,5 +76,6 @@ export const environment = {
         SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
         SIGN_OUT_REDIRECT_URL: 'http://localhost:4200/',
     },
-
+    INFO_USER: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/',
+    PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/'
 };

@@ -15,6 +15,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { RevisionInscComponent } from './revision-insc.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CustomPaginatorModule } from '../../shared/components/custom-paginator/custom-paginator.module';
+import { ComboGenericoModule } from '../../shared/components/combo-generico/combo-generico.module';
+import { InputGenericoModule } from '../../shared/components/input-generico/input-generico.module';
+import { ParametriaPeriodoModule } from '../../shared/components/parametria-periodo/parametria-periodo.module';
 
 @NgModule({
     imports: [
@@ -35,6 +39,10 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
         NbRadioModule,
         NbLayoutModule,
         NbAccordionModule,
+        CustomPaginatorModule,
+        ComboGenericoModule,
+        InputGenericoModule,
+        ParametriaPeriodoModule,
     ],
   declarations: [
     RevisionInscComponent,

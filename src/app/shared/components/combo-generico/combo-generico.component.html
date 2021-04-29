@@ -1,11 +1,20 @@
 <div class="row">
-    <div class="col-md-4">{{etiqueta}}:</div>
-    <div class="col-md-8" [formGroup]="grupo">
-        <nb-select fullWidth [formControlName]="nombreInput">
-            <nb-option *ngFor="let objeto of objetos" [value]="objeto[campoCodigo]">
-                {{objeto[campoValor] | titlecase }}
+    <div class="col-md-4">{{etiqueta}}: {{requerido ? '*':''}}</div>
+    <div class="col-md-8 form-group" [class.has-error]="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty" [formGroup]="grupo">
+        <nb-select 
+            [ngModel]="modelo"
+            (ngModelChange)="emitirModelo($event)"
+            [status]="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid ? 'danger': ''" 
+            fullWidth 
+            [formControlName]="nombreInput" 
+            [required]="requerido"
+            placeholder="Seleccione una opción"
+            [disabled]="deshabilitado"
+            >
+            <nb-option *ngFor="let objeto of objetos"  [value]="objeto[campoCodigo]">
+                {{esAnidado ? obtenerDatoAnidado(objeto) : objeto[campoValor]}}
             </nb-option>
         </nb-select>
+        <span class="message-error" *ngIf="grupo.get(nombreInput).invalid && grupo.get(nombreInput).dirty || validar && grupo.get(nombreInput).invalid">Campo no válido</span>
     </div>
 </div>
-

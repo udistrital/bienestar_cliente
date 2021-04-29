@@ -7,10 +7,10 @@ export class InfoComplementariaTercero {
   InfoComplementariaId: InfoComplementaria;  
   Dato: string; 
   Activo: boolean;
+  PadreId: number;
 
   constructor(){
     this.Id=0;
     this.Activo=true;
   }
 }
-
