@@ -43,6 +43,8 @@ import { InformeDiarioComponent } from './informes/informe-diario/informe-diario
 import { NgxPaginationModule} from 'ngx-pagination';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
 import { FechaFormatPipe } from './pipes/fecha-format.pipe';
+import { CargarDocPbComponent } from './inscripciones/cargar-doc-pb/cargar-doc-pb.component';
+import { ArchivosGenericoModule } from '../../shared/components/archivos-generico/archivos-generico.module';
 
 @NgModule({
     imports: [
@@ -70,7 +72,8 @@ import { FechaFormatPipe } from './pipes/fecha-format.pipe';
         NbAccordionModule,
         ComboGenericoModule,
         RadioSelectGenericoModule,
-        NbBadgeModule
+        NbBadgeModule,
+        ArchivosGenericoModule
     ],
   declarations: [ 
     ApoyoAlimentarioComponent,
@@ -88,6 +91,7 @@ import { FechaFormatPipe } from './pipes/fecha-format.pipe';
     InformeDiarioComponent,
     BuscarSolicitudComponent,
     FechaFormatPipe,
+    CargarDocPbComponent
    ],
   providers: [
 

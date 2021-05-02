@@ -76,7 +76,7 @@ export class ApoyoAlimentarioComponent implements OnInit {
   
   
   navigateCargarInscripciones(){
-    this.router.navigate(['/pages/apoyo-alimentario/administracion/cargar-inscripciones']);
+    this.router.navigate(['/pages/apoyo-alimentario/administracion/cargar-doc-pb']);
     return false;
   }           
   navigateConsultaCodigo(){

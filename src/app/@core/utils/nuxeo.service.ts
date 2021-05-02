@@ -50,6 +50,7 @@ export class NuxeoService {
     }
 
     saveFiles(files, documentoService, nuxeoservice) {
+        console.log(files);
         this.documentos = {};
         nuxeoservice.documentos = {};
         NuxeoService.nuxeo.connect()
@@ -72,6 +73,7 @@ export class NuxeoService {
                                         NuxeoService.nuxeo.batchUpload()
                                             .upload(nuxeoBlob)
                                             .then(function (response) {
+                                                console.log("Obtenemos UID =>", doc.uid);
                                                 file.uid = doc.uid
                                                 NuxeoService.nuxeo.operation('Blob.AttachOnDocument')
                                                     .param('document', doc.uid)

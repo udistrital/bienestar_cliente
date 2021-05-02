@@ -18,6 +18,9 @@ import { InfoCompletaEstudiante } from '../../../../@core/data/models/info-compl
 import { InfoComplementariaTercero } from '../../../../@core/data/models/terceros/info_complementaria_tercero';
 import { DatePipe } from '@angular/common';
 import { SolicitudEvolucionEstado } from '../../../../@core/data/models/solicitud/solicitud-evolucion-estado';
+import { SoportePaquete } from '../../../../@core/data/models/solicitud/soporte-paquete';
+import { NuxeoService } from '../../../../@core/utils/nuxeo.service';
+import { DocumentoService } from '../../../../@core/data/documento.service';
 
 @Component({
     selector: 'ngx-evaluar-solicitud',
@@ -52,12 +55,15 @@ export class EvaluarSolicitudComponent implements OnInit {
     loading: boolean = true;
 
     listInfoComplementaria = [];
+  documentosSolicitud: SoportePaquete;
 
     constructor(
         private route: ActivatedRoute,
         private translate: TranslateService,
         private listService: ListService,
-        private utilsService: UtilService
+        private utilsService: UtilService,
+        private nuxeoService: NuxeoService,
+        private documentosService: DocumentoService
     ) {
         this.idSolicitud = parseInt(this.route.snapshot.paramMap.get('idSolicitud'));
         if (this.idSolicitud != 0) {
@@ -86,6 +92,7 @@ export class EvaluarSolicitudComponent implements OnInit {
         this.listService.loadSolicitud(this.idSolicitud).then((respSolicitud) => {
             this.solicitud = respSolicitud;
             if (this.solicitud != undefined) {
+                this.loadDocumentos();
                 this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {
                     this.solicitante = respSolicitante;
                     console.log("Solicitante=>", respSolicitante);
@@ -110,6 +117,30 @@ export class EvaluarSolicitudComponent implements OnInit {
             }
         }).catch((error) => this.utilsService.showSwAlertError("Solicitud no encontrada",error));
     }
+  loadDocumentos() {
+    this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+      if(paqSol!=undefined){
+        console.log(paqSol.PaqueteId);
+        this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes)=>{
+          this.documentosSolicitud=soportes;
+          let terminoDescargar=false;
+          console.log("entra=>",soportes);
+          this.nuxeoService.getDocumentoById$(soportes, this.documentosService).subscribe((res: Object) => {
+            window.open(res['undefined']);
+            console.log(res['undefined']);
+            if (Object.keys(res).length === Object.keys(soportes).length && !terminoDescargar) {
+              
+              
+                /* for (doc of res) {
+                    window.open(res[archivo.key]);
+                } */
+                terminoDescargar = true;
+            }
+        });
+        })
+      }
+    }).catch((err)=>this.showError('Error',err));
+  }
 
     loadEstadoTipoSolicitud() {
         this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)

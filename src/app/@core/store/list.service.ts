@@ -28,6 +28,9 @@ import { InfoComplementaria } from '../data/models/terceros/info_complementaria'
 import { UbicacionesService } from '../data/ubicaciones.service';
 import { Lugar } from '../data/models/lugar/lugar';
 import { UtilService } from '../../shared/services/utilService';
+import { Paquete } from '../data/models/solicitud/paquete';
+import { PaqueteSolicitud } from '../data/models/solicitud/paquete-solicitud';
+import { SoportePaquete } from '../data/models/solicitud/soporte-paquete';
 
 @Injectable()
 
@@ -486,14 +489,14 @@ export class ListService {
               solicitud.Id = res['Data']['Id']
               /* No se si funciona */
               this.crearEvolucionEstado(idTercero, solicitud, null);
-                
+
               this.loadTiposObservacion(1).then((resp) => {
                 /*  Agregar observacion*/
                 console.log("Creando observacion");
 
-                console.log("solicitud",solicitud);
-                console.log("tipo observacion",resp['Data'][0]);
-                
+                console.log("solicitud", solicitud);
+                console.log("tipo observacion", resp['Data'][0]);
+
                 let observacionObj = new Observacion();
                 observacionObj.SolicitudId = solicitud;
                 observacionObj.TerceroId = idTercero;
@@ -502,20 +505,20 @@ export class ListService {
                 observacionObj.TipoObservacionId = resp['Data'][0];
                 this.crearObservacion(observacionObj).then((resp) => {
 
-                    this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
-                    const solicitante: Solicitante = new Solicitante();
-                    solicitante.TerceroId = idTercero;
-                    solicitante.SolicitudId = solicitud;
-                    this.solicitudService.post('solicitante', JSON.stringify(solicitante))
-                      .subscribe(res => {
-                        window.location.reload();
-                        
+                  this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
+                  const solicitante: Solicitante = new Solicitante();
+                  solicitante.TerceroId = idTercero;
+                  solicitante.SolicitudId = solicitud;
+                  this.solicitudService.post('solicitante', JSON.stringify(solicitante))
+                    .subscribe(res => {
+                      window.location.reload();
+
                     });
 
-                }).catch( (error) => this.utilsService.showSwAlertError("No se creo la Observación",error));
-              }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas",err));
+                }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
+              }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
 
-             
+
 
             });
         }
@@ -740,6 +743,66 @@ export class ListService {
 
   }
 
+  crearPaquete(paq: Paquete): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('paquete', JSON.stringify(paq))
+        .subscribe(res => {
+          console.log(res);
+          resolve(res['Data'].Id);
+        }, error => { reject(error) });
+    });
+  }
+
+  crearPaqueteSolicitud(paqSol: PaqueteSolicitud): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('paquete_solicitud', JSON.stringify(paqSol))
+        .subscribe(res => {
+          console.log(res);
+          resolve(true);
+        }, error => { reject(error) });
+    });
+  }
+
+  findPaqueteSolicitudBySolicitud(idSolicitud: number): Promise<PaqueteSolicitud> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.get(`paquete_solicitud?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=desc&limit=1`)
+        .subscribe(res => {
+          console.log(res['Data']);
+          if(Object.keys(res['Data']).length==0){
+            resolve(undefined);
+          }
+          resolve(res['Data'][0]);
+        }, error => { reject(error) });
+    });
+  }
+
+  findSoportePaqueteByIdPaquete(idPaquete: number): Promise<SoportePaquete> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}`)
+        .subscribe(res => {
+          console.log((res));
+          console.log(res['Data']);
+          if(res['Data'][0]=={}){
+            resolve(undefined);
+          }
+          resolve(res['Data']);
+        }, error => { reject(error) });
+    });
+  }
+
+
+  //https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/
+
+  crearSoportePaquete(SopPaq: SoportePaquete): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('paquete_solicitud', JSON.stringify(SopPaq))
+        .subscribe(res => {
+          console.log(res);
+          resolve(true);
+        }, error => { reject(error) });
+    });
+  }
+
   /**
    *Carga los tipos de observacion
    *
@@ -853,9 +916,9 @@ export class ListService {
   cargarLugar(Idlugar: number): Promise<Lugar> {
     return new Promise((resolve, reject) => {
       console.log("ACA FALLOS");
-      
+
       this.ubicacionesService.get(`lugar/${Idlugar}`).subscribe((result) => {
-        console.log("lugar res ->",result);
+        console.log("lugar res ->", result);
         resolve(result);
       }, (err) => {
         console.log("Efectivamente F :(");

@@ -19,6 +19,7 @@ import { DiarioComponent } from './informes/diario/diario.component';
 import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
 import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
+import { CargarDocPbComponent } from './inscripciones/cargar-doc-pb/cargar-doc-pb.component';
 
 const routes: Routes = [
   { 
@@ -88,7 +89,7 @@ const routes: Routes = [
       path:'periodos', component: PeriodosComponent
     },
     {
-      path:'carga-inscripciones', component: ConsultarComponent
+      path:'cargar-doc-pb', component: CargarDocPbComponent
     },
     {
       path:'consulta-codigo',component: ConsultarCodigoComponent
