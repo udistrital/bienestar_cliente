@@ -24,6 +24,8 @@ import { InfoComplementariaTercero } from "../../../../@core/data/models/tercero
 import { UtilService } from "../../../../shared/services/utilService";
 import { OikosService } from '../../../../@core/data/oikos.service';
 import { Observacion } from "../../../../@core/data/models/solicitud/observacion";
+import { NuxeoService } from "../../../../@core/utils/nuxeo.service";
+import { DocumentoService } from "../../../../@core/data/documento.service";
 
 @Component({
   selector: "ngx-solicitud-tercero",
@@ -38,8 +40,8 @@ export class SolicitudTerceroComponent implements OnInit {
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   listInfoComplementaria: InfoComplementariaTercero[] = [];
   infoComeplementariaPut = [];
-  allServicesP:boolean=false;
-  oneServicesP:boolean=false;
+  allServicesP: boolean = false;
+  oneServicesP: boolean = false;
 
   /* materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"]; */
   observaciones: Observacion[] = [];
@@ -66,6 +68,7 @@ export class SolicitudTerceroComponent implements OnInit {
   personasacargo: FormGroup;
   documentos: FormGroup;
   serviciosPublicos: FormGroup;
+  formulario: FormGroup;
 
   colegio: FormGroup;
   vivienda: FormGroup;
@@ -82,11 +85,15 @@ export class SolicitudTerceroComponent implements OnInit {
   APP_CONSTANTS = ApiConstanst;
   loading: boolean = true;
   isPost: boolean = true;
+  documentosMap = new Map();
 
   constructor(
     private utilService: UtilService,
-    private listService: ListService
+    private listService: ListService,
+    private nuxeoService: NuxeoService,
+    private documentoService: DocumentoService
   ) {
+    this.formulario = new FormGroup({});
     Swal.fire({
       title: "Por favor espere!",
       html: `cargando información de formulario`,
@@ -392,7 +399,7 @@ export class SolicitudTerceroComponent implements OnInit {
           infComp.Dato
         ).value;
         break;
-      
+
       case "MENORES_EDAD_CONVIVE":
         this.estudiante.InfoPersonasACargo.MenoresEdad = JSON.parse(
           infComp.Dato
@@ -452,7 +459,7 @@ export class SolicitudTerceroComponent implements OnInit {
           infComp.Dato
         ).value;
         break;
-        
+
       case "SEGURIDAD_SOCIAL":
         this.estudiante.InfoEspecial.SeguridadSocial = JSON.parse(
           infComp.Dato
@@ -460,19 +467,19 @@ export class SolicitudTerceroComponent implements OnInit {
         break;
 
       case "SERVICIOS_PUBLICOS_HOGAR":
-        let contServices=0;
-        let servicios=JSON.parse(infComp.Dato).value
-        for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
-          if(servicios[i[0]]==true){
-            i[1]="true"; 
-            contServices++;  
+        let contServices = 0;
+        let servicios = JSON.parse(infComp.Dato).value
+        for (let i of this.estudiante.InfoNecesidades.ServiciosPublicos) {
+          if (servicios[i[0]] == true) {
+            i[1] = "true";
+            contServices++;
           }
-        } 
+        }
         console.log('num es :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos.length);
         console.log('numsssss :>> ', contServices);
-        if(contServices==this.estudiante.InfoNecesidades.ServiciosPublicos.length){
-          this.oneServicesP=true;
-        } 
+        if (contServices == this.estudiante.InfoNecesidades.ServiciosPublicos.length) {
+          this.oneServicesP = true;
+        }
         /* this.estudiante.InfoNecesidades.AguasNegras = JSON.parse(
           infComp.Dato
         ).value; */
@@ -519,16 +526,16 @@ export class SolicitudTerceroComponent implements OnInit {
         this.listService.cargarLugar(JSON.parse(infComp.Dato)).then((resp) => {
           this.estudiante.InfoResidencia.Municipio = resp.Nombre;
           this.residencia.get('municipio').setValue(resp.Nombre);
-        }).catch ((err)=>{
-          this.showError("Ubicación no disponible","Ocurrió un error al obtener el LUGAR_RESIDENCIA, intente más tarde");
+        }).catch((err) => {
+          this.showError("Ubicación no disponible", "Ocurrió un error al obtener el LUGAR_RESIDENCIA, intente más tarde");
         });
         break;
       case "LOCALIDAD":
         this.listService.cargarLugar(JSON.parse(infComp.Dato).LOCALIDAD).then((resp) => {
           this.estudiante.InfoResidencia.Localidad = resp.Nombre;
           this.residencia.get('localidad').setValue(resp.Nombre);
-        }).catch ((err)=>{
-          this.showError("Ubicación no disponible","Ocurrió un error al obtener la LOCALIDAD, intente más tarde");
+        }).catch((err) => {
+          this.showError("Ubicación no disponible", "Ocurrió un error al obtener la LOCALIDAD, intente más tarde");
         });
         break;
 
@@ -617,10 +624,10 @@ export class SolicitudTerceroComponent implements OnInit {
           }),
         });
 
-        
+
 
         console.log("Localidad--->", this.estudiante.InfoResidencia.Localidad);
-        
+
         console.log("Municipio--->", this.estudiante.InfoResidencia.Municipio);
 
         this.academica = new FormGroup({
@@ -714,7 +721,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
         console.log("Material--->", this.estudiante.InfoNecesidades.CalidadVivienda);
         //this.estudiante.InfoNecesidades.ServiciosPublicos=this.serviciosPublicos;
-        
+
 
         this.necesidades = new FormGroup({
           calidadVivienda: new FormControl({
@@ -738,25 +745,27 @@ export class SolicitudTerceroComponent implements OnInit {
             disabled: false,
           }),
         });
-        
-        console.log("LUZ",this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]);
-        
+
+
+        console.log("LUZ", this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]);
+        console.log("LUZ", this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]);
+
 
         this.serviciosPublicos = new FormGroup({
           luz: new FormControl({
-            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[0][1]=="true"),
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[0][1] == "true"),
             disabled: false,
           }),
           gas: new FormControl({
-            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[1][1]=="true"),
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[1][1] == "true"),
             disabled: false,
           }),
           telefono: new FormControl({
-            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[2][1]=="true"),
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[2][1] == "true"),
             disabled: false,
           }),
           tv: new FormControl({
-            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[3][1]=="true"),
+            value: (this.estudiante.InfoNecesidades.ServiciosPublicos[3][1] == "true"),
             disabled: false,
           }),
         });
@@ -858,33 +867,74 @@ export class SolicitudTerceroComponent implements OnInit {
     return false;
   }
 
+  handleFileInput(clave: string, files: FileList) {
+    let file = files.item(0);
+    let fileTemporal: any = {};
+    fileTemporal.nombre = file.name;
+    fileTemporal.IdDocumento = 2;
+    fileTemporal.file = file;
+    fileTemporal.key = clave;    
+    fileTemporal.uid = null;
+    this.documentosMap.set(clave, fileTemporal);
+  }
+
+  cargarDocumentos() {
+    let archivosAdjuntos = [];
+    let nombreArchivos= ['documentoIdentidad'];
+    for (const iterator of nombreArchivos) {
+      let archivo=this.documentosMap.get(iterator)
+      archivosAdjuntos.push(archivo);
+    }
+    console.log(archivosAdjuntos);
+    
+    this.nuxeoService.getDocumentos$(archivosAdjuntos, this.documentoService).subscribe((res) => {
+      console.log("Respuesta de nuexeo");
+      console.log(res);
+      
+      if (archivosAdjuntos.length === Object.keys(res).length) {
+          /* this.formularioReliquidacion.documentosCargados = res;
+          const terceroInfoComplementaria: any = {};
+          terceroInfoComplementaria.TerceroId = this.estudiante;
+          terceroInfoComplementaria.Id = null;
+          terceroInfoComplementaria.Activo = true;
+          terceroInfoComplementaria.InfoComplementariaId = this.bodyReliquidacion;
+          terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
+          this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
+              this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
+                  this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
+              });
+          }); */
+      }
+  });
+  }
+
   actualizarInfoEstudiante() {
 
-    
-    let nel=true;
-    if(this.validacionesForm() && nel ){
-      this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA",this.registro.get('programa').value);
 
-      this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL",this.academica.get('numeroCreditos').value);
+    let nel = true;
+    if (this.validacionesForm() && nel) {
+      this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
-      this.buscarInfoComplemetaria("ZONA_VULNERABILIDAD",this.socioeconomica.get('zonaVulnerabilidad').value);
+      this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL", this.academica.get('numeroCreditos').value);
 
-      this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE",this.personasacargo.get('menoresEdad').value);
-      this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES",this.personasacargo.get('menoresEstudiantes').value);
-      this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS",this.personasacargo.get('menoresMatriculados').value);
+      this.buscarInfoComplemetaria("ZONA_VULNERABILIDAD", this.socioeconomica.get('zonaVulnerabilidad').value);
+
+      this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE", this.personasacargo.get('menoresEdad').value);
+      this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES", this.personasacargo.get('menoresEstudiantes').value);
+      this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS", this.personasacargo.get('menoresMatriculados').value);
       // GRUPO SISBEN?
-      this.buscarInfoComplemetaria("CALIDAD_VIVIENDA",this.necesidades.get('calidadVivienda').value);
-      this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR",this.necesidades.get('cuartosDormir').value);
-      this.buscarInfoComplemetaria("NUMERO_PERSONAS_HOGAR",this.necesidades.get('personasHogar').value);
-      this.buscarInfoComplemetaria("SERVICIOS_PUBLICOS_HOGAR",this.serviciosPublicos.value);
-      this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO",this.necesidades.get('origenAgua').value);
-      this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS",this.necesidades.get('aguasNegras').value);
+      this.buscarInfoComplemetaria("CALIDAD_VIVIENDA", this.necesidades.get('calidadVivienda').value);
+      this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR", this.necesidades.get('cuartosDormir').value);
+      this.buscarInfoComplemetaria("NUMERO_PERSONAS_HOGAR", this.necesidades.get('personasHogar').value);
+      this.buscarInfoComplemetaria("SERVICIOS_PUBLICOS_HOGAR", this.serviciosPublicos.value);
+      this.buscarInfoComplemetaria("AGUA_PARA_CONSUMO", this.necesidades.get('origenAgua').value);
+      this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS", this.necesidades.get('aguasNegras').value);
       // DISCAPACIDAD?
-      this.buscarInfoComplemetaria("PATOLOGIA_NUTRICION_ALIMENTACION",this.especial.get('patologia').value);
+      this.buscarInfoComplemetaria("PATOLOGIA_NUTRICION_ALIMENTACION", this.especial.get('patologia').value);
       /* this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.especial.get('condicionEspecial').value); */
       /* this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.especial.get('seguridadSocial').value); */
       // SER PILO PAGA?
-    }else{
+    } else {
       console.log("F PAPUU");
     }
     /* console.log("MaterialForm--->",this.necesidades.get('calidadVivienda').value);
@@ -904,16 +954,16 @@ export class SolicitudTerceroComponent implements OnInit {
         console.log("valor",typeof(valor), valor); */
 
         if (objDato.value != valor) {
-          if(typeof(valor)=='object'){
-            let cont=0;
-            for(let i=0;i<Object.keys(valor).length ;i++){
+          if (typeof (valor) == 'object') {
+            let cont = 0;
+            for (let i = 0; i < Object.keys(valor).length; i++) {
               /* console.log('o :>> ', Object.keys(objDato.value)[i]);
               console.log('valor :>> ', Object.keys(valor)[i]); */
-              if(Object.values(objDato.value)[i] !== Object.values(valor)[i]){
+              if (Object.values(objDato.value)[i] !== Object.values(valor)[i]) {
                 cont++;
               }
             }
-            if(cont==0){
+            if (cont == 0) {
               console.log(`Se actualizo objetos ${nombreInfoComp}`);
               return true;
             }
@@ -958,7 +1008,7 @@ export class SolicitudTerceroComponent implements OnInit {
     let valido: boolean = false;
     if (!this.registro.valid) {
       msj += " básica,";
-    } 
+    }
     /* if (!this.residencia.valid) {
       msj += " residencia,";
     } */
@@ -990,7 +1040,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
     msj = msj.slice(0, -1);
 
-    if (!valido && msj!=" información") {
+    if (!valido && msj != " información") {
       this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
     } else {
       valido = true;
@@ -999,38 +1049,38 @@ export class SolicitudTerceroComponent implements OnInit {
     return valido;
   }
 
-  allSelected(check: boolean){
-    this.allServicesP=check;
-    this.oneServicesP=check;
-    for(let i of this.estudiante.InfoNecesidades.ServiciosPublicos){
-      if(this.allServicesP){
-        i[1]="true";   
+  allSelected(check: boolean) {
+    this.allServicesP = check;
+    this.oneServicesP = check;
+    for (let i of this.estudiante.InfoNecesidades.ServiciosPublicos) {
+      if (this.allServicesP) {
+        i[1] = "true";
         this.serviciosPublicos.get(i[0]).setValue(true);
-      }else{
-        i[1]="false";
+      } else {
+        i[1] = "false";
         this.serviciosPublicos.get(i[0]).setValue(false);
       }
     }
   }
 
-  oneSelected(check: boolean){
-    
-    if(check){
-      if(this.serviciosPublicos.get('luz').value==true
-      && this.serviciosPublicos.get('gas').value==true
-      && this.serviciosPublicos.get('telefono').value==true
-      && this.serviciosPublicos.get('tv').value==true){
-        this.oneServicesP=true;
-      }else if(this.serviciosPublicos.get('luz').value==false
-      || this.serviciosPublicos.get('gas').value ==false
-      || this.serviciosPublicos.get('telefono').value==false
-      || this.serviciosPublicos.get('tv').value==false){
-        this.oneServicesP=false;
+  oneSelected(check: boolean) {
+
+    if (check) {
+      if (this.serviciosPublicos.get('luz').value == true
+        && this.serviciosPublicos.get('gas').value == true
+        && this.serviciosPublicos.get('telefono').value == true
+        && this.serviciosPublicos.get('tv').value == true) {
+        this.oneServicesP = true;
+      } else if (this.serviciosPublicos.get('luz').value == false
+        || this.serviciosPublicos.get('gas').value == false
+        || this.serviciosPublicos.get('telefono').value == false
+        || this.serviciosPublicos.get('tv').value == false) {
+        this.oneServicesP = false;
       }
-    }else{
-      this.oneServicesP=check;
+    } else {
+      this.oneServicesP = check;
     }
-    
+
   }
 
   async save() {
@@ -1038,8 +1088,8 @@ export class SolicitudTerceroComponent implements OnInit {
 
     /* let caracterizaciones = [...this.comorbilidades, ...this.otros]; */
 
-    if(isValidTerm) {
-      if(this.validacionesForm()){
+    if (isValidTerm) {
+      if (this.validacionesForm()) {
         this.registrar();
         console.log("Se guardoooo");
       }
