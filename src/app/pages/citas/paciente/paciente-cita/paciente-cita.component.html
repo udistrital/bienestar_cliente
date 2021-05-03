@@ -1,0 +1,37 @@
+<div class="card text-center">
+    <span class="h3">Tus próximas Citas</span>
+    <div>
+        <button class="m-auto" mat-button routerLink="../">
+            <mat-icon>keyboard_backspace</mat-icon> Volver
+        </button>
+    </div>
+</div>
+<hr>
+<mat-card class="mt-2">
+    <table class="table table-striped mt-2" *ngIf="cita.length > 0">
+        <thead>
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Lugar</th>
+                <th scope="col">Especialista</th>
+                <th scope="col">Cancelar</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let cita of cita, let i = index">
+            <td>{{ cita.fecha }}</td>
+            <td>{{ cita.hora }}</td>
+            <td>{{ cita.especialidad }}</td>
+            <td>{{ cita.lugar }}</td>
+            <td>{{ cita.especialista }}</td>
+            <td>
+                <button mat-button color="warn" type="button" (click)="cancelarCita(i)">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </td>
+            <hr>
+        </tbody>
+
+    </table>
+</mat-card>

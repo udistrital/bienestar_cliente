@@ -1,0 +1,124 @@
+.marcadoAzul {
+    fill: none;
+    stroke: blue;
+    stroke-width: 7px;
+}
+
+.marcadoVerde {
+    fill: green;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoMorado {
+    fill: #CC66CC;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoMarron {
+    fill: #CC6600;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoAmarillo {
+    fill: yellow;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoRojo {
+    fill: red;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoCyan {
+    fill: cyan;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoNaranja {
+    fill: orange;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoTomate {
+    fill: tomato;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoKhaki {
+    fill: DarkKhaki;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoMagenta {
+    fill: DarkMagenta;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoDorado {
+    fill: GoldenRod;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoNegro {
+    fill: none;
+    stroke: black;
+    stroke-width: 3px;
+}
+
+.marcadoMaroon {
+    fill: none;
+    stroke: maroon;
+    stroke-width: 7px;
+}
+
+.marcadoDarkCyan {
+    fill: none;
+    stroke: DarkCyan;
+    stroke-width: 7px;
+}
+
+.diente {
+    fill-opacity: 0;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.invisible {
+    fill: none;
+    opacity: 0;
+}
+
+table th {
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+    width: 100px;
+}
+
+table tr {
+    text-align: center;
+    width: 100px;
+    vertical-align: middle;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+svg|a text {
+    fill: blue; /* Incluso para el texto, SVG usa fill para el color */
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,84 @@
+<body>
+    <div class="center">
+        <svg height="50" width="50" *ngFor="let d of dientesArriba">
+            <a href=""><a>{{d.diente}}</a></a>
+            <polygon points="10,15 15,10 50,45 45,50" [ngClass]="d.ausente" />
+            <polygon points="45,10 50,15 15,50 10,45" [ngClass]="d.ausente" />
+            <polygon points="45,10 50,15 15,50 10,45" [ngClass]="d.rotado" />
+            <polygon points="50,10 50,20 10,20 10,10" [ngClass]="d.desgaste" />
+            <polygon points="50,40 50,50 10,50 10,40" [ngClass]="d.coronaDestruida" />
+            <polygon points="50,10 50,50 40,50 40,10" [ngClass]="d.fracturado" />
+            <polygon points="30,10 50,20 10,20" [ngClass]="d.erupcionado" />
+            <polygon points="25,20 25,40 45,40 45,20" [ngClass]="d.obturado" />
+            <polygon points="15,20 15,40 35,40 35,20" [ngClass]="d.obturadoResina" />
+            <circle cx="30" cy="30" r="16" [ngClass]="d.corona" />
+            <circle cx="30" cy="30" r="20" [ngClass]="d.endodoncia" />
+            <polygon points="50,10 40,10 10,26 10,32 46,32 10,50 20,50 50,36 50,28 14,28" [ngClass]="d.implante" />
+            <polygon points="10,10 50,10 40,20 20,20" [ngClass]="d.classArriba"
+                (click)="cambiarColorArriba(d.diente,'Arriba')" />
+            <polygon points="50,10 50,50 40,40 40,20" [ngClass]="d.classDerecha"
+                (click)="cambiarColorArriba(d.diente,'Derecha')" />
+            <polygon points="50,50 10,50 20,40 40,40" [ngClass]="d.classAbajo"
+                (click)="cambiarColorArriba(d.diente,'Abajo')" />
+            <polygon points="10,50 20,40 20,20 10,10" [ngClass]="d.classIzquierda"
+                (click)="cambiarColorArriba(d.diente,'Izquierda')" />
+            <polygon points="20,20 40,20 40,40 20,40" [ngClass]="d.classCentro"
+                (click)="cambiarColorArriba(d.diente,'Centro')" />
+        </svg>
+    </div>
+    <div class="center">
+        <svg height="50" width="50" *ngFor="let d of dientesAbajo">
+            <polygon points="10,15 15,10 50,45 45,50" [ngClass]="d.ausente" />
+            <polygon points="45,10 50,15 15,50 10,45" [ngClass]="d.ausente" />
+            <polygon points="45,10 50,15 15,50 10,45" [ngClass]="d.rotado" />
+            <polygon points="50,10 50,20 10,20 10,10" [ngClass]="d.desgaste" />
+            <polygon points="50,40 50,50 10,50 10,40" [ngClass]="d.coronaDestruida" />
+            <polygon points="50,10 50,50 40,50 40,10" [ngClass]="d.fracturado" />
+            <polygon points="30,10 50,20 10,20" [ngClass]="d.erupcionado" />
+            <polygon points="25,20 25,40 45,40 45,20" [ngClass]="d.obturado" />
+            <polygon points="15,20 15,40 35,40 35,20" [ngClass]="d.obturadoResina" />
+            <circle cx="30" cy="30" r="16" [ngClass]="d.corona" />
+            <circle cx="30" cy="30" r="20" [ngClass]="d.endodoncia" />
+            <polygon points="50,10 40,10 10,26 10,32 46,32 10,50 20,50 50,36 50,28 14,28" [ngClass]="d.implante" />
+            <polygon points="10,10 50,10 40,20 20,20" [ngClass]="d.classArriba"
+                (click)="cambiarColorAbajo(d.diente,'Arriba')" />
+            <polygon points="50,10 50,50 40,40 40,20" [ngClass]="d.classDerecha"
+                (click)="cambiarColorAbajo(d.diente,'Derecha')" />
+            <polygon points="50,50 10,50 20,40 40,40" [ngClass]="d.classAbajo"
+                (click)="cambiarColorAbajo(d.diente,'Abajo')" />
+            <polygon points="10,50 20,40 20,20 10,10" [ngClass]="d.classIzquierda"
+                (click)="cambiarColorAbajo(d.diente,'Izquierda')" />
+            <polygon points="20,20 40,20 40,40 20,40" [ngClass]="d.classCentro"
+                (click)="cambiarColorAbajo(d.diente,'Centro')" />
+        </svg>
+    </div>
+    <table class="table table-borderless mt-4">
+        <thead>
+            <tr>
+                <th *ngFor="let titulo of convencionesArriba">{{titulo.nombre}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <td *ngFor="let colores of convencionesArriba">
+                <button (click)="tipoDiente(colores.estado)" type="button" class="btn color"
+                    [ngStyle]="{'background-color': colores.color,'width':'20px','height':'20px'}">
+                </button>
+            </td>
+
+        </tbody>
+    </table>
+    <table class="table table-borderless mt-2">
+        <thead>
+            <tr>
+                <th *ngFor="let titulo of convencionesAbajo">{{titulo.nombre}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <td *ngFor="let colores of convencionesAbajo">
+                <button (click)="tipoDiente(colores.estado)" type="button" class="btn color"
+                    [ngStyle]="{'background-color': colores.color,'width':'20px','height':'20px'}">
+                </button>
+            </td>
+        </tbody>
+    </table>
+</body>
