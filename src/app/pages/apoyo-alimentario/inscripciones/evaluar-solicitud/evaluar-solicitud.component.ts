@@ -118,6 +118,8 @@ export class EvaluarSolicitudComponent implements OnInit {
         }).catch((error) => this.utilsService.showSwAlertError("Solicitud no encontrada",error));
     }
   loadDocumentos() {
+    console.log("CARGO DOCS");
+    
     this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
       if(paqSol!=undefined){
         console.log(paqSol.PaqueteId);
@@ -139,7 +141,7 @@ export class EvaluarSolicitudComponent implements OnInit {
         });
         })
       }
-    }).catch((err)=>this.showError('Error',err));
+    }).catch((err)=>this.showError('No se encontraron documentos',err));
   }
 
     loadEstadoTipoSolicitud() {

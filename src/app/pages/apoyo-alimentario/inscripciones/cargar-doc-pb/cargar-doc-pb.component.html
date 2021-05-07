@@ -1,40 +1,18 @@
 <form [formGroup]="formulario">
     <p>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y escaneado.</p>
     <div class="row item-list">
-        <ngx-archivos-generico
-            class="col-12"
-            nombreInput="archivoDiscapacidad"
-            [grupo]="formulario"
-            etiqueta="Documento soporte de Discapacidad"
-            [servicio]="nuxeoHelper"
-            metodo="guardarBatch"
-            [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD"
-            [(documentos)]="formularioReliquidacion.documentosAdjuntos"
-            [documentosCargados]="formularioReliquidacion.documentosCargados"
-            [deshabilitarUpload]="deshabilitar.esRevision"
-            (descargarArchivo)="visualizarArchivo($event)"
-            [mostrarResubir]="mostrar.resubir"
+        <ngx-archivos-generico class="col-12" nombreInput="archivoDiscapacidad" [grupo]="formulario" etiqueta="Documento soporte de Discapacidad" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD"
+            [(documentos)]="formularioReliquidacion.documentosAdjuntos" [documentosCargados]="formularioReliquidacion.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir"
             (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
-    </ngx-archivos-generico>
+        </ngx-archivos-generico>
     </div>
     <hr>
     <p>Documento de identidad</p>
     <div class="row item-list">
-        <ngx-archivos-generico
-            class="col-12"
-            nombreInput="documentoIdentidad"
-            [grupo]="formulario"
-            etiqueta="Documento de identidad del solicitante"
-            [servicio]="nuxeoHelper"
-            metodo="guardarBatch"
-            [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.DOCUMENTO_IDENTIFICACION"
-            [(documentos)]="formularioReliquidacion.documentosAdjuntos"
-            [documentosCargados]="formularioReliquidacion.documentosCargados"
-            [deshabilitarUpload]="deshabilitar.esRevision"
-            (descargarArchivo)="visualizarArchivo($event)"
-            [mostrarResubir]="mostrar.resubir"
+        <ngx-archivos-generico class="col-12" nombreInput="documentoIdentidad" [grupo]="formulario" etiqueta="Documento de identidad del solicitante" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.DOCUMENTO_IDENTIFICACION_APAL"
+            [(documentos)]="formularioReliquidacion.documentosAdjuntos" [documentosCargados]="formularioReliquidacion.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir"
             (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
-    </ngx-archivos-generico>
+        </ngx-archivos-generico>
     </div>
 </form>
 

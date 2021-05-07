@@ -98,7 +98,7 @@ export class NuxeoService {
                                                 return error;
                                             });
                                     })
-                                    .catch(function (error) {
+                                    .catch(function (error) {                                  
                                         console.info(error);
                                         return error;
                                     })
@@ -154,7 +154,7 @@ export class NuxeoService {
         this.blobDocument = {};
         nuxeoservice.blobDocument = {};
         files.forEach(file => {
-            documentoService.get('documento/' + file.Id)
+            documentoService.get('documento/' + file.DocumentoId)
                 .subscribe(res => {
                     if (res !== null) {
                         if (res.Enlace != null) {

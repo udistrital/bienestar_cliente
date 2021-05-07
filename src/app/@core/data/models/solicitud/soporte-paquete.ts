@@ -16,8 +16,8 @@ export class SoportePaquete{
         this.Activo=true;
         this.Descripcion='';
         this.DocumentoId=0;
-        this.FechaCreacion = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en');
-        this.FechaModificacion = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss', 'en');
+        this.FechaCreacion = "string";
+        this.FechaModificacion = "string";
         this.PaqueteId=null;
     }
     

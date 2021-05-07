@@ -31,6 +31,8 @@ import { UtilService } from '../../shared/services/utilService';
 import { Paquete } from '../data/models/solicitud/paquete';
 import { PaqueteSolicitud } from '../data/models/solicitud/paquete-solicitud';
 import { SoportePaquete } from '../data/models/solicitud/soporte-paquete';
+import { DocumentoService } from '../data/documento.service';
+
 
 @Injectable()
 
@@ -38,13 +40,14 @@ export class ListService {
 
   constructor(
     private parametrosService: ParametrosService,
+    private documentoService: DocumentoService,
     private solicitudService: SolicitudService,
     private tercerosService: TercerosService,
     private oikosService: OikosService,
     private academicaService: AcademicaService,
     private apoyoAlimentarioService: ApoyoAlimentarioService,
     private ubicacionesService: UbicacionesService,
-    private utilsService: UtilService
+    private utilsService: UtilService  
   ) { }
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
@@ -795,7 +798,7 @@ export class ListService {
 
   crearSoportePaquete(SopPaq: SoportePaquete): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.solicitudService.post('paquete_solicitud', JSON.stringify(SopPaq))
+      this.solicitudService.post('soporte_paquete', JSON.stringify(SopPaq))
         .subscribe(res => {
           console.log(res);
           resolve(true);
@@ -901,6 +904,33 @@ export class ListService {
           reject("No se encuentra carnet asociado");
         }
       }).catch((error) => reject(error));
+    });
+  }
+
+    /* ******** DOCUMENTOS SERVICE *********** */
+
+  /**
+   *Busca un documento en especifico de un paquete
+   *
+   * @param {number} idDocumento
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  findDocumentoBySoporte(idDocumento): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this.documentoService.get(`documento?query=Id:${idDocumento}`).subscribe(
+          (result) => {
+            console.log(result);
+            if (Object.keys(result[0]).length !== 0) {
+              resolve(result[0]);
+            }else{
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        ); 
     });
   }
 

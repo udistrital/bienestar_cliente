@@ -57,7 +57,7 @@ export class ApiConstanst{
     }
 
     public static TIPO_DOCUMENTO = {
-        DOCUMENTO_IDENTIFICACION: '4',
+        DOCUMENTO_IDENTIFICACION: '2',
         CERTIFICADO_DISCAPACIDAD: '26',
         CERTIFICADO_PENSION_ESCOLAR: '27',
         CERTIFICADO_ARRIENDO: '28',
@@ -71,5 +71,6 @@ export class ApiConstanst{
         CERTIFICADO_DESPLAZADO: '36',
         CERTIFICADO_VALOR_MATRICULA: '37',
         CERTIFICADO_OTROS_DOCUMENTOS: '38',
+        DOCUMENTO_IDENTIFICACION_APAL: '39',
     }
 }

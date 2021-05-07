@@ -10,6 +10,9 @@ import { PopUpManager } from '../../../../@core/managers/popUpManager';
 import { ListService } from '../../../../@core/store/list.service';
 import { NuxeoService } from '../../../../@core/utils/nuxeo.service';
 import { ApiConstanst } from '../../../../shared/constants/api.constans';
+import { UtilService } from '../../../../shared/services/utilService';
+import { TipoDocumento } from '../../../../@core/data/models/terceros/tipo_documento';
+import { forEach } from 'jszip';
 
 @Component({
   selector: 'ngx-cargar-doc-pb',
@@ -47,14 +50,15 @@ export class CargarDocPbComponent implements OnInit {
     private pUpManager: PopUpManager,
     private nuxeoService: NuxeoService,
     private documentoService: DocumentoService,
-    private listService: ListService
+    private listService: ListService,
+    private utilsService: UtilService,
   ) {
     this.formulario = new FormGroup({});
     this.mostrar.resubir = false;
     this.mostrar.verObservaciones = false;
 
     /* Cargamos una solicitud */
-    this.listService.loadSolicitud(645).then((respSolicitud) => {
+    this.listService.loadSolicitud(654).then((respSolicitud) => {
       this.solicitud = respSolicitud;
     }).catch((error) => console.error("Solicitud no encontrada", error));
   }
@@ -63,14 +67,56 @@ export class CargarDocPbComponent implements OnInit {
   }
   guardarDoc() {
     console.log("vamo a guardar");
-    console.log(this.formularioReliquidacion.documentosAdjuntos);
-
-    this.nuxeoService.getDocumentos$(this.formularioReliquidacion.documentosAdjuntos, this.documentoService).subscribe((res) => {
+    /* Variable que almacena lso documentos agregados al formulario*/
+    const docsAdd =this.formularioReliquidacion.documentosAdjuntos;
+    //console.log(docsAdd);
+    if(docsAdd==undefined){
+      console.log("Docs vacios");
+    }
+    else{
+      this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+        if(paqSol.PaqueteId!=undefined){
+          console.log(paqSol.PaqueteId);
+          console.log("Entre mal");
+  
+          this.cargarDocs(paqSol).then((docs)=>{
+            if(Object.keys(docs).length>0){
+              console.log("LLENANDO");
+              console.log(docs);
+              for(let j = 0; j < Object.keys(docsAdd).length; j++){
+                console.log("agrega",docsAdd[j].IdDocumento);
+                docs.forEach(doc => {
+                  console.log("update",doc.TipoDocumento.Id);
+                  if(docsAdd[j].IdDocumento==doc.TipoDocumento.Id){
+                    console.log("Si esss");
+                    docsAdd[j].documento=doc.Id;
+                    console.log(docsAdd[j]," asdasd",doc.Id);
+                  }else{
+                    console.log("No hay news documents");
+                  }    
+                });          
+              } 
+      
+              if(docsAdd!=undefined){
+                console.log("Lo logro señor");   
+                this.nuxeoService.updateDocument$(docsAdd, this.documentoService).subscribe((res) => {
+                  console.log(res);
+                });
+              }else{
+                console.log("UPDATE SIN DATOS");      
+              }
+              
+            }
+          }); 
+        }else{
+           this.nuxeoService.getDocumentos$(docsAdd, this.documentoService).subscribe((res) => {
       console.log(res);
-      /* res.forEach(documento=>{
-        console.log(documento.Nombre);
-      }); */
-/* 
+      for(let i = 0; i < Object.keys(res).length; i++){
+        console.log(Object.values(res)[i].Nombre);         
+      } 
+
+      if(docsAdd.length==Object.keys(res).length){
+        
         this.formularioReliquidacion.documentosCargados = res;
 
         let paquete: Paquete = new Paquete();
@@ -83,31 +129,78 @@ export class CargarDocPbComponent implements OnInit {
           paqueteSolicitud.EstadoTipoSolicitudId = this.solicitud.EstadoTipoSolicitudId;
           paqueteSolicitud.PaqueteId = paquete;
           
-
+  
           this.listService.crearPaqueteSolicitud(paqueteSolicitud).then((respPaqSol) => {
             console.log("Se creo el paquete solicitud");
-          }).catch((err) => console.error(err));
-
-          for (const documento of res) {
-            console.log("Subimos documento");
-            let soporte: SoportePaquete= new SoportePaquete;
-            soporte.Descripcion=documento.Descripcion;
-            soporte.PaqueteId=paquete;
-            soporte.DocumentoId=documento.Id
-            this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
-              console.log("Se creo soporte paquete");
-            }).catch((err)=>console.error(err));
-          }
+  
+            for (let i = 0; i < Object.keys(res).length; i++) {
+              let documento=Object.values(res)[i];
+              console.log("Subimos documento");
+              let soporte: SoportePaquete= new SoportePaquete();
+              soporte.Descripcion=documento.TipoDocumento.Descripcion;
+              soporte.PaqueteId=paquete;
+              soporte.DocumentoId=documento.Id;
+              console.log("soporte",soporte);
+              this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
+                console.log("Se creo soporte paquete");
+              }).catch((err)=>console.error(err));
+            }
+  
+          }).catch((err) =>{
+            console.error(err);
+            this.utilsService.showSwAlertError("Crear Paquete Solicitud",err);
+          });
           
-        }).catch((err) => console.error(err)
-        ); */
-        
-      
+        }).catch((err) => {
+          console.error(err);
+          this.utilsService.showSwAlertError("Crear Paquete",err);
+        }); 
+
+      }
     });
+        }
+      }).catch((err)=>this.utilsService.showSwAlertError('No se encontraron documentos',err));
 
+    }
 
+   
+    
+  }
 
+  cargarDocs(paqSol): Promise<any> {
+    return new Promise((resolve) => {
 
+      this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes)=>{
+        //console.log("entra=>",soportes);
+        let ids=[];
+        let docs=[];
+        for (let i = 0; i < Object.keys(soportes).length; i++) {
+          let element = soportes[i];
+          ids.push(element.DocumentoId);
+        }
+        console.log(ids);
+
+        ids.forEach(element => {
+          this.listService.findDocumentoBySoporte(element).then((res)=>{
+            docs.push(res);
+            console.log(docs.length);
+            console.log(ids.length);
+            if(docs.length==ids.length){
+              console.log("Sera?");
+              resolve(docs);
+            }
+          });
+          
+        });
+        
+        
+        /* console.log(doc.PaqueteId.); */
+        //Cambiaar id de soportes
+
+        console.log("Actualiseishon");
+      });
+      
+    }); 
   }
 
   visualizarArchivo(archivo) {
