@@ -45,6 +45,7 @@ import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/busca
 import { FechaFormatPipe } from './pipes/fecha-format.pipe';
 import { CargarDocPbComponent } from './inscripciones/cargar-doc-pb/cargar-doc-pb.component';
 import { ArchivosGenericoModule } from '../../shared/components/archivos-generico/archivos-generico.module';
+import { SafePipe } from './pipes/safe.pipe';
 
 @NgModule({
     imports: [
@@ -91,7 +92,8 @@ import { ArchivosGenericoModule } from '../../shared/components/archivos-generic
     InformeDiarioComponent,
     BuscarSolicitudComponent,
     FechaFormatPipe,
-    CargarDocPbComponent
+    CargarDocPbComponent,
+    SafePipe
    ],
   providers: [
 

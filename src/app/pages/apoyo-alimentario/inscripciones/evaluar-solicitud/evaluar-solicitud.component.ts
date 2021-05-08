@@ -21,6 +21,7 @@ import { SolicitudEvolucionEstado } from '../../../../@core/data/models/solicitu
 import { SoportePaquete } from '../../../../@core/data/models/solicitud/soporte-paquete';
 import { NuxeoService } from '../../../../@core/utils/nuxeo.service';
 import { DocumentoService } from '../../../../@core/data/documento.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'ngx-evaluar-solicitud',
@@ -39,6 +40,8 @@ export class EvaluarSolicitudComponent implements OnInit {
     obseravacionText: string = "";
     observaciones: Observacion[] = [];
     evolucionesEstado: SolicitudEvolucionEstado[] = [];
+    documentosHTML:string[][]= new Array([""],[""]);
+    selectDoc=[];
 
     estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
 
@@ -63,7 +66,8 @@ export class EvaluarSolicitudComponent implements OnInit {
         private listService: ListService,
         private utilsService: UtilService,
         private nuxeoService: NuxeoService,
-        private documentosService: DocumentoService
+        private documentosService: DocumentoService,
+        private sanitizer :DomSanitizer
     ) {
         this.idSolicitud = parseInt(this.route.snapshot.paramMap.get('idSolicitud'));
         if (this.idSolicitud != 0) {
@@ -119,7 +123,7 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
   loadDocumentos() {
     console.log("CARGO DOCS");
-    
+    let contDocs=0;
     this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
       if(paqSol!=undefined){
         console.log(paqSol.PaqueteId);
@@ -127,17 +131,36 @@ export class EvaluarSolicitudComponent implements OnInit {
           this.documentosSolicitud=soportes;
           let terminoDescargar=false;
           console.log("entra=>",soportes);
+          for (let i = 0; i < Object.keys(soportes).length; i++) {
+            const element = Object.values(soportes)[i];
+            console.log(element.Descripcion);
+            this.documentosHTML[i][0]=element.Descripcion;
+          }
           this.nuxeoService.getDocumentoById$(soportes, this.documentosService).subscribe((res: Object) => {
-            window.open(res['undefined']);
-            console.log(res['undefined']);
-            if (Object.keys(res).length === Object.keys(soportes).length && !terminoDescargar) {
+            
+            console.info("res --> ",res['undefined']);
+            for (let i = 0; i < this.documentosHTML.length; i++) {
+              if(res['undefined'].documento==this.documentosHTML[i][0]){
+                this.documentosHTML[i][1]=res['undefined'].url;
+              }
+            }
+            
+            contDocs++;
+            console.log("DOCS -->",this.documentosHTML);
+            
+            if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
               
-              
+                this.selectDoc=this.documentosHTML[0];              
+                this.loading = false;
+                Swal.close();
+
                 /* for (doc of res) {
                     window.open(res[archivo.key]);
                 } */
+                console.log("entre");
                 terminoDescargar = true;
             }
+
         });
         })
       }
@@ -697,8 +720,8 @@ export class EvaluarSolicitudComponent implements OnInit {
     
             this.documentos = new FormGroup({});
     
-            this.loading = false;
-            Swal.close();
+            /* this.loading = false;
+            Swal.close(); */
           })
           .catch((error) => {
             console.error(error);

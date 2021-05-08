@@ -153,7 +153,7 @@ export class NuxeoService {
     getFile(files, documentoService, nuxeoservice) {
         this.blobDocument = {};
         nuxeoservice.blobDocument = {};
-        files.forEach(file => {
+        files.forEach(file => {  
             documentoService.get('documento/' + file.DocumentoId)
                 .subscribe(res => {
                     if (res !== null) {
@@ -167,7 +167,11 @@ export class NuxeoService {
                                             blob.blob()
                                                 .then(function (responseblob) {
                                                     const url = URL.createObjectURL(responseblob);
-                                                    nuxeoservice.blobDocument[file.key] = url;
+                                                    const response_get = {
+                                                        documento: file.Descripcion,
+                                                        url: url,
+                                                    }; 
+                                                    nuxeoservice.blobDocument[file.key] = response_get;
                                                     nuxeoservice.blobDocument$.next(nuxeoservice.blobDocument);
                                                 });
                                         })
