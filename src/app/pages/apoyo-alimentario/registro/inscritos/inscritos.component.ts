@@ -117,7 +117,7 @@ export class InscritosComponent implements OnInit {
       /* Se encuentra el tercero */
       if (terceroReg !== undefined) {
         b.textContent = `Buscando solicitud asociada`;
-        this.listService.loadSolicitanteByIdTercero(terceroReg.Id, environment.IDS.IDSOLICITUDRADICADA, this.periodo.Nombre, true)
+        this.listService.loadSolicitanteByIdTercero(terceroReg.Id, environment.IDS.IDSOLICITUDACEPTADA, this.periodo.Nombre, true)
           .then((listSolicitante) => {
             /* Validamos si esta inscrito, o si se permiten no inscritos y el estudiante esta activo */
             if (listSolicitante.length > 0) {
@@ -235,13 +235,28 @@ export class InscritosComponent implements OnInit {
         apoyoAlimentario.solicitudId = idSolicitud;
         apoyoAlimentario.terceroId = idTercero;
         apoyoAlimentario.usuarioAdministrador = this.usuarioWSO2;
+        this.apoyoAlimentarioService.get(`registro_apoyo?tercero_id=${idTercero}&sortby=id&order=desc&limit=1`).subscribe((regAnt) => {
+          console.log(regAnt);
+          if (regAnt == null) {
+            this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
+              .subscribe(res => {
+                resolve(`Registro #${res.id}`);
+              }, (error) => reject(error));
+          } else {
+            console.log(regAnt[0].fecha_creacion.split('T')[0]);
+            console.log(apoyoAlimentario.fecha_creacion.split(' ')[0]);
+            if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
+              reject(`El usuario ya uso el servicio a las ${regAnt[0].fecha_creacion}`)
+            } else {
+              this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
+                .subscribe(res => {
+                  resolve(`Registro #${res.id}`);
+                }, (error) => reject(error));
+            }
+          }
+        });
 
 
-        this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
-          .subscribe(res => {
-
-            resolve(`Registro #${res._id}`);
-          }, (error) => reject(error));
       } else {
         this.utilsService.showSwAlertError('Error al registrar', "No se encontro el usuario que se va a registrar, intente nuevamente")
       }
@@ -328,7 +343,7 @@ export class InscritosComponent implements OnInit {
     let reg = new Registro(titulo, mensaje, "alert-success");
     this.registros.push(reg);
 
-    this.utilsService.showToastAlert(titulo,mensaje,null,2000,null);
+    this.utilsService.showToastAlert(titulo, mensaje, null, 2000, null);
     this.registroBase.codigo = "";
   }
 
@@ -344,7 +359,7 @@ export class InscritosComponent implements OnInit {
     let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
 
-    this.utilsService.showToastError(titulo,error,"alert-circle-outline");
+    this.utilsService.showToastError(titulo, error, "alert-circle-outline");
   }
 
 }

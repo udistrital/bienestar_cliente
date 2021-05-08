@@ -60,14 +60,16 @@ export class ListService {
    */
   findApoyoAlimentario(): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
-      this.apoyoAlimentarioService.get(`sintomas`)
+      this.apoyoAlimentarioService.get(`registro_apoyo`)
         .subscribe(
           (result: any[]) => {
-            if (Object.keys(result['Data'][0]).length > 0) {
+            console.log(result);
+            resolve(result)
+            /* if (Object.keys(result['Data'][0]).length > 0) {
               resolve(result['Data']);
             } else {
               resolve([]);
-            }
+            } */
           },
           error => {
             reject(error);
