@@ -38,12 +38,12 @@ export class CargarDocPbComponent implements OnInit {
   };
   mostrar: any = {};
   deshabilitar: any = {};
-  formulario: FormGroup;
-  formularioReliquidacion: any = {
+  documentos: FormGroup;
+  formApoyo: any = {
     documentosCargados: {}
   };
   APP_CONSTANTS = ApiConstanst;
-  solicitud: Solicitud;
+  solicitud: Solicitud=null;
 
   constructor(
     public nuxeoHelper: NuxeoApiHelper,
@@ -53,22 +53,26 @@ export class CargarDocPbComponent implements OnInit {
     private listService: ListService,
     private utilsService: UtilService,
   ) {
-    this.formulario = new FormGroup({});
+    this.documentos = new FormGroup({});
     this.mostrar.resubir = false;
     this.mostrar.verObservaciones = false;
 
     /* Cargamos una solicitud */
     this.listService.loadSolicitud(654).then((respSolicitud) => {
-      this.solicitud = respSolicitud;
+      console.log("Carga componenete de solicitud de Docs");
+      
+      if(Object.values(respSolicitud).length>0){
+        this.solicitud = respSolicitud;
+      }  
     }).catch((error) => console.error("Solicitud no encontrada", error));
   }
 
   ngOnInit() {
   }
   guardarDoc() {
-    console.log("vamo a guardar");
+    console.log("vamo que vamo");
     /* Variable que almacena lso documentos agregados al formulario*/
-    const docsAdd =this.formularioReliquidacion.documentosAdjuntos;
+    const docsAdd =this.formApoyo.documentosAdjuntos;
     //console.log(docsAdd);
     if(docsAdd==undefined){
       console.log("Docs vacios");
@@ -77,12 +81,15 @@ export class CargarDocPbComponent implements OnInit {
       this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
         if(paqSol.PaqueteId!=undefined){
           console.log(paqSol.PaqueteId);
-          console.log("Entre mal");
-  
-          this.cargarDocs(paqSol).then((docs)=>{
+          this.cargarDocs(paqSol).then((result)=>{
+            console.log(result);
+            const docs=result[0];
+            const soportes=result[1];
+            console.log("vamo a actualizar");
             if(Object.keys(docs).length>0){
               console.log("LLENANDO");
               console.log(docs);
+            
               for(let j = 0; j < Object.keys(docsAdd).length; j++){
                 console.log("agrega",docsAdd[j].IdDocumento);
                 docs.forEach(doc => {
@@ -96,71 +103,98 @@ export class CargarDocPbComponent implements OnInit {
                   }    
                 });          
               } 
-      
+              /*
+              NOTAS: 
+              Mirar para no crear soportes repetidos
+              Mirar que se creen los documentos que no existen
+              Añadir soporte de documentos de los paquetes que no existen.
+              */
+              
               if(docsAdd!=undefined){
                 console.log("Lo logro señor");   
                 this.nuxeoService.updateDocument$(docsAdd, this.documentoService).subscribe((res) => {
                   console.log(res);
+                  if(docsAdd.length==Object.keys(res).length){
+                    console.log("termine de update");
+
+                    for (let i = 0; i < Object.keys(res).length; i++) {
+
+                      console.log("soporte -->",(Object.values(res)[i])['documento']);
+                      let docUpdate=(Object.values(res)[i])['documento'];
+                      console.log("doc soporte",docUpdate['documento']);  
+                      /* 
+                      console.log("Subimos documento");
+                      let soporte: SoportePaquete= new SoportePaquete();
+                      soporte.Descripcion=docUpdate.TipoDocumento.Descripcion;
+                      soporte.PaqueteId=paqSol.PaqueteId;
+                      soporte.DocumentoId=docUpdate.Id;
+                      console.log("soporte",soporte);
+                      this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
+                        console.log("Se creo soporte paquete");
+                      }).catch((err)=>console.error(err)); */
+                    }
+                  }
+                  
                 });
               }else{
                 console.log("UPDATE SIN DATOS");      
               }
-              
-            }
-          }); 
+            
+            } 
+          }).catch((err)=>this.utilsService.showSwAlertError('No se pudieron cargar los documentos',err)); 
         }else{
-           this.nuxeoService.getDocumentos$(docsAdd, this.documentoService).subscribe((res) => {
-      console.log(res);
-      for(let i = 0; i < Object.keys(res).length; i++){
-        console.log(Object.values(res)[i].Nombre);         
-      } 
-
-      if(docsAdd.length==Object.keys(res).length){
+          console.log("vamo a guardar");
+          this.nuxeoService.getDocumentos$(docsAdd, this.documentoService).subscribe((res) => {
+              console.log(res);
+              for(let i = 0; i < Object.keys(res).length; i++){
+                console.log(Object.values(res)[i].Nombre);         
+              } 
         
-        this.formularioReliquidacion.documentosCargados = res;
-
-        let paquete: Paquete = new Paquete();
-        paquete.Nombre = "Documentos apoyo alimentario"
-
-        this.listService.crearPaquete(paquete).then((idPaq) => {
-          paquete.Id = idPaq;
-          let paqueteSolicitud: PaqueteSolicitud = new PaqueteSolicitud();
-          paqueteSolicitud.SolicitudId = this.solicitud;
-          paqueteSolicitud.EstadoTipoSolicitudId = this.solicitud.EstadoTipoSolicitudId;
-          paqueteSolicitud.PaqueteId = paquete;
+              if(docsAdd.length==Object.keys(res).length){
+                
+                this.formApoyo.documentosCargados = res;
+        
+                let paquete: Paquete = new Paquete();
+                paquete.Nombre = "Documentos apoyo alimentario"
+        
+                this.listService.crearPaquete(paquete).then((idPaq) => {
+                  paquete.Id = idPaq;
+                  let paqueteSolicitud: PaqueteSolicitud = new PaqueteSolicitud();
+                  paqueteSolicitud.SolicitudId = this.solicitud;
+                  paqueteSolicitud.EstadoTipoSolicitudId = this.solicitud.EstadoTipoSolicitudId;
+                  paqueteSolicitud.PaqueteId = paquete;
+                  
           
-  
-          this.listService.crearPaqueteSolicitud(paqueteSolicitud).then((respPaqSol) => {
-            console.log("Se creo el paquete solicitud");
-  
-            for (let i = 0; i < Object.keys(res).length; i++) {
-              let documento=Object.values(res)[i];
-              console.log("Subimos documento");
-              let soporte: SoportePaquete= new SoportePaquete();
-              soporte.Descripcion=documento.TipoDocumento.Descripcion;
-              soporte.PaqueteId=paquete;
-              soporte.DocumentoId=documento.Id;
-              console.log("soporte",soporte);
-              this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
-                console.log("Se creo soporte paquete");
-              }).catch((err)=>console.error(err));
-            }
-  
-          }).catch((err) =>{
-            console.error(err);
-            this.utilsService.showSwAlertError("Crear Paquete Solicitud",err);
+                  this.listService.crearPaqueteSolicitud(paqueteSolicitud).then((respPaqSol) => {
+                    console.log("Se creo el paquete solicitud");
+          
+                    for (let i = 0; i < Object.keys(res).length; i++) {
+                      let documento=Object.values(res)[i];
+                      console.log("Subimos documento");
+                      let soporte: SoportePaquete= new SoportePaquete();
+                      soporte.Descripcion=documento.TipoDocumento.Descripcion;
+                      soporte.PaqueteId=paquete;
+                      soporte.DocumentoId=documento.Id;
+                      console.log("soporte",soporte);
+                      this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
+                        console.log("Se creo soporte paquete");
+                      }).catch((err)=>console.error(err));
+                    }
+          
+                  }).catch((err) =>{
+                    console.error(err);
+                    this.utilsService.showSwAlertError("Crear Paquete Solicitud",err);
+                  });
+                  
+                }).catch((err) => {
+                  console.error(err);
+                  this.utilsService.showSwAlertError("Crear Paquete",err);
+                }); 
+        
+              }
           });
-          
-        }).catch((err) => {
-          console.error(err);
-          this.utilsService.showSwAlertError("Crear Paquete",err);
-        }); 
-
-      }
-    });
         }
       }).catch((err)=>this.utilsService.showSwAlertError('No se encontraron documentos',err));
-
     }
 
    
@@ -183,11 +217,8 @@ export class CargarDocPbComponent implements OnInit {
         ids.forEach(element => {
           this.listService.findDocumentoBySoporte(element).then((res)=>{
             docs.push(res);
-            console.log(docs.length);
-            console.log(ids.length);
             if(docs.length==ids.length){
-              console.log("Sera?");
-              resolve(docs);
+              resolve([docs, soportes]);
             }
           });
           

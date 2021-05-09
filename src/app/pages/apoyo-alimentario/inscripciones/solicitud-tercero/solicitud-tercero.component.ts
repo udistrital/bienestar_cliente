@@ -297,17 +297,7 @@ export class SolicitudTerceroComponent implements OnInit {
               this.estudiante.InfoPersonasACargo.TienePersonasACargo = false;
             }
             break;
-          case "Presenta condición de desplazado":
-            if (infComp.InfoComplementariaId.Nombre == "Si") {
-              this.estudiante.InfoEspecial.CondicionDesplazado = true;
-            } else if (infComp.InfoComplementariaId.Nombre == "No") {
-              this.estudiante.InfoEspecial.CondicionDesplazado = false;
-            }
-            break;
-          /* case "Solicituddereliquidación":
-            break;
-          case "Comorbilidades":
-            break; */
+            
           case "Genero":
             this.estudiante.Genero = infComp.InfoComplementariaId.Nombre;
             break;
@@ -775,7 +765,6 @@ export class SolicitudTerceroComponent implements OnInit {
         console.log("AGUAS--->", this.estudiante.InfoNecesidades.AguasNegras);
 
         this.especial = new FormGroup({
-          condicionDesplazado: new FormControl({}),
           condicionEspecial: new FormControl({
             value: this.estudiante.InfoEspecial.CondicionEspecial,
             disabled: false,

@@ -406,17 +406,7 @@ export class EvaluarSolicitudComponent implements OnInit {
                 this.estudiante.InfoPersonasACargo.TienePersonasACargo = false;
             }
             break;
-            case "Presenta condición de desplazado":
-            if (infComp.InfoComplementariaId.Nombre == "Si") {
-                this.estudiante.InfoEspecial.CondicionDesplazado = true;
-            } else if (infComp.InfoComplementariaId.Nombre == "No") {
-                this.estudiante.InfoEspecial.CondicionDesplazado = false;
-            }
-            break;
-            /* case "Solicituddereliquidación":
-            break;
-            case "Comorbilidades":
-            break; */
+
             case "Genero":
             this.estudiante.Genero = infComp.InfoComplementariaId.Nombre;
             break;

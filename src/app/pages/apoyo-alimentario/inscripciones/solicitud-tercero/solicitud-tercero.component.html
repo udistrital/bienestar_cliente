@@ -1,4 +1,3 @@
-
 <!-- <nb-card>
     <button class="btn back-button btn-block" routerLink="../../">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -190,20 +189,21 @@
                         Solicitud apoyo alimentario {{ periodo?.Nombre }}
                     </h1>
                     <br>
-                    <small>
-                        Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de
-                        Gestión Académica
-                        <br>
-                        Los campos con <span class="oas-asterisk">*</span>, información que trae la OAS.
-                        <br>
-                        Los campos con <span class="required-asterisk">*</span>, traen información ya existente pero se
-                        puede cambiar dependiendo de su situación actual.
-                    </small>
+                    <button class="btn btn-block back-button" routerLink="../../">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        Regresar
+                    </button>
                 </div>
-                <button class="btn btn-block back-button" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
+                <small>
+                    Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de
+                    Gestión Académica
+                    <br>
+                    Los campos con <span class="oas-asterisk">*</span>, información que nos falta de la OAS.
+                    <br>
+                    Los campos con <span class="required-asterisk">*</span>, traen información ya existente pero se
+                    puede cambiar dependiendo de su situación actual.
+                    <br>
+                </small>
             </div>
         </nb-card-header>
         <hr>
@@ -290,13 +290,11 @@
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select *ngIf="estudiante.AntiguedadPrograma==null" fullWidth size="large"
-                                        placeholder="Vigencia en el programa" formControlName="programa" required>
+                                    <nb-select *ngIf="estudiante.AntiguedadPrograma==null" fullWidth size="large" placeholder="Vigencia en el programa" formControlName="programa" required>
                                         <nb-option value="nuevo">Nuevo en el programa</nb-option>
                                         <nb-option value="antiguo">Antiguo en el programa</nb-option>
                                     </nb-select>
-                                    <nb-select *ngIf="estudiante.AntiguedadPrograma!=null" fullWidth size="large"
-                                        formControlName="programa" disabled>
+                                    <nb-select *ngIf="estudiante.AntiguedadPrograma!=null" fullWidth size="large" formControlName="programa" disabled>
                                         <nb-option value="nuevo" disabled>Nuevo en el programa</nb-option>
                                         <nb-option value="antiguo" disabled>Antiguo en el programa</nb-option>
                                     </nb-select>
@@ -498,17 +496,10 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Carta o contrato de arrendamiento:
-                                    <span class="required-asterisk">*</span>
-                                    <hr>
-                                    <small class="small-info-ud">Si el (la) estudiante vive en arriendo, presentar
-                                        contrato, si no lo posee, debe aportar carta del arrendatario
-                                        donde especifique los datos de éste mismo (Nombre, dirección y teléfono), valor
-                                        mensual que paga, dicha
-                                        carta debe ir firmada por el arrendatario</small>
-                                    <hr>
+                                    <span class="oas-asterisk">@</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth type="file">
+                                    <p class="label-color-ud small-info-ud">Dependiendo su respuesta deberá cargar el Documento mas adelante.</p>
                                 </div>
                             </div>
 
@@ -524,28 +515,22 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="zonaVulnerabilidad">
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'"
-                                            [checked]="true" value="true" checked>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'" [checked]="true" value="true" checked>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'"
-                                            [checked]="false" value="true">
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'" [checked]="false" value="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'"
-                                            [checked]="true" value="false" checked>
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'" [checked]="true" value="false" checked>
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'"
-                                            [checked]="false" value="false">
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'" [checked]="false" value="false">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null"
-                                            value="true">
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" value="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null"
-                                            value="false">
+                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" value="false">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -571,20 +556,16 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="tieneperacargo" required>
-                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" value=true
-                                            [checked]="true">
+                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" value=true [checked]="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo"
-                                            [disabled]=true>
+                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" [disabled]=true>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" value=false
-                                            [checked]="true">
+                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" value=false [checked]="true">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo"
-                                            [disabled]=true>
+                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" [disabled]=true>
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -609,18 +590,11 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Registro Civil Hijos:
-                                    <br>
-                                    <small *ngIf="this.estudiante.InfoPersonasACargo.NumeroHijos>1"
-                                        class="small-color-ud">En el mismo archivo debe ir el registro civil de cada uno
-                                        de sus hijos</small>
-                                    <hr>
-                                    <small class="small-info-ud">Sólo si el (la) estudiante tiene HIJOS y ellos dependen
-                                        económicamente de él, debe presentar Registro (s)
-                                        Civil(es).</small>
-                                    <hr>
+                                    <span class="oas-asterisk">@</span>
                                 </div>
                                 <div class="col-md-8">
                                     <input nbInput fullWidth type="file">
+                                    <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
                                 </div>
                             </div>
 
@@ -640,8 +614,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="menoresEstudiantes"
-                                        required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresEstudiantes" required>
                                 </div>
                             </div>
 
@@ -651,8 +624,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="menoresMatriculados"
-                                        required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresMatriculados" required>
                                 </div>
                             </div>
 
@@ -683,15 +655,13 @@
                                 <div class="col-md-4">¿Tiene sisben?: </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="tieneSisben" name="tieneSisben">
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true" value=true
-                                            selected>
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true" value=true selected>
 
                                         </nb-radio>
                                         <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [disabled]="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true" value=false
-                                            selected>
+                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true" value=false selected>
                                             No
                                         </nb-radio>
                                         <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [disabled]="true">
@@ -714,8 +684,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <!-- required> -->
-                                    <nb-select fullWidth size="large" placeholder="Grupo sisben"
-                                        formControlName="grupo">
+                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo">
                                         <nb-option value="A">Grupo A</nb-option>
                                         <nb-option value="B">Grupo B</nb-option>
                                         <nb-option value="C">Grupo C</nb-option>
@@ -727,14 +696,10 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Soporte Sisben:
-                                    <span class="required-asterisk">*</span>
-                                    <hr>
-                                    <small class="small-info-ud">Sólo se recibe el certificado del sisben a nombre del
-                                        estudiante si se encuentra registrado</small>
-                                    <hr>
+                                    <span class="oas-asterisk">@</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth type="file">
+                                    <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
                                 </div>
                             </div>
 
@@ -756,8 +721,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Calidad Vivienda"
-                                        formControlName="calidadVivienda" required>
+                                    <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
                                         <!-- <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option> -->
                                         <nb-option value="ladrillo"> Ladrillo </nb-option>
                                         <nb-option value="madera"> Madera </nb-option>
@@ -773,8 +737,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Cuartos para Dormir"
-                                        formControlName="cuartosDormir" required>
+                                    <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
                                         <nb-option value="1">1</nb-option>
                                         <nb-option value="2">2</nb-option>
                                         <nb-option value="3">3</nb-option>
@@ -790,8 +753,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Personas en el hogar"
-                                        formControlName="personasHogar" required>
+                                    <nb-select fullWidth size="large" placeholder="Personas en el hogar" formControlName="personasHogar" required>
                                         <nb-option value="1">1</nb-option>
                                         <nb-option value="2">2</nb-option>
                                         <nb-option value="3">3</nb-option>
@@ -814,14 +776,10 @@
                                 </div>
                                 <div class="col-md-8">
                                     <form [formGroup]="serviciosPublicos">
-                                        <nb-checkbox formControlName="luz" [checked]="allServicesP"
-                                            (change)="oneSelected($event)"> Luz </nb-checkbox>
-                                        <nb-checkbox formControlName="gas" [checked]="allServicesP"
-                                            (change)="oneSelected($event)"> Gas </nb-checkbox>
-                                        <nb-checkbox formControlName="telefono" [checked]="allServicesP"
-                                            (change)="oneSelected($event)"> Teléfono </nb-checkbox>
-                                        <nb-checkbox formControlName="tv" [checked]="allServicesP"
-                                            (change)="oneSelected($event)"> Televisión por cable </nb-checkbox>
+                                        <nb-checkbox formControlName="luz" [checked]="allServicesP" (change)="oneSelected($event)"> Luz </nb-checkbox>
+                                        <nb-checkbox formControlName="gas" [checked]="allServicesP" (change)="oneSelected($event)"> Gas </nb-checkbox>
+                                        <nb-checkbox formControlName="telefono" [checked]="allServicesP" (change)="oneSelected($event)"> Teléfono </nb-checkbox>
+                                        <nb-checkbox formControlName="tv" [checked]="allServicesP" (change)="oneSelected($event)"> Televisión por cable </nb-checkbox>
                                         <nb-checkbox [checked]="oneServicesP" (checkedChange)="allSelected($event)">
                                             Todos los servicios </nb-checkbox>
                                     </form>
@@ -834,8 +792,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Origen Agua"
-                                        formControlName="origenAgua" required>
+                                    <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="acueducto">Acueducto</nb-option>
                                         <nb-option value="lluvias">Aguas Lluvias</nb-option>
@@ -853,28 +810,22 @@
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="aguasNegras" name="aguasNegras">
 
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'"
-                                            [checked]="true" value="alcantarillado">
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'" [checked]="true" value="alcantarillado">
                                             Alcantarillado
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'"
-                                            [checked]="false" value="poso-septico">
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'" [checked]="false" value="poso-septico">
                                             Poso séptico
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'"
-                                            [checked]="false" value="alcantarillado">
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'" [checked]="false" value="alcantarillado">
                                             Alcantarillado
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'"
-                                            [checked]="true" value="poso-septico">
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'" [checked]="true" value="poso-septico">
                                             Poso séptico
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''"
-                                            value="alcantarillado">
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''" value="alcantarillado">
                                             Alcantarillado
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''"
-                                            value="poso-septico">
+                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''" value="poso-septico">
                                             Poso séptico
                                         </nb-radio>
                                     </nb-radio-group>
@@ -884,10 +835,10 @@
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
-                <!-- Información Población Especial -->
+                <!-- Información Adicional -->
                 <nb-accordion-item>
                     <nb-accordion-item-header>
-                        <h4 class="non-selectable">Información población especial</h4>
+                        <h4 class="non-selectable">Información adicional</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <form [formGroup]="especial">
@@ -898,8 +849,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Población Especial"
-                                        formControlName="condicionEspecial" required>
+                                    <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" required>
                                         <nb-option value="victima-violencia">Victima de violencia</nb-option>
                                         <nb-option value="desplazado">Desplazado</nb-option>
                                         <nb-option value="indigena">Indigena</nb-option>
@@ -913,17 +863,11 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">
-                                    Certificado:
-                                    <span class="required-asterisk">*</span>
-                                    <hr>
-                                    <small class="small-info-ud">Si el (la) estudiante esta certificado como: victima de
-                                        violencia, desplazado, Indígena, afrodescendiente,
-                                        debe adjuntar el soporte respectivo expedido por la autoridad
-                                        competente.</small>
-                                    <hr>
+                                    Certificado población especial:
+                                    <span class="oas-asterisk">@</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth type="file">
+                                    <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
                                 </div>
                             </div>
 
@@ -941,20 +885,16 @@
                                         <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="true"
-                                            value="si" checked>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="true" value="si" checked>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="false"
-                                            value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="false" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="true"
-                                            value="no" checked>
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="true" value="no" checked>
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="false"
-                                            value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="false" value="no">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -964,17 +904,10 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Documento soporte de la discapacidad:
-                                    <span class="required-asterisk">*</span>
-                                    <hr>
-                                    <small class="small-info-ud">Certificado de Discapacidad Medica expedido por la
-                                        Junta de Calificación
-                                        Invalidez Regional y/o Nacional, avalado por el médico de Bienestar
-                                        Institucional
-                                        de la Universidad Distrital Francisco José de Caldas.</small>
-                                    <hr>
+                                    <span class="oas-asterisk">@</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth type="file">
+                                    <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
                                 </div>
                             </div>
 
@@ -991,20 +924,16 @@
                                         <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==null" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="true"
-                                            value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="true" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="false"
-                                            value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="false" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="true"
-                                            value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="true" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="false"
-                                            value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="false" value="no">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -1013,20 +942,11 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">
-                                    Certificado medico:
-                                    <span class="required-asterisk">*</span>
-                                    <hr>
-                                    <small class="small-info-ud">Los estudiantes que presenten algún tipo de enfermedad
-                                        asociada a temas alimenticios, entre otras y sin
-                                        limitarse a éstas, hipoglicemia, bajo peso y/o baja talla,gastritis, anemia o
-                                        desórdenes alimenticios, deberá
-                                        anexarse el correspondiente diagnóstico médico, expedido por médico particular o
-                                        adscrito al Sistema
-                                        General de Seguridad Social en Salud.</small>
-                                    <hr>
+                                    Certificado médico:
+                                    <span class="oas-asterisk">@</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth type="file">
+                                    <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
                                 </div>
                             </div>
 
@@ -1037,8 +957,7 @@
                                     <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Seguridad Social"
-                                        formControlName="seguridadSocial" required>
+                                    <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
                                         <nb-option value="sisben">Sisben</nb-option>
                                         <nb-option value="eps">EPS</nb-option>
                                         <nb-option value="prepagada">Prepagada</nb-option>
@@ -1055,20 +974,16 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="serPiloPaga" name="serPiloPaga">
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='si'" [checked]="true"
-                                            value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='si'" [checked]="true" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false"
-                                            value="si">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false" value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='si'" [checked]="true"
-                                            value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='si'" [checked]="true" value="no">
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false"
-                                            value="no">
+                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false" value="no">
                                             No
                                         </nb-radio>
                                         <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="si">
@@ -1085,7 +1000,7 @@
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
-                <nb-accordion-item>
+                <!-- <nb-accordion-item>
                     <nb-accordion-item-header>
                         <h4 class="non-selectable">Documentos</h4>
                     </nb-accordion-item-header>
@@ -1113,8 +1028,7 @@
                                     <hr>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth type="file"
-                                        (change)="handleFileInput('documentoIdentidad',$event.target.files)">
+                                    <input nbInput fullWidth type="file" (change)="handleFileInput('documentoIdentidad',$event.target.files)">
                                 </div>
                             </div>
 
@@ -1166,8 +1080,7 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">
-                                    Imagen del horario académico registrado en cóndor para el periodo {{ periodo?.Nombre
-                                    }}
+                                    Imagen del horario académico registrado en cóndor para el periodo {{ periodo?.Nombre }}
                                     <span class="required-asterisk">*</span>
                                     <hr>
                                     <small class="small-info-ud">Pantallazo de HORARIO registrado en el sistema
@@ -1213,13 +1126,21 @@
 
                         </form>
                     </nb-accordion-item-body>
+                </nb-accordion-item> -->
+
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        <h4 class="non-selectable">Documentos</h4>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <ngx-cargar-doc-pb></ngx-cargar-doc-pb>
+                    </nb-accordion-item-body>
                 </nb-accordion-item>
+
             </nb-accordion>
 
-            <mat-label>Enviar documentación</mat-label>
-            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este
-                formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la
-                validación y dará respuesta únicamente basándose en
+            <mat-label>Enviar documentación &nbsp; </mat-label>
+            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la validación y dará respuesta únicamente basándose en
                 el primer diligenciamiento.
                 <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
 
@@ -1229,8 +1150,7 @@
                 <!-- Cambiar por cargarDocumentos() -->
 
                 <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="cargarDocumentos()"
-                        class="submit-button">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="cargarDocumentos()" class="submit-button">
 
                         <i class="fas fa-save mr-1"></i>
                         Registrar

@@ -1,25 +1,241 @@
-<form [formGroup]="formulario">
-    <p>Formulario de Reliquidación Matrícula completamente diligenciado, firmado y escaneado.</p>
+<!-- <nb-card>
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1 *ngIf="solicitud!==null">
+                    Solicitud apoyo alimentario No. {{ solicitud.Id }}
+                </h1>
+                <h1 *ngIf="solicitud==null">
+                    Solicitud no encontrada
+                </h1>
+                <br>
+                <button class="btn back-button btn-block" routerLink="../../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+            </div>
+            <small *ngIf="solicitud!==null">
+                <span class="required-asterisk">*</span>
+                Recuerde que debe cargar TODOS los documentos para que pueda ser valida la radicación de su solicitud.
+                <br>
+                De  lo contrario el envió de su solicitud no será tenido en cuenta.
+            </small>
+        </div>
+    </nb-card-header>
+    <hr>
+    <nb-card-body>
+        <div class="container" *ngIf="solicitud!==null"> -->
+<h6 class="text-center">Carga de Documentos</h6>
+<small class="small-info-ud">
+    Todos los documentos, certificados o soportes deben ser subidos en formato PDF, de lo contrario no serán admitidos
+    <br>
+    Los documentos con <span class="required-asterisk">@</span>, deben subirse obligatoriamente.
+    <br>
+    Los documentos con <span class="oas-asterisk">@</span>, deberan cargarse dependiendo sus respuestas en el formulario.
+</small>
+<hr>
+<form [formGroup]="documentos">
+    <!-- Documento Identidad-->
+    <p>Fotocopia del documento de identidad: <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">(CÉDULA O TARJETA DE IDENTIDAD)</small>
+    <hr>
     <div class="row item-list">
-        <ngx-archivos-generico class="col-12" nombreInput="archivoDiscapacidad" [grupo]="formulario" etiqueta="Documento soporte de Discapacidad" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD"
-            [(documentos)]="formularioReliquidacion.documentosAdjuntos" [documentosCargados]="formularioReliquidacion.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir"
-            (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        <ngx-archivos-generico class="col-12" nombreInput="documentoIdentidad" [requerido]="true" [grupo]="documentos" etiqueta="Documento de Identidad del solicitante" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.DOCUMENTO_IDENTIFICACION_APAL"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
         </ngx-archivos-generico>
     </div>
     <hr>
-    <p>Documento de identidad</p>
+    <!-- Formulario SIGUD -->
+    <p>Formulario SIGUD: <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Debe estar firmado por el estudiante.</small>
+    <hr>
     <div class="row item-list">
-        <ngx-archivos-generico class="col-12" nombreInput="documentoIdentidad" [grupo]="formulario" etiqueta="Documento de identidad del solicitante" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.DOCUMENTO_IDENTIFICACION_APAL"
-            [(documentos)]="formularioReliquidacion.documentosAdjuntos" [documentosCargados]="formularioReliquidacion.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir"
-            (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+        <ngx-archivos-generico class="col-12" nombreInput="formularioSIGUD" [requerido]="true" [grupo]="documentos" etiqueta="Formulario SIGUD" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.FORMULARIO_APOYO_ALIMENTARIO"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
         </ngx-archivos-generico>
     </div>
+    <hr>
+    <!-- Carta de solicitud a bienestar  -->
+    <p>Carta de solicitud a bienestar : <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Debe estar actualizada y firmada por el estudiante.</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="cartaBienestar" [requerido]="true" [grupo]="documentos" etiqueta="Carta de solicitud a bienestar" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CARTA_BIENESTAR"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Recibo Público  -->
+    <p>Recibo Público : <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Que corresponda a la dirección en donde se encuentra actualmente y que coincida con la información del formulario (reciente, año actual)</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="reciboPublico" [requerido]="true" [grupo]="documentos" etiqueta="Recibo Público Reciente" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_SERVICIO_PUBLICO"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Recibo de la matricula   -->
+    <p>Recibo de la matricula o seguro (Si es matricula 0) : <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Fotocopia del recibo de matrícula o en este caso seguro de la Universidad Cancelado con el sello o timbre
+        del banco (vigencia 2021) o pantallazo de pago registrado en el sistema Cóndor (histórico de pago)</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="reciboMatricula" [requerido]="true" [grupo]="documentos" etiqueta="Recibo de la matricula" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_VALOR_MATRICULA"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Horario académico   -->
+    <p> Imagen(PDF) del horario académico registrado en cóndor para el periodo actual: <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Pantallazo de HORARIO registrado en el sistema Cóndor (En el horario en CONDOR hay un botón para imprimir y puede obtener el horario en formato PDF)</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="horarioAcademico" [requerido]="true" [grupo]="documentos" etiqueta="Horario académico semestre actual" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.HORARIO_ACADEMICO"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Certificado de Ingresos   -->
+    <p> Certificado de Ingresos: <span class="required-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Certificado de ingresos de la persona de quien depende el (la) estudiante. NO se
+        acepta el Formato de certificado de no declarante o certificado de no contribuyente que adjuntó en el momento de ingresar a la universidad.
+        Tenga en cuenta cuál es su caso con el fin de adjuntar el documento correspondiente:
+        <br> 
+        • Para Independientes: Si la persona de quién depende económicamente el estudiante es trabajador independiente o el (la) estudiante trabaja como
+        independiente, debe presentar una carta donde especifique la labor que desempeña y los ingresos que recibe mensualmente, debe venir firmada, con número de
+        Cédula, número de teléfono y dirección.
+        <br> 
+        • Para Empleados: Si la persona de quien depende el (la) estudiante es empleado o el (la) estudiante es empleado, debe presentar una carta laboral vigente,
+        especificando los ingresos mensuales y la actividad, con número de teléfono, dirección y firma del empleador.
+        <br> 
+        • No tiene ingresos: Si el estudiante o la persona de quien depende NO posee
+        ingreso alguno deberá adjuntar una carta indicando al menos su modo de subsistencia
+        (apoyo familiar, subsidios, ayudas ONG´s, iglesias, amigos…)
+    </small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="certificadoIngresos" [requerido]="true" [grupo]="documentos" etiqueta="Certificado de Ingresos" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_INGRESOS"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Documento Contrato Arrendamiento-->
+    <p>Carta o contrato de arrendamiento: <span class="oas-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Si el (la) estudiante vive en arriendo, presentar contrato, si no lo posee, debe aportar carta del arrendatario
+        donde especifique los datos de éste mismo (Nombre, dirección y teléfono), valor mensual que paga, dicha carta debe ir firmada por el arrendatario.</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="contratoArrendamiento" [grupo]="documentos" etiqueta="Documento o certificado de Arrendamiento" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_ARRIENDO"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Documento Registro Civil-->
+    <p>Registro Civil Hijos: <span class="oas-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Sólo si el (la) estudiante tiene HIJOS y ellos dependen económicamente de él, debe presentar Registro (s) Civil(es).</small> <br>
+    <small class="small-color-ud">Si tiene más de 1 hijo, en el mismo archivo debe ir el registro civil de cada uno de sus hijos.</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="registroCivil" [grupo]="documentos" etiqueta="Documento de Registro (s) Civil(es)" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_REG_CIVIL_HIJOS"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Documento SISBEN-->
+    <p>Soporte Sisben: <span class="oas-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Sólo se recibe el certificado del sisben a nombre del estudiante si se encuentra registrado.</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="soporteSisben" [grupo]="documentos" etiqueta="Documento soporte del SISBEN" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_SISBEN" [(documentos)]="formApoyo.documentosAdjuntos"
+            [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Documento Población Especial-->
+    <p>Certificado población especial: <span class="oas-asterisk">@</span> </p>
+    <small class="small-info-ud">Si el (la) estudiante esta certificado como: victima de violencia, desplazado, Indígena, afrodescendiente,
+        debe adjuntar el soporte respectivo expedido por la autoridad competente.</small>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="poblacionEspecial" [grupo]="documentos" etiqueta="Certificado población especial" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_POBLACION_ESPECIAL"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Documento Discapacidad-->
+    <p>Documento soporte de la discapacidad: <span class="oas-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Certificado de Discapacidad Medica expedido por la Junta de Calificación Invalidez Regional y/o Nacional, 
+        avalado por el médico de Bienestar Institucional de la Universidad Distrital Francisco José de Caldas.</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="archivoDiscapacidad" [grupo]="documentos" etiqueta="Documento soporte de la Discapacidad" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD"
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
+    <!-- Documento Discapacidad-->
+    <p>Certificado médico: <span class="oas-asterisk">@</span> </p>
+    <hr>
+    <small class="small-info-ud">Los estudiantes que presenten algún tipo de enfermedad asociada a temas alimenticios, entre otras y sin
+        limitarse a éstas, hipoglicemia, bajo peso y/o baja talla,gastritis, anemia o desórdenes alimenticios, deberá
+        anexarse el correspondiente diagnóstico médico, expedido por médico particular o adscrito al Sistema General de Seguridad Social en Salud.</small>
+    <hr>
+    <div class="row item-list">
+        <ngx-archivos-generico class="col-12" nombreInput="patologia" [grupo]="documentos" etiqueta="Certificado médico de la patología" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD" [(documentos)]="formApoyo.documentosAdjuntos"
+            [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+        </ngx-archivos-generico>
+    </div>
+    <hr>
 </form>
 
-<button (click)="guardarDoc()">Guardar documentos</button>
+<div class="form-group">
+    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="guardarDoc()" class="submit-button">
+        <i class="fas fa-save mr-1"></i>
+        Guardar documentos
+    </button>
+</div>
 
-<nb-card>
-    <p>
-        {{solicitud | json}}
-    </p>
+<!-- <hr>
+
+            <mat-label>Enviar documentación &nbsp; </mat-label>
+            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la validación y dará respuesta únicamente basándose en
+                el primer diligenciamiento.
+                <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
+                <hr>
+                <div class="form-group">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="guardarDoc()" class="submit-button">
+
+                        <i class="fas fa-save mr-1"></i>
+                        Guardar documentos
+                    </button>
+                </div>
+
+            </mat-hint> 
+
+        </div>
+
+        <div *ngIf="solicitud==null" class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No se encuentra la solicitud o no fue diligenciada correctamente</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x "></i>
+            </p>
+        </div>
+
+    </nb-card-body>
 </nb-card>
+
+<p>
+    {{solicitud | json}}
+</p>
+-->

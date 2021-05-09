@@ -8,7 +8,8 @@
     text-align: center;
 }
 
-.menu-header h1 {
+.menu-header h1,
+.menu-header h2 {
     margin: auto;
     flex: 80%;
 }
@@ -257,7 +258,7 @@
     color: blue;
     font-weight: bold;
     margin-left: 3px;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
