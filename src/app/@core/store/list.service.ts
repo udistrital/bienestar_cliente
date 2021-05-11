@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { IAppState } from './app.state';
 import { REDUCER_LIST } from './reducer.constants';
 import { ParametrosService } from '../data/parametros.service';
@@ -37,6 +37,8 @@ import { DocumentoService } from '../data/documento.service';
 @Injectable()
 
 export class ListService {
+  
+  @Output() disparadorDeDocumentos: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private parametrosService: ParametrosService,

@@ -240,9 +240,7 @@
                             <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
                         </div>
                         <div class="item" *ngIf="!loading">
-                            <!-- <iframe class="e2e-iframe-trusted-src" [src]="documentosHTML[1][1] | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
-                            </iframe> -->
-                            <embed [src]="selectDoc[1] | safe:'resourceUrl'" width="70%" height="420">
+                            <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                         </div>
                         <div class="item">
                             <hr>

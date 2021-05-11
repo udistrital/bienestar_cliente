@@ -40,7 +40,7 @@ export class EvaluarSolicitudComponent implements OnInit {
     obseravacionText: string = "";
     observaciones: Observacion[] = [];
     evolucionesEstado: SolicitudEvolucionEstado[] = [];
-    documentosHTML:string[][]= new Array([""],[""]);
+    documentosHTML = new Array();
     selectDoc=[];
 
     estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
@@ -131,8 +131,11 @@ export class EvaluarSolicitudComponent implements OnInit {
           this.documentosSolicitud=soportes;
           let terminoDescargar=false;
           console.log("entra=>",soportes);
+          console.log(this.documentosHTML);
+          
           for (let i = 0; i < Object.keys(soportes).length; i++) {
             const element = Object.values(soportes)[i];
+            this.documentosHTML[i]=new Array();
             console.log(element.Descripcion);
             this.documentosHTML[i][0]=element.Descripcion;
           }
@@ -146,10 +149,10 @@ export class EvaluarSolicitudComponent implements OnInit {
             }
             
             contDocs++;
-            console.log("DOCS -->",this.documentosHTML);
             
             if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
-              
+
+                console.log("DOCS -->",this.documentosHTML);
                 this.selectDoc=this.documentosHTML[0];              
                 this.loading = false;
                 Swal.close();

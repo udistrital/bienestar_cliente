@@ -42,6 +42,7 @@ export class SolicitudTerceroComponent implements OnInit {
   infoComeplementariaPut = [];
   allServicesP: boolean = false;
   oneServicesP: boolean = false;
+  validarDocs: boolean;
 
   /* materialVivienda = ["Ladrillo", "Madera", "Placa asfaltica"]; */
   observaciones: Observacion[] = [];
@@ -61,25 +62,28 @@ export class SolicitudTerceroComponent implements OnInit {
 
   registro: FormGroup;
   residencia: FormGroup;
+  academica: FormGroup;
   sisben: FormGroup;
   socioeconomica: FormGroup;
-  necesidades: FormGroup;
-  especial: FormGroup;
   personasacargo: FormGroup;
-  documentos: FormGroup;
+  necesidades: FormGroup;
   serviciosPublicos: FormGroup;
+  especial: FormGroup;
+  
+  documentos: FormGroup;
+
   formulario: FormGroup;
 
-  colegio: FormGroup;
+  /* colegio: FormGroup;
   vivienda: FormGroup;
   futurofort: FormGroup;
   doccertificadoingreso: FormGroup;
   registrocivil: FormGroup;
   desplazado: FormGroup;
   recibopago: FormGroup;
-  otrosdoc: FormGroup;
+  otrosdoc: FormGroup; */
 
-  academica: FormGroup;
+  
   @ViewChild("dialogo", { read: null, static: null }) dialogo: TemplateRef<any>;
 
   APP_CONSTANTS = ApiConstanst;
@@ -789,7 +793,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
         console.log("DISCAPACIDAD--->", this.estudiante.InfoEspecial.Discapacidad);
 
-        this.documentos = new FormGroup({});
+        /* this.documentos = new FormGroup({}); */
 
         this.loading = false;
         Swal.close();
@@ -817,15 +821,6 @@ export class SolicitudTerceroComponent implements OnInit {
   sendData(form: NgForm) { }
 
   registrar() {
-    /* var codigoValue = (<HTMLInputElement>document.getElementById("codigo")).value; */
-
-    /* Swal.fire({
-      title: "Está seguro?",
-      text: `Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`,
-      icon: "question",
-      showConfirmButton: true,
-      showCancelButton: true,
-    }) */
     this.utilService.showSwAlertQuery("Está seguro?", `Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`, "Solicitar", "question")
       .then(async (resp) => {
         if (resp) {
@@ -868,7 +863,27 @@ export class SolicitudTerceroComponent implements OnInit {
   }
 
   cargarDocumentos() {
-    let archivosAdjuntos = [];
+    console.log("validacion",this.validarDocs);
+    this.listService.disparadorDeDocumentos.emit({
+      data:"validar"
+    })
+    console.log("validacion",this.validarDocs);
+
+    if(this.validarDocs){
+      this.utilService.showSwAlertSuccess("Siii ","Cargando docs");
+      this.listService.disparadorDeDocumentos.emit({
+        data:"carga"
+      });
+    }else{
+      //this.utilService.showSwAlertError(":0 ","que pajo");
+    }
+
+    
+
+    
+    
+    
+    /* let archivosAdjuntos = [];
     let nombreArchivos= ['documentoIdentidad'];
     for (const iterator of nombreArchivos) {
       let archivo=this.documentosMap.get(iterator)
@@ -881,7 +896,7 @@ export class SolicitudTerceroComponent implements OnInit {
       console.log(res);
       
       if (archivosAdjuntos.length === Object.keys(res).length) {
-          /* this.formularioReliquidacion.documentosCargados = res;
+          this.formularioReliquidacion.documentosCargados = res;
           const terceroInfoComplementaria: any = {};
           terceroInfoComplementaria.TerceroId = this.estudiante;
           terceroInfoComplementaria.Id = null;
@@ -892,16 +907,14 @@ export class SolicitudTerceroComponent implements OnInit {
               this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
                   this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
               });
-          }); */
+          });
       }
-  });
+    }); */
   }
 
   actualizarInfoEstudiante() {
 
-
-    let nel = true;
-    if (this.validacionesForm() && nel) {
+    if (this.validacionesForm()) {
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
       this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL", this.academica.get('numeroCreditos').value);
@@ -926,10 +939,7 @@ export class SolicitudTerceroComponent implements OnInit {
     } else {
       console.log("F PAPUU");
     }
-    /* console.log("MaterialForm--->",this.necesidades.get('calidadVivienda').value);
     
-    console.log("Material--->", this.estudiante.InfoNecesidades.CalidadVivienda);
-    console.log(this.estudiante); */
   }
 
   buscarInfoComplemetaria(nombreInfoComp: string, valor: any) {
@@ -998,9 +1008,9 @@ export class SolicitudTerceroComponent implements OnInit {
     if (!this.registro.valid) {
       msj += " básica,";
     }
-    /* if (!this.residencia.valid) {
+    if (!this.residencia.valid) {
       msj += " residencia,";
-    } */
+    }
     if (!this.academica.valid) {
       msj += " académica,";
     }
@@ -1018,13 +1028,6 @@ export class SolicitudTerceroComponent implements OnInit {
     }
     if (!this.especial.valid) {
       msj += " población especial,";
-    }
-    if (!this.documentos.valid) {
-      if (msj.length < 15) {
-        msj = " documentos ";
-      } else {
-        msj += " documentos,";
-      }
     }
 
     msj = msj.slice(0, -1);

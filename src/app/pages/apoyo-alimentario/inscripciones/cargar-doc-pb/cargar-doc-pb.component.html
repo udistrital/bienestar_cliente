@@ -42,7 +42,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="documentoIdentidad" [requerido]="true" [grupo]="documentos" etiqueta="Documento de Identidad del solicitante" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.DOCUMENTO_IDENTIFICACION_APAL"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -53,7 +53,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="formularioSIGUD" [requerido]="true" [grupo]="documentos" etiqueta="Formulario SIGUD" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.FORMULARIO_APOYO_ALIMENTARIO"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -64,7 +64,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="cartaBienestar" [requerido]="true" [grupo]="documentos" etiqueta="Carta de solicitud a bienestar" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CARTA_BIENESTAR"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -75,7 +75,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="reciboPublico" [requerido]="true" [grupo]="documentos" etiqueta="Recibo Público Reciente" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_SERVICIO_PUBLICO"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -87,7 +87,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="reciboMatricula" [requerido]="true" [grupo]="documentos" etiqueta="Recibo de la matricula" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_VALOR_MATRICULA"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -98,7 +98,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="horarioAcademico" [requerido]="true" [grupo]="documentos" etiqueta="Horario académico semestre actual" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.HORARIO_ACADEMICO"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -123,7 +123,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="certificadoIngresos" [requerido]="true" [grupo]="documentos" etiqueta="Certificado de Ingresos" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_INGRESOS"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['documentoIdentificacion'].archivoIdentificacion = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -135,7 +135,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="contratoArrendamiento" [grupo]="documentos" etiqueta="Documento o certificado de Arrendamiento" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_ARRIENDO"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -147,7 +147,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="registroCivil" [grupo]="documentos" etiqueta="Documento de Registro (s) Civil(es)" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_REG_CIVIL_HIJOS"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -158,7 +158,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="soporteSisben" [grupo]="documentos" etiqueta="Documento soporte del SISBEN" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_SISBEN" [(documentos)]="formApoyo.documentosAdjuntos"
-            [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+            [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -168,7 +168,7 @@
         debe adjuntar el soporte respectivo expedido por la autoridad competente.</small>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="poblacionEspecial" [grupo]="documentos" etiqueta="Certificado población especial" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_POBLACION_ESPECIAL"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -180,7 +180,7 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="archivoDiscapacidad" [grupo]="documentos" etiqueta="Documento soporte de la Discapacidad" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD"
-            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+            [(documentos)]="formApoyo.documentosAdjuntos" [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
@@ -193,18 +193,18 @@
     <hr>
     <div class="row item-list">
         <ngx-archivos-generico class="col-12" nombreInput="patologia" [grupo]="documentos" etiqueta="Certificado médico de la patología" [servicio]="nuxeoHelper" metodo="guardarBatch" [codigoDocumento]="APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_DISCAPACIDAD" [(documentos)]="formApoyo.documentosAdjuntos"
-            [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir" (eventoErrorInput)="panelErrores['socioeconomica'].archivoDiscapacidad = $event">
+            [documentosCargados]="formApoyo.documentosCargados" [deshabilitarUpload]="deshabilitar.esRevision" (descargarArchivo)="visualizarArchivo($event)" [mostrarResubir]="mostrar.resubir">
         </ngx-archivos-generico>
     </div>
     <hr>
 </form>
 
-<div class="form-group">
+<!-- <div class="form-group">
     <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="guardarDoc()" class="submit-button">
         <i class="fas fa-save mr-1"></i>
         Guardar documentos
     </button>
-</div>
+</div> -->
 
 <!-- <hr>
 
