@@ -518,8 +518,8 @@ export class ListService {
                   solicitante.SolicitudId = solicitud;
                   this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                     .subscribe(res => {
-                      window.location.reload();
-
+                      //window.location.reload();
+                      console.log("cree la solicitud");
                     });
 
                 }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Solicitante } from '../../../../@core/data/models/solicitud/solicitante';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { SolicitudService } from '../../../../@core/data/solicitud.service';
@@ -56,13 +56,14 @@ export class EvaluarSolicitudComponent implements OnInit {
     documentos: FormGroup;
     
     loading: boolean = true;
+    loadForm: boolean = true;
 
     listInfoComplementaria = [];
   documentosSolicitud: SoportePaquete;
 
     constructor(
+        private router: Router,
         private route: ActivatedRoute,
-        private translate: TranslateService,
         private listService: ListService,
         private utilsService: UtilService,
         private nuxeoService: NuxeoService,
@@ -75,6 +76,7 @@ export class EvaluarSolicitudComponent implements OnInit {
             this.loadEstadoTipoSolicitud();
         } else {
             this.nueva = true;
+            this.loadForm = true; 
             /*
             EVALUAR CASOOOOOOO
             EVALUAR CASOOOOOOO
@@ -121,54 +123,54 @@ export class EvaluarSolicitudComponent implements OnInit {
             }
         }).catch((error) => this.utilsService.showSwAlertError("Solicitud no encontrada",error));
     }
-  loadDocumentos() {
-    console.log("CARGO DOCS");
-    let contDocs=0;
-    this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
-      if(paqSol!=undefined){
-        console.log(paqSol.PaqueteId);
-        this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes)=>{
-          this.documentosSolicitud=soportes;
-          let terminoDescargar=false;
-          console.log("entra=>",soportes);
-          console.log(this.documentosHTML);
-          
-          for (let i = 0; i < Object.keys(soportes).length; i++) {
-            const element = Object.values(soportes)[i];
-            this.documentosHTML[i]=new Array();
-            console.log(element.Descripcion);
-            this.documentosHTML[i][0]=element.Descripcion;
-          }
-          this.nuxeoService.getDocumentoById$(soportes, this.documentosService).subscribe((res: Object) => {
+
+    loadDocumentos() {
+      console.log("CARGO DOCS");
+      let contDocs=0;
+      this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+        if(paqSol!=undefined){
+          console.log(paqSol.PaqueteId);
+          this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes)=>{
+            this.documentosSolicitud=soportes;
+            let terminoDescargar=false;
+            console.log("entra=>",soportes);
+            console.log(this.documentosHTML);
             
-            console.info("res --> ",res['undefined']);
-            for (let i = 0; i < this.documentosHTML.length; i++) {
-              if(res['undefined'].documento==this.documentosHTML[i][0]){
-                this.documentosHTML[i][1]=res['undefined'].url;
+            for (let i = 0; i < Object.keys(soportes).length; i++) {
+              const element = Object.values(soportes)[i];
+              this.documentosHTML[i]=new Array();
+              console.log(element.Descripcion);
+              this.documentosHTML[i][0]=element.Descripcion;
+            }
+            this.nuxeoService.getDocumentoById$(soportes, this.documentosService).subscribe((res: Object) => {
+              
+              console.info("res --> ",res['undefined']);
+              for (let i = 0; i < this.documentosHTML.length; i++) {
+                if(res['undefined'].documento==this.documentosHTML[i][0]){
+                  this.documentosHTML[i][1]=res['undefined'].url;
+                }
               }
-            }
-            
-            contDocs++;
-            
-            if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
-
-                console.log("DOCS -->",this.documentosHTML);
-                this.selectDoc=this.documentosHTML[0];              
-                this.loading = false;
-                Swal.close();
-
-                /* for (doc of res) {
-                    window.open(res[archivo.key]);
-                } */
-                console.log("entre");
-                terminoDescargar = true;
-            }
-
-        });
-        })
-      }
-    }).catch((err)=>this.showError('No se encontraron documentos',err));
-  }
+              
+              contDocs++;
+              
+              if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
+  
+                  console.log("DOCS -->",this.documentosHTML);
+                  this.selectDoc=this.documentosHTML[0];              
+                  this.loading = false;
+                  Swal.close();
+  
+                  /* for (doc of res) {
+                      window.open(res[archivo.key]);
+                  } */
+                  terminoDescargar = true;
+              }
+  
+          });
+          })
+        }
+      }).catch((err)=>this.showError('No se encontraron documentos',err));
+    }
 
     loadEstadoTipoSolicitud() {
         this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)
@@ -198,6 +200,10 @@ export class EvaluarSolicitudComponent implements OnInit {
                         this.solicitud = resp[0].SolicitudId;
                         this.idSolicitud = this.solicitud.Id;
                         this.nueva = false;
+                        this.utilsService.showSwAlertError("Solicitud ya existente","Esta solicitud ya fue creada, a continuación se le redirige a esta.");
+                        this.loadSolicitud();
+                        this.loadEstadoTipoSolicitud();
+                        this.router.navigate([`/pages/apoyo-alimentario/inscripciones/solicitudes/${this.idSolicitud}`]);
                     }else{
                         Swal.fire({
                             title: "Por favor espere!",
@@ -217,16 +223,6 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    create(){
-        this.utilsService.showSwAlertQuery("Está seguro?",`Desea crear solicitud de apoyo alimentario en ExtraTiempo para ${this.tercero.NombreCompleto} en `,"Crear","question")
-        .then(async (resp) => {
-            if (resp) {
-                this.utilsService.showSwAlertSuccess("Solicitud Creada ExtraTiempo",`Se creo la solicitud para ${this.tercero.NombreCompleto} en el periodo ${this.periodo.Nombre} `);
-            }
-        });
-        
     }
 
     cargarNuevaSolicitud(){
@@ -254,23 +250,21 @@ export class EvaluarSolicitudComponent implements OnInit {
                       }
                     }
                     //Change this.estudiante.Documento
-                    if(this.estudiante.Carnet!=null && this.estudiante.Documento!=null){
-
+                    if(this.estudiante.Carnet!=null && this.estudiante.Documento!=null){   
                         this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC)=>{
                             this.listInfoComplementaria=respIC;
                             this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
                                 this.estudiante.Facultad=nomFacultad[0];
                                 this.estudiante.ProyectoCurricular=nomFacultad[1];
-                                this.inicializarFormularios();
+                                this.loadForm = false;                    
+                                Swal.close();
                             });
                         }).catch((errIC)=>{
                             this.showError("error",errIC);
-                            this.inicializarFormularios();
+                            this.loadForm = false;                    
+                            Swal.close();
                         });
-                        console.log("Iniciamos formularios");
-
-                        
-      
+                        console.log("Iniciamos formularios");  
                     }else{
                       this.showError("Documentos del estudiante no encontrados","No se encontro el carnet y documento de identificacion");
                     }
@@ -290,440 +284,6 @@ export class EvaluarSolicitudComponent implements OnInit {
         Swal.close();
         this.utilsService.showSwAlertError(titulo,msj);
       }
-
-    /* Clasifica la informacion de listInfoComplementaria */
-    loadEstudiante(): Promise<any> {
-    return new Promise((resolve, reject) => {
-        this.estudiante.IdTercero=this.tercero.Id;
-        this.estudiante.Nombre = this.tercero.NombreCompleto;
-        var datePipe = new DatePipe("en-US");
-        this.estudiante.FechaNacimiento = datePipe.transform(
-        this.tercero.FechaNacimiento,
-        "dd/MM/yyyy"
-        );
-        let infComp: InfoComplementariaTercero;
-        
-        console.log(this.listInfoComplementaria);
-
-        for (infComp of this.listInfoComplementaria) {
-        const nombreGrupoInfo =
-            infComp.InfoComplementariaId.GrupoInfoComplementariaId.Nombre;
-        switch (nombreGrupoInfo) {
-            case "Información Contacto":
-            this.agregarInformacionContacto(infComp);
-            break;
-            case "Información Socioeconómica":
-            this.agregarInformacionSocioEconomica(infComp);
-            break;
-            case "Dependencia económica":
-            this.estudiante.InfoSocioeconomica.DependenciaEconomica =
-                infComp.InfoComplementariaId.Nombre;
-            /* this.agregarInformacionSocioEconomica(infComp); 
-            Padre: InfoComplementariaId.Id:166
-            Madre: InfoComplementariaId.Id:167
-            Familiar: InfoComplementariaId.Id:168
-            El mismo: InfoComplementariaId.Id:169
-
-            this.estudiante.InfoSocioeconomica.DependenciaEconomica = infComp.InfoComplementariaId.Nombre;
-            */
-
-            break;
-            case "¿Tiene Sisben?":
-            if (infComp.InfoComplementariaId.Nombre == "SI") {
-                this.estudiante.InfoResidencia.Sisben = true;
-            } else if (infComp.InfoComplementariaId.Nombre == "NO") {
-                this.estudiante.InfoResidencia.Sisben = false;
-            }
-
-            /* 
-            SI: InfoComplementariaId.Id:170
-            NO: InfoComplementariaId.Id:171
-            */
-            break;
-            case "Tipo de Colegio":
-            /* 
-            Privado: InfoComplementariaId.Id:172
-            Publico: InfoComplementariaId.Id:173
-            */
-            this.estudiante.InfoSocioeconomica.TipoColegio =
-                infComp.InfoComplementariaId.Nombre;
-            break;
-            case "Lugar de vivienda":
-            /* 
-            Propio: InfoComplementariaId.Id:181
-            Familiar: InfoComplementariaId.Id:182
-            Arriendo: InfoComplementariaId.Id:183
-            */
-            this.estudiante.InfoSocioeconomica.TipoVivienda =
-                infComp.InfoComplementariaId.Nombre;
-            if (this.estudiante.InfoSocioeconomica.TipoVivienda == "Arriendo") {
-                this.estudiante.InfoSocioeconomica.PagaArriendo == true;
-            } else {
-                this.estudiante.InfoSocioeconomica.PagaArriendo == false;
-            }
-            break;
-
-            case "¿Con quién vive?":
-            /* 
-            Familia: InfoComplementariaId.Id:184
-            Solo: InfoComplementariaId.Id:185
-            Amigos: InfoComplementariaId.Id:186
-            */
-            this.estudiante.InfoSocioeconomica.ConQuienVive =
-                infComp.InfoComplementariaId.Nombre;
-
-            break;
-            /* 
-            case "Lugar de residencia de la Familia":
-            INFO REPETIDA, NO VA
-            break; 
-
-            case "¿Responsable de la matricula desempleado?":
-            INFO NO VA
-            break;
-
-            case "¿Elestudianteesdesplazadopolítico?":
-            INFO NO VA
-            break;
-
-            case "¿Fallecióresponsabledelamatricula?":
-            INFO NO VA
-            break;
-            
-            case "¿Elestudianteesmadreopadrecabezadefamilia?":
-            INFO REPETIDA
-            break;
-
-            case "¿ElestudiantecambiodeestratodespuésdesuingresoenlaUniversidad?":
-            break;
-
-            */
-            case "¿Posee personas a Cargo?": //GRupoInfo:44
-            /* 
-            Si: InfoComplementariaId.Id:201
-            No: InfoComplementariaId.Id:231
-            */
-            if (infComp.InfoComplementariaId.Nombre == "Si") {
-                this.estudiante.InfoPersonasACargo.TienePersonasACargo = true;
-            } else if (infComp.InfoComplementariaId.Nombre == "No") {
-                this.estudiante.InfoPersonasACargo.TienePersonasACargo = false;
-            }
-            break;
-
-            case "Genero":
-            this.estudiante.Genero = infComp.InfoComplementariaId.Nombre;
-            break;
-
-            case "Estado Civil":
-            this.estudiante.InfoSocioeconomica.EstadoCivil =
-                infComp.InfoComplementariaId.Nombre;
-            break;
-
-            default:
-        }
-        }
-        resolve(true);
-    });
-    }
-
-    /* Clasifica la informacion socieconomica del estudiante */
-    agregarInformacionSocioEconomica(infComp: InfoComplementariaTercero) {
-    const nombreInfComp = infComp.InfoComplementariaId.Nombre;
-    switch (nombreInfComp) {
-        case "ESTRATO":
-        this.estudiante.InfoSocioeconomica.Estrato = JSON.parse(
-            infComp.Dato
-        ).ESTRATO;
-        break;
-
-        case "PUNTAJE_SISBEN":
-        this.estudiante.InfoResidencia.Puntaje_Sisben = infComp.Dato;
-        break;
-
-        case "CABEZA_FAMILIA":
-        this.estudiante.InfoSocioeconomica.CabezaFamilar = JSON.parse(
-            infComp.Dato
-        );
-        break;
-
-        case "HIJOS":
-        this.estudiante.InfoPersonasACargo.Hijos = JSON.parse(
-            infComp.Dato
-        ).value;
-        break;
-
-        case "NUMERO_HIJOS":
-        this.estudiante.InfoPersonasACargo.NumeroHijos = JSON.parse(
-            infComp.Dato
-        ).value;
-        break;
-
-        case "NUMERO_HERMANOS":
-        this.estudiante.InfoSocioeconomica.NumeroHermanos = infComp.Dato;
-        break;
-        case "Información Socioeconómica":
-        this.estudiante.InfoSocioeconomica.IngresosMensuales = JSON.parse(
-            infComp.Dato
-        ).value;
-        break;
-
-        default:
-        break;
-    }
-    }
-
-    /* Clasifica informacion de contacto */
-    agregarInformacionContacto(infComp: InfoComplementariaTercero) {
-    const nombreInfComp = infComp.InfoComplementariaId.Nombre;
-    console.log(infComp);
-    switch (nombreInfComp) {
-        case "CORREO INSTITUCIONAL":
-        console.log(infComp);
-        this.estudiante.Correo_Institucional = JSON.parse(infComp.Dato).value;
-        break;
-
-        case "TELEFONO":
-        this.estudiante.InfoResidencia.Telefono = JSON.parse(
-            infComp.Dato
-        ).telefono;
-        break;
-
-        case "CELULAR":
-        this.estudiante.Celular = infComp.Dato;
-        break;
-
-        case "CORREO":
-        this.estudiante.Correo = JSON.parse(infComp.Dato).value;
-        break;
-
-        case "DIRECCIÓN":
-        this.estudiante.InfoResidencia.Direccion = JSON.parse(
-            infComp.Dato
-        ).Data;
-        /* "Dato": "{\"DIRECCIÓN\":\"CL 60 A SUR # 73 - 41\",\"ZONA\":\"URBANA\",\"GENERO\":\"MIXTO\",\"DANE11\":\"51100202578\",\"DANE12\":\"111001107816\",\"CLASE\":\"DISTRITAL\",\"NAT_JURIDICA\":\"OFICIAL\",\"ESTADO\":\"ANTIGUO ACTIVO\"}", */
-        break;
-
-        case "LUGAR_RESIDENCIA":
-        /* "Dato": "447" */
-        this.estudiante.InfoResidencia.Municipio = JSON.parse(infComp.Dato);
-        break;
-
-        case "LOCALIDAD":
-        this.estudiante.InfoResidencia.Localidad = JSON.parse(
-            infComp.Dato
-        ).LOCALIDAD;
-        break;
-
-        default:
-        break;
-    }
-    }
-
-    private inicializarFormularios() {
-        this.loadEstudiante()
-          .then(() => {
-            console.log("Se carga el estudiante");
-            this.registro = new FormGroup({
-              nombres: new FormControl({
-                value: this.estudiante.Nombre,
-                disabled: true,
-              }),
-              codigo: new FormControl({
-                value: this.estudiante.Carnet.Numero,
-                disabled: true,
-              }),
-              documento: new FormControl({
-                value: this.estudiante.Documento.Numero,
-                disabled: true,
-              }),
-              tipoDocumento: new FormControl({
-                value: this.estudiante.Documento.TipoDocumentoId.Nombre,
-                disabled: true,
-              }),
-              proyecto: new FormControl({
-                value: this.estudiante.ProyectoCurricular,
-                disabled: true,
-              }),
-              facultad: new FormControl({
-                value: this.estudiante.Facultad,
-                disabled: true,
-              }),
-              fechaNacimiento: new FormControl({
-                value: this.estudiante.FechaNacimiento,
-                disabled: true,
-              }),
-              email_institucional: new FormControl({
-                value: this.estudiante.Correo_Institucional,
-                disabled: true,
-              }),
-              email: new FormControl({
-                value: this.estudiante.Correo,
-                disabled: true,
-              }),
-              celular: new FormControl({
-                value: this.estudiante.Celular,
-                disabled: true,
-              }),
-              programa: new FormControl(),
-              genero: new FormControl({
-                value: this.estudiante.Genero,
-                disabled: true,
-              }),
-            });
-    
-            this.residencia = new FormGroup({
-              localidad: new FormControl({
-                value: this.estudiante.InfoResidencia.Localidad,
-                disabled: true,
-              }),
-              municipio: new FormControl({
-                value: this.estudiante.InfoResidencia.Municipio,
-                disabled: true,
-              }),
-              direccion: new FormControl({
-                value: this.estudiante.InfoResidencia.Direccion,
-                disabled: true,
-              }),
-              barrio: new FormControl({
-                value: this.estudiante.InfoResidencia.Barrio,
-                disabled: true,
-              }),
-              telefono: new FormControl({
-                value: this.estudiante.InfoResidencia.Telefono,
-                disabled: true,
-              }),
-            });
-    
-            this.socioeconomica = new FormGroup({
-              estadocivil: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.EstadoCivil,
-                disabled: true,
-              }),
-              estrato: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.Estrato,
-                disabled: true,
-              }),
-              valorMatricula: new FormControl(),
-              ingresosMensuales: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.IngresosMensuales,
-                disabled: true,
-              }),
-              cabezaFamilar: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.CabezaFamilar,
-                disabled: true,
-              }),
-              dependenciaEconomica: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.DependenciaEconomica,
-                disabled: true,
-              }),
-              pagaArriendo: new FormControl(),
-              zonaVulnerabilidad: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.ZonaVulnerabilidad,
-                disabled: true,
-              }),
-              numeroHermanos: new FormControl(),
-              conQuienVive: new FormControl(),
-              tipoColegio: new FormControl(),
-              tipoVivienda: new FormControl({
-                value: this.estudiante.InfoSocioeconomica.TipoVivienda,
-                disabled: true,
-              }),
-            });
-    
-            this.personasacargo = new FormGroup({
-              tieneperacargo: new FormControl({
-                value: this.estudiante.InfoPersonasACargo.TienePersonasACargo,
-                disabled: true,
-              }),
-              hijos: new FormControl({
-                value: this.estudiante.InfoPersonasACargo.Hijos,
-                disabled: true,
-              }),
-              numeroHijos: new FormControl({
-                value: this.estudiante.InfoPersonasACargo.NumeroHijos,
-                disabled: true,
-              }),
-              menoresEdad: new FormControl({
-                value: this.estudiante.InfoPersonasACargo.MenoresEdad,
-                disabled: false,
-              }),
-              menoresEstudiantes: new FormControl({
-                value: this.estudiante.InfoPersonasACargo.MenoresEdad,
-                disabled: false,
-              }),
-              menoresMatriculados: new FormControl({
-                value: this.estudiante.InfoPersonasACargo.MenoresMatriculados,
-                disabled: false,
-              }),
-            });
-    
-            this.sisben = new FormGroup({
-              tieneSisben: new FormControl({
-                value: this.estudiante.InfoResidencia.Sisben,
-                disabled: true,
-              }),
-              puntaje_Sisben: new FormControl({
-                value: this.estudiante.InfoResidencia.Puntaje_Sisben,
-                disabled: true,
-              }),
-              grupo: new FormControl(),
-            });
-    
-            this.necesidades = new FormGroup({
-              calidadVivienda: new FormControl({
-                value: this.estudiante.InfoNecesidades.CalidadVivienda,
-                disabled: false,
-              }),
-              cuartosDormir: new FormControl({
-                value: this.estudiante.InfoNecesidades.CuartosDormir,
-                disabled: false,
-              }),
-              personasHogar: new FormControl({
-                value: this.estudiante.InfoNecesidades.PersonasHogar,
-                disabled: false,
-              }),
-              serviciosPublicos: new FormControl({
-                value: this.estudiante.InfoNecesidades.ServiciosPublicos,
-                disabled: false,
-              }),
-              origenAgua: new FormControl({
-                value: this.estudiante.InfoNecesidades.OrigenAgua,
-                disabled: false,
-              }),
-              aguasNegras: new FormControl({
-                value: this.estudiante.InfoNecesidades.AguasNegras,
-                disabled: false,
-              }),
-            });
-    
-            this.especial = new FormGroup({
-              condicionDesplazado: new FormControl({}),
-              condicionEspecial: new FormControl({}),
-              discapacidad: new FormControl({
-                value: this.estudiante.InfoEspecial.Discapacidad,
-                disabled: true,
-              }),
-              patologia: new FormControl({
-                value: this.estudiante.InfoEspecial.Patologia,
-                disabled: true,
-              }),
-              seguridadSocial: new FormControl({}),
-              serPiloPaga: new FormControl({}),
-            });
-    
-            this.documentos = new FormGroup({});
-    
-            /* this.loading = false;
-            Swal.close(); */
-          })
-          .catch((error) => {
-            console.error(error);
-            if (!error.status) {
-              error.status = 409;
-            }
-            this.utilsService.showSwAlertError(error.status + " Load info estudiante",error.status);
-          });
-    }
 
     save() {
         if (this.nuevoEstado == null) {

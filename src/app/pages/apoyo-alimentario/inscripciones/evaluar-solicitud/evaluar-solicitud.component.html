@@ -1,3 +1,4 @@
+<!-- Caso que no se encuentre solicitud y no se busque agregar una nueva solicitud--------------------------------->
 <nb-card *ngIf="solicitud==null && !nueva">
     <div class="text-center pt-2">
         <div class="menu-header">
@@ -11,20 +12,17 @@
         </div>
     </div>
 </nb-card>
-<p *ngIf="nueva && periodo!=null">
+<p *ngIf="nueva && periodo!=null && tercero==null">
     {{ estudiante | json}}
 </p>
-<nb-card *ngIf="solicitud!=null || nueva">
+<!-- Se carga información de una solicitud--------------------------------->
+<nb-card *ngIf="solicitud!=null && !nueva">
     <nb-card-header>
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1 *ngIf="!nueva">
                     Solicitud apoyo alimentario No. {{ idSolicitud }}
                 </h1>
-                <h1 *ngIf="nueva && periodo!=null">
-                    Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
-                </h1>
-
                 <button class="btn back-button btn-block" routerLink="../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     Regresar
@@ -35,20 +33,6 @@
     </nb-card-header>
     <hr>
     <nb-card-body>
-        <div class="container" *ngIf="tercero==null && nueva">
-
-            <h5>Documento del solicitante</h5>
-            <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné" alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
-            <br>
-            <hr>
-            <div class="mt-2">
-                <button nbButton fullWidth hero shape="semi-round" status="success" (click)="cargarSolicitante(documentoNew.value)" class="submit-button">
-                    <i class="far fa-id-card mr-1"></i>
-                    Cargar solicitante
-                </button>
-            </div>
-
-        </div>
 
         <nb-accordion *ngIf="tercero!=null">
             <!-- Informacion solicitante -->
@@ -194,40 +178,6 @@
                 </nb-accordion-item-body>
             </nb-accordion-item>
 
-            <!-- Observaciones -->
-            <nb-accordion-item *ngIf="!nueva">
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Observaciones</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <div *ngIf="observaciones.length>0" class="timeline">
-                        <div *ngFor="let obs of observaciones" class="timeline__group">
-                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
-                            </span>
-                            <div class="timeline__cards">
-                                <div class="timeline__card card">
-                                    <header class="card__header">
-                                        <b>{{obs.Titulo}}</b>
-                                    </header>
-                                    <div class="card__content">
-                                        <p>{{obs.Valor.split('//')[0]}}</p>
-                                        <small class="text-muted" *ngIf="obs.Valor.split('//')[1]">
-                                            Creador: {{obs.Valor.split('//')[1]}}
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        Agregar observacion
-                    </button>
-
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
             <!-- Documentos -->
             <nb-accordion-item *ngIf="!nueva">
                 <nb-accordion-item-header>
@@ -261,6 +211,40 @@
                             </div>
                         </div>
                     </div>
+
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <!-- Observaciones -->
+            <nb-accordion-item *ngIf="!nueva">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Observaciones</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div *ngIf="observaciones.length>0" class="timeline">
+                        <div *ngFor="let obs of observaciones" class="timeline__group">
+                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
+                            </span>
+                            <div class="timeline__cards">
+                                <div class="timeline__card card">
+                                    <header class="card__header">
+                                        <b>{{obs.Titulo}}</b>
+                                    </header>
+                                    <div class="card__content">
+                                        <p>{{obs.Valor.split('//')[0]}}</p>
+                                        <small class="text-muted" *ngIf="obs.Valor.split('//')[1]">
+                                            Creador: {{obs.Valor.split('//')[1]}}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Agregar observacion
+                    </button>
 
                 </nb-accordion-item-body>
             </nb-accordion-item>
@@ -312,855 +296,8 @@
                 <hr>
             </nb-accordion-item>
 
-
-
         </nb-accordion>
-
-        <!-- Formulario nueva solicitud --------------------------------->
-
-        <nb-accordion *ngIf="tercero!=null && solicitud==null && nueva && !loading">
-            <!-- Informacion basica -->
-            <nb-accordion-item expanded>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información básica</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <form [formGroup]="registro">
-                        <div class="row item-list">
-                            <div class="col-md-4">Nombres y apellidos: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="nombres">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Codigo: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="codigo">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Documento: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="documento">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Tipo documento: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="tipoDocumento">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Proyecto: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="proyecto">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Facultad: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="facultad">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Fecha de Nacimiento: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="fechaNacimiento">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Correo Institucional: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="email_institucional">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Correo Personal: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="email">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Genero: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="genero">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Celular: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="celular">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                <label>Antiguedad:
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth class="" size="large" placeholder="Vigencia en el programa" formControlName="programa" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="1">Nuevo en el programa</nb-option>
-                                    <nb-option value="2">Antiguo en el programa</nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-
-                    </form>
-
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <!-- Inforamcion de residencia -->
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información de residencia</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <p>En el siguiente apartado, se deben llenar los datos relacionados con el lugar de residencia.
-                    </p>
-                    <form [formGroup]="residencia">
-                        <div class="row item-list">
-                            <div class="col-md-4">Localidad: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="localidad">
-                            </div>
-                        </div>
-                        <div class="row item-list">
-                            <div class="col-md-4">Municipio: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="municipio">
-                            </div>
-                        </div>
-
-                        <!-- <div class="row item-list" *ngIf="residencia.get('municipio')?.value === 'Otros'">
-                            <div class="col-md-4">¿Cuál?: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput placeholder="Otro municipio">
-                            </div>
-                        </div> -->
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Dirección: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="direccion">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Barrio: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="barrio">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Teléfono: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="telefono">
-                            </div>
-                        </div>
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <!-- Informacion Socioeconomica -->
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información socioeconómica</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <form [formGroup]="socioeconomica">
-                        <div class="row item-list">
-                            <div class="col-md-4">Estado civil: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="estadocivil">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Estrato: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="estrato">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Valor matricula: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="valorMatricula">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Valor de ingresos mensuales: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="ingresosMensuales">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Sostiene el lugar en que vive: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="cabezaFamilar">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Dependencia economica: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="dependenciaEconomica">
-                            </div>
-                        </div>
-
-                        <!-- <div class="row item-list">
-                            <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL" campoCodigo="Id"
-                                campoValor="Nombre" [grupo]="socioeconomica">
-                            </ngx-combo-generico>
-                        </div> -->
-                        <!--  <div class="row item-list">
-                            <ngx-combo-generico class="col-12" etiqueta="Estrato" nombreInput="estrato" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO" campoCodigo="Id" campoValor="Nombre"
-                                [grupo]="socioeconomica">
-                            </ngx-combo-generico>
-                        </div> -->
-                        <div class="row item-list">
-                            <div class="col-md-4">Tipo colegio: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="tipoColegio">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Lugar de vivienda: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="tipoVivienda">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Carta o contrato de arrendamiento:
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Si el (la) estudiante vive en arriendo, presentar contrato,
-                                    si no lo posee, debe aportar carta del arrendatario
-                                    donde especifique los datos de éste mismo (Nombre, dirección y teléfono), valor
-                                    mensual que paga, dicha
-                                    carta debe ir firmada por el arrendatario</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Zona de Vulnerabilidad: </div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="true">
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [disabled]=true>
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [checked]="true">
-                                        No
-                                    </nb-radio>
-                                    <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad" [disabled]=true>
-                                        No
-                                    </nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <!-- Personas a cargo -->
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información de personas a cargo</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <form [formGroup]="personasacargo">
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                <label>¿Tiene personas a cargo?:
-                                    <span class="required-asterisk">*</span>
-                                </label>
-                            </div>
-                            <div class="col-md-8">
-                                <!-- <nb-select fullWidth class="" size="large" placeholder="Personas a cargo" formControlName="tieneperacargo" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="1">Nuevo en el programa</nb-option>
-                                    <nb-option value="2">Antiguo en el programa</nb-option>
-                                </nb-select> -->
-                                <input fullWidth nbInput formControlName="tieneperacargo">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Hijos: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="hijos">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">Número de Hijos: </div>
-                            <div class="col-md-8">
-                                <input fullWidth nbInput formControlName="numeroHijos">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Registro Civil Hijos:
-                                <br>
-                                <small *ngIf="this.estudiante.InfoPersonasACargo.NumeroHijos>1" class="small-color-ud">En el mismo archivo debe ir el registro civil de cada uno de
-                                    sus hijos</small>
-                                <hr>
-                                <small class="small-info-ud">Sólo si el (la) estudiante tiene HIJOS y ellos dependen
-                                    económicamente de él, debe presentar Registro (s)
-                                    Civil(es).</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Numero de menores de edad con los que vive:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="menoresEdad">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Numero de menores en edad de acceder a la educación:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="menoresEstudiantes">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                De los que tienen acceso a la educación. ¿Cúantos están matriculados?:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="menoresEstudiantes">
-                            </div>
-                        </div>
-
-                        <!-- <div class="row item-list">
-                            <div class="col-md-4">opciones</div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <label>Hijos a cargo</label>
-                                    <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
-                                    </label>
-                                    <nb-radio value="si">SI</nb-radio>
-                                    <nb-radio value="no">NO</nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div> -->
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <!-- Informacion Sisben -->
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información sisben</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <form [formGroup]="sisben">
-                        <div class="row item-list">
-                            <div class="col-md-4">¿Tiene sisben?: </div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true">
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [disabled]=true>
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true">
-                                        No
-                                    </nb-radio>
-                                    <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [disabled]=true>
-                                        No
-                                    </nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4"> Puntaje Sisben: </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="puntaje_Sisben">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4"> Grupo de Sisben: </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="A">Grupo A</nb-option>
-                                    <nb-option value="B">Grupo B</nb-option>
-                                    <nb-option value="C">Grupo C</nb-option>
-                                    <nb-option value="D">Grupo D</nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Soporte Sisben:
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Sólo se recibe el certificado del sisben a nombre del
-                                    estudiante si se encuentra registrado</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <!-- Informacion Necesidades Básicas -->
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información necesidades básicas</h4>
-                </nb-accordion-item-header>
-
-                <nb-accordion-item-body>
-                    <form [formGroup]="necesidades">
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Calidad de la Vivienda:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="ladrillo">Ladrillo</nb-option>
-                                    <nb-option value="madera">Madera</nb-option>
-                                    <nb-option value="tela">Tela asfáltica</nb-option>
-                                    <nb-option value="lamina">Lamina metálica</nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Número de cuartos para dormir:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="1">1</nb-option>
-                                    <nb-option value="2">2</nb-option>
-                                    <nb-option value="3">3</nb-option>
-                                    <nb-option value="4">4</nb-option>
-                                    <nb-option value="+">Más de 4</nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Número de personas en el hogar:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth formControlName="personasHogar">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Servicios Públicos:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="luz">
-                                    <label class="form-check-label">
-                                        Luz
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="gas">
-                                    <label class="form-check-label">
-                                        Gas Domiciliario
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="telefono">
-                                    <label class="form-check-label">
-                                        Teléfono
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="tv">
-                                    <label class="form-check-label">
-                                        Televisión por cable
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" formControlName="personasHogar" class="form-check-input" value="todos">
-                                    <label class="form-check-label">
-                                        Todos los servicios
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Agua para consumo proviene de:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="acueducto">Acueducto</nb-option>
-                                    <nb-option value="lluvias">Aguas Lluvias</nb-option>
-                                    <nb-option value="poso">Poso o aljibe </nb-option>
-                                    <nb-option value="carro-tanques">Suministro de carro tanques </nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Eliminación de aguas negras:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-radio-group>
-                                    <nb-radio> Alcantarillado </nb-radio>
-                                    <nb-radio> Poso séptico </nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <!-- Información Población Especial -->
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Información población especial</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <form [formGroup]="especial">
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Usted o su grupo familiar esta certificado como:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="victima-violencia">Victima de violencia</nb-option>
-                                    <nb-option value="desplazado">Desplazado</nb-option>
-                                    <nb-option value="indigena">Indigena</nb-option>
-                                    <nb-option value="afrodescendiente">Afrodescendiente</nb-option>
-                                    <nb-option value="desmovilizado">Desmovilizado</nb-option>
-                                    <nb-option value="ninguna">Ninguna</nb-option>
-                                    <nb-option value="otro">Otro</nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Certificado:
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Si el (la) estudiante esta certificado como: victima de
-                                    violencia, desplazado, Indígena, afrodescendiente,
-                                    debe adjuntar el soporte respectivo expedido por la autoridad competente.</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Presenta algún tipo de discapacidad:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-radio-group formControlName="discapacidad" name="discapacidad">
-                                    <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad" [checked]="true" value="Si">
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoEspecial.Discapacidad" [disabled]=true>
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoEspecial.Discapacidad" [checked]="true">
-                                        No
-                                    </nb-radio>
-                                    <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad" [disabled]=true>
-                                        No
-                                    </nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Documento soporte de la discapacidad:
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Certificado de Discapacidad Medica expedido por la Junta de
-                                    Calificación
-                                    Invalidez Regional y/o Nacional, avalado por el médico de Bienestar Institucional
-                                    de la Universidad Distrital Francisco José de Caldas.</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Presenta alguna patología asociada con la nutrición y la alimentación:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-radio-group formControlName="patologia" name="patologia">
-                                    <nb-radio *ngIf="estudiante.InfoEspecial.Patologia" [checked]="true">
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoEspecial.Patologia" [disabled]=true>
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoEspecial.Patologia" [checked]="true">
-                                        No
-                                    </nb-radio>
-                                    <nb-radio *ngIf="estudiante.InfoEspecial.Patologia" [disabled]=true>
-                                        No
-                                    </nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Certificado medico:
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Los estudiantes que presenten algún tipo de enfermedad
-                                    asociada a temas alimenticios, entre otras y sin
-                                    limitarse a éstas, hipoglicemia, bajo peso y/o baja talla,gastritis, anemia o
-                                    desórdenes alimenticios, deberá
-                                    anexarse el correspondiente diagnóstico médico, expedido por médico particular o
-                                    adscrito al Sistema
-                                    General de Seguridad Social en Salud.</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Qué tipo de seguridad social tiene:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" #required>
-                                    <nb-option value=""></nb-option>
-                                    <nb-option value="sisben">Sisben</nb-option>
-                                    <nb-option value="eps">EPS</nb-option>
-                                    <nb-option value="prepagada">Prepagada</nb-option>
-                                    <nb-option value="ninguna">Ninguna</nb-option>
-                                </nb-select>
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Pertenece al programa ser pilo paga:
-                                <span class="required-asterisk">*</span>
-                            </div>
-                            <div class="col-md-8">
-                                <nb-radio-group formControlName="serPiloPaga" name="serPiloPaga">
-                                    <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga" [checked]="true">
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoEspecial.SerPiloPaga" [disabled]=true>
-                                        Si
-                                    </nb-radio>
-                                    <nb-radio *ngIf="!estudiante.InfoEspecial.SerPiloPaga" [checked]="true">
-                                        No
-                                    </nb-radio>
-                                    <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga" [disabled]=true>
-                                        No
-                                    </nb-radio>
-                                </nb-radio-group>
-                            </div>
-                        </div>
-
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-
-            <nb-accordion-item>
-                <nb-accordion-item-header>
-                    <h4 class="non-selectable">Documentos</h4>
-                </nb-accordion-item-header>
-                <nb-accordion-item-body>
-                    <form [formGroup]="documentos">
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Formulario SIGUD
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Debe estar firmado por el estudiante.</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Fotocopia de documento
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">(CÉDULA O TARJETA DE IDENTIDAD)</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Carta de solicitud a bienestar
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Debe estar actualizada y firmada por el estudiante.</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Recibo Público
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Que corresponda a la dirección en donde se encuentra
-                                    actualmente y que coincida con la información del
-                                    formulario (año 2021)</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Recibo de la matricula o seguro 2021-1
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Fotocopia del recibo de matrícula o en este caso seguro de
-                                    la Universidad Cancelado con el sello o timbre
-                                    del banco (vigencia 2021) o pantallazo de pago registrado en el sistema Cóndor
-                                    (histórico de pago)</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Imagen del horario académico registrado en cóndor para el periodo {{ periodo?.Nombre }}
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Pantallazo de HORARIO registrado en el sistema
-                                    Cóndor</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                        <div class="row item-list">
-                            <div class="col-md-4">
-                                Certificado de Ingresos
-                                <span class="required-asterisk">*</span>
-                                <hr>
-                                <small class="small-info-ud">Certificado de ingresos de la persona de quien depende el
-                                    (la) estudiante. NO se
-                                    acepta el Formato de certificado de no declarante o certificado de no contribuyente
-                                    que adjuntó en el momento de ingresar a la universidad.
-                                    Tenga en cuenta cuál es su caso con el fin de adjuntar el documento
-                                    correspondiente:
-                                    • Para Independientes: Si la persona de quién depende económicamente el
-                                    estudiante es trabajador independiente o el (la) estudiante trabaja como
-                                    independiente, debe presentar una carta donde especifique la labor que desempeña
-                                    y los ingresos que recibe mensualmente, debe venir firmada, con número de Cédula,
-                                    número de teléfono y dirección.
-                                    • Para Empleados: Si la persona de quien depende el (la) estudiante es empleado
-                                    o el (la) estudiante es empleado, debe presentar una carta laboral vigente,
-                                    especificando los ingresos mensuales y la actividad, con número de teléfono,
-                                    dirección y firma del empleador.
-                                    • No tiene ingresos: Si el estudiante o la persona de quien depende NO posee
-                                    ingreso alguno deberá adjuntar carta indicando al menos su modo de subsistencia
-                                    (apoyo familiar, subsidios, ayudas ONG´s, iglesias, amigos…)</small>
-                                <hr>
-                            </div>
-                            <div class="col-md-8">
-                                <input nbInput fullWidth type="file">
-                            </div>
-                        </div>
-
-                    </form>
-                </nb-accordion-item-body>
-            </nb-accordion-item>
-        </nb-accordion>
-
-
-        <hr *ngIf="tercero!=null">
-
+        <hr>
         <div class="form-group" *ngIf="tercero!=null && !nueva">
             <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                 <i class="fas fa-save mr-1"></i>
@@ -1168,22 +305,45 @@
             </button>
         </div>
 
-        <div class="form-group" *ngIf="tercero!=null && solicitud==null  && nueva">
-            <mat-label>Enviar documentación &nbsp; </mat-label>
-            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la validación y dará respuesta únicamente basándose en
-                el primer diligenciamiento.
-                <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
-
-                <hr>
-                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="create()" class="submit-button">
-                    <i class="fas fa-save mr-1"></i>
-                    Crear Solicitud
-                </button>
-            </mat-hint>
-        </div>
-
     </nb-card-body>
 </nb-card>
+
+<!-- Se Solicita documento para una nueva solicitud cuando ya se cerraron inscripciones--->
+<nb-card *ngIf="solicitud==null && nueva && tercero==null">
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1 *ngIf="nueva && periodo!=null">
+                    Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
+                </h1>
+                <button class="btn back-button btn-block" routerLink="../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="container">
+            <h5>Documento del solicitante</h5>
+            <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné" alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
+            <br>
+            <hr>
+            <div class="mt-2">
+                <button nbButton fullWidth hero shape="semi-round" status="success" (click)="cargarSolicitante(documentoNew.value)" class="submit-button">
+                    <i class="far fa-id-card mr-1"></i>
+                    Cargar solicitante
+                </button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<!-- Se carga formulario para una nueva solicitud--->
+<div *ngIf="!loadForm">
+    <ngx-crear-solicitud *ngIf="solicitud==null && nueva && tercero!=null" [tercero]="tercero" [solicitud]="solicitud" [periodo]="periodo" [estudiante]="estudiante" [listInfoComplementaria]="estudiante" [extraSolicitud]="true"></ngx-crear-solicitud>
+</div>
+
 
 <div *ngIf="solicitud==null && !nueva" class="alert alert-warning text-center mt-3">
     <h3 class="alert-heading">No se encuentra la solicitud {{idSolicitud}}</h3>
