@@ -12,9 +12,7 @@
         </div>
     </div>
 </nb-card>
-<p *ngIf="nueva && periodo!=null && tercero==null">
-    {{ estudiante | json}}
-</p>
+
 <!-- Se carga información de una solicitud--------------------------------->
 <nb-card *ngIf="solicitud!=null && !nueva">
     <nb-card-header>
@@ -313,8 +311,11 @@
     <nb-card-header>
         <div class="text-center pt-2">
             <div class="menu-header">
-                <h1 *ngIf="nueva && periodo!=null">
+                <h1 *ngIf="periodo!=null">
                     Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
+                </h1>
+                <h1 *ngIf="periodo==null">
+                    No hay un periodo activo para apoyo alimentario
                 </h1>
                 <button class="btn back-button btn-block" routerLink="../">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -324,7 +325,7 @@
         </div>
     </nb-card-header>
     <nb-card-body>
-        <div class="container">
+        <div *ngIf="periodo!=null" class="container">
             <h5>Documento del solicitante</h5>
             <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné" alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
             <br>

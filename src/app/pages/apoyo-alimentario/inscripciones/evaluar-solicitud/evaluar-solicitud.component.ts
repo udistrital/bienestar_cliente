@@ -59,7 +59,7 @@ export class EvaluarSolicitudComponent implements OnInit {
     loadForm: boolean = true;
 
     listInfoComplementaria = [];
-  documentosSolicitud: SoportePaquete;
+    documentosSolicitud: SoportePaquete;
 
     constructor(
         private router: Router,
@@ -82,12 +82,13 @@ export class EvaluarSolicitudComponent implements OnInit {
             EVALUAR CASOOOOOOO
             EVALUAR CASOOOOOOO
             */
-            this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, null).then(
-                (resp) => {
-                    if (resp != []) {
+            console.log("construyo bien makia");
+            this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDSERVICIOAPOYO, true).then(
+                (resp) => {          
+                    if (resp[0]!=undefined) {
                         this.periodo = resp[0].PeriodoId
                     } else {
-                        this.utilsService.showSwAlertError("Parametos no encontrados","No hay un periodo para crear inscripciones");
+                        this.utilsService.showSwAlertError("Servicio apoyo no encontrado","No esta habilitado el apoyo alimentario para el periodo actual");
                     }
                 }
             ).catch((error) => this.utilsService.showSwAlertError("Parametos no encontrados",error));
@@ -193,6 +194,7 @@ export class EvaluarSolicitudComponent implements OnInit {
         this.listService.loadTerceroByDocumento(documento).then((respDoc) => {
             this.tercero = respDoc;
             if (this.tercero != undefined) {
+                console.log("aqui voy");
                 this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null).then((resp) => {
                     if (resp != [] && resp[0] != undefined) {
                         console.log(resp[0]);
@@ -226,57 +228,40 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     cargarNuevaSolicitud(){
-        this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
-            (resp) => {
-              console.log(resp);
-              console.log(resp != []);
-              
-              //if (resp != []) {
-              if (resp.length > 0) {
-                this.periodo = resp[0].PeriodoId;
-                console.log(this.periodo);
-      
-                let usuarioWSO2 = this.tercero.UsuarioWSO2
-                //usuarioWSO2 = "daromeror";
-      
-                  console.log(this.tercero);
-                  this.listService.findDocumentosTercero(this.tercero.Id,null).then((respDocs) => {
-                    console.log("findDocumentosTercero");
-                    for (const documento of respDocs) {
-                      if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-                        this.estudiante.Carnet=documento;                  
-                      } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
-                        this.estudiante.Documento=documento;
-                      }
-                    }
-                    //Change this.estudiante.Documento
-                    if(this.estudiante.Carnet!=null && this.estudiante.Documento!=null){   
-                        this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC)=>{
-                            this.listInfoComplementaria=respIC;
-                            this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
-                                this.estudiante.Facultad=nomFacultad[0];
-                                this.estudiante.ProyectoCurricular=nomFacultad[1];
-                                this.loadForm = false;                    
-                                Swal.close();
-                            });
-                        }).catch((errIC)=>{
-                            this.showError("error",errIC);
-                            this.loadForm = false;                    
-                            Swal.close();
-                        });
-                        console.log("Iniciamos formularios");  
-                    }else{
-                      this.showError("Documentos del estudiante no encontrados","No se encontro el carnet y documento de identificacion");
-                    }
-                  }).catch((errorDocs)=>this.showError("Documentos no encontrados",errorDocs));
-      
-      
-              } else {
-                this.showError("Periodo Vacio","No se encuentra un periodo activo para inscripciones");
-              }
-            }).catch((error) => {  
-              this.showError("Periodo Vacio",error);
-            });
+        console.log(this.periodo);
+        let usuarioWSO2 = this.tercero.UsuarioWSO2
+        //usuarioWSO2 = "daromeror";
+
+        console.log(this.tercero);
+        this.listService.findDocumentosTercero(this.tercero.Id,null).then((respDocs) => {
+            console.log("findDocumentosTercero");
+            for (const documento of respDocs) {
+                if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
+                this.estudiante.Carnet=documento;                  
+                } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
+                this.estudiante.Documento=documento;
+                }
+            }
+            //Change this.estudiante.Documento
+            if(this.estudiante.Carnet!=null && this.estudiante.Documento!=null){   
+                this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC)=>{
+                    this.listInfoComplementaria=respIC;
+                    this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
+                        this.estudiante.Facultad=nomFacultad[0];
+                        this.estudiante.ProyectoCurricular=nomFacultad[1];
+                        this.loadForm = false;                    
+                        Swal.close();
+                    });
+                }).catch((errIC)=>{
+                    this.showError("error",errIC);
+                    this.loadForm = false;                    
+                    Swal.close();
+                });
+                console.log("Iniciamos formularios");  
+            }else{
+                this.showError("Documentos del estudiante no encontrados","No se encontro el carnet y documento de identificacion");
+            }
+        }).catch((errorDocs)=>this.showError("Documentos no encontrados",errorDocs));
     }
 
     showError(titulo: string,msj: any) {
