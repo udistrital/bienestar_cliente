@@ -728,8 +728,9 @@ export class CrearSolicitudComponent implements OnInit {
           if (this.solicitud == null) {
             let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
             refSol.Periodo = this.periodo.Nombre;
+            refSol.Puntaje = await this.calcularPuntaje()
             this.listService.crearSolicitudApoyoAlimentario(
-              +this.tercero.Id,
+              this.tercero.Id,
               refSol
             );
           } else {
@@ -740,6 +741,13 @@ export class CrearSolicitudComponent implements OnInit {
         }
       });
     return false;
+  }
+  calcularPuntaje(): number {
+    for (let i = 0; i < 100; i++) {
+      i=i+1
+      i=i-1
+    }
+    return 100
   }
 
   cargarDocumentos() {

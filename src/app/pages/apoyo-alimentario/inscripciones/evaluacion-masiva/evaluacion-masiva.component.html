@@ -1,0 +1,208 @@
+<div *ngIf="!evaluacion">
+
+
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center pt-2">
+                <div class="menu-header">
+                    <h1>
+                        Buscar solicitudes
+                    </h1>
+                    <button class="btn back-button btn-block" routerLink="../../">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        Regresar
+                    </button>
+                </div>
+            </div>
+        </nb-card-header>
+
+        <nb-card-body>
+            <div class="row">
+                <div class="col">
+                    <form (ngSubmit)="buscar( f )" #f="ngForm">
+
+                        <div class="form-group input-group">
+                            <div class="label-color-ud input-group-prepend input-group-text">
+                                <i class="fa fa-file-signature " aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
+                            </div>
+
+                            <select class="form-control custom-select input-text-ud" name="periodo"
+                                [(ngModel)]="periodo" [disabled]="periodos.length === 0"
+                                [class.is-invalid]="periodo.invalid && periodo.touched" required
+                                placeholder="Periodos academicos" #periodoM="ngModel">
+                                <option *ngFor="let periodo of periodos; let i=index;" [value]="i">{{periodo.Nombre}}
+                                </option>
+                            </select>
+                            <br>
+                        </div>
+
+                        <div class="form-group input-group">
+                            <div class="label-color-ud input-group-prepend input-group-text">
+                                <i class="fa fa-file-signature " aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Estado solicitud</span>
+                            </div>
+
+                            <select class="form-control custom-select input-text-ud" name="estadoTipo"
+                                [(ngModel)]="estadoTipo" [disabled]="estadosTipoSolicitud.length === 0"
+                                [class.is-invalid]="estadoTipo.invalid && estadoTipo.touched" required
+                                placeholder="Estados de la solicitd" #estadoTipoM="ngModel">
+                                <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [value]="i">
+                                    {{estadoTipo.EstadoId.Nombre}}
+                                </option>
+                            </select>
+                            <br>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit"
+                                class="submit-button">
+                                <i class="fas fa-search mr-1"></i>
+                                Buscar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+    <nb-card *ngIf="solicitudes.length>0">
+        <div class="input-group">
+            <div class="label-color-ud input-group-prepend input-group-text">
+                <i class="fa fa-file-signature " aria-hidden="true"></i>
+                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Numero solicitudes</span>
+            </div>
+            <h4>{{solicitudes.length}}</h4>
+            <br>
+        </div>
+        <div class="input-group">
+            <div class="label-color-ud input-group-prepend input-group-text">
+                <i class="fa fa-file-signature " aria-hidden="true"></i>
+                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Seleccionadas</span>
+            </div>
+            <h4>{{this.numSeleccionado}}</h4>
+            <br>
+        </div>
+        <table *ngIf="solicitudes.length>0" class="table">
+            <thead class="bg-ud-table">
+                <tr>
+                    <th scope="col">
+                        <mat-checkbox class="example-margin" [checked]="allSelect" [indeterminate]="someComplete()"
+                            (change)="setAll($event.checked)">
+                            #
+                        </mat-checkbox>
+                    </th>
+                    <th scope="col">JSON</th>
+                    <th scope="col">Tipo solicitud</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha radicacion</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-ud-table-cell">
+                <tr *ngFor="let item of solicitudes; let i = index">
+
+                    <td scope="row">
+                        <mat-checkbox [(ngModel)]="seleccionado[i]" (ngModelChange)="updateAllComplete()">
+                            {{ (i+1) }}
+                        </mat-checkbox>
+                    </td>
+                    <td>{{ item | json }}</td>
+                    <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
+                    <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
+                    <td>{{ item.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
+                    <td>
+                        <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Evaluar solicitud
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button nbButton fullWidth shape="semi-round" hero status="success" class="btn btn-success btn-block"
+            (click)="empezarEvaluacion()" class="submit-button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Evaluar solicitudes Seleccionadas
+        </button>
+
+    </nb-card>
+
+    <nb-card *ngIf="solicitudes.length==0">
+        <div class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No hay solicitudes</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x    "></i>
+            </p>
+        </div>
+    </nb-card>
+
+</div>
+
+<div *ngIf="evaluacion">
+    <button class="btn back-button btn-block" (click)="evaluacion=false">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+
+
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center pt-2">
+                <div class="menu-header">
+                    <h1>
+                        Evaluacion masiva
+                    </h1>
+                </div>
+            </div>
+        </nb-card-header>
+        <nb-card-body>
+            <div class="menu-list">
+                <div class="item ">
+                    <!-- form-group  -->
+                    <label class="sub-item label-color-ud">
+                        Estado actual :
+                    </label>
+                    <label ng-readonly="!nueva" class="sub-item ">
+                        {{estadosTipoSolicitud[estadoTipo].EstadoId.Nombre}}
+                    </label>
+                    <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+                </div>
+                <div class="item">
+                    <hr>
+                    <h6>Cambiar estado</h6>
+                    <br>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Nuevo estado :
+                    </label>
+
+                    <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                        <option [ngValue]="null">Selecciona el siguiente estado</option>
+                        <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                            {{estadoTipo.EstadoId.Nombre }}</option>
+                    </select>
+                    <br>
+
+                </div>
+                <br>
+                <div *ngIf="nuevoEstado!=null" class="item mt-3">
+                    <label class="sub-item label-color-ud">
+                        Observacion cambio de estado:
+                    </label>
+                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion"
+                        class="input-full-width size-medium status-basic shape-rectangle nb-transition"
+                        style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                </div>
+            </div>
+            <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                <i class="fas fa-save mr-1"></i>
+                Guardar cambios
+            </button>
+        </nb-card-body>
+
+    </nb-card>
+
+</div>
