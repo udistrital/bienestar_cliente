@@ -12,6 +12,7 @@ import 'style-loader!angular2-toaster/toaster.css';
   selector: 'ngx-pages',
   template: `
     <ngx-one-column-layout>
+      <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-one-column-layout>
   `,
@@ -74,7 +75,7 @@ export class PagesComponent implements OnInit {
    * Map the menu on objects
    *  @param menuArray
    */
-  mapMenuByObjects(menuArray) {
+   mapMenuByObjects(menuArray) {
     menuArray.map( itemMenu => {
       const urlNested = this.replaceUrlNested(itemMenu.Url);
       this.object   = {
