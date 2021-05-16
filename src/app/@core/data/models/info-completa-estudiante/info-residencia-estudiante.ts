@@ -15,7 +15,7 @@ export class InfoResidenciaEstudiante {
         this.Telefono= "TELEFONO PB";
         this.Barrio="BARRIO PRUEBA";
         this.Sisben= false;
-        this.Puntaje_Sisben= "50";
+        this.Puntaje_Sisben= "0";
         this.Grupo_Sisben= "";
     }
 }

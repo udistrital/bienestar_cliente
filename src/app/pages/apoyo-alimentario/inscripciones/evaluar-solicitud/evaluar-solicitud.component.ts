@@ -44,19 +44,10 @@ export class EvaluarSolicitudComponent implements OnInit {
     selectDoc=[];
 
     estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-
-    registro: FormGroup;
-    residencia: FormGroup;
-    sisben: FormGroup;
-    socioeconomica: FormGroup;
-    necesidades: FormGroup;
-    especial: FormGroup;
-    menores: FormGroup;
-    personasacargo: FormGroup;
-    documentos: FormGroup;
     
     loading: boolean = true;
     loadForm: boolean = true;
+    loadDocs: boolean = true;
 
     listInfoComplementaria = [];
     documentosSolicitud: SoportePaquete;
@@ -170,7 +161,10 @@ export class EvaluarSolicitudComponent implements OnInit {
           });
           })
         }
-      }).catch((err)=>this.showError('No se encontraron documentos',err));
+      }).catch((err)=>{
+        this.showError('No se encontraron documentos',err);
+        this.loadDocs == false;
+      });
     }
 
     loadEstadoTipoSolicitud() {

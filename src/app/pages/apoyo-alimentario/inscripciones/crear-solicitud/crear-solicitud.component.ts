@@ -12,6 +12,7 @@ import { InfoCompletaEstudiante } from "../../../../@core/data/models/info-compl
 import { DatePipe } from "@angular/common";
 import { InfoComplementariaTercero } from "../../../../@core/data/models/terceros/info_complementaria_tercero";
 import { UtilService } from "../../../../shared/services/utilService";
+import { ApiConstanst } from "../../../../shared/constants/api.constans";
 
 @Component({
   selector: 'ngx-crear-solicitud',
@@ -43,6 +44,8 @@ export class CrearSolicitudComponent implements OnInit {
   necesidades: FormGroup;
   serviciosPublicos: FormGroup;
   especial: FormGroup;
+
+  APP_CONSTANTS = ApiConstanst;
 
   @ViewChild("dialogo", { read: null, static: null }) dialogo: TemplateRef<any>;
 
@@ -712,7 +715,9 @@ export class CrearSolicitudComponent implements OnInit {
           if (this.solicitud == null) {
             let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
             refSol.Periodo = this.periodo.Nombre;
+            console.log(refSol.Puntaje);
             refSol.Puntaje = await this.calcularPuntaje()
+            console.log("Puntaje -->",refSol.Puntaje);
             this.listService.crearSolicitudApoyoAlimentario(
               this.tercero.Id,
               refSol
@@ -726,10 +731,12 @@ export class CrearSolicitudComponent implements OnInit {
       });
     return false;
   }
+  //Revisar caso de mayor tiempo de ejecución.
   calcularPuntaje(): number {
     for (let i = 0; i < 100; i++) {
       i=i+1
       i=i-1
+      console.log(i);
     }
     return 100
   }
@@ -879,31 +886,50 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   validacionesForm(): boolean {
-    return true
     let msj = " información ";
     let style = "color: #ff0000; font-weight: bold; font-size: 1.2em;"
     let valido: boolean = false;
-    if (!this.registro.valid) {
-      msj += " básica,";
+    if (!this.registro.controls.programa.valid) {
+      msj += " básica (Antiguedad del programa),";
     }
-    if (!this.residencia.valid) {
-      msj += " residencia,";
+    if (!this.academica.controls.numeroCreditos.valid) {
+      msj += " académica (Número de creditos),";
     }
-    if (!this.academica.valid) {
-      msj += " académica,";
+    if (!this.socioeconomica.controls.zonaVulnerabilidad.valid) {
+      msj += " socioeconomica (Zona de vulnerabilidad),";
     }
-    if (!this.socioeconomica.valid) {
-      msj += " socioeconomica,";
-    }
+    //Evaluar Caso
     if (!this.personasacargo.valid) {
       msj += " personas a cargo,";
     }
+    //Evaluar Caso x2
     if (!this.sisben.valid) {
       msj += " sisben,";
     }
     if (!this.necesidades.valid) {
-      msj += " necesidades básicas,";
+      let menNecesidades="";
+      if(!this.necesidades.controls.calidadVivienda.valid){
+        menNecesidades+=" Calidad vivienda,"
+      }
+      if(!this.necesidades.controls.cuartosDormir.valid){
+        menNecesidades+=" cuartos para dormir,"
+      }
+      if(!this.necesidades.controls.personasHogar.valid){
+        menNecesidades+=" personas en el hogar,"
+      }
+      if(!this.validServicios()){
+        menNecesidades+=" Servicios Públicos,"
+      }
+      if(!this.necesidades.controls.origenAgua.valid){
+        menNecesidades+=" Origen agua,"
+      }
+      if(this.necesidades.controls.aguasNegras.value==""){
+        menNecesidades+=" Aguas negras,"
+      }
+      menNecesidades = menNecesidades.slice(0, -1);
+      msj += ` necesidades básicas (${menNecesidades}) `;
     }
+    //Evaluar Caso x3
     if (!this.especial.valid) {
       msj += " población especial,";
     }
@@ -921,6 +947,22 @@ export class CrearSolicitudComponent implements OnInit {
     }
 
     return valido;
+  }
+
+  validServicios(): boolean{
+    let cont=0;
+    for (let i of this.estudiante.InfoNecesidades.ServiciosPublicos) {
+      let element=this.serviciosPublicos.get(i[0]).value;
+      console.log(element);
+      if(element==false){
+        cont+=1;
+      }
+    }
+    if(cont==4){
+      return false;
+    }else{
+      return true;
+    } 
   }
 
   allSelected(check: boolean) {

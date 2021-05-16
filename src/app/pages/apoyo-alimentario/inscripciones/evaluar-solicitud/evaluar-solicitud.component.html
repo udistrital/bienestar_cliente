@@ -182,7 +182,7 @@
                     <h4 class="non-selectable">Documentos</h4>
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    <div class="menu-list">
+                    <div *ngIf="loadDocs" class="menu-list">
                         <div class="item">
                             <h6 class="label-color-ud">{{selectDoc[0]}}</h6>
                             <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
@@ -208,6 +208,9 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div *ngIf="!loadDocs">
+                        <h6 style="text-align: center; color: #d33;"> No se pudo cargar los documentos</h6>
                     </div>
 
                 </nb-accordion-item-body>
@@ -237,6 +240,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div *ngIf="observaciones.length==0">
+                        <h6 style="text-align: center; color: #d33;"> No existe ninguna observación</h6>
                     </div>
 
                     <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">

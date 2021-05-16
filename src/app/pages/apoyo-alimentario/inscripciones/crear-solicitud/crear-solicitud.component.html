@@ -393,6 +393,8 @@
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <form [formGroup]="personasacargo">
+                            <h4>Evaluar caso Hijos </h4>
+                            <br>
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     <label>¿ Tiene personas a cargo ? :
@@ -420,7 +422,6 @@
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
-                                    <!-- <input fullWidth nbInput formControlName="tieneperacargo" required> -->
                                 </div>
                             </div>
 
@@ -504,17 +505,23 @@
                             <div class="row item-list">
                                 <div class="col-md-4">¿Tiene sisben?: </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group formControlName="tieneSisben" name="tieneSisben">
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true" value=true selected>
-
+                                    <nb-radio-group formControlName="tieneSisben" id="tieneSisben">
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true" value=true checked>
+                                            Si
                                         </nb-radio>
                                         <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [disabled]="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true" value=false selected>
+                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true" value=false checked>
                                             No
                                         </nb-radio>
                                         <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [disabled]="true">
+                                            No
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben==null" value=true>
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben==null" value=false>
                                             No
                                         </nb-radio>
                                     </nb-radio-group>

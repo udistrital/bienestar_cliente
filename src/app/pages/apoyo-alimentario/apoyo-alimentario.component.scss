@@ -1,3 +1,9 @@
+.content {
+    min-width: 55vh;
+    justify-content: center;
+    text-align: center;
+}
+
 .menu-header {
     padding-top: 5px;
     align-items: center;
@@ -41,11 +47,36 @@
     border-color: #4c1818;
 }
 
+.big-text {
+    margin-top: 1px;
+    margin-left: 20px;
+    color: #212529;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 .menu-list .sub-item .field-color-ud {
     margin-top: 1px;
     flex: 42%;
     size: 18px;
     border-color: #e6b31c;
+}
+
+.menu-button {
+    align-items: center;
+    justify-content: space-around;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 1px;
+    text-align: center;
+}
+
+.menu-button .boton {
+    margin-top: 2px;
+    word-break: break-word;
+    margin-bottom: 2px;
 }
 
 .small-ud {
@@ -172,10 +203,13 @@
     background: #691717;
 }
 
+
+/* Estilos de tabla Apoyo */
+
 .bg-ud-table {
     background: #01579b;
     color: whitesmoke;
-    min-width: 60%;
+    min-width: 50vh;
     margin: auto;
     text-align: center;
 }
@@ -187,6 +221,12 @@
     text-align: center;
     font-size: 16px;
     font-weight: bold;
+}
+
+.btn-table {
+    min-width: 48vh;
+    align-self: center;
+    text-align: center;
 }
 
 .badge {

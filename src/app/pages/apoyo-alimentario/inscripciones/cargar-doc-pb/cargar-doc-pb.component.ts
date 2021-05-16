@@ -87,7 +87,34 @@ export class CargarDocPbComponent implements OnInit {
       this.utilsService.showSwAlertError("Documentos vacios","Por favor asegurese de subir todos los documentos antes de hacer el envio.");
       valid=false;
     }else if(!this.documentos.valid){
-      this.utilsService.showSwAlertError("Faltan Documentos",`<p> Todos los documentos con ( <span style="${style}">*</span> ) es obligatorio subirlos. <p>`);
+      let msj="";
+      if(!this.documentos.controls.documentoIdentidad.valid){
+        msj= msj+" Documento de Identidad,"
+      }
+      if(!this.documentos.controls.formularioSIGUD.valid){
+        msj= msj+" Formulario SIGUD,"
+      }
+      if(!this.documentos.controls.cartaBienestar.valid){
+        msj= msj+" Carta a Bienestar,"
+      }
+      if(!this.documentos.controls.reciboPublico.valid){
+        msj= msj+" Recibo Público,"
+      }
+      if(!this.documentos.controls.reciboMatricula.valid){
+        msj= msj+" Recibo matricula,"
+      }
+      if(!this.documentos.controls.horarioAcademico.valid){
+        msj= msj+" Carta a Bienestar,"
+      }
+      if(!this.documentos.controls.certificadoIngresos.valid){
+        msj= msj+" Certificado de Ingresos,"
+      }
+      if(msj!=""){
+        msj = msj.slice(0, -1);
+        this.utilsService.showSwAlertError('Faltan Documentos',`<p> Los documentos con ( <span style="${style}">*</span> ) es obligatorio subirlos. <br> Hacen falta los siguientes documentos:  <strong> ${msj} </strong><p>`);
+      }else{
+        this.utilsService.showSwAlertError('Faltan Documentos',`<p> Todos los documentos con ( <span style="${style}">*</span> ) es obligatorio subirlos. <p>`);
+      }
       valid=false;
     }else{
       console.log("Docs validos");

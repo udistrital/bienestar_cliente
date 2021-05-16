@@ -23,14 +23,11 @@
 
                         <div class="form-group input-group">
                             <div class="label-color-ud input-group-prepend input-group-text">
-                                <i class="fa fa-file-signature " aria-hidden="true"></i>
+                                <i class="fa fa-history " aria-hidden="true"></i>
                                 <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
                             </div>
 
-                            <select class="form-control custom-select input-text-ud" name="periodo"
-                                [(ngModel)]="periodo" [disabled]="periodos.length === 0"
-                                [class.is-invalid]="periodo.invalid && periodo.touched" required
-                                placeholder="Periodos academicos" #periodoM="ngModel">
+                            <select class="form-control custom-select input-text-ud" name="periodo" [(ngModel)]="periodo" [disabled]="periodos.length === 0" [class.is-invalid]="periodo.invalid && periodo.touched" required placeholder="Periodos academicos" #periodoM="ngModel">
                                 <option *ngFor="let periodo of periodos; let i=index;" [value]="i">{{periodo.Nombre}}
                                 </option>
                             </select>
@@ -39,14 +36,16 @@
 
                         <div class="form-group input-group">
                             <div class="label-color-ud input-group-prepend input-group-text">
-                                <i class="fa fa-file-signature " aria-hidden="true"></i>
-                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Estado solicitud</span>
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                                    Estado 
+                                    <br>
+                                    solicitud
+                                </span>
                             </div>
 
-                            <select class="form-control custom-select input-text-ud" name="estadoTipo"
-                                [(ngModel)]="estadoTipo" [disabled]="estadosTipoSolicitud.length === 0"
-                                [class.is-invalid]="estadoTipo.invalid && estadoTipo.touched" required
-                                placeholder="Estados de la solicitd" #estadoTipoM="ngModel">
+                            <select class="form-control custom-select input-text-ud mt-2 mt-0" name="estadoTipo" [(ngModel)]="estadoTipo" [disabled]="estadosTipoSolicitud.length === 0" [class.is-invalid]="estadoTipo.invalid && estadoTipo.touched" required placeholder="Estados de la solicitd"
+                                #estadoTipoM="ngModel">
                                 <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [value]="i">
                                     {{estadoTipo.EstadoId.Nombre}}
                                 </option>
@@ -55,8 +54,7 @@
                         </div>
                         <hr>
                         <div class="form-group">
-                            <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit"
-                                class="submit-button">
+                            <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button">
                                 <i class="fas fa-search mr-1"></i>
                                 Buscar
                             </button>
@@ -85,40 +83,45 @@
                 </div>
             </div>
         </nb-card-header>
+        <hr>
         <nb-card-body>
-
-            <div class="input-group">
-                <div class="label-color-ud input-group-prepend input-group-text">
-                    <i class="fa fa-file-signature " aria-hidden="true"></i>
-                    <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Numero solicitudes</span>
+            <div class="content">
+                <div class="menu-list text-left ml-3">
+                    <div class="item">
+                        <label class="label-color-ud sub-item">
+                            <i class="fa fa-clipboard-list " aria-hidden="true"></i>
+                            Número solicitudes
+                        </label>
+                        <label class="sub-item big-text">{{solicitudesExt.length}}</label>
+                        <br>
+                    </div>
+                    <div class="item">
+                        <label class="sub-item label-color-ud ">
+                            <i class="fa fa-tasks mr-1" aria-hidden="true"></i>
+                            Seleccionadas
+                        </label>
+                        <label class="big-text">{{this.numSeleccionado}}</label>
+                        <br>
+                    </div>
                 </div>
-                <h4>{{solicitudesExt.length}}</h4>
-                <br>
-            </div>
-            <div class="input-group">
-                <div class="label-color-ud input-group-prepend input-group-text">
-                    <i class="fa fa-file-signature " aria-hidden="true"></i>
-                    <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Seleccionadas</span>
+                <hr>
+                <div class="menu-button">
+                    <button nbButton hero shape="semi-round" status="info" (click)="seleccionMasiva()" class="submit-button">
+                        <i class="fa fa-check-double mr-1" aria-hidden="true"></i>
+                        Seleccion masiva
+                    </button>
+                    <button nbButton hero shape="semi-round" status="warning" (click)="empezarEvaluacion()" class="submit-button boton">
+                        <i class="fas fa-forward mr-1"></i>
+                        Evaluar solicitudes Seleccionadas
+                    </button>
                 </div>
-                <h4>{{this.numSeleccionado}}</h4>
-                <br>
             </div>
-            <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block"
-                (click)="seleccionMasiva()" class="submit-button">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                Seleccion masiva
-            </button>
-            <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="empezarEvaluacion()"
-                class="submit-button">
-                <i class="fas fa-forward mr-1"></i>
-                Evaluar solicitudes Seleccionadas
-            </button>
+            <hr>
             <table *ngIf="solicitudesExt.length>0" class="table">
                 <thead class="bg-ud-table">
                     <tr>
                         <th scope="col">
-                            <mat-checkbox class="example-margin" [checked]="allSelect" [indeterminate]="someComplete()"
-                                (change)="setAll($event.checked)">
+                            <mat-checkbox class="example-margin" [checked]="allSelect" [indeterminate]="someComplete()" (change)="setAll($event.checked)">
                                 #
                             </mat-checkbox>
                         </th>
@@ -139,13 +142,12 @@
                         <td>{{ item.Periodo }}</td>
                         <td>{{ item.Puntaje }}</td>
                         <td>{{ item.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
-                        <td>{{ item.Solicitud.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ item.Solicitud.FechaRadicacion | fechaFormat: 'dd/MM/yyyy'}}</td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="empezarEvaluacion()"
-                    class="submit-button">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="empezarEvaluacion()" class="submit-button btn-table">
                     <i class="fas fa-forward mr-1"></i>
                     Evaluar solicitudes Seleccionadas
                 </button>
@@ -206,14 +208,11 @@
                     <label class="sub-item label-color-ud">
                         Observacion cambio de estado:
                     </label>
-                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion"
-                        class="input-full-width size-medium status-basic shape-rectangle nb-transition"
-                        style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()"
-                    class="submit-button">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                     <i class="fas fa-save mr-1"></i>
                     Guardar
                 </button>

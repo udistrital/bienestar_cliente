@@ -163,6 +163,9 @@ export class EvaluacionMasivaComponent implements OnInit {
       text: 'Se seleccionaran en orden desendente deacuerdo al puntaje',
       input: 'number',
       showCancelButton: true,
+      confirmButtonText: 'Seleccionar',
+      cancelButtonText: 'Cancelar selección',
+      cancelButtonColor: '#d33',
 
     }).then((result) => {
       if(result.value){
@@ -174,12 +177,14 @@ export class EvaluacionMasivaComponent implements OnInit {
           }
           this.allSelect = numSelect == this.solicitudesExt.length;
           this.numSeleccionado = numSelect;
+          //Usar Utils
           Swal.fire({
             title: '¡Seleccion masiva exitosa!',
             text: 'Se seleccionaron de forma exitosa '+numSelect + ' solicitudes',
             icon: 'success'
           })
         }else{
+          //Usar Utils
           Swal.fire({
             title: 'Valor ingresado incorrecto',
             text: 'El valor ingresado tiene que estar entre 1 y '+this.solicitudesExt.length,
