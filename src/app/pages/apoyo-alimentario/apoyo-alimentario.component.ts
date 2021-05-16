@@ -42,6 +42,10 @@ export class ApoyoAlimentarioComponent implements OnInit {
     this.router.navigate(['/pages/apoyo-alimentario/inscripciones/buscarSolicitud']);
     return false;
   }
+  navigateEvaluacionMasiva(){
+    this.router.navigate(['/pages/apoyo-alimentario/inscripciones/evaluacion-masiva']);
+    return false;
+  }
 
   //Asistencia
   navigateConsultarFallas(){

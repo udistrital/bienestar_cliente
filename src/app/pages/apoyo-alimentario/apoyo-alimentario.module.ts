@@ -47,6 +47,7 @@ import { CargarDocPbComponent } from './inscripciones/cargar-doc-pb/cargar-doc-p
 import { ArchivosGenericoModule } from '../../shared/components/archivos-generico/archivos-generico.module';
 import { SafePipe } from './pipes/safe.pipe';
 import { CrearSolicitudComponent } from './inscripciones/crear-solicitud/crear-solicitud.component';
+import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
 
 @NgModule({
     imports: [
@@ -95,7 +96,8 @@ import { CrearSolicitudComponent } from './inscripciones/crear-solicitud/crear-s
     FechaFormatPipe,
     CargarDocPbComponent,
     SafePipe,
-    CrearSolicitudComponent
+    CrearSolicitudComponent,
+    EvaluacionMasivaComponent
    ],
   providers: [
 

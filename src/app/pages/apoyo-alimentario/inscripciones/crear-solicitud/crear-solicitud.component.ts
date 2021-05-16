@@ -1,29 +1,17 @@
 import { Component, Input, OnInit } from "@angular/core";
 import Swal from "sweetalert2";
-import { environment } from "../../../../../environments/environment";
 import { Periodo } from "../../../../@core/data/models/parametro/periodo";
 import { ListService } from "../../../../@core/store/list.service";
 import { Solicitud } from "../../../../@core/data/models/solicitud/solicitud";
-import { ImplicitAutenticationService } from "../../../../@core/utils/implicit_autentication.service";
 import { Tercero } from "../../../../@core/data/models/terceros/tercero";
-import { TercerosService } from "../../../../@core/data/terceros.service";
-import { SolicitudService } from "../../../../@core/data/solicitud.service";
-import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante";
 import { ReferenciaSolicitud } from "../../../../@core/data/models/solicitud/referencia-solicitud";
-import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { MatDialog } from "@angular/material/dialog";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ViewChild } from "@angular/core";
 import { TemplateRef } from "@angular/core";
-import { ApiConstanst } from "../../../../shared/constants/api.constans";
-import { TranslateService } from "@ngx-translate/core";
-import { AcademicaService } from "../../../../@core/data/academica.service";
 import { InfoCompletaEstudiante } from "../../../../@core/data/models/info-completa-estudiante/info-completa-estudiante";
 import { DatePipe } from "@angular/common";
 import { InfoComplementariaTercero } from "../../../../@core/data/models/terceros/info_complementaria_tercero";
 import { UtilService } from "../../../../shared/services/utilService";
-import { OikosService } from '../../../../@core/data/oikos.service';
-import { Observacion } from "../../../../@core/data/models/solicitud/observacion";
 
 @Component({
   selector: 'ngx-crear-solicitud',
@@ -514,10 +502,6 @@ export class CrearSolicitudComponent implements OnInit {
           }),
         });
 
-        console.log("Localidad--->", this.estudiante.InfoResidencia.Localidad);
-
-        console.log("Municipio--->", this.estudiante.InfoResidencia.Municipio);
-
         this.academica = new FormGroup({
           valorMatricula: new FormControl({ value: this.estudiante.InfoAcademica.ValorMatricula, disabled: true }),
           numeroCreditos: new FormControl({ value: this.estudiante.InfoAcademica.NumeroCreditos, disabled: false }, Validators.required),
@@ -885,6 +869,7 @@ export class CrearSolicitudComponent implements OnInit {
           data:"validar"
         })
         console.log("validacion",this.validarDocs);
+        this.validarDocs=true
         if(this.validarDocs){
           this.registrar();
           console.log("Se guardoooo");
@@ -894,6 +879,7 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   validacionesForm(): boolean {
+    return true
     let msj = " información ";
     let style = "color: #ff0000; font-weight: bold; font-size: 1.2em;"
     let valido: boolean = false;
@@ -924,6 +910,10 @@ export class CrearSolicitudComponent implements OnInit {
 
     msj = msj.slice(0, -1);
 
+    /* 
+    Algo no me cuadra aca en la logica
+    
+    */
     if (!valido && msj != " información") {
       this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
     } else {

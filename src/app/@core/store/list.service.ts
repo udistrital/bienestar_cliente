@@ -229,7 +229,7 @@ export class ListService {
                   if (Object.keys(resp[0]).length > 0) {
                     resolve([resp[0].PadreId.Nombre, resp[0].HijaId.Nombre]);
                   } else {
-                    reject("Dependencia padre no encontrada");
+                    reject("Facultad no encontrada");
                   }
                 },
                   error => {
@@ -541,7 +541,32 @@ export class ListService {
    *
    * @memberof ListService
    */
-  findSolicitudes(): Promise<Solicitud[]> {
+  findSolicitudes(idEstadoTipo): Promise<Solicitud[]> {
+    return new Promise((resolve, reject) => {
+      let url="solicitud"
+      if(idEstadoTipo!=null){
+        url +="?query=EstadoTipoSolicitudId.Id:"+idEstadoTipo
+      }else{
+        url +="?query=EstadoTipoSolicitudId.TipoSolicitud.Id:"+environment.IDS.IDTIPOSOLICITUD
+      }
+      
+      this.solicitudService.get(url)
+        .subscribe(
+          (result: any[]) => {
+            if (Object.keys(result[0]).length > 0) {
+              resolve(result);
+            } else {
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+  }
+
+  findSolicitudesbyEstado(): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
         .subscribe(

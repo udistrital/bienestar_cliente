@@ -20,6 +20,7 @@ import { InformePeriodoComponent } from './informes/informe-periodo/informe-peri
 import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
 import { CargarDocPbComponent } from './inscripciones/cargar-doc-pb/cargar-doc-pb.component';
+import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
 
 const routes: Routes = [
   { 
@@ -47,6 +48,9 @@ const routes: Routes = [
     path: 'inscripciones', children:[
     {
       path:'solicitud', component: SolicitudTerceroComponent
+    },
+    {
+      path:'evaluacion-masiva', component: EvaluacionMasivaComponent
     },
     {
       path:'buscarSolicitud', component: BuscarSolicitudComponent

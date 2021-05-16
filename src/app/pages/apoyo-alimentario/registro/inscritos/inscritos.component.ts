@@ -132,9 +132,9 @@ export class InscritosComponent implements OnInit {
                   if (nomFacultad[0] == this.facultadAccesso[this.registroBase.sede]) {
                     b.textContent = `Guardando registro`;
                     this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
-                      this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
+                      this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'} ${terceroReg.NombreCompleto}`);
                     }).catch((error) => {
-                      this.showError(`${this.registroBase.codigo}`, error);
+                      this.showError(`${this.registroBase.codigo}`, terceroReg.NombreCompleto+" "+error);
                     });
                   }
                   else {
@@ -151,21 +151,21 @@ export class InscritosComponent implements OnInit {
                               },
                             });
                             this.registrar(this.registroBase.sede, solicitudId, terceroReg.Id).then((msj) => {
-                              this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'}`);
+                              this.showToast(`${this.registroBase.codigo}`, `${msj} ${solicitudId != 0 ? 'Beneficiario' : 'No beneficiario'} ${terceroReg.NombreCompleto}`);
                             }).catch((error) => {
-                              this.showError(`${this.registroBase.codigo}`, error);
+                              this.showError(`${this.registroBase.codigo}`, terceroReg.NombreCompleto+" "+error);
                             });
                           } else {
-                            this.showError(`${this.registroBase.codigo}`, "Estudiante de otra facultad");
+                            this.showError(`${this.registroBase.codigo}`, `${terceroReg.NombreCompleto} es de otra facultad`);
                           }
                         });
                   }
                 })
                   .catch((error) => {
-                    this.showError(`${this.registroBase.codigo}`, error);
+                    this.showError(`${this.registroBase.codigo}`, terceroReg.NombreCompleto+" "+error);
                   });
               }
-            ).catch((error) => this.showError(`${this.registroBase.codigo}`, error));
+            ).catch((error) => this.showError(`${this.registroBase.codigo}`, terceroReg.NombreCompleto+" "+error));
             Object.values(form.controls).forEach((control) => {
               control.markAsUntouched();
             });
@@ -200,13 +200,13 @@ export class InscritosComponent implements OnInit {
             if (estado == 'V') {
               resolve(true);
             } else {
-              reject(`El estudiante tiene el estado: ${estado}`);
+              reject(`tiene el estado: ${estado}`);
             }
           }).catch((error) => {
             reject(error);
           });
         } else {
-          reject("El estudiante no es beneficiario")
+          reject("no es beneficiario")
         }
       } else {
         resolve(true);
@@ -246,7 +246,7 @@ export class InscritosComponent implements OnInit {
             console.log(regAnt[0].fecha_creacion.split('T')[0]);
             console.log(apoyoAlimentario.fecha_creacion.split(' ')[0]);
             if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
-              reject(`El usuario ya uso el servicio a las ${regAnt[0].fecha_creacion}`)
+              reject(`ya uso el servicio a las ${regAnt[0].fecha_creacion}`)
             } else {
               this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
                 .subscribe(res => {
