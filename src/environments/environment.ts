@@ -14,6 +14,7 @@ export const environment = {
         },
       },
     CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
+    CLIENTE_APOYO: 'apoyo-alimentario',
     APOYO_ALIMENTARIO: "http://localhost:8080/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
     UBICACIONES: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/ubicaciones_crud/v1/ ',

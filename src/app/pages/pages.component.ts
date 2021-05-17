@@ -7,12 +7,13 @@ import { ImplicitAutenticationService } from './../@core/utils/implicit_autentic
 import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'ngx-pages',
   template: `
     <ngx-one-column-layout>
-      <nb-menu [items]="menu"></nb-menu>
+    <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-one-column-layout>
   `,
@@ -29,6 +30,7 @@ export class PagesComponent implements OnInit {
   dataMenu: any;
   roles: any;
 
+  url_apoyo  = environment.CLIENTE_APOYO;
   url_presupuesto  = environment.CLIENTE_PRESUPUESTO;
   url_contabilidad = environment.CLIENTE_CONTABILIDAD;
   application_conf = 'presupuesto_kronos';
@@ -40,10 +42,83 @@ export class PagesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('init page');
+    
     if (this.autenticacion.live()) {
-      this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
-        .filter((data: any) => (data.indexOf('/') === -1));
-      this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
+      console.log('authentico correcto');
+      const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
+      if(temp==undefined){
+        this.roles=['ESTUDIANTE']
+      }else{
+        this.roles=temp.filter((data: any) => (data.indexOf('/') === -1));
+      }
+      /* icons */
+      /* https://akveo.github.io/eva-icons/#/ */
+      console.log("roles↓↓↓");
+      console.log(this.roles);
+      console.log('-------------');
+      if(this.roles.includes("ESTUDIANTE")){
+        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/inscripciones/solicitud');       
+        this.object   = {
+          title: 'Solicitud apoyo alimentario',
+          icon:  'file-text',
+          link:  `${urlSIBUD}`,
+          home:  false,
+          key:   "no se que poner",
+          children: this.mapMenuChildrenObject(null)
+        };
+        this.menu.push(this.object)
+      }
+      if(this.roles.includes("ADMIN_NECESIDADES")){
+        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/registro/diario');   
+        console.log(urlSIBUD);     
+        this.object   = {
+          title: 'Registro diario',
+          icon:  'calendar-outline',
+          link:  `${urlSIBUD}`,
+          home:  false,
+          key:   "no se que poner :C",
+          children: this.mapMenuChildrenObject(null)
+        };
+        this.menu.push(this.object)
+        console.log('hay un estudiante');
+      }
+
+      if(this.roles.includes("ADMIN_NECESIDADES")){
+        let objMenu= {
+          Url: '${url_apoyo}/inscripciones/solicitudes',
+          Nombre: 'Listado solicitudes',
+          Opciones: null
+        }
+        const urlSIBUD = this.replaceUrlNested('');  
+        let childs= []
+        var child1 = {
+          Url: '${url_apoyo}/inscripciones/solicitudes',
+          Nombre: 'Listado solicitudes',
+          Opciones: null
+        }; 
+        var child2 = {
+          Url: '${url_apoyo}/inscripciones/buscarSolicitud',
+          Nombre: 'Buscar solicitudes',
+          Opciones: null
+        }; 
+        childs.push(child1)
+        childs.push(child2)
+        
+        this.object   = {
+          title: 'Inscripciones',
+          icon:  'file-text',
+          link:  ``,
+          home:  false,
+          key:   "no se que poner :C",
+          children: this.mapMenuChildrenObject(childs)
+        };
+        this.menu.push(this.object)
+        console.log('hay un estudiante');
+      }
+      
+      /* toca activarlo */
+      /* this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
         data => {
           this.dataMenu = <any>data;
           this.mapMenuByObjects(this.dataMenu);
@@ -60,8 +135,10 @@ export class PagesComponent implements OnInit {
           });
           this.menu = [];
           this.translateMenu();
-        });
+        }); */
     } else {
+      console.log('Publico');
+      
       this.rol = 'PUBLICO';
       this.menu = [];
       this.translateMenu();
@@ -118,7 +195,7 @@ export class PagesComponent implements OnInit {
    *  @param urlNested
    */
   replaceUrlNested(urlNested) {
-    return urlNested.replace('${url_contabilidad}', this.url_contabilidad)
+    return urlNested.replace('${url_apoyo}', this.url_apoyo)
                     .replace('${url_presupuesto}', this.url_presupuesto);
   }
 

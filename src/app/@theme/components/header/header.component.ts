@@ -100,7 +100,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleSidebar(): boolean {
-     
     this.sidebarService.toggle(true, 'menu-sidebar');
     this.layoutService.changeLayoutSize();
 
@@ -123,10 +122,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.autenticacion.live()) {
       this.liveTokenValue = this.autenticacion.live();
       this.username = (this.autenticacion.getPayload()).email
-          ? ((this.autenticacion.getPayload()).email.split('@')).shift()
-          : (this.autenticacion.getPayload()).sub;
-  }
-  return this.autenticacion.live();
+        ? ((this.autenticacion.getPayload()).email.split('@')).shift()
+        : (this.autenticacion.getPayload()).sub;
+    }
+    return this.autenticacion.live();
   }
 
   onContecxtItemSelection(title) {
@@ -134,12 +133,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/pages/notificacion/listado']);
     }
   }
+
+
   goToHome() {
     this.menuService.navigateHome();
   }
+
   changeStateNoView(): void {
     // this.notificacionService.changeStateNoView(this.username);
   }
+
   toggleNotifications(): boolean {
     this.sidebarService.toggle(false, 'notifications-sidebar');
     this.changeStateNoView();
