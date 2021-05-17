@@ -37,7 +37,7 @@ import { DocumentoService } from '../data/documento.service';
 @Injectable()
 
 export class ListService {
-  
+
   @Output() disparadorDeDocumentos: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -49,7 +49,7 @@ export class ListService {
     private academicaService: AcademicaService,
     private apoyoAlimentarioService: ApoyoAlimentarioService,
     private ubicacionesService: UbicacionesService,
-    private utilsService: UtilService  
+    private utilsService: UtilService
   ) { }
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
@@ -79,6 +79,52 @@ export class ListService {
         );
 
 
+    });
+  }
+
+  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number): Promise<ApoyoAlimentario[]> {
+    return new Promise((resolve, reject) => {
+      let queryArr=[]
+      if(terceroId!=null){
+        queryArr.push(`tercero_id:${terceroId}`)
+      }
+      if(solicitudId!=null){
+        queryArr.push(`solicitud_id:${solicitudId}`)
+      }
+      if(espacioFisicoId!=null){
+        queryArr.push(`espacio_fisico_id:${espacioFisicoId}`)
+      }
+      if(periodoId!=null){
+        queryArr.push(`periodo_id:${periodoId}`)
+      }
+      if(activo!=null){
+        queryArr.push(`activo:${activo}`)
+      }
+      let query="";
+      console.log(queryArr);
+      
+      if(queryArr.length>0){
+        query="?query="
+        for (let i = 0; i < queryArr.length; i++) {
+          query+=queryArr[i]
+          if(i+1<queryArr.length){
+            query+=','
+          }
+        }
+      }
+      if(limite!=null){
+
+      }
+      console.log(query);
+      this.apoyoAlimentarioService.get(`registro_apoyo${query}${(query!="" ? "&": "?")}sortby=id&order=desc${limite!=null ? `&LIMIT=${limite}` : ''}`)
+        .subscribe(
+          (result: any[]) => {
+            resolve(result)
+          },
+          error => {
+            reject(error);
+          },
+        );
     });
   }
 
@@ -543,13 +589,13 @@ export class ListService {
    */
   findSolicitudes(idEstadoTipo): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
-      let url="solicitud"
-      if(idEstadoTipo!=null){
-        url +="?query=EstadoTipoSolicitudId.Id:"+idEstadoTipo
-      }else{
-        url +="?query=EstadoTipoSolicitudId.TipoSolicitud.Id:"+environment.IDS.IDTIPOSOLICITUD
+      let url = "solicitud"
+      if (idEstadoTipo != null) {
+        url += "?query=EstadoTipoSolicitudId.Id:" + idEstadoTipo
+      } else {
+        url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDTIPOSOLICITUD
       }
-      
+
       this.solicitudService.get(url)
         .subscribe(
           (result: any[]) => {
@@ -800,7 +846,7 @@ export class ListService {
       this.solicitudService.get(`paquete_solicitud?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=desc&limit=1`)
         .subscribe(res => {
           console.log(res['Data']);
-          if(Object.keys(res['Data']).length==0){
+          if (Object.keys(res['Data']).length == 0) {
             resolve(undefined);
           }
           resolve(res['Data'][0]);
@@ -814,7 +860,7 @@ export class ListService {
         .subscribe(res => {
           console.log((res));
           console.log(res['Data']);
-          if(res['Data'][0]=={}){
+          if (res['Data'][0] == {}) {
             resolve(undefined);
           }
           resolve(res['Data']);
@@ -936,7 +982,7 @@ export class ListService {
     });
   }
 
-    /* ******** DOCUMENTOS SERVICE *********** */
+  /* ******** DOCUMENTOS SERVICE *********** */
 
   /**
    *Busca un documento en especifico de un paquete
@@ -947,19 +993,19 @@ export class ListService {
    */
   findDocumentoBySoporte(idDocumento): Promise<any> {
     return new Promise((resolve, reject) => {
-        this.documentoService.get(`documento?query=Id:${idDocumento}`).subscribe(
-          (result) => {
-            console.log(result);
-            if (Object.keys(result[0]).length !== 0) {
-              resolve(result[0]);
-            }else{
-              resolve([]);
-            }
-          },
-          error => {
-            reject(error);
-          },
-        ); 
+      this.documentoService.get(`documento?query=Id:${idDocumento}`).subscribe(
+        (result) => {
+          console.log(result);
+          if (Object.keys(result[0]).length !== 0) {
+            resolve(result[0]);
+          } else {
+            resolve([]);
+          }
+        },
+        error => {
+          reject(error);
+        },
+      );
     });
   }
 
@@ -984,8 +1030,40 @@ export class ListService {
         reject(err);
       });
     })
+
   }
+
+    /* ***OIRKOS SERVICE ****** */
+    cargarSedesApoyo(): Promise<any[]> {
+      return new Promise((resolve, reject) => {
+        this.oikosService
+          .get(
+            `tipo_uso_espacio_fisico?query=TipoUsoId.Nombre:Apoyo,Activo:true&limit=-1`
+          )
+          .subscribe(
+            (result) => {
+              if(Object.keys(result[0]).length>0){
+                let sedesAcceso=[]
+                for (let i = 0; i < result.length; i++) {
+                  sedesAcceso.push(result[i].EspacioFisicoId);
+                }
+                if(sedesAcceso.length>0){
+                  resolve(sedesAcceso)
+                }else{
+                  reject('No se encontraron sedes para apoyo alimentario')
+                }
+              }
+              reject('No se encontraron sedes para apoyo alimentario')
+            },(error)=> reject(error));
+      });
+    }
+    
+
+
+
 }
+
+
 
 
 

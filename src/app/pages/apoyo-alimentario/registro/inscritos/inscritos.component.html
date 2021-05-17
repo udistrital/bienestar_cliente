@@ -62,8 +62,8 @@
                     <i class="fa fa-university " aria-hidden="true"></i>
                     <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Sede</span>
                 </div>
-                <select class="form-control custom-select input-text-ud" name="sede" [disabled]="sedesAccesso.length === 0" [class.is-invalid]="sede.invalid && sede.touched" [ngModel]="registroBase.sede" nombre="sede" required placeholder="Sede" #sede="ngModel">
-                            <option *ngFor="let sede of sedesAccesso; let i=index;" [value]="i">{{sede.Nombre}}</option>
+                <select class="form-control custom-select input-text-ud" name="sede" [disabled]="sedesAcceso.length === 0" [class.is-invalid]="sede.invalid && sede.touched" [ngModel]="registroBase.sede" nombre="sede" required placeholder="Sede" #sede="ngModel">
+                            <option *ngFor="let sede of sedesAcceso; let i=index;" [value]="i">{{sede.Nombre}}</option>
                         </select>
                 <br>
             </div>
@@ -75,7 +75,7 @@
             <div class="small-ud">
                 <small *ngIf="sede.invalid && sede.touched" class="form-text text-danger mt-n3 mb-2">Tienes que
                             seleccionar un sede</small>
-                <small *ngIf="sedesAccesso.length === 0" class="form-text text-danger mt-n3 mb-2">No hay sedes
+                <small *ngIf="sedesAcceso.length === 0" class="form-text text-danger mt-n3 mb-2">No hay sedes
                             disponibles</small>
             </div>
 

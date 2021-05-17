@@ -31,8 +31,6 @@ import { MiscellaneousModule } from '../miscellaneous/miscellaneous.module';
 
 import { ConsultarComponent } from './registro/consultar/consultar.component';
 import { PeriodosComponent } from './administracion/periodos/periodos.component';
-import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
-import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
@@ -48,6 +46,7 @@ import { ArchivosGenericoModule } from '../../shared/components/archivos-generic
 import { SafePipe } from './pipes/safe.pipe';
 import { CrearSolicitudComponent } from './inscripciones/crear-solicitud/crear-solicitud.component';
 import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
+import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudiante-periodo.component';
 
 @NgModule({
     imports: [
@@ -83,8 +82,6 @@ import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/eva
     InscritosComponent,
     ConsultarComponent,
     PeriodosComponent,
-    ConsultarCodigoComponent,
-    InformacionEstudianteComponent,
     SolicitudTerceroComponent,
     SolicitudesComponent,
     EvaluarSolicitudComponent,
@@ -97,7 +94,8 @@ import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/eva
     CargarDocPbComponent,
     SafePipe,
     CrearSolicitudComponent,
-    EvaluacionMasivaComponent
+    EvaluacionMasivaComponent,
+    EstudiantePeriodoComponent
    ],
   providers: [
 

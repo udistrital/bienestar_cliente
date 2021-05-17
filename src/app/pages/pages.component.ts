@@ -58,7 +58,7 @@ export class PagesComponent implements OnInit {
       console.log(this.roles);
       console.log('-------------');
       if(this.roles.includes("ESTUDIANTE")){
-        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/inscripciones/solicitud');       
+        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/solicitud');       
         this.object   = {
           title: 'Solicitud apoyo alimentario',
           icon:  'file-text',
@@ -115,6 +115,42 @@ export class PagesComponent implements OnInit {
         };
         this.menu.push(this.object)
         console.log('hay un estudiante');
+      }
+
+      if(this.roles.includes("ADMIN_NECESIDADES")){
+
+        let childs= []
+        var child1 = {
+          Url: '${url_apoyo}/informes/diario',
+          Nombre: 'Diario',
+          Opciones: null
+        }; 
+        var child2 = {
+          Url: '${url_apoyo}/informes/estudiante-periodo',
+          Nombre: 'Estudiante',
+          Opciones: null
+        }; 
+        childs.push(child1)
+        childs.push(child2)
+
+        let objMenu= {
+          Url: '',
+          Nombre: 'Informes',
+          Opciones: childs
+        }
+
+        this.mapMenuByObjects([objMenu])
+        
+       /*  this.object   = {
+          title: 'Inscripciones',
+          icon:  'file-text',
+          link:  ``,
+          home:  false,
+          key:   "no se que poner :C",
+          children: this.mapMenuChildrenObject(childs)
+        };
+        this.menu.push(this.object)
+        console.log('hay un estudiante'); */
       }
       
       /* toca activarlo */

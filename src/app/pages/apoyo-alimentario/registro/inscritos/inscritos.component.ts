@@ -24,7 +24,7 @@ import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante
 })
 export class InscritosComponent implements OnInit {
   noBeneficiarios: boolean;
-  sedesAccesso = [];
+  sedesAcceso = [];
   facultadAccesso = [];
   registros = [];
   registroBase = new RegistroInscritoModel();
@@ -35,11 +35,10 @@ export class InscritosComponent implements OnInit {
 
   constructor(
     private oikosService: OikosService,
-    private translate: TranslateService,
     private datePipe: DatePipe,
     private utilsService: UtilService,
     private listService: ListService,
-    private apoyoAlimentarioService: ApoyoAlimentarioService
+    private apoyoAlimentarioService: ApoyoAlimentarioService,
   ) {
     Swal.fire({
       title: "Por favor espere!",
@@ -58,9 +57,10 @@ export class InscritosComponent implements OnInit {
       }
     }).catch((err) => this.utilsService.showSwAlertError("Cargar periodo", err));
 
-    this.cargarSedes()
-      .then(() => {
-        if (this.sedesAccesso != []) {
+    this.listService.cargarSedesApoyo()
+      .then((sedes) => {
+        this.sedesAcceso=sedes
+        if (this.sedesAcceso != []) {
           this.cargarFacultades();
         }
       })
@@ -82,7 +82,7 @@ export class InscritosComponent implements OnInit {
    * @memberof InscritosComponent
    */
   async guardar(form: NgForm) {
-    if (form.invalid || this.sedesAccesso.length === 0) {
+    if (form.invalid || this.sedesAcceso.length === 0) {
       Object.values(form.controls).forEach((control) => {
         control.markAsTouched();
       });
@@ -99,7 +99,7 @@ export class InscritosComponent implements OnInit {
 
 
     this.registroBase.sede = form.value["sede"];
-    this.registro2Base.espacioFisicoId = this.sedesAccesso[form.value["sede"]];
+    this.registro2Base.espacioFisicoId = this.sedesAcceso[form.value["sede"]];
 
     /* Asociamos tercero con el documento */
     const content = Swal.getContent();
@@ -228,23 +228,20 @@ export class InscritosComponent implements OnInit {
     return new Promise((resolve, reject) => {
       /*     resolve(`Registro #${145}`); */
       if (idTercero != null && idTercero > 0) {
-        const idSed = this.sedesAccesso[idSede].Id;
+        const idSed = this.sedesAcceso[idSede].Id;
         let apoyoAlimentario = new ApoyoAlimentario();
         apoyoAlimentario.espacioFisicoId = idSed;
         apoyoAlimentario.periodoId = this.periodo.Id;
         apoyoAlimentario.solicitudId = idSolicitud;
         apoyoAlimentario.terceroId = idTercero;
         apoyoAlimentario.usuarioAdministrador = this.usuarioWSO2;
-        this.apoyoAlimentarioService.get(`registro_apoyo?tercero_id=${idTercero}&sortby=id&order=desc&limit=1`).subscribe((regAnt) => {
-          console.log(regAnt);
+        this.listService.consutarRegitroApoyo(idTercero,null,null,this.periodo.Id,true,1).then((regAnt)=>{
           if (regAnt == null) {
             this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
               .subscribe(res => {
                 resolve(`Registro #${res.id}`);
               }, (error) => reject(error));
           } else {
-            console.log(regAnt[0].fecha_creacion.split('T')[0]);
-            console.log(apoyoAlimentario.fecha_creacion.split(' ')[0]);
             if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
               reject(`ya uso el servicio a las ${regAnt[0].fecha_creacion}`)
             } else {
@@ -254,52 +251,11 @@ export class InscritosComponent implements OnInit {
                 }, (error) => reject(error));
             }
           }
-        });
-
-
+        })
+      
       } else {
         this.utilsService.showSwAlertError('Error al registrar', "No se encontro el usuario que se va a registrar, intente nuevamente")
       }
-    });
-  }
-
-  /**
-   * Carga el espacio fisico que tienen servicio de apoyo(Sedes)
-   *
-   * @return {*}  {Promise<boolean>}
-   * @memberof InscritosComponent
-   */
-  cargarSedes(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.oikosService
-        .get(
-          `tipo_uso_espacio_fisico?query=TipoUsoId.Nombre:Apoyo,Activo:true&limit=-1`
-        )
-        .subscribe(
-          (result) => {
-            for (let i = 0; i < result.length; i++) {
-              this.sedesAccesso.push(result[i].EspacioFisicoId);
-            }
-            if (this.sedesAccesso.length > 0) {
-              resolve(true);
-            } else {
-              reject("Error al cargar las sedes")
-            }
-          },
-          (error: HttpErrorResponse) => {
-            Swal.fire({
-              icon: "error",
-              title: error.status + "",
-              text: this.translate.instant("ERROR." + error.status),
-              footer:
-                this.translate.instant("GLOBAL.cargar") +
-                "-" +
-                this.translate.instant("GLOBAL.info_complementaria"),
-              confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-            });
-            reject(error);
-          }
-        );
     });
   }
 
@@ -309,13 +265,13 @@ export class InscritosComponent implements OnInit {
    * @memberof InscritosComponent
    */
   async cargarFacultades() {
-    for (let i = 0; i < this.sedesAccesso.length; i++) {
+    for (let i = 0; i < this.sedesAcceso.length; i++) {
       this.facultadAccesso.push("");
     }
-    for (let i = 0; i < this.sedesAccesso.length; i++) {
+    for (let i = 0; i < this.sedesAcceso.length; i++) {
       this.oikosService
         .get(
-          `asignacion_espacio_fisico_dependencia?query=EspacioFisicoId.Nombre:${this.sedesAccesso[i].Nombre}&limit=-1`
+          `asignacion_espacio_fisico_dependencia?query=EspacioFisicoId.Nombre:${this.sedesAcceso[i].Nombre}&limit=-1`
         )
         .subscribe((result) => {
           for (let j = 0; j < result.length; j++) {
