@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'registro',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
     },
     children: [
       {
@@ -59,7 +59,7 @@ const routes: Routes = [
     path: 'inscripciones',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
     },
     children: [
       {
@@ -84,7 +84,7 @@ const routes: Routes = [
     path: 'informes',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
     },
     children: [
       {
@@ -112,7 +112,7 @@ const routes: Routes = [
     path: 'administracion',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESITADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
     },
     children: [
       {

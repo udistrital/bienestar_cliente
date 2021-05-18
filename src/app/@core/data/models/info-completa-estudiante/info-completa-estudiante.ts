@@ -22,9 +22,9 @@ export class InfoCompletaEstudiante {
     InfoAcademica: InfoAcademicaEstudiante;
     InfoResidencia: InfoResidenciaEstudiante;
     InfoSocioeconomica: InfoSocioEconomicaEstudiante;
+    InfoPersonasACargo: InfoPersonasACargoEstudiante;
     InfoNecesidades: InfoNecesidadesEstudiante;
     InfoEspecial: InfoEspecialEstudiante;
-    InfoPersonasACargo: InfoPersonasACargoEstudiante;
 
     constructor(){
       this.IdTercero=0;
@@ -40,8 +40,9 @@ export class InfoCompletaEstudiante {
       this.InfoAcademica=new InfoAcademicaEstudiante();
       this.InfoResidencia=new InfoResidenciaEstudiante();
       this.InfoSocioeconomica= new InfoSocioEconomicaEstudiante();
+      this.InfoPersonasACargo = new InfoPersonasACargoEstudiante();
       this.InfoNecesidades= new InfoNecesidadesEstudiante();
       this.InfoEspecial= new InfoEspecialEstudiante();
-      this.InfoPersonasACargo = new InfoPersonasACargoEstudiante();
+      
     }
   }

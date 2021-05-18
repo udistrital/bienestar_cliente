@@ -230,7 +230,10 @@
                                 </div>
                                 <div class="col-md-8">
                                     <!-- required> -->
-                                    <input type="number" nbInput fullWidth formControlName="numeroCreditos" required>
+                                    <input type="number" nbInput fullWidth formControlName="numeroCreditos" pattern="[0-9]{1,}" required>
+                                    <small *ngIf="academica.controls.numeroCreditos.value<0" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
                                 </div>
                             </div>
 
@@ -278,7 +281,13 @@
 
 
                             <div class="row item-list">
-                                <div class="col-md-4">Valor de ingresos mensuales: </div>
+                                <div class="col-md-4">
+                                    Valor de ingresos mensuales:
+                                    <br>
+                                    <small class="small-info-ud">
+                                        Propios o familiares
+                                    </small>
+                                </div>
                                 <div class="col-md-8">
                                     <input fullWidth nbInput formControlName="ingresosMensuales">
                                 </div>
@@ -312,17 +321,6 @@
                                     <input fullWidth nbInput formControlName="conQuienVive">
                                 </div>
                             </div>
-
-                            <!-- <div class="row item-list">
-                                <ngx-combo-generico class="col-12" etiqueta="Estado civil" nombreInput="estadocivil" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.TIPO_ESTADO_CIVIL" campoCodigo="Id"
-                                    campoValor="Nombre" [grupo]="socioeconomica">
-                                </ngx-combo-generico>
-                            </div> -->
-                            <!--  <div class="row item-list">
-                                <ngx-combo-generico class="col-12" etiqueta="Estrato" nombreInput="estrato" [servicio]="inscripcionEstudianteService" metodo="obtenerGrupoInfoComplementaria" [parametros]="APP_CONSTANTS.INFO_COMPLEMENTARIA.ESTRATO" campoCodigo="Id" campoValor="Nombre"
-                                    [grupo]="socioeconomica">
-                                </ngx-combo-generico>
-                            </div> -->
                             <div class="row item-list">
                                 <div class="col-md-4">Tipo colegio: </div>
                                 <div class="col-md-8">
@@ -360,22 +358,10 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="zonaVulnerabilidad" required>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'" [checked]="true" value="true" checked>
+                                        <nb-radio value="true">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'" [checked]="false" value="true">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='false'" [checked]="true" value="false" checked>
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad=='true'" [checked]="false" value="false">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" value="true">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoSocioeconomica.ZonaVulnerabilidad==null" value="false">
+                                        <nb-radio value="false">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -392,33 +378,25 @@
                         <h4 class="non-selectable">Información de personas a cargo</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                        <form [formGroup]="personasacargo">
+                        <form [formGroup]="personasacargo" #f="ngForm">
                             <h4>Evaluar caso Hijos </h4>
                             <br>
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     <label>¿ Tiene personas a cargo ? :
                                         <span class="required-asterisk">*</span>
+                                        <hr>
+                                        <small class="small-info-ud">
+                                            Como estudiante, tiene cónyuge, hijos u otras personas a su cargo
+                                        </small>
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group formControlName="tieneperacargo" required>
-                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" [checked]="true" value=true checked>
+                                    <nb-radio-group formControlName="tieneperacargo" name="tieneperacargo" required>
+                                        <nb-radio value="Si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" [checked]=false value=true>
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoPersonasACargo.TienePersonasACargo" [checked]="true" value=false checked>
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo" [checked]=false value=false>
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo==null" value="true">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoPersonasACargo.TienePersonasACargo==null" value="false">
+                                        <nb-radio value="No">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -426,16 +404,26 @@
                             </div>
 
                             <div class="row item-list">
-                                <div class="col-md-4">Hijos: <span class="required-asterisk">*</span> </div>
+                                <div class="col-md-4">¿ Tiene Hijos ? : <span class="required-asterisk">*</span> </div>
                                 <div class="col-md-8">
-                                    <input fullWidth nbInput formControlName="hijos">
+                                    <nb-radio-group formControlName="hijos" name="hijos" required>
+                                        <nb-radio value="Si">
+                                            Si
+                                        </nb-radio>
+                                        <nb-radio value="No">
+                                            No
+                                        </nb-radio>
+                                    </nb-radio-group>
                                 </div>
                             </div>
 
                             <div class="row item-list">
                                 <div class="col-md-4">Número de Hijos: <span class="required-asterisk">*</span> </div>
                                 <div class="col-md-8">
-                                    <input fullWidth nbInput formControlName="numeroHijos">
+                                    <input type="number" nbInput fullWidth formControlName="numeroHijos" name="numeroHijos" pattern="[0-9]" required>
+                                    <small *ngIf="personasacargo.controls.numeroHijos.value<0" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
                                 </div>
                             </div>
 
@@ -455,7 +443,10 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="menoresEdad" required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresEdad" pattern="[0-9]" required>
+                                    <small *ngIf="personasacargo.controls.menoresEdad.value<0" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
                                 </div>
                             </div>
 
@@ -465,7 +456,10 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="menoresEstudiantes" required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresEstudiantes" pattern="[0-9]" required>
+                                    <small *ngIf="personasacargo.controls.menoresEstudiantes.value<0" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
                                 </div>
                             </div>
 
@@ -475,22 +469,12 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="menoresMatriculados" required>
+                                    <input type="number" nbInput fullWidth formControlName="menoresMatriculados" pattern="[0-9]" required>
+                                    <small *ngIf="personasacargo.controls.menoresMatriculados.value<0" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
                                 </div>
                             </div>
-
-                            <!-- <div class="row item-list">
-                                <div class="col-md-4">opciones</div>
-                                <div class="col-md-8">
-                                    <nb-radio-group>
-                                        <label>Hijos a cargo</label>
-                                        <label>Si el (la) estudiante tiene hijos y ellos dependen económicamente de él
-                                        </label>
-                                        <nb-radio value="si">SI</nb-radio>
-                                        <nb-radio value="no">NO</nb-radio>
-                                    </nb-radio-group>
-                                </div>
-                            </div> -->
                         </form>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
@@ -506,22 +490,16 @@
                                 <div class="col-md-4">¿Tiene sisben?: </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="tieneSisben" id="tieneSisben">
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [checked]="true" value=true checked>
+                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='NO'" value="SI" disabled>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [disabled]="true">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="!estudiante.InfoResidencia.Sisben" [checked]="true" value=false checked>
+                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='NO'" value="NO" checked>
                                             No
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben" [disabled]="true">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben==null" value=true>
+                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='SI'" value="SI" checked>
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoResidencia.Sisben==null" value=false>
+                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='SI'" value="NO" disabled>
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -666,23 +644,10 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="aguasNegras" name="aguasNegras">
-
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'" [checked]="true" value="alcantarillado">
+                                        <nb-radio value="alcantarillado">
                                             Alcantarillado
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='alcantarillado'" [checked]="false" value="poso-septico">
-                                            Poso séptico
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'" [checked]="false" value="alcantarillado">
-                                            Alcantarillado
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras=='poso-septico'" [checked]="true" value="poso-septico">
-                                            Poso séptico
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''" value="alcantarillado">
-                                            Alcantarillado
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoNecesidades.AguasNegras==''" value="poso-septico">
+                                        <nb-radio value="poso-septico">
                                             Poso séptico
                                         </nb-radio>
                                     </nb-radio-group>
@@ -735,23 +700,11 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group formControlName="discapacidad" name="discapacidad">
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="si">
+                                    <nb-radio-group formControlName="discapacidad" name="discapacidad" required>
+                                        <nb-radio value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad==null" value="no">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="true" value="si" checked>
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="false" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='no'" [checked]="true" value="no" checked>
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Discapacidad=='si'" [checked]="false" value="no">
+                                        <nb-radio value="no">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -774,23 +727,11 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group formControlName="patologia" name="patologia">
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==null" value="si">
+                                    <nb-radio-group formControlName="patologia" name="patologia" required>
+                                        <nb-radio value="Si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia==null" value="no">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="true" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="false" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='no'" [checked]="true" value="no">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.Patologia=='si'" [checked]="false" value="no">
+                                        <nb-radio value="No">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -823,6 +764,7 @@
                                 </div>
                             </div>
 
+
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Pertenece al programa ser pilo paga:
@@ -831,22 +773,10 @@
                                 </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="serPiloPaga" name="serPiloPaga">
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='si'" [checked]="true" value="si">
+                                        <nb-radio value="si">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='si'" [checked]="true" value="no">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga=='no'" [checked]="false" value="no">
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="si">
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="estudiante.InfoEspecial.SerPiloPaga==null" value="no">
+                                        <nb-radio value="no">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
@@ -886,6 +816,14 @@
                 </div>
 
             </mat-hint>
+
+            <h6>Preguntas bienestar</h6>
+            <p> Calculo ingresos mensuales </p>
+            <p> Dato obtenido de CONDOR (Valor ingresos mensuales), CRUD? </p>
+            <p> Zona vulnerabilidad, afecta en puntos? </p>
+            <p> Resolucion apartado (Procedencia y lugar de residencia)</p>
+            <p> Información colegio </p>
+            <p> Información Hijos // True or false // Cambiar información desde este Formulario </p>
 
         </nb-card-body>
     </nb-card>

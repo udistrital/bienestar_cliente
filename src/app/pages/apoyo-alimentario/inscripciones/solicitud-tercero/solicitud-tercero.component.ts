@@ -23,7 +23,6 @@ export class SolicitudTerceroComponent implements OnInit {
   solicitud: Solicitud = null;
   periodo: Periodo = null;
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-  listInfoComplementaria: InfoComplementariaTercero[] = [];
   loading: boolean = true;
 
   APP_CONSTANTS = ApiConstanst;

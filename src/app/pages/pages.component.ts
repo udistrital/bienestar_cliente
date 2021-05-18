@@ -61,96 +61,163 @@ export class PagesComponent implements OnInit {
         const urlSIBUD = this.replaceUrlNested('${url_apoyo}/solicitud');       
         this.object   = {
           title: 'Solicitud apoyo alimentario',
-          icon:  'file-text',
+          icon:  'clipboard-outline',
           link:  `${urlSIBUD}`,
           home:  false,
-          key:   "no se que poner",
+          key:   "Solicitud apoyo alimentario",
           children: this.mapMenuChildrenObject(null)
         };
         this.menu.push(this.object)
       }
       if(this.roles.includes("ADMIN_NECESIDADES")){
-        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/registro/diario');   
-        console.log(urlSIBUD);     
+        //const urlSIBUD = this.replaceUrlNested('${url_apoyo}/registro/diario');   
+        //console.log(urlSIBUD);  
+        let childs= []
+        var child1 = {
+          Url: '${url_apoyo}/registro/diario',
+          Nombre: 'Registro Diario',
+          Icon: 'checkmark-circle-outline',
+          Opciones: null,
+        }; 
+        var child2 = {
+          Url: '${url_apoyo}/registro/consultar',
+          Nombre: 'Consultar Registro',
+          Icon: 'book-open-outline',
+          Opciones: null
+        }; 
+
+        childs.push(child1);
+        childs.push(child2);
+           
         this.object   = {
-          title: 'Registro diario',
-          icon:  'calendar-outline',
-          link:  `${urlSIBUD}`,
+          title: 'Registro beneficiarios',
+          icon:  'person-done-outline',
+          link:  ``,
           home:  false,
-          key:   "no se que poner :C",
-          children: this.mapMenuChildrenObject(null)
+          key:   "Registro beneficiarios",
+          children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un estudiante');
+        console.log('hay un admin registro');
       }
 
       if(this.roles.includes("ADMIN_NECESIDADES")){
-        let objMenu= {
+        /* let objMenu= {
           Url: '${url_apoyo}/inscripciones/solicitudes',
           Nombre: 'Listado solicitudes',
           Opciones: null
         }
-        const urlSIBUD = this.replaceUrlNested('');  
+        const urlSIBUD = this.replaceUrlNested('');   */
         let childs= []
-        var child1 = {
+        var child3 = {
           Url: '${url_apoyo}/inscripciones/solicitudes',
           Nombre: 'Listado solicitudes',
+          Icon: 'list-outline',
           Opciones: null
         }; 
-        var child2 = {
+        var child4 = {
           Url: '${url_apoyo}/inscripciones/buscarSolicitud',
-          Nombre: 'Buscar solicitudes',
+          Nombre: 'Buscar solicitud',
+          Icon: 'search-outline',
           Opciones: null
         }; 
-        childs.push(child1)
-        childs.push(child2)
+        var child5 = {
+          Url: '${url_apoyo}/inscripciones/evaluacion-masiva',
+          Nombre: 'Evaluacion masiva',
+          Icon: 'layers-outline',
+          Opciones: null
+        };
+        childs.push(child3)
+        childs.push(child4)
+        childs.push(child5)
         
         this.object   = {
           title: 'Inscripciones',
-          icon:  'file-text',
+          icon:  'person-add-outline',
           link:  ``,
           home:  false,
-          key:   "no se que poner :C",
+          key:   "Inscripciones",
           children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un estudiante');
+        console.log('hay un admin inscripciones');
       }
 
       if(this.roles.includes("ADMIN_NECESIDADES")){
 
         let childs= []
-        var child1 = {
+        var child6 = {
           Url: '${url_apoyo}/informes/diario',
           Nombre: 'Diario',
+          Icon: 'calendar-outline',
           Opciones: null
         }; 
-        var child2 = {
+        var child7 = {
+          Url: '${url_apoyo}/informes/periodo',
+          Nombre: 'Periodo',
+          Icon: 'file-text-outline',
+          Opciones: null
+        }; 
+        var child8 = {
           Url: '${url_apoyo}/informes/estudiante-periodo',
           Nombre: 'Estudiante',
+          Icon: 'people-outline',
           Opciones: null
         }; 
-        childs.push(child1)
-        childs.push(child2)
+        childs.push(child6);
+        childs.push(child7);
+        childs.push(child8);
 
-        let objMenu= {
+        /* let objMenu= {
           Url: '',
           Nombre: 'Informes',
           Opciones: childs
         }
 
-        this.mapMenuByObjects([objMenu])
+        this.mapMenuByObjects([objMenu]) */
         
-       /*  this.object   = {
-          title: 'Inscripciones',
-          icon:  'file-text',
+       this.object   = {
+          title: 'Informes',
+          icon:  'archive-outline',
           link:  ``,
           home:  false,
-          key:   "no se que poner :C",
+          key:   "Informes",
           children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un estudiante'); */
+        console.log('hay un admin informes');
+      }
+
+      if(this.roles.includes("ADMIN_NECESIDADES")){
+
+        let childs= []
+        var child9 = {
+          Url: '${url_apoyo}/administracion/periodos',
+          Nombre: 'Periodos',
+          Icon: 'clock-outline',
+          Opciones: null
+        }; 
+
+        childs.push(child9);
+
+        /* let objMenu= {
+          Url: '',
+          Nombre: 'Informes',
+          Opciones: childs
+        }
+
+        this.mapMenuByObjects([objMenu]) */
+        
+       this.object   = {
+          title: 'Administracion',
+          icon:  'briefcase-outline',
+          link:  ``,
+          home:  false,
+          key:   "Administracion",
+          children: this.mapMenuChildrenObject(childs)
+        };
+        this.menu.push(this.object)
+        console.log('hay un admin');
       }
       
       /* toca activarlo */
@@ -193,7 +260,7 @@ export class PagesComponent implements OnInit {
       const urlNested = this.replaceUrlNested(itemMenu.Url);
       this.object   = {
         title: itemMenu.Nombre,
-        icon:  'file-text',
+        icon:  'file-text-outline',
         link:  `${urlNested}`,
         home:  true,
         key:   itemMenu.Nombre,
@@ -214,7 +281,7 @@ export class PagesComponent implements OnInit {
         const urlNested = this.replaceUrlNested(itemChild.Url);
         this.object = {
           title: itemChild.Nombre,
-          icon:  '',
+          icon:  itemChild.Icon,
           link:  `${urlNested}`,
           home:  false,
           key:   itemChild.Nombre,
