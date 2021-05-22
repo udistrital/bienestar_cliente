@@ -1,0 +1,15 @@
+.home-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+card {
+    width: 22rem;
+    text-align: center;
+}
+
+button {
+    width: 200px;
+    height: 35px;
+}

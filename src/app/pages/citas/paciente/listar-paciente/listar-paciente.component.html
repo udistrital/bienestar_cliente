@@ -1,0 +1,47 @@
+<div class="card text-center">
+  <span class="h3">Consultar paciente</span>
+  <div>
+    <button class="m-auto" mat-button routerLink="../">
+      <mat-icon>keyboard_backspace</mat-icon> Volver
+    </button>
+    <form [formGroup]="miFormulario">
+      <mat-form-field>
+        <mat-label>Código</mat-label>
+        <input matInput placeholder="Código estudiante" type="text" formControlName="codigo" />
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="buscarPaciente()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
+  </div>
+</div>
+<hr />
+<div class="card">
+  <div class="container">
+    <table class="table table-striped" *ngIf="nombre.length > 1">
+      <thead>
+        <tr>
+          <th scope="col">Estado</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Código</th>
+          <th scope="col">Carrera</th>
+          <th scope="col">Teléfono</th>
+          <th scope="col">Historia Clínica</th>
+        </tr>
+      </thead>
+      <tbody>
+        <td>{{ estado }}</td>
+        <td>{{ nombre |titlecase }}</td>
+        <td>{{ codigo }}</td>
+        <td>{{ carrera| titlecase}}</td>
+        <td>{{ telefono }}</td>
+        <td>
+          <button mat-button color="primary" [routerLink]="['/pages/citas/historiaClinica/', codigo]">
+            <mat-icon>assignment_ind</mat-icon>
+            Historia Clínica
+          </button>
+        </td>
+      </tbody>
+    </table>
+  </div>
+</div>

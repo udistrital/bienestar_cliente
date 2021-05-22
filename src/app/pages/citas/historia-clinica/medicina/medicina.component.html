@@ -1,0 +1,426 @@
+<form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
+  <div class="row">
+    <div class="col md-12 me-4 mt-2 mb-4">
+      <div class="form-floating">
+        <textarea class="form-control textArea-big" formControlName="motivoConsulta"
+          placeholder="Motivo de consulta y enfermedad actual" id="motivo"></textarea>
+        <label for="motivo"> Motivo de consulta y enfermedad actual </label>
+      </div>
+    </div>
+    <!-- Antecedentes -->
+    <div class="row me-2">
+      <h6 class="titulo mt-2">Antecedentes</h6>
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="patologicos" placeholder="Patológicos"
+            id="patologicos"></textarea>
+          <label for="patologicos">Patológicos</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="hospitalarios" placeholder="hospitalarios"
+            id="hospitalarios"></textarea>
+          <label for="hospitalarios">Hospitalarios</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="quirurgicos" placeholder="Quirúrgicos"
+            id="quirurgicos"></textarea>
+          <label for="quirurgicos">Quirúrgicos</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="traumaticos" placeholder="Traumáticos"
+            id="traumaticos"></textarea>
+          <label for="traumaticos">Traumáticos</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="genitoUrinarios" placeholder="Genito/Urinarios"
+            id="genitoUrinarios"></textarea>
+          <label for="genitoUrinarios">Genito/Urinarios</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="alergicos" placeholder="Alérgicos"
+            id="alergicos"></textarea>
+          <label for="alergicos">Alérgicos</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="farmacologicos" placeholder="Farmacológicos"
+            id="farmacologicos"></textarea>
+          <label for="farmacologicos">Farmacológicos</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="familiares" placeholder="Familiares"
+            id="familiares"></textarea>
+          <label for="familiares">Familiares</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2  mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="ocupacionales" placeholder="Ocupacionales"
+            id="ocupacionales"></textarea>
+          <label for="ocupacionales">Ocupacionales</label>
+        </div>
+      </div>
+    </div>
+    <!-- Gineco Obstétricos -->
+    <h6 class="titulo mt-2">Gineco-Obstétricos</h6>
+    <div class="row">
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="menarquia" class="form-label">Menarquía</label>
+        <input type="text" class="form-control" id="menarquia" formControlName="menarquia" />
+      </div>
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="fur" class="form-label">FUR</label>
+        <input type="text" class="form-control" id="fur" formControlName="fur" />
+      </div>
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="ciclos" class="form-label">Ciclos</label>
+        <input type="text" class="form-control" id="ciclos" formControlName="ciclos" />
+      </div>
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="ias" class="form-label">Inicio A.S.</label>
+        <input type="text" class="form-control" id="ias" formControlName="ias" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-3 mb-3 me-4 mt-2">
+        <label for="compañeros" class="form-label">Compañeros Sexuales</label>
+        <input type="text" class="form-control" id="compañeros" formControlName="compañeros" />
+      </div>
+      <div class="col md- mb-3 me-4 mt-2">
+        <label for="fo" class="form-label">FO:G</label>
+        <input type="text" class="form-control" id="fo" formControlName="fo" />
+      </div>
+      <div class="col md- mb-3 me-4 mt-2">
+        <label for="pp" class="form-label">PP</label>
+        <input type="text" class="form-control" id="pp" formControlName="pp" />
+      </div>
+      <div class="col md- mb-3 me-4 mt-2">
+        <label for="fup" class="form-label">FUP</label>
+        <input type="text" class="form-control" id="fup" formControlName="fup" />
+      </div>
+    </div>
+    <div class="row me-4">
+      <div class="col mb-3 me-4 mb-4">
+        <label for="example-date-input" class="col col-form-label">Fecha última CCV</label>
+        <input class="form-control" formControlName="fuccv" type="date" value="2020-04-14" id="example-date-input">
+        <label for="resultadoccv" class="form-label">Resultado</label>
+        <input type="text" class="form-control" id="resultadoccv" formControlName="resultadoccv" />
+      </div>
+      <div class="col mb-3 me-4 mb-4">
+        <label for="example-date-input" class="col col-form-label">Examen de Seno</label>
+        <input class="form-control" formControlName="examenSeno" type="date" value="2020-04-14" id="example-date-input">
+        <label for="resultadoSeno" class="form-label">Resultado</label>
+        <input type="text" class="form-control" id="resultadoSeno" formControlName="resultadoSeno" />
+      </div>
+    </div>
+    <h6 class="titulo">Revisión por Sistemas</h6>
+    <div class="row">
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="piel" placeholder="Piel" id="piel"></textarea>
+          <label for="piel">Piel</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="colageno" placeholder="Colágeno"
+            id="colageno"></textarea>
+          <label for="colageno"> Colágeno</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="linfatico" placeholder="Linfático"
+            id="linfatico"></textarea>
+          <label for="linfatico">Linfático</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="oseo" placeholder="Óseo" id="oseo"></textarea>
+          <label for="oseo"> Óseo</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="muscular" placeholder="Muscular"
+            id="muscular"></textarea>
+          <label for="muscular"> Muscular</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="articular" placeholder="Articular"
+            id="articular"></textarea>
+          <label for="articular"> Articular</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="digestivo" placeholder="Digestivo"
+            id="digestivo"></textarea>
+          <label for="digestivo"> Digestivo</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="urinario" placeholder="Urinario"
+            id="urinario"></textarea>
+          <label for="urinario"> Urinario</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="sentidos" placeholder="Sentidos"
+            id="sentidos"></textarea>
+          <label for="sentidos">Sentidos</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="cardioVascular" placeholder="Cardio Vascular"
+            id="cardioVascular"></textarea>
+          <label for="cardioVascular"> Cardio Vascular</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="neurologico" placeholder="Neurológico"
+            id="neurologico"></textarea>
+          <label for="neurologico"> Neurológico</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-mid" formControlName="respiratorio" placeholder="Respiratorio"
+            id="respiratorio"></textarea>
+          <label for="respiratorio"> Respiratorio </label>
+        </div>
+      </div>
+    </div>
+    <!-- Exámenes médicos -->
+    <h6 class="titulo">Exámenes de laboratorio y pruebas diagnósticas</h6>
+    <div class="col md-6 me-4 mb-4 mt-4">
+      <div class="form-floating">
+        <textarea class="form-control textArea-big" formControlName="examenes"
+          placeholder="Exámenes de laboratorio y pruebas diagnósticas" id="examenes"></textarea>
+        <label for="examenes">
+          Exámenes de laboratorio y pruebas diagnósticas</label>
+      </div>
+    </div>
+    <!-- Examen médico -->
+    <h6 class="titulo">Examen médico</h6>
+    <div class="row">
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="ta" class="form-label">T.A</label>
+        <input type="text" class="form-control" id="ta" formControlName="ta" />
+      </div>
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="fc" class="form-label">FC</label>
+        <input type="text" class="form-control" id="fc" formControlName="fc" />
+      </div>
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="sao2" class="form-label">SaO2</label>
+        <input type="text" class="form-control" id="sao2" formControlName="sao2" />
+      </div>
+      <div class="col md-3 mb-3 me-4 mt-4">
+        <label for="imc" class="form-label">IMC</label>
+        <input type="text" class="form-control" id="imc" formControlName="imc" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-3 mb-3 me-4 mt-2">
+        <label for="fr" class="form-label">F.R</label>
+        <input type="text" class="form-control" id="fr" formControlName="fr" />
+      </div>
+      <div class="col md- mb-3 me-4 mt-2">
+        <label for="tc" class="form-label">T°C</label>
+        <input type="text" class="form-control" id="tc" formControlName="tc" />
+      </div>
+      <div class="col md- mb-3 me-4 mt-2">
+        <label for="peso" class="form-label">Peso</label>
+        <input type="text" class="form-control" id="peso" formControlName="peso" />
+      </div>
+      <div class="col md- mb-3 me-4 mt-2">
+        <label for="talla" class="form-label">Talla</label>
+        <input type="text" class="form-control" id="talla" formControlName="talla" />
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col md-6 me-4 mb-4">
+        <label for="estadoGeneral" class="form-label">EstadoGeneral</label>
+        <input type="text" class="form-control" id="estadoGeneral" formControlName="estadoGeneral" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="cabezaYCuello" class="form-label">Cabeza y Cuello</label>
+        <input type="text" class="form-control" id="cabezaYCuello" formControlName="cabezaYCuello" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="orl" class="form-label">O.R.L</label>
+        <input type="text" class="form-control" id="orl" formControlName="orl" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="ojos" class="form-label">Ojos</label>
+        <input type="text" class="form-control" id="ojos" formControlName="ojos" />
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col md-6 me-4 mb-4">
+        <label for="torax" class="form-label">Tórax</label>
+        <input type="text" class="form-control" id="torax" formControlName="torax" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="ruidosRespiratorios" class="form-label">Ruidos Respiratorios</label>
+        <input type="text" class="form-control" id="ruidosRespiratorios" formControlName="ruidosRespiratorios" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="ruidosCardiacos" class="form-label">Ruidos Cardíacos</label>
+        <input type="text" class="form-control" id="ruidosCardiacos" formControlName="ruidosCardiacos" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="abdomen" class="form-label">Abdomen</label>
+        <input type="text" class="form-control" id="abdomen" formControlName="abdomen" />
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col md-6 me-4 mb-4">
+        <label for="neurologicoE" class="form-label">Neurológico</label>
+        <input type="text" class="form-control" id="neurologicoE" formControlName="neurologicoE" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="genital" class="form-label">Genital</label>
+        <input type="text" class="form-control" id="genital" formControlName="genital" />
+      </div>
+      <div class="col md-6 me-4 mb-4">
+        <label for="extremidades" class="form-label">Extremidades</label>
+        <input type="text" class="form-control" id="extremidades" formControlName="extremidades" />
+      </div>
+    </div>
+    <h6 class="titulo">Impresión Diagnóstica</h6>
+    <div class="row">
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-sm" formControlName="id1" placeholder="1" id="id1"></textarea>
+          <label for="id1"> 1</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-sm" formControlName="id2" placeholder="2" id="id2"></textarea>
+          <label for="id2"> 2</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-sm" formControlName="id3" placeholder="3" id="id3"></textarea>
+          <label for="id3"> 3</label>
+        </div>
+      </div>
+      <div class="col md-6 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-sm" formControlName="id4" placeholder="4" id="id4"></textarea>
+          <label for="id4"> 4</label>
+        </div>
+      </div>
+    </div>
+    <!-- Análisis -->
+    <h6 class="titulo">Análisis y plan de manejo</h6>
+    <div class="row mt-2">
+      <div class="col md-6 me-4 mt-4 mb-4">
+        <div class="input-group">
+          <input type="text" class="form-control" (keyup.enter)="agregarAnalisis()" name="nuevoAnalisis"
+            placeholder="Agregar" [formControl]="nuevoAnalisis" />
+          <button class="btn btn-outline-primary" type="button" (click)="agregarAnalisis()">
+            Agregar
+          </button>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col md-6 me-4 mb-4" formArrayName="analisis">
+          <div class="input-group mb-1" *ngFor="let analisis of analisisArr.controls; let i = index">
+            <input class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" />
+            <button class="btn btn-outline-danger" type="button" (click)="borrarAnalisis(i)">
+              Borrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Evolución -->
+    <h6 class="titulo">Evolución</h6>
+    <div class="row mt-2">
+      <div class="col md-6 me-4 mb-4 mt-4">
+        <div class="input-group">
+          <input type="text" class="form-control" (keyup.enter)="agregarEvolucion()" name="nuevaEvolucion"
+            placeholder="Agregar" [formControl]="nuevaEvolucion" />
+          <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()">
+            Agregar
+          </button>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col md-6 me-4 mb-4" formArrayName="evolucion">
+          <div class="input-group mb-1" *ngFor="let evolucion of evolucionArr.controls; let i = index">
+            <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" />
+            <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)">
+              Borrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h6 class="titulo">Plan de Manejo</h6>
+    <div class="row mt-4">
+      <div class="col md-12 me-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-big" formControlName="planDeManejo" placeholder="Plan de Manejo"
+            id="planDeManejo"></textarea>
+          <label for="planDeManejo"> Plan de Manejo</label>
+        </div>
+      </div>
+    </div>
+    <h6 class="titulo mt-4">Observaciones</h6>
+    <div class="row mt-4">
+      <div class="col md-12 me-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-big" formControlName="observacionesMedicina"
+            placeholder="Observaciones" id="observacionesMedicina"></textarea>
+          <label for="observacionesMedicina">Observaciones</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col titulo">
+      <label><strong>Realizó: </strong>{{ pruebaEspecialista.nombre | ngxCapitalize }}</label>
+      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button [disabled]="!medicinaForm.valid">
+        <mat-icon>save</mat-icon> Guardar
+      </button>
+    </div>
+  </div>
+</form>

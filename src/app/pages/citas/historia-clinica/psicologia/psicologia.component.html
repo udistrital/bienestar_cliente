@@ -1,0 +1,244 @@
+<form [formGroup]="psicologiaForm" (ngSubmit)="guardarHistoriaPsicologia()">
+    <h5 class="titulo mb-4 mt-4">Psicología</h5>
+    <hr />
+    <h6 class="titulo mt-2">Composición Familiar</h6>
+    <div class="col md-12 mb-4 me-4 mt-4">
+        <div class="form-floating">
+            <textarea class="form-control textArea-sm" formControlName="viveCon"
+                placeholder="¿Actualmente con quién vive?" id="viveCon"></textarea>
+            <label for="viveCon">¿Actualmente con quién vive?</label>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Límites</h6>
+    <div class="row">
+        <div class="col md-6 me-4 mt-4 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="difusos" placeholder="Difusos"
+                    id="difusos"></textarea>
+                <label for="difusos">Difusos</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="claros" placeholder="Claros"
+                    id="claros"></textarea>
+                <label for="claros">Claros</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="rigidos" placeholder="Rígidos"
+                    id="rigidos"></textarea>
+                <label for="rigidos">Rígidos</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Antecedentes Familiares</h6>
+    <div class="row">
+        <div class="col md-6 me-4 mt-4 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="actualesFamiliares"
+                    placeholder="Actuales somáticos y/o psíquicos" id="actualesFamiliares"></textarea>
+                <label for="actualesFamiliares">Actuales somáticos y/o psíquicos</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="pasadosFamiliares"
+                    placeholder="Pasados somáticos y/o psíquicos" id="pasadosFamiliares"></textarea>
+                <label for="pasadosFamiliares">Pasados somáticos y/o psíquicos</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Antecedentes Personales</h6>
+    <div class="row">
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="actualesPersonales"
+                    placeholder="Actuales somáticos y/o psíquicos" id="actualesPersonales"></textarea>
+                <label for="actualesPersonales">Actuales somáticos y/o psíquicos</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="pasadosPersonales"
+                    placeholder="Pasados somáticos y/o psíquicos" id="pasadosPersonales"></textarea>
+                <label for="pasadosPersonales">Pasados somáticos y/o psíquicos</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Valoración relaciones Interpersonales</h6>
+    <div class="row">
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="figurasDeAutoridad"
+                    placeholder="Figuras de Autoridad" id="figurasDeAutoridad"></textarea>
+                <label for="figurasDeAutoridad">Figuras de Autoridad</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="pares" placeholder="Pares"
+                    id="pares"></textarea>
+                <label for="pares">Pares</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="pareja" placeholder="Pareja"
+                    id="pareja"></textarea>
+                <label for="pareja">Pareja</label>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col md-4 me-4 mt-2 mb-2 float-right">
+            <label class="me-2">¿Tiene relaciones sexuales en la actualidad? </label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="relacionesSexuales" id="si" value="Si" />
+                <label class="form-check-label">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="relacionesSexuales" id="no" value="No" />
+                <label class="form-check-label">No</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col md-6 me-4 mt-2 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="satisfaccion" placeholder="Satisfacción"
+                    id="satisfaccion"></textarea>
+                <label for="satisfaccion">Satisfacción</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="metodoProteccion"
+                    placeholder="Método de Protección" id="metodoProteccion"></textarea>
+                <label for="metodoProteccion">Método de Protección</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="orientacionSexual"
+                    placeholder="Orientación Sexual" id="orientacionSexual"></textarea>
+                <label for="orientacionSexual">Orientación Sexual</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Valoración relaciones Interpersonales</h6>
+    <div class="row">
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="economicos" placeholder="Económicos"
+                    id="economicos"></textarea>
+                <label for="economicos">Económicos</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="judiciales" placeholder="Judiciales"
+                    id="judiciales"></textarea>
+                <label for="judiciales">Judiciales</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="drogas" placeholder="Drogas"
+                    id="drogas"></textarea>
+                <label for="drogas">Drogas</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col md-6 me-4 mt-2 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="motivoConsultaPsico"
+                    placeholder="motivoConsultaPsico" id="Motivo de Consulta"></textarea>
+                <label for="motivoConsultaPsico">Motivo de Consulta</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="problematicaActual"
+                    placeholder="Descripción de la problemática actual" id="Problemática Actual"></textarea>
+                <label for="problematicaActual">Descripción de la problemática actual</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="estiloAfrontamiento"
+                    placeholder="estiloAfrontamiento" id="Estilo deAfrontamiento"></textarea>
+                <label for="estiloAfrontamiento">Estilo de Afrontamiento</label>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col md-6 me-4 mt-2 mb-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="comportamientoDuranteConsulta"
+                    placeholder="Comportamiento durante la Consulta" id="comportamientoDuranteConsulta"></textarea>
+                <label for="comportamientoDuranteConsulta">Comportamiento durante la Consulta</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Se evidencian problemas</h6>
+    <div class="row">
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="hipotesis" placeholder="hipotesis"
+                    id="hipotesis"></textarea>
+                <label for="hipotesis">Hipótesis</label>
+            </div>
+        </div>
+        <div class="col md-6 me-4 mt-4 mb-2">
+            <div class="form-floating">
+                <textarea class="form-control textArea-mid" formControlName="acuerdos" placeholder="acuerdos"
+                    id="acuerdos"></textarea>
+                <label for="acuerdos">Acuerdos</label>
+            </div>
+        </div>
+    </div>
+    <h6 class="titulo mt-2">Evolución</h6>
+    <div class="row mt-4 mb-4">
+        <div class="col md-6 me-4 mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" (keyup.enter)="agregarEvolucionPsico()"
+                    name="nuevaEvolucionPsico" placeholder="Agregar" [formControl]="nuevaEvolucionPsico" />
+                <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionPsico()">
+                    Agregar
+                </button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col md-6 me-4 mb-4" formArrayName="evolucionPsico">
+                <div class="input-group mb-1" *ngFor="let evolucion of evolucionPsicoArr.controls; let i = index">
+                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" />
+                    <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)">
+                        Borrar
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h6 class="titulo mt-4">Observaciones</h6>
+        <div class="row mt-4">
+          <div class="col md-12 me-4">
+            <div class="form-floating">
+              <textarea class="form-control textArea-big" formControlName="observacionesPsicologia" placeholder="Observaciones"
+                id="observacionesPsicologia"></textarea>
+              <label for="observacionesPsicologia"> Observaciones</label>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col titulo">
+            <label><strong>Realizó: </strong>{{ pruebaEspecialista.nombre | ngxCapitalize }}</label>
+            <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
+                [disabled]="!psicologiaForm.valid">
+                <mat-icon>save</mat-icon> Guardar
+            </button>
+        </div>
+    </div>
+</form>
