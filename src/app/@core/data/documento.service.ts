@@ -12,25 +12,28 @@ const httpOptions = {
     }),
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DocumentoService {
     constructor(private requestManager: RequestManager) {
         this.requestManager.setPath('DOCUMENTO_SERVICE');
-      }
-      get(endpoint) {
-        this.requestManager.setPath('DOCUMENTO_SERVICE');
-        return this.requestManager.get(endpoint);
-      }
-      post(endpoint, element) {
-        this.requestManager.setPath('DOCUMENTO_SERVICE');
-        return this.requestManager.post(endpoint, element);
-      }
-      put(endpoint, element, id) {
-        this.requestManager.setPath('DOCUMENTO_SERVICE');
-        return this.requestManager.put(endpoint, element, id);
-      }
-      delete(endpoint, element) {
-        this.requestManager.setPath('DOCUMENTO_SERVICE');
-        return this.requestManager.delete(endpoint, element.Id);
-      }
     }
+
+    get(endpoint) {
+      this.requestManager.setPath('DOCUMENTO_SERVICE');
+      return this.requestManager.get(endpoint);
+    }
+    post(endpoint, element) {
+      this.requestManager.setPath('DOCUMENTO_SERVICE');
+      return this.requestManager.post(endpoint, element);
+    }
+    put(endpoint, element, id) {
+      this.requestManager.setPath('DOCUMENTO_SERVICE');
+      return this.requestManager.put(endpoint, element, id);
+    }
+    delete(endpoint, element) {
+      this.requestManager.setPath('DOCUMENTO_SERVICE');
+      return this.requestManager.delete(endpoint, element.Id);
+    }
+}

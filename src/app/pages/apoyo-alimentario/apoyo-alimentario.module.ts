@@ -31,8 +31,6 @@ import { MiscellaneousModule } from '../miscellaneous/miscellaneous.module';
 
 import { ConsultarComponent } from './registro/consultar/consultar.component';
 import { PeriodosComponent } from './administracion/periodos/periodos.component';
-import { ConsultarCodigoComponent } from './administracion/consultar-codigo/consultar-codigo.component';
-import { InformacionEstudianteComponent } from './administracion/informacion-estudiante/informacion-estudiante.component';
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
@@ -43,6 +41,12 @@ import { InformeDiarioComponent } from './informes/informe-diario/informe-diario
 import { NgxPaginationModule} from 'ngx-pagination';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
 import { FechaFormatPipe } from './pipes/fecha-format.pipe';
+import { CargarDocPbComponent } from './inscripciones/cargar-doc-pb/cargar-doc-pb.component';
+import { ArchivosGenericoModule } from '../../shared/components/archivos-generico/archivos-generico.module';
+import { SafePipe } from './pipes/safe.pipe';
+import { CrearSolicitudComponent } from './inscripciones/crear-solicitud/crear-solicitud.component';
+import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
+import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudiante-periodo.component';
 
 @NgModule({
     imports: [
@@ -70,15 +74,14 @@ import { FechaFormatPipe } from './pipes/fecha-format.pipe';
         NbAccordionModule,
         ComboGenericoModule,
         RadioSelectGenericoModule,
-        NbBadgeModule
+        NbBadgeModule,
+        ArchivosGenericoModule
     ],
   declarations: [ 
     ApoyoAlimentarioComponent,
     InscritosComponent,
     ConsultarComponent,
     PeriodosComponent,
-    ConsultarCodigoComponent,
-    InformacionEstudianteComponent,
     SolicitudTerceroComponent,
     SolicitudesComponent,
     EvaluarSolicitudComponent,
@@ -88,6 +91,11 @@ import { FechaFormatPipe } from './pipes/fecha-format.pipe';
     InformeDiarioComponent,
     BuscarSolicitudComponent,
     FechaFormatPipe,
+    CargarDocPbComponent,
+    SafePipe,
+    CrearSolicitudComponent,
+    EvaluacionMasivaComponent,
+    EstudiantePeriodoComponent
    ],
   providers: [
 

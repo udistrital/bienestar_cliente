@@ -1,13 +1,13 @@
 export class InfoPersonasACargoEstudiante {
-    TienePersonasACargo: boolean;
-    Hijos: number;
+    TienePersonasACargo: string;
+    Hijos: string;
     NumeroHijos: number;
     MenoresEdad: number;
     MenoresEstudiantes: number;
     MenoresMatriculados: number;
     constructor() {
-        this.TienePersonasACargo= false;
-        this.Hijos= 0;
+        this.TienePersonasACargo= null;
+        this.Hijos= null;
         this.NumeroHijos= 0;
         this.MenoresEdad= 0;
         this.MenoresEstudiantes= 0;

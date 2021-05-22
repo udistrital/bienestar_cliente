@@ -8,21 +8,30 @@
             <h4>Registro diario</h4>
             <button mat-raised-button color="primary" (click)="navigateRegistroDiario()">Registrar</button><br> <br>
             <button mat-raised-button color="primary" (click)="navigateConsultar()">Consultar</button><br> <br>
+
+            <h4>Crear Solicitud estudiante</h4>
+            <button mat-raised-button color="primary" (click)="navigateSolicitudTercero()">Crear solicitud</button>
+            <br>
+            <br>
+
             <h4>Inscripciones</h4>
-            <button mat-raised-button color="primary" (click)="navigateSolicitudes()">Solicitudes</button><br> <br>
-            <button mat-raised-button color="primary" (click)="navigateSolicitudTercero()">Crear solicitud</button><br> <br>
-            <button mat-raised-button color="primary" (click)="navigateBuscarSolicitud()">Buscar solicitud</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateSolicitudes()">Solicitudes</button><br> 
+            <br>
+            <button mat-raised-button color="primary" (click)="navigateBuscarSolicitud()">Buscar solicitud</button><br>
+            <br>
+            <button mat-raised-button color="primary" (click)="navigateEvaluacionMasiva()">Evaluacion
+                masiva</button><br> <br>
             <h4>Asistencia</h4>
-            <button mat-raised-button color="primary" (click)="navigateConsultarFallas()">Consultar fallas</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateConsultarFallas()">Consultar fallas</button><br>
+            <br>
             <button mat-raised-button color="primary" (click)="navigateSanciones()">Sanciones</button><br> <br>
-            <button mat-raised-button color="primary" (click)="navigateFallasJustificadas()">Fallas justificadas</button><br> <br>
+            <button mat-raised-button color="primary" (click)="navigateFallasJustificadas()">Fallas
+                justificadas</button><br> <br>
             <h4>Informes</h4>
             <button mat-raised-button color="primary" (click)="navigateInformeDiario()">Diario</button><br> <br>
             <button mat-raised-button color="primary" (click)="navigateInformePeriodo()">Periodo</button><br> <br>
             <h4>Administracion</h4>
             <button mat-raised-button color="primary" (click)="navigatePeriodos()">Periodos</button><br> <br>
-            <button mat-raised-button color="primary" (click)="navigateCargarInscripciones()">Cargar inscripciones</button><br> <br>
-            <button mat-raised-button color="primary" (click)="navigateConsultaCodigo()">Consultar por codigo</button><br> <br>
         </mat-card-content>
     </mat-card>
 </div>

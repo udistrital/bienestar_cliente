@@ -1,0 +1,226 @@
+<!-- Buscador de solicitudes -->
+<div *ngIf="!evaluacion && solicitudesExt.length==0">
+    <button class="btn back-button btn-block" routerLink="../../">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center pt-2">
+                <div class="menu-header">
+                    <h1>
+                        Buscar solicitudes
+                    </h1>
+                </div>
+                <small class="small-info-ud">
+                    Se buscaran todas las solicitudes según el estado y el periodo para una evaluación masiva. 
+                </small>
+            </div>
+        </nb-card-header>
+
+        <nb-card-body>
+            <div class="row">
+                <div class="col">
+                    <form (ngSubmit)="buscar( f )" #f="ngForm">
+
+                        <div class="form-group input-group">
+                            <div class="label-color-ud input-group-prepend input-group-text">
+                                <i class="fa fa-history " aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
+                            </div>
+
+                            <select class="form-control custom-select input-text-ud" name="periodo" [(ngModel)]="periodo" [disabled]="periodos.length === 0" [class.is-invalid]="periodo.invalid && periodo.touched" required placeholder="Periodos academicos" #periodoM="ngModel">
+                                <option *ngFor="let periodo of periodos; let i=index;" [value]="i">{{periodo.Nombre}}
+                                </option>
+                            </select>
+                            <br>
+                        </div>
+
+                        <div class="form-group input-group">
+                            <div class="label-color-ud input-group-prepend input-group-text">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                                    Estado 
+                                    <br>
+                                    solicitud
+                                </span>
+                            </div>
+
+                            <select class="form-control custom-select input-text-ud mt-2 mt-0" name="estadoTipo" [(ngModel)]="estadoTipo" [disabled]="estadosTipoSolicitud.length === 0" [class.is-invalid]="estadoTipo.invalid && estadoTipo.touched" required placeholder="Estados de la solicitd"
+                                #estadoTipoM="ngModel">
+                                <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [value]="i">
+                                    {{estadoTipo.EstadoId.Nombre}}
+                                </option>
+                            </select>
+                            <br>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button">
+                                <i class="fas fa-search mr-1"></i>
+                                Buscar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>
+
+<div *ngIf="!evaluacion && solicitudesExt.length>0">
+    <button class="btn back-button btn-block" (click)="solicitudesExt=[]">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <!-- Listado de solicitudes -->
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center pt-2">
+                <div class="menu-header">
+                    <h1>
+                        Listado solicitudes
+                    </h1>
+                </div>
+            </div>
+        </nb-card-header>
+        <hr>
+        <nb-card-body>
+            <div class="content">
+                <div class="menu-list text-left ml-3">
+                    <div class="item">
+                        <label class="label-color-ud sub-item">
+                            <i class="fa fa-clipboard-list " aria-hidden="true"></i>
+                            Número solicitudes
+                        </label>
+                        <label class="sub-item big-text">{{solicitudesExt.length}}</label>
+                        <br>
+                    </div>
+                    <div class="item">
+                        <label class="sub-item label-color-ud ">
+                            <i class="fa fa-tasks mr-1" aria-hidden="true"></i>
+                            Seleccionadas
+                        </label>
+                        <label class="big-text">{{this.numSeleccionado}}</label>
+                        <br>
+                    </div>
+                </div>
+                <hr>
+                <div class="menu-button">
+                    <button nbButton hero shape="semi-round" status="info" (click)="seleccionMasiva()" class="submit-button">
+                        <i class="fa fa-check-double mr-1" aria-hidden="true"></i>
+                        Seleccion masiva
+                    </button>
+                    <button nbButton hero shape="semi-round" status="warning" (click)="empezarEvaluacion()" class="submit-button boton">
+                        <i class="fas fa-forward mr-1"></i>
+                        Evaluar solicitudes Seleccionadas
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <table *ngIf="solicitudesExt.length>0" class="table">
+                <thead class="bg-ud-table">
+                    <tr>
+                        <th scope="col">
+                            <mat-checkbox class="example-margin" [checked]="allSelect" [indeterminate]="someComplete()" (change)="setAll($event.checked)">
+                                #
+                            </mat-checkbox>
+                        </th>
+                        <th scope="col">Periodo</th>
+                        <th scope="col">Puntaje</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Fecha radicacion</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-ud-table-cell">
+                    <tr *ngFor="let item of solicitudesExt; let i = index">
+
+                        <td scope="row">
+                            <mat-checkbox [(ngModel)]="item.Seleccionado" (ngModelChange)="updateAllComplete()">
+                                {{ item.Solicitud.Id }}
+                            </mat-checkbox>
+                        </td>
+                        <td>{{ item.Periodo }}</td>
+                        <td>{{ item.Puntaje }}</td>
+                        <td>{{ item.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
+                        <td>{{ item.Solicitud.FechaRadicacion | fechaFormat: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="empezarEvaluacion()" class="submit-button btn-table">
+                    <i class="fas fa-forward mr-1"></i>
+                    Evaluar solicitudes Seleccionadas
+                </button>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>
+
+
+<!-- Listado de solicitudes -->
+<div *ngIf="evaluacion">
+    <button class="btn back-button btn-block" (click)="evaluacion=false">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center pt-2">
+                <div class="menu-header">
+                    <h1>
+                        Evaluacion masiva para {{numSeleccionado}} solicitudes
+                    </h1>
+                </div>
+            </div>
+        </nb-card-header>
+        <nb-card-body>
+            <div class="menu-list">
+                <div class="item ">
+
+                    <label class="sub-item label-color-ud">
+                        Estado actual :
+                    </label>
+                    <label ng-readonly="!nueva" class="sub-item ">
+                        {{estadosTipoSolicitud[estadoTipo].EstadoId.Nombre}}
+                    </label>
+
+                </div>
+                <div class="item">
+                    <hr>
+                    <h6>Cambiar estado</h6>
+                    <br>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Nuevo estado :
+                    </label>
+
+                    <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                        <option [ngValue]="null">Selecciona el siguiente estado</option>
+                        <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                            {{estadoTipo.EstadoId.Nombre }}</option>
+                    </select>
+                    <br>
+
+                </div>
+                <br>
+                <div *ngIf="nuevoEstado!=null" class="item mt-3">
+                    <label class="sub-item label-color-ud">
+                        Observacion cambio de estado:
+                    </label>
+                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                    <i class="fas fa-save mr-1"></i>
+                    Guardar
+                </button>
+            </div>
+        </nb-card-body>
+
+    </nb-card>
+
+</div>

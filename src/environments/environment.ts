@@ -14,7 +14,8 @@ export const environment = {
         },
       },
     CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
-    APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/sintomas_crud/v1/",
+    CLIENTE_APOYO: 'apoyo-alimentario',
+    APOYO_ALIMENTARIO: "http://localhost:8080/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
     UBICACIONES: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/ubicaciones_crud/v1/ ',
     CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
@@ -53,6 +54,10 @@ export const environment = {
         IDSERVICIOAPOYO: 348,
         IDCIERREPERIODO: 356,
         IDSOLICITUDRADICADA: 23,
+        IDSOLICITUDACEPTADA: 28,
+        IDSOLICITUDNOACEPTADA: 29,
+        IDSOLICITUDPREPARADA: 30,
+
     },
 
     NUXEO_2020:'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1/',

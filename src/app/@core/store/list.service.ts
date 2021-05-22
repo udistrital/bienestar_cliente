@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { IAppState } from './app.state';
 import { REDUCER_LIST } from './reducer.constants';
 import { ParametrosService } from '../data/parametros.service';
@@ -28,13 +28,21 @@ import { InfoComplementaria } from '../data/models/terceros/info_complementaria'
 import { UbicacionesService } from '../data/ubicaciones.service';
 import { Lugar } from '../data/models/lugar/lugar';
 import { UtilService } from '../../shared/services/utilService';
+import { Paquete } from '../data/models/solicitud/paquete';
+import { PaqueteSolicitud } from '../data/models/solicitud/paquete-solicitud';
+import { SoportePaquete } from '../data/models/solicitud/soporte-paquete';
+import { DocumentoService } from '../data/documento.service';
+
 
 @Injectable()
 
 export class ListService {
 
+  @Output() disparadorDeDocumentos: EventEmitter<any> = new EventEmitter();
+
   constructor(
     private parametrosService: ParametrosService,
+    private documentoService: DocumentoService,
     private solicitudService: SolicitudService,
     private tercerosService: TercerosService,
     private oikosService: OikosService,
@@ -54,14 +62,16 @@ export class ListService {
    */
   findApoyoAlimentario(): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
-      this.apoyoAlimentarioService.get(`sintomas`)
+      this.apoyoAlimentarioService.get(`registro_apoyo`)
         .subscribe(
           (result: any[]) => {
-            if (Object.keys(result['Data'][0]).length > 0) {
+            console.log(result);
+            resolve(result)
+            /* if (Object.keys(result['Data'][0]).length > 0) {
               resolve(result['Data']);
             } else {
               resolve([]);
-            }
+            } */
           },
           error => {
             reject(error);
@@ -69,6 +79,52 @@ export class ListService {
         );
 
 
+    });
+  }
+
+  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number): Promise<ApoyoAlimentario[]> {
+    return new Promise((resolve, reject) => {
+      let queryArr=[]
+      if(terceroId!=null){
+        queryArr.push(`tercero_id:${terceroId}`)
+      }
+      if(solicitudId!=null){
+        queryArr.push(`solicitud_id:${solicitudId}`)
+      }
+      if(espacioFisicoId!=null){
+        queryArr.push(`espacio_fisico_id:${espacioFisicoId}`)
+      }
+      if(periodoId!=null){
+        queryArr.push(`periodo_id:${periodoId}`)
+      }
+      if(activo!=null){
+        queryArr.push(`activo:${activo}`)
+      }
+      let query="";
+      console.log(queryArr);
+      
+      if(queryArr.length>0){
+        query="?query="
+        for (let i = 0; i < queryArr.length; i++) {
+          query+=queryArr[i]
+          if(i+1<queryArr.length){
+            query+=','
+          }
+        }
+      }
+      if(limite!=null){
+
+      }
+      console.log(query);
+      this.apoyoAlimentarioService.get(`registro_apoyo${query}${(query!="" ? "&": "?")}sortby=id&order=desc${limite!=null ? `&LIMIT=${limite}` : ''}`)
+        .subscribe(
+          (result: any[]) => {
+            resolve(result)
+          },
+          error => {
+            reject(error);
+          },
+        );
     });
   }
 
@@ -219,7 +275,7 @@ export class ListService {
                   if (Object.keys(resp[0]).length > 0) {
                     resolve([resp[0].PadreId.Nombre, resp[0].HijaId.Nombre]);
                   } else {
-                    reject("Dependencia padre no encontrada");
+                    reject("Facultad no encontrada");
                   }
                 },
                   error => {
@@ -486,14 +542,14 @@ export class ListService {
               solicitud.Id = res['Data']['Id']
               /* No se si funciona */
               this.crearEvolucionEstado(idTercero, solicitud, null);
-                
+
               this.loadTiposObservacion(1).then((resp) => {
                 /*  Agregar observacion*/
                 console.log("Creando observacion");
 
-                console.log("solicitud",solicitud);
-                console.log("tipo observacion",resp['Data'][0]);
-                
+                console.log("solicitud", solicitud);
+                console.log("tipo observacion", resp['Data'][0]);
+
                 let observacionObj = new Observacion();
                 observacionObj.SolicitudId = solicitud;
                 observacionObj.TerceroId = idTercero;
@@ -502,20 +558,20 @@ export class ListService {
                 observacionObj.TipoObservacionId = resp['Data'][0];
                 this.crearObservacion(observacionObj).then((resp) => {
 
-                    this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
-                    const solicitante: Solicitante = new Solicitante();
-                    solicitante.TerceroId = idTercero;
-                    solicitante.SolicitudId = solicitud;
-                    this.solicitudService.post('solicitante', JSON.stringify(solicitante))
-                      .subscribe(res => {
-                        window.location.reload();
-                        
+                  this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
+                  const solicitante: Solicitante = new Solicitante();
+                  solicitante.TerceroId = idTercero;
+                  solicitante.SolicitudId = solicitud;
+                  this.solicitudService.post('solicitante', JSON.stringify(solicitante))
+                    .subscribe(res => {
+                      //window.location.reload();
+                      console.log("cree la solicitud");
                     });
 
-                }).catch( (error) => this.utilsService.showSwAlertError("No se creo la Observación",error));
-              }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas",err));
+                }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
+              }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
 
-             
+
 
             });
         }
@@ -531,7 +587,32 @@ export class ListService {
    *
    * @memberof ListService
    */
-  findSolicitudes(): Promise<Solicitud[]> {
+  findSolicitudes(idEstadoTipo): Promise<Solicitud[]> {
+    return new Promise((resolve, reject) => {
+      let url = "solicitud"
+      if (idEstadoTipo != null) {
+        url += "?query=EstadoTipoSolicitudId.Id:" + idEstadoTipo
+      } else {
+        url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDTIPOSOLICITUD
+      }
+
+      this.solicitudService.get(url)
+        .subscribe(
+          (result: any[]) => {
+            if (Object.keys(result[0]).length > 0) {
+              resolve(result);
+            } else {
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+  }
+
+  findSolicitudesbyEstado(): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
         .subscribe(
@@ -740,6 +821,66 @@ export class ListService {
 
   }
 
+  crearPaquete(paq: Paquete): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('paquete', JSON.stringify(paq))
+        .subscribe(res => {
+          console.log(res);
+          resolve(res['Data'].Id);
+        }, error => { reject(error) });
+    });
+  }
+
+  crearPaqueteSolicitud(paqSol: PaqueteSolicitud): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('paquete_solicitud', JSON.stringify(paqSol))
+        .subscribe(res => {
+          console.log(res);
+          resolve(true);
+        }, error => { reject(error) });
+    });
+  }
+
+  findPaqueteSolicitudBySolicitud(idSolicitud: number): Promise<PaqueteSolicitud> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.get(`paquete_solicitud?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=desc&limit=1`)
+        .subscribe(res => {
+          console.log(res['Data']);
+          if (Object.keys(res['Data']).length == 0) {
+            resolve(undefined);
+          }
+          resolve(res['Data'][0]);
+        }, error => { reject(error) });
+    });
+  }
+
+  findSoportePaqueteByIdPaquete(idPaquete: number): Promise<SoportePaquete> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}`)
+        .subscribe(res => {
+          console.log((res));
+          console.log(res['Data']);
+          if (res['Data'][0] == {}) {
+            resolve(undefined);
+          }
+          resolve(res['Data']);
+        }, error => { reject(error) });
+    });
+  }
+
+
+  //https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/
+
+  crearSoportePaquete(SopPaq: SoportePaquete): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.post('soporte_paquete', JSON.stringify(SopPaq))
+        .subscribe(res => {
+          console.log(res);
+          resolve(true);
+        }, error => { reject(error) });
+    });
+  }
+
   /**
    *Carga los tipos de observacion
    *
@@ -841,6 +982,33 @@ export class ListService {
     });
   }
 
+  /* ******** DOCUMENTOS SERVICE *********** */
+
+  /**
+   *Busca un documento en especifico de un paquete
+   *
+   * @param {number} idDocumento
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  findDocumentoBySoporte(idDocumento): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.documentoService.get(`documento?query=Id:${idDocumento}`).subscribe(
+        (result) => {
+          console.log(result);
+          if (Object.keys(result[0]).length !== 0) {
+            resolve(result[0]);
+          } else {
+            resolve([]);
+          }
+        },
+        error => {
+          reject(error);
+        },
+      );
+    });
+  }
+
   /* ******** UBICACIONES SERVICE *********** */
 
   /**
@@ -853,17 +1021,49 @@ export class ListService {
   cargarLugar(Idlugar: number): Promise<Lugar> {
     return new Promise((resolve, reject) => {
       console.log("ACA FALLOS");
-      
+
       this.ubicacionesService.get(`lugar/${Idlugar}`).subscribe((result) => {
-        console.log("lugar res ->",result);
+        console.log("lugar res ->", result);
         resolve(result);
       }, (err) => {
         console.log("Efectivamente F :(");
         reject(err);
       });
     })
+
   }
+
+    /* ***OIRKOS SERVICE ****** */
+    cargarSedesApoyo(): Promise<any[]> {
+      return new Promise((resolve, reject) => {
+        this.oikosService
+          .get(
+            `tipo_uso_espacio_fisico?query=TipoUsoId.Nombre:Apoyo,Activo:true&limit=-1`
+          )
+          .subscribe(
+            (result) => {
+              if(Object.keys(result[0]).length>0){
+                let sedesAcceso=[]
+                for (let i = 0; i < result.length; i++) {
+                  sedesAcceso.push(result[i].EspacioFisicoId);
+                }
+                if(sedesAcceso.length>0){
+                  resolve(sedesAcceso)
+                }else{
+                  reject('No se encontraron sedes para apoyo alimentario')
+                }
+              }
+              reject('No se encontraron sedes para apoyo alimentario')
+            },(error)=> reject(error));
+      });
+    }
+    
+
+
+
 }
+
+
 
 
 

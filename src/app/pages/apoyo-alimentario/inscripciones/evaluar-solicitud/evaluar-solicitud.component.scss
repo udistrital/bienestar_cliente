@@ -1,1 +1,15 @@
 @import "../../apoyo-alimentario.component.scss";
+a:link {
+    color: #01579b;
+}
+
+a:hover {
+    color: #024172;
+    text-decoration: underline;
+}
+
+a:active,
+a:visited {
+    color: #3d0c0c !important;
+    text-decoration: underline !important;
+}

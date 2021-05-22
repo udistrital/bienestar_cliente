@@ -18,6 +18,8 @@ export class ConsultarComponent implements OnInit {
     private utilService: UtilService
   ) { 
     this.listService.findApoyoAlimentario().then((result) =>{
+      console.log(result);
+      
       this.registros=result;
       /* for(let res in result){
         this.registros.push(res);

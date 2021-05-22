@@ -5,7 +5,7 @@ export class InfoSocioEconomicaEstudiante {
     IngresosMensuales: number; 
     CabezaFamilar: string; //COMO ESTUDIANTE SOSTIENE EL HOGAR EN QUE VIVE
     DependenciaEconomica: string; //COMO ESTUDIANTE SE SOSTIENE ECONÓMICAMENTE A SI MISMO
-    PagaArriendo: boolean; // NO EXISTE
+    PagaArriendo: boolean; // NO EXISTE // Deberia borrarse 
     ZonaVulnerabilidad: string; 
     NumeroHermanos: string;
     ConQuienVive: string;  
@@ -20,8 +20,8 @@ export class InfoSocioEconomicaEstudiante {
         this.DependenciaEconomica="";
         this.NumeroHermanos="";
         this.ConQuienVive="";
-        this.ZonaVulnerabilidad=null;
+        this.ZonaVulnerabilidad="";
         this.TipoColegio="";
-        this.TipoVivienda="pre: Arriendo";
+        this.TipoVivienda="";
     }
 }

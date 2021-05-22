@@ -50,6 +50,7 @@ export class NuxeoService {
     }
 
     saveFiles(files, documentoService, nuxeoservice) {
+        console.log(files);
         this.documentos = {};
         nuxeoservice.documentos = {};
         NuxeoService.nuxeo.connect()
@@ -72,6 +73,7 @@ export class NuxeoService {
                                         NuxeoService.nuxeo.batchUpload()
                                             .upload(nuxeoBlob)
                                             .then(function (response) {
+                                                console.log("Obtenemos UID =>", doc.uid);
                                                 file.uid = doc.uid
                                                 NuxeoService.nuxeo.operation('Blob.AttachOnDocument')
                                                     .param('document', doc.uid)
@@ -96,7 +98,7 @@ export class NuxeoService {
                                                 return error;
                                             });
                                     })
-                                    .catch(function (error) {
+                                    .catch(function (error) {                                  
                                         console.info(error);
                                         return error;
                                     })
@@ -151,8 +153,8 @@ export class NuxeoService {
     getFile(files, documentoService, nuxeoservice) {
         this.blobDocument = {};
         nuxeoservice.blobDocument = {};
-        files.forEach(file => {
-            documentoService.get('documento/' + file.Id)
+        files.forEach(file => {  
+            documentoService.get('documento/' + file.DocumentoId)
                 .subscribe(res => {
                     if (res !== null) {
                         if (res.Enlace != null) {
@@ -165,7 +167,11 @@ export class NuxeoService {
                                             blob.blob()
                                                 .then(function (responseblob) {
                                                     const url = URL.createObjectURL(responseblob);
-                                                    nuxeoservice.blobDocument[file.key] = url;
+                                                    const response_get = {
+                                                        documento: file.Descripcion,
+                                                        url: url,
+                                                    }; 
+                                                    nuxeoservice.blobDocument[file.key] = response_get;
                                                     nuxeoservice.blobDocument$.next(nuxeoservice.blobDocument);
                                                 });
                                         })

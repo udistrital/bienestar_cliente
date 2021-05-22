@@ -31,7 +31,7 @@ export class ApoyoAlimentarioComponent implements OnInit {
   }
 
   navigateSolicitudTercero(){
-    this.router.navigate(['/pages/apoyo-alimentario/inscripciones/solicitud']);
+    this.router.navigate(['/pages/apoyo-alimentario/solicitud']);
     return false;
   }
   navigateSolicitudes(){
@@ -40,6 +40,10 @@ export class ApoyoAlimentarioComponent implements OnInit {
   }
   navigateBuscarSolicitud(){
     this.router.navigate(['/pages/apoyo-alimentario/inscripciones/buscarSolicitud']);
+    return false;
+  }
+  navigateEvaluacionMasiva(){
+    this.router.navigate(['/pages/apoyo-alimentario/inscripciones/evaluacion-masiva']);
     return false;
   }
 
@@ -73,15 +77,5 @@ export class ApoyoAlimentarioComponent implements OnInit {
     this.router.navigate(['/pages/apoyo-alimentario/administracion/periodos']);
     return false;
   }
-  
-  
-  navigateCargarInscripciones(){
-    this.router.navigate(['/pages/apoyo-alimentario/administracion/cargar-inscripciones']);
-    return false;
-  }           
-  navigateConsultaCodigo(){
-    this.router.navigate(['/pages/apoyo-alimentario/administracion/consulta-codigo']);
-    return false;
-  }
-          
+            
 }

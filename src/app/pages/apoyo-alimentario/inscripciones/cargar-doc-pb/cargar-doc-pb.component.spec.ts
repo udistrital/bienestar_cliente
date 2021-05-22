@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConsultarCodigoComponent } from './consultar-codigo.component';
+import { CargarDocPbComponent } from './cargar-doc-pb.component';
 
-describe('ConsultarCodigoComponent', () => {
-  let component: ConsultarCodigoComponent;
-  let fixture: ComponentFixture<ConsultarCodigoComponent>;
+describe('CargarDocPbComponent', () => {
+  let component: CargarDocPbComponent;
+  let fixture: ComponentFixture<CargarDocPbComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConsultarCodigoComponent ]
+      declarations: [ CargarDocPbComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConsultarCodigoComponent);
+    fixture = TestBed.createComponent(CargarDocPbComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
