@@ -699,16 +699,16 @@ export class CrearSolicitudComponent implements OnInit {
     if(ingresosMes>=0 && ingresosMes<=SMMLV){
       console.log("30 Puntos");
       ingresosFamiliares=30;
-    }else if(ingresosMes>(SMMLV*1.1) && ingresosMes<=(SMMLV*2)){
+    }else if(ingresosMes>(SMMLV*1) && ingresosMes<=(SMMLV*2)){
       console.log("20 Puntos");
       ingresosFamiliares=20;
-    }else if(ingresosMes>(SMMLV*2.1) && ingresosMes<=(SMMLV*3)){
+    }else if(ingresosMes>(SMMLV*2) && ingresosMes<=(SMMLV*3)){
       console.log("10 Puntos");
       ingresosFamiliares=10;
-    }else if(ingresosMes>(SMMLV*3.1) && ingresosMes<=(SMMLV*4)){
+    }else if(ingresosMes>(SMMLV*3) && ingresosMes<=(SMMLV*4)){
       console.log("5 Puntos");
       ingresosFamiliares=5;
-    }else if(ingresosMes>(SMMLV*4.1)){
+    }else if(ingresosMes>(SMMLV*4)){
       console.log("0 Puntos");
       ingresosFamiliares=0;
     }else{
