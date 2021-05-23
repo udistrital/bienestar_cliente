@@ -694,19 +694,21 @@ export class CrearSolicitudComponent implements OnInit {
     //Ingresos Familiares.
     let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
 
-    if(ingresosMes>=0 && ingresosMes<=1000000){
+    const SMMLV = 908.526; // Salario Minimo Mensual Legal Vigente
+
+    if(ingresosMes>=0 && ingresosMes<=SMMLV){
       console.log("30 Puntos");
       ingresosFamiliares=30;
-    }else if(ingresosMes>1000000 && ingresosMes<=2000000){
+    }else if(ingresosMes>(SMMLV*1.1) && ingresosMes<=(SMMLV*2)){
       console.log("20 Puntos");
       ingresosFamiliares=20;
-    }else if(ingresosMes>2000000 && ingresosMes<=3000000){
+    }else if(ingresosMes>(SMMLV*2.1) && ingresosMes<=(SMMLV*3)){
       console.log("10 Puntos");
       ingresosFamiliares=10;
-    }else if(ingresosMes>3000000 && ingresosMes<=4000000){
+    }else if(ingresosMes>(SMMLV*3.1) && ingresosMes<=(SMMLV*4)){
       console.log("5 Puntos");
       ingresosFamiliares=5;
-    }else if(ingresosMes>4000000){
+    }else if(ingresosMes>(SMMLV*4.1)){
       console.log("0 Puntos");
       ingresosFamiliares=0;
     }else{

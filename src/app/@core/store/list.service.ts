@@ -643,11 +643,11 @@ export class ListService {
         .subscribe(
           (result: any[]) => {
             console.log(result);
-            if (result.length > 0) {
+            if(Object.keys(result[0]).length>0){
               resolve(result[0]);
             }
             else {
-              resolve(undefined);
+              reject('No existe una solicitud con este ID');
             }
           },
           error => {
@@ -811,11 +811,11 @@ export class ListService {
    * @return {*} 
    * @memberof ListService
    */
-  crearObservacion(observacion: Observacion) {
+  crearObservacion(observacion: Observacion): Promise<Observacion>{
     return new Promise((resolve, reject) => {
       this.solicitudService.post('observacion', JSON.stringify(observacion))
         .subscribe(res => {
-          resolve(true);
+          resolve(res['Data']);
         }, error => { reject(error) });
     });
 
@@ -913,9 +913,9 @@ export class ListService {
    * @return {*}  {Promise<Observacion[]>}
    * @memberof ListService
    */
-  findObservacion(idSolicitud: number): Promise<Observacion[]> {
-    return new Promise((resolve, reject) => {
-      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc&limit=-1`)
+  findObservacion(idSolicitud: number, idTipoObservacion: number): Promise<Observacion[]> {
+    return new Promise((resolve, reject) => {      
+      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud},TipoObservacionId.Id:${idTipoObservacion}&sortby=Id&order=asc&limit=-1`)
         .subscribe(
           (result: any[]) => {
             console.log("===Obsevaciones===");

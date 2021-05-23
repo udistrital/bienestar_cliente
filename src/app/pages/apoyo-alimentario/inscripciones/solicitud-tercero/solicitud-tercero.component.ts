@@ -90,7 +90,7 @@ export class SolicitudTerceroComponent implements OnInit {
                           console.log(this.solicitud);
                           this.loading = false;
                           Swal.close();
-                          this.listService.findObservacion(sol.Id).then((respObs) => {
+                          this.listService.findObservacion(sol.Id,1).then((respObs) => {
                             console.log(respObs);
                             this.observaciones = respObs;
                           }).catch((errObs) => this.showError("Observación no encontrada", errObs));

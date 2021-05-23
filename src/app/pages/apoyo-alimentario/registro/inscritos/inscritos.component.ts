@@ -99,7 +99,6 @@ export class InscritosComponent implements OnInit {
 
 
     this.registroBase.sede = form.value["sede"];
-    this.registro2Base.espacioFisicoId = this.sedesAcceso[form.value["sede"]];
 
     /* Asociamos tercero con el documento */
     const content = Swal.getContent();
@@ -123,7 +122,6 @@ export class InscritosComponent implements OnInit {
             if (listSolicitante.length > 0) {
               solicitudId = listSolicitante[0].Id;
             }
-            console.log(solicitudId);
 
             this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
               (permitir) => {
@@ -173,6 +171,7 @@ export class InscritosComponent implements OnInit {
           });
       } else {
         this.showError(`${this.registroBase.codigo}`, "Identificacion no asociada a un estudiante");
+        this.registroBase.codigo='';
       }
     });
   }
@@ -314,8 +313,8 @@ export class InscritosComponent implements OnInit {
     Swal.close();
     let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
-
     this.utilsService.showToastError(titulo, error, "alert-circle-outline");
+    this.registroBase.codigo = "";
   }
 
 }

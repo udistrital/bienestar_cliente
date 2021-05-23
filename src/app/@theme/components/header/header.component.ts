@@ -107,7 +107,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    this.router.navigate(['/pages/home']);
+    this.router.navigate(['/pages/dashboard']);
     // this.menuService.navigateHome();
     return false;
   }

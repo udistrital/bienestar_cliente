@@ -71,8 +71,8 @@ const routes: Routes = [
             }
         },
         {
-            path: 'home',
-            component: HomeComponent,
+            path: 'dashboard',
+            component: DashboardComponent,
         },
         {
             path: 'apoyo-alimentario',
@@ -86,7 +86,7 @@ const routes: Routes = [
         },
         {
             path: '',
-            redirectTo: 'home',
+            redirectTo: 'dashboard',
             pathMatch: 'full',
         },
         {

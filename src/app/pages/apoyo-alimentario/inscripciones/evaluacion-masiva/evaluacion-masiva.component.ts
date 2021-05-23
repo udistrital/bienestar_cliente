@@ -146,8 +146,6 @@ export class EvaluacionMasivaComponent implements OnInit {
 
         if (this.solicitudesExt.length == 0) {
           this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes ${this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre} para ${this.periodos[this.periodo].Nombre}`);
-        } else {
-
         }
       } else {
         console.log('entro al else');

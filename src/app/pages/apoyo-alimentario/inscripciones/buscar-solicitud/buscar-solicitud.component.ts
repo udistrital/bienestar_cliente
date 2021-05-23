@@ -16,7 +16,7 @@ export class BuscarSolicitudComponent implements OnInit {
   periodos = [];
   periodo: number = 0;
   codigo = "";
-  solicitudes: Solicitud[]=null;
+  solicitudes: Solicitud[]=[];
 
   constructor(
     private utilService: UtilService,
@@ -50,6 +50,9 @@ export class BuscarSolicitudComponent implements OnInit {
             this.solicitudes=[];
             for (const solicitante of resp) {
               this.solicitudes.push(solicitante.SolicitudId);
+            }
+            if (this.solicitudes.length == 0) {
+              this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes de ${terceroReg.NombreCompleto} para ${this.periodo>=0 ? this.periodos[this.periodo].Nombre : "ningun periodo"}`);
             }
           }
         ).catch((error)=>console.error(error));
