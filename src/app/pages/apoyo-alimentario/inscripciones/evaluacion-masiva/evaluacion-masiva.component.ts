@@ -43,6 +43,7 @@ export class EvaluacionMasivaComponent implements OnInit {
   obseravacionText: string = null;
   numSeleccionado = 0;
   evaluacion = false;
+  limite= -1;
 
   allSelect: boolean = false
 
@@ -114,10 +115,16 @@ export class EvaluacionMasivaComponent implements OnInit {
       });
       return;
     }
+
+    if(this.limite<-1){
+      this.utilService.showSwAlertError('Limite invalido','El limite puede ser -1 o un numero positivo');
+      return;
+    }
+
     this.solicitudesExt = []
     this.numSeleccionado = 0;
     this.allSelect = false;
-    this.listService.findSolicitudes(this.estadosTipoSolicitud[this.estadoTipo].Id).then((result) => {
+    this.listService.findSolicitudes(this.estadosTipoSolicitud[this.estadoTipo].Id, this.limite).then((result) => {
       console.log(result);
       if (result.length > 0) {
         let countIter = 0

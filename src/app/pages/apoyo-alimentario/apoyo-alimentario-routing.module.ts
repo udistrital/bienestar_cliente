@@ -55,10 +55,10 @@ const routes: Routes = [
   },
   {
     path: 'solicitud',
-    canActivate: [AuthGuard],
+    /* canActivate: [AuthGuard],
     data: {
       roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
-    },
+    }, */
     component: SolicitudTerceroComponent
   },
   {

@@ -8,8 +8,6 @@ import { DatePipe } from "@angular/common";
 import { formatDate } from "@angular/common";
 import { environment } from "../../../../../environments/environment";
 import { OikosService } from "../../../../@core/data/oikos.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { TranslateService } from "@ngx-translate/core";
 import { Tercero } from "../../../../@core/data/models/terceros/tercero";
 import { ApoyoAlimentarioService } from "../../../../@core/data/apoyo-alimentario.service";
 import { Registro } from "../../../../@core/data/models/registro";
@@ -23,12 +21,12 @@ import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante
   styleUrls: ["./inscritos.component.scss"],
 })
 export class InscritosComponent implements OnInit {
+  
   noBeneficiarios: boolean;
   sedesAcceso = [];
   facultadAccesso = [];
   registros = [];
   registroBase = new RegistroInscritoModel();
-  registro2Base = new ApoyoAlimentario();
   periodo: Periodo = null;
   myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
   usuarioWSO2 = "";
@@ -104,12 +102,8 @@ export class InscritosComponent implements OnInit {
     const content = Swal.getContent();
     const b = content.querySelector('b');
 
-    /* if (content) {
-      const b = content.querySelector('b');
-      if (b) { */
     b.textContent = `Buscando usuario por documento`;
-    /* }
-  } */
+
     this.listService.loadTerceroByDocumento(this.registroBase.codigo).then((resp) => {
       const terceroReg: Tercero = resp;
       let solicitudId: number = 0;
@@ -196,6 +190,7 @@ export class InscritosComponent implements OnInit {
             }
           }
           this.listService.cargarEstadoTercero(terceroId).then((estado) => {
+            //Cambiar por A
             if (estado == 'V') {
               resolve(true);
             } else {

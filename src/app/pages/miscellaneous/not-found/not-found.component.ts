@@ -13,7 +13,6 @@ export class NotFoundComponent {
   }
 
   goToHome() {
-    //this.menuService.navigateHome();
-    this.router.navigate(['/pages/dashboard']);
+    this.menuService.navigateHome();
   }
 }

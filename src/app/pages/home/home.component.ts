@@ -14,20 +14,5 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  navigateReliquidacion(){
-    this.router.navigate(['/pages/revision-estudiante']);
-    return false;
-  }
-
-  navigateApoyoAlimentario(){
-    this.router.navigate(['/pages/apoyo-alimentario']);
-    return false;
-  }
-
-  navigateSalud(){
-    this.router.navigate(['/pages/citas']);
-    return false;
-  }
-
 
 }

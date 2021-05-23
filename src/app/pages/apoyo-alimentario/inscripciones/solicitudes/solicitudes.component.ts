@@ -34,7 +34,7 @@ export class SolicitudesComponent implements OnInit {
   ) {
     this.loadPeriodo();
     
-    this.listService.findSolicitudes(null).then((result)=>{
+    this.listService.findSolicitudes(null,-1).then((result)=>{
       if(result!=[]) {
         for (let solicitud of result) {
           this.solicitudes.push(solicitud);
