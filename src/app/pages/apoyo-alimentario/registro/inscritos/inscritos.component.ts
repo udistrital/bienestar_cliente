@@ -20,7 +20,11 @@ import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante
   templateUrl: "./inscritos.component.html",
   styleUrls: ["./inscritos.component.scss"],
 })
+
+
 export class InscritosComponent implements OnInit {
+
+
   
   noBeneficiarios: boolean;
   sedesAcceso = [];

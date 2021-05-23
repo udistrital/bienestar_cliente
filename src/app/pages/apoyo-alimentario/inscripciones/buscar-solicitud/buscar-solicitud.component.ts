@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ListService } from '../../../../@core/store/list.service';
-import Swal from 'sweetalert2';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { UtilService } from '../../../../shared/services/utilService';
@@ -58,14 +57,10 @@ export class BuscarSolicitudComponent implements OnInit {
         ).catch((error)=>console.error(error));
       } else {
         this.utilService.showSwAlertError("Estudiante no encontrado",'No se encuentra el tercero');
-        /* Swal.fire("Error",
-          `<p>No se encuentra el tercero</p>`, "error"); */
       }
     }).catch(
       (error) => {
         this.utilService.showSwAlertError("Estudiante no encontrado",`<p>${error}</p>`);
-        /* Swal.fire("Error",
-          `<p>${error}</p>`, "error"); */
       }
     );
 

@@ -11,9 +11,6 @@ import { ListService } from '../../../../@core/store/list.service';
 import { NuxeoService } from '../../../../@core/utils/nuxeo.service';
 import { ApiConstanst } from '../../../../shared/constants/api.constans';
 import { UtilService } from '../../../../shared/services/utilService';
-import { TipoDocumento } from '../../../../@core/data/models/terceros/tipo_documento';
-import { forEach } from 'jszip';
-import { Validators } from '@angular/forms';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 

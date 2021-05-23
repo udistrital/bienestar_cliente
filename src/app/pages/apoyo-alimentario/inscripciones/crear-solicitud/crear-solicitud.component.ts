@@ -829,33 +829,6 @@ export class CrearSolicitudComponent implements OnInit {
       this.utilService.showSwAlertError(" Documentos invalidos "," Ocurrio un error al cargar los documentos, asegurese de subirlos nuevamente.");
     }
 
-    /* let archivosAdjuntos = [];
-    let nombreArchivos= ['documentoIdentidad'];
-    for (const iterator of nombreArchivos) {
-      let archivo=this.documentosMap.get(iterator)
-      archivosAdjuntos.push(archivo);
-    }
-    console.log(archivosAdjuntos);
-
-    this.nuxeoService.getDocumentos$(archivosAdjuntos, this.documentoService).subscribe((res) => {
-      console.log("Respuesta de nuexeo");
-      console.log(res);
-
-      if (archivosAdjuntos.length === Object.keys(res).length) {
-          this.formularioReliquidacion.documentosCargados = res;
-          const terceroInfoComplementaria: any = {};
-          terceroInfoComplementaria.TerceroId = this.estudiante;
-          terceroInfoComplementaria.Id = null;
-          terceroInfoComplementaria.Activo = true;
-          terceroInfoComplementaria.InfoComplementariaId = this.bodyReliquidacion;
-          terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
-          this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
-              this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
-                  this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
-              });
-          });
-      }
-    }); */
   }
 
   actualizarInfoEstudiante() {
