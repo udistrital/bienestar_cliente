@@ -174,13 +174,6 @@
                                 </div>
                             </div>
 
-                            <div class="row item-list" *ngIf="residencia.get('municipio')?.value === 'Otros'">
-                                <div class="col-md-4">¿Cuál?: </div>
-                                <div class="col-md-8">
-                                    <input fullWidth nbInput placeholder="Otro municipio">
-                                </div>
-                            </div>
-
                             <div class="row item-list">
                                 <div class="col-md-4">Dirección: </div>
                                 <div class="col-md-8">
@@ -190,10 +183,13 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">Barrio:
-                                    <span class="oas-asterisk">(*)</span>
+                                    <!-- Si se logra conectar con datos de CONDOR, dejarlo desactivado -->
+                                    <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="barrio">
+                                    <input nbInput fullWidth formControlName="barrio" required>
+                                    <!-- <input *ngIf="estudiante.InfoResidencia.Barrio==null || estudiante.InfoResidencia.Barrio==''" nbInput fullWidth formControlName="barrio" required>
+                                    <input *ngIf="estudiante.InfoResidencia.Barrio!=null && estudiante.InfoResidencia.Barrio!=''" nbInput fullWidth formControlName="barrio" disabled> -->
                                 </div>
                             </div>
 
@@ -217,11 +213,17 @@
                         <form [formGroup]="academica">
                             <div class="row item-list">
                                 <div class="col-md-4">Valor Matricula:
-                                    <span class="oas-asterisk">(*)</span>
+                                    <span class="required-asterisk">*</span>
+                                    <small class="small-info-ud">
+                                        Si el valor de la matricula es 0, agregar el valor del seguro.
+                                    </small>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="valorMatricula">
+                                    <input type="number" nbInput fullWidth formControlName="valorMatricula" pattern="[0-9]{1,}" required>
                                 </div>
+                                <small *ngIf="academica.controls.valorMatricula.value<=0" class="form-text text-danger mt-2">
+                                    Tienes que ingresar un número correcto
+                                </small>
                             </div>
                             <div class="row item-list">
                                 <div class="col-md-4">
@@ -239,20 +241,29 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4">Promedio:
-                                    <span class="oas-asterisk">(*)</span>
+                                    <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="promedio">
+                                    <input type="number" nbInput fullWidth formControlName="promedio" pattern="[0-9]{1,}" required>
                                 </div>
+                                <small *ngIf="academica.controls.promedio.value<0 || academica.controls.promedio.value>5" class="form-text text-danger mt-2">
+                                    Tienes que ingresar un número correcto (Entre 0.0 y 5.0)
+                                </small>
                             </div>
 
                             <div class="row item-list">
                                 <div class="col-md-4">Número de Matriculas:
-                                    <span class="oas-asterisk">(*)</span>
+                                    <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="matriculas">
+                                    <input type="number" nbInput fullWidth formControlName="matriculas" pattern="[0-9]{1,}" required>
                                 </div>
+                                <small *ngIf="academica.controls.promedio.value<=0 || academica.controls.promedio.value>15" class="form-text text-danger mt-2">
+                                    Tienes que ingresar un número correcto
+                                </small>
+                                <small *ngIf="academica.controls.promedio.value>15" class="form-text text-danger mt-2">
+                                    Lo sentimos, ya sobrepaso el número máximo de mtriculas
+                                </small>
                             </div>
                         </form>
                     </nb-accordion-item-body>
@@ -515,11 +526,11 @@
 
                             <div class="row item-list">
                                 <div class="col-md-4"> Grupo de Sisben:
-                                    <span class="oas-asterisk">(*)</span>
+                                    <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <!-- required> -->
-                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo">
+                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" required>
                                         <nb-option value="A">Grupo A</nb-option>
                                         <nb-option value="B">Grupo B</nb-option>
                                         <nb-option value="C">Grupo C</nb-option>
@@ -667,7 +678,6 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Usted o su grupo familiar esta certificado como:
-                                    <span class="oas-asterisk">(*)</span>
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
@@ -696,7 +706,6 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Presenta algún tipo de discapacidad:
-                                    <span class="oas-asterisk">(*)</span>
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
@@ -752,7 +761,6 @@
                                 <div class="col-md-4">
                                     Qué tipo de seguridad social tiene:
                                     <span class="required-asterisk">*</span>
-                                    <span class="oas-asterisk">(*)</span>
                                 </div>
                                 <div class="col-md-8">
                                     <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
@@ -768,11 +776,10 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Pertenece al programa ser pilo paga:
-                                    <span class="oas-asterisk">(*)</span>
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-radio-group formControlName="serPiloPaga" name="serPiloPaga">
+                                    <nb-radio-group formControlName="serPiloPaga" name="serPiloPaga" required>
                                         <nb-radio value="si">
                                             Si
                                         </nb-radio>
@@ -809,7 +816,7 @@
                 <!-- Cambiar por cargarDocumentos() -->
 
                 <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="actualizarInfoEstudiante()" class="submit-button">
                         <i class="fas fa-save mr-1"></i>
                         Registrar
                     </button>
@@ -818,13 +825,9 @@
             </mat-hint>
 
             <h6>Preguntas bienestar</h6>
-            <p> Calculo ingresos mensuales </p>
-            <p> Dato obtenido de CONDOR (Valor ingresos mensuales), CRUD? </p>
             <p> Zona vulnerabilidad, afecta en puntos? </p>
             <p> Resolucion apartado (Procedencia y lugar de residencia)</p>
             <p> Información colegio </p>
-            <p> Información Hijos // True or false // Cambiar información desde este Formulario </p>
-
         </nb-card-body>
     </nb-card>
 

@@ -286,20 +286,8 @@ export class CrearSolicitudComponent implements OnInit {
         ).value;
         break;
 
-      case "POBLACION_CONDICION_ESPECIAL":
-        this.estudiante.InfoEspecial.CondicionEspecial = JSON.parse(
-          infComp.Dato
-        ).value;
-        break;
-
       case "PATOLOGIA_NUTRICION_ALIMENTACION":
         this.estudiante.InfoEspecial.Patologia = JSON.parse(
-          infComp.Dato
-        ).value;
-        break;
-
-      case "SEGURIDAD_SOCIAL":
-        this.estudiante.InfoEspecial.SeguridadSocial = JSON.parse(
           infComp.Dato
         ).value;
         break;
@@ -328,6 +316,65 @@ export class CrearSolicitudComponent implements OnInit {
           infComp.Dato
         ).value; */
         console.log('ServiciosPublicos :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  /* Clasifica informacion de basica */
+  agregarInformacionBasica(infComp: InfoComplementariaTercero) {
+    const nombreInfComp = infComp.InfoComplementariaId.Nombre;
+    console.log(infComp);
+    switch (nombreInfComp) {
+      case "Barrio de residencia":
+        console.log(infComp);
+        this.estudiante.InfoResidencia.Barrio = JSON.parse(infComp.Dato).value;
+        break;
+
+      case "Valor de matricula":
+        this.estudiante.InfoAcademica.ValorMatricula = JSON.parse(
+          infComp.Dato
+        ).telefono;
+        break;
+
+      case "Promedio de carrera":
+        this.estudiante.InfoAcademica.Promedio = infComp.Dato;
+        break;
+
+      case "Número de matriculas":
+        this.estudiante.InfoAcademica.Matriculas = JSON.parse(infComp.Dato).value;
+        break;
+
+      case "Grupo Sisben":
+        this.estudiante.InfoResidencia.Grupo_Sisben = JSON.parse(
+          infComp.Dato
+        ).Data;
+        break;
+
+      case "Población Especial":
+        this.estudiante.InfoEspecial.CondicionEspecial = JSON.parse(
+          infComp.Dato
+        ).Data;
+        break;
+
+      case "Tiene Discapacidad":
+        this.estudiante.InfoEspecial.Discapacidad = JSON.parse(
+          infComp.Dato
+        ).Data;
+        break;
+
+      case "Seguridad Social":
+        this.estudiante.InfoEspecial.SeguridadSocial = JSON.parse(
+          infComp.Dato
+        ).Data;
+        break;
+
+      case "Pertenece a Ser Pilo Paga":
+        this.estudiante.InfoEspecial.SerPiloPaga = JSON.parse(
+          infComp.Dato
+        ).Data;
         break;
 
       default:
@@ -460,7 +507,7 @@ export class CrearSolicitudComponent implements OnInit {
           }),
           barrio: new FormControl({
             value: this.estudiante.InfoResidencia.Barrio,
-            disabled: true,
+            disabled: false,
           }),
           telefono: new FormControl({
             value: this.estudiante.InfoResidencia.Telefono,
@@ -469,10 +516,22 @@ export class CrearSolicitudComponent implements OnInit {
         });
 
         this.academica = new FormGroup({
-          valorMatricula: new FormControl({ value: this.estudiante.InfoAcademica.ValorMatricula, disabled: true }),
-          numeroCreditos: new FormControl({ value: this.estudiante.InfoAcademica.NumeroCreditos, disabled: false }, Validators.required),
-          promedio: new FormControl({ value: this.estudiante.InfoAcademica.Promedio, disabled: true }),
-          matriculas: new FormControl({ value: this.estudiante.InfoAcademica.Matriculas, disabled: true }),
+          valorMatricula: new FormControl({ 
+            value: this.estudiante.InfoAcademica.ValorMatricula, 
+            disabled: false 
+          }),
+          numeroCreditos: new FormControl({ 
+            value: this.estudiante.InfoAcademica.NumeroCreditos, 
+            disabled: false 
+          }, Validators.required),
+          promedio: new FormControl({ 
+            value: this.estudiante.InfoAcademica.Promedio,
+            disabled: false 
+          }),
+          matriculas: new FormControl({ 
+            value: this.estudiante.InfoAcademica.Matriculas,
+            disabled: false 
+          }),
         });
 
         this.socioeconomica = new FormGroup({
@@ -556,7 +615,10 @@ export class CrearSolicitudComponent implements OnInit {
             value: this.estudiante.InfoResidencia.Puntaje_Sisben,
             disabled: true,
           }),
-          grupo: new FormControl({value: this.estudiante.InfoResidencia.Grupo_Sisben, disabled: false}),
+          grupo: new FormControl({
+            value: this.estudiante.InfoResidencia.Grupo_Sisben,
+            disabled: false,
+          }),
         });
 
         this.necesidades = new FormGroup({
@@ -861,8 +923,13 @@ export class CrearSolicitudComponent implements OnInit {
     if (this.validacionesForm()) {
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
-      this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL", this.academica.get('numeroCreditos').value);
+      this.buscarInfoComplemetaria("Barrio de residencia", this.registro.get('barrio').value);
 
+      this.buscarInfoComplemetaria("Valor de matricula", this.academica.get('valorMatricula').value);
+      this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL", this.academica.get('numeroCreditos').value);
+      this.buscarInfoComplemetaria("Promedio de carrera", this.academica.get('promedio').value);
+      this.buscarInfoComplemetaria("Número de matriculas", this.academica.get('matriculas').value);
+      
       this.buscarInfoComplemetaria("ZONA_VULNERABILIDAD", this.socioeconomica.get('zonaVulnerabilidad').value);
 
       this.buscarInfoComplemetaria("PERSONAS_A_CARGO", this.personasacargo.get('tieneperacargo').value);
@@ -871,7 +938,9 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE", this.personasacargo.get('menoresEdad').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES", this.personasacargo.get('menoresEstudiantes').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS", this.personasacargo.get('menoresMatriculados').value);
-      // GRUPO SISBEN?
+      
+      this.buscarInfoComplemetaria("Grupo Sisben", this.sisben.get('grupo').value);
+
       this.buscarInfoComplemetaria("CALIDAD_VIVIENDA", this.necesidades.get('calidadVivienda').value);
       this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR", this.necesidades.get('cuartosDormir').value);
       this.buscarInfoComplemetaria("NUMERO_PERSONAS_HOGAR", this.necesidades.get('personasHogar').value);
@@ -880,9 +949,23 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS", this.necesidades.get('aguasNegras').value);
       // DISCAPACIDAD?
       this.buscarInfoComplemetaria("PATOLOGIA_NUTRICION_ALIMENTACION", this.especial.get('patologia').value);
-      /* this.buscarInfoComplemetaria("POBLACION_CONDICION_ESPECIAL",this.especial.get('condicionEspecial').value); */
-      /* this.buscarInfoComplemetaria("SEGURIDAD_SOCIAL",this.especial.get('seguridadSocial').value); */
-      // SER PILO PAGA?
+      this.buscarInfoComplemetaria("Población Especial",this.especial.get('condicionEspecial').value);
+      this.buscarInfoComplemetaria("Tiene Discapacidad",this.especial.get('discapacidad').value);
+      this.buscarInfoComplemetaria("Seguridad Social",this.especial.get('seguridadSocial').value);
+      this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga",this.especial.get('serPiloPaga').value);
+    }else if (false){
+      this.buscarInfoComplemetaria("Barrio de residencia", this.registro.get('barrio').value);
+
+      this.buscarInfoComplemetaria("Valor de matricula", this.academica.get('valorMatricula').value);
+      this.buscarInfoComplemetaria("Promedio de carrera", this.academica.get('promedio').value);
+      this.buscarInfoComplemetaria("Número de matriculas", this.academica.get('matriculas').value);
+      
+      this.buscarInfoComplemetaria("Grupo Sisben", this.sisben.get('grupo').value);
+
+      this.buscarInfoComplemetaria("Población Especial",this.especial.get('condicionEspecial').value);
+      this.buscarInfoComplemetaria("Tiene Discapacidad",this.especial.get('discapacidad').value);
+      this.buscarInfoComplemetaria("Seguridad Social",this.especial.get('seguridadSocial').value);
+      this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga",this.especial.get('serPiloPaga').value);
     }
     else {
       console.log("F PAPUU");
@@ -972,16 +1055,33 @@ export class CrearSolicitudComponent implements OnInit {
     let style = "color: #ff0000; font-weight: bold; font-size: 1.2em;"
     let valido: boolean = false;
     if (!this.registro.controls.programa.valid) {
-      msj += " básica (Antiguedad del programa),";
+      msj += " <strong> básica </strong> (Antiguedad del programa),";
     }
-    if (!this.academica.controls.numeroCreditos.valid) {
-      msj += " académica (Número de creditos),";
+    if (!this.residencia.controls.barrio.valid || this.residencia.controls.barrio.value==null || this.residencia.controls.barrio.value=="") {
+      msj += " <strong> residencia </strong> (Barrio residencia),";
+    }
+    if (!this.academica.valid) {
+      let menAcademica="";
+      if(this.academica.controls.valorMatricula.value<=0 || this.academica.controls.valorMatricula.value==null){
+        menAcademica+=" Valor matricula,"
+      }
+      if(this.academica.controls.numeroCreditos.value<0 || this.academica.controls.numeroCreditos.value==null){
+        menAcademica+=" Numero de Creditos,"
+      }
+      if(this.academica.controls.promedio.value<0 || this.academica.controls.promedio.value>5 || this.academica.controls.promedio.value==null){
+        menAcademica+=" Promedio ,"
+      }
+      if(this.academica.controls.matriculas.value<=0 || this.academica.controls.matriculas.value>15 || this.academica.controls.matriculas.value==null){
+        menAcademica+=" Número de Matriculas,"
+      }
+      menAcademica = menAcademica.slice(0, -1);
+      msj += ` <strong> academica </strong> (${menAcademica}), `;
     }
     if (this.socioeconomica.controls.ingresosMensuales.value<=0) {
-      msj += " socioeconomica (ingresos mensuales), 'Si el problema persiste consulte CONDOR'. ";
+      msj += " <strong> socioeconomica </strong> (ingresos mensuales), <strong> 'Si el problema persiste consulte CONDOR'.</strong> ";
     }
     if (!this.socioeconomica.controls.zonaVulnerabilidad.valid) {
-      msj += " socioeconomica (Zona de vulnerabilidad),";
+      msj += " <strong> socioeconomica </strong> (Zona de vulnerabilidad),";
     }
     
     if (!this.personasacargo.valid) {
@@ -1005,11 +1105,10 @@ export class CrearSolicitudComponent implements OnInit {
         menPersonasACargo+=" menores matriculados,"
       }
       menPersonasACargo = menPersonasACargo.slice(0, -1);
-      msj += ` personas a cargo (${menPersonasACargo}), `;
+      msj += ` <strong> personas a cargo </strong> (${menPersonasACargo}), `;
     } 
-    //Evaluar Caso
-    if (!this.sisben.valid) {
-      msj += " sisben,";
+    if (!this.sisben.controls.grupo.valid) {
+      msj += " <strong> sisben </strong> (Grupo),";
     }
     if (!this.necesidades.valid) {
       let menNecesidades="";
@@ -1032,11 +1131,28 @@ export class CrearSolicitudComponent implements OnInit {
         menNecesidades+=" Aguas negras,"
       }
       menNecesidades = menNecesidades.slice(0, -1);
-      msj += ` necesidades básicas (${menNecesidades}), `;
+      msj += ` <strong> necesidades básicas </strong> (${menNecesidades}), `;
     }
     //Evaluar Caso x2
     if (!this.especial.valid) {
-      msj += " población especial,";
+      let menEspecial="";
+      if(!this.especial.controls.condicionEspecial.valid){
+        menEspecial+=" Poblacion Especial,"
+      }
+      if(!this.especial.controls.discapacidad.valid){
+        menEspecial+=" Discapacidad,"
+      }
+      if(!this.especial.controls.patologia.valid){
+        menEspecial+=" Patologia,"
+      }
+      if(!this.especial.controls.seguridadSocial.valid){
+        menEspecial+=" Seguridad Social,"
+      }
+      if(!this.especial.controls.serPiloPaga.valid){
+        menEspecial+=" Ser Pilo Paga,"
+      }
+      menEspecial = menEspecial.slice(0, -1);
+      msj += ` <strong> info adicional </strong> (${menEspecial}), `;
     }
 
     msj = msj.slice(0, -1);
@@ -1046,7 +1162,7 @@ export class CrearSolicitudComponent implements OnInit {
 
     */
     if (!valido && msj != " información") {
-      this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en: <strong> ${msj} </strong>`);
+      this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en:  ${msj}`);
     } else {
       valido = true;
     }

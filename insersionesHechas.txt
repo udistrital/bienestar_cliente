@@ -228,3 +228,193 @@ https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_c
     "FechaModificacion": "string",
     "InfoCompleTerceroPadreId": null
 }
+
+----POST-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/grupo_info_complementaria
+
+{
+    "Id": 76,
+    "Nombre": "Información básica",
+    "Descripcion": "Información básica de una persona natural",
+    "CodigoAbreviacion": "INFO_BASICA",
+    "Activo": true,
+    "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+    "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+}
+
+
+----POST-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria
+
+{
+    "Id": 295,
+    "Nombre": "Barrio de residencia",
+    "CodigoAbreviacion": "BRRIO_RESIDENCIA",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:47:10.216608743-05:00",
+    "FechaModificacion": "2021-05-26T16:47:10.216723924-05:00"
+}
+
+{
+    "Id": 296,
+    "Nombre": "Valor de matricula",
+    "CodigoAbreviacion": "VAL_MATRICULA",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:50:51.049179272-05:00",
+    "FechaModificacion": "2021-05-26T16:50:51.049287535-05:00"
+}
+
+{
+    "Id": 297,
+    "Nombre": "Promedio de carrera",
+    "CodigoAbreviacion": "PROM_CARRERA",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:52:48.465847353-05:00",
+    "FechaModificacion": "2021-05-26T16:52:48.465943913-05:00"
+}
+
+{
+    "Id": 298,
+    "Nombre": "Número de matriculas",
+    "CodigoAbreviacion": "NUM_MATRICULAS",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:53:32.929627778-05:00",
+    "FechaModificacion": "2021-05-26T16:53:32.929807397-05:00"
+}
+
+{
+    "Id": 299,
+    "Nombre": "Grupo Sisben",
+    "CodigoAbreviacion": "GRUPO_SISBEN",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:55:28.438614584-05:00",
+    "FechaModificacion": "2021-05-26T16:55:28.438715048-05:00"
+}
+
+{
+    "Id": 300,
+    "Nombre": "Población Especial",
+    "CodigoAbreviacion": "POBLACION_ESPECIAL",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:07:12.276146584-05:00",
+    "FechaModificacion": "2021-05-26T17:07:12.276256031-05:00"
+}
+
+{
+    "Id": 301,
+    "Nombre": "Seguridad Social",
+    "CodigoAbreviacion": "SEGURIDAD_SOCIAL",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:08:24.860999943-05:00",
+    "FechaModificacion": "2021-05-26T17:08:24.861074672-05:00"
+}
+
+{
+    "Id": 302,
+    "Nombre": "Pertenece a Ser Pilo Paga",
+    "CodigoAbreviacion": "SER_PILO_PAGA",
+    "Activo": true,
+    "TipoDeDato": "RADIO",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:10:09.13278942-05:00",
+    "FechaModificacion": "2021-05-26T17:10:09.13290949-05:00"
+}
+
+{
+    "Id": 303,
+    "Nombre": "Tiene Discapacidad",
+    "CodigoAbreviacion": "DISCAPACIDAD",
+    "Activo": true,
+    "TipoDeDato": "RADIO",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:34:45.897431249-05:00",
+    "FechaModificacion": "2021-05-26T17:34:45.897534854-05:00"
+}
