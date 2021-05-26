@@ -24,7 +24,6 @@ export class PeriodosComponent implements OnInit {
     private utilService: UtilService,
     ) {
     this.listService.findPeriodosAcademico().then((resp)=>{
-      console.log(resp);
       if(resp.length>0){
         resp.forEach(element => {
           this.periodos.push(element);
@@ -36,7 +35,6 @@ export class PeriodosComponent implements OnInit {
           this.cargarEstadoPeriodos();
         });
       }else{
-        //this.ventanaError("No se encontraron periodos")
         this.utilService.showSwAlertError("Buscando periodos","No se encontraron periodos");
       }
     }).catch((err)=>this.utilService.showSwAlertError("Buscando periodos",err));
@@ -126,21 +124,18 @@ export class PeriodosComponent implements OnInit {
 
   public iniciarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    /* this.mensajeConfirmacion(`iniciar ${nombreParam} de ${periodo.Nombre}`) */
     this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea iniciar ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
     .then(resp => {
       if (resp) {
         const idParametro = this.getIdParametro(nombreParam);
         if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
           this.listService.inciarParametroPeriodo(periodo, idParametro).then((resp)=>{
-            console.log(resp);
             this.parametros.push(resp);
             this.cargarEstadoPeriodos();
             Swal.fire(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`,"success");
           }).catch((error)=>this.utilService.showSwAlertError("Cargando parametros de periodos",error));
         } else {
           this.utilService.showSwAlertError("Cargando parametro",`Ya existe ${nombreParam} en el ${periodo.Nombre}`);
-          /* this.ventanaError(`Ya existe ${nombreParam} en el ${periodo.Nombre}`); */
         }
       }
     });
@@ -148,7 +143,6 @@ export class PeriodosComponent implements OnInit {
 
   public detenerParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    /* this.mensajeConfirmacion(`detener ${nombreParam} de ${periodo.Nombre}`) */
     this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea detener ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
       .then(resp => {
         let idParametro = this.getIdParametro(nombreParam);
@@ -160,7 +154,6 @@ export class PeriodosComponent implements OnInit {
             this.cargarEstadoPeriodos();
           } else {
             this.utilService.showSwAlertError("Parametro no encontrado",`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
-            /* this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`); */
           }
         }
       });
@@ -169,7 +162,6 @@ export class PeriodosComponent implements OnInit {
 
   public reactivarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i]
-    /* this.mensajeConfirmacion(`Reactivar ${nombreParam} de ${periodo.Nombre}`) */
     this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea reactivar ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
       .then(resp => {
         let idParametro = this.getIdParametro(nombreParam);
@@ -181,7 +173,6 @@ export class PeriodosComponent implements OnInit {
             this.cargarEstadoPeriodos();
           } else {
             this.utilService.showSwAlertError("Parametro no encontrado",`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
-            /* this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`); */
           }
         }
       });

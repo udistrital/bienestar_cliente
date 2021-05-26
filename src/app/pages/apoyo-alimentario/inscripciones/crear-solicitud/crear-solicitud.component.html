@@ -6,10 +6,6 @@
                     Cargando formulario
                 </h1>
                 <br>
-                <button class="btn btn-block back-button" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
             </div>
         </div>
     </nb-card-header>
@@ -25,19 +21,11 @@
                         Solicitud apoyo alimentario {{ periodo?.Nombre }}
                     </h1>
                     <br>
-                    <button class="btn btn-block back-button" routerLink="../../">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        Regresar
-                    </button>
                 </div>
                 <div *ngIf="extraSolicitud" class="menu-header">
                     <h1>
                         Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
                     </h1>
-                    <button class="btn btn-block back-button" routerLink="../">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        Regresar
-                    </button>
                 </div>
                 <small>
                     Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de
@@ -324,11 +312,7 @@
                                     <!-- <span class="required-asterisk">*</span> -->
                                 </div>
                                 <div class="col-md-8">
-                                    <!-- <nb-select fullWidth size="large" placeholder="Con Quien Vive" formControlName="conQuienVive" required>
-                                        <nb-option value="Familia">Familia</nb-option>
-                                        <nb-option value="Amigos">Amigos</nb-option>
-                                        <nb-option value="Solo">Solo</nb-option>
-                                    </nb-select> -->
+                                    
                                     <input fullWidth nbInput formControlName="conQuienVive">
                                 </div>
                             </div>

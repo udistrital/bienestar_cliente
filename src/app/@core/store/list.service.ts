@@ -1,6 +1,4 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { IAppState } from './app.state';
-import { REDUCER_LIST } from './reducer.constants';
 import { ParametrosService } from '../data/parametros.service';
 import { TercerosService } from '../data/terceros.service';
 import { Periodo } from '../data/models/parametro/periodo';
@@ -12,7 +10,6 @@ import { Solicitud } from '../data/models/solicitud/solicitud';
 import { SolicitudService } from '../data/solicitud.service';
 import { EstadoTipoSolicitud } from '../data/models/solicitud/estado-tipo-solicitud';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
 import { Tercero } from '../data/models/terceros/tercero';
 import { ReferenciaSolicitud } from "../data/models/solicitud/referencia-solicitud";
 import { DatosIdentificacion } from '../data/models/terceros/datos_identificacion';
@@ -65,13 +62,7 @@ export class ListService {
       this.apoyoAlimentarioService.get(`registro_apoyo`)
         .subscribe(
           (result: any[]) => {
-            console.log(result);
             resolve(result)
-            /* if (Object.keys(result['Data'][0]).length > 0) {
-              resolve(result['Data']);
-            } else {
-              resolve([]);
-            } */
           },
           error => {
             reject(error);
@@ -82,41 +73,51 @@ export class ListService {
     });
   }
 
+  /**
+   *Consulta los registro de apoyo alimentario con algunos parametros opcionales
+   *
+   * @param {number} terceroId
+   * @param {number} solicitudId
+   * @param {number} espacioFisicoId
+   * @param {number} periodoId
+   * @param {boolean} activo
+   * @param {number} limite
+   * @return {*}  {Promise<ApoyoAlimentario[]>}
+   * @memberof ListService
+   */
   consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
-      let queryArr=[]
-      if(terceroId!=null){
+      let queryArr = []
+      if (terceroId != null) {
         queryArr.push(`tercero_id:${terceroId}`)
       }
-      if(solicitudId!=null){
+      if (solicitudId != null) {
         queryArr.push(`solicitud_id:${solicitudId}`)
       }
-      if(espacioFisicoId!=null){
+      if (espacioFisicoId != null) {
         queryArr.push(`espacio_fisico_id:${espacioFisicoId}`)
       }
-      if(periodoId!=null){
+      if (periodoId != null) {
         queryArr.push(`periodo_id:${periodoId}`)
       }
-      if(activo!=null){
+      if (activo != null) {
         queryArr.push(`activo:${activo}`)
       }
-      let query="";
-      console.log(queryArr);
-      
-      if(queryArr.length>0){
-        query="?query="
+      let query = "";
+
+      if (queryArr.length > 0) {
+        query = "?query="
         for (let i = 0; i < queryArr.length; i++) {
-          query+=queryArr[i]
-          if(i+1<queryArr.length){
-            query+=','
+          query += queryArr[i]
+          if (i + 1 < queryArr.length) {
+            query += ','
           }
         }
       }
-      if(limite!=null){
+      if (limite != null) {
 
       }
-      console.log(query);
-      this.apoyoAlimentarioService.get(`registro_apoyo${query}${(query!="" ? "&": "?")}sortby=id&order=desc${limite!=null ? `&LIMIT=${limite}` : ''}`)
+      this.apoyoAlimentarioService.get(`registro_apoyo${query}${(query != "" ? "&" : "?")}sortby=id&order=desc${limite != null ? `&LIMIT=${limite}` : ''}`)
         .subscribe(
           (result: any[]) => {
             resolve(result)
@@ -143,7 +144,6 @@ export class ListService {
         this.tercerosService.get(`tercero?query=Id:${TerceroId}`)
           .subscribe(
             (result: any[]) => {
-              console.log(result)
               if (result.length > 0) {
                 resolve(result[0]);
               }
@@ -270,8 +270,6 @@ export class ListService {
               /* Cargamos facultad y proyecto */
               this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
                 .subscribe((resp) => {
-                  console.log("======FACULTAD==========");
-                  console.log(resp);
                   if (Object.keys(resp[0]).length > 0) {
                     resolve([resp[0].PadreId.Nombre, resp[0].HijaId.Nombre]);
                   } else {
@@ -317,18 +315,35 @@ export class ListService {
     });
   }
 
-
+  /**
+   *Crear u registro informacion complemantaria tercero
+   *
+   * @param {InfoComplementariaTercero} infoComp
+   * @memberof ListService
+   */
   crearInfoComplementariaTercero(infoComp: InfoComplementariaTercero) {
     this.tercerosService.post('info_complementaria_tercero', JSON.stringify(infoComp))
       .subscribe();
   }
 
-
+  /**
+   *Actualiza una informacion complementaria
+   *
+   * @param {InfoComplementariaTercero} infoComp
+   * @memberof ListService
+   */
   actualizarInfoComplementaria(infoComp: InfoComplementariaTercero) {
     let id = infoComp.Id;
     this.tercerosService.put('info_complementaria_tercero', JSON.stringify(infoComp), id).subscribe();
   }
 
+  /**
+   *Busca la informacion complementaria
+   *
+   * @param {string} nombreInfoComp
+   * @return {*}  {Promise<InfoComplementaria>}
+   * @memberof ListService
+   */
   findInfoComplementaria(nombreInfoComp: string): Promise<InfoComplementaria> {
     return new Promise((resolve, reject) => {
       this.tercerosService.get(`info_complementaria?query=Nombre:${nombreInfoComp}`).subscribe((resp) => {
@@ -362,7 +377,6 @@ export class ListService {
             }
           },
           error => {
-            console.log(error);
             reject(error);
           });
     });
@@ -446,28 +460,12 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.parametrosService.get(`parametro_periodo?query=ParametroId.TipoParametroId.Id:${idNumber}&sortby=id&order=desc&limit=-1`)
         .subscribe((result: any[]) => {
-          console.log("result", result);
           if (Object.keys(result['Data'][0]).length > 0) {
             let parametros = <Array<ParametroPeriodo>>result['Data'];
-            console.log("parametros", parametros);
             resolve(result['Data']);
           } else {
-            console.log("No hay parametros para la Id", idNumber);
             resolve([]);
           }
-          /* for (let param of parametros) {
-            //console.log(param);
-            if (param.ParametroId.Id == environment.IDS.IDINSCRIPCIONES) {
-              this.periodos.push(param.PeriodoId);
-            }
-          }
-          if (this.periodos.length > 0) {
-            this.periodo = 0;
-            this.loadLists();
-          }
-          console.info(this.periodo); */
-          //this.periodo = result['Data'][0].PeriodoId;
-          //this.loadLists();
         },
           error => {
             console.error(error);
@@ -505,7 +503,6 @@ export class ListService {
           if (Object.keys(result['Data'][0]).length > 0) {
             resolve(result['Data']);
           } else {
-            console.log("Periodo Vacio");
             resolve([]);
           }
         },
@@ -545,10 +542,6 @@ export class ListService {
 
               this.loadTiposObservacion(1).then((resp) => {
                 /*  Agregar observacion*/
-                console.log("Creando observacion");
-
-                console.log("solicitud", solicitud);
-                console.log("tipo observacion", resp['Data'][0]);
 
                 let observacionObj = new Observacion();
                 observacionObj.SolicitudId = solicitud;
@@ -565,7 +558,6 @@ export class ListService {
                   this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                     .subscribe(res => {
                       //window.location.reload();
-                      console.log("cree la solicitud");
                     });
 
                 }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
@@ -587,7 +579,7 @@ export class ListService {
    *
    * @memberof ListService
    */
-  findSolicitudes(idEstadoTipo): Promise<Solicitud[]> {
+  findSolicitudes(idEstadoTipo, limite): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       let url = "solicitud"
       if (idEstadoTipo != null) {
@@ -595,7 +587,10 @@ export class ListService {
       } else {
         url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDTIPOSOLICITUD
       }
-
+      url += "&sortby=Id&order=desc"
+      if (limite > 0 || limite == -1) {
+        url += "&limit=" + limite;
+      }
       this.solicitudService.get(url)
         .subscribe(
           (result: any[]) => {
@@ -642,12 +637,11 @@ export class ListService {
       this.solicitudService.get(`solicitud?query=Id:${idSolicitud}`)
         .subscribe(
           (result: any[]) => {
-            console.log(result);
-            if (result.length > 0) {
+            if (Object.keys(result[0]).length > 0) {
               resolve(result[0]);
             }
             else {
-              resolve(undefined);
+              reject('No existe una solicitud con este ID');
             }
           },
           error => {
@@ -811,11 +805,11 @@ export class ListService {
    * @return {*} 
    * @memberof ListService
    */
-  crearObservacion(observacion: Observacion) {
+  crearObservacion(observacion: Observacion): Promise<Observacion> {
     return new Promise((resolve, reject) => {
       this.solicitudService.post('observacion', JSON.stringify(observacion))
         .subscribe(res => {
-          resolve(true);
+          resolve(res['Data']);
         }, error => { reject(error) });
     });
 
@@ -825,7 +819,6 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.solicitudService.post('paquete', JSON.stringify(paq))
         .subscribe(res => {
-          console.log(res);
           resolve(res['Data'].Id);
         }, error => { reject(error) });
     });
@@ -835,7 +828,6 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.solicitudService.post('paquete_solicitud', JSON.stringify(paqSol))
         .subscribe(res => {
-          console.log(res);
           resolve(true);
         }, error => { reject(error) });
     });
@@ -845,7 +837,6 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`paquete_solicitud?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=desc&limit=1`)
         .subscribe(res => {
-          console.log(res['Data']);
           if (Object.keys(res['Data']).length == 0) {
             resolve(undefined);
           }
@@ -858,8 +849,6 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}`)
         .subscribe(res => {
-          console.log((res));
-          console.log(res['Data']);
           if (res['Data'][0] == {}) {
             resolve(undefined);
           }
@@ -875,7 +864,6 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.solicitudService.post('soporte_paquete', JSON.stringify(SopPaq))
         .subscribe(res => {
-          console.log(res);
           resolve(true);
         }, error => { reject(error) });
     });
@@ -913,12 +901,11 @@ export class ListService {
    * @return {*}  {Promise<Observacion[]>}
    * @memberof ListService
    */
-  findObservacion(idSolicitud: number): Promise<Observacion[]> {
+  findObservacion(idSolicitud: number, idTipoObservacion: number): Promise<Observacion[]> {
     return new Promise((resolve, reject) => {
-      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc&limit=-1`)
+      this.solicitudService.get(`observacion?query=SolicitudId.Id:${idSolicitud},TipoObservacionId.Id:${idTipoObservacion}&sortby=Id&order=asc&limit=-1`)
         .subscribe(
           (result: any[]) => {
-            console.log("===Obsevaciones===");
             if (Object.keys(result[0]).length == 0) {
               resolve([])
             } else {
@@ -943,7 +930,6 @@ export class ListService {
       this.solicitudService.get(`solicitud_evolucion_estado?query=SolicitudId.Id:${idSolicitud}&sortby=Id&order=asc`)
         .subscribe(
           (result: any[]) => {
-            console.log("===Evolucion===");
             if (Object.keys(result[0]).length == 0) {
               resolve([])
             } else {
@@ -971,10 +957,13 @@ export class ListService {
       this.findDocumentosTercero(Idtercero, 'CODE').then((carnet) => {
         if (carnet.length > 0) {
           this.academicaService.get(`datos_basicos_estudiante/${carnet[0]['Numero']}`).subscribe((result) => {
-            console.log(result);
-            /* Cambiar por A */
-            resolve(result.datosEstudianteCollection.datosBasicosEstudiante[0].estado);
-          });
+            if (result) {
+              if (result.datosEstudianteCollection) {
+                resolve(result.datosEstudianteCollection.datosBasicosEstudiante[0].estado);
+              }
+            }
+            reject('No se puede encontrar el estado del estudiante');
+          }, (error) => reject(error));
         } else {
           reject("No se encuentra carnet asociado");
         }
@@ -995,7 +984,6 @@ export class ListService {
     return new Promise((resolve, reject) => {
       this.documentoService.get(`documento?query=Id:${idDocumento}`).subscribe(
         (result) => {
-          console.log(result);
           if (Object.keys(result[0]).length !== 0) {
             resolve(result[0]);
           } else {
@@ -1020,44 +1008,40 @@ export class ListService {
    */
   cargarLugar(Idlugar: number): Promise<Lugar> {
     return new Promise((resolve, reject) => {
-      console.log("ACA FALLOS");
-
       this.ubicacionesService.get(`lugar/${Idlugar}`).subscribe((result) => {
-        console.log("lugar res ->", result);
         resolve(result);
       }, (err) => {
-        console.log("Efectivamente F :(");
         reject(err);
       });
     })
 
   }
 
-    /* ***OIRKOS SERVICE ****** */
-    cargarSedesApoyo(): Promise<any[]> {
-      return new Promise((resolve, reject) => {
-        this.oikosService
-          .get(
-            `tipo_uso_espacio_fisico?query=TipoUsoId.Nombre:Apoyo,Activo:true&limit=-1`
-          )
-          .subscribe(
-            (result) => {
-              if(Object.keys(result[0]).length>0){
-                let sedesAcceso=[]
-                for (let i = 0; i < result.length; i++) {
-                  sedesAcceso.push(result[i].EspacioFisicoId);
-                }
-                if(sedesAcceso.length>0){
-                  resolve(sedesAcceso)
-                }else{
-                  reject('No se encontraron sedes para apoyo alimentario')
-                }
+  /* ***OIRKOS SERVICE ****** */
+  cargarSedesApoyo(): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.oikosService
+        .get(
+          `tipo_uso_espacio_fisico?query=TipoUsoId.Nombre:Apoyo,Activo:true&limit=-1`
+        )
+        .subscribe(
+          (result) => {
+            if (Object.keys(result[0]).length > 0) {
+              let sedesAcceso = []
+              for (let i = 0; i < result.length; i++) {
+                sedesAcceso.push(result[i].EspacioFisicoId);
               }
-              reject('No se encontraron sedes para apoyo alimentario')
-            },(error)=> reject(error));
-      });
-    }
-    
+              if (sedesAcceso.length > 0) {
+                resolve(sedesAcceso)
+              } else {
+                reject('No se encontraron sedes para apoyo alimentario')
+              }
+            }
+            reject('No se encontraron sedes para apoyo alimentario')
+          }, (error) => reject(error));
+    });
+  }
+
 
 
 

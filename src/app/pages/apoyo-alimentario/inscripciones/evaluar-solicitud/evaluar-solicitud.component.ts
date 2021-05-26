@@ -88,7 +88,9 @@ export class EvaluarSolicitudComponent implements OnInit {
 
     loadSolicitud() {
         this.listService.loadSolicitud(this.idSolicitud).then((respSolicitud) => {
+            console.log(respSolicitud)
             this.solicitud = respSolicitud;
+            console.log(this.solicitud,'paso')
             if (this.solicitud != undefined) {
                 this.loadDocumentos();
                 this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {
@@ -102,7 +104,7 @@ export class EvaluarSolicitudComponent implements OnInit {
                         this.utilsService.showSwAlertError("Solicitante no encontrado","No se encontro un solicitante para la solicitud");
                     }
                 }).catch((err) => this.utilsService.showSwAlertError("Solicitante no encontrado",err));
-                this.listService.findObservacion(this.solicitud.Id).then((respObs) => {
+                this.listService.findObservacion(this.solicitud.Id,1).then((respObs) => {
                     console.log(respObs);
                     this.observaciones = respObs;
                 }).catch((errObs) =>  this.utilsService.showSwAlertError("Observación no encontrada",errObs));
@@ -300,8 +302,9 @@ export class EvaluarSolicitudComponent implements OnInit {
                             observacionObj.Titulo = tituloObservacion;
                             observacionObj.Valor = obseracionCompleta;
                             observacionObj.TipoObservacionId = resp['Data'][0];
-                            this.listService.crearObservacion(observacionObj).then((resp) => {
-                                this.observaciones.push(observacionObj);
+                            this.listService.crearObservacion(observacionObj).then((respObs) => {
+                                respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0]+'.000000 +0000 +0000';               
+                                this.observaciones.push(respObs);
                                 this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                                 //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                             }).catch( (error) => this.utilsService.showSwAlertError("No se creo la Observación",error));
@@ -344,8 +347,9 @@ export class EvaluarSolicitudComponent implements OnInit {
                             observacionObj.Titulo = result['value'][0];
                             observacionObj.Valor = result['value'][1]+" // "+this.utilsService.getUsuarioWSO2();
                             observacionObj.TipoObservacionId = resp['Data'][0];
-                            this.listService.crearObservacion(observacionObj).then((resp) => {
-                                this.observaciones.push(observacionObj);
+                            this.listService.crearObservacion(observacionObj).then((respObs) => {
+                                respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0]+'.000000 +0000 +0000';               
+                                this.observaciones.push(respObs);
                                 this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                                 //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
                             }).catch((errOb)=>this.utilsService.showSwAlertError("No se pudo crear la observacion",errOb));

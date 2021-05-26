@@ -1,30 +1,4 @@
-<!-- <nb-card>
-    <nb-card-header>
-        <div class="text-center pt-2">
-            <div class="menu-header">
-                <h1 *ngIf="solicitud!==null">
-                    Solicitud apoyo alimentario No. {{ solicitud.Id }}
-                </h1>
-                <h1 *ngIf="solicitud==null">
-                    Solicitud no encontrada
-                </h1>
-                <br>
-                <button class="btn back-button btn-block" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
-            </div>
-            <small *ngIf="solicitud!==null">
-                <span class="required-asterisk">*</span>
-                Recuerde que debe cargar TODOS los documentos para que pueda ser valida la radicación de su solicitud.
-                <br>
-                De  lo contrario el envió de su solicitud no será tenido en cuenta.
-            </small>
-        </div>
-    </nb-card-header>
-    <hr>
-    <nb-card-body>
-        <div class="container" *ngIf="solicitud!==null"> -->
+
 <h6 class="text-center">Carga de Documentos</h6>
 <small class="small-info-ud">
     Todos los documentos, certificados o soportes deben ser subidos en formato PDF, de lo contrario no serán admitidos
@@ -198,44 +172,3 @@
     </div>
     <hr>
 </form>
-
-<!-- <div class="form-group">
-    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="guardarDoc()" class="submit-button">
-        <i class="fas fa-save mr-1"></i>
-        Guardar documentos
-    </button>
-</div> -->
-
-<!-- <hr>
-
-            <mat-label>Enviar documentación &nbsp; </mat-label>
-            <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la validación y dará respuesta únicamente basándose en
-                el primer diligenciamiento.
-                <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
-                <hr>
-                <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="guardarDoc()" class="submit-button">
-
-                        <i class="fas fa-save mr-1"></i>
-                        Guardar documentos
-                    </button>
-                </div>
-
-            </mat-hint> 
-
-        </div>
-
-        <div *ngIf="solicitud==null" class="alert alert-warning text-center mt-3">
-            <h3 class="alert-heading">No se encuentra la solicitud o no fue diligenciada correctamente</h3>
-            <p>
-                <i class="fa fa-exclamation fa-2x "></i>
-            </p>
-        </div>
-
-    </nb-card-body>
-</nb-card>
-
-<p>
-    {{solicitud | json}}
-</p>
--->

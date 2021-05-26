@@ -8,8 +8,6 @@ import { DatePipe } from "@angular/common";
 import { formatDate } from "@angular/common";
 import { environment } from "../../../../../environments/environment";
 import { OikosService } from "../../../../@core/data/oikos.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { TranslateService } from "@ngx-translate/core";
 import { Tercero } from "../../../../@core/data/models/terceros/tercero";
 import { ApoyoAlimentarioService } from "../../../../@core/data/apoyo-alimentario.service";
 import { Registro } from "../../../../@core/data/models/registro";
@@ -22,13 +20,17 @@ import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante
   templateUrl: "./inscritos.component.html",
   styleUrls: ["./inscritos.component.scss"],
 })
+
+
 export class InscritosComponent implements OnInit {
+
+
+  
   noBeneficiarios: boolean;
   sedesAcceso = [];
   facultadAccesso = [];
   registros = [];
   registroBase = new RegistroInscritoModel();
-  registro2Base = new ApoyoAlimentario();
   periodo: Periodo = null;
   myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
   usuarioWSO2 = "";
@@ -99,18 +101,13 @@ export class InscritosComponent implements OnInit {
 
 
     this.registroBase.sede = form.value["sede"];
-    this.registro2Base.espacioFisicoId = this.sedesAcceso[form.value["sede"]];
 
     /* Asociamos tercero con el documento */
     const content = Swal.getContent();
     const b = content.querySelector('b');
 
-    /* if (content) {
-      const b = content.querySelector('b');
-      if (b) { */
     b.textContent = `Buscando usuario por documento`;
-    /* }
-  } */
+
     this.listService.loadTerceroByDocumento(this.registroBase.codigo).then((resp) => {
       const terceroReg: Tercero = resp;
       let solicitudId: number = 0;
@@ -123,7 +120,6 @@ export class InscritosComponent implements OnInit {
             if (listSolicitante.length > 0) {
               solicitudId = listSolicitante[0].Id;
             }
-            console.log(solicitudId);
 
             this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
               (permitir) => {
@@ -173,6 +169,7 @@ export class InscritosComponent implements OnInit {
           });
       } else {
         this.showError(`${this.registroBase.codigo}`, "Identificacion no asociada a un estudiante");
+        this.registroBase.codigo='';
       }
     });
   }
@@ -197,6 +194,7 @@ export class InscritosComponent implements OnInit {
             }
           }
           this.listService.cargarEstadoTercero(terceroId).then((estado) => {
+            //Cambiar por A
             if (estado == 'V') {
               resolve(true);
             } else {
@@ -314,8 +312,8 @@ export class InscritosComponent implements OnInit {
     Swal.close();
     let reg = new Registro(titulo, error, "alert-danger");
     this.registros.push(reg);
-
     this.utilsService.showToastError(titulo, error, "alert-circle-outline");
+    this.registroBase.codigo = "";
   }
 
 }

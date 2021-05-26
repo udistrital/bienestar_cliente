@@ -1,0 +1,153 @@
+<button *ngIf="tercero!=undefined" class="btn back-button btn-block" (click)="borrarBusqueda()">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    Regresar
+</button>
+<nb-card>
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1 *ngIf="!addFalla">
+                    Fallas justificadas
+                </h1>
+                <h1 *ngIf="addFalla">
+                    Agregar Falla Justificada
+                </h1>
+            </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body *ngIf="tercero==undefined">
+        <div class="row">
+            <div class="col">
+                <form (ngSubmit)="buscar( f )" #f="ngForm">
+
+                    <div class="form-group input-group">
+                        <div class="label-color-ud input-group-prepend input-group-text">
+                            <i class="fa fa-file-signature " aria-hidden="true"></i>
+                            <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
+                        </div>
+
+                        <select class="form-control custom-select input-text-ud" name="parametro" [(ngModel)]="parametro" [disabled]="parametros.length === 0" [class.is-invalid]="parametro.invalid && parametro.touched" required placeholder="Periodos academicos" #parametroM="ngModel">
+                            <option *ngFor="let item of parametros; let i=index;" [value]="i">{{item.PeriodoId.Nombre}}
+                            </option>
+                        </select>
+                        <small *ngIf="parametros.length==0">Debe existir un parametro </small>
+                        <br>
+                    </div>
+
+                    <div class="form-group input-group">
+                        <div class="label-color-ud input-group-prepend input-group-text mt-1n">
+                            <i class="fa fa-barcode mt-2n mr-1" aria-hidden="true"></i>
+                            <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                                Codigo
+                                <br>
+                                Estudiante
+                            </span>
+                        </div>
+                        <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante o documento" [(ngModel)]="codigo" #codigoM="ngModel" [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{9,}" required>
+                    </div>
+                    <div class="small-ud">
+                        <small *ngIf="codigoM.invalid && codigoM.touched " class="form-text text-danger mt-n4 mb-2">Tienes
+                            que ingresar un codigo correcto</small>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button">
+                            <i class="fas fa-search mr-1"></i>
+                            Buscar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </nb-card-body>
+
+    <nb-card-body *ngIf="tercero!=undefined && !addFalla">
+
+        <!-- <button class="btn btn-danger btn-block mb-3" (click)="borrarBusqueda()">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button> -->
+        <div class="menu-list">
+            <div class="item " style="font-size:1.25rem;">
+                <!-- form-group  -->
+                <label class="sub-item label-color-ud ">
+                    Nombre : &nbsp;
+                </label>
+                <label ng-readonly="!nueva" class="sub-item ">
+                    {{ tercero.NombreCompleto }}
+                </label>
+                <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+            </div>
+        </div>
+        <hr>
+        <!-- Solicitante
+            Tercero
+            Justificaciones
+        -->
+        <div class="container">
+            <div *ngIf="justificaciones.length>0" class="timeline">
+                <div *ngFor="let jus of justificaciones" class="timeline__group">
+                    <span class="timeline__year time" aria-hidden="true">{{ jus.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
+                    </span>
+                    <div class="timeline__cards">
+                        <div class="timeline__card card">
+                            <header class="card__header">
+                                <b>{{jus.Titulo}}</b>
+                            </header>
+                            <div class="card__content">
+                                <p>{{jus.Valor.split('//')[0]}}</p>
+                                <small class="text-muted" *ngIf="jus.Valor.split('//')[1]">
+                                    Creador: {{jus.Valor.split('//')[1]}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="parametros[parametro].Activo">
+                <button nbButton fullWidth hero shape="semi-round" status="info" class="btn btn-success btn-block pt-2" (click)="addFalla=true;" class="submit-button">
+                    <i class="fa fa-user-tag mr-1" aria-hidden="true"></i>
+                    Crear justificación
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="justificaciones.length==0" class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No hay fallas justificadas</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x    "></i>
+            </p>
+        </div>
+    </nb-card-body>
+
+    <nb-card-body *ngIf="tercero!=undefined && addFalla">
+        <div class="row">
+            <div class="col">
+                <div class="form-group input-group">
+                    <div class="label-color-ud input-group-prepend input-group-text">
+                        <i class="fa fa-calendar-day " aria-hidden="true"></i>
+                        <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Fecha</span>
+                    </div>
+                    <input type="date" placeholder="Fecha de Falla" name="fechaFalla" class="form-control" required #fechaFalla>
+                </div>
+                <div class="form-group input-group">
+                    <div class="label-color-ud input-group-prepend input-group-text">
+                        <i class="fa fa-envelope-open-text" aria-hidden="true"></i>
+                        <span class="label-color-ud ml-2" id="inputGroup-sizing-default">Justificación</span>
+                    </div>
+                    <textarea placeholder="Justificación de la Falla" name="justificacion" class="form-control" rows="4" cols="40" required #justificacion></textarea>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <button nbButton fullWidth shape="semi-round" status="success" (click)="agregarJustificacion(fechaFalla.value,justificacion.value)" class="submit-button init-icon">
+                        <i class="fas fa-plus mr-1"></i>
+                        Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+
+</nb-card>

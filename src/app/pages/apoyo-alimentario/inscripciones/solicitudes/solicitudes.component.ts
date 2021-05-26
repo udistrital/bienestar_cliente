@@ -9,20 +9,36 @@ import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/est
 import { Estado } from '../../../../@core/data/models/solicitud/estado';
 import { DatePipe } from '@angular/common';
 
+class SolicitudExt {
+  Solicitud: Solicitud;
+  Periodo: string;
+  Puntaje: number;
+  constructor(sol: Solicitud) {
+    this.Solicitud = sol;
+    const refSol: ReferenciaSolicitud = JSON.parse(sol.Referencia);
+    this.Periodo = refSol.Periodo;
+    this.Puntaje = refSol.Puntaje;
+  }
+}
+
 
 @Component({
   selector: 'ngx-solicitudes',
   templateUrl: './solicitudes.component.html',
   styleUrls: ['./solicitudes.component.scss']
 })
+
+
 export class SolicitudesComponent implements OnInit {
+
+  solicitudesExt: SolicitudExt[] = [];
   solicitudes: Solicitud[] = [];
   filSols: Solicitud[] = [];
   periodos: Periodo[] = [];
   estadosTipoSolicitud: EstadoTipoSolicitud[] = [];
   estados: Estado[] = [];
   periodo: number = null;
-  estado: number = null;
+  estadoTipo: number = null;
   busqueda: string;
   pagActual: number = 1;
   contPag: number = 0;
@@ -33,8 +49,7 @@ export class SolicitudesComponent implements OnInit {
     private utilService: UtilService,
   ) {
     this.loadPeriodo();
-    
-    this.listService.findSolicitudes(null).then((result)=>{
+    /* this.listService.findSolicitudes(null,-1).then((result)=>{
       if(result!=[]) {
         for (let solicitud of result) {
           this.solicitudes.push(solicitud);
@@ -43,7 +58,7 @@ export class SolicitudesComponent implements OnInit {
       }else{
         this.utilService.showSwAlertError("Solicitudes no encontrados","No se encontraron solicitudes para ningun periodo");
       }
-    }).catch((err)=>this.utilService.showSwAlertError("Error",err));
+    }).catch((err)=>this.utilService.showSwAlertError("Error",err)); */
 
     this.loadEstadoTipoSolicitud();
 
@@ -55,8 +70,7 @@ export class SolicitudesComponent implements OnInit {
           let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
           for (let estadoTipo of estadosTiposolicitud) {
             this.estadosTipoSolicitud.push(estadoTipo);
-            this.estados.push(estadoTipo.EstadoId);
-          } 
+          }
         }
       },
         error => {
@@ -66,70 +80,74 @@ export class SolicitudesComponent implements OnInit {
   }
 
   private loadPeriodo() {
-    this.listService.findParametrosByPeriodoTipoEstado(null,environment.IDS.IDINSCRIPCIONES,null)
-    .then((result) => {
-      if(result!=[]) {
-        for (let params of result) {
-          this.periodos.push(params.PeriodoId);
+    this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, null)
+      .then((result) => {
+        if (result != []) {
+          for (let params of result) {
+            this.periodos.push(params.PeriodoId);
+          }
+          if (this.periodos.length > 0) {
+            this.periodo = 0;
+          }
+        } else {
+          this.utilService.showSwAlertError("Parametros no encontrados", "No se encontraron periodos con solicitudes");
         }
-        if (this.periodos.length > 0) {
-          this.periodo = 0;
-        }
-      }else{
-        this.utilService.showSwAlertError("Parametros no encontrados","No se encontraron periodos con solicitudes");
-      }
-    }).catch((err) => {this.utilService.showSwAlertError("Parametros no encontrados",err)} );
+      }).catch((err) => { this.utilService.showSwAlertError("Parametros no encontrados", err) });
   }
 
   ngOnInit() {
   }
 
-   private filtrarSolicitudes() {
-    this.pagActual=1
-    this.filSols=[];
-    for (const solicitud of this.solicitudes) {
-      try {
-        let refSol: ReferenciaSolicitud = JSON.parse(solicitud.Referencia);
-        console.log('referencia', refSol);
-        if (this.periodo == null || this.periodos[this.periodo].Nombre == refSol.Periodo) {
-          if (this.estado == null || this.estados[this.estado].Id == solicitud.EstadoTipoSolicitudId.EstadoId.Id) {
-            this.filSols.push(solicitud);
+  buscarSolicitudes() {
+    console.log(this.estadoTipo)
+    console.log(this.periodo)
+    console.log(this.itemSelect)
+    this.listService.findSolicitudes(this.estadoTipo, this.itemSelect).then((result) => {
+      if (result != []) {
+        this.solicitudesExt = []
+        for (let solicitud of result) {
+          const solext = new SolicitudExt(solicitud);
+          if (this.periodo == null || this.periodos[this.periodo].Nombre == solext.Periodo) {
+            this.solicitudesExt.push(solext)
           }
         }
-      } catch {
-        console.error("Problema con la referencia de la solicitud");
+        if(this.solicitudesExt.length==0){
+          this.utilService.showSwAlertError('Solicitudes no encontradas','No se encontro ninguna solicitud con los parametros seleccionados.');
+        }
+      } else {
+        this.utilService.showSwAlertError("Solicitudes no encontrados", "No se encontraron solicitudes para ningun periodo");
       }
-    }
-  }
-
-  onSelect($event) {
-    this.filtrarSolicitudes();
+    }).catch((err) => this.utilService.showSwAlertError("Error", err));
   }
 
   exportarCsv() {
     const headers = {
       id: "id",
+      tipo: "tipo_solicitud",
       activo: "activo",
-      estado: "Estado",
-      fechaCreacion: "Fecha creacion",
-      referencia: "referencia",
+      estado: "estado_soolicitud",
+      fechaCreacion: "fecha_creacion",
+      periodo: "periodo",
+      puntaje: "puntaje",
       solicitudFinalizada: "Finalizada"
     };
     const data = [];
-    for (const s of this.filSols) {
+    for (const s of this.solicitudesExt) {
       data.push({
-        id: s.Id,
-        activo: s.Activo,
-        estado: s.EstadoTipoSolicitudId.EstadoId.Nombre,
-        fechaCreacion: s.FechaCreacion,
-        refencia: s.Referencia.split(':')[1][-1],
-        solicitudFinalizada: s.SolicitudFinalizada
-      })
-
+        id: s.Solicitud.Id,
+        tipo: s.Solicitud.EstadoTipoSolicitudId.TipoSolicitud.Nombre,
+        activo: s.Solicitud.Activo ? 'SI' : 'NO',
+        estado: s.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre,
+        fechaCreacion: s.Solicitud.FechaCreacion,
+        periodo: s.Periodo,
+        puntaje: s.Puntaje,
+        solicitudFinalizada: s.Solicitud.SolicitudFinalizada ? 'SI' : 'NO'
+      });
     }
-    let nombre ="solicitudes "+ 
-    (this.estados[this.estado] != null ? this.estados[this.estado].Nombre +" ": "")+ 
-    (this.periodos[this.periodo]!=null ? this.periodos[this.periodo].Nombre: "historico");
+    let nombre = "solicitudes " +
+      (this.estadoTipo != null ? this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre + " " : "") +
+      (this.periodos[this.periodo] != null ? this.periodos[this.periodo].Nombre : "historico") +
+      " "+(new Date()).toISOString();
     this.utilService.exportCSVFile(headers, data, nombre);
   }
 }

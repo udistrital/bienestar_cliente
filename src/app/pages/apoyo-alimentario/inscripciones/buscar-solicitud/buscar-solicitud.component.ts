@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ListService } from '../../../../@core/store/list.service';
-import Swal from 'sweetalert2';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { UtilService } from '../../../../shared/services/utilService';
@@ -16,7 +15,7 @@ export class BuscarSolicitudComponent implements OnInit {
   periodos = [];
   periodo: number = 0;
   codigo = "";
-  solicitudes: Solicitud[]=null;
+  solicitudes: Solicitud[]=[];
 
   constructor(
     private utilService: UtilService,
@@ -51,18 +50,17 @@ export class BuscarSolicitudComponent implements OnInit {
             for (const solicitante of resp) {
               this.solicitudes.push(solicitante.SolicitudId);
             }
+            if (this.solicitudes.length == 0) {
+              this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes de ${terceroReg.NombreCompleto} para ${this.periodo>=0 ? this.periodos[this.periodo].Nombre : "ningun periodo"}`);
+            }
           }
         ).catch((error)=>console.error(error));
       } else {
         this.utilService.showSwAlertError("Estudiante no encontrado",'No se encuentra el tercero');
-        /* Swal.fire("Error",
-          `<p>No se encuentra el tercero</p>`, "error"); */
       }
     }).catch(
       (error) => {
         this.utilService.showSwAlertError("Estudiante no encontrado",`<p>${error}</p>`);
-        /* Swal.fire("Error",
-          `<p>${error}</p>`, "error"); */
       }
     );
 

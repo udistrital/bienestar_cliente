@@ -756,19 +756,21 @@ export class CrearSolicitudComponent implements OnInit {
     //Ingresos Familiares.
     let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
 
-    if(ingresosMes>=0 && ingresosMes<=1000000){
+    const SMMLV = 908.526; // Salario Minimo Mensual Legal Vigente
+
+    if(ingresosMes>=0 && ingresosMes<=SMMLV){
       console.log("30 Puntos");
       ingresosFamiliares=30;
-    }else if(ingresosMes>1000000 && ingresosMes<=2000000){
+    }else if(ingresosMes>(SMMLV*1) && ingresosMes<=(SMMLV*2)){
       console.log("20 Puntos");
       ingresosFamiliares=20;
-    }else if(ingresosMes>2000000 && ingresosMes<=3000000){
+    }else if(ingresosMes>(SMMLV*2) && ingresosMes<=(SMMLV*3)){
       console.log("10 Puntos");
       ingresosFamiliares=10;
-    }else if(ingresosMes>3000000 && ingresosMes<=4000000){
+    }else if(ingresosMes>(SMMLV*3) && ingresosMes<=(SMMLV*4)){
       console.log("5 Puntos");
       ingresosFamiliares=5;
-    }else if(ingresosMes>4000000){
+    }else if(ingresosMes>(SMMLV*4)){
       console.log("0 Puntos");
       ingresosFamiliares=0;
     }else{
@@ -889,33 +891,6 @@ export class CrearSolicitudComponent implements OnInit {
       this.utilService.showSwAlertError(" Documentos invalidos "," Ocurrio un error al cargar los documentos, asegurese de subirlos nuevamente.");
     }
 
-    /* let archivosAdjuntos = [];
-    let nombreArchivos= ['documentoIdentidad'];
-    for (const iterator of nombreArchivos) {
-      let archivo=this.documentosMap.get(iterator)
-      archivosAdjuntos.push(archivo);
-    }
-    console.log(archivosAdjuntos);
-
-    this.nuxeoService.getDocumentos$(archivosAdjuntos, this.documentoService).subscribe((res) => {
-      console.log("Respuesta de nuexeo");
-      console.log(res);
-
-      if (archivosAdjuntos.length === Object.keys(res).length) {
-          this.formularioReliquidacion.documentosCargados = res;
-          const terceroInfoComplementaria: any = {};
-          terceroInfoComplementaria.TerceroId = this.estudiante;
-          terceroInfoComplementaria.Id = null;
-          terceroInfoComplementaria.Activo = true;
-          terceroInfoComplementaria.InfoComplementariaId = this.bodyReliquidacion;
-          terceroInfoComplementaria.Dato = JSON.stringify(this.formularioReliquidacion);
-          this.reliquidacionHelper.grabarSolicitudReliquidacion(terceroInfoComplementaria).subscribe((res2) => {
-              this.reliquidacionHelper.obtenerTipoSolicitudEnviada().subscribe((tipoSolicitud) => {
-                  this.guardarSolicitud(tipoSolicitud.Data, res2, this.formularioReliquidacion.documentosCargados);
-              });
-          });
-      }
-    }); */
   }
 
   actualizarInfoEstudiante() {

@@ -47,6 +47,8 @@ import { SafePipe } from './pipes/safe.pipe';
 import { CrearSolicitudComponent } from './inscripciones/crear-solicitud/crear-solicitud.component';
 import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
 import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudiante-periodo.component';
+import { ReportesComponent } from './informes/reportes/reportes.component';
+import { FallasJustificadasComponent } from './registro/fallas-justificadas/fallas-justificadas.component';
 
 @NgModule({
     imports: [
@@ -95,7 +97,9 @@ import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudi
     SafePipe,
     CrearSolicitudComponent,
     EvaluacionMasivaComponent,
-    EstudiantePeriodoComponent
+    EstudiantePeriodoComponent,
+    ReportesComponent,
+    FallasJustificadasComponent
    ],
   providers: [
 

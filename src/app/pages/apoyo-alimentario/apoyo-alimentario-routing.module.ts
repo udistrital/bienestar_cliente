@@ -18,6 +18,8 @@ import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/eva
 import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudiante-periodo.component';
 import { AuthGuard } from '../../@core/_guards/auth.guard';
 import { RolesConstanst } from '../../shared/constants/roles.constants';
+import { ReportesComponent } from './informes/reportes/reportes.component';
+import { FallasJustificadasComponent } from './registro/fallas-justificadas/fallas-justificadas.component';
 
 const routes: Routes = [
   {
@@ -42,6 +44,10 @@ const routes: Routes = [
         component: InscritosComponent
       },
       {
+        path: 'fallas-justificadas',
+        component: FallasJustificadasComponent
+      },
+      {
         path: '**', component: NotFoundComponent
       },
 
@@ -49,10 +55,10 @@ const routes: Routes = [
   },
   {
     path: 'solicitud',
-    canActivate: [AuthGuard],
+    /* canActivate: [AuthGuard],
     data: {
       roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
-    },
+    }, */
     component: SolicitudTerceroComponent
   },
   {
@@ -87,6 +93,9 @@ const routes: Routes = [
       roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
     },
     children: [
+      {
+        path: 'reportes', component: ReportesComponent
+      },
       {
         path: 'periodo', component: PeriodoComponent
       },
