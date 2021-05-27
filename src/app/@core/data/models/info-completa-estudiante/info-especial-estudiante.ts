@@ -6,7 +6,7 @@ export class InfoEspecialEstudiante {
     SerPiloPaga:string;
     constructor() {
         this.CondicionEspecial= null;
-        this.Discapacidad='no';
+        this.Discapacidad=null;
         this.Patologia=null;
         this.SeguridadSocial= null;
         this.SerPiloPaga= null;

@@ -85,6 +85,9 @@ export class CargarDocPbComponent implements OnInit {
       valid=false;
     }else if(!this.documentos.valid){
       let msj="";
+      console.log(this.documentos.controls.documentoIdentidad.value);
+      console.log(this.documentos.controls.formularioSIGUD.value);
+      console.log(this.documentos.controls.patologia.value);
       if(!this.documentos.controls.documentoIdentidad.valid){
         msj= msj+" Documento de Identidad,"
       }
@@ -101,7 +104,7 @@ export class CargarDocPbComponent implements OnInit {
         msj= msj+" Recibo matricula,"
       }
       if(!this.documentos.controls.horarioAcademico.valid){
-        msj= msj+" Carta a Bienestar,"
+        msj= msj+" Horario Académico,"
       }
       if(!this.documentos.controls.certificadoIngresos.valid){
         msj= msj+" Certificado de Ingresos,"

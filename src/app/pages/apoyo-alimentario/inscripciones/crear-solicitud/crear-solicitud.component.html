@@ -31,7 +31,7 @@
                     Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de
                     Gestión Académica
                     <br>
-                    Los campos con <span class="oas-asterisk">*</span>, información que nos falta de la OAS.
+                    Los campos con <span class="oas-asterisk">*</span>, se diligenciaran dependiendo su respuesta.
                     <br>
                     Los campos con <span class="required-asterisk">*</span>, traen información ya existente pero se
                     puede cambiar dependiendo de su situación actual.
@@ -202,16 +202,17 @@
                             <div class="row item-list">
                                 <div class="col-md-4">Valor Matricula:
                                     <span class="required-asterisk">*</span>
+                                    <p class="line"></p>
                                     <small class="small-info-ud">
                                         Si el valor de la matricula es 0, agregar el valor del seguro.
                                     </small>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="number" nbInput fullWidth formControlName="valorMatricula" pattern="[0-9]{1,}" required>
+                                    <small *ngIf="academica.controls.valorMatricula.value<0 " class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
                                 </div>
-                                <small *ngIf="academica.controls.valorMatricula.value<=0" class="form-text text-danger mt-2">
-                                    Tienes que ingresar un número correcto
-                                </small>
                             </div>
                             <div class="row item-list">
                                 <div class="col-md-4">
@@ -220,8 +221,8 @@
                                 </div>
                                 <div class="col-md-8">
                                     <!-- required> -->
-                                    <input type="number" nbInput fullWidth formControlName="numeroCreditos" pattern="[0-9]{1,}" required>
-                                    <small *ngIf="academica.controls.numeroCreditos.value<0" class="form-text text-danger mt-2">
+                                    <input type="number" nbInput fullWidth formControlName="numeroCreditos" pattern="[0-9]{1,2}" required>
+                                    <small *ngIf="academica.controls.numeroCreditos.value<0 || academica.controls.numeroCreditos.value>21" class="form-text text-danger mt-2">
                                         Tienes que ingresar un número correcto
                                     </small>
                                 </div>
@@ -232,11 +233,11 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="promedio" pattern="[0-9]{1,}" required>
+                                    <input type="number" nbInput fullWidth formControlName="promedio" pattern="[0-9.,]{1,5}" required>
+                                    <small *ngIf="academica.controls.promedio.value<0 || academica.controls.promedio.value>5" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto (Entre 0.0 y 5.0)
+                                    </small>
                                 </div>
-                                <small *ngIf="academica.controls.promedio.value<0 || academica.controls.promedio.value>5" class="form-text text-danger mt-2">
-                                    Tienes que ingresar un número correcto (Entre 0.0 y 5.0)
-                                </small>
                             </div>
 
                             <div class="row item-list">
@@ -244,14 +245,14 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="matriculas" pattern="[0-9]{1,}" required>
+                                    <input type="number" nbInput fullWidth formControlName="matriculas" pattern="[0-9]{1,2}" required>
+                                    <small *ngIf="academica.controls.matriculas.value<0" class="form-text text-danger mt-2">
+                                        Tienes que ingresar un número correcto
+                                    </small>
+                                    <small *ngIf="academica.controls.matriculas.value>15" class="form-text text-danger mt-2">
+                                        Lo sentimos, ya sobrepaso el número máximo de matriculas
+                                    </small>
                                 </div>
-                                <small *ngIf="academica.controls.promedio.value<=0 || academica.controls.promedio.value>15" class="form-text text-danger mt-2">
-                                    Tienes que ingresar un número correcto
-                                </small>
-                                <small *ngIf="academica.controls.promedio.value>15" class="form-text text-danger mt-2">
-                                    Lo sentimos, ya sobrepaso el número máximo de mtriculas
-                                </small>
                             </div>
                         </form>
                     </nb-accordion-item-body>
@@ -312,7 +313,7 @@
                                     <!-- <span class="required-asterisk">*</span> -->
                                 </div>
                                 <div class="col-md-8">
-                                    
+
                                     <input fullWidth nbInput formControlName="conQuienVive">
                                 </div>
                             </div>
@@ -334,7 +335,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Carta o contrato de arrendamiento:
-                                    <span class="oas-asterisk">@</span>
+                                    <span class="oas-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <p class="label-color-ud small-info-ud">Dependiendo su respuesta deberá cargar el Documento mas adelante.</p>
@@ -425,7 +426,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Registro Civil Hijos:
-                                    <span class="oas-asterisk">@</span>
+                                    <span class="oas-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
@@ -526,7 +527,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Soporte Sisben:
-                                    <span class="oas-asterisk">@</span>
+                                    <span class="oas-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
@@ -680,7 +681,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Certificado población especial:
-                                    <span class="oas-asterisk">@</span>
+                                    <span class="oas-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
@@ -707,7 +708,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Documento soporte de la discapacidad:
-                                    <span class="oas-asterisk">@</span>
+                                    <span class="oas-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
@@ -734,7 +735,7 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     Certificado médico:
-                                    <span class="oas-asterisk">@</span>
+                                    <span class="oas-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <p class="label-color-ud small-info-ud mt-3">Dependiendo de su respuesta deberá cargar el Documento más adelante.</p>
@@ -800,7 +801,7 @@
                 <!-- Cambiar por cargarDocumentos() -->
 
                 <div class="form-group">
-                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="actualizarInfoEstudiante()" class="submit-button">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                         <i class="fas fa-save mr-1"></i>
                         Registrar
                     </button>

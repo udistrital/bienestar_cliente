@@ -100,6 +100,9 @@ export class CrearSolicitudComponent implements OnInit {
           case "Apoyo Alimentario":
             this.agregarInformacionApoyoAlimentario(infComp);
             break;
+          case "Información básica":
+            this.agregarInformacionBasica(infComp);
+            break;
           case "Dependencia económica":
             this.estudiante.InfoSocioeconomica.DependenciaEconomica =
               infComp.InfoComplementariaId.Nombre;
@@ -307,15 +310,10 @@ export class CrearSolicitudComponent implements OnInit {
             contServices++;
           }
         }
-        console.log('num es :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos.length);
-        console.log('numsssss :>> ', contServices);
         if (contServices == this.estudiante.InfoNecesidades.ServiciosPublicos.length) {
           this.oneServicesP = true;
         }
-        /* this.estudiante.InfoNecesidades.AguasNegras = JSON.parse(
-          infComp.Dato
-        ).value; */
-        console.log('ServiciosPublicos :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos);
+        //console.log('ServiciosPublicos :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos);
         break;
 
       default:
@@ -336,11 +334,13 @@ export class CrearSolicitudComponent implements OnInit {
       case "Valor de matricula":
         this.estudiante.InfoAcademica.ValorMatricula = JSON.parse(
           infComp.Dato
-        ).telefono;
+        ).value;
         break;
 
       case "Promedio de carrera":
-        this.estudiante.InfoAcademica.Promedio = infComp.Dato;
+        this.estudiante.InfoAcademica.Promedio = JSON.parse(
+          infComp.Dato
+        ).value;
         break;
 
       case "Número de matriculas":
@@ -350,31 +350,31 @@ export class CrearSolicitudComponent implements OnInit {
       case "Grupo Sisben":
         this.estudiante.InfoResidencia.Grupo_Sisben = JSON.parse(
           infComp.Dato
-        ).Data;
+        ).value;
         break;
 
       case "Población Especial":
         this.estudiante.InfoEspecial.CondicionEspecial = JSON.parse(
           infComp.Dato
-        ).Data;
+        ).value;
         break;
 
       case "Tiene Discapacidad":
         this.estudiante.InfoEspecial.Discapacidad = JSON.parse(
           infComp.Dato
-        ).Data;
+        ).value;
         break;
 
       case "Seguridad Social":
         this.estudiante.InfoEspecial.SeguridadSocial = JSON.parse(
           infComp.Dato
-        ).Data;
+        ).value;
         break;
 
       case "Pertenece a Ser Pilo Paga":
         this.estudiante.InfoEspecial.SerPiloPaga = JSON.parse(
           infComp.Dato
-        ).Data;
+        ).value;
         break;
 
       default:
@@ -898,7 +898,7 @@ export class CrearSolicitudComponent implements OnInit {
     if (this.validacionesForm()) {
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
-      this.buscarInfoComplemetaria("Barrio de residencia", this.registro.get('barrio').value);
+      this.buscarInfoComplemetaria("Barrio de residencia", this.residencia.get('barrio').value);
 
       this.buscarInfoComplemetaria("Valor de matricula", this.academica.get('valorMatricula').value);
       this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL", this.academica.get('numeroCreditos').value);
@@ -924,19 +924,6 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS", this.necesidades.get('aguasNegras').value);
       // DISCAPACIDAD?
       this.buscarInfoComplemetaria("PATOLOGIA_NUTRICION_ALIMENTACION", this.especial.get('patologia').value);
-      this.buscarInfoComplemetaria("Población Especial",this.especial.get('condicionEspecial').value);
-      this.buscarInfoComplemetaria("Tiene Discapacidad",this.especial.get('discapacidad').value);
-      this.buscarInfoComplemetaria("Seguridad Social",this.especial.get('seguridadSocial').value);
-      this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga",this.especial.get('serPiloPaga').value);
-    }else if (false){
-      this.buscarInfoComplemetaria("Barrio de residencia", this.registro.get('barrio').value);
-
-      this.buscarInfoComplemetaria("Valor de matricula", this.academica.get('valorMatricula').value);
-      this.buscarInfoComplemetaria("Promedio de carrera", this.academica.get('promedio').value);
-      this.buscarInfoComplemetaria("Número de matriculas", this.academica.get('matriculas').value);
-      
-      this.buscarInfoComplemetaria("Grupo Sisben", this.sisben.get('grupo').value);
-
       this.buscarInfoComplemetaria("Población Especial",this.especial.get('condicionEspecial').value);
       this.buscarInfoComplemetaria("Tiene Discapacidad",this.especial.get('discapacidad').value);
       this.buscarInfoComplemetaria("Seguridad Social",this.especial.get('seguridadSocial').value);
@@ -1026,21 +1013,23 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   validacionesForm(): boolean {
-    let msj = " información ";
+    let msj = " <strong> información </strong>";
     let style = "color: #ff0000; font-weight: bold; font-size: 1.2em;"
-    let valido: boolean = false;
+    let valido: boolean = true;
     if (!this.registro.controls.programa.valid) {
       msj += " <strong> básica </strong> (Antiguedad del programa),";
+      valido=false;
     }
     if (!this.residencia.controls.barrio.valid || this.residencia.controls.barrio.value==null || this.residencia.controls.barrio.value=="") {
       msj += " <strong> residencia </strong> (Barrio residencia),";
+      valido=false;
     }
     if (!this.academica.valid) {
       let menAcademica="";
       if(this.academica.controls.valorMatricula.value<=0 || this.academica.controls.valorMatricula.value==null){
         menAcademica+=" Valor matricula,"
       }
-      if(this.academica.controls.numeroCreditos.value<0 || this.academica.controls.numeroCreditos.value==null){
+      if(this.academica.controls.numeroCreditos.value<0 || this.academica.controls.numeroCreditos.value>21 || this.academica.controls.numeroCreditos.value==null){
         menAcademica+=" Numero de Creditos,"
       }
       if(this.academica.controls.promedio.value<0 || this.academica.controls.promedio.value>5 || this.academica.controls.promedio.value==null){
@@ -1051,12 +1040,15 @@ export class CrearSolicitudComponent implements OnInit {
       }
       menAcademica = menAcademica.slice(0, -1);
       msj += ` <strong> academica </strong> (${menAcademica}), `;
+      valido=false;
     }
     if (this.socioeconomica.controls.ingresosMensuales.value<=0) {
       msj += " <strong> socioeconomica </strong> (ingresos mensuales), <strong> 'Si el problema persiste consulte CONDOR'.</strong> ";
+      valido=false;
     }
     if (!this.socioeconomica.controls.zonaVulnerabilidad.valid) {
       msj += " <strong> socioeconomica </strong> (Zona de vulnerabilidad),";
+      valido=false;
     }
     
     if (!this.personasacargo.valid) {
@@ -1081,9 +1073,11 @@ export class CrearSolicitudComponent implements OnInit {
       }
       menPersonasACargo = menPersonasACargo.slice(0, -1);
       msj += ` <strong> personas a cargo </strong> (${menPersonasACargo}), `;
+      valido=false;
     } 
     if (!this.sisben.controls.grupo.valid) {
       msj += " <strong> sisben </strong> (Grupo),";
+      valido=false;
     }
     if (!this.necesidades.valid) {
       let menNecesidades="";
@@ -1107,8 +1101,8 @@ export class CrearSolicitudComponent implements OnInit {
       }
       menNecesidades = menNecesidades.slice(0, -1);
       msj += ` <strong> necesidades básicas </strong> (${menNecesidades}), `;
+      valido=false;
     }
-    //Evaluar Caso x2
     if (!this.especial.valid) {
       let menEspecial="";
       if(!this.especial.controls.condicionEspecial.valid){
@@ -1128,15 +1122,16 @@ export class CrearSolicitudComponent implements OnInit {
       }
       menEspecial = menEspecial.slice(0, -1);
       msj += ` <strong> info adicional </strong> (${menEspecial}), `;
+      valido=false;
     }
 
     msj = msj.slice(0, -1);
 
     /*
     Algo no me cuadra aca en la logica
-
+    Ahora si? :v
     */
-    if (!valido && msj != " información") {
+    if (!valido && msj.length>31) {
       this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en:  ${msj}`);
     } else {
       valido = true;

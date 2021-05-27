@@ -1,8 +1,8 @@
 export class InfoAcademicaEstudiante {
     ValorMatricula: number;
     NumeroCreditos: number;
-    Matriculas: string;
-    Promedio: string;
+    Matriculas: 0;
+    Promedio: 0;
     constructor() {
         this.ValorMatricula= null;
         this.NumeroCreditos= null;
