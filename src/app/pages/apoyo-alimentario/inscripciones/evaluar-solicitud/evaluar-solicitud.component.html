@@ -46,7 +46,7 @@
                             <label class="sub-item label-color-ud">
                                 ID :
                             </label>
-                            <label class="sub-item ">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.Id}}
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
@@ -55,7 +55,7 @@
                             <label class="sub-item label-color-ud">
                                 Nombres:
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.PrimerNombre}} {{tercero?.SegundoNombre}}
                             </label>
                         </div>
@@ -63,7 +63,7 @@
                             <label class="sub-item label-color-ud">
                                 Apellidos :
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.PrimerApellido}} {{tercero?.SegundoApellido}}
                             </label>
                         </div>
@@ -71,25 +71,25 @@
                             <label class="sub-item label-color-ud">
                                 Fecha de Nacimiento :
                             </label>
-                            <label class="sub-item">
-                                {{tercero?.FechaNacimiento}}
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.FechaNacimiento | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Estado:
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 <!-- {{tercero?.Activo}} -->
                                 <span *ngIf="tercero?.Activo" class="badge rounded-pill bg-success">Activo</span>
                                 <span *ngIf="!tercero?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                             </label>
                         </div>
                         <div class="item">
-                            <label class="sub-item label-color-ud">
+                            <label class="sub-item label-color-ud ">
                                 Usuario App:
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.UsuarioWSO2}}
                             </label>
                         </div>
@@ -109,7 +109,7 @@
                             <label class="sub-item label-color-ud">
                                 ID :
                             </label>
-                            <label ng-readonly="!nueva" class="sub-item ">
+                            <label ng-readonly="!nueva" class="sub-item field-color-ud">
                                 {{solicitud?.Id}}
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
@@ -118,47 +118,48 @@
                             <label class="sub-item label-color-ud">
                                 Fecha Radicación :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.FechaRadicacion}}
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaRadicacion | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Fecha Creación :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.FechaCreacion}}
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaCreacion | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Fecha Modificación :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.FechaModificacion}}
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaModificacion | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Solicitud Finalizada :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.SolicitudFinalizada}}
+                            <label class="sub-item field-color-ud">
+                                <span *ngIf="solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                                <span *ngIf="!solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Referencia :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.Referencia}}
+                            <label class="sub-item field-color-ud">
+                                Periodo : &emsp; {{referencia[0]}} , Puntaje : &emsp; {{referencia[1]}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Tipo Solicitud :
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
                             </label>
                         </div>
@@ -166,7 +167,7 @@
                             <label class="sub-item label-color-ud">
                                 Estado :
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 <!-- {{solicitud?.Activo}} -->
                                 <span *ngIf="solicitud?.Activo" class="badge rounded-pill bg-success">Activo</span>
                                 <span *ngIf="!solicitud?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
@@ -266,35 +267,36 @@
                             <label class="sub-item label-color-ud">
                                 Estado actual :
                             </label>
-                            <label ng-readonly="!nueva" class="sub-item ">
+                            <label ng-readonly="!nueva" class="sub-item field-color-ud">
                                 {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
+                    </div>
+                    <div class="text-center">
                         <div class="item">
                             <hr>
                             <h6>Cambiar estado</h6>
                             <br>
                         </div>
+                    </div>
+                    <div class="menu-list">
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Nuevo estado :
                             </label>
-
                             <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
                                 <option [ngValue]="null">Selecciona el siguiente estado</option>
                                 <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
                                     {{estadoTipo.EstadoId.Nombre }}</option>
                             </select>
                             <br>
-
                         </div>
-                        <br>
                         <div *ngIf="nuevoEstado!=null" class="item mt-3">
                             <label class="sub-item label-color-ud">
                                 Observacion cambio de estado:
                             </label>
-                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
                         </div>
                     </div>
                 </nb-accordion-item-body>

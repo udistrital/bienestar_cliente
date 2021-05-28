@@ -1,11 +1,26 @@
 @import "../../apoyo-alimentario.component.scss";
-.label-color-ud {
-    color: #4c1818;
-    font-weight: bold;
-    background-color: transparent;
-    border-color: transparent;
-    margin-right: 2px;
-    margin-left: -12px;
+.menu-list {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.menu-list .item {
+    //flex: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.menu-list .item .sub-item {
+    //flex: 60%;
+    margin: 2px 5px 2px 5px;
+    text-transform: capitalize;
 }
 
 .non-selectable {

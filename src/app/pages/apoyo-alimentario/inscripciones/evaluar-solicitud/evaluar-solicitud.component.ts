@@ -49,6 +49,8 @@ export class EvaluarSolicitudComponent implements OnInit {
     loadForm: boolean = true;
     loadDocs: boolean = true;
 
+    referencia=[];
+
     listInfoComplementaria = [];
     documentosSolicitud: SoportePaquete;
 
@@ -91,6 +93,9 @@ export class EvaluarSolicitudComponent implements OnInit {
             console.log(respSolicitud)
             this.solicitud = respSolicitud;
             console.log(this.solicitud,'paso')
+            let ref: any=JSON.parse(this.solicitud.Referencia);
+            this.referencia.push(ref.Periodo);
+            this.referencia.push(ref.Puntaje);
             if (this.solicitud != undefined) {
                 this.loadDocumentos();
                 this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {

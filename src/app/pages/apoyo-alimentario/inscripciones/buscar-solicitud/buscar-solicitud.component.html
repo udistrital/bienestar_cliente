@@ -21,9 +21,7 @@
                             <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
                         </div>
 
-                        <select class="form-control custom-select input-text-ud" name="periodo" [(ngModel)]="periodo"
-                            [disabled]="periodos.length === 0" [class.is-invalid]="periodo.invalid && periodo.touched"
-                            required placeholder="Periodos academicos" #periodoM="ngModel">
+                        <select class="form-control custom-select input-text-ud" name="periodo" [(ngModel)]="periodo" [disabled]="periodos.length === 0" [class.is-invalid]="periodo.invalid && periodo.touched" required placeholder="Periodos academicos" #periodoM="ngModel">
                             <option [value]="-1">Todos los periodos</option>
                             <option *ngFor="let periodo of periodos; let i=index;" [value]="i">{{periodo.Nombre}}
                             </option>
@@ -40,19 +38,15 @@
                                 Estudiante
                             </span>
                         </div>
-                        <input class="form-control input-text-ud mt-3" type="number" name="codigo"
-                            placeholder="Codigo estudiante o documento" [(ngModel)]="codigo" #codigoM="ngModel"
-                            [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{9,}" required>
+                        <input class="form-control input-text-ud mt-3" type="number" name="codigo" placeholder="Codigo estudiante o documento" [(ngModel)]="codigo" #codigoM="ngModel" [class.is-invalid]="codigo.invalid && codigo.touched" pattern="[0-9]{9,}" required>
                     </div>
                     <div class="small-ud">
-                        <small *ngIf="codigoM.invalid && codigoM.touched "
-                            class="form-text text-danger mt-n4 mb-2">Tienes
+                        <small *ngIf="codigoM.invalid && codigoM.touched " class="form-text text-danger mt-n4 mb-2">Tienes
                             que ingresar un codigo correcto</small>
                     </div>
                     <hr>
                     <div class="form-group">
-                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit"
-                            class="submit-button">
+                        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button">
                             <i class="fas fa-search mr-1"></i>
                             Buscar
                         </button>

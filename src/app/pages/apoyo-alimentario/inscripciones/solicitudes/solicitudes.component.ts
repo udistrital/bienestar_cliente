@@ -8,6 +8,7 @@ import { UtilService } from '../../../../shared/services/utilService'
 import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/estado-tipo-solicitud';
 import { Estado } from '../../../../@core/data/models/solicitud/estado';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
 
 class SolicitudExt {
   Solicitud: Solicitud;
@@ -42,8 +43,10 @@ export class SolicitudesComponent implements OnInit {
   busqueda: string;
   pagActual: number = 1;
   contPag: number = 0;
-  itemsPag: number[] = [1, 5, 10, 15, 20, 25, 50, 75, 100];
+  itemsPag: number[] = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
   itemSelect: number = 10;
+  itemOffSet: number = 0;
+  paginacion: number = 10;
   constructor(
     private listService: ListService,
     private utilService: UtilService,
@@ -102,18 +105,46 @@ export class SolicitudesComponent implements OnInit {
     console.log(this.estadoTipo)
     console.log(this.periodo)
     console.log(this.itemSelect)
-    this.listService.findSolicitudes(this.estadoTipo, this.itemSelect).then((result) => {
+    console.log(this.itemOffSet)
+    if(this.itemSelect==-1){
+      this.utilService.showSwAlertQuery("Carga de solicitudes masiva","¿ Está seguro que desea cargar todas las solicitudes? Este proceso puede tardar varios minutos.","Continuar",
+      "question").then((res)=>{
+        if(res){
+          this.cargarSol();
+        }
+      });
+    }else{
+      this.cargarSol();
+    }
+  }
+
+  cargarSol(){
+    Swal.fire({
+      title: "Por favor espere",
+      html: `Se estan cargando las solicitudes`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+    Swal.showLoading();
+    this.listService.findSolicitudes(this.estadoTipo, this.itemSelect,this.itemOffSet).then((result) => {
       if (result != []) {
-        this.solicitudesExt = []
+        this.solicitudesExt = [];
         for (let solicitud of result) {
-          const solext = new SolicitudExt(solicitud);
+          const solext:any = new SolicitudExt(solicitud);
           if (this.periodo == null || this.periodos[this.periodo].Nombre == solext.Periodo) {
-            this.solicitudesExt.push(solext)
+            for (let i = 0; i < 2500; i++) {
+              this.solicitudesExt.push(solext);
+            }
+            //this.solicitudesExt.push(solext);
           }
         }
-        if(this.solicitudesExt.length==0){
+        if(this.solicitudesExt.length==0 && (this.itemOffSet<=0 || this.itemOffSet==null)){
           this.utilService.showSwAlertError('Solicitudes no encontradas','No se encontro ninguna solicitud con los parametros seleccionados.');
+        }else if(this.solicitudesExt.length==0 && this.itemOffSet>0){
+          this.utilService.showSwAlertError('Solicitudes no encontradas',
+          'No se encontro ninguna solicitud con los parametros seleccionados <br> <b> (Puede probar dejando el punto de partida en 0 para comprobar si existen solicitudes).</b>');
         }
+        Swal.close();
       } else {
         this.utilService.showSwAlertError("Solicitudes no encontrados", "No se encontraron solicitudes para ningun periodo");
       }

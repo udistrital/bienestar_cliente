@@ -27,6 +27,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
   APP_CONSTANTS = ApiConstanst;
   
+  referencia="";    
   observaciones: Observacion[] = [];
 
   username: string = "";
@@ -88,6 +89,8 @@ export class SolicitudTerceroComponent implements OnInit {
                         this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
                           this.solicitud = sol;
                           console.log(this.solicitud);
+                          let ref: any=JSON.parse(this.solicitud.Referencia);
+                          this.referencia=ref.Periodo;
                           this.loading = false;
                           Swal.close();
                           this.listService.findObservacion(sol.Id,1).then((respObs) => {

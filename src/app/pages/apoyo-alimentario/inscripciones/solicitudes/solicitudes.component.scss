@@ -34,11 +34,12 @@ nb-card {
 
 .contain {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
     flex-wrap: wrap;
     flex-direction: row-reverse;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    align-content: center;
     min-width: 75vh;
 }
 
@@ -62,7 +63,15 @@ nb-card {
     justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 3/4;
+    grid-column: span 1;
+    grid-row: 1;
+}
+
+.contain .offset {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 1;
     grid-row: 1;
 }
 
@@ -70,7 +79,7 @@ nb-card {
     justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 4/5;
+    grid-column: span 1;
     grid-row: 1;
 }
 
@@ -87,10 +96,11 @@ nb-card {
     grid-column: span 1;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 1080px) {
     .contain {
-        grid-template-rows: repeat(2, 1fr);
-        min-width: 72vh;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        min-width: 65vh;
     }
     .contain .periodo {
         grid-column: span 2;
@@ -98,14 +108,36 @@ nb-card {
     }
     .contain .estado {
         grid-column: span 2;
-        grid-row: 2;
+        grid-row: 3;
     }
     .contain .page {
         grid-column: span 2;
         grid-row: 1;
     }
-    .contain .btn {
+    .contain .offset {
         grid-column: span 2;
+        grid-row: 3;
+    }
+    .contain .btn {
+        grid-column: span 4;
         grid-row: 2;
     }
+}
+
+nb-card.ng-star-inserted {
+    padding-bottom: -5%;
+}
+
+.line {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 1;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+nb-card hr {
+    overflow: hidden;
+    margin: 0;
+    margin-bottom: 0;
+    border: 0;
 }

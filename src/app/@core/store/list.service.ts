@@ -579,7 +579,7 @@ export class ListService {
    *
    * @memberof ListService
    */
-  findSolicitudes(idEstadoTipo, limite): Promise<Solicitud[]> {
+  findSolicitudes(idEstadoTipo, limite, offSet?): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       let url = "solicitud"
       if (idEstadoTipo != null) {
@@ -590,6 +590,11 @@ export class ListService {
       url += "&sortby=Id&order=desc"
       if (limite > 0 || limite == -1) {
         url += "&limit=" + limite;
+      }
+      console.log("Pueba off-->",offSet);
+      
+      if(offSet != null && offSet > 0){
+        url += "&offset=" + offSet;
       }
       this.solicitudService.get(url)
         .subscribe(
