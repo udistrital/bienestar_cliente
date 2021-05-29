@@ -170,7 +170,7 @@ export class EvaluarSolicitudComponent implements OnInit {
         }
       }).catch((err)=>{
         this.showError('No se encontraron documentos',err);
-        this.loadDocs == false;
+        this.loadDocs = false;
       });
     }
 

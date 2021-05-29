@@ -558,6 +558,11 @@ export class ListService {
                   this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                     .subscribe(res => {
                       //window.location.reload();
+                      this.utilsService.showSwAlertSuccess(" Solicitud procesada "," Se estan cargando los documentos.");
+                      this.disparadorDeDocumentos.emit({
+                        data:"carga",
+                        newSol: solicitud
+                      });
                     });
 
                 }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));

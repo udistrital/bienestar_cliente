@@ -4,6 +4,7 @@ import { ListService } from '../../../../@core/store/list.service';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { UtilService } from '../../../../shared/services/utilService';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'ngx-buscar-solicitud',
@@ -13,9 +14,15 @@ import { UtilService } from '../../../../shared/services/utilService';
 export class BuscarSolicitudComponent implements OnInit {
 
   periodos = [];
+  tercero: Tercero;
   periodo: number = 0;
   codigo = "";
   solicitudes: Solicitud[]=[];
+    
+  estadosSolicitud=[[environment.IDS.IDSOLICITUDRADICADA,"Radicada"],
+                    [environment.IDS.IDSOLICITUDACEPTADA,"Aceptada"],
+                    [environment.IDS.IDSOLICITUDNOACEPTADA,"Rechazada"],
+                    [environment.IDS.IDSOLICITUDPREPARADA,"Preparada para presentar a comité"]]
 
   constructor(
     private utilService: UtilService,
@@ -46,8 +53,15 @@ export class BuscarSolicitudComponent implements OnInit {
         }
         this.listService.loadSolicitanteByIdTercero(terceroReg.Id,null,nombrePeriodo,null).then(
           (resp)=>{
+            this.tercero=terceroReg;
             this.solicitudes=[];
             for (const solicitante of resp) {
+              this.estadosSolicitud.forEach((element:any)=>{
+                  let estado:number = solicitante.SolicitudId.EstadoTipoSolicitudId.Id;
+                  if(estado==element[0]){
+                    solicitante.SolicitudId.EstadoTipoSolicitudId.EstadoId.Nombre=element[1];
+                  }  
+              });
               this.solicitudes.push(solicitante.SolicitudId);
             }
             if (this.solicitudes.length == 0) {

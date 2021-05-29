@@ -183,30 +183,32 @@
                     <h4 class="non-selectable">Documentos</h4>
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    <div *ngIf="loadDocs" class="menu-list">
-                        <div class="item">
-                            <h6 class="label-color-ud">{{selectDoc[0]}}</h6>
-                            <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
-                        </div>
-                        <div class="item" *ngIf="!loading">
-                            <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                        </div>
-                        <div class="item">
-                            <hr>
-                            <h6>Cambiar documento</h6>
-                            <br>
-                        </div>
-                        <div class="item row">
-                            <div class="col-md-2 mt-2">
-                                <label class="label-color-ud">
-                                    Ver documento :
-                                </label>
+                    <div *ngIf="loadDocs">
+                        <div class="text-center">
+                            <div class="item">
+                                <h6 class="sub-item label-color-ud">{{selectDoc[0]}}</h6>
+                                <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
                             </div>
-                            <div class="col-md-10">
-                                <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
-                                    <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
-                                        {{ doc[0] }}</option>
-                                </select>
+                            <div class="item" *ngIf="!loading">
+                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            </div>
+                            <div class="item">
+                                <hr>
+                                <h6>Cambiar documento</h6>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mt-2">
+                                    <label class="sub-item label-color-ud">
+                                        Ver documento :
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
+                                        <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
+                                            {{ doc[0] }}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -281,8 +283,8 @@
                         </div>
                     </div>
                     <div class="menu-list">
-                        <div class="item">
-                            <label class="sub-item label-color-ud">
+                        <div class="item row text-center">
+                            <label class="label-color-ud">
                                 Nuevo estado :
                             </label>
                             <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
@@ -293,7 +295,7 @@
                             <br>
                         </div>
                         <div *ngIf="nuevoEstado!=null" class="item mt-3">
-                            <label class="sub-item label-color-ud">
+                            <label class="label-color-ud">
                                 Observacion cambio de estado:
                             </label>
                             <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>

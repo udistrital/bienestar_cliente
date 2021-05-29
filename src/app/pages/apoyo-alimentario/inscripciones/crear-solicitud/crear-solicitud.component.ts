@@ -13,6 +13,7 @@ import { DatePipe } from "@angular/common";
 import { InfoComplementariaTercero } from "../../../../@core/data/models/terceros/info_complementaria_tercero";
 import { UtilService } from "../../../../shared/services/utilService";
 import { ApiConstanst } from "../../../../shared/constants/api.constans";
+import { delay } from "rxjs/operators";
 
 @Component({
   selector: 'ngx-crear-solicitud',
@@ -34,7 +35,7 @@ export class CrearSolicitudComponent implements OnInit {
 
   allServicesP: boolean = false;
   oneServicesP: boolean = false;
-  validarDocs: boolean;
+  validarDocs: boolean = false;
 
   registro: FormGroup;
   residencia: FormGroup;
@@ -544,7 +545,7 @@ export class CrearSolicitudComponent implements OnInit {
             disabled: true,
           }),
           ingresosMensuales: new FormControl({
-            value: this.estudiante.InfoSocioeconomica.IngresosMensuales,
+            value: this.estudiante.InfoSocioeconomica.IngresosMensuales || 500000,
             disabled: true,
           }),
           cabezaFamilar: new FormControl({
@@ -755,8 +756,8 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Ingresos Familiares.
     let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
-
-    const SMMLV = 908.526; // Salario Minimo Mensual Legal Vigente
+    console.log(ingresosMes);
+    const SMMLV = 908526; // Salario Minimo Mensual Legal Vigente
 
     if(ingresosMes>=0 && ingresosMes<=SMMLV){
       console.log("30 Puntos");
@@ -879,18 +880,15 @@ export class CrearSolicitudComponent implements OnInit {
     return 100;
   }
 
-  cargarDocumentos() {
-
-
-    if(this.validarDocs){
-      this.utilService.showSwAlertSuccess(" Solicitud procesada "," Se estan cargando los documentos.");
-      this.listService.disparadorDeDocumentos.emit({
-        data:"carga"
-      });
+  cargarDocumentos(validCarga) {
+    delay(10000);
+    if(validCarga){
+      this.utilService.showSwAlertSuccess(" Felicitaciones!! "," Solicitud procesada con éxito");
+      delay(10000);
+      window.location.reload();
     }else{
       this.utilService.showSwAlertError(" Documentos invalidos "," Ocurrio un error al cargar los documentos, asegurese de subirlos nuevamente.");
     }
-
   }
 
   actualizarInfoEstudiante() {
@@ -990,7 +988,6 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   async save() {
-
     let p=await this.calcularPuntaje();
 
     const isValidTerm = await this.utilService.termsAndConditional();
@@ -1001,9 +998,8 @@ export class CrearSolicitudComponent implements OnInit {
         console.log("validacion",this.validarDocs);
         this.listService.disparadorDeDocumentos.emit({
           data:"validar"
-        })
+        });
         console.log("validacion",this.validarDocs);
-        this.validarDocs=true
         if(this.validarDocs){
           this.registrar();
           console.log("Se guardoooo");

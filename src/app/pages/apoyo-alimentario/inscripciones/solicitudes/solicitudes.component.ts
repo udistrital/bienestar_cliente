@@ -132,7 +132,7 @@ export class SolicitudesComponent implements OnInit {
         for (let solicitud of result) {
           const solext:any = new SolicitudExt(solicitud);
           if (this.periodo == null || this.periodos[this.periodo].Nombre == solext.Periodo) {
-            for (let i = 0; i < 2500; i++) {
+            for (let i = 0; i < 25; i++) {
               this.solicitudesExt.push(solext);
             }
             //this.solicitudesExt.push(solext);

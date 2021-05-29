@@ -47,15 +47,10 @@ export class CargarDocPbComponent implements OnInit {
     this.mostrar.resubir = false;
     this.mostrar.verObservaciones = false;
 
-    /* Cargamos una solicitud */
-    this.listService.loadSolicitud(654).then((respSolicitud) => {
-      console.log("Carga componenete de solicitud de Docs");
-      
-      if(Object.values(respSolicitud).length>0){
-        this.solicitud = respSolicitud;
-      }  
-    }).catch((error) => console.error("Solicitud no encontrada", error));
+    
+    /*  */
   }
+
 
   ngOnInit() {  
 
@@ -67,6 +62,7 @@ export class CargarDocPbComponent implements OnInit {
         console.log(val);
       }else if(res.data=="carga"){ 
         console.log("guuuarfandinggg");
+        this.solicitud=res.newSol;
         this.guardarDoc();
       }
       else{
@@ -125,7 +121,7 @@ export class CargarDocPbComponent implements OnInit {
   }
 
 
-  guardarDoc() {
+  guardarDoc():boolean{
     console.log("vamo que vamo");
     /* Variable que almacena lso documentos agregados al formulario*/
     
@@ -176,11 +172,14 @@ export class CargarDocPbComponent implements OnInit {
               // Es decir solo se cambia el File (archivo) de ese documento.
               if(docsAdd!=undefined){
                 console.log("Lo logro señor");   
-                this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => {
-                  console.log(res);                 
+                this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => { 
+                  if(newSupps.length==Object.keys(res).length){
+                    console.log(res);
+                  }            
                 });
               }else{
-                console.log("UPDATE SIN DATOS");      
+                console.log("UPDATE SIN DATOS");  
+                return true;    
               }
              
               // Agrega los nuevos documentos que no existian o no tenian soporte.
@@ -206,21 +205,31 @@ export class CargarDocPbComponent implements OnInit {
                       }).catch((err)=>console.error(err)); 
                       
                     }
+                    console.log("AQUI HACE EL RELOAAD PAPUU");
+                    return true;
                   }
                 });
-              }         
+              }else{
+                console.log("AQUI HACE EL RELOAAD Caso 2 :3");
+                return true;
+              }       
 
-            } 
-          }).catch((err)=>this.utilsService.showSwAlertError('No se pudieron cargar los documentos',err)); 
+            }else{
+              return false;
+            }
+          }).catch((err)=>{
+            this.utilsService.showSwAlertError('No se pudieron cargar los documentos',err);
+            return false;
+          }); 
         }else{
           console.log("vamo a guardar");
           this.nuxeoService.getDocumentos$(docsAdd, this.documentoService).subscribe((res) => {
-              console.log(res);
-              for(let i = 0; i < Object.keys(res).length; i++){
-                console.log(Object.values(res)[i].Nombre);         
-              } 
-        
+              console.log("add");
+
               if(docsAdd.length==Object.keys(res).length){
+                for(let i = 0; i < Object.keys(res).length; i++){
+                  console.log(Object.values(res)[i].Nombre);         
+                } 
                 
                 this.formApoyo.documentosCargados = res;
         
@@ -237,7 +246,7 @@ export class CargarDocPbComponent implements OnInit {
           
                   this.listService.crearPaqueteSolicitud(paqueteSolicitud).then((respPaqSol) => {
                     console.log("Se creo el paquete solicitud");
-          
+                    let contSupp=0;
                     for (let i = 0; i < Object.keys(res).length; i++) {
                       let documento=Object.values(res)[i];
                       console.log("Subimos documento");
@@ -248,26 +257,39 @@ export class CargarDocPbComponent implements OnInit {
                       console.log("soporte",soporte);
                       this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
                         console.log("Se creo soporte paquete");
+                        contSupp+=1;
+                        if(contSupp==Object.keys(res).length){
+                          window.location.reload();
+                          return true;
+                        }
                       }).catch((err)=>{
                         console.error(err);
                         this.utilsService.showSwAlertError("Crear Soporte Paquete",err);
+                        return false;
                       });
                     }
-          
+                    //window.location.reload();
+                    console.log("AQUI HACE EL RELOAAD PAPUU");
                   }).catch((err) =>{
                     console.error(err);
-                    
+                    return false;
                   });
                   
                 }).catch((err) => {
                   console.error(err);
                   this.utilsService.showSwAlertError("Crear Paquete",err);
+                  return false;
                 }); 
         
               }
           });
         }
-      }).catch((err)=>this.utilsService.showSwAlertError('No se encontraron documentos',err));
+      }).catch((err)=>{
+        this.utilsService.showSwAlertError('No se encontraron documentos',err); 
+        return false;
+      });
+    }else{
+      return false;
     }   
   }
 
@@ -309,6 +331,16 @@ export class CargarDocPbComponent implements OnInit {
         window.open(res[archivo.key]);
       }
     })
+  }
+
+  loadSolicitud(idSol:number){
+    /* Cargamos una solicitud */
+    this.listService.loadSolicitud(idSol).then((respSolicitud) => {
+      console.log("Carga componenete de solicitud de Docs");
+      if(Object.values(respSolicitud).length>0){
+        this.solicitud = respSolicitud;
+      }  
+    }).catch((error) => console.error("Solicitud no encontrada", error));
   }
 
 }

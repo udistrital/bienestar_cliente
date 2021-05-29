@@ -784,7 +784,7 @@
                         <h4 class="non-selectable">Documentos</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                        <ngx-cargar-doc-pb (disparadorDeValidacion)="validarDocs = $event"></ngx-cargar-doc-pb>
+                        <ngx-cargar-doc-pb (disparadorDeValidacion)="validarDocs = $event" (disparadorDeDocumentos)="cargarDocumentos($event)"></ngx-cargar-doc-pb>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
