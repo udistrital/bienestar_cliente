@@ -301,6 +301,18 @@
                             <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
                         </div>
                     </div>
+
+                    <button *ngIf="!this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
+                        Finalizar solicitud
+                        <i class="fas fa-toggle-off ml-1"></i>
+                    </button>
+
+                    <button *ngIf="this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="success" (click)="cambiarSolicitudFinalizada(false)" class="submit-button">
+                        Activar solicitud
+                        <i class="fas fa-toggle-on ml-1"></i>
+                    </button>
+
+
                 </nb-accordion-item-body>
                 <hr>
             </nb-accordion-item>

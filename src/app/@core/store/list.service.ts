@@ -584,13 +584,17 @@ export class ListService {
    *
    * @memberof ListService
    */
-  findSolicitudes(idEstadoTipo, limite, offSet?): Promise<Solicitud[]> {
+  findSolicitudes(idEstadoTipo, limite, offSet?, finalizada?: boolean): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       let url = "solicitud"
       if (idEstadoTipo != null) {
         url += "?query=EstadoTipoSolicitudId.Id:" + idEstadoTipo
       } else {
         url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDTIPOSOLICITUD
+      }
+      if(finalizada!=null){
+        url += ',SolicitudFinalizada:';
+        url += finalizada ? 'true' : 'false';
       }
       url += "&sortby=Id&order=desc"
       if (limite > 0 || limite == -1) {
@@ -780,6 +784,22 @@ export class ListService {
           this.crearEvolucionEstado(idTercero, solicitud, estadoTipoAnterior).then((resp) => {
             resolve(nuevoEstadoTipo);
           }).catch((error) => reject(error));
+        }, (err => reject(err)));
+    });
+  }
+
+   /**
+    *Actualizar una solicitud
+    *
+    * @param {Solicitud} solicitud
+    * @return {*}  {Promise<any>}
+    * @memberof ListService
+    */
+   actualizarSolicitud(solicitud: Solicitud): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService.put('solicitud', JSON.stringify(solicitud), solicitud.Id)
+        .subscribe(res => {
+          resolve(res);
         }, (err => reject(err)));
     });
   }

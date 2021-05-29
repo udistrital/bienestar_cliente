@@ -43,7 +43,9 @@ export class EvaluacionMasivaComponent implements OnInit {
   obseravacionText: string = null;
   numSeleccionado = 0;
   evaluacion = false;
-  limite= -1;
+  limite = -1;
+  puntoInicial = 0;
+  solFinalizada= "activas";
 
   allSelect: boolean = false
 
@@ -51,6 +53,7 @@ export class EvaluacionMasivaComponent implements OnInit {
     private utilService: UtilService,
     private listService: ListService,
   ) {
+
     this.listService.findPeriodosAcademico().then((resp) => {
       this.periodos = resp;
     }).catch((err) => this.utilService.showSwAlertError("Cargar periodos", err));
@@ -116,15 +119,25 @@ export class EvaluacionMasivaComponent implements OnInit {
       return;
     }
 
-    if(this.limite<-1){
-      this.utilService.showSwAlertError('Limite invalido','El limite puede ser -1 o un numero positivo');
+    if (this.limite < -1) {
+      this.utilService.showSwAlertError('Limite invalido', 'El limite puede ser -1 o un numero positivo');
       return;
     }
+    let finalizadas: boolean=null;
+    if(this.solFinalizada=='activas'){
+      finalizadas=false;
+    }
+    if(this.solFinalizada=='finalizadas'){
+      finalizadas=true;
+    }
+    console.log('Finalizadas: ', finalizadas);
+    
 
     this.solicitudesExt = []
     this.numSeleccionado = 0;
     this.allSelect = false;
-    this.listService.findSolicitudes(this.estadosTipoSolicitud[this.estadoTipo].Id, this.limite).then((result) => {
+    
+    this.listService.findSolicitudes(this.estadosTipoSolicitud[this.estadoTipo].Id, this.limite, this.puntoInicial, finalizadas).then((result) => {
       console.log(result);
       if (result.length > 0) {
         let countIter = 0
@@ -132,7 +145,7 @@ export class EvaluacionMasivaComponent implements OnInit {
           countIter++;
           try {
             let refSol: ReferenciaSolicitud = JSON.parse(solicitud.Referencia);
-            if (true || this.periodo == null || this.periodos[this.periodo].Nombre == refSol.Periodo) {
+            if (this.periodo == null || this.periodos[this.periodo].Nombre == refSol.Periodo) {
               this.solicitudesExt.push(new SolicitudExt(solicitud))
               this.solicitudesExt.push(new SolicitudExt(solicitud))
               this.solicitudesExt[this.solicitudesExt.length - 1].Puntaje = this.solicitudesExt[this.solicitudesExt.length - 1].Puntaje + 7
@@ -144,15 +157,23 @@ export class EvaluacionMasivaComponent implements OnInit {
           }
           finally {
             if (countIter == result.length) {
-              console.log('final');
-              console.log(solicitud);
-              this.solicitudesExt.sort((a, b) => (b.Puntaje > a.Puntaje) ? 1 : ((a.Puntaje > b.Puntaje) ? -1 : 0));
+              if(this.solicitudesExt.length==0){
+                let refSol: ReferenciaSolicitud = JSON.parse(result[0].Referencia);
+                this.utilService.showSwAlertError('No se encontraron solicitudes de '+this.periodos[this.periodo].Nombre,
+                        `No se encontraron solicitudes de este periodo, se encontraron solicitudes de ${refSol.Periodo}`)
+              }else{
+                console.log(solicitud);
+                this.solicitudesExt.sort((a, b) => (b.Puntaje > a.Puntaje) ? 1 : ((a.Puntaje > b.Puntaje) ? -1 : 0));
+              }
             }
           }
         }
 
         if (this.solicitudesExt.length == 0) {
-          this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes ${this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre} para ${this.periodos[this.periodo].Nombre}`);
+          let refSol: ReferenciaSolicitud = JSON.parse(result[0].Referencia);
+          this.utilService.showSwAlertError('No se encontraron solicitudes de '+this.periodos[this.periodo].Nombre,
+                        `No se encontraron solicitudes de este periodo, se encontraron solicitudes de ${refSol.Periodo}`)
+          /* this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes ${this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre} para ${this.periodos[this.periodo].Nombre}`); */
         }
       } else {
         console.log('entro al else');
@@ -173,26 +194,26 @@ export class EvaluacionMasivaComponent implements OnInit {
       cancelButtonColor: '#d33',
 
     }).then((result) => {
-      if(result.value){
-        const numSelect= result.value
-        if(numSelect<=this.solicitudesExt.length && numSelect>0){
+      if (result.value) {
+        const numSelect = result.value
+        if (numSelect <= this.solicitudesExt.length && numSelect > 0) {
           this.setAll(false);
           for (let i = 0; i < numSelect; i++) {
-            this.solicitudesExt[i].Seleccionado=true;
+            this.solicitudesExt[i].Seleccionado = true;
           }
           this.allSelect = numSelect == this.solicitudesExt.length;
           this.numSeleccionado = numSelect;
           //Usar Utils
           Swal.fire({
             title: '¡Seleccion masiva exitosa!',
-            text: 'Se seleccionaron de forma exitosa '+numSelect + ' solicitudes',
+            text: 'Se seleccionaron de forma exitosa ' + numSelect + ' solicitudes',
             icon: 'success'
           })
-        }else{
+        } else {
           //Usar Utils
           Swal.fire({
             title: 'Valor ingresado incorrecto',
-            text: 'El valor ingresado tiene que estar entre 1 y '+this.solicitudesExt.length,
+            text: 'El valor ingresado tiene que estar entre 1 y ' + this.solicitudesExt.length,
             icon: 'error'
           })
         }
