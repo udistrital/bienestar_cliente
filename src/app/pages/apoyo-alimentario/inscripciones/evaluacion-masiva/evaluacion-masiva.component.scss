@@ -8,7 +8,7 @@
     margin-left: -12px;
 }
 
-.form-control {
+.input-group {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
@@ -16,32 +16,110 @@
     text-align: center;
 }
 
-.form-control input select {
-    width: 83%;
+.input-group input select {
+    width: 80%;
 }
 
 .input-group-prepend {
-    width: 18%;
+    width: 20%;
 }
 
-@media (max-width: 770px) {
+.radio-online {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+}
+
+.order-append {
+    padding-left: 2px;
+    margin-bottom: 1px;
+}
+
+.tipo-sol {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.large-input {
+    margin-left: 0;
+}
+
+@media (max-width: 985px) {
     .input-group-prepend {
-        width: 30%;
+        width: 25%;
     }
-    .form-control input select {
-        width: 70%;
+    .input-group input select {
+        width: 75%;
     }
     .small-ud {
         margin-left: 28%;
     }
 }
 
-@media (max-width: 575px) {
-    .input-group-prepend,
-    .form-control input select {
+@media (max-width: 850px) {
+    .order-append {
+        margin-left: 27%;
+    }
+    .large-input {
+        margin-left: 5%;
+    }
+}
+
+@media (max-width: 695px) {
+    .input-group-prepend {
+        width: 35%;
+    }
+    .input-group input select {
+        width: 65%;
+    }
+    .small-ud {
+        margin-left: 1%;
+    }
+    .order-append {
+        justify-self: stretch;
+        text-align: center;
+        justify-content: stretch;
+        margin-left: 20%;
+    }
+    .large-input {
+        margin-left: 9%;
+    }
+}
+
+@media (max-width: 550px) {
+    .order-append {
+        margin-left: 12%;
+    }
+    .large-input {
+        margin-left: 13%;
+    }
+}
+
+@media (max-width: 500px) {
+    .order-append {
+        margin-left: 10%;
+    }
+}
+
+@media (max-width: 442px) {
+    .input-group-prepend {
+        width: 55%;
+    }
+    .input-group input select {
         width: 55%;
     }
     .small-ud {
+        margin-left: 1%;
+    }
+    .large-input {
+        margin-left: 20%;
+    }
+    .order-append {
         margin-left: 1%;
     }
 }

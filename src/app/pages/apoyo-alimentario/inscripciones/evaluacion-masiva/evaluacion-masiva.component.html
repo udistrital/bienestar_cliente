@@ -25,10 +25,7 @@
                                 <span class="label-color-ud ml-1" id="inputGroup-sizing-default">Periodo</span>
                             </div>
 
-                            <select class="form-control custom-select input-text-ud" name="periodo"
-                                [(ngModel)]="periodo" [disabled]="periodos.length === 0"
-                                [class.is-invalid]="periodo.invalid && periodo.touched" required
-                                placeholder="Periodos academicos" #periodoM="ngModel">
+                            <select class="form-control custom-select input-text-ud" name="periodo" [(ngModel)]="periodo" [disabled]="periodos.length === 0" [class.is-invalid]="periodo.invalid && periodo.touched" required placeholder="Periodos academicos" #periodoM="ngModel">
                                 <option *ngFor="let periodo of periodos; let i=index;" [value]="i">{{periodo.Nombre}}
                                 </option>
                             </select>
@@ -36,7 +33,7 @@
                         </div>
 
                         <div class="form-group input-group">
-                            <div class="label-color-ud input-group-prepend input-group-text">
+                            <div class="label-color-ud input-group-prepend input-group-text mt-0">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
                                 <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
                                     Estado
@@ -45,17 +42,14 @@
                                 </span>
                             </div>
 
-                            <select class="form-control custom-select input-text-ud mt-2 mt-0" name="estadoTipo"
-                                [(ngModel)]="estadoTipo" [disabled]="estadosTipoSolicitud.length === 0"
-                                [class.is-invalid]="estadoTipo.invalid && estadoTipo.touched" required
-                                placeholder="Estados de la solicitd" #estadoTipoM="ngModel">
+                            <select class="form-control custom-select input-text-ud mr-2" name="estadoTipo" [(ngModel)]="estadoTipo" [disabled]="estadosTipoSolicitud.length === 0" [class.is-invalid]="estadoTipo.invalid && estadoTipo.touched" required placeholder="Estados de la solicitd"
+                                #estadoTipoM="ngModel">
                                 <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [value]="i">
                                     {{estadoTipo.EstadoId.Nombre}}
                                 </option>
                             </select>
-                            <div class="ml-3">
-                                <nb-radio-group name='finazada' [(ngModel)]="solFinalizada" #solFinalizadaM="ngModel"
-                                    required>
+                            <div class="order-append">
+                                <nb-radio-group class="radio-online" name='finazada' [(ngModel)]="solFinalizada" #solFinalizadaM="ngModel" required>
                                     <nb-radio value="activas" checked>
                                         Activas
                                     </nb-radio>
@@ -67,25 +61,19 @@
                                     </nb-radio>
                                 </nb-radio-group>
                             </div>
-                            <br>
                         </div>
 
-                        
-                        {{solFinalizada}}
-
                         <div class="form-group input-group">
-                            <div class="label-color-ud input-group-prepend input-group-text">
-                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
-                                    Tamaño maximo
+                            <div class="label-color-ud input-group-prepend input-group-text mt-2">
+                                <i class="fa fa-exchange-alt" aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1">
+                                    Tamaño máximo
                                     <br>
                                     de busqueda
                                 </span>
                             </div>
 
-                            <input class="form-control input-text-ud mt-3" type="number" name="limite" min="-1"
-                                pattern="-1|^[0-9]+" placeholder="Limite de la busqueda" [(ngModel)]="limite"
-                                #limiteM="ngModel" [class.is-invalid]="limite.invalid && limite.touched" required>
+                            <input class="form-control input-text-ud mt-3 large-input" type="number" name="limite" min="-1" pattern="-1|^[0-9]+" placeholder="Limite de la busqueda" [(ngModel)]="limite" #limiteM="ngModel" [class.is-invalid]="limite.invalid && limite.touched" required>
                             <br>
                         </div>
                         <div *ngIf="limiteM.invalid" class="small-ud">
@@ -96,19 +84,17 @@
                             </small>
                         </div>
                         <div class="form-group input-group">
-                            <div class="label-color-ud input-group-prepend input-group-text">
-                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                            <div class="label-color-ud input-group-prepend input-group-text mt-1">
+                                <i class="fa fa-search-location mr-1" aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1">
                                     Punto incial
                                     <br>
                                     de busqueda
                                 </span>
                             </div>
 
-                            <input class="form-control input-text-ud mt-3" type="number" name="puntoInicial" min="0"
-                                pattern="^[0-9]+" placeholder="Punto incial de la busqueda" [(ngModel)]="puntoInicial"
-                                #puntoInicialeM="ngModel"
-                                [class.is-invalid]="puntoInicial.invalid && puntoInicial.touched" required>
+                            <input class="form-control input-text-ud mt-3 large-input" type="number" name="puntoInicial" min="0" pattern="^[0-9]+" placeholder="Punto incial de la busqueda" [(ngModel)]="puntoInicial" #puntoInicialeM="ngModel" [class.is-invalid]="puntoInicial.invalid && puntoInicial.touched"
+                                required>
                             <br>
                         </div>
                         <div *ngIf="puntoInicialeM.invalid" class="small-ud">
@@ -117,12 +103,9 @@
                                 si no quieres usar esta funcion, coloca 0.
                             </small>
                         </div>
-                        {{puntoInicial}}
-
                         <hr>
                         <div class="form-group">
-                            <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit"
-                                class="submit-button">
+                            <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button">
                                 <i class="fas fa-search mr-1"></i>
                                 Buscar
                             </button>
@@ -174,13 +157,11 @@
                 </div>
                 <hr>
                 <div class="menu-button">
-                    <button nbButton hero shape="semi-round" status="info" (click)="seleccionMasiva()"
-                        class="submit-button">
+                    <button nbButton hero shape="semi-round" status="info" (click)="seleccionMasiva()" class="submit-button">
                         <i class="fa fa-check-double mr-1" aria-hidden="true"></i>
                         Seleccion masiva
                     </button>
-                    <button nbButton hero shape="semi-round" status="warning" (click)="empezarEvaluacion()"
-                        class="submit-button boton">
+                    <button nbButton hero shape="semi-round" status="warning" (click)="empezarEvaluacion()" class="submit-button boton">
                         <i class="fas fa-forward mr-1"></i>
                         Evaluar solicitudes Seleccionadas
                     </button>
@@ -191,8 +172,7 @@
                 <thead class="bg-ud-table">
                     <tr>
                         <th scope="col">
-                            <mat-checkbox class="example-margin" [checked]="allSelect" [indeterminate]="someComplete()"
-                                (change)="setAll($event.checked)">
+                            <mat-checkbox class="example-margin" [checked]="allSelect" [indeterminate]="someComplete()" (change)="setAll($event.checked)">
                                 #
                             </mat-checkbox>
                         </th>
@@ -218,8 +198,7 @@
                 </tbody>
             </table>
             <div class="form-group">
-                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="empezarEvaluacion()"
-                    class="submit-button btn-table">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="empezarEvaluacion()" class="submit-button btn-table">
                     <i class="fas fa-forward mr-1"></i>
                     Evaluar solicitudes Seleccionadas
                 </button>
@@ -280,14 +259,11 @@
                     <label class="sub-item label-color-ud">
                         Observacion cambio de estado:
                     </label>
-                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion"
-                        class="input-full-width size-medium status-basic shape-rectangle nb-transition"
-                        style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()"
-                    class="submit-button">
+                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                     <i class="fas fa-save mr-1"></i>
                     Guardar
                 </button>
