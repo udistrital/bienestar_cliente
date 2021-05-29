@@ -53,8 +53,25 @@
                                     {{estadoTipo.EstadoId.Nombre}}
                                 </option>
                             </select>
+                            <div class="ml-3">
+                                <nb-radio-group name='finazada' [(ngModel)]="solFinalizada" #solFinalizadaM="ngModel"
+                                    required>
+                                    <nb-radio value="activas" checked>
+                                        Activas
+                                    </nb-radio>
+                                    <nb-radio value="finalizadas">
+                                        Finalizadas
+                                    </nb-radio>
+                                    <nb-radio value="todas">
+                                        Todas
+                                    </nb-radio>
+                                </nb-radio-group>
+                            </div>
                             <br>
                         </div>
+
+                        
+                        {{solFinalizada}}
 
                         <div class="form-group input-group">
                             <div class="label-color-ud input-group-prepend input-group-text">
@@ -66,15 +83,42 @@
                                 </span>
                             </div>
 
-                            <input class="form-control input-text-ud mt-3" type="number" name="limite"
-                                placeholder="Limite de la busqueda" [(ngModel)]="limite" #limiteM="ngModel"
-                                [class.is-invalid]="limite.invalid && limite.touched" required>
+                            <input class="form-control input-text-ud mt-3" type="number" name="limite" min="-1"
+                                pattern="-1|^[0-9]+" placeholder="Limite de la busqueda" [(ngModel)]="limite"
+                                #limiteM="ngModel" [class.is-invalid]="limite.invalid && limite.touched" required>
                             <br>
                         </div>
-                        <div class="small-ud">
-                            <small class="form-text text-danger mt-n4 mb-2">El -1 es tomado como sin limite, se recomienda poner limite para reducir los tiempos de busqueda</small>
+                        <div *ngIf="limiteM.invalid" class="small-ud">
+                            <small class="form-text text-danger mt-n4 mb-2">
+                                Este parametro define el tamaño maximo de la busqueda para disminuir el tiempo de
+                                respuesta,
+                                si deseas hacer una busqueda sin limite coloca -1
+                            </small>
                         </div>
-                    
+                        <div class="form-group input-group">
+                            <div class="label-color-ud input-group-prepend input-group-text">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                <span class="label-color-ud ml-1" id="inputGroup-sizing-default">
+                                    Punto incial
+                                    <br>
+                                    de busqueda
+                                </span>
+                            </div>
+
+                            <input class="form-control input-text-ud mt-3" type="number" name="puntoInicial" min="0"
+                                pattern="^[0-9]+" placeholder="Punto incial de la busqueda" [(ngModel)]="puntoInicial"
+                                #puntoInicialeM="ngModel"
+                                [class.is-invalid]="puntoInicial.invalid && puntoInicial.touched" required>
+                            <br>
+                        </div>
+                        <div *ngIf="puntoInicialeM.invalid" class="small-ud">
+                            <small class="form-text text-danger mt-n4 mb-2">Recuerda que esto define cuantas solicitudes
+                                saltar para empezar la busqueda,
+                                si no quieres usar esta funcion, coloca 0.
+                            </small>
+                        </div>
+                        {{puntoInicial}}
+
                         <hr>
                         <div class="form-group">
                             <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit"
