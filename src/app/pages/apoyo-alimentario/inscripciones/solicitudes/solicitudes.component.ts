@@ -46,6 +46,7 @@ export class SolicitudesComponent implements OnInit {
   itemsPag: number[] = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
   itemSelect: number = 10;
   itemOffSet: number = 0;
+  itemTipoSol: string = "activa";
   paginacion: number = 10;
   constructor(
     private listService: ListService,
@@ -106,6 +107,7 @@ export class SolicitudesComponent implements OnInit {
     console.log(this.periodo)
     console.log(this.itemSelect)
     console.log(this.itemOffSet)
+    console.log(this.itemTipoSol)
     if(this.itemSelect==-1){
       this.utilService.showSwAlertQuery("Carga de solicitudes masiva","¿ Está seguro que desea cargar todas las solicitudes? Este proceso puede tardar varios minutos.","Continuar",
       "question").then((res)=>{
@@ -126,7 +128,12 @@ export class SolicitudesComponent implements OnInit {
       showConfirmButton: false,
     });
     Swal.showLoading();
-    this.listService.findSolicitudes(this.estadoTipo, this.itemSelect,this.itemOffSet).then((result) => {
+    let finalizada:boolean=null;
+    if(this.itemTipoSol!="null"){
+      finalizada = this.itemTipoSol=="finalizada" ? true : false;
+    }
+    console.log(finalizada);
+    this.listService.findSolicitudes(this.estadoTipo, this.itemSelect,this.itemOffSet,finalizada).then((result) => {
       if (result != []) {
         this.solicitudesExt = [];
         for (let solicitud of result) {

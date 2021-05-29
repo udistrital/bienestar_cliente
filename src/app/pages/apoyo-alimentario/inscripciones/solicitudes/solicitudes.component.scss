@@ -34,8 +34,8 @@ nb-card {
 
 .contain {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     flex-wrap: wrap;
     flex-direction: row-reverse;
     justify-content: space-evenly;
@@ -59,12 +59,20 @@ nb-card {
     grid-row: 1;
 }
 
-.contain .page {
+.contain .btn {
     justify-self: center;
     align-self: center;
     text-align: center;
     grid-column: span 1;
     grid-row: 1;
+}
+
+.contain .page {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 1;
+    grid-row: 2;
 }
 
 .contain .offset {
@@ -72,15 +80,15 @@ nb-card {
     align-self: center;
     text-align: center;
     grid-column: span 1;
-    grid-row: 1;
+    grid-row: 2;
 }
 
-.contain .btn {
+.contain .finalizada {
     justify-self: center;
     align-self: center;
     text-align: center;
     grid-column: span 1;
-    grid-row: 1;
+    grid-row: 2;
 }
 
 .download {
@@ -96,7 +104,7 @@ nb-card {
     grid-column: span 1;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 800px) {
     .contain {
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(3, 1fr);
@@ -106,21 +114,25 @@ nb-card {
         grid-column: span 2;
         grid-row: 1;
     }
+    .contain .btn {
+        grid-column: span 2;
+        grid-row: 1;
+    }
     .contain .estado {
         grid-column: span 2;
-        grid-row: 3;
+        grid-row: 2;
     }
     .contain .page {
         grid-column: span 2;
-        grid-row: 1;
+        grid-row: 2;
     }
     .contain .offset {
         grid-column: span 2;
         grid-row: 3;
     }
-    .contain .btn {
-        grid-column: span 4;
-        grid-row: 2;
+    .contain .finalizada {
+        grid-column: span 2;
+        grid-row: 3;
     }
 }
 

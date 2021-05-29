@@ -56,6 +56,15 @@
                 </button>
             </mat-form-field>
 
+            <mat-form-field class="finalizada">
+                <mat-label>Tipo de Solicitud</mat-label>
+                <select matNativeControl [(ngModel)]="itemTipoSol">
+                    <option value="activa">Activa</option>
+                    <option value="finalizada"> Finalizada </option>
+                    <option value="null">Cualquiera</option>
+                </select>
+            </mat-form-field>
+
             <button class="btn btn-success" routerLink="./0">
                 <i class="fa fa-plus" aria-hidden="true"></i>
                 Agregar solicitud

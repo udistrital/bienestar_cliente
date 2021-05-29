@@ -225,7 +225,7 @@
             </div>
         </nb-card-header>
         <nb-card-body>
-            <div class="menu-list">
+            <div class="menu-list evaluacion">
                 <div class="item ">
 
                     <label class="sub-item label-color-ud">
@@ -238,8 +238,8 @@
                 </div>
                 <div class="item">
                     <hr>
-                    <h6>Cambiar estado</h6>
-                    <br>
+                    <h6 class="line">Cambiar estado</h6>
+                    <hr>
                 </div>
                 <div class="item">
                     <label class="sub-item label-color-ud">
@@ -283,7 +283,7 @@
             </div>
         </nb-card-header>
         <nb-card-body>
-            
+
             <div class="form-group">
                 <button *ngIf="solFinalizada=='activas'" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
                     Finalizar solicitud
