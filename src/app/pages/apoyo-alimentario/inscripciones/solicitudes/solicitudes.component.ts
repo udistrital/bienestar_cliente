@@ -132,19 +132,28 @@ export class SolicitudesComponent implements OnInit {
         for (let solicitud of result) {
           const solext:any = new SolicitudExt(solicitud);
           if (this.periodo == null || this.periodos[this.periodo].Nombre == solext.Periodo) {
-            for (let i = 0; i < 25; i++) {
+            /* for (let i = 0; i < 25; i++) {
               this.solicitudesExt.push(solext);
-            }
-            //this.solicitudesExt.push(solext);
+            } */
+            this.solicitudesExt.push(solext);
           }
         }
+        console.log(this.solicitudesExt);
+        console.log(this.solicitudesExt.length);
+        console.log(this.itemOffSet);
+        
         if(this.solicitudesExt.length==0 && (this.itemOffSet<=0 || this.itemOffSet==null)){
+          Swal.close();
           this.utilService.showSwAlertError('Solicitudes no encontradas','No se encontro ninguna solicitud con los parametros seleccionados.');
         }else if(this.solicitudesExt.length==0 && this.itemOffSet>0){
+          console.log("no entre?");
+          Swal.close();
           this.utilService.showSwAlertError('Solicitudes no encontradas',
           'No se encontro ninguna solicitud con los parametros seleccionados <br> <b> (Puede probar dejando el punto de partida en 0 para comprobar si existen solicitudes).</b>');
+        }else{
+          Swal.close();
         }
-        Swal.close();
+        
       } else {
         this.utilService.showSwAlertError("Solicitudes no encontrados", "No se encontraron solicitudes para ningun periodo");
       }

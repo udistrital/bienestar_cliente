@@ -871,13 +871,7 @@ export class CrearSolicitudComponent implements OnInit {
 
     console.log("Puntaje Total: ",puntajeSol);
 
-    this.utilService.showToastAlert("Puntaje solicitud",`El puntaje obtenido por su solicitud fue: ${puntajeSol}`);
-
-    for (let i = 0; i < 100; i++) {
-      i=i+1
-      i=i-1
-    }
-    return 100;
+    return puntajeSol;
   }
 
   cargarDocumentos(validCarga) {
@@ -988,8 +982,7 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   async save() {
-    let p=await this.calcularPuntaje();
-
+  
     const isValidTerm = await this.utilService.termsAndConditional();
 
     if (isValidTerm) {

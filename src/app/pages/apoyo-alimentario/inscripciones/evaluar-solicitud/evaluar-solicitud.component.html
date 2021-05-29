@@ -281,24 +281,28 @@
                             <h6>Cambiar estado</h6>
                             <br>
                         </div>
-                    </div>
-                    <div class="menu-list">
-                        <div class="item row text-center">
-                            <label class="label-color-ud">
-                                Nuevo estado :
-                            </label>
-                            <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
-                                <option [ngValue]="null">Selecciona el siguiente estado</option>
-                                <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
-                                    {{estadoTipo.EstadoId.Nombre }}</option>
-                            </select>
-                            <br>
-                        </div>
-                        <div *ngIf="nuevoEstado!=null" class="item mt-3">
-                            <label class="label-color-ud">
-                                Observacion cambio de estado:
-                            </label>
-                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
+                        <div class="text-center ">
+                            <div class="item row justify-content-center">
+                                <div class="col-md-10">
+                                    <label class="label-color-ud">
+                                        Nuevo estado :
+                                    </label>
+                                    <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                                        <option [ngValue]="null">Selecciona el siguiente estado</option>
+                                        <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                                            {{estadoTipo.EstadoId.Nombre }}</option>
+                                    </select>
+                                    <br>
+                                </div>
+                            </div>
+                            <div *ngIf="nuevoEstado!=null" class="item row justify-content-center mt-3">
+                                <div class="col-md-10">
+                                    <label class="label-color-ud">
+                                        Observacion cambio de estado:
+                                    </label>
+                                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </nb-accordion-item-body>
