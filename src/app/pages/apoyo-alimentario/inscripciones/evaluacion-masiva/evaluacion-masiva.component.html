@@ -272,4 +272,30 @@
 
     </nb-card>
 
+    <nb-card *ngIf="solFinalizada!='todas'">
+        <nb-card-header>
+            <div class="text-center pt-2">
+                <div class="menu-header">
+                    <h1>
+                        {{solFinalizada=='activas' ? 'Finalizacion' : 'Activacion'}} masiva para {{numSeleccionado}} solicitudes
+                    </h1>
+                </div>
+            </div>
+        </nb-card-header>
+        <nb-card-body>
+            
+            <div class="form-group">
+                <button *ngIf="solFinalizada=='activas'" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
+                    Finalizar solicitud
+                    <i class="fas fa-toggle-off ml-1"></i>
+                </button>
+                <button *ngIf="solFinalizada=='finalizadas'" nbButton hero fullWidth shape="semi-round" status="success" (click)="cambiarSolicitudFinalizada(false)" class="submit-button">
+                    Activar solicitud
+                    <i class="fas fa-toggle-on ml-1"></i>
+                </button>
+            </div>
+        </nb-card-body>
+
+    </nb-card>
+
 </div>
