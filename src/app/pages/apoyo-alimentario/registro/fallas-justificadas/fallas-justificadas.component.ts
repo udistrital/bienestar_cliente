@@ -36,9 +36,10 @@ export class FallasJustificadasComponent implements OnInit {
     private listService: ListService,
   ) {
     this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDSERVICIOAPOYO, null).then((respParam) => {
-      console.log(respParam);
-      if (Object.keys(respParam[0]).length > 0) {
-        this.parametros = respParam;
+      if (respParam.length > 0) {
+        if (Object.keys(respParam[0]).length > 0) {
+          this.parametros = respParam;
+        }
       }
     });
 
@@ -118,9 +119,9 @@ export class FallasJustificadasComponent implements OnInit {
               observacionObj.Valor = justificacion + " // " + this.utilService.getUsuarioWSO2();
               observacionObj.TipoObservacionId = resp['Data'][0];
               this.listService.crearObservacion(observacionObj).then((resp) => {
-                resp.FechaCreacion = resp.FechaCreacion.split('.')[0]+'.000000 +0000 +0000';               
+                resp.FechaCreacion = resp.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
                 this.justificaciones.push(resp);
-                
+
                 this.utilService.showSwAlertSuccess("Nueva falla justificada", "Se agrego la falla justificada de forma correcta", "success");
                 this.addFalla = false;
               }).catch((errOb) => this.utilService.showSwAlertError("No se pudo crear la observacion", errOb));

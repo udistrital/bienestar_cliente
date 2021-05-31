@@ -57,9 +57,50 @@ export class ListService {
    * @return {*}  {Promise<ApoyoAlimentario[]>}
    * @memberof ListService
    */
-  findApoyoAlimentario(): Promise<ApoyoAlimentario[]> {
+  findApoyoAlimentario(terceroId:number, solicitudId: number, espacioFisicoId: number, periodoId: number, limite: number, offSet: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
-      this.apoyoAlimentarioService.get(`registro_apoyo`)
+      let url = "registro_apoyo"
+      let filtros = "";
+      
+      if (terceroId != null) {
+        filtros += "tercero_id:" + terceroId
+      } 
+      if (solicitudId != null) {
+        if(filtros!=""){
+          filtros +=","
+        }
+        filtros += "solicitud_id:" + solicitudId
+      } 
+      if (espacioFisicoId != null) {
+        if(filtros!=""){
+          filtros +=","
+        }
+        filtros += "espacio_fisico_id:" + espacioFisicoId
+      } 
+      if (periodoId != null) {
+        if(filtros!=""){
+          filtros +=","
+        }
+        filtros += "periodo_id:" + periodoId
+      } 
+      if(filtros!=""){
+        url+="?query="
+        url+=filtros
+        url+="&"
+      }else{
+        url+="?"
+      }
+      url += "sortby=id&order=desc"
+      if (limite > 0 || limite == -1) {
+        url += "&limit=" + limite;
+      }
+      console.log("Pueba off-->",offSet);
+      
+      if(offSet != null && offSet > 0){
+        url += "&offset=" + offSet;
+      }
+
+      this.apoyoAlimentarioService.get(url)
         .subscribe(
           (result: any[]) => {
             resolve(result)

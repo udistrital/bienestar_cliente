@@ -92,9 +92,16 @@ export class PagesComponent implements OnInit {
           Icon: 'book-open-outline',
           Opciones: null
         };
+        var child3 = {
+          Url: '${url_apoyo}/registro/fallas-justificadas',
+          Nombre: 'Fallas justificadas',
+          Icon: 'bookmark-outline',
+          Opciones: null
+        };
 
         childs.push(child1);
         childs.push(child2);
+        childs.push(child3);
 
         this.object = {
           title: 'Registro beneficiarios',

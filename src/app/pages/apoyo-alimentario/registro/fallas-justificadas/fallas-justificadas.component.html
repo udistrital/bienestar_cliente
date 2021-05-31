@@ -31,10 +31,12 @@
                             <option *ngFor="let item of parametros; let i=index;" [value]="i">{{item.PeriodoId.Nombre}}
                             </option>
                         </select>
-                        <small *ngIf="parametros.length==0">Debe existir un parametro </small>
                         <br>
                     </div>
-
+                    <div class="small-ud">
+                        <small *ngIf="parametros.length==0" class="form-text text-danger mt-n2">Debe existir un parametro</small>
+                    </div>
+                    
                     <div class="form-group input-group">
                         <div class="label-color-ud input-group-prepend input-group-text mt-1n">
                             <i class="fa fa-barcode mt-2n mr-1" aria-hidden="true"></i>

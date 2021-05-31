@@ -54,9 +54,27 @@ export class EvaluacionMasivaComponent implements OnInit {
     private listService: ListService,
   ) {
 
-    this.listService.findPeriodosAcademico().then((resp) => {
+    
+    this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, null)
+      .then((result) => {
+        if (result != []) {
+          for (let params of result) {
+            this.periodos.push(params.PeriodoId);
+          }
+          if (this.periodos.length > 0) {
+            this.periodo = 0;
+          }else{
+            this.utilService.showSwAlertError("No hay peridos", "No se encontraron periodos con inscripciones a apoyo alimentario");
+          }
+        } else {
+          this.utilService.showSwAlertError("Parametros no encontrados", "No se encontraron periodos con solicitudes");
+        }
+      }).catch((err) => { this.utilService.showSwAlertError("Parametros no encontrados", err) });
+    
+
+   /*  this.listService.findPeriodosAcademico().then((resp) => {
       this.periodos = resp;
-    }).catch((err) => this.utilService.showSwAlertError("Cargar periodos", err));
+    }).catch((err) => this.utilService.showSwAlertError("Cargar periodos", err)); */
 
     this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)
       .subscribe((result: any[]) => {
