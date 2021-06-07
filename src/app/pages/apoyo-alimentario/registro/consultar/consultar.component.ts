@@ -14,8 +14,6 @@ import { UtilService } from '../../../../shared/services/utilService';
   styleUrls: ['./consultar.component.scss']
 })
 export class ConsultarComponent implements OnInit {
-
-
   registros: ApoyoAlimentario[] = [];
   parametros: ParametroPeriodo[] = [];
   periodo: number = null;
@@ -59,6 +57,12 @@ export class ConsultarComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   *Hace una consulta en el api de registro apoyo 
+   *
+   * @param {*} numPg
+   * @memberof ConsultarComponent
+   */
   buscar(numPg) {
     if(numPg<this.pagina || numPg==1){
       this.hasNext=true;
@@ -124,6 +128,13 @@ export class ConsultarComponent implements OnInit {
     }
   }
 
+  /**
+   *Mapea el id del periodo al nombre de este
+   *
+   * @param {number} idPerido
+   * @return {*} 
+   * @memberof ConsultarComponent
+   */
   getNombrePeriodo(idPerido: number) {
     for (const parametro of this.parametros) {
       if (parametro.PeriodoId.Id == idPerido) {
@@ -133,6 +144,13 @@ export class ConsultarComponent implements OnInit {
     return 'Indefinido';
   }
 
+  /**
+   *Mapea el id de la sede con el nombre de esta
+   *
+   * @param {number} idSede
+   * @return {*} 
+   * @memberof ConsultarComponent
+   */
   getSedeAccesso(idSede: number) {
     for (const sede of this.sedesAcceso) {
       if (sede.Id == idSede) {
@@ -142,6 +160,12 @@ export class ConsultarComponent implements OnInit {
     return 'Indefinido';
   }
 
+  /**
+   *Despliega un toast con la informacion del estudiante
+   *
+   * @param {*} index
+   * @memberof ConsultarComponent
+   */
   verEstudiante(index) {
     let terceroId = this.registros[index].terceroId
     this.listService.loadTercero(terceroId).then((respTer) => {
@@ -173,6 +197,12 @@ export class ConsultarComponent implements OnInit {
 
   }
 
+  /**
+   *Despliega un toast con una solicitud y la opcion de verla a detalle
+   *
+   * @param {*} index
+   * @memberof ConsultarComponent
+   */
   verSolicitud(index) {
     let solicitudId = this.registros[index].solicitudId
 

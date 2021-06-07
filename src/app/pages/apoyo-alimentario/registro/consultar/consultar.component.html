@@ -39,7 +39,7 @@
             </mat-form-field>
 
             <mat-form-field class="page">
-                <mat-label>Cantidad de Solicitudes</mat-label>
+                <mat-label>Cantidad de registros</mat-label>
                 <select matNativeControl [(ngModel)]="limite">
                     <option *ngFor="let option of itemsLim" [value]="option" [selected]="limite === option">{{
                         option }}</option>
@@ -49,7 +49,7 @@
 
             <mat-form-field class="">
                 <mat-label>Punto de partida</mat-label>
-                <input matInput type="number" placeholder="Rango solicitud" [(ngModel)]="itemOffSet">
+                <input matInput type="number" placeholder="Rango solicitud" min="0" [(ngModel)]="itemOffSet">
                 <button mat-button *ngIf="itemOffSet" matSuffix mat-icon-button aria-label="Limpiar"
                     (click)="itemOffSet=0">
                     <mat-icon>close</mat-icon>

@@ -57,46 +57,44 @@ export class ListService {
    * @return {*}  {Promise<ApoyoAlimentario[]>}
    * @memberof ListService
    */
-  findApoyoAlimentario(terceroId:number, solicitudId: number, espacioFisicoId: number, periodoId: number, limite: number, offSet: number): Promise<ApoyoAlimentario[]> {
+  findApoyoAlimentario(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, limite: number, offSet: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
       let url = "registro_apoyo"
       let filtros = "";
-      
+
       if (terceroId != null) {
         filtros += "tercero_id:" + terceroId
-      } 
+      }
       if (solicitudId != null) {
-        if(filtros!=""){
-          filtros +=","
+        if (filtros != "") {
+          filtros += ","
         }
         filtros += "solicitud_id:" + solicitudId
-      } 
+      }
       if (espacioFisicoId != null) {
-        if(filtros!=""){
-          filtros +=","
+        if (filtros != "") {
+          filtros += ","
         }
         filtros += "espacio_fisico_id:" + espacioFisicoId
-      } 
+      }
       if (periodoId != null) {
-        if(filtros!=""){
-          filtros +=","
+        if (filtros != "") {
+          filtros += ","
         }
         filtros += "periodo_id:" + periodoId
-      } 
-      if(filtros!=""){
-        url+="?query="
-        url+=filtros
-        url+="&"
-      }else{
-        url+="?"
+      }
+      if (filtros != "") {
+        url += "?query="
+        url += filtros
+        url += "&"
+      } else {
+        url += "?"
       }
       url += "sortby=id&order=desc"
       if (limite > 0 || limite == -1) {
         url += "&limit=" + limite;
       }
-      console.log("Pueba off-->",offSet);
-      
-      if(offSet != null && offSet > 0){
+      if (offSet != null && offSet > 0) {
         url += "&offset=" + offSet;
       }
 
@@ -599,9 +597,9 @@ export class ListService {
                   this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                     .subscribe(res => {
                       //window.location.reload();
-                      this.utilsService.showSwAlertSuccess(" Solicitud procesada "," Se estan cargando los documentos.");
+                      this.utilsService.showSwAlertSuccess(" Solicitud procesada ", " Se estan cargando los documentos.");
                       this.disparadorDeDocumentos.emit({
-                        data:"carga",
+                        data: "carga",
                         newSol: solicitud
                       });
                     });
@@ -633,7 +631,7 @@ export class ListService {
       } else {
         url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDTIPOSOLICITUD
       }
-      if(finalizada!=null){
+      if (finalizada != null) {
         url += ',SolicitudFinalizada:';
         url += finalizada ? 'true' : 'false';
       }
@@ -641,9 +639,9 @@ export class ListService {
       if (limite > 0 || limite == -1) {
         url += "&limit=" + limite;
       }
-      console.log("Pueba off-->",offSet);
-      
-      if(offSet != null && offSet > 0){
+  
+
+      if (offSet != null && offSet > 0) {
         url += "&offset=" + offSet;
       }
       this.solicitudService.get(url)
@@ -829,14 +827,14 @@ export class ListService {
     });
   }
 
-   /**
-    *Actualizar una solicitud
-    *
-    * @param {Solicitud} solicitud
-    * @return {*}  {Promise<any>}
-    * @memberof ListService
-    */
-   actualizarSolicitud(solicitud: Solicitud): Promise<any> {
+  /**
+   *Actualizar una solicitud
+   *
+   * @param {Solicitud} solicitud
+   * @return {*}  {Promise<any>}
+   * @memberof ListService
+   */
+  actualizarSolicitud(solicitud: Solicitud): Promise<any> {
     return new Promise((resolve, reject) => {
       this.solicitudService.put('solicitud', JSON.stringify(solicitud), solicitud.Id)
         .subscribe(res => {

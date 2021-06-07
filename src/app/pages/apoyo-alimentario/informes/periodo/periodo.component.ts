@@ -26,11 +26,8 @@ export class PeriodoComponent implements OnInit {
   }
   loadPeriodos() {
     for (const parametro of this.parametros) {
-      console.log(parametro);
       this.periodos.push(parametro.PeriodoId);
-    }
-    console.log(this.periodos);
-    
+    }    
   }
 
   ngOnInit(): void {

@@ -75,9 +75,7 @@ export class FallasJustificadasComponent implements OnInit {
           (resp) => {
             if (resp.length > 0) {
               this.solicitante = resp[0];
-              console.log('listos para buscar las observaciones de ', this.solicitante.TerceroId);
               this.listService.findObservacion(this.solicitante.SolicitudId.Id, 6).then((respObs) => {
-                console.log(respObs);
                 this.justificaciones = respObs;
               }).catch((errObs) => this.utilService.showSwAlertError("Observación no encontrada", errObs));
             } else {
@@ -101,8 +99,6 @@ export class FallasJustificadasComponent implements OnInit {
   }
 
   agregarJustificacion(fecha, justificacion) {
-    console.log(fecha);
-    console.log(justificacion);
 
     if (justificacion != "" && fecha != null) {
       let titulo = 'Falla justificada para ' + fecha

@@ -82,10 +82,7 @@ export class EvaluacionMasivaComponent implements OnInit {
           let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
           for (let estadoTipo of estadosTiposolicitud) {
             this.estadosTipoSolicitud.push(estadoTipo);
-
           }
-          console.log(this.estadosTipoSolicitud);
-
         }
       },
         error => {
@@ -129,8 +126,6 @@ export class EvaluacionMasivaComponent implements OnInit {
 
   buscar(form: NgForm) {
     if (form.invalid || this.periodos.length === 0) {
-      console.log("invalido");
-
       Object.values(form.controls).forEach((control) => {
         control.markAsTouched();
       });
@@ -148,15 +143,12 @@ export class EvaluacionMasivaComponent implements OnInit {
     if (this.solFinalizada == 'finalizadas') {
       finalizadas = true;
     }
-    console.log('Finalizadas: ', finalizadas);
-
 
     this.solicitudesExt = []
     this.numSeleccionado = 0;
     this.allSelect = false;
 
     this.listService.findSolicitudes(this.estadosTipoSolicitud[this.estadoTipo].Id, this.limite, this.puntoInicial, finalizadas).then((result) => {
-      console.log(result);
       if (result.length > 0) {
         let countIter = 0
         for (let solicitud of result) {
@@ -165,10 +157,6 @@ export class EvaluacionMasivaComponent implements OnInit {
             let refSol: ReferenciaSolicitud = JSON.parse(solicitud.Referencia);
             if (this.periodo == null || this.periodos[this.periodo].Nombre == refSol.Periodo) {
               this.solicitudesExt.push(new SolicitudExt(solicitud))
-              this.solicitudesExt.push(new SolicitudExt(solicitud))
-              this.solicitudesExt[this.solicitudesExt.length - 1].Puntaje = this.solicitudesExt[this.solicitudesExt.length - 1].Puntaje + 7
-              this.solicitudesExt.push(new SolicitudExt(solicitud))
-              this.solicitudesExt[this.solicitudesExt.length - 1].Puntaje = this.solicitudesExt[this.solicitudesExt.length - 1].Puntaje - 7
             }
           } catch {
             console.error("Problema con la referencia de la solicitud");
@@ -180,7 +168,6 @@ export class EvaluacionMasivaComponent implements OnInit {
                 this.utilService.showSwAlertError('No se encontraron solicitudes de ' + this.periodos[this.periodo].Nombre,
                   `No se encontraron solicitudes de este periodo, se encontraron solicitudes de ${refSol.Periodo}`)
               } else {
-                console.log(solicitud);
                 this.solicitudesExt.sort((a, b) => (b.Puntaje > a.Puntaje) ? 1 : ((a.Puntaje > b.Puntaje) ? -1 : 0));
               }
             }
@@ -194,7 +181,6 @@ export class EvaluacionMasivaComponent implements OnInit {
           /* this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes ${this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre} para ${this.periodos[this.periodo].Nombre}`); */
         }
       } else {
-        console.log('entro al else');
         this.utilService.showSwAlertError("Solicitudes no encontrados", `No se encontraron solicitudes ${this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre} para ningun periodo`);
       }
     }).catch((err) => this.utilService.showSwAlertError("Error", err));
@@ -319,7 +305,6 @@ export class EvaluacionMasivaComponent implements OnInit {
             }
           }).catch((err) => this.utilService.showSwAlertError("No se puede cargar tipo de observacion", err));
         } else {
-          console.log("Se cancela");
         }
       });
   }

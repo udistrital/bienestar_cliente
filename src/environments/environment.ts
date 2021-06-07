@@ -66,7 +66,7 @@ export const environment = {
   
     KNOWAGE: {
         PROTOCOL: 'https',
-        HOST: 'tuleap.udistrital.edu.co',
+        HOST: 'inteligenciainstitucional.portaloas.udistrital.edu.co',
         PORT: '',
         CONTEXTPATH: 'knowage',
         USER: 'bidev',
