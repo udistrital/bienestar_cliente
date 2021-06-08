@@ -717,29 +717,30 @@ export class CrearSolicitudComponent implements OnInit {
         if (resp) {
           Swal.fire({
             title: "Espere",
-            text: "Procesando su solicitud",
-            icon: "question",
+            html: `Se estan guardando los datos`,
             allowOutsideClick: false,
+            showConfirmButton: false,
           });
+          Swal.showLoading();
           this.actualizarInfoEstudiante();
           console.log("SALi estudiante jajaja salu2 xd");
-
-          Swal.showLoading();
           if (this.solicitud == null) {
             let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
             refSol.Periodo = this.periodo.Nombre;
             console.log(refSol.Puntaje);
             refSol.Puntaje = await this.calcularPuntaje()
             console.log("Puntaje -->",refSol.Puntaje);
-            this.listService.crearSolicitudApoyoAlimentario(
+            Swal.close();
+            await this.listService.crearSolicitudApoyoAlimentario(
               this.tercero.Id,
               refSol
             );
           } else {
             console.log("ya existe no se crea");
+            this.showError("Solicitud Duplicada","La solicitud ya existe y no se pueden diligenciar 2 por periodo.");
           }
-
-          this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
+          //this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
+          
         }
       });
     return false;

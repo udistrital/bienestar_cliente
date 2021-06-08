@@ -29,6 +29,7 @@ import { Paquete } from '../data/models/solicitud/paquete';
 import { PaqueteSolicitud } from '../data/models/solicitud/paquete-solicitud';
 import { SoportePaquete } from '../data/models/solicitud/soporte-paquete';
 import { DocumentoService } from '../data/documento.service';
+import Swal from 'sweetalert2';
 
 
 @Injectable()
@@ -563,6 +564,13 @@ export class ListService {
    * @memberof ListService
    */
   crearSolicitudApoyoAlimentario(idTercero: number, referenciaSol: ReferenciaSolicitud) {
+    Swal.fire({
+      title: "Espere",
+      html: `Se esta procesando su solicitud`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+    Swal.showLoading();
     const solicitud: Solicitud = new Solicitud();
     solicitud.EstadoTipoSolicitudId = null;
     solicitud.FechaRadicacion = formatDate(new Date(), 'yyyy-MM-dd', 'en');
@@ -590,13 +598,14 @@ export class ListService {
                 observacionObj.TipoObservacionId = resp['Data'][0];
                 this.crearObservacion(observacionObj).then((resp) => {
 
-                  this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
+                  //this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
                   const solicitante: Solicitante = new Solicitante();
                   solicitante.TerceroId = idTercero;
                   solicitante.SolicitudId = solicitud;
                   this.solicitudService.post('solicitante', JSON.stringify(solicitante))
                     .subscribe(res => {
                       //window.location.reload();
+                      Swal.close();
                       this.utilsService.showSwAlertSuccess(" Solicitud procesada ", " Se estan cargando los documentos.");
                       this.disparadorDeDocumentos.emit({
                         data: "carga",

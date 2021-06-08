@@ -20,7 +20,7 @@
                 </select>
                 <br>
             </mat-form-field>
-            <mat-form-field class="ml-4">
+            <mat-form-field class="sedes">
                 <mat-label>Sede</mat-label>
                 <select matNativeControl [(ngModel)]="sede">
                     <option [ngValue]="null">Todas las sedes</option>
@@ -29,11 +29,10 @@
                 </select>
             </mat-form-field>
 
-            <mat-form-field class="ml-4">
+            <mat-form-field class="codigo">
                 <mat-label>Codigo del estudiante</mat-label>
                 <input matInput type="number" placeholder="Todos los estudiantes" [(ngModel)]="codigoEstudiante">
-                <button mat-button *ngIf="codigoEstudiante" matSuffix mat-icon-button aria-label="Limpiar"
-                    (click)="codigoEstudiante=undefined">
+                <button mat-button *ngIf="codigoEstudiante" matSuffix mat-icon-button aria-label="Limpiar" (click)="codigoEstudiante=undefined">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
@@ -47,19 +46,17 @@
                 </select>
             </mat-form-field>
 
-            <mat-form-field class="">
+            <mat-form-field class="offset">
                 <mat-label>Punto de partida</mat-label>
                 <input matInput type="number" placeholder="Rango solicitud" min="0" [(ngModel)]="itemOffSet">
-                <button mat-button *ngIf="itemOffSet" matSuffix mat-icon-button aria-label="Limpiar"
-                    (click)="itemOffSet=0">
+                <button mat-button *ngIf="itemOffSet" matSuffix mat-icon-button aria-label="Limpiar" (click)="itemOffSet=0">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
 
         </div>
         <p class="line"></p>
-        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button"
-            (click)="buscar(1)">
+        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button" (click)="buscar(1)">
             <i class="fa fa-search mr-1" aria-hidden="true"></i>
             Buscar registro diario
         </button>
@@ -93,12 +90,10 @@
                     <td>{{ item.fecha_creacion }}</td>
                     <td>
                         <div class="example-button-row">
-                            <button title="Ver estudiante" mat-mini-fab color="accent" aria-label="Ver estudiante"
-                                (click)="verEstudiante(i)">
+                            <button title="Ver estudiante" mat-mini-fab color="accent" aria-label="Ver estudiante" (click)="verEstudiante(i)">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </button>
-                            <button *ngIf="item.solicitudId!=0" title="Ver solicitud" mat-mini-fab color="primary"
-                                aria-label="Ver solicitud" (click)="verSolicitud(i)">
+                            <button *ngIf="item.solicitudId!=0" title="Ver solicitud" mat-mini-fab color="primary" aria-label="Ver solicitud" (click)="verSolicitud(i)">
                                 <i class="fa fa-book" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -108,15 +103,13 @@
         </table>
         <hr>
         <div style="width: 100%;" class="d-flex justify-content-around">
-            <button [disabled]="pagina<=1" title="Anterior" mat-mini-fab color="basic" aria-label="Anterior"
-                (click)="buscar(pagina-1)">
+            <button [disabled]="pagina<=1" title="Anterior" mat-mini-fab color="basic" aria-label="Anterior" (click)="buscar(pagina-1)">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
             </button>
             <br>
             <h3>{{pagina}}</h3>
             <br>
-            <button [disabled]="!hasNext" title="Siguiente" mat-mini-fab color="basic" aria-label="Siguiente"
-                (click)="buscar(pagina+1)">
+            <button [disabled]="!hasNext" title="Siguiente" mat-mini-fab color="basic" aria-label="Siguiente" (click)="buscar(pagina+1)">
                 <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
             </button>
         </div>

@@ -13,6 +13,7 @@ import { ApiConstanst } from '../../../../shared/constants/api.constans';
 import { UtilService } from '../../../../shared/services/utilService';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'ngx-cargar-doc-pb',
@@ -122,12 +123,19 @@ export class CargarDocPbComponent implements OnInit {
 
 
   guardarDoc():boolean{
-    console.log("vamo que vamo");
-    /* Variable que almacena lso documentos agregados al formulario*/
+    console.log("Guardando Docs");
+    /* Variable que almacena los documentos agregados al formulario*/
     
     const docsAdd =this.formApoyo.documentosAdjuntos;
     //console.log(docsAdd);
     if(this.validarDocs()){
+      Swal.fire({
+        title: "Ya casi! Por favor espere",
+        html: `Cargando los documentos ingresados`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+      });
+      Swal.showLoading();
       this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
         if(paqSol.PaqueteId!=undefined){
           //Actualiza documentos de una solicitud
@@ -179,6 +187,7 @@ export class CargarDocPbComponent implements OnInit {
                 });
               }else{
                 console.log("UPDATE SIN DATOS");  
+                Swal.close();
                 return true;    
               }
              
@@ -205,19 +214,23 @@ export class CargarDocPbComponent implements OnInit {
                       }).catch((err)=>console.error(err)); 
                       
                     }
-                    console.log("AQUI HACE EL RELOAAD PAPUU");
+                    console.log("AQUI HACE EL RELOAAD");
+                    Swal.close();
                     return true;
                   }
                 });
               }else{
                 console.log("AQUI HACE EL RELOAAD Caso 2 :3");
+                Swal.close();
                 return true;
               }       
 
             }else{
+              Swal.close();
               return false;
             }
           }).catch((err)=>{
+            Swal.close();
             this.utilsService.showSwAlertError('No se pudieron cargar los documentos',err);
             return false;
           }); 
@@ -259,6 +272,7 @@ export class CargarDocPbComponent implements OnInit {
                         console.log("Se creo soporte paquete");
                         contSupp+=1;
                         if(contSupp==Object.keys(res).length){
+                          Swal.close();
                           window.location.reload();
                           return true;
                         }
@@ -272,12 +286,14 @@ export class CargarDocPbComponent implements OnInit {
                     console.log("AQUI HACE EL RELOAAD PAPUU");
                   }).catch((err) =>{
                     console.error(err);
+                    Swal.close();
                     return false;
                   });
                   
                 }).catch((err) => {
                   console.error(err);
                   this.utilsService.showSwAlertError("Crear Paquete",err);
+                  Swal.close();
                   return false;
                 }); 
         
@@ -285,10 +301,12 @@ export class CargarDocPbComponent implements OnInit {
           });
         }
       }).catch((err)=>{
+        Swal.close();
         this.utilsService.showSwAlertError('No se encontraron documentos',err); 
         return false;
       });
     }else{
+      Swal.close();
       return false;
     }   
   }
