@@ -14,7 +14,6 @@ export class SolicitudService {
     return this.requestManager.get(endpoint);
   }
   post(endpoint, element) {
-    console.info(element)
     this.requestManager.setPath('SOLICITUD');
     return this.requestManager.post(endpoint, element);
   }

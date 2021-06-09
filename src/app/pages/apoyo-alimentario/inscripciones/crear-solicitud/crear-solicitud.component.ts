@@ -55,6 +55,7 @@ export class CrearSolicitudComponent implements OnInit {
     private utilService: UtilService,
     private listService: ListService,
   ) {
+    /** Mensaje de carga de información en los fornmularios */
     Swal.fire({
       title: "Ya casi! Por favor espere",
       html: `cargando formulario de apoyo alimentario`,
@@ -62,12 +63,10 @@ export class CrearSolicitudComponent implements OnInit {
       showConfirmButton: false,
     });
     Swal.showLoading();
-    console.log("Iniciamos formularios");
+
    }
 
   ngOnInit() {
-    console.log("Inicio :V ");
-
     this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
       this.listInfoComplementaria = respIC;
       this.inicializarFormularios();
@@ -87,7 +86,6 @@ export class CrearSolicitudComponent implements OnInit {
         "dd/MM/yyyy"
       );
       let infComp: InfoComplementariaTercero;
-      console.log(this.listInfoComplementaria);
 
       for (infComp of this.listInfoComplementaria) {
         const nombreGrupoInfo = infComp.InfoComplementariaId.GrupoInfoComplementariaId.Nombre;
@@ -325,10 +323,8 @@ export class CrearSolicitudComponent implements OnInit {
   /* Clasifica informacion de basica */
   agregarInformacionBasica(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
-    console.log(infComp);
     switch (nombreInfComp) {
       case "Barrio de residencia":
-        console.log(infComp);
         this.estudiante.InfoResidencia.Barrio = JSON.parse(infComp.Dato).value;
         break;
 
@@ -386,10 +382,8 @@ export class CrearSolicitudComponent implements OnInit {
   /* Clasifica informacion de contacto */
   agregarInformacionContacto(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
-    console.log(infComp);
     switch (nombreInfComp) {
       case "CORREO INSTITUCIONAL":
-        console.log(infComp);
         this.estudiante.Correo_Institucional = JSON.parse(infComp.Dato).value;
         break;
 
@@ -441,7 +435,6 @@ export class CrearSolicitudComponent implements OnInit {
   private inicializarFormularios() {
     this.loadEstudiante()
       .then(() => {
-        console.log("Se carga el estudiante");
         this.registro = new FormGroup({
           nombres: new FormControl({
             value: this.estudiante.Nombre,
@@ -576,8 +569,6 @@ export class CrearSolicitudComponent implements OnInit {
           }),
         });
 
-        console.log("VULNERABILIDAD--->", this.estudiante.InfoSocioeconomica.ZonaVulnerabilidad);
-
         this.personasacargo = new FormGroup({
           tieneperacargo: new FormControl({
             value: this.estudiante.InfoPersonasACargo.TienePersonasACargo,
@@ -604,8 +595,6 @@ export class CrearSolicitudComponent implements OnInit {
             disabled: false,
           }),
         });
-
-        console.log("Personas a cargo--->", this.estudiante.InfoPersonasACargo.TienePersonasACargo);
 
         this.sisben = new FormGroup({
           tieneSisben: new FormControl({
@@ -664,9 +653,6 @@ export class CrearSolicitudComponent implements OnInit {
           }),
         });
 
-        console.log("AGUAS--->", this.estudiante.InfoNecesidades.AguasNegras);
-        console.log("PATOLOGIA--->", this.estudiante.InfoEspecial.Patologia);
-
         this.especial = new FormGroup({
           condicionEspecial: new FormControl({ value: this.estudiante.InfoEspecial.CondicionEspecial, disabled: false,}),
           discapacidad: new FormControl({ value: this.estudiante.InfoEspecial.Discapacidad, disabled: false,}),
@@ -675,11 +661,6 @@ export class CrearSolicitudComponent implements OnInit {
           serPiloPaga: new FormControl({ value: this.estudiante.InfoEspecial.SerPiloPaga, disabled: false }),
         });
 
-        console.log("DISCAPACIDAD--->", this.estudiante.InfoEspecial.Discapacidad);
-
-
-        /*this.loading = false;
-        Swal.close(); */
         this.loadData = false;
         Swal.close();
       })
@@ -689,12 +670,6 @@ export class CrearSolicitudComponent implements OnInit {
           error.status = 409;
         }
         this.utilService.showSwAlertError(error.status + " Load info estudiante", error.status);
-        /* Swal.fire({
-          icon: "error",
-          title: error.status + " Load info estudiante",
-          text: this.translate.instant("ERROR." + error.status),
-          confirmButtonText: this.translate.instant("GLOBAL.aceptar"),
-        }); */
       });
   }
 
@@ -723,20 +698,19 @@ export class CrearSolicitudComponent implements OnInit {
           });
           Swal.showLoading();
           this.actualizarInfoEstudiante();
-          console.log("SALi estudiante jajaja salu2 xd");
+          /** Se compuerba que no exista una solciitud para el periodo actual */
           if (this.solicitud == null) {
             let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
             refSol.Periodo = this.periodo.Nombre;
-            console.log(refSol.Puntaje);
+            /** Se calcula el puntaje con base en los datos diligenciados para crear la solicitud. */
             refSol.Puntaje = await this.calcularPuntaje()
-            console.log("Puntaje -->",refSol.Puntaje);
+            //console.log("Puntaje -->",refSol.Puntaje);
             Swal.close();
             await this.listService.crearSolicitudApoyoAlimentario(
               this.tercero.Id,
               refSol
             );
           } else {
-            console.log("ya existe no se crea");
             this.showError("Solicitud Duplicada","La solicitud ya existe y no se pueden diligenciar 2 por periodo.");
           }
           //this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
@@ -757,120 +731,100 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Ingresos Familiares.
     let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
-    console.log(ingresosMes);
     const SMMLV = 908526; // Salario Minimo Mensual Legal Vigente
 
     if(ingresosMes>=0 && ingresosMes<=SMMLV){
-      console.log("30 Puntos");
       ingresosFamiliares=30;
     }else if(ingresosMes>(SMMLV*1) && ingresosMes<=(SMMLV*2)){
-      console.log("20 Puntos");
       ingresosFamiliares=20;
     }else if(ingresosMes>(SMMLV*2) && ingresosMes<=(SMMLV*3)){
-      console.log("10 Puntos");
       ingresosFamiliares=10;
     }else if(ingresosMes>(SMMLV*3) && ingresosMes<=(SMMLV*4)){
-      console.log("5 Puntos");
       ingresosFamiliares=5;
     }else if(ingresosMes>(SMMLV*4)){
-      console.log("0 Puntos");
       ingresosFamiliares=0;
     }else{
-      console.log("menos de 0 ingresos? ");
+      //menos de 0 ingresos
     }
 
     //Condiciones Familiares.
     let sostieneHogar=this.socioeconomica.get('cabezaFamilar').value;
     if(sostieneHogar=="El mismo"){
-      console.log("CON --> 5 puntos");
       condicionesFamiliares+=5;
     }
 
     let sostieneASiMismo=this.socioeconomica.get('dependenciaEconomica').value;
     if(sostieneASiMismo=="El mismo"){
-      console.log("CON --> 5 puntos");
       condicionesFamiliares+=5;
     }
 
     let conQuienReside=this.socioeconomica.get('conQuienVive').value;
     if (conQuienReside!="Familia") {
-      console.log("CON --> 4 puntos");
       condicionesFamiliares+=4;
     }
 
     let tienePersonasACargo=this.personasacargo.get('tieneperacargo').value;
     if (tienePersonasACargo=="Si") {
-      console.log("CON --> 6 puntos");
       condicionesFamiliares+=6;
     }
 
     //Procedencia y lugar de residencia
     let estrato=this.socioeconomica.get('estrato').value;
     if(estrato==1 || estrato==2 || estrato==3){
-      console.log("RES --> 10 puntos");
       procedenciaYLugarDeResidencia+=10;
     }
 
     let municipio=this.residencia.get('municipio').value;
     let zonaVulnerabilidad=this.socioeconomica.get('zonaVulnerabilidad').value;
+    
     if ((municipio!="Bogota" || municipio!="Bogotá") || zonaVulnerabilidad) {
-      console.log("RES --> 5 puntos");
       procedenciaYLugarDeResidencia+=5;
     }
 
     let poblacionEspecial=this.especial.get('condicionEspecial').value;
 
     if (poblacionEspecial!="ninguna" && poblacionEspecial!=null) {
-      console.log("RES --> 5 puntos");
       procedenciaYLugarDeResidencia+=5;
     }
 
     //Condiciones de Salud
     let presentaDiscapcidad=this.especial.get('discapacidad').value;
     if (presentaDiscapcidad=="si") {
-      console.log("SALUD --> 5 puntos");
       condicionesDeSalud+=5;
     }
 
     let presentaPatologia=this.especial.get('patologia').value;
     if (presentaPatologia=="Si") {
-      console.log("SALUD --> 5 puntos");
       condicionesDeSalud+=5;
     }
 
     let valMatricula=this.academica.get('valorMatricula').value;
-    if(valMatricula>=0 && valMatricula<=100000){
-      console.log("SEM --> 20 Puntos");
+    if(valMatricula>=0 && valMatricula<=100000){      
       rangoDeMatricula=20;
     }else if(valMatricula>100001 && valMatricula<=300000){
-      console.log("SEM --> 16 Puntos");
       rangoDeMatricula=16;
     }else if(valMatricula>300001 && valMatricula<=500000){
-      console.log("SEM --> 12 Puntos");
       rangoDeMatricula=12;
     }else if(valMatricula>500001 && valMatricula<=700000){
-      console.log("SEM --> 8 Puntos");
       rangoDeMatricula=8;
     }else if(valMatricula>700001 && valMatricula<=900000){
-      console.log("SEM --> 4 Puntos");
       rangoDeMatricula=4;
     }else if(valMatricula>900001){
-      console.log("SEM --> 0 Puntos");
       rangoDeMatricula=0;
     }else{
-      console.log("Es menor a 0");
+      //Es menor a 0
     }
 
-
+    /* 
     console.log("ingresosFamiliares --> ",ingresosFamiliares);
     console.log("condicionesFamiliares --> ",condicionesFamiliares);
     console.log("procedenciaYLugarDeResidencia --> ",procedenciaYLugarDeResidencia);
     console.log("condicionesDeSalud --> ",condicionesDeSalud);
-    console.log("rangoDeMatricula --> ",rangoDeMatricula);
+    console.log("rangoDeMatricula --> ",rangoDeMatricula); */
 
+    //Puntaje Total:
     puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+rangoDeMatricula;
 
-    console.log("Puntaje Total: ",puntajeSol);
 
     return puntajeSol;
   }
@@ -888,6 +842,7 @@ export class CrearSolicitudComponent implements OnInit {
 
   actualizarInfoEstudiante() {
 
+    /** Se actualizara la información requerida que cambia constantemente para la solciitud de apoyo */
     if (this.validacionesForm()) {
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
@@ -923,47 +878,46 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga",this.especial.get('serPiloPaga').value);
     }
     else {
-      console.log("F PAPUU");
+      this.showError("Fallo formualrio","Al parecer algun dato no quedo correctamente diligenciado.");
     }
 
   }
 
   buscarInfoComplemetaria(nombreInfoComp: string, valor: any) {
 
+    /** Se busca si eciste información complementaria en la información obtenida al cargar el solicitante */
     for (const infoComp of this.listInfoComplementaria) {
+      /** Si existe, se procede a examinar y actualziar el dato */
       if (infoComp.InfoComplementariaId.Nombre == nombreInfoComp) {
         let objDato = JSON.parse(
           infoComp.Dato
         );
-        /*console.log("objDato",typeof(objDato), objDato);
-        console.log("valor",typeof(valor), valor); */
 
         if (objDato.value != valor) {
           if (typeof (valor) == 'object') {
             let cont = 0;
             for (let i = 0; i < Object.keys(valor).length; i++) {
-              /* console.log('o :>> ', Object.keys(objDato.value)[i]);
-              console.log('valor :>> ', Object.keys(valor)[i]); */
               if (Object.values(objDato.value)[i] !== Object.values(valor)[i]) {
                 cont++;
               }
             }
             if (cont == 0) {
-              console.log(`Se actualizo objetos ${nombreInfoComp}`);
+              //console.log(`Se actualizo objetos ${nombreInfoComp}`);
               return true;
             }
           }
-          console.log(`Actualizar ${objDato.value} 4 ${valor}`);
+          //console.log(`Actualizar ${objDato.value} 4 ${valor}`);
           objDato.value = valor;
           infoComp.Dato = JSON.stringify(objDato);
           this.listService.actualizarInfoComplementaria(infoComp);
         }
-        console.log(`Se actualizo ${nombreInfoComp}`);
+        //console.log(`Se actualizo ${nombreInfoComp}`);
         return true;
       }
     }
+    /** Se busca el tipo de información complementaria a guardar */
     this.listService.findInfoComplementaria(nombreInfoComp).then((respInfo) => {
-      console.log(respInfo);
+      /** Si existe se agregan valores y se agrega nueva información del tercero */
       if (respInfo != undefined) {
         let infoComp = new InfoComplementariaTercero();
         infoComp.TerceroId = this.tercero;
@@ -971,10 +925,8 @@ export class CrearSolicitudComponent implements OnInit {
           value: ""
         };
         objDato.value = valor;
-        console.log("Dato", respInfo);
         infoComp.Dato = JSON.stringify(objDato);
         infoComp.InfoComplementariaId = respInfo;
-        //infoComp.InfoComplementariaId.GrupoInfoComplementariaId = respInfo.GrupoInfoComplementariaId;
         this.listService.crearInfoComplementariaTercero(infoComp);
       } else {
         this.utilService.showSwAlertError('Nueva informacion', "El nombre no coincide con un tipo de informacion complementaria");
@@ -989,14 +941,11 @@ export class CrearSolicitudComponent implements OnInit {
     if (isValidTerm) {
       //***************************************************** */
       if (this.validacionesForm()) {
-        console.log("validacion",this.validarDocs);
         this.listService.disparadorDeDocumentos.emit({
           data:"validar"
         });
-        console.log("validacion",this.validarDocs);
         if(this.validarDocs){
           this.registrar();
-          console.log("Se guardoooo");
         }
       }
     }
@@ -1016,16 +965,17 @@ export class CrearSolicitudComponent implements OnInit {
     }
     if (!this.academica.valid) {
       let menAcademica="";
-      if(this.academica.controls.valorMatricula.value<=0 || this.academica.controls.valorMatricula.value==null){
+      
+      if(this.academica.controls.valorMatricula.value<=0 || this.academica.controls.valorMatricula.value==null || !this.academica.controls.valorMatricula.valid ){
         menAcademica+=" Valor matricula,"
       }
-      if(this.academica.controls.numeroCreditos.value<0 || this.academica.controls.numeroCreditos.value>21 || this.academica.controls.numeroCreditos.value==null){
+      if(this.academica.controls.numeroCreditos.value<0 || this.academica.controls.numeroCreditos.value>21 || this.academica.controls.numeroCreditos.value==null || !this.academica.controls.numeroCreditos.valid){
         menAcademica+=" Numero de Creditos,"
       }
-      if(this.academica.controls.promedio.value<0 || this.academica.controls.promedio.value>5 || this.academica.controls.promedio.value==null){
+      if(this.academica.controls.promedio.value<0 || this.academica.controls.promedio.value>5 || this.academica.controls.promedio.value==null || !this.academica.controls.promedio.valid){
         menAcademica+=" Promedio ,"
       }
-      if(this.academica.controls.matriculas.value<=0 || this.academica.controls.matriculas.value>15 || this.academica.controls.matriculas.value==null){
+      if(this.academica.controls.matriculas.value<=0 || this.academica.controls.matriculas.value>15 || this.academica.controls.matriculas.value==null || !this.academica.controls.matriculas.valid ){
         menAcademica+=" Número de Matriculas,"
       }
       menAcademica = menAcademica.slice(0, -1);
@@ -1049,16 +999,16 @@ export class CrearSolicitudComponent implements OnInit {
       if(!this.personasacargo.controls.hijos.valid){
         menPersonasACargo+=" Tiene hijos,"
       }
-      if(this.personasacargo.controls.numeroHijos.value<0 || this.personasacargo.controls.numeroHijos.value==null){
+      if(this.personasacargo.controls.numeroHijos.value<0 || this.personasacargo.controls.numeroHijos.value==null || !this.personasacargo.controls.numeroHijos.valid){
         menPersonasACargo+=" numero de hijos ,"
       }
-      if(this.personasacargo.controls.menoresEdad.value<0 || this.personasacargo.controls.menoresEdad.value==null){
+      if(this.personasacargo.controls.menoresEdad.value<0 || this.personasacargo.controls.menoresEdad.value==null || !this.personasacargo.controls.menoresEdad.valid){
         menPersonasACargo+=" menores con los que vive,"
       }
-      if(this.personasacargo.controls.menoresEstudiantes.value<0 || this.personasacargo.controls.menoresEstudiantes.value==null){
+      if(this.personasacargo.controls.menoresEstudiantes.value<0 || this.personasacargo.controls.menoresEstudiantes.value==null || !this.personasacargo.controls.menoresEstudiantes.valid){
         menPersonasACargo+=" menores con educación,"
       }
-      if(this.personasacargo.controls.menoresMatriculados.value<0 || this.personasacargo.controls.menoresMatriculados.value==null){
+      if(this.personasacargo.controls.menoresMatriculados.value<0 || this.personasacargo.controls.menoresMatriculados.value==null || !this.personasacargo.controls.menoresMatriculados.valid){
         menPersonasACargo+=" menores matriculados,"
       }
       menPersonasACargo = menPersonasACargo.slice(0, -1);

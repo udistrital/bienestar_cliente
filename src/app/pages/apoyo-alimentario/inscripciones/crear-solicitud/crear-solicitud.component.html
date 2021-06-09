@@ -198,7 +198,13 @@
                         <h4 class="non-selectable">Información académica</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
+
                         <form [formGroup]="academica">
+                            <div class="row text-center pb-1 mb-1">
+                                <div class="col-md-12"><small class="small-info-ud">
+                                    El punto "." y la coma"," solo son necesarios para expresar decimales, no miles o millones.
+                                </small></div>
+                            </div>
                             <div class="row item-list">
                                 <div class="col-md-4">Valor Matricula:
                                     <span class="required-asterisk">*</span>
@@ -208,7 +214,7 @@
                                     </small>
                                 </div>
                                 <div class="col-md-8">
-                                    <input type="number" nbInput fullWidth formControlName="valorMatricula" pattern="[0-9]{1,}" required>
+                                    <input type="number" nbInput fullWidth formControlName="valorMatricula" pattern="[0-9]{1,10}" required>
                                     <small *ngIf="academica.controls.valorMatricula.value<0 " class="form-text text-danger mt-2">
                                         Tienes que ingresar un número correcto
                                     </small>
@@ -375,8 +381,6 @@
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <form [formGroup]="personasacargo" #f="ngForm">
-                            <h4>Evaluar caso Hijos </h4>
-                            <br>
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     <label>¿ Tiene personas a cargo ? :

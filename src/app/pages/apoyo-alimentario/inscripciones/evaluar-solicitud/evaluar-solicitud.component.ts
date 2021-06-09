@@ -75,7 +75,6 @@ export class EvaluarSolicitudComponent implements OnInit {
             EVALUAR CASOOOOOOO
             EVALUAR CASOOOOOOO
             */
-            console.log("construyo bien makia");
             this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDSERVICIOAPOYO, true).then(
                 (resp) => {
                     if (resp[0] != undefined) {
@@ -90,9 +89,7 @@ export class EvaluarSolicitudComponent implements OnInit {
 
     loadSolicitud() {
         this.listService.loadSolicitud(this.idSolicitud).then((respSolicitud) => {
-            console.log(respSolicitud)
             this.solicitud = respSolicitud;
-            console.log(this.solicitud, 'paso')
             let ref: any = JSON.parse(this.solicitud.Referencia);
             this.referencia.push(ref.Periodo);
             this.referencia.push(ref.Puntaje);
@@ -100,7 +97,6 @@ export class EvaluarSolicitudComponent implements OnInit {
                 this.loadDocumentos();
                 this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {
                     this.solicitante = respSolicitante;
-                    console.log("Solicitante=>", respSolicitante);
                     if (this.solicitante != undefined) {
                         this.listService.loadTercero(this.solicitante.TerceroId).then((respTerc) => {
                             this.tercero = respTerc;
@@ -110,13 +106,11 @@ export class EvaluarSolicitudComponent implements OnInit {
                     }
                 }).catch((err) => this.utilsService.showSwAlertError("Solicitante no encontrado", err));
                 this.listService.findObservacion(this.solicitud.Id, 1).then((respObs) => {
-                    console.log(respObs);
                     this.observaciones = respObs;
                 }).catch((errObs) => this.utilsService.showSwAlertError("Observación no encontrada", errObs));
-                this.listService.findEvolucionEstado(this.solicitud.Id).then((respObs) => {
-                    console.log(respObs);
-                    this.evolucionesEstado = respObs;
-                }).catch((errObs) => this.utilsService.showSwAlertError("Observación no encontrada", errObs));
+                this.listService.findEvolucionEstado(this.solicitud.Id).then((respEvol) => {
+                    this.evolucionesEstado = respEvol;
+                }).catch((errEvol) => this.utilsService.showSwAlertError("Historico de estados no encontrado", errEvol));
             } else {
                 this.utilsService.showSwAlertError("Solicitud no encontrada", "No se encontro la solicitud para el periodo actual");
             }
@@ -124,44 +118,29 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     loadDocumentos() {
-        console.log("CARGO DOCS");
         let contDocs = 0;
         this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol) => {
             if (paqSol != undefined) {
-                console.log(paqSol.PaqueteId);
                 this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes) => {
                     this.documentosSolicitud = soportes;
                     let terminoDescargar = false;
-                    console.log("entra=>", soportes);
-                    console.log(this.documentosHTML);
 
                     for (let i = 0; i < Object.keys(soportes).length; i++) {
                         const element = Object.values(soportes)[i];
                         this.documentosHTML[i] = new Array();
-                        console.log(element.Descripcion);
                         this.documentosHTML[i][0] = element.Descripcion;
                     }
                     this.nuxeoService.getDocumentoById$(soportes, this.documentosService).subscribe((res: Object) => {
-
-                        console.info("res --> ", res['undefined']);
                         for (let i = 0; i < this.documentosHTML.length; i++) {
                             if (res['undefined'].documento == this.documentosHTML[i][0]) {
                                 this.documentosHTML[i][1] = res['undefined'].url;
                             }
                         }
-
                         contDocs++;
-
                         if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
-
-                            console.log("DOCS -->", this.documentosHTML);
                             this.selectDoc = this.documentosHTML[0];
                             this.loading = false;
                             Swal.close();
-
-                            /* for (doc of res) {
-                                window.open(res[archivo.key]);
-                            } */
                             terminoDescargar = true;
                         }
 
@@ -191,14 +170,11 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     cargarSolicitante(documento: string) {
-        console.log(documento);
         this.listService.loadTerceroByDocumento(documento).then((respDoc) => {
             this.tercero = respDoc;
             if (this.tercero != undefined) {
-                console.log("aqui voy");
                 this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null).then((resp) => {
                     if (resp != [] && resp[0] != undefined) {
-                        console.log(resp[0]);
                         this.solicitante = resp[0];
                         this.solicitud = resp[0].SolicitudId;
                         this.idSolicitud = this.solicitud.Id;
@@ -229,13 +205,10 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     cargarNuevaSolicitud() {
-        console.log(this.periodo);
         let usuarioWSO2 = this.tercero.UsuarioWSO2
         //usuarioWSO2 = "daromeror";
 
-        console.log(this.tercero);
         this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
-            console.log("findDocumentosTercero");
             for (const documento of respDocs) {
                 if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
                     this.estudiante.Carnet = documento;
@@ -252,13 +225,16 @@ export class EvaluarSolicitudComponent implements OnInit {
                         this.estudiante.ProyectoCurricular = nomFacultad[1];
                         this.loadForm = false;
                         Swal.close();
+                    }).catch((errIC) => {
+                        this.showError("error", errIC);
+                        this.loadForm = false;
+                        Swal.close();
                     });
                 }).catch((errIC) => {
                     this.showError("error", errIC);
                     this.loadForm = false;
                     Swal.close();
                 });
-                console.log("Iniciamos formularios");
             } else {
                 this.showError("Documentos del estudiante no encontrados", "No se encontro el carnet y documento de identificacion");
             }
@@ -319,7 +295,7 @@ export class EvaluarSolicitudComponent implements OnInit {
                         this.utilsService.showSwAlertError("Cambio de estado de la solicitud", err);
                     })
                 } else {
-                    console.log("Se cancela");
+                    //console.log("Se cancela");
                 }
 
             });
@@ -379,8 +355,7 @@ export class EvaluarSolicitudComponent implements OnInit {
                     let solicitudN = this.solicitud
                     solicitudN.SolicitudFinalizada = estado
                     this.listService.actualizarSolicitud(solicitudN).then((resp) => {
-                        console.log(resp)
-                        this.solicitud.SolicitudFinalizada = estado
+                        this.solicitud.SolicitudFinalizada = estado;
                         this.listService.loadTiposObservacion(1).then((resp) => {
                             /*  Agregar observacion*/
                             let observacionObj = new Observacion();

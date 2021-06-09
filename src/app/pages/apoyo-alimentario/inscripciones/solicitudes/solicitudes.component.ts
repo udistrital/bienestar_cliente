@@ -103,11 +103,6 @@ export class SolicitudesComponent implements OnInit {
   }
 
   buscarSolicitudes() {
-    console.log(this.estadoTipo)
-    console.log(this.periodo)
-    console.log(this.itemSelect)
-    console.log(this.itemOffSet)
-    console.log(this.itemTipoSol)
     if(this.itemSelect==-1){
       this.utilService.showSwAlertQuery("Carga de solicitudes masiva","¿ Está seguro que desea cargar todas las solicitudes? Este proceso puede tardar varios minutos.","Continuar",
       "question").then((res)=>{
@@ -132,7 +127,6 @@ export class SolicitudesComponent implements OnInit {
     if(this.itemTipoSol!="null"){
       finalizada = this.itemTipoSol=="finalizada" ? true : false;
     }
-    console.log(finalizada);
     this.listService.findSolicitudes(this.estadoTipo, this.itemSelect,this.itemOffSet,finalizada).then((result) => {
       if (result != []) {
         this.solicitudesExt = [];
@@ -145,9 +139,6 @@ export class SolicitudesComponent implements OnInit {
             this.solicitudesExt.push(solext);
           }
         }
-        console.log(this.solicitudesExt);
-        console.log(this.solicitudesExt.length);
-        console.log(this.itemOffSet);
         
         if(this.solicitudesExt.length==0 && (this.itemOffSet<=0 || this.itemOffSet==null)){
           Swal.close();

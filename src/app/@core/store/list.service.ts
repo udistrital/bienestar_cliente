@@ -598,7 +598,7 @@ export class ListService {
                 observacionObj.TipoObservacionId = resp['Data'][0];
                 this.crearObservacion(observacionObj).then((resp) => {
 
-                  //this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de creacion de la solicitud", "success");
+                  /** Agregando solicitante */
                   const solicitante: Solicitante = new Solicitante();
                   solicitante.TerceroId = idTercero;
                   solicitante.SolicitudId = solicitud;
@@ -607,6 +607,7 @@ export class ListService {
                       //window.location.reload();
                       Swal.close();
                       this.utilsService.showSwAlertSuccess(" Solicitud procesada ", " Se estan cargando los documentos.");
+                      /** Disparador para cargar documentos del solicitante */
                       this.disparadorDeDocumentos.emit({
                         data: "carga",
                         newSol: solicitud
