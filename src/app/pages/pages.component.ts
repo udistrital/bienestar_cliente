@@ -34,6 +34,7 @@ export class PagesComponent implements OnInit {
   url_apoyo = environment.CLIENTE_APOYO;
   url_presupuesto = environment.CLIENTE_PRESUPUESTO;
   url_contabilidad = environment.CLIENTE_CONTABILIDAD;
+  url_citas = environment.CLIENTE_SALUD;
   application_conf = 'presupuesto_kronos';
 
   constructor(
@@ -45,7 +46,6 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     if (this.autenticacion.live()) {
-
       const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
       if (temp == undefined) {
         this.roles = ['ESTUDIANTE']
@@ -219,6 +219,7 @@ export class PagesComponent implements OnInit {
 
         this.mapMenuByObjects([objMenu]) */
 
+
         this.object = {
           title: 'Administracion',
           icon: 'briefcase-outline',
@@ -229,6 +230,85 @@ export class PagesComponent implements OnInit {
         };
         this.menu.push(this.object)
       }
+      
+        let childsagenda = []
+
+        var childcalendario = {
+          Url: '${url_citas}/horarios',
+          Nombre: 'Horarios',
+          Icon: 'clock-outline',
+          Opciones: null
+        };
+        
+        var childcitasespecialista = {
+          Url: '${url_citas}/listarCita',
+          Nombre: 'Citas de especialista',
+          Icon: 'list-outline',
+          Opciones: null
+        }
+
+        childsagenda.push(childcalendario)
+        childsagenda.push(childcitasespecialista)
+      
+        this.object   = {
+          title: 'Agenda especialista',
+          icon:  'calendar-outline',
+          link:  ``,
+          home:  false,
+          key:   "Agenda especialista",
+          children: this.mapMenuChildrenObject(childsagenda)
+        };
+        this.menu.push(this.object)
+
+        let childsprocesos = []
+
+        var childcrearcita = {
+          Url: '${url_citas}/crearCita',
+          Nombre: 'Nueva cita',
+          Icon: 'plus-outline',
+          Opciones: null
+        }
+
+        var childconsultarpaciente = {
+          Url: '${url_citas}/listarPaciente',
+          Nombre: 'Consultar paciente',
+          Icon: 'search-outline',
+          Opciones: null
+        }
+
+        childsprocesos.push(childcrearcita)
+        childsprocesos.push(childconsultarpaciente)
+
+        this.object   = {
+          title: 'Procesos especialista',
+          icon:  'settings-outline',
+          link:  ``,
+          home:  false,
+          key:   "Procesos especialista",
+          children: this.mapMenuChildrenObject(childsprocesos)
+        };
+        this.menu.push(this.object)
+
+        let childsagendaest = []
+        
+        var childcitasestudiante = {
+          Url: '${url_citas}/citaPaciente',
+          Nombre: 'Citas paciente',
+          Icon: 'person-outline',
+          Opciones: null
+        }
+
+        childsagendaest.push(childcitasestudiante)
+
+        this.object   = {
+          title: 'Agenda Paciente',
+          icon:  'calendar-outline',
+          link:  ``,
+          home:  false,
+          key:   "Agenda Paciente",
+          children: this.mapMenuChildrenObject(childsagendaest)
+        };
+        this.menu.push(this.object)
 
       /* toca activarlo */
       /* this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
@@ -307,7 +387,8 @@ export class PagesComponent implements OnInit {
    */
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
-      .replace('${url_presupuesto}', this.url_presupuesto);
+          .replace('${url_presupuesto}', this.url_presupuesto)
+          .replace('${url_citas}', this.url_citas);
   }
 
   /**

@@ -24,7 +24,6 @@ export class ListarPacienteComponent implements OnInit {
     this.estudianteService
       .getEstudiante(this.miFormulario.value.codigo)
       .subscribe((data: any) => {
-        // console.log(data);
         var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
         this.nombre = paciente.nombre;
         this.codigo = paciente.codigo;
