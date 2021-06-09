@@ -34,11 +34,12 @@ nb-card {
 
 .contain {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     flex-wrap: wrap;
     flex-direction: row-reverse;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    align-content: center;
     min-width: 75vh;
 }
 
@@ -58,20 +59,36 @@ nb-card {
     grid-row: 1;
 }
 
-.contain .page {
-    justify-self: center;
-    align-self: center;
-    text-align: center;
-    grid-column: 3/4;
-    grid-row: 1;
-}
-
 .contain .btn {
     justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 4/5;
+    grid-column: span 1;
     grid-row: 1;
+}
+
+.contain .page {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 1;
+    grid-row: 2;
+}
+
+.contain .offset {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 1;
+    grid-row: 2;
+}
+
+.contain .finalizada {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 1;
+    grid-row: 2;
 }
 
 .download {
@@ -87,12 +104,17 @@ nb-card {
     grid-column: span 1;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 800px) {
     .contain {
-        grid-template-rows: repeat(2, 1fr);
-        min-width: 72vh;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        min-width: 65vh;
     }
     .contain .periodo {
+        grid-column: span 2;
+        grid-row: 1;
+    }
+    .contain .btn {
         grid-column: span 2;
         grid-row: 1;
     }
@@ -102,10 +124,32 @@ nb-card {
     }
     .contain .page {
         grid-column: span 2;
-        grid-row: 1;
-    }
-    .contain .btn {
-        grid-column: span 2;
         grid-row: 2;
     }
+    .contain .offset {
+        grid-column: span 2;
+        grid-row: 3;
+    }
+    .contain .finalizada {
+        grid-column: span 2;
+        grid-row: 3;
+    }
+}
+
+nb-card.ng-star-inserted {
+    padding-bottom: -5%;
+}
+
+.line {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 1;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+nb-card hr {
+    overflow: hidden;
+    margin: 0;
+    margin-bottom: 0;
+    border: 0;
 }

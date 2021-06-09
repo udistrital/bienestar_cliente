@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import Swal from 'sweetalert2';
 import { ListService } from '../../../../@core/store/list.service';
 import { Periodo } from '../../../../@core/data/models/parametro/periodo'
 import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parametro_periodo';
@@ -24,7 +23,6 @@ export class PeriodosComponent implements OnInit {
     private utilService: UtilService,
     ) {
     this.listService.findPeriodosAcademico().then((resp)=>{
-      console.log(resp);
       if(resp.length>0){
         resp.forEach(element => {
           this.periodos.push(element);
@@ -36,16 +34,20 @@ export class PeriodosComponent implements OnInit {
           this.cargarEstadoPeriodos();
         });
       }else{
-        //this.ventanaError("No se encontraron periodos")
         this.utilService.showSwAlertError("Buscando periodos","No se encontraron periodos");
       }
     }).catch((err)=>this.utilService.showSwAlertError("Buscando periodos",err));
   }
 
   ngOnInit(): void {
-    
   }
 
+  
+  /**
+   *Buscamos parametros por perido para determinar su estado
+   *
+   * @memberof PeriodosComponent
+   */
   cargarEstadoPeriodos(): void {
     for (let i = 0; i < this.periodos.length; i++) {
       const periodo = this.periodos[i];
@@ -95,7 +97,17 @@ export class PeriodosComponent implements OnInit {
     }
   }
   
-   private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
+  /**
+   *Busca un parametro con algunas caracteristicas
+   *
+   * @private
+   * @param {number} idPeriodo
+   * @param {number} idParametro
+   * @param {boolean} activo
+   * @return {*}  {ParametroPeriodo}
+   * @memberof PeriodosComponent
+   */
+  private getParametroByPerido_Tipo(idPeriodo: number, idParametro: number, activo: boolean): ParametroPeriodo {
     for (let parametro of this.parametros) {
       if (Object.keys(parametro).length > 0) {
         if (idPeriodo === parametro.PeriodoId.Id) {
@@ -110,6 +122,14 @@ export class PeriodosComponent implements OnInit {
     return undefined;
   }
 
+  /**
+   *retorna el Id del parametro por el nombre
+   *
+   * @private
+   * @param {String} nombreParam
+   * @return {*}  {number}
+   * @memberof PeriodosComponent
+   */
   private getIdParametro(nombreParam: String): number {
     switch (nombreParam) {
       case "inscripciones":
@@ -124,31 +144,41 @@ export class PeriodosComponent implements OnInit {
   }
 
 
+  /**
+   *Crear un parametro periodo 
+   *
+   * @param {number} i
+   * @param {string} nombreParam
+   * @memberof PeriodosComponent
+   */
   public iniciarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    /* this.mensajeConfirmacion(`iniciar ${nombreParam} de ${periodo.Nombre}`) */
     this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea iniciar ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
     .then(resp => {
       if (resp) {
         const idParametro = this.getIdParametro(nombreParam);
         if (idParametro != 0 && this.getParametroByPerido_Tipo(this.periodos[i].Id, idParametro, null) == undefined) {
           this.listService.inciarParametroPeriodo(periodo, idParametro).then((resp)=>{
-            console.log(resp);
             this.parametros.push(resp);
             this.cargarEstadoPeriodos();
-            Swal.fire(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`,"success");
+            this.utilService.showSwAlertSuccess(`Creacion exitosa`,`${nombreParam} de ${periodo.Nombre}`)
           }).catch((error)=>this.utilService.showSwAlertError("Cargando parametros de periodos",error));
         } else {
           this.utilService.showSwAlertError("Cargando parametro",`Ya existe ${nombreParam} en el ${periodo.Nombre}`);
-          /* this.ventanaError(`Ya existe ${nombreParam} en el ${periodo.Nombre}`); */
         }
       }
     });
   }
 
+  /**
+   *Desactiva un parametro
+   *
+   * @param {number} i
+   * @param {string} nombreParam
+   * @memberof PeriodosComponent
+   */
   public detenerParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i];
-    /* this.mensajeConfirmacion(`detener ${nombreParam} de ${periodo.Nombre}`) */
     this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea detener ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
       .then(resp => {
         let idParametro = this.getIdParametro(nombreParam);
@@ -160,16 +190,20 @@ export class PeriodosComponent implements OnInit {
             this.cargarEstadoPeriodos();
           } else {
             this.utilService.showSwAlertError("Parametro no encontrado",`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
-            /* this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`); */
           }
         }
       });
   }
 
-
+  /**
+   *re activa un parametro ya creado
+   *
+   * @param {number} i
+   * @param {string} nombreParam
+   * @memberof PeriodosComponent
+   */
   public reactivarParametro(i: number, nombreParam: string) {
     let periodo = this.periodos[i]
-    /* this.mensajeConfirmacion(`Reactivar ${nombreParam} de ${periodo.Nombre}`) */
     this.utilService.showSwAlertQuery('¿Está seguro?','' + `desea reactivar ${nombreParam} de ${periodo.Nombre}`,"Aceptar","question")
       .then(resp => {
         let idParametro = this.getIdParametro(nombreParam);
@@ -181,7 +215,6 @@ export class PeriodosComponent implements OnInit {
             this.cargarEstadoPeriodos();
           } else {
             this.utilService.showSwAlertError("Parametro no encontrado",`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`);
-            /* this.ventanaError(`No se encontro ${nombreParam} activo en el ${periodo.Nombre}`); */
           }
         }
       });

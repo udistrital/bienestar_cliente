@@ -12,7 +12,7 @@ import { InfoComplementariaTercero } from "../../../../@core/data/models/tercero
 import { UtilService } from "../../../../shared/services/utilService";
 import { Observacion } from "../../../../@core/data/models/solicitud/observacion";
 import { NgForm } from "@angular/forms";
-
+import { delay } from "rxjs/operators";
 @Component({
   selector: "ngx-solicitud-tercero",
   templateUrl: "./solicitud-tercero.component.html",
@@ -27,6 +27,7 @@ export class SolicitudTerceroComponent implements OnInit {
 
   APP_CONSTANTS = ApiConstanst;
   
+  referencia="";    
   observaciones: Observacion[] = [];
 
   username: string = "";
@@ -36,6 +37,7 @@ export class SolicitudTerceroComponent implements OnInit {
     private utilService: UtilService,
     private listService: ListService,
   ) {
+    /** ventana de carga para procesar la petición. */
     Swal.fire({
       title: "Por favor espere!",
       html: `cargando información del estudiante`,
@@ -47,27 +49,25 @@ export class SolicitudTerceroComponent implements OnInit {
     /* Cargamos periodo con inscripciones activas */
     this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
       (resp) => {
-        console.log(resp);
-        console.log(resp != []);
-
-        //if (resp != []) {
+        /* Se valida que la inscripcion exista en el periodo*/
         if (resp.length > 0) {
+          /** Se obtiene id del periodo de inscripción. */
           this.periodo = resp[0].PeriodoId;
-          console.log(this.periodo);
 
           let usuarioWSO2 = this.autenticacion.getPayload().email
             ? this.autenticacion.getPayload().email.split("@").shift()
             : this.autenticacion.getPayload().sub;
-          usuarioWSO2 = "daromeror";
-          //usuarioWSO2 = "";
+          //usuarioWSO2 = "daromeror";
+          //usuarioWSO2 = ""  javiermartinez25//9798   //   jgcastellanosj//9811  //fdbarretos//82   // pruebaInscripcion7//9787  //pruebaInscripcion5//9788   evaluador//9792
           //usuarioWSO2 = "sagomezl";
+          usuarioWSO2 = "pruebaInscripcion5";
 
           this.listService.loadTerceroByWSO2(usuarioWSO2).then((respTecero) => {
-            console.log("loadTerceroByWSO2");
+            /* Se carga informacion si existe el tercero*/
             this.tercero = respTecero;
-            console.log(this.tercero);
+                    
             this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
-              console.log("findDocumentosTercero");
+              /* Se busca carnet o documento del tercero. */
               for (const documento of respDocs) {
                 if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
                   this.estudiante.Carnet = documento;
@@ -75,23 +75,25 @@ export class SolicitudTerceroComponent implements OnInit {
                   this.estudiante.Documento = documento;
                 }
               }
-              //Change this.estudiante.Documento
+              //Se busca solicitante si existen carnet y documento
               if (this.estudiante.Carnet != null && this.estudiante.Documento != null) {
+                
                 this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null)
                   .then((listSolicitantes) => {
-                    console.log("loadSolicitanteByIdTercero");
+                    /** Se busca la facultad a la cual pertenece un tercero, para obtener su proyecto curricular */
                     this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
                       this.estudiante.Facultad = nomFacultad[0];
                       this.estudiante.ProyectoCurricular = nomFacultad[1];
-
+                      /** Se busca si existe la solicitud para el periodo actual */
                       if (listSolicitantes.length > 0) {
                         this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
                           this.solicitud = sol;
-                          console.log(this.solicitud);
+                          let ref: any=JSON.parse(this.solicitud.Referencia);
+                          this.referencia=ref.Periodo;
                           this.loading = false;
                           Swal.close();
-                          this.listService.findObservacion(sol.Id).then((respObs) => {
-                            console.log(respObs);
+                          /** Se obtienen observaciones de la solicitud */
+                          this.listService.findObservacion(sol.Id,1).then((respObs) => {
                             this.observaciones = respObs;
                           }).catch((errObs) => this.showError("Observación no encontrada", errObs));
                         }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
@@ -100,7 +102,10 @@ export class SolicitudTerceroComponent implements OnInit {
                         Swal.close();
                       }
 
-                    });
+                    }).catch((errorFacu) => {
+                      console.log("FFFF");
+                      this.showError("Facultad o Proyecto curricular no existe", errorFacu);
+                    });;
 
                   }).catch((errorSolT) => {
                     this.showError("Solicitud no existe", errorSolT);
@@ -123,7 +128,6 @@ export class SolicitudTerceroComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log("CUANDO CARGO");
   }
 
   loadingForm(load){

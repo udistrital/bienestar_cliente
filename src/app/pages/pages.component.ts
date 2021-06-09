@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { CustomLoginService } from '../shared/services/custom-login.service';
 
 @Component({
   selector: 'ngx-pages',
@@ -30,99 +31,109 @@ export class PagesComponent implements OnInit {
   dataMenu: any;
   roles: any;
 
-  url_apoyo  = environment.CLIENTE_APOYO;
-  url_presupuesto  = environment.CLIENTE_PRESUPUESTO;
+  url_apoyo = environment.CLIENTE_APOYO;
+  url_presupuesto = environment.CLIENTE_PRESUPUESTO;
   url_contabilidad = environment.CLIENTE_CONTABILIDAD;
   url_citas = environment.CLIENTE_SALUD;
   application_conf = 'presupuesto_kronos';
 
   constructor(
-    public  menuws: MenuService,
+    public menuws: MenuService,
     private translate: TranslateService,
-    private autenticacion: ImplicitAutenticationService
+    private autenticacion: ImplicitAutenticationService,
+    private readonly customLogin: CustomLoginService
   ) { }
 
   ngOnInit() {
-    console.log('init page');
-    
     if (this.autenticacion.live()) {
-      console.log(this.url_citas);
-      console.log('authentico correcto');
       const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
-      if(temp==undefined){
-        this.roles=['ESTUDIANTE']
-      }else{
-        this.roles=temp.filter((data: any) => (data.indexOf('/') === -1));
+      if (temp == undefined) {
+        this.roles = ['ESTUDIANTE']
+      } else {
+        this.roles = temp.filter((data: any) => (data.indexOf('/') === -1));
       }
-      /* icons */
-      /* https://akveo.github.io/eva-icons/#/ */
+
       console.log("roles↓↓↓");
       console.log(this.roles);
-      console.log('-------------');
-      if(this.roles.includes("ESTUDIANTE")){
-        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/solicitud');       
-        this.object   = {
+      this.object = {
+        title: 'Home',
+        icon: 'home-outline',
+        link: `home`,
+        home: true,
+        key: "Home",
+        children: this.mapMenuChildrenObject(null)
+      };
+      this.menu.push(this.object)
+
+      if (this.roles.includes("ESTUDIANTE")) {
+        const urlSIBUD = this.replaceUrlNested('${url_apoyo}/solicitud');
+        this.object = {
           title: 'Solicitud apoyo alimentario',
-          icon:  'clipboard-outline',
-          link:  `${urlSIBUD}`,
-          home:  false,
-          key:   "Solicitud apoyo alimentario",
+          icon: 'clipboard-outline',
+          link: `${urlSIBUD}`,
+          home: false,
+          key: "Solicitud apoyo alimentario",
           children: this.mapMenuChildrenObject(null)
         };
         this.menu.push(this.object)
       }
-      if(this.roles.includes("ADMIN_NECESIDADES")){
-        //const urlSIBUD = this.replaceUrlNested('${url_apoyo}/registro/diario');   
-        //console.log(urlSIBUD);  
-        let childs= []
+      if (this.roles.includes("ADMIN_NECESIDADES")) {
+
+        let childs = []
         var child1 = {
           Url: '${url_apoyo}/registro/diario',
           Nombre: 'Registro Diario',
           Icon: 'checkmark-circle-outline',
           Opciones: null,
-        }; 
+        };
         var child2 = {
           Url: '${url_apoyo}/registro/consultar',
           Nombre: 'Consultar Registro',
           Icon: 'book-open-outline',
           Opciones: null
-        }; 
+        };
+        var child3 = {
+          Url: '${url_apoyo}/registro/fallas-justificadas',
+          Nombre: 'Fallas justificadas',
+          Icon: 'bookmark-outline',
+          Opciones: null
+        };
 
         childs.push(child1);
         childs.push(child2);
-           
-        this.object   = {
+        childs.push(child3);
+
+        this.object = {
           title: 'Registro beneficiarios',
-          icon:  'person-done-outline',
-          link:  ``,
-          home:  false,
-          key:   "Registro beneficiarios",
+          icon: 'person-done-outline',
+          link: ``,
+          home: false,
+          key: "Registro beneficiarios",
           children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un admin registro');
       }
 
-      if(this.roles.includes("ADMIN_NECESIDADES")){
+      if (this.roles.includes("ADMIN_NECESIDADES")) {
         /* let objMenu= {
           Url: '${url_apoyo}/inscripciones/solicitudes',
           Nombre: 'Listado solicitudes',
           Opciones: null
         }
         const urlSIBUD = this.replaceUrlNested('');   */
-        let childs= []
+        let childs = []
         var child3 = {
           Url: '${url_apoyo}/inscripciones/solicitudes',
           Nombre: 'Listado solicitudes',
           Icon: 'list-outline',
           Opciones: null
-        }; 
+        };
         var child4 = {
           Url: '${url_apoyo}/inscripciones/buscarSolicitud',
           Nombre: 'Buscar solicitud',
           Icon: 'search-outline',
           Opciones: null
-        }; 
+        };
         var child5 = {
           Url: '${url_apoyo}/inscripciones/evaluacion-masiva',
           Nombre: 'Evaluacion masiva',
@@ -132,40 +143,39 @@ export class PagesComponent implements OnInit {
         childs.push(child3)
         childs.push(child4)
         childs.push(child5)
-        
-        this.object   = {
+
+        this.object = {
           title: 'Inscripciones',
-          icon:  'person-add-outline',
-          link:  ``,
-          home:  false,
-          key:   "Inscripciones",
+          icon: 'person-add-outline',
+          link: ``,
+          home: false,
+          key: "Inscripciones",
           children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un admin inscripciones');
       }
 
-      if(this.roles.includes("ADMIN_NECESIDADES")){
+      if (this.roles.includes("ADMIN_NECESIDADES")) {
 
-        let childs= []
+        let childs = []
         var child6 = {
           Url: '${url_apoyo}/informes/diario',
           Nombre: 'Diario',
           Icon: 'calendar-outline',
           Opciones: null
-        }; 
+        };
         var child7 = {
           Url: '${url_apoyo}/informes/periodo',
           Nombre: 'Periodo',
           Icon: 'file-text-outline',
           Opciones: null
-        }; 
+        };
         var child8 = {
           Url: '${url_apoyo}/informes/estudiante-periodo',
           Nombre: 'Estudiante',
           Icon: 'people-outline',
           Opciones: null
-        }; 
+        };
         childs.push(child6);
         childs.push(child7);
         childs.push(child8);
@@ -177,28 +187,27 @@ export class PagesComponent implements OnInit {
         }
 
         this.mapMenuByObjects([objMenu]) */
-        
-       this.object   = {
+
+        this.object = {
           title: 'Informes',
-          icon:  'archive-outline',
-          link:  ``,
-          home:  false,
-          key:   "Informes",
+          icon: 'archive-outline',
+          link: ``,
+          home: false,
+          key: "Informes",
           children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un admin informes');
       }
 
-      if(this.roles.includes("ADMIN_NECESIDADES")){
+      if (this.roles.includes("ADMIN_NECESIDADES")) {
 
-        let childs= []
+        let childs = []
         var child9 = {
           Url: '${url_apoyo}/administracion/periodos',
           Nombre: 'Periodos',
           Icon: 'clock-outline',
           Opciones: null
-        }; 
+        };
 
         childs.push(child9);
 
@@ -209,19 +218,19 @@ export class PagesComponent implements OnInit {
         }
 
         this.mapMenuByObjects([objMenu]) */
-        
-       this.object   = {
-          title: 'Administración',
-          icon:  'briefcase-outline',
-          link:  ``,
-          home:  false,
-          key:   "Administracion",
+
+
+        this.object = {
+          title: 'Administracion',
+          icon: 'briefcase-outline',
+          link: ``,
+          home: false,
+          key: "Administracion",
           children: this.mapMenuChildrenObject(childs)
         };
         this.menu.push(this.object)
-        console.log('hay un admin');
       }
-        
+      
         let childsagenda = []
 
         var childcalendario = {
@@ -301,7 +310,6 @@ export class PagesComponent implements OnInit {
         };
         this.menu.push(this.object)
 
-      
       /* toca activarlo */
       /* this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
         data => {
@@ -322,8 +330,6 @@ export class PagesComponent implements OnInit {
           this.translateMenu();
         }); */
     } else {
-      console.log('Publico');
-      
       this.rol = 'PUBLICO';
       this.menu = [];
       this.translateMenu();
@@ -337,15 +343,15 @@ export class PagesComponent implements OnInit {
    * Map the menu on objects
    *  @param menuArray
    */
-   mapMenuByObjects(menuArray) {
-    menuArray.map( itemMenu => {
+  mapMenuByObjects(menuArray) {
+    menuArray.map(itemMenu => {
       const urlNested = this.replaceUrlNested(itemMenu.Url);
-      this.object   = {
+      this.object = {
         title: itemMenu.Nombre,
-        icon:  'file-text-outline',
-        link:  `${urlNested}`,
-        home:  true,
-        key:   itemMenu.Nombre,
+        icon: 'file-text-outline',
+        link: `${urlNested}`,
+        home: true,
+        key: itemMenu.Nombre,
         children: this.mapMenuChildrenObject(itemMenu.Opciones)
       };
       this.menu.push(this.object);
@@ -363,10 +369,10 @@ export class PagesComponent implements OnInit {
         const urlNested = this.replaceUrlNested(itemChild.Url);
         this.object = {
           title: itemChild.Nombre,
-          icon:  itemChild.Icon,
-          link:  `${urlNested}`,
-          home:  false,
-          key:   itemChild.Nombre,
+          icon: itemChild.Icon,
+          link: `${urlNested}`,
+          home: false,
+          key: itemChild.Nombre,
           children: this.mapMenuChildrenObject(itemChild.Opciones)
         };
         submenu.push(this.object);
@@ -381,8 +387,8 @@ export class PagesComponent implements OnInit {
    */
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
-                    .replace('${url_presupuesto}', this.url_presupuesto)
-                    .replace('${url_citas}', this.url_citas);
+          .replace('${url_presupuesto}', this.url_presupuesto)
+          .replace('${url_citas}', this.url_citas);
   }
 
   /**

@@ -2,7 +2,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 
 import {PagesComponent} from './pages.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
 import {InscripcionEstComponent} from './inscripcion-estudiante/inscripcion-est.component';
 import {RevisionInscComponent} from './revision-insc/revision-insc.component';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';

@@ -1,8 +1,7 @@
-<!-- <button class="btn back-button btn-block" routerLink="../../">
+<button *ngIf="solicitudes.length>0" class="btn back-button btn-block" (click)="solicitudes=[]">
     <i class="fa fa-arrow-left" aria-hidden="true"></i>
     Regresar
-</button> -->
-
+</button>
 <nb-card>
     <nb-card-header>
         <div class="text-center pt-2">
@@ -10,15 +9,11 @@
                 <h1>
                     Buscar solicitud
                 </h1>
-                <button class="btn back-button btn-block" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
             </div>
         </div>
     </nb-card-header>
 
-    <nb-card-body>
+    <nb-card-body *ngIf="solicitudes.length==0">
         <div class="row">
             <div class="col">
                 <form (ngSubmit)="buscar( f )" #f="ngForm">
@@ -65,44 +60,36 @@
             </div>
         </div>
     </nb-card-body>
-</nb-card>
-<nb-card *ngIf="solicitudes!=null">
-    <table *ngIf="solicitudes.length>0" class="table">
-        <thead class="bg-ud-table">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">JSON</th>
-                <th scope="col">Tipo solicitud</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Fecha radicacion</th>
 
-                <th scope="col">Opciones</th>
-            </tr>
-        </thead>
-        <tbody class="bg-ud-table-cell">
-            <tr
-                *ngFor="let item of solicitudes; let i = index">
-                <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
-                <th scope="row">{{ (i+1) }}</th>
-                <td>{{ item | json }}</td>
-                <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
-                <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
-                <td>{{ item.FechaRadicacion | date: 'dd/MM/yyyy'}}</td>
-                <td>
-                    <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        Evaluar solicitud
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
-    
-    <div *ngIf="solicitudes.length==0" class="alert alert-warning text-center mt-3">
-        <h3 class="alert-heading">No hay solicitudes</h3>
-        <p>
-            <i class="fa fa-exclamation fa-2x    "></i>
-        </p>
-    </div>
+    <nb-card-body *ngIf="solicitudes.length>0">
+        <table class="table">
+            <thead class="bg-ud-table">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha radicacion</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-ud-table-cell">
+                <tr *ngFor="let item of solicitudes; let i = index">
+                    <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
+                    <th scope="row">{{ (i+1) }}</th>
+                    <td class="word-wrap">{{ tercero?.NombreCompleto }}</td>
+                    <td> {{ item.Referencia | slice:12:18 }}</td>
+                    <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre}}</td>
+                    <td>{{ item.FechaRadicacion | fechaFormat}}</td>
+                    <td>
+                        <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver solicitante">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Evaluar solicitud
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
 </nb-card>

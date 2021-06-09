@@ -46,7 +46,7 @@
                             <label class="sub-item label-color-ud">
                                 ID :
                             </label>
-                            <label class="sub-item ">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.Id}}
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
@@ -55,7 +55,7 @@
                             <label class="sub-item label-color-ud">
                                 Nombres:
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.PrimerNombre}} {{tercero?.SegundoNombre}}
                             </label>
                         </div>
@@ -63,7 +63,7 @@
                             <label class="sub-item label-color-ud">
                                 Apellidos :
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.PrimerApellido}} {{tercero?.SegundoApellido}}
                             </label>
                         </div>
@@ -71,25 +71,25 @@
                             <label class="sub-item label-color-ud">
                                 Fecha de Nacimiento :
                             </label>
-                            <label class="sub-item">
-                                {{tercero?.FechaNacimiento}}
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.FechaNacimiento | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Estado:
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 <!-- {{tercero?.Activo}} -->
                                 <span *ngIf="tercero?.Activo" class="badge rounded-pill bg-success">Activo</span>
                                 <span *ngIf="!tercero?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
                             </label>
                         </div>
                         <div class="item">
-                            <label class="sub-item label-color-ud">
+                            <label class="sub-item label-color-ud ">
                                 Usuario App:
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{tercero?.UsuarioWSO2}}
                             </label>
                         </div>
@@ -109,7 +109,7 @@
                             <label class="sub-item label-color-ud">
                                 ID :
                             </label>
-                            <label ng-readonly="!nueva" class="sub-item ">
+                            <label ng-readonly="!nueva" class="sub-item field-color-ud">
                                 {{solicitud?.Id}}
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
@@ -118,47 +118,48 @@
                             <label class="sub-item label-color-ud">
                                 Fecha Radicación :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.FechaRadicacion}}
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaRadicacion | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Fecha Creación :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.FechaCreacion}}
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaCreacion | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Fecha Modificación :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.FechaModificacion}}
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaModificacion | fechaFormat}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
-                                Solicitud Finalizada :
+                                Solicitud:
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.SolicitudFinalizada}}
+                            <label class="sub-item field-color-ud">
+                                <span *ngIf="solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                                <span *ngIf="!solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Referencia :
                             </label>
-                            <label class="sub-item">
-                                {{solicitud?.Referencia}}
+                            <label class="sub-item field-color-ud">
+                                Periodo : &emsp; {{referencia[0]}} , Puntaje : &emsp; {{referencia[1]}}
                             </label>
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
                                 Tipo Solicitud :
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
                             </label>
                         </div>
@@ -166,7 +167,7 @@
                             <label class="sub-item label-color-ud">
                                 Estado :
                             </label>
-                            <label class="sub-item">
+                            <label class="sub-item field-color-ud">
                                 <!-- {{solicitud?.Activo}} -->
                                 <span *ngIf="solicitud?.Activo" class="badge rounded-pill bg-success">Activo</span>
                                 <span *ngIf="!solicitud?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
@@ -182,30 +183,32 @@
                     <h4 class="non-selectable">Documentos</h4>
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    <div *ngIf="loadDocs" class="menu-list">
-                        <div class="item">
-                            <h6 class="label-color-ud">{{selectDoc[0]}}</h6>
-                            <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
-                        </div>
-                        <div class="item" *ngIf="!loading">
-                            <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                        </div>
-                        <div class="item">
-                            <hr>
-                            <h6>Cambiar documento</h6>
-                            <br>
-                        </div>
-                        <div class="item row">
-                            <div class="col-md-2 mt-2">
-                                <label class="label-color-ud">
-                                    Ver documento :
-                                </label>
+                    <div *ngIf="loadDocs">
+                        <div class="text-center">
+                            <div class="item">
+                                <h6 class="sub-item label-color-ud">{{selectDoc[0]}}</h6>
+                                <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
                             </div>
-                            <div class="col-md-10">
-                                <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
-                                    <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
-                                        {{ doc[0] }}</option>
-                                </select>
+                            <div class="item" *ngIf="!loading">
+                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            </div>
+                            <div class="item">
+                                <hr>
+                                <h6>Cambiar documento</h6>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mt-2">
+                                    <label class="sub-item label-color-ud">
+                                        Ver documento :
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
+                                        <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
+                                            {{ doc[0] }}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -266,37 +269,54 @@
                             <label class="sub-item label-color-ud">
                                 Estado actual :
                             </label>
-                            <label ng-readonly="!nueva" class="sub-item ">
+                            <label ng-readonly="!nueva" class="sub-item field-color-ud">
                                 {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
                             </label>
                             <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
+                    </div>
+                    <div class="text-center">
                         <div class="item">
                             <hr>
                             <h6>Cambiar estado</h6>
                             <br>
                         </div>
-                        <div class="item">
-                            <label class="sub-item label-color-ud">
-                                Nuevo estado :
-                            </label>
-
-                            <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
-                                <option [ngValue]="null">Selecciona el siguiente estado</option>
-                                <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
-                                    {{estadoTipo.EstadoId.Nombre }}</option>
-                            </select>
-                            <br>
-
-                        </div>
-                        <br>
-                        <div *ngIf="nuevoEstado!=null" class="item mt-3">
-                            <label class="sub-item label-color-ud">
-                                Observacion cambio de estado:
-                            </label>
-                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 60px;"></textarea>
+                        <div class="text-center mb-3">
+                            <div class="item row justify-content-center">
+                                <div class="col-md-10">
+                                    <label class="label-color-ud">
+                                        Nuevo estado :
+                                    </label>
+                                    <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                                        <option [ngValue]="null">Selecciona el siguiente estado</option>
+                                        <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                                            {{estadoTipo.EstadoId.Nombre }}</option>
+                                    </select>
+                                    <br>
+                                </div>
+                            </div>
+                            <div *ngIf="nuevoEstado!=null" class="item row justify-content-center mt-3">
+                                <div class="col-md-10">
+                                    <label class="label-color-ud">
+                                        Observacion cambio de estado:
+                                    </label>
+                                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <button *ngIf="!this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
+                        Finalizar solicitud
+                        <i class="fas fa-toggle-off ml-1"></i>
+                    </button>
+
+                    <button *ngIf="this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="success" (click)="cambiarSolicitudFinalizada(false)" class="submit-button">
+                        Activar solicitud
+                        <i class="fas fa-toggle-on ml-1"></i>
+                    </button>
+
+
                 </nb-accordion-item-body>
                 <hr>
             </nb-accordion-item>

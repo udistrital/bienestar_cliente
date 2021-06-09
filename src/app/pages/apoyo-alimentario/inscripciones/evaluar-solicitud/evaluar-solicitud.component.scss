@@ -13,3 +13,10 @@ a:visited {
     color: #3d0c0c !important;
     text-decoration: underline !important;
 }
+
+.line {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 1;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

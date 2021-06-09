@@ -1,20 +1,9 @@
-<!-- <nb-card>
-    <button class="btn back-button btn-block" routerLink="../../">
-        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-        Regresar
-    </button>
-</nb-card> -->
-
 <div *ngIf="loading">
     <nb-card>
         <div class="menu-header m-4">
             <h1 *ngIf="periodo==null">
                 No hay un periodo activo
             </h1>
-            <button class="btn back-button" routerLink="../../">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Regresar
-            </button>
         </div>
     </nb-card>
 </div>
@@ -27,11 +16,6 @@
             <h1>
                 No hay un periodo activo para inscripciones
             </h1>
-            <button class="btn back-button" routerLink="../../">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Regresar
-            </button>
-
         </div>
     </nb-card>
 
@@ -41,11 +25,6 @@
             <h1>
                 No se encontraron documentos de identificación del estudiante
             </h1>
-            <button class="btn back-button" routerLink="../../">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Regresar
-            </button>
-
         </div>
     </nb-card>
 
@@ -55,10 +34,6 @@
             <h1>
                 Hubo un error con tus credenciales, intenta logear de nuevo.
             </h1>
-            <button class="btn back-button" routerLink="../../">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Regresar
-            </button>
 
         </div>
     </nb-card>
@@ -71,77 +46,40 @@
                 <h1>
                     Solicitud apoyo alimentario {{ periodo?.Nombre }}
                 </h1>
-                <button class="btn back-button" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
             </div>
         </nb-card-header>
         <hr>
         <nb-card-body>
             <div class="menu-list">
-                <div class="item form-group ">
+                <div class="item">
                     <label class="sub-item label-color-ud">
                         ID Solicitud:
                     </label>
-                    <label class="sub-item">
+                    <label class="sub-item field-color-ud ">
                         {{solicitud?.Id}}
                     </label>
                 </div>
                 <div class="item">
                     <label class="sub-item label-color-ud">
-                        Estado :
+                        Solicitante:
                     </label>
-                    <label class="sub-item">
-                        {{solicitud?.Activo}}
-                    </label>
-                </div>
-                <div class="item">
-                    <label class="sub-item label-color-ud">
-                        Fecha Radicación :
-                    </label>
-                    <label class="sub-item">
-                        {{solicitud?.FechaRadicacion | fechaFormat}}
+                    <label class="sub-item field-color-ud ">
+                        {{tercero?.NombreCompleto}}
                     </label>
                 </div>
                 <div class="item">
                     <label class="sub-item label-color-ud">
-                        Fecha Creación :
+                        Periodo :
                     </label>
-                    <label class="sub-item">
-                        {{solicitud?.FechaCreacion | fechaFormat}}
-                    </label>
-                </div>
-                <div class="item">
-                    <label class="sub-item label-color-ud">
-                        Fecha Modificación :
-                    </label>
-                    <label class="sub-item">
-                        {{solicitud?.FechaModificacion | fechaFormat}}
-                    </label>
-                </div>
-                <div class="item">
-                    <label class="sub-item label-color-ud">
-                        Solicitud Finalizada :
-                    </label>
-                    <label class="sub-item">
-                        {{solicitud?.SolicitudFinalizada}}
-                    </label>
-
-                </div>
-                <div class="item">
-                    <label class="sub-item label-color-ud">
-                        Referencia :
-                    </label>
-                    <label class="sub-item">
-                        {{solicitud?.Referencia}}
+                    <label class="sub-item field-color-ud">
+                        {{referencia}}
                     </label>
                 </div>
                 <div class="item">
                     <label class="sub-item label-color-ud">
                         Tipo Solicitud :
                     </label>
-                    <label class="sub-item">
+                    <label class="sub-item field-color-ud ">
                         {{solicitud?.EstadoTipoSolicitudId.TipoSolicitud.Nombre}}
                     </label>
                 </div>
@@ -149,8 +87,50 @@
                     <label class="sub-item label-color-ud">
                         Estado Solicitud :
                     </label>
-                    <label class="sub-item">
-                        <p>{{solicitud.EstadoTipoSolicitudId.EstadoId.Nombre}}</p>
+                    <label class="sub-item field-color-ud ">
+                        {{solicitud.EstadoTipoSolicitudId.EstadoId.Nombre}}
+                    </label>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Estado :
+                    </label>
+                    <label class="sub-item field-color-ud ">
+                        <span *ngIf="solicitud?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                        <span *ngIf="!solicitud?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
+                    </label>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Solicitud Finalizada :
+                    </label>
+                    <label class="sub-item field-color-ud ">
+                        <span *ngIf="solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                        <span *ngIf="!solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                    </label>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Fecha Radicación :
+                    </label>
+                    <label class="sub-item field-color-ud ">
+                        {{solicitud?.FechaRadicacion | fechaFormat}}
+                    </label>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Fecha Creación :
+                    </label>
+                    <label class="sub-item field-color-ud ">
+                        {{solicitud?.FechaCreacion | fechaFormat}}
+                    </label>
+                </div>
+                <div class="item">
+                    <label class="sub-item label-color-ud">
+                        Fecha Modificación :
+                    </label>
+                    <label class="sub-item field-color-ud ">
+                        {{solicitud?.FechaModificacion | fechaFormat}}
                     </label>
                 </div>
             </div>
@@ -182,6 +162,6 @@
     </nb-card>
 
     <!-- Formulario nueva solicitud --------------------------------->
-    <ngx-crear-solicitud *ngIf="tercero!=null && solicitud==null && (estudiante.Documento!==null || estudiante.Carnet!==null)" [tercero]="tercero" [solicitud]="solicitud" [periodo]="periodo" [estudiante]="estudiante"></ngx-crear-solicitud>
+    <ngx-crear-solicitud *ngIf="tercero!=null && solicitud==null && estudiante.Documento!==null && estudiante.Carnet!==null" [tercero]="tercero" [solicitud]="solicitud" [periodo]="periodo" [estudiante]="estudiante"></ngx-crear-solicitud>
 
 </div>

@@ -1,63 +1,118 @@
-<nb-card *ngIf="registros==null">
-    <div class="text-center pt-2">
-        <div class="menu-header">
-            <h1>
-                No hay registros para consultar
-            </h1>
-            <button class="btn back-button btn-block" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
-        </div>
-    </div>
-</nb-card>
-
-<nb-card *ngIf="registros!=null">
+<nb-card>
     <nb-card-header>
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
                     Buscar Registro Diario
                 </h1>
-                <button class="btn back-button btn-block" routerLink="../../">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    Regresar
-                </button>
             </div>
         </div>
     </nb-card-header>
 
-    <nb-card-body>
-        <table *ngIf="registros.length>0" class="table">
+    <nb-card-body *ngIf="registros.length==0">
+        <div class="contain">
+            <mat-form-field class="periodo">
+                <mat-label>Periodo</mat-label>
+                <select matNativeControl [(ngModel)]="periodo">
+                    <option *ngFor="let option of parametros;let i = index;" [ngValue]="option.PeriodoId.Id">
+                        {{option.PeriodoId.Nombre }}</option>
+                    <option [ngValue]="null">Todos los periodos</option>
+                </select>
+                <br>
+            </mat-form-field>
+            <mat-form-field class="sedes">
+                <mat-label>Sede</mat-label>
+                <select matNativeControl [(ngModel)]="sede">
+                    <option [ngValue]="null">Todas las sedes</option>
+                    <option *ngFor="let sede of sedesAcceso;" [ngValue]="sede.Id">
+                        {{sede.Nombre }}</option>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="codigo">
+                <mat-label>Codigo del estudiante</mat-label>
+                <input matInput type="number" placeholder="Todos los estudiantes" [(ngModel)]="codigoEstudiante">
+                <button mat-button *ngIf="codigoEstudiante" matSuffix mat-icon-button aria-label="Limpiar" (click)="codigoEstudiante=undefined">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field class="page">
+                <mat-label>Cantidad de registros</mat-label>
+                <select matNativeControl [(ngModel)]="limite">
+                    <option *ngFor="let option of itemsLim" [value]="option" [selected]="limite === option">{{
+                        option }}</option>
+                    <option [value]="-1" [selected]="limite === -1"> Todas </option>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="offset">
+                <mat-label>Punto de partida</mat-label>
+                <input matInput type="number" placeholder="Rango solicitud" min="0" [(ngModel)]="itemOffSet">
+                <button mat-button *ngIf="itemOffSet" matSuffix mat-icon-button aria-label="Limpiar" (click)="itemOffSet=0">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
+        </div>
+        <p class="line"></p>
+        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button" (click)="buscar(1)">
+            <i class="fa fa-search mr-1" aria-hidden="true"></i>
+            Buscar registro diario
+        </button>
+    </nb-card-body>
+
+    <nb-card-body *ngIf="registros.length>0">
+        <button class="btn back-button btn-block" (click)="registros=[]">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Regresar
+        </button>
+        <table class="table">
             <thead class="bg-ud-table">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">JSON</th>
-                    <th scope="col">Opciones</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Id solicitud</th>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Sede</th>
+                    <th scope="col">Registró</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody class="bg-ud-table-cell">
-                <tr *ngFor="let item of registros; let i = index">
+                <tr *ngFor="let item of registros;let i = index;">
                     <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
-                    <th scope="row">{{ (i+1) }}</th>
-                    <td>{{ item | json }}</td>
+                    <th scope="row">{{ item.id }}</th>
+                    <td>{{ item.solicitudId==0 ? 'No inscrito' : item.solicitudId }}</td>
+                    <td>{{ getNombrePeriodo(item.periodoId) }}</td>
+                    <td>{{ getSedeAccesso(item.espacioFisicoId) }}</td>
+                    <td>{{ item.usuarioAdministrador }}</td>
+                    <td>{{ item.fecha_creacion }}</td>
                     <td>
-                        <button class="btn init-icon " routerLink="./{{item.Id}}" title="Ver Registro">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                            Ver Registro    
-                        </button>
+                        <div class="example-button-row">
+                            <button title="Ver estudiante" mat-mini-fab color="accent" aria-label="Ver estudiante" (click)="verEstudiante(i)">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </button>
+                            <button *ngIf="item.solicitudId!=0" title="Ver solicitud" mat-mini-fab color="primary" aria-label="Ver solicitud" (click)="verSolicitud(i)">
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
-
         </table>
-
-
-        <div *ngIf="registros.length==0" class="alert alert-warning text-center mt-3">
-            <h3 class="alert-heading">No hay registros</h3>
-            <p>
-                <i class="fa fa-exclamation fa-2x    "></i>
-            </p>
+        <hr>
+        <div style="width: 100%;" class="d-flex justify-content-around">
+            <button [disabled]="pagina<=1" title="Anterior" mat-mini-fab color="basic" aria-label="Anterior" (click)="buscar(pagina-1)">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+            </button>
+            <br>
+            <h3>{{pagina}}</h3>
+            <br>
+            <button [disabled]="!hasNext" title="Siguiente" mat-mini-fab color="basic" aria-label="Siguiente" (click)="buscar(pagina+1)">
+                <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+            </button>
         </div>
+
     </nb-card-body>
 </nb-card>

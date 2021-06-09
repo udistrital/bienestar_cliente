@@ -9,13 +9,13 @@ export class InfoResidenciaEstudiante {
     Puntaje_Sisben: string;
     Grupo_Sisben: string;
     constructor() {
-        this.Localidad= "LOCALIDAD PRUEBA";
-        this.Municipio= "MUNICIPIO PRUEBA";
-        this.Direccion= "DIRECCION PRUEBA";
-        this.Telefono= "TELEFONO PB";
-        this.Barrio="BARRIO PRUEBA";
+        this.Localidad= "LOCALIDAD";
+        this.Municipio= "MUNICIPIO";
+        this.Direccion= "DIRECCION";
+        this.Telefono= "TELEFONO";
+        this.Barrio="BARRIO";
         this.Sisben= "SI";
         this.Puntaje_Sisben= "60";
-        this.Grupo_Sisben= "";
+        this.Grupo_Sisben = null;
     }
 }

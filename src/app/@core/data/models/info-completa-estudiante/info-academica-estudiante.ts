@@ -1,12 +1,12 @@
 export class InfoAcademicaEstudiante {
     ValorMatricula: number;
     NumeroCreditos: number;
-    Matriculas: string;
-    Promedio: string;
+    Matriculas: 0;
+    Promedio: 0;
     constructor() {
-        this.ValorMatricula= 250000;
+        this.ValorMatricula= null;
         this.NumeroCreditos= null;
-        this.Matriculas= "pre: 5";
-        this.Promedio= "pre: 3.65";
+        this.Matriculas= null;
+        this.Promedio= null;
     }
 }

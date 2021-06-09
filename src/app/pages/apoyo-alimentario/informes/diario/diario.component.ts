@@ -12,8 +12,6 @@ import { UtilService } from '../../../../shared/services/utilService';
 export class DiarioComponent implements OnInit {
 
   periodo: Periodo;
-  fecha = new Date();
-  
 
   constructor(
     private router: Router,
