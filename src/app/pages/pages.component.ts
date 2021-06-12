@@ -33,6 +33,7 @@ export class PagesComponent implements OnInit {
   roles: any;
 
   url_apoyo = environment.CLIENTE_APOYO;
+  url_citas = "${citas}"
   url_presupuesto = environment.CLIENTE_PRESUPUESTO;
   url_contabilidad = environment.CLIENTE_CONTABILIDAD;
   application_conf = 'SIBUD';
@@ -322,7 +323,8 @@ export class PagesComponent implements OnInit {
    */
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
-      .replace('${url_presupuesto}', this.url_presupuesto);
+          .replace('${url_presupuesto}', this.url_presupuesto)
+          .replace('${url_citas}', this.url_citas);
   }
 
   /**
