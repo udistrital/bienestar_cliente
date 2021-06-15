@@ -369,7 +369,11 @@
 
 <!-- Se carga formulario para una nueva solicitud--->
 <div *ngIf="!loadForm">
-    <ngx-crear-solicitud *ngIf="solicitud==null && nueva && tercero!=null" [tercero]="tercero" [solicitud]="solicitud" [periodo]="periodo" [estudiante]="estudiante" [extraSolicitud]="true"></ngx-crear-solicitud>
+    <button class="btn back-button btn-block" (click)="loadForm=true; tercero=null;">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <ngx-crear-solicitud *ngIf="solicitud==null && nueva && tercero!=null" [tercero]="tercero" [periodo]="periodo" [extraSolicitud]="true"></ngx-crear-solicitud>
 </div>
 
 

@@ -59,7 +59,10 @@
 </nb-card>
 
 <div *ngIf="solicitud!=null">
-    <button class="btn btn-block btn-danger" (click)="solicitud=null">Regresar</button>
+    <button class="btn back-button btn-block" (click)="solicitud=null">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
     <!-- Mostrar una solicitud-->
     <nb-card *ngIf="solicitud!==null && periodo!==null ">
         <nb-card-header>
@@ -188,7 +191,10 @@
 </div>
 
 <div *ngIf="creando">
-    <button class="btn btn-block btn-danger" (click)="creando=false">Regresar</button>
-    <ngx-crear-solicitud [tercero]="tercero" [solicitud]="solicitud" [periodo]="periodo" [estudiante]="estudiante">
+    <button class="btn back-button btn-block" (click)="creando=false">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <ngx-crear-solicitud [tercero]="tercero" [periodo]="periodo">
     </ngx-crear-solicitud>
 </div>

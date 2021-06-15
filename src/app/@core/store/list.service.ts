@@ -1131,7 +1131,6 @@ export class ListService {
       let usuarioWSO2 = this.utilsService.getEmailEstudiante();
       if (usuarioWSO2 != undefined) {
         var user = { "user": usuarioWSO2 };
-        console.log("USER", user);
         var userRol: UserRol;
         this.autenticationMidService.post('/token/userRol', user).subscribe(
           (result) => {
