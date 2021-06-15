@@ -71,7 +71,6 @@ export class SolicitudTerceroComponent implements OnInit {
                                     if (estado == element[0]) {
                                         solicitante.SolicitudId.EstadoTipoSolicitudId.EstadoId.Nombre = element[1];
                                     }
-
                                 });
                                 this.solicitudes.push(solicitante.SolicitudId);
                             }
