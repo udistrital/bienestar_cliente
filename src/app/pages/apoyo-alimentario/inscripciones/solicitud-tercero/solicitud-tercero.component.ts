@@ -13,134 +13,168 @@ import { UtilService } from "../../../../shared/services/utilService";
 import { Observacion } from "../../../../@core/data/models/solicitud/observacion";
 import { NgForm } from "@angular/forms";
 import { delay } from "rxjs/operators";
+import { Solicitante } from "../../../../@core/data/models/solicitud/solicitante";
+import { ReferenciaSolicitud } from "../../../../@core/data/models/solicitud/referencia-solicitud";
 @Component({
-  selector: "ngx-solicitud-tercero",
-  templateUrl: "./solicitud-tercero.component.html",
-  styleUrls: ["./solicitud-tercero.component.scss"],
+    selector: "ngx-solicitud-tercero",
+    templateUrl: "./solicitud-tercero.component.html",
+    styleUrls: ["./solicitud-tercero.component.scss"],
 })
 export class SolicitudTerceroComponent implements OnInit {
-  tercero: Tercero = null;
-  solicitud: Solicitud = null;
-  periodo: Periodo = null;
-  estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-  loading: boolean = true;
+    tercero: Tercero = null;
+    solicitud: Solicitud = null;
+    periodo: Periodo = null;
+    estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
+    loading: boolean = true;
+    puedeCrear: boolean = false;
+    
+    creando: boolean = false;
 
-  APP_CONSTANTS = ApiConstanst;
-  
-  referencia="";    
-  observaciones: Observacion[] = [];
 
-  username: string = "";
-  private autenticacion = new ImplicitAutenticationService();
- 
-  constructor(
-    private utilService: UtilService,
-    private listService: ListService,
-  ) {
-    /** ventana de carga para procesar la petición. */
-    Swal.fire({
-      title: "Por favor espere!",
-      html: `cargando información del estudiante`,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-    });
-    Swal.showLoading();
+    APP_CONSTANTS = ApiConstanst;
 
-    /* Cargamos periodo con inscripciones activas */
-    this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
-      (resp) => {
-        /* Se valida que la inscripcion exista en el periodo*/
-        if (resp.length > 0) {
-          /** Se obtiene id del periodo de inscripción. */
-          this.periodo = resp[0].PeriodoId;
+    estadosSolicitud = [[environment.IDS.IDSOLICITUDRADICADA, "Radicada"],
+    [environment.IDS.IDSOLICITUDACEPTADA, "Aceptada"],
+    [environment.IDS.IDSOLICITUDNOACEPTADA, "Rechazada"],
+    [environment.IDS.IDSOLICITUDPREPARADA, "Preparada para presentar a comité"]]
 
-          let usuarioWSO2 = this.autenticacion.getPayload().email
-            ? this.autenticacion.getPayload().email.split("@").shift()
-            : this.autenticacion.getPayload().sub;
-          //usuarioWSO2 = "daromeror";
-          //usuarioWSO2 = ""  javiermartinez25//9798   //   jgcastellanosj//9811  //fdbarretos//82   // pruebaInscripcion7//9787  //pruebaInscripcion5//9788   evaluador//9792
-          //usuarioWSO2 = "sagomezl";
-          usuarioWSO2 = "pruebaInscripcion5";
+    referencia = "";
+    observaciones: Observacion[] = [];
 
-          this.listService.loadTerceroByWSO2(usuarioWSO2).then((respTecero) => {
-            /* Se carga informacion si existe el tercero*/
-            this.tercero = respTecero;
-                    
-            this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
-              /* Se busca carnet o documento del tercero. */
-              for (const documento of respDocs) {
-                if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-                  this.estudiante.Carnet = documento;
-                } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
-                  this.estudiante.Documento = documento;
+    username: string = "";
+    private autenticacion = new ImplicitAutenticationService();
+    solicitudes: Solicitud[] = [];
+
+    constructor(
+        private utilService: UtilService,
+        private listService: ListService,
+    ) {
+        /** ventana de carga para procesar la petición. */
+        Swal.fire({
+            title: "Por favor espere!",
+            html: `cargando información del estudiante`,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+        });
+        Swal.showLoading();
+
+        this.listService.getInfoEstudiante().then((respUser) => {
+            this.listService.loadTerceroByDocumento("20161020022").then((respTecero) => {
+                this.tercero = respTecero;
+                if (this.tercero !== undefined) {
+                    this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, null, null).then(
+                        (resp) => {
+                            this.solicitudes = [];
+                            for (const solicitante of resp) {
+                                this.estadosSolicitud.forEach((element: any) => {
+                                    let estado: number = solicitante.SolicitudId.EstadoTipoSolicitudId.Id;
+                                    if (estado == element[0]) {
+                                        solicitante.SolicitudId.EstadoTipoSolicitudId.EstadoId.Nombre = element[1];
+                                    }
+
+                                });
+                                this.solicitudes.push(solicitante.SolicitudId);
+                            }
+                            Swal.close()
+                            this.puedeCrearSolicitud();
+
+                        }
+                    ).catch((error) => console.error(error));
+                } else {
+                    this.showError("Estudiante no encontrado", 'No se encuentra el tercero');
                 }
-              }
-              //Se busca solicitante si existen carnet y documento
-              if (this.estudiante.Carnet != null && this.estudiante.Documento != null) {
-                
-                this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null)
-                  .then((listSolicitantes) => {
-                    /** Se busca la facultad a la cual pertenece un tercero, para obtener su proyecto curricular */
-                    this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
-                      this.estudiante.Facultad = nomFacultad[0];
-                      this.estudiante.ProyectoCurricular = nomFacultad[1];
-                      /** Se busca si existe la solicitud para el periodo actual */
-                      if (listSolicitantes.length > 0) {
-                        this.listService.loadSolicitud(listSolicitantes[0].SolicitudId.Id).then((sol) => {
-                          this.solicitud = sol;
-                          let ref: any=JSON.parse(this.solicitud.Referencia);
-                          this.referencia=ref.Periodo;
-                          this.loading = false;
-                          Swal.close();
-                          /** Se obtienen observaciones de la solicitud */
-                          this.listService.findObservacion(sol.Id,1).then((respObs) => {
-                            this.observaciones = respObs;
-                          }).catch((errObs) => this.showError("Observación no encontrada", errObs));
-                        }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
-                      } else {
-                        this.loading = false;
-                        Swal.close();
+            }).catch((errorT) => this.showError("Estudiante no existe", errorT));
+
+        }).catch((err) => this.showError('No se encontro al estudiante', err))
+
+        this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
+            (resp) => {
+                /* Se valida que la inscripcion exista en el periodo*/
+                if (resp.length > 0) {
+                    /** Se obtiene id del periodo de inscripción. */
+                    this.periodo = resp[0].PeriodoId;
+                    this.puedeCrearSolicitud();
+                }
+            }).catch((error) => {
+                this.showError("Periodo Vacio", error);
+            });
+
+    }
+
+    puedeCrearSolicitud(){
+        this.puedeCrear=false;
+        if(this.periodo!=null){
+            this.puedeCrear=true;
+            if(this.solicitudes.length>0){
+                for (const sol of this.solicitudes) {
+                    let refSol: ReferenciaSolicitud;
+                    try {
+                      refSol = JSON.parse(sol.Referencia);
+                      if (refSol != null) {
+                        if (refSol.Periodo === this.periodo.Nombre) {
+                          if (sol.Activo == true) {
+                            this.puedeCrear=false;
+                            break;
+                          }
+                        }
                       }
-
-                    }).catch((errorFacu) => {
-                      console.log("FFFF");
-                      this.showError("Facultad o Proyecto curricular no existe", errorFacu);
-                    });;
-
-                  }).catch((errorSolT) => {
-                    this.showError("Solicitud no existe", errorSolT);
-                  });
-
-              } else {
-                this.showError("Documentos del estudiante no encontrados", "No se encontro el carnet y documento de identificacion");
-              }
-            }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));
-
-          }).catch((errorT) => this.showError("Estudiante no existe", errorT));
-
-        } else {
-          this.showError("Periodo Vacio", "No se encuentra un periodo activo para inscripciones");
+                    } catch (error) {
+                      console.error(error);
+                    }
+                }
+            }
         }
-      }).catch((error) => {
-        this.showError("Periodo Vacio", error);
-      });
-  }
 
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+       
+    }
 
-  loadingForm(load){
-    this.loading = load;
-    Swal.close();
-  }
+    verSolicitud(i: number) {
+        this.listService.loadSolicitud(this.solicitudes[i].Id).then((sol) => {
+            this.solicitud = sol;
+            let ref: any = JSON.parse(this.solicitud.Referencia);
+            this.referencia = ref.Periodo;
+            this.loading = false;
+            /** Se obtienen observaciones de la solicitud */
+            this.listService.findObservacion(sol.Id, 1).then((respObs) => {
+                this.observaciones = respObs;
+            }).catch((errObs) => this.showError("Observación no encontrada", errObs));
+        }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
+    }
 
-  sendData(form: NgForm) { }
+    nuevaSolicitud() {
+        this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
+            for (const documento of respDocs) {
+                if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
+                    this.estudiante.Carnet = documento;
+                } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
+                    this.estudiante.Documento = documento;
+                }
+            }
+        }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));
+        this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
+            this.estudiante.Facultad = nomFacultad[0];
+            this.estudiante.ProyectoCurricular = nomFacultad[1];
+        }).catch((errorFacu) => {
+            this.showError("Facultad o Proyecto curricular no existe", errorFacu);
+        });
+        console.log(this.estudiante);
+        this.creando=true;
+    }
 
-  showError(titulo: string, msj: any) {
-    this.loading = false;
-    Swal.close();
-    this.utilService.showSwAlertError(titulo, msj);
-  }
+    loadingForm(load) {
+        this.loading = load;
+        Swal.close();
+    }
+
+    sendData(form: NgForm) { }
+
+    showError(titulo: string, msj: any) {
+        this.loading = false;
+        Swal.close();
+        this.utilService.showSwAlertError(titulo, msj);
+    }
 
 }
