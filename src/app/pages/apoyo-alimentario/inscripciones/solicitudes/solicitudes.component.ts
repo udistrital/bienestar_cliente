@@ -38,6 +38,7 @@ export class SolicitudesComponent implements OnInit {
   periodos: Periodo[] = [];
   estadosTipoSolicitud: EstadoTipoSolicitud[] = [];
   estados: Estado[] = [];
+  estadoNum: number = null;
   periodo: number = null;
   estadoTipo: number = null;
   busqueda: string;
@@ -74,6 +75,7 @@ export class SolicitudesComponent implements OnInit {
           let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
           for (let estadoTipo of estadosTiposolicitud) {
             this.estadosTipoSolicitud.push(estadoTipo);
+            this.estados.push(estadoTipo.EstadoId);
           }
         }
       },
@@ -183,7 +185,7 @@ export class SolicitudesComponent implements OnInit {
       });
     }
     let nombre = "solicitudes " +
-      (this.estadoTipo != null ? this.estadosTipoSolicitud[this.estadoTipo].EstadoId.Nombre + " " : "") +
+      (this.estadoNum != null ? this.estadosTipoSolicitud[this.estadoNum].EstadoId.Nombre + " " : "") +
       (this.periodos[this.periodo] != null ? this.periodos[this.periodo].Nombre : "historico") +
       " "+(new Date()).toISOString();
     this.utilService.exportCSVFile(headers, data, nombre);

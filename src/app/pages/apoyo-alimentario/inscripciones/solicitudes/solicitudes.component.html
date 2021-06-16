@@ -7,7 +7,7 @@
         <div class="text-center pt-2">
             <div class="menu-header">
                 <h1>
-                    Listado de solicitudes {{estado!=null ? this.estados[this.estado].Nombre : ''}} {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                    Listado de solicitudes {{estadoNum!=null ? estados[estadoNum].Nombre : ''}} {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
                 </h1>
             </div>
             <small>
@@ -33,12 +33,11 @@
             <mat-form-field class="estado">
                 <mat-label>Estado Solicitud</mat-label>
                 <select matNativeControl [(ngModel)]="estadoTipo">
-                    <option [ngValue]="null">Todos los estados</option>
-                    <option *ngFor="let estadoTipo of estadosTipoSolicitud;" [ngValue]="estadoTipo.Id">
+                    <option [ngValue]="null" (click)="estadoNum=null;">Todos los estados</option>
+                    <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [ngValue]="estadoTipo.Id" (click)="estadoNum=i;">
                         {{estadoTipo.EstadoId.Nombre }}</option>
                 </select>
             </mat-form-field>
-
             <mat-form-field class="page">
                 <mat-label>Cantidad de Solicitudes</mat-label>
                 <select matNativeControl [(ngModel)]="itemSelect">
