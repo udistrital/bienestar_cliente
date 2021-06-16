@@ -80,13 +80,13 @@
               <div class="col col-sm-6">
                 <mat-form-field appearance="outline" [style.width.px]=202>
                   <mat-label>Hora cita</mat-label>
-                  <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora"
-                    min="08:00 am" max="04:45 pm" [disableClick]="false" />
-                  <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
-                  <ngx-material-timepicker [hoursOnly]="false" #hora [editableHintTmpl]="hint" #with5Gap
+                  <!-- <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora"
+                    min="08:00 am" max="04:45 pm" [disableClick]="false" /> -->
+                  <!-- <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon> -->
+                  <!-- <ngx-material-timepicker [hoursOnly]="false" #hora [editableHintTmpl]="hint" #with5Gap
                     [minutesGap]="15">
 
-                  </ngx-material-timepicker>
+                  </ngx-material-timepicker> -->
                   <mat-hint>Ingrese la hora de la cita</mat-hint>
                   <ng-template #hint>
                     <span class="time-hint">Ingrese la hora en formato 24 horas</span>
