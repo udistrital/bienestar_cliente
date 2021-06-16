@@ -18,6 +18,7 @@ export const environment = {
     CLIENTE_SALUD: 'citas',
     APOYO_ALIMENTARIO: "http://localhost:8080/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
+    AUTENTICACION_MID: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1',
     UBICACIONES: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/ubicaciones_crud/v1/ ',
     CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
     WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',

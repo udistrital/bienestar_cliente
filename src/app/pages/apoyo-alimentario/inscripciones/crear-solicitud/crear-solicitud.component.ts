@@ -23,11 +23,11 @@ import { delay } from "rxjs/operators";
 export class CrearSolicitudComponent implements OnInit {
 
   @Input() tercero: Tercero = null;
-  @Input() solicitud: Solicitud = null;
   @Input() periodo: Periodo = null;
-  @Input() estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   @Input() extraSolicitud: boolean =false;
 
+  estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
+  solicitud: Solicitud = null;
   listInfoComplementaria: InfoComplementariaTercero[] = [];
 
   infoComeplementariaPut = [];
@@ -63,17 +63,51 @@ export class CrearSolicitudComponent implements OnInit {
       showConfirmButton: false,
     });
     Swal.showLoading();
-
+  
    }
 
   ngOnInit() {
+    console.log(this.tercero);
+    this.loadSolicitud();
+
+    this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
+      for (const documento of respDocs) {
+          if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
+              this.estudiante.Carnet = documento;
+          } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
+              this.estudiante.Documento = documento;
+          }
+      }
+      this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
+        this.estudiante.Facultad = nomFacultad[0];
+        this.estudiante.ProyectoCurricular = nomFacultad[1];
+        this.loadInfoComp();
+      }).catch((errorFacu) => {
+        this.utilService.showSwAlertError("Facultad o Proyecto curricular no existe", errorFacu);
+        this.loadInfoComp();
+      });
+    }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));    
+  }
+
+  loadInfoComp(){
     this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
+      console.log("Entro info");
       this.listInfoComplementaria = respIC;
       this.inicializarFormularios();
     }).catch((errIC) => {
       this.showError("error", errIC);
       this.inicializarFormularios();
     });
+  }
+
+  loadSolicitud(){
+    this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null).then(
+      (resp) => {
+        if(resp.length>0){
+          this.solicitud=resp[0].SolicitudId;
+        }
+      }
+  ).catch((error) => console.error(error));
   }
 
    /* Clasifica la informacion de listInfoComplementaria */

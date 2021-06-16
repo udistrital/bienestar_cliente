@@ -277,6 +277,18 @@ export class UtilService {
         }else{
             autenticacion.logout();
         }
+        
+    }
+
+    getEmailEstudiante(){
+        const autenticacion = new ImplicitAutenticationService();
+        if (autenticacion.live()) {
+            let usuarioWSO2 = autenticacion.getPayload().email;
+            return usuarioWSO2;
+        }else{
+            autenticacion.logout();
+        }
+
     }
 
 

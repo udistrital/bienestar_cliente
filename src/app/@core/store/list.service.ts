@@ -30,11 +30,14 @@ import { PaqueteSolicitud } from '../data/models/solicitud/paquete-solicitud';
 import { SoportePaquete } from '../data/models/solicitud/soporte-paquete';
 import { DocumentoService } from '../data/documento.service';
 import Swal from 'sweetalert2';
+import { AutenticacionMidService } from '../data/autenticacion_mid.service';
+import { UserRol } from '../data/models/userRol';
 
 
 @Injectable()
 
 export class ListService {
+
 
   @Output() disparadorDeDocumentos: EventEmitter<any> = new EventEmitter();
 
@@ -47,7 +50,8 @@ export class ListService {
     private academicaService: AcademicaService,
     private apoyoAlimentarioService: ApoyoAlimentarioService,
     private ubicacionesService: UbicacionesService,
-    private utilsService: UtilService
+    private utilsService: UtilService,
+    private autenticationMidService: AutenticacionMidService
   ) { }
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
@@ -649,7 +653,7 @@ export class ListService {
       if (limite > 0 || limite == -1) {
         url += "&limit=" + limite;
       }
-  
+
 
       if (offSet != null && offSet > 0) {
         url += "&offset=" + offSet;
@@ -1121,9 +1125,30 @@ export class ListService {
     });
   }
 
+  /* ****autenticacion_mid ***** */
+  getInfoEstudiante(): Promise<UserRol> {
+    return new Promise((resolve, reject) => {
+      let usuarioWSO2 = this.utilsService.getEmailEstudiante();
+      if (usuarioWSO2 != undefined) {
+        var user = { "user": usuarioWSO2 };
+        var userRol: UserRol;
+        this.autenticationMidService.post('/token/userRol', user).subscribe(
+          (result) => {
+            userRol = result;
+            resolve(userRol);
+          }, (err) => reject(err)
+        )
+      }else{
+        var err={
+          status: 412,
+          msj: "No se encontro el correo"
+        }
+        reject(err)
 
-
-
+      }
+      
+    });
+  }
 }
 
 
