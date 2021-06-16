@@ -24,7 +24,6 @@ export class SolicitudTerceroComponent implements OnInit {
     tercero: Tercero = null;
     solicitud: Solicitud = null;
     periodo: Periodo = null;
-    estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
     loading: boolean = true;
     puedeCrear: boolean = false;
     
@@ -59,7 +58,10 @@ export class SolicitudTerceroComponent implements OnInit {
         Swal.showLoading();
 
         this.listService.getInfoEstudiante().then((respUser) => {
-            this.listService.loadTerceroByDocumento("20161020022").then((respTecero) => {
+            //usuarioWSO2 = "" javiermartinez25//9798 / 20152072116
+            // pruebaInscripcion7//9787 //
+            //pruebaInscripcion5//9788  // 20172010086
+            this.listService.loadTerceroByDocumento("20152072116").then((respTecero) => {
                 this.tercero = respTecero;
                 if (this.tercero !== undefined) {
                     this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, null, null).then(
@@ -71,11 +73,10 @@ export class SolicitudTerceroComponent implements OnInit {
                                     if (estado == element[0]) {
                                         solicitante.SolicitudId.EstadoTipoSolicitudId.EstadoId.Nombre = element[1];
                                     }
-
                                 });
                                 this.solicitudes.push(solicitante.SolicitudId);
                             }
-                            Swal.close()
+                            Swal.close();
                             this.puedeCrearSolicitud();
 
                         }
@@ -85,7 +86,7 @@ export class SolicitudTerceroComponent implements OnInit {
                 }
             }).catch((errorT) => this.showError("Estudiante no existe", errorT));
 
-        }).catch((err) => this.showError('No se encontro al estudiante', err))
+        }).catch((err) => this.showError('No se encontro al estudiante', err));
 
         this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, true).then(
             (resp) => {
@@ -145,22 +146,6 @@ export class SolicitudTerceroComponent implements OnInit {
     }
 
     nuevaSolicitud() {
-        this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
-            for (const documento of respDocs) {
-                if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-                    this.estudiante.Carnet = documento;
-                } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
-                    this.estudiante.Documento = documento;
-                }
-            }
-        }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));
-        this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
-            this.estudiante.Facultad = nomFacultad[0];
-            this.estudiante.ProyectoCurricular = nomFacultad[1];
-        }).catch((errorFacu) => {
-            this.showError("Facultad o Proyecto curricular no existe", errorFacu);
-        });
-        console.log(this.estudiante);
         this.creando=true;
     }
 

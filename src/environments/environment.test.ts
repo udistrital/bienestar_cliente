@@ -12,6 +12,8 @@ export const environment = {
       PASS: 'desarrollooas2019',
     },
   },
+  CLIENTE_APOYO: 'apoyo-alimentario',
+  ACADEMICA_JBPM_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
   CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
   CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
   WSO2_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/',
@@ -32,6 +34,18 @@ export const environment = {
   NUXEO_2020:'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1/',
   DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
   SOLICITUD_CRUD_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/',
+  IDS:{
+    IDTIPOPARAMETRO: 21,
+    IDTIPOSOLICITUD: 9,
+    IDINSCRIPCIONES: 347,
+    IDSERVICIOAPOYO: 348,
+    IDCIERREPERIODO: 356,
+    IDSOLICITUDRADICADA: 23,
+    IDSOLICITUDACEPTADA: 28,
+    IDSOLICITUDNOACEPTADA: 29,
+    IDSOLICITUDPREPARADA: 30,
+
+  },
   KNOWAGE: {
     PROTOCOL: 'https',
     HOST: 'tuleap.udistrital.edu.co',

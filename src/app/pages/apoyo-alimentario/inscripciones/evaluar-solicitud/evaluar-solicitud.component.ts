@@ -43,8 +43,6 @@ export class EvaluarSolicitudComponent implements OnInit {
     documentosHTML = new Array();
     selectDoc = [];
 
-    estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-
     loading: boolean = true;
     loadForm: boolean = true;
     loadDocs: boolean = true;
@@ -205,40 +203,8 @@ export class EvaluarSolicitudComponent implements OnInit {
     }
 
     cargarNuevaSolicitud() {
-        let usuarioWSO2 = this.tercero.UsuarioWSO2
-        //usuarioWSO2 = "daromeror";
-
-        this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
-            for (const documento of respDocs) {
-                if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-                    this.estudiante.Carnet = documento;
-                } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
-                    this.estudiante.Documento = documento;
-                }
-            }
-            //Change this.estudiante.Documento
-            if (this.estudiante.Carnet != null && this.estudiante.Documento != null) {
-                this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
-                    this.listInfoComplementaria = respIC;
-                    this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
-                        this.estudiante.Facultad = nomFacultad[0];
-                        this.estudiante.ProyectoCurricular = nomFacultad[1];
-                        this.loadForm = false;
-                        Swal.close();
-                    }).catch((errIC) => {
-                        this.showError("error", errIC);
-                        this.loadForm = false;
-                        Swal.close();
-                    });
-                }).catch((errIC) => {
-                    this.showError("error", errIC);
-                    this.loadForm = false;
-                    Swal.close();
-                });
-            } else {
-                this.showError("Documentos del estudiante no encontrados", "No se encontro el carnet y documento de identificacion");
-            }
-        }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));
+        this.loadForm = false;
+        Swal.close();
     }
 
     showError(titulo: string, msj: any) {
