@@ -79,6 +79,91 @@ export class PagesComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => { // Live reload
       this.translateMenu();
     });
+    let childsagenda = []
+
+    var childcalendario = {
+      Url: '${url_citas}/horarios',
+      Nombre: 'Horarios',
+      Icon: 'clock-outline',
+      Opciones: null
+    };
+
+    var childcitasespecialista = {
+      Url: '${url_citas}/listarCita',
+      Nombre: 'Citas de especialista',
+      Icon: 'list-outline',
+      Opciones: null
+    }
+
+    childsagenda.push(childcalendario)
+    childsagenda.push(childcitasespecialista)
+
+    this.object = {
+      title: 'Agenda especialista',
+      icon: 'calendar-outline',
+      link: ``,
+      home: false,
+      key: "Agenda especialista",
+      children: this.mapMenuChildrenObject(childsagenda)
+    };
+    this.menu.push(this.object)
+
+    let childsprocesos = []
+
+    var childcrearcita = {
+      Url: '${url_citas}/crearCita',
+      Nombre: 'Nueva cita',
+      Icon: 'plus-outline',
+      Opciones: null
+    }
+
+    var childconsultarpaciente = {
+      Url: '${url_citas}/listarPaciente',
+      Nombre: 'Consultar paciente',
+      Icon: 'search-outline',
+      Opciones: null
+    }
+
+    childsprocesos.push(childcrearcita)
+    childsprocesos.push(childconsultarpaciente)
+
+    this.object = {
+      title: 'Procesos especialista',
+      icon: 'settings-outline',
+      link: ``,
+      home: false,
+      key: "Procesos especialista",
+      children: this.mapMenuChildrenObject(childsprocesos)
+    };
+    this.menu.push(this.object)
+
+    let childsagendaest = []
+
+    var childcitasestudiante = {
+      Url: '${url_citas}/citaPaciente',
+      Nombre: 'Citas paciente',
+      Icon: 'person-outline',
+      Opciones: null
+    }
+    var childsolicitudcitas = {
+      Url: '${url_citas}/solicitarCita',
+      Nombre: 'Solicitar cita',
+      Icon: 'person-add-outline',
+      Opciones: null
+    }
+
+    childsagendaest.push(childcitasestudiante)
+    childsagendaest.push(childsolicitudcitas)
+
+    this.object = {
+      title: 'Agenda Paciente',
+      icon: 'calendar-outline',
+      link: ``,
+      home: false,
+      key: "Agenda Paciente",
+      children: this.mapMenuChildrenObject(childsagendaest)
+    };
+    this.menu.push(this.object)
   }
 
   loadMenu() {
@@ -241,10 +326,10 @@ export class PagesComponent implements OnInit {
     } */
 
     /* toca activarlo */
-       
-    
 
-     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
+
+
+    this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
         console.log(data);
         this.dataMenu = <any>data;
@@ -323,8 +408,8 @@ export class PagesComponent implements OnInit {
    */
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
-          .replace('${url_presupuesto}', this.url_presupuesto)
-          .replace('${url_citas}', this.url_citas);
+      .replace('${url_presupuesto}', this.url_presupuesto)
+      .replace('${url_citas}', this.url_citas);
   }
 
   /**
