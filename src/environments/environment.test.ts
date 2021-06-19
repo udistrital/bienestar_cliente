@@ -13,6 +13,7 @@ export const environment = {
     },
   },
   CLIENTE_APOYO: 'apoyo-alimentario',
+  CLIENTE_SALUD: 'citas',
   ACADEMICA_JBPM_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
   CLIENTE_PRESUPUESTO: '/pages/plan-cuentas',
   CLIENTE_CONTABILIDAD: 'https://pruebascontabilidad.portaloas.udistrital.edu.co/pages',
