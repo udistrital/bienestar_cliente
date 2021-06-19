@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 // tslint:disable-next-line
-import { KnowageHelper } from '../../../../@core/helpers/knowage/knowage.helper';
+import { KnowageHelper } from '../../../@core/helpers/knowage/knowage.helper';
 // import { spago } from '../../dependences/SpagoBIAPI/*' ;
 
-import { spagoBIService } from '../../../reportes/dependences/SpagoBIAPI/spagoBiService.js';
-import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_autentication.service';
+import { spagoBIService } from '../../reportes/dependences/SpagoBIAPI/spagoBiService.js';
+import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 
 @Component({
   selector: 'ngx-reportes',

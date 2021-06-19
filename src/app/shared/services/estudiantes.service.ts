@@ -10,7 +10,7 @@ const headers = {
     'Authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
   })
 }
-const estudianteUrl = environment.ACADEMICA_JBPM_SERVICE;
+const estudianteUrl = environment.ACADEMICA;
 const infoUrl = environment.TERCEROS_CRUD_SERVICE;
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
