@@ -10,9 +10,9 @@ export class CustomLoginService {
   }
 
   getRolesUser(user: any): Promise<any> {
-    this.rqManager.setPath('INFO_USER');
+    this.rqManager.setPath('AUTENTICACION_MID');
     const userBody: any = {
-      user: (user.email.split('@')).shift(),
+      user: (user.email),
     }
     let data = this.rqManager.post('token/userRol',userBody).toPromise();
     return data;

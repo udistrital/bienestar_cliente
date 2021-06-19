@@ -235,7 +235,7 @@ export class InscritosComponent implements OnInit {
         apoyoAlimentario.usuarioAdministrador = this.usuarioWSO2;
         this.listService.consutarRegitroApoyo(idTercero,null,null,this.periodo.Id,true,1).then((regAnt)=>{
           if (regAnt == null) {
-            this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
+            this.apoyoAlimentarioService.post('apoyo_alimentario', apoyoAlimentario)
               .subscribe(res => {
                 resolve(`Registro #${res.id}`);
               }, (error) => reject(error));
@@ -243,7 +243,7 @@ export class InscritosComponent implements OnInit {
             if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
               reject(`ya uso el servicio a las ${regAnt[0].fecha_creacion}`)
             } else {
-              this.apoyoAlimentarioService.post('registro_apoyo', apoyoAlimentario)
+              this.apoyoAlimentarioService.post('apoyo_alimentario', apoyoAlimentario)
                 .subscribe(res => {
                   resolve(`Registro #${res.id}`);
                 }, (error) => reject(error));

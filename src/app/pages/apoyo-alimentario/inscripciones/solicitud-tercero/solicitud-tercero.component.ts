@@ -61,7 +61,7 @@ export class SolicitudTerceroComponent implements OnInit {
             //usuarioWSO2 = "" javiermartinez25//9798 / 20152072116
             // pruebaInscripcion7//9787 //
             //pruebaInscripcion5//9788  // 20172010086
-            this.listService.loadTerceroByDocumento("20152072116").then((respTecero) => {
+            this.listService.loadTerceroByDocumento(respUser.Codigo).then((respTecero) => {
                 this.tercero = respTecero;
                 if (this.tercero !== undefined) {
                     this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, null, null).then(

@@ -53,7 +53,6 @@ export class PagesComponent implements OnInit {
         this.listService.getInfoEstudiante().then((resp) => {
           console.log(resp);
           this.roles = resp.role;
-          this.roles.push("ADMINISTRADOR_APOYO");
           this.loadMenu();
         }).catch((error) => {
           this.roles = [];
@@ -68,10 +67,8 @@ export class PagesComponent implements OnInit {
         })
       } else {
         this.roles = temp.filter((data: any) => (data.indexOf('/') === -1));
-        this.roles.push("COORDINADOR_APOYO");
         this.loadMenu();
       }
-
     } else {
       this.rol = 'PUBLICO';
       this.menu = [];
@@ -408,8 +405,7 @@ export class PagesComponent implements OnInit {
    */
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
-      .replace('${url_presupuesto}', this.url_presupuesto)
-      .replace('${url_citas}', this.url_citas);
+          .replace('${url_citas}', this.url_citas);
   }
 
   /**

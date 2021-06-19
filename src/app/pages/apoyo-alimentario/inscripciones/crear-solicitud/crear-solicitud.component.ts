@@ -761,64 +761,63 @@ export class CrearSolicitudComponent implements OnInit {
     let condicionesFamiliares=0;
     let procedenciaYLugarDeResidencia=0;
     let condicionesDeSalud=0;
-    let rangoDeMatricula=0;
+    let condicionesSocioeconomicas=0;
 
     //Ingresos Familiares.
     let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
     const SMMLV = 908526; // Salario Minimo Mensual Legal Vigente
 
-    if(ingresosMes>=0 && ingresosMes<=SMMLV){
+    if(ingresosMes>=0 && ingresosMes<=SMMLV*3){
       ingresosFamiliares=30;
-    }else if(ingresosMes>(SMMLV*1) && ingresosMes<=(SMMLV*2)){
-      ingresosFamiliares=20;
-    }else if(ingresosMes>(SMMLV*2) && ingresosMes<=(SMMLV*3)){
-      ingresosFamiliares=10;
     }else if(ingresosMes>(SMMLV*3) && ingresosMes<=(SMMLV*4)){
-      ingresosFamiliares=5;
-    }else if(ingresosMes>(SMMLV*4)){
+      ingresosFamiliares=20;
+    }else if(ingresosMes>(SMMLV*4) && ingresosMes<=(SMMLV*5)){
+      ingresosFamiliares=10;
+    }else if(ingresosMes>(SMMLV*5)){
       ingresosFamiliares=0;
     }else{
       //menos de 0 ingresos
+      ingresosFamiliares=0;
     }
 
     //Condiciones Familiares.
     let sostieneHogar=this.socioeconomica.get('cabezaFamilar').value;
     if(sostieneHogar=="El mismo"){
-      condicionesFamiliares+=5;
+      condicionesFamiliares+=7.5;
     }
 
     let sostieneASiMismo=this.socioeconomica.get('dependenciaEconomica').value;
     if(sostieneASiMismo=="El mismo"){
-      condicionesFamiliares+=5;
+      condicionesFamiliares+=7.5;
     }
-
+    
     let conQuienReside=this.socioeconomica.get('conQuienVive').value;
     if (conQuienReside!="Familia") {
-      condicionesFamiliares+=4;
+      condicionesFamiliares+=7.5;
     }
 
     let tienePersonasACargo=this.personasacargo.get('tieneperacargo').value;
-    if (tienePersonasACargo=="Si") {
-      condicionesFamiliares+=6;
+    let tieneHijos=this.personasacargo.get('hijos').value;
+
+    if (tienePersonasACargo=="Si" || tieneHijos=="Si") {
+      condicionesFamiliares+=7.5;
     }
 
     //Procedencia y lugar de residencia
-    let estrato=this.socioeconomica.get('estrato').value;
-    if(estrato==1 || estrato==2 || estrato==3){
-      procedenciaYLugarDeResidencia+=10;
+    let tipoVivienda=this.socioeconomica.get('tipoVivienda').value;
+    if(this.estudiante.InfoSocioeconomica.PagaArriendo || tipoVivienda=="Arriendo" ){
+      procedenciaYLugarDeResidencia+=6.67;
     }
-
-    let municipio=this.residencia.get('municipio').value;
-    let zonaVulnerabilidad=this.socioeconomica.get('zonaVulnerabilidad').value;
-    
-    if ((municipio!="Bogota" || municipio!="Bogotá") || zonaVulnerabilidad) {
-      procedenciaYLugarDeResidencia+=5;
+ 
+    let zonaVulnerabilidad=this.socioeconomica.get('zonaVulnerabilidad').value;    
+    if (zonaVulnerabilidad=="true") {
+      procedenciaYLugarDeResidencia+=6.66;
     }
 
     let poblacionEspecial=this.especial.get('condicionEspecial').value;
 
     if (poblacionEspecial!="ninguna" && poblacionEspecial!=null) {
-      procedenciaYLugarDeResidencia+=5;
+      procedenciaYLugarDeResidencia+=6.67;
     }
 
     //Condiciones de Salud
@@ -832,33 +831,32 @@ export class CrearSolicitudComponent implements OnInit {
       condicionesDeSalud+=5;
     }
 
-    let valMatricula=this.academica.get('valorMatricula').value;
-    if(valMatricula>=0 && valMatricula<=100000){      
-      rangoDeMatricula=20;
-    }else if(valMatricula>100001 && valMatricula<=300000){
-      rangoDeMatricula=16;
-    }else if(valMatricula>300001 && valMatricula<=500000){
-      rangoDeMatricula=12;
-    }else if(valMatricula>500001 && valMatricula<=700000){
-      rangoDeMatricula=8;
-    }else if(valMatricula>700001 && valMatricula<=900000){
-      rangoDeMatricula=4;
-    }else if(valMatricula>900001){
-      rangoDeMatricula=0;
+    let puntajeSisben=this.sisben.get('puntaje_Sisben').value;
+    let municipio=this.residencia.get('municipio').value;
+    municipio=municipio.toLowerCase();
+    console.log(municipio);
+    if(municipio=="bogota" || municipio=="bogotá"){     
+      if(puntajeSisben>=0 && puntajeSisben<=54.86 ) {
+        condicionesSocioeconomicas+=10;
+      }    
     }else{
-      //Es menor a 0
+      if(puntajeSisben>=0 && puntajeSisben<=37.80 ) {
+        condicionesSocioeconomicas+=10;
+      }
     }
 
-    /* 
     console.log("ingresosFamiliares --> ",ingresosFamiliares);
     console.log("condicionesFamiliares --> ",condicionesFamiliares);
     console.log("procedenciaYLugarDeResidencia --> ",procedenciaYLugarDeResidencia);
     console.log("condicionesDeSalud --> ",condicionesDeSalud);
-    console.log("rangoDeMatricula --> ",rangoDeMatricula); */
+    console.log("condicionesSocioeconomicas --> ",condicionesSocioeconomicas);
 
     //Puntaje Total:
-    puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+rangoDeMatricula;
+    puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+condicionesSocioeconomicas;
 
+    console.log(puntajeSol);
+    
+    this.utilService.showToastAlert("Tu puntaje es: ",puntajeSol);
 
     return puntajeSol;
   }
