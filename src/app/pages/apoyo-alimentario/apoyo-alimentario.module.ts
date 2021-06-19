@@ -34,10 +34,6 @@ import { PeriodosComponent } from './administracion/periodos/periodos.component'
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
-import { PeriodoComponent } from './informes/periodo/periodo.component';
-import { DiarioComponent } from './informes/diario/diario.component';
-import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
-import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
 import { FechaFormatPipe } from './pipes/fecha-format.pipe';
@@ -46,8 +42,7 @@ import { ArchivosGenericoModule } from '../../shared/components/archivos-generic
 import { SafePipe } from './pipes/safe.pipe';
 import { CrearSolicitudComponent } from './inscripciones/crear-solicitud/crear-solicitud.component';
 import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
-import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudiante-periodo.component';
-import { ReportesComponent } from './informes/reportes/reportes.component';
+import { ReportesComponent } from './reportes/reportes.component';
 import { FallasJustificadasComponent } from './registro/fallas-justificadas/fallas-justificadas.component';
 
 @NgModule({
@@ -87,17 +82,12 @@ import { FallasJustificadasComponent } from './registro/fallas-justificadas/fall
     SolicitudTerceroComponent,
     SolicitudesComponent,
     EvaluarSolicitudComponent,
-    PeriodoComponent,
-    DiarioComponent,
-    InformePeriodoComponent,
-    InformeDiarioComponent,
     BuscarSolicitudComponent,
     FechaFormatPipe,
     CargarDocPbComponent,
     SafePipe,
     CrearSolicitudComponent,
     EvaluacionMasivaComponent,
-    EstudiantePeriodoComponent,
     ReportesComponent,
     FallasJustificadasComponent
    ],

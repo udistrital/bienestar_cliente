@@ -9,16 +9,11 @@ import { PeriodosComponent } from './administracion/periodos/periodos.component'
 import { SolicitudTerceroComponent } from './inscripciones/solicitud-tercero/solicitud-tercero.component';
 import { SolicitudesComponent } from './inscripciones/solicitudes/solicitudes.component';
 import { EvaluarSolicitudComponent } from './inscripciones/evaluar-solicitud/evaluar-solicitud.component';
-import { PeriodoComponent } from './informes/periodo/periodo.component';
-import { DiarioComponent } from './informes/diario/diario.component';
-import { InformePeriodoComponent } from './informes/informe-periodo/informe-periodo.component';
-import { InformeDiarioComponent } from './informes/informe-diario/informe-diario.component';
 import { BuscarSolicitudComponent } from './inscripciones/buscar-solicitud/buscar-solicitud.component';
 import { EvaluacionMasivaComponent } from './inscripciones/evaluacion-masiva/evaluacion-masiva.component';
-import { EstudiantePeriodoComponent } from './informes/estudiante-periodo/estudiante-periodo.component';
 import { AuthGuard } from '../../@core/_guards/auth.guard';
 import { RolesConstanst } from '../../shared/constants/roles.constants';
-import { ReportesComponent } from './informes/reportes/reportes.component';
+import { ReportesComponent } from './reportes/reportes.component';
 import { FallasJustificadasComponent } from './registro/fallas-justificadas/fallas-justificadas.component';
 
 const routes: Routes = [
@@ -30,7 +25,7 @@ const routes: Routes = [
     path: 'registro',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.COORDINADOR_APOYO]
     },
     children: [
       {
@@ -55,30 +50,42 @@ const routes: Routes = [
   },
   {
     path: 'solicitud',
-    /* canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: {
       roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
-    }, */
+    },
     component: SolicitudTerceroComponent
   },
   {
     path: 'inscripciones',
-    canActivate: [AuthGuard],
-    data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
-    },
     children: [
       {
-        path: 'evaluacion-masiva', component: EvaluacionMasivaComponent
+        path: 'evaluacion-masiva', component: EvaluacionMasivaComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: [RolesConstanst.ROLES_SISTEMA.ADMINISTRADOR_APOYO]
+        }
       },
       {
-        path: 'buscarSolicitud', component: BuscarSolicitudComponent
+        path: 'buscarSolicitud', component: BuscarSolicitudComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: [RolesConstanst.ROLES_SISTEMA.COORDINADOR_APOYO]
+        }
       },
       {
-        path: ':solicitudes', component: SolicitudesComponent
+        path: ':solicitudes', component: SolicitudesComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: [RolesConstanst.ROLES_SISTEMA.COORDINADOR_APOYO]
+        }
       },
       {
-        path: ':solicitudes/:idSolicitud', component: EvaluarSolicitudComponent
+        path: ':solicitudes/:idSolicitud', component: EvaluarSolicitudComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: [RolesConstanst.ROLES_SISTEMA.COORDINADOR_APOYO]
+        }
       },
       {
         path: '**', component: NotFoundComponent
@@ -87,41 +94,18 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'informes',
+    path: 'reportes',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.COORDINADOR_APOYO]
     },
-    children: [
-      {
-        path: 'reportes', component: ReportesComponent
-      },
-      {
-        path: 'periodo', component: PeriodoComponent
-      },
-      {
-        path: 'periodo/:idPeriodo', component: InformePeriodoComponent
-      },
-      {
-        path: 'diario', component: DiarioComponent
-      },
-      {
-        path: 'diario/:fecha', component: InformeDiarioComponent
-      },
-      {
-        path: 'estudiante-periodo', component: EstudiantePeriodoComponent
-      },
-      {
-        path: '**', component: NotFoundComponent
-      },
-
-    ],
+    component: ReportesComponent
   },
   {
     path: 'administracion',
     canActivate: [AuthGuard],
     data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
+      roles: [RolesConstanst.ROLES_SISTEMA.ADMINISTRADOR_APOYO]
     },
     children: [
       {

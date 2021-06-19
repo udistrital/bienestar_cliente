@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PeriodoComponent } from './periodo.component';
+import { SolicitarCitaComponent } from './solicitar-cita.component';
 
-describe('PeriodoComponent', () => {
-  let component: PeriodoComponent;
-  let fixture: ComponentFixture<PeriodoComponent>;
+describe('SolicitarCitaComponent', () => {
+  let component: SolicitarCitaComponent;
+  let fixture: ComponentFixture<SolicitarCitaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PeriodoComponent ]
+      declarations: [ SolicitarCitaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PeriodoComponent);
+    fixture = TestBed.createComponent(SolicitarCitaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

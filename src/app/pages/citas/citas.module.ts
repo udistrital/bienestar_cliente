@@ -29,6 +29,7 @@ import { PsicologiaComponent } from './historia-clinica/psicologia/psicologia.co
 import { PacienteCitaComponent } from './paciente/paciente-cita/paciente-cita.component';
 import { OdontogramaVInfantilComponent } from './historia-clinica/odontologia/odontograma-v-infantil/odontograma-v-infantil.component';
 import { OdontogramaLingualesComponent } from './historia-clinica/odontologia/odontograma-linguales/odontograma-linguales.component';
+import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -52,6 +53,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     PacienteCitaComponent,
     OdontogramaVInfantilComponent,
     OdontogramaLingualesComponent,
+    SolicitarCitaComponent,
   ],
   imports: [
     CommonModule,
