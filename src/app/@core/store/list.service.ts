@@ -64,7 +64,7 @@ export class ListService {
    */
   findApoyoAlimentario(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, limite: number, offSet: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
-      let url = "registro_apoyo"
+      let url = "apoyo_alimentario"
       let filtros = "";
 
       if (terceroId != null) {
@@ -161,7 +161,7 @@ export class ListService {
       if (limite != null) {
 
       }
-      this.apoyoAlimentarioService.get(`registro_apoyo${query}${(query != "" ? "&" : "?")}sortby=id&order=desc${limite != null ? `&LIMIT=${limite}` : ''}`)
+      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=id&order=desc${limite != null ? `&LIMIT=${limite}` : ''}`)
         .subscribe(
           (result: any[]) => {
             resolve(result)
