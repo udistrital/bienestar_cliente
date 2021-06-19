@@ -13,6 +13,7 @@ import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 // import listPlugin from '@fullcalendar/list';
 import { HistoriaClinicaComponent } from "./historia-clinica/historia-clinica.component";
 import { PacienteCitaComponent } from "./paciente/paciente-cita/paciente-cita.component";
+import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.component';
 // FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 //   dayGridPlugin,
 //   interactionPlugin,
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: "listarPaciente", component: ListarPacienteComponent },
       { path: "historiaClinica/:codigo", component: HistoriaClinicaComponent },
       {path: "citaPaciente", component: PacienteCitaComponent},
+      {path: "solicitarCita", component: SolicitarCitaComponent},
       { path: "", component: HomeComponent },
       { path: "**", redirectTo: "" },
     ],

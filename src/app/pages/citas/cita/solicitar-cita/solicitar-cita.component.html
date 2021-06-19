@@ -1,0 +1,122 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row my-3">
+            <h1 class="ml-3">Solicitud de cita médica</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><b>Nombres y apellidos:</b> {{estudiante?.NombreCompleto}}</div>
+            <div class="col-md-6"><b>Documento:</b> {{estudiante?.documento_compuesto}}</div>
+            <div class="col-md-6"><b>Fecha de nacimiento:</b> {{estudiante?.FechaNacimiento | date: 'dd-MM-yyyy'}}</div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="text-center">
+            <h5 class="ml"> Tratamiento de datos personales</h5>
+        </div>
+        <h6 class="ml">Fecha: {{dateToday | date:'dd-MM-yyyy'}}</h6>
+        <p>Dando alcance a la Resolución 132 “Por la cual se adoptan medidas de prevención y mitigación del riesgo con
+            ocasión de la situación epidemiológica causada por el coronavirus (COVID-19)” emanada por la Rectoría de la
+            Universidad, en su ARTÍCULO PRIMERO. Continuar la suspensión de las clases presenciales en todos los
+            programas de pregrado y posgrado, de conformidad con el comunicado del 15 de marzo de 2020, a partir de las
+            seis (6) de la mañana del 19 de marzo de 2020 y hasta nuevas instrucciones, según evolucione la actual
+            coyuntura de salud pública, así como de emergencia.</p>
+        <p>El manejo de la información contenida en esta base de datos, será confidencial y su uso es estrictamente
+            institucional, en cumplimiento de lo establecido en el artículo décimo quinto constitucional, así como en la
+            Ley 1581 de 2012 y los decretos reglamentarios de ésta, tales como el Decretó 1377 de 2013, la Universidad
+            Distrital Francisco José de Caldas adopta la Política de Tratamiento y Protección de Datos Personales, que
+            será aplicable a todas las personas naturales con las cuales la Universidad entre en contacto, en razón de
+            sus funciones, a fin de que ejerzan su derecho a conocer, actualizar y/o rectificar la información que sobre
+            ellas repose en las bases de datos de la entidad. También regula las actividades de recolección, tratamiento
+            y circulación de estos datos, a cargo de la Universidad.</p>
+        <div class="text-center">
+            Acepto el tratamiento de mis datos personales.
+        </div>
+        <div class="text-center">
+            <mat-radio-group (change)="consentimiento($event.value)">
+                <mat-radio-button value="SI">Sí</mat-radio-button>&nbsp;
+                <mat-radio-button value="NO">No</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </nb-card-body>
+</nb-card>
+<nb-card [hidden]="hideForm">
+    <nb-card-header>
+        <div class="col-md-6"> Por favor llene la siguiente información:</div>
+    </nb-card-header>
+    <nb-card-body>
+        <form [formGroup]="solicitarCita">
+            <div class="row">
+                <div class="col col-sm-6">
+                    <mat-form-field appearance="outline" class="select-group">
+                        <mat-label>Teléfono</mat-label>
+                        <input matInput placeholder="Teléfono" type="number" formControlName="telefono" />
+                        <mat-hint>Ingrese su número de teléfono</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col col-sm-6">
+                    <mat-form-field appearance="outline" class="select-group">
+                        <mat-label>Tipo de servicio *</mat-label>
+                        <mat-select formControlName="servicio">
+                            <mat-option *ngFor="let servicio of servicios" [value]="servicio">
+                                {{servicio}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint>Seleccione el servicio</mat-hint>
+                        <mat-error>Campo obligatorio</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col col-sm-6">
+                    <mat-form-field appearance="outline" class="select-group">
+                        <mat-label>Facultad *</mat-label>
+                        <mat-select formControlName="facultad">
+                            <mat-option *ngFor="let facultad of facultades" [value]="facultad">{{facultad}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint>Seleccione la facultad </mat-hint>
+                        <mat-error>Campo obligatorio</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col col-sm-6">
+                    <mat-form-field appearance="outline" class="select-group">
+                        <mat-label>Plataforma *</mat-label>
+                        <mat-select formControlName="plataforma">
+                            <mat-option *ngFor="let plataforma of plataformas" [value]="plataforma">{{plataforma}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint>Seleccione la plataforma </mat-hint>
+                        <mat-error>Campo obligatorio</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <mat-form-field [style.width.px]=327>
+                        <mat-label>Nombre especialista *</mat-label>
+                        <input matInput placeholder="Especialista" type="text" formControlName="especialista" />
+                        <mat-hint>Escribir No Aplica si no se tiene uno </mat-hint>
+                        <mat-error>Campo obligatorio</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <mat-form-field [style.width.px]=327>
+                        <mat-label>Observaciones *</mat-label>
+                        <textarea matInput placeholder="Observaciones" type="text" formControlName="observacion"
+                            rows="3"></textarea>
+                        <mat-hint>Escriba las observaciones pertinentes</mat-hint>
+                        <mat-error>Campo obligatorio</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 align-center">
+                    <button class="card-button m-2" type="submit" mat-raised-button color="primary"
+                        [disabled]="!solicitarCita.valid" (click)="guardarSolicitud()">
+                        <mat-icon>send</mat-icon> Enviar solicitud
+                    </button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>
