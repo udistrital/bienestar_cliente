@@ -34,8 +34,6 @@ export class PagesComponent implements OnInit {
 
   url_apoyo = environment.CLIENTE_APOYO;
   url_citas = environment.CLIENTE_SALUD;
-  url_presupuesto = environment.CLIENTE_PRESUPUESTO;
-  url_contabilidad = environment.CLIENTE_CONTABILIDAD;
   application_conf = 'SIBUD';
 
   constructor(
