@@ -13,7 +13,7 @@ const headers = {
     'Authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
   })
 }
-const estudianteUrl = environment.ACADEMICA_JBPM_SERVICE;
+const estudianteUrl = environment.ACADEMICA;
 const infoUrl = environment.TERCEROS_CRUD_SERVICE;
 const oikosUrl = environment.OIKOS_SERVICE;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'

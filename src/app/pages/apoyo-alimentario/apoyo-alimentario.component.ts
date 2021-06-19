@@ -48,30 +48,17 @@ export class ApoyoAlimentarioComponent implements OnInit {
   }
 
   //Asistencia
-  navigateConsultarFallas(){
-    this.router.navigate(['/pages/apoyo-alimentario/asistencia/consultar-fallas']);
-    return false;
-  }
-
-  navigateSanciones(){
-    this.router.navigate(['/pages/apoyo-alimentario/asistencia/sanciones']);
-    return false;
-  }
   
   navigateFallasJustificadas(){
-    this.router.navigate(['/pages/apoyo-alimentario/asistencia/fallas-justificadas']);
+    this.router.navigate(['/pages/apoyo-alimentario/registro/fallas-justificadas']);
     return false;
   }
   //Informes
-  navigateInformeDiario(){
-    this.router.navigate(['/pages/apoyo-alimentario/informes/diario']);
+  navigateReportes(){
+    this.router.navigate(['/pages/apoyo-alimentario/reportes']);
     return false;
   }
   
-  navigateInformePeriodo(){
-    this.router.navigate(['/pages/apoyo-alimentario/informes/periodo']);
-    return false;
-  }
   //Administracion
   navigatePeriodos(){
     this.router.navigate(['/pages/apoyo-alimentario/administracion/periodos']);
