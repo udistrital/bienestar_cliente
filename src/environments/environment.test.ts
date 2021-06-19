@@ -39,7 +39,6 @@ export const environment = {
         IDSOLICITUDNOACEPTADA: 29,
         IDSOLICITUDPREPARADA: 30,
     },
-
     KNOWAGE: {
         PROTOCOL: 'https',
         HOST: 'inteligenciainstitucional.portaloas.udistrital.edu.co',
