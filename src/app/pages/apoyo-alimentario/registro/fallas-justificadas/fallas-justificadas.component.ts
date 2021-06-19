@@ -25,7 +25,6 @@ export class FallasJustificadasComponent implements OnInit {
   parametro: number = 0;
   codigo = "";
   tercero: Tercero = undefined;
-  sedesAcceso = new Map();
   justificaciones: Observacion[] = [];
 
   addFalla: boolean = false;
@@ -42,17 +41,6 @@ export class FallasJustificadasComponent implements OnInit {
         }
       }
     });
-
-    this.listService.cargarSedesApoyo()
-      .then((sedes) => {
-        for (const sede of sedes) {
-          this.sedesAcceso.set(sede.Id, sede.Nombre)
-        }
-      })
-      .catch((error) => {
-        Swal.close();
-        Swal.fire("Error", `<p>${error}</p>`, "error");
-      });
   }
   ngOnInit() {
   }

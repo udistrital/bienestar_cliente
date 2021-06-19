@@ -49,7 +49,6 @@ export class PagesComponent implements OnInit {
       const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
       if (temp == undefined) {
         this.listService.getInfoEstudiante().then((resp) => {
-          console.log(resp);
           this.roles = resp.role;
           this.loadMenu();
         }).catch((error) => {
@@ -74,91 +73,6 @@ export class PagesComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => { // Live reload
       this.translateMenu();
     });
-    let childsagenda = []
-
-    var childcalendario = {
-      Url: '${url_citas}/horarios',
-      Nombre: 'Horarios',
-      Icon: 'clock-outline',
-      Opciones: null
-    };
-
-    var childcitasespecialista = {
-      Url: '${url_citas}/listarCita',
-      Nombre: 'Citas de especialista',
-      Icon: 'list-outline',
-      Opciones: null
-    }
-
-    childsagenda.push(childcalendario)
-    childsagenda.push(childcitasespecialista)
-
-    this.object = {
-      title: 'Agenda especialista',
-      icon: 'calendar-outline',
-      link: ``,
-      home: false,
-      key: "Agenda especialista",
-      children: this.mapMenuChildrenObject(childsagenda)
-    };
-    this.menu.push(this.object)
-
-    let childsprocesos = []
-
-    var childcrearcita = {
-      Url: '${url_citas}/crearCita',
-      Nombre: 'Nueva cita',
-      Icon: 'plus-outline',
-      Opciones: null
-    }
-
-    var childconsultarpaciente = {
-      Url: '${url_citas}/listarPaciente',
-      Nombre: 'Consultar paciente',
-      Icon: 'search-outline',
-      Opciones: null
-    }
-
-    childsprocesos.push(childcrearcita)
-    childsprocesos.push(childconsultarpaciente)
-
-    this.object = {
-      title: 'Procesos especialista',
-      icon: 'settings-outline',
-      link: ``,
-      home: false,
-      key: "Procesos especialista",
-      children: this.mapMenuChildrenObject(childsprocesos)
-    };
-    this.menu.push(this.object)
-
-    let childsagendaest = []
-
-    var childcitasestudiante = {
-      Url: '${url_citas}/citaPaciente',
-      Nombre: 'Citas paciente',
-      Icon: 'person-outline',
-      Opciones: null
-    }
-    var childsolicitudcitas = {
-      Url: '${url_citas}/solicitarCita',
-      Nombre: 'Solicitar cita',
-      Icon: 'person-add-outline',
-      Opciones: null
-    }
-
-    childsagendaest.push(childcitasestudiante)
-    childsagendaest.push(childsolicitudcitas)
-
-    this.object = {
-      title: 'Agenda Paciente',
-      icon: 'calendar-outline',
-      link: ``,
-      home: false,
-      key: "Agenda Paciente",
-      children: this.mapMenuChildrenObject(childsagendaest)
-    };
-    this.menu.push(this.object)
   }
 
   loadMenu() {
@@ -173,156 +87,6 @@ export class PagesComponent implements OnInit {
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
-
-    /*  
-    if (this.roles.includes("ESTUDIANTE")) {
-      const urlSIBUD = this.replaceUrlNested('${url_apoyo}/solicitud');
-      this.object = {
-        title: 'Solicitud apoyo alimentario',
-        icon: 'clipboard-outline',
-        link: `${urlSIBUD}`,
-        home: false,
-        key: "Solicitud apoyo alimentario",
-        children: this.mapMenuChildrenObject(null)
-      };
-      this.menu.push(this.object)
-    }
-    if (this.roles.includes("ADMIN_NECESIDADES")) {
-
-      let childs = []
-      var child1 = {
-        Url: '${url_apoyo}/registro/diario',
-        Nombre: 'Registro Diario',
-        Icon: 'checkmark-circle-outline',
-        Opciones: null,
-      };
-      var child2 = {
-        Url: '${url_apoyo}/registro/consultar',
-        Nombre: 'Consultar Registro',
-        Icon: 'book-open-outline',
-        Opciones: null
-      };
-      var child3 = {
-        Url: '${url_apoyo}/registro/fallas-justificadas',
-        Nombre: 'Fallas justificadas',
-        Icon: 'bookmark-outline',
-        Opciones: null
-      };
-
-      childs.push(child1);
-      childs.push(child2);
-      childs.push(child3);
-
-      this.object = {
-        title: 'Registro beneficiarios',
-        icon: 'person-done-outline',
-        link: ``,
-        home: false,
-        key: "Registro beneficiarios",
-        children: this.mapMenuChildrenObject(childs)
-      };
-      this.menu.push(this.object)
-    }
-
-    if (this.roles.includes("ADMIN_NECESIDADES")) {
- 
-      let childs = []
-      var child3 = {
-        Url: '${url_apoyo}/inscripciones/solicitudes',
-        Nombre: 'Listado solicitudes',
-        Icon: 'list-outline',
-        Opciones: null
-      };
-      var child4 = {
-        Url: '${url_apoyo}/inscripciones/buscarSolicitud',
-        Nombre: 'Buscar solicitud',
-        Icon: 'search-outline',
-        Opciones: null
-      };
-      var child5 = {
-        Url: '${url_apoyo}/inscripciones/evaluacion-masiva',
-        Nombre: 'Evaluacion masiva',
-        Icon: 'layers-outline',
-        Opciones: null
-      };
-      childs.push(child3)
-      childs.push(child4)
-      childs.push(child5)
-
-      this.object = {
-        title: 'Inscripciones',
-        icon: 'person-add-outline',
-        link: ``,
-        home: false,
-        key: "Inscripciones",
-        children: this.mapMenuChildrenObject(childs)
-      };
-      this.menu.push(this.object)
-    }
-
-    if (this.roles.includes("ADMIN_NECESIDADES")) {
-
-      let childs = []
-      var child6 = {
-        Url: '${url_apoyo}/informes/diario',
-        Nombre: 'Diario',
-        Icon: 'calendar-outline',
-        Opciones: null
-      };
-      var child7 = {
-        Url: '${url_apoyo}/informes/periodo',
-        Nombre: 'Periodo',
-        Icon: 'file-text-outline',
-        Opciones: null
-      };
-      var child8 = {
-        Url: '${url_apoyo}/informes/estudiante-periodo',
-        Nombre: 'Estudiante',
-        Icon: 'people-outline',
-        Opciones: null
-      };
-      childs.push(child6);
-      childs.push(child7);
-      childs.push(child8);
-
-  
-      this.object = {
-        title: 'Informes',
-        icon: 'archive-outline',
-        link: ``,
-        home: false,
-        key: "Informes",
-        children: this.mapMenuChildrenObject(childs)
-      };
-      this.menu.push(this.object)
-    }
-
-    if (this.roles.includes("ADMIN_NECESIDADES")) {
-
-      let childs = []
-      var child9 = {
-        Url: '${url_apoyo}/administracion/periodos',
-        Nombre: 'Periodos',
-        Icon: 'clock-outline',
-        Opciones: null
-      };
-
-      childs.push(child9);
-
-      this.object = {
-        title: 'Administracion',
-        icon: 'briefcase-outline',
-        link: ``,
-        home: false,
-        key: "Administracion",
-        children: this.mapMenuChildrenObject(childs)
-      };
-      this.menu.push(this.object)
-    } */
-
-    /* toca activarlo */
-
-
 
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
@@ -352,7 +116,6 @@ export class PagesComponent implements OnInit {
    *  @param menuArray
    */
   mapMenuByObjects(menuArray) {
-    console.log(menuArray);
     menuArray.map(itemMenu => {
 
       const urlNested = this.replaceUrlNested(itemMenu.Url);
@@ -364,10 +127,6 @@ export class PagesComponent implements OnInit {
         key: itemMenu.Nombre,
         children: this.mapMenuChildrenObject(itemMenu.Opciones)
       };
-      this.object.title = 'Apoyo alimentario'
-
-      console.log("===>", this.object);
-
       this.menu.push(this.object);
     });
   }
@@ -390,8 +149,6 @@ export class PagesComponent implements OnInit {
           children: this.mapMenuChildrenObject(itemChild.Opciones)
         };
         submenu.push(this.object);
-        console.log(this.object);
-
       });
       return submenu;
     }
