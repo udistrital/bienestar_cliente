@@ -314,8 +314,13 @@ export class ListService {
               /* Cargamos facultad y proyecto */
               this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
                 .subscribe((resp) => {
+                  console.log(resp)
                   if (Object.keys(resp[0]).length > 0) {
-                    resolve([resp[0].PadreId.Nombre, resp[0].HijaId.Nombre]);
+                    if(resp[0].Padre && resp[0].Hija){
+                      resolve([resp[0].Padre.Nombre, resp[0].Hija.Nombre]);
+                    }else{
+                      reject("Problemas de formato en la facultad");
+                    }
                   } else {
                     reject("Facultad no encontrada");
                   }
