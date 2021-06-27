@@ -782,42 +782,54 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Condiciones Familiares.
     let sostieneHogar=this.socioeconomica.get('cabezaFamilar').value;
+    sostieneHogar="El mismo"
     if(sostieneHogar=="El mismo"){
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
     }
 
     let sostieneASiMismo=this.socioeconomica.get('dependenciaEconomica').value;
+    sostieneASiMismo="El mismo"
     if(sostieneASiMismo=="El mismo"){
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
     }
     
     let conQuienReside=this.socioeconomica.get('conQuienVive').value;
+    conQuienReside="Solo"
     if (conQuienReside!="Familia") {
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
     }
 
     let tienePersonasACargo=this.personasacargo.get('tieneperacargo').value;
     let tieneHijos=this.personasacargo.get('hijos').value;
 
     if (tienePersonasACargo=="Si" || tieneHijos=="Si") {
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
+    }
+
+    if (condicionesFamiliares>30) {
+      condicionesFamiliares=30;
     }
 
     //Procedencia y lugar de residencia
     let tipoVivienda=this.socioeconomica.get('tipoVivienda').value;
+    this.estudiante.InfoSocioeconomica.PagaArriendo=true;
     if(this.estudiante.InfoSocioeconomica.PagaArriendo || tipoVivienda=="Arriendo" ){
-      procedenciaYLugarDeResidencia+=6.67;
+      procedenciaYLugarDeResidencia+=10;
     }
  
     let zonaVulnerabilidad=this.socioeconomica.get('zonaVulnerabilidad').value;    
     if (zonaVulnerabilidad=="true") {
-      procedenciaYLugarDeResidencia+=6.66;
+      procedenciaYLugarDeResidencia+=10;
     }
 
     let poblacionEspecial=this.especial.get('condicionEspecial').value;
 
     if (poblacionEspecial!="ninguna" && poblacionEspecial!=null) {
-      procedenciaYLugarDeResidencia+=6.67;
+      procedenciaYLugarDeResidencia+=10;
+    }
+
+    if (procedenciaYLugarDeResidencia>20) {
+      procedenciaYLugarDeResidencia=20;
     }
 
     //Condiciones de Salud
@@ -834,6 +846,7 @@ export class CrearSolicitudComponent implements OnInit {
     let puntajeSisben=this.sisben.get('puntaje_Sisben').value;
     let municipio=this.residencia.get('municipio').value;
     municipio=municipio.toLowerCase();
+    puntajeSisben=20;
     console.log(municipio);
     if(municipio=="bogota" || municipio=="bogotá"){     
       if(puntajeSisben>=0 && puntajeSisben<=54.86 ) {
@@ -854,9 +867,7 @@ export class CrearSolicitudComponent implements OnInit {
     //Puntaje Total:
     puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+condicionesSocioeconomicas;
 
-    console.log(puntajeSol);
-    
-    this.utilService.showToastAlert("Tu puntaje es: ",puntajeSol);
+    console.log("Tu puntaje es: ",puntajeSol);
 
     return puntajeSol;
   }
