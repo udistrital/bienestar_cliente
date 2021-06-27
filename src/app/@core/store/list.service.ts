@@ -68,25 +68,25 @@ export class ListService {
       let filtros = "";
 
       if (terceroId != null) {
-        filtros += "tercero_id:" + terceroId
+        filtros += "terceroId:" + terceroId
       }
       if (solicitudId != null) {
         if (filtros != "") {
           filtros += ","
         }
-        filtros += "solicitud_id:" + solicitudId
+        filtros += "solicitudId:" + solicitudId
       }
       if (espacioFisicoId != null) {
         if (filtros != "") {
           filtros += ","
         }
-        filtros += "espacio_fisico_id:" + espacioFisicoId
+        filtros += "espacioFisicoId:" + espacioFisicoId
       }
       if (periodoId != null) {
         if (filtros != "") {
           filtros += ","
         }
-        filtros += "periodo_id:" + periodoId
+        filtros += "periodoId:" + periodoId
       }
       if (filtros != "") {
         url += "?query="
@@ -106,7 +106,7 @@ export class ListService {
       this.apoyoAlimentarioService.get(url)
         .subscribe(
           (result: any[]) => {
-            resolve(result)
+            resolve(result['Data'])
           },
           error => {
             reject(error);
@@ -129,20 +129,21 @@ export class ListService {
    * @return {*}  {Promise<ApoyoAlimentario[]>}
    * @memberof ListService
    */
-  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number): Promise<ApoyoAlimentario[]> {
+
+  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number, offset: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
       let queryArr = []
       if (terceroId != null) {
-        queryArr.push(`tercero_id:${terceroId}`)
+        queryArr.push(`terceroId:${terceroId}`)
       }
       if (solicitudId != null) {
-        queryArr.push(`solicitud_id:${solicitudId}`)
+        queryArr.push(`solicitudId:${solicitudId}`)
       }
       if (espacioFisicoId != null) {
-        queryArr.push(`espacio_fisico_id:${espacioFisicoId}`)
+        queryArr.push(`espacioFisicoId:${espacioFisicoId}`)
       }
       if (periodoId != null) {
-        queryArr.push(`periodo_id:${periodoId}`)
+        queryArr.push(`periodoId:${periodoId}`)
       }
       if (activo != null) {
         queryArr.push(`activo:${activo}`)
@@ -158,13 +159,12 @@ export class ListService {
           }
         }
       }
-      if (limite != null) {
-
-      }
-      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=id&order=desc${limite != null ? `&LIMIT=${limite}` : ''}`)
+  
+      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=_id&order=desc${limite != null ? `&limit=${limite}` : ''}${offset != null ? `&offset=${offset}` : ''}`)
         .subscribe(
           (result: any[]) => {
-            resolve(result)
+            console.log(result);
+            resolve(result['Data'])
           },
           error => {
             reject(error);

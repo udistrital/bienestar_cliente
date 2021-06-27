@@ -82,7 +82,7 @@
             <tbody class="bg-ud-table-cell">
                 <tr *ngFor="let item of registros;let i = index;">
                     <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
-                    <th scope="row">{{ item.id }}</th>
+                    <th scope="row">{{ item._id }}</th>
                     <td>{{ item.solicitudId==0 ? 'No inscrito' : item.solicitudId }}</td>
                     <td>{{ getNombrePeriodo(item.periodoId) }}</td>
                     <td>{{ getSedeAccesso(item.espacioFisicoId) }}</td>

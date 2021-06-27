@@ -2,6 +2,7 @@ import { toJSDate } from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar";
 import { formatDate } from "@angular/common";
 
 export class ApoyoAlimentario{
+    _id: string;
     terceroId: number;
     solicitudId: number;
     periodoId: number;

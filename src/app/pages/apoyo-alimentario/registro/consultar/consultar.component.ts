@@ -38,9 +38,6 @@ export class ConsultarComponent implements OnInit {
         if (Object.keys(respParam[0]).length > 0) {
           this.parametros = respParam;
         }
-        if (this.parametros.length > 0) {
-          this.periodo = 0;
-        }
       }
     });
     this.listService.cargarSedesApoyo()
@@ -82,13 +79,13 @@ export class ConsultarComponent implements OnInit {
       this.listService.loadTerceroByDocumento(this.codigoEstudiante.toString()).then((respTer) => {
         let tercero = respTer;
         if (tercero !== undefined) {
-          this.listService.findApoyoAlimentario(tercero.Id, null, this.sede, this.periodo, this.limite, offset).then((result) => {
-            if (result) {
+          this.listService.consutarRegitroApoyo(tercero.Id, null, this.sede, this.periodo, true, this.limite, offset ).then((result) => {
+            if (result.length>0) {
               this.registros = result;
               if(this.registros.length<this.limite){
                 this.hasNext=false;
               }
-            } else {
+            } else {              
               if(this.pagina>1){
                 this.pagina-=1;
                 this.hasNext=false;
@@ -108,11 +105,11 @@ export class ConsultarComponent implements OnInit {
             `<p>${error}</p>`, "error"); */
         }
       );
-
     } else {
-      this.listService.findApoyoAlimentario(null, null, this.sede, this.periodo, this.limite, offset).then((result) => {
-        if (result) {
+      this.listService.consutarRegitroApoyo(null, null, this.sede, this.periodo, true, this.limite, offset ).then((result) => {
+        if (result.length>0) {
           this.registros = result;
+          console.log(result);
           if(this.registros.length<this.limite){
             this.hasNext=false;
           }
