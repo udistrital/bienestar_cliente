@@ -38,6 +38,10 @@
                     <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre}}</td>
                     <td>{{ item.FechaRadicacion | fechaFormat}}</td>
                     <td>
+                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada" class="btn edit-icon" (click)="editarSolicitud(i)" title="Editar">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                            Editar
+                        </button>
                         <button class="btn init-icon " (click)="verSolicitud(i)" title="Ver solicitud">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             Ver solicitud

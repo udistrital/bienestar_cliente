@@ -146,6 +146,11 @@ export class SolicitudTerceroComponent implements OnInit {
         }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
     }
 
+    editarSolicitud(i: number) {
+        console.log("Edit");
+    }
+    
+
     nuevaSolicitud() {
         this.creando=true;
     }
