@@ -13,7 +13,7 @@ export class Solicitud {
     Resultado: string;
     SolicitudFinalizada: boolean;
     SolicitudPadreId: Solicitud
-  length: number;
+    length: number;
     constructor(){
         this.Activo=true;
         this.FechaCreacion= formatDate(new Date(), 'yyyy-MM-dd', 'en');

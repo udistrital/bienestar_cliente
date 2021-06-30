@@ -636,6 +636,52 @@ export class ListService {
         });
   }
 
+  /**
+   *Actualiza una solicitud Apoyo Alimentario
+   *
+   * @param {number} idTercero
+   * @param {Solicitud} solicitud
+   * @memberof ListService
+   */
+   editarSolicitudApoyoAlimentario(idTercero: number, solicitud: Solicitud) {
+    Swal.fire({
+      title: "Espere",
+      html: `Se esta procesando su solicitud`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+    Swal.showLoading();
+    this.solicitudService.put('solicitud', JSON.stringify(solicitud),solicitud.Id)
+      .subscribe(res => {
+        solicitud.Id = res['Data']['Id'];
+        /* No se si funciona */
+        this.crearEvolucionEstado(idTercero, solicitud, null);
+
+        this.loadTiposObservacion(1).then((resp) => {
+          /*  Agregar observacion*/
+
+          let observacionObj = new Observacion();
+          observacionObj.SolicitudId = solicitud;
+          observacionObj.TerceroId = idTercero;
+          observacionObj.Titulo = "Solicitud Actualizada";
+          observacionObj.Valor = "Se editaron los datos de la solicitud para apoyo alimentario con estado Radicada";
+          observacionObj.TipoObservacionId = resp['Data'][0];
+          this.crearObservacion(observacionObj).then((resp) => {
+
+            //window.location.reload();
+            Swal.close();
+            this.utilsService.showSwAlertSuccess("Edición de Solicitud procesada ", " Se estan actualizando los documentos.");
+            /** Disparador para cargar documentos del solicitante */
+            this.disparadorDeDocumentos.emit({
+              data: "carga",
+              newSol: solicitud
+            });
+
+          }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
+        }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
+
+      });
+  }
 
   /**
    *Busca solicitudes relacionadas a apoyo alimentario
@@ -709,6 +755,8 @@ export class ListService {
       this.solicitudService.get(`solicitud?query=Id:${idSolicitud}`)
         .subscribe(
           (result: any[]) => {
+            console.log(result);
+            console.log(result[0]);
             if (Object.keys(result[0]).length > 0) {
               resolve(result[0]);
             }
@@ -935,7 +983,7 @@ export class ListService {
 
   findSoportePaqueteByIdPaquete(idPaquete: number): Promise<SoportePaquete> {
     return new Promise((resolve, reject) => {
-      this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}`)
+      this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}&limit=-1`)
         .subscribe(res => {
           if (res['Data'][0] == {}) {
             resolve(undefined);

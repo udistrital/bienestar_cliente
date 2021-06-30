@@ -118,7 +118,7 @@ export class InscritosComponent implements OnInit {
           .then((listSolicitante) => {
             /* Validamos si esta inscrito, o si se permiten no inscritos y el estudiante esta activo */
             if (listSolicitante.length > 0) {
-              solicitudId = listSolicitante[0].Id;
+              solicitudId = listSolicitante[0].SolicitudId.Id;
             }
 
             this.permitirRegistroNoInscrito(listSolicitante, terceroReg.Id).then(
@@ -241,7 +241,8 @@ export class InscritosComponent implements OnInit {
               }, (error) => reject(error));
           } else {
             if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
-              reject(`ya uso el servicio a las ${regAnt[0].fecha_creacion}`)
+              let fechaReg=`${regAnt[0].fecha_creacion.split('T')[1].split('.')[0]} del ${regAnt[0].fecha_creacion.split('T')[0]} `;
+              reject(`ya uso el servicio a las ${fechaReg}`)
             } else {
               this.apoyoAlimentarioService.post('apoyo_alimentario', apoyoAlimentario)
                 .subscribe(res => {

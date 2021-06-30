@@ -7,6 +7,7 @@ import { ParametroPeriodo } from '../../../../@core/data/models/parametro/parame
 import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
 import { ListService } from '../../../../@core/store/list.service';
 import { UtilService } from '../../../../shared/services/utilService';
+import { FechaFormatPipe } from '../../pipes/fecha-format.pipe';
 
 @Component({
   selector: 'ngx-consultar',
@@ -135,7 +136,7 @@ export class ConsultarComponent implements OnInit {
   getNombrePeriodo(idPerido: number) {
     for (const parametro of this.parametros) {
       if (parametro.PeriodoId.Id == idPerido) {
-        return parametro.ParametroId.Nombre
+        return parametro.PeriodoId.Nombre
       }
     }
     return 'Indefinido';
@@ -172,10 +173,11 @@ export class ConsultarComponent implements OnInit {
         this.listService.loadFacultadProyectoTercero(tercero.Id).then((nomFacultad) => {
           let facultad = nomFacultad[0];
           let proyectoCurricular = nomFacultad[1];
+          let fecha = new Date(tercero.FechaNacimiento);
           Swal.fire({
             html: `<h3>Estudiante</h3>
             <p><b>Nombre:</b> ${tercero.NombreCompleto}</p>
-            <p><b>Fecha nacimiento:</b> ${tercero.FechaNacimiento}</p>
+            <p><b>Fecha nacimiento:</b> ${fecha.getDate()}-${fecha.getMonth()}-${fecha.getFullYear()}</p>
             <p><b>Faculta</b>d: ${facultad}</p>
             <p><b>Proyecto curricular:</b> ${proyectoCurricular}</p>`
           });
@@ -202,7 +204,7 @@ export class ConsultarComponent implements OnInit {
    */
   verSolicitud(index) {
     let solicitudId = this.registros[index].solicitudId
-
+    console.log(solicitudId);
     this.listService.loadSolicitud(solicitudId).then((respSolicitud) => {
       if (respSolicitud != undefined) {
         console.log(respSolicitud)

@@ -733,19 +733,24 @@ export class CrearSolicitudComponent implements OnInit {
           Swal.showLoading();
           this.actualizarInfoEstudiante();
           /** Se compuerba que no exista una solciitud para el periodo actual */
+          let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
+          refSol.Periodo = this.periodo.Nombre;
+          /** Se calcula el puntaje con base en los datos diligenciados para crear la solicitud. */
+          refSol.Puntaje = await this.calcularPuntaje()
+          //console.log("Puntaje -->",refSol.Puntaje);
+          Swal.close();
           if (this.solicitud == null) {
-            let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
-            refSol.Periodo = this.periodo.Nombre;
-            /** Se calcula el puntaje con base en los datos diligenciados para crear la solicitud. */
-            refSol.Puntaje = await this.calcularPuntaje()
-            //console.log("Puntaje -->",refSol.Puntaje);
-            Swal.close();
             await this.listService.crearSolicitudApoyoAlimentario(
               this.tercero.Id,
               refSol
             );
           } else {
-            this.showError("Solicitud Duplicada","La solicitud ya existe y no se pueden diligenciar 2 por periodo.");
+            console.log(this.solicitud.EstadoTipoSolicitudId);
+            this.solicitud.Referencia=JSON.stringify(refSol);
+            await this.listService.editarSolicitudApoyoAlimentario(
+              this.tercero.Id,
+              this.solicitud
+            );
           }
           //this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
           
@@ -978,6 +983,23 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   async save() {
+  
+    const isValidTerm = await this.utilService.termsAndConditional();
+
+    if (isValidTerm) {
+      //***************************************************** */
+      if (this.validacionesForm()) {
+        this.listService.disparadorDeDocumentos.emit({
+          data:"validar"
+        });
+        if(this.validarDocs){
+          this.registrar();
+        }
+      }
+    }
+  }
+
+  async update() {
   
     const isValidTerm = await this.utilService.termsAndConditional();
 

@@ -95,6 +95,7 @@
                     <th scope="col">Fecha radicacion</th>
                     <th scope="col">Puntaje</th>
                     <th scope="col">Periodo</th>
+                    <th scope="col"></th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
@@ -107,6 +108,10 @@
                     <td>{{ item.Solicitud.FechaRadicacion | fechaFormat }}</td>
                     <td>{{ item.Puntaje }}</td>
                     <td>{{ item.Periodo }}</td>
+                    <td>
+                        <span *ngIf="item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                        <span *ngIf="!item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                    </td>
                     <!-- | date: 'dd/MM/yyyy' -->
                     <td>
                         <button class="btn init-icon " routerLink="./{{item.Solicitud.Id}}" title="Ver solicitante">

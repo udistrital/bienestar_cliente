@@ -26,6 +26,7 @@
                     <th scope="col">Periodo</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Fecha radicacion</th>
+                    <th scope="col"></th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
@@ -38,13 +39,17 @@
                     <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre}}</td>
                     <td>{{ item.FechaRadicacion | fechaFormat}}</td>
                     <td>
-                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada" class="btn edit-icon" (click)="editarSolicitud(i)" title="Editar">
+                        <span *ngIf="item.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                        <span *ngIf="!item.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                    </td>
+                    <td class="align-items-center">
+                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada" class="btn edit-icon btn-sm mb-1" (click)="editarSolicitud(i)" title="Editar solicitud">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                             Editar
                         </button>
-                        <button class="btn init-icon " (click)="verSolicitud(i)" title="Ver solicitud">
+                        <button class="btn init-icon btn-sm mb-1" (click)="verSolicitud(i)" title="Ver solicitud">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            Ver solicitud
+                            Ver
                         </button>
                     </td>
                 </tr>

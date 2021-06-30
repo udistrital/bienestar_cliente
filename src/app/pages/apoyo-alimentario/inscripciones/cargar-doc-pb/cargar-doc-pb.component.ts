@@ -21,20 +21,34 @@ import Swal from 'sweetalert2';
   styleUrls: ['./cargar-doc-pb.component.scss']
 })
 export class CargarDocPbComponent implements OnInit {
-
+  
+  @Input() solicitud: Solicitud;
   @Output() disparadorDeValidacion: EventEmitter<any> = new EventEmitter();
 
   mostrar: any = {};
   deshabilitar: any = {};
-
   documentos: FormGroup;
+  uploadDocs= [    
+    ["DOCUMENTO IDENTIFICACIÓN","",false],
+    ["FORMULARIO APOYO ALIMENTARIO","",false],
+    ["CARTA BIENESTAR RELIQUIDACION","",false],
+    ["CERTIFICADO SERVICIO PUBLICO","",false],
+    ["CERTIFICADO VALOR MATRICULA","",false],
+    ["HORARIO ACADÉMICO","",false],
+    ["CERTIFICADO INGRESOS","",false],
+    ["CERTIFICADO ARRIENDO","",false],
+    ["CERTIFICADO REGISTRO CIVIL HIJOS","",false],
+    ["CERTIFICADO SISBEN","",false],
+    ["CERTIFICADO POBLACION ESPECIAL","",false],
+    ["CERTIFICADO DISCAPACIDAD","",false],
+    ["CERTIFICADO MEDICO PATOLOGIA","",false]
+  ];
 
   formApoyo: any = {
     documentosCargados: {}
   };
 
   APP_CONSTANTS = ApiConstanst;
-  solicitud: Solicitud=null;
 
   constructor(
     public nuxeoHelper: NuxeoApiHelper,
@@ -47,13 +61,16 @@ export class CargarDocPbComponent implements OnInit {
     this.documentos = new FormGroup({});
     this.mostrar.resubir = false;
     this.mostrar.verObservaciones = false;
-
-    
     /*  */
   }
 
 
   ngOnInit() {  
+
+    if(this.solicitud!=null){
+      console.log("Se carga una solicitud");
+      this.docsExistentes();
+    }
 
     this.listService.disparadorDeDocumentos.subscribe((res)=>{
       // Segun la llamada hace y devuleve un valor
@@ -77,10 +94,10 @@ export class CargarDocPbComponent implements OnInit {
     const style = "color: #ff0000; font-weight: bold; font-size: 1.2em;"
     let valid:boolean
     // Valida que se agreguen docs
-    if(form==undefined){
+    if(form==undefined && this.solicitud==null){
       this.utilsService.showSwAlertError("Documentos vacios","Por favor asegurese de subir todos los documentos antes de hacer el envio.");
       valid=false;
-    }else if(!this.documentos.valid){
+    }else if(!this.documentos.valid && this.solicitud==null){
       // Valida que lso docs agregados sean validos.
       let msj="";
       if(!this.documentos.controls.documentoIdentidad.valid){
@@ -111,7 +128,50 @@ export class CargarDocPbComponent implements OnInit {
         this.utilsService.showSwAlertError('Faltan Documentos',`<p> Todos los documentos con ( <span style="${style}">*</span> ) es obligatorio subirlos. <p>`);
       }
       valid=false;
-    }else{
+    }else if((form==undefined || !this.documentos.valid) && this.solicitud!=null){
+      let msj="";
+      let contEdit=0;
+      if(this.uploadDocs[0][2]==false && !this.documentos.controls.documentoIdentidad.valid){
+        msj= msj+" Documento de Identidad,";
+        contEdit+=1;
+      }
+      if(this.uploadDocs[1][2]==false && !this.documentos.controls.formularioSIGUD.valid){
+        msj= msj+" Formulario SIGUD,";
+        contEdit+=1;
+      }
+      if(this.uploadDocs[2][2]==false && !this.documentos.controls.cartaBienestar.valid){
+        msj= msj+" Carta a Bienestar,";
+        contEdit+=1;
+      }
+      if(this.uploadDocs[3][2]==false && !this.documentos.controls.reciboPublico.valid){
+        msj= msj+" Recibo Público,";
+        contEdit+=1;
+      }
+      if(this.uploadDocs[4][2]==false && !this.documentos.controls.reciboMatricula.valid){
+        msj= msj+" Recibo matricula,";
+        contEdit+=1;
+      }
+      if(this.uploadDocs[5][2]==false && !this.documentos.controls.horarioAcademico.valid){
+        msj= msj+" Horario Académico,";
+        contEdit+=1;
+      }
+      if(this.uploadDocs[6][2]==false && !this.documentos.controls.certificadoIngresos.valid){
+        msj= msj+" Certificado de Ingresos,";
+        contEdit+=1;
+      }
+      if(msj!=""){
+        msj = msj.slice(0, -1);
+        this.utilsService.showSwAlertError('Faltan Documentos',`<p> Los documentos con ( <span style="${style}">*</span> ) es obligatorio subirlos. <br> Hacen falta los siguientes documentos:  <strong> ${msj} </strong><p>`);
+      }else{
+        this.utilsService.showSwAlertError('Faltan Documentos',`<p> Todos los documentos con ( <span style="${style}">*</span> ) es obligatorio subirlos. <p>`);
+      }
+      if(contEdit==0){
+        valid=true;
+      }else{
+        valid=false;
+      }
+    }
+    else{
       // Respuesta de docs, validos.
       valid=true;
     }
@@ -138,42 +198,52 @@ export class CargarDocPbComponent implements OnInit {
           let newSupps=[];  //Documentos no existentes
           let updateSupps=[]; // Documentos a actualizar
           this.cargarDocs(paqSol).then((result)=>{
+            let contSubmitDocs=0;
             const docs=result;
             /** Se validan  si existian documentos subidos */
             if(Object.keys(docs).length>0){
-              // Revisa todos los documentos que subio el usuario        
+              // Revisa todos los documentos que subio el usuario     
               for(let i = 0; i < Object.keys(docsAdd).length; i++){
                 // Revisa todos los documentos ya existentes de una solicitud para actualizar. 
                 docs.some(doc => {
-                  // Compara si ya existia un documento del mismo tipo. 
+                  // Compara si ya existia un documento del mismo tipo.                 
                   if(docsAdd[i].IdDocumento==doc.TipoDocumento.Id){
                     return docsAdd[i].documento=doc.Id;
-                  }else{
-                    //console.log("No hay news documents");
-                  }    
+                  }  
                 });
-
                 // Separa los que se crean y los que se actualizan.
                 if(docsAdd[i].documento==undefined){
                     newSupps.push(docsAdd[i]);
                 }else{
                     updateSupps.push(docsAdd[i]);
                 }
-                     
               } 
+
               // El documento queda con el mismo ID para no cambiar el soporte.
               // Es decir solo se cambia el File (archivo) de ese documento.
-              if(docsAdd!=undefined){
-                this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => { 
-                  if(newSupps.length==Object.keys(res).length){
-                  }            
-                });
+              if(updateSupps.length>0){
+                this.actualizarDocs(updateSupps,docs).then((res)=>{
+                  this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => { 
+                    if(updateSupps.length==Object.keys(res).length){
+                      contSubmitDocs+=1;
+                      if(contSubmitDocs==2){
+                        Swal.close();
+                        window.location.reload();
+                        return true;
+                      }
+                    }            
+                  });
+                })
+                
               }else{
-                 /** Si no hay archivos nuevos no se actualiza */
-                Swal.close();
-                return true;    
+                /** Si no hay archivos nuevos no se actualiza */               
+                contSubmitDocs+=1;
+                if(contSubmitDocs==2){
+                  Swal.close();
+                  window.location.reload();
+                  return true;
+                }  
               }
-             
               // Agrega los nuevos documentos que no existian o no tenian soporte.
               if(newSupps.length>0){
                 this.nuxeoService.getDocumentos$(newSupps, this.documentoService).subscribe((res) => {
@@ -182,36 +252,39 @@ export class CargarDocPbComponent implements OnInit {
                     // Crea los soportes de los nuevos documentos.
                     for (let i = 0; i < Object.keys(res).length; i++) {
                       let docCreate=Object.values(res)[i];
-                      let soporte: SoportePaquete= new SoportePaquete();
+                      let soporteCreate: SoportePaquete= new SoportePaquete();
 
-                      soporte.Descripcion=docCreate.TipoDocumento.Nombre;
-                      soporte.PaqueteId=paqSol.PaqueteId;
-                      soporte.DocumentoId=docCreate.Id;
+                      soporteCreate.Descripcion=docCreate.TipoDocumento.Nombre;
+                      soporteCreate.PaqueteId=paqSol.PaqueteId;
+                      soporteCreate.DocumentoId=docCreate.Id;
 
-                      this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
-                         /** Respuesta de la creación del nuevo soporte */
-                         contnewSupps+=1;
-                         if(contnewSupps==Object.keys(resSopPaq).length){
-                           Swal.close();
-                           window.location.reload();
-                           return true;
-                         }
+                      this.listService.crearSoportePaquete(soporteCreate).then((resSopPaq)=>{
+                        /** Respuesta de la creación del nuevo soporte */
+                        contnewSupps+=1;
+                        if(contnewSupps==Object.keys(res).length){
+                          contSubmitDocs+=1;                     
+                          if(contSubmitDocs==2){
+                            Swal.close();
+                            window.location.reload();
+                            return true;
+                          }
+                        }
                       }).catch((err)=>{
                         console.error(err);
                         Swal.close();
                         window.location.reload();
                         return true;
                       }); 
-                      
                     }
-                    Swal.close();
-                    return true;
                   }
                 });
               }else{
-                window.location.reload();
-                Swal.close();
-                return true;
+                contSubmitDocs+=1;
+                if(contSubmitDocs==2){
+                  Swal.close();
+                  window.location.reload();
+                  return true;
+                }
               }       
 
             }else{
@@ -315,6 +388,50 @@ export class CargarDocPbComponent implements OnInit {
       });
       
     }); 
+  }
+
+  docsExistentes(){
+      this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+        if(paqSol.PaqueteId!=undefined){
+          this.cargarDocs(paqSol).then((result)=>{
+            const docs=result;
+            for (let i = 0; i < this.uploadDocs.length; i++) {
+              docs.some(doc => {
+                // Compara si ya existia un documento del mismo tipo.   
+                if(this.uploadDocs[i][0]===doc.TipoDocumento.Nombre){
+                  this.uploadDocs[i][1]=doc.Nombre;
+                  return this.uploadDocs[i][2]=true;
+                }
+              });
+              
+            }
+          });
+        }else{
+          this.utilsService.showSwAlertSuccess("No existen documentos","Cargue los documentos para que se valide su solicitud cuando sea revisada.","info");
+        }
+      }).catch((err)=> {
+        console.error(err);
+        this.utilsService.showSwAlertError("Cargando documentos","Ocurrio un error al obtener los documentos de la solicitud.");
+      });
+  }
+
+  actualizarDocs(updateDocs,docs): Promise<any> {
+    return new Promise((resolve) => {
+      for (let i = 0; i < updateDocs.length; i++) {
+        const element = updateDocs[i];
+        docs.some(doc => {
+          // Compara si ya existia un documento del mismo tipo.   
+          if(element.IdDocumento==doc.TipoDocumento.Id){
+              doc.Nombre=element.nombre;
+              this.documentoService.put('documento',doc,doc.Id).subscribe((res) => {
+                if (res !== null) {
+                }
+              });
+          } 
+        });
+      }
+      resolve(true);
+    });
   }
 
   visualizarArchivo(archivo) {

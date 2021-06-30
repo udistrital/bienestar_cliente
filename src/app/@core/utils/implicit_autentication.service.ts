@@ -27,8 +27,9 @@ export class ImplicitAutenticationService {
     }
 
     public logout() {
-        localStorage.clear();
         auth.logout();
+        window.sessionStorage.clear();
+        window.localStorage.clear();
     }
 
     getPayload() {

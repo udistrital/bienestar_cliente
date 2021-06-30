@@ -16,17 +16,22 @@
     <nb-card>
         <nb-card-header>
             <div class="text-center pt-2">
-                <div *ngIf="!extraSolicitud" class="menu-header">
+                <div *ngIf="solicitud!=null" class="menu-header">
+                    <h1>
+                        Editando Solicitud # {{solicitud.Id}} apoyo alimentario {{ periodo?.Nombre }}
+                    </h1>
+                </div>
+                <div *ngIf="!extraSolicitud && solicitud==null" class="menu-header">
                     <h1>
                         Solicitud apoyo alimentario {{ periodo?.Nombre }}
                     </h1>
-                    <br>
                 </div>
-                <div *ngIf="extraSolicitud" class="menu-header">
+                <div *ngIf="extraSolicitud && solicitud==null" class="menu-header">
                     <h1>
                         Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
                     </h1>
                 </div>
+                <br>
                 <small>
                     Si se desea modificar la informacion de un campo no editable, se debe hacer desde el Sistema de
                     Gestión Académica
@@ -118,23 +123,16 @@
                             <div class="row item-list">
                                 <div class="col-md-4">
                                     <label>Antiguedad:
-                                        <span *ngIf="estudiante.AntiguedadPrograma==null"
-                                            class="required-asterisk">*</span>
+                                        <span class="required-asterisk">*</span>
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select *ngIf="estudiante.AntiguedadPrograma==null" fullWidth size="large" placeholder="Vigencia en el programa" formControlName="programa" required>
+                                    <nb-select fullWidth size="large" formControlName="programa">
                                         <nb-option value="nuevo">Nuevo en el programa</nb-option>
                                         <nb-option value="antiguo">Antiguo en el programa</nb-option>
                                     </nb-select>
-                                    <nb-select *ngIf="estudiante.AntiguedadPrograma!=null" fullWidth size="large" formControlName="programa" disabled>
-                                        <nb-option value="nuevo" disabled>Nuevo en el programa</nb-option>
-                                        <nb-option value="antiguo" disabled>Antiguo en el programa</nb-option>
-                                    </nb-select>
                                 </div>
                             </div>
-
-
                         </form>
 
                     </nb-accordion-item-body>
@@ -788,7 +786,7 @@
                         <h4 class="non-selectable">Documentos</h4>
                     </nb-accordion-item-header>
                     <nb-accordion-item-body>
-                        <ngx-cargar-doc-pb (disparadorDeValidacion)="validarDocs = $event" (disparadorDeDocumentos)="cargarDocumentos($event)"></ngx-cargar-doc-pb>
+                        <ngx-cargar-doc-pb [solicitud]="solicitud" (disparadorDeValidacion)="validarDocs = $event" (disparadorDeDocumentos)="cargarDocumentos($event)"></ngx-cargar-doc-pb>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
 
@@ -804,10 +802,16 @@
                 <!-- Cambiar por actualizarInfoEstudiante() -->
                 <!-- Cambiar por cargarDocumentos() -->
 
-                <div class="form-group">
+                <div *ngIf="solicitud==null" class="form-group">
                     <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                         <i class="fas fa-save mr-1"></i>
                         Registrar
+                    </button>
+                </div>
+                <div *ngIf="solicitud!=null" class="form-group">
+                    <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                        <i class="fas fa-share-square mr-1"></i>
+                        Actualizar
                     </button>
                 </div>
 

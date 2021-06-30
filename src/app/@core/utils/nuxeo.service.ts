@@ -123,7 +123,7 @@ export class NuxeoService {
                                     NuxeoService.nuxeo.operation('Blob.AttachOnDocument')
                                         .params({
                                             type: documento_temp.TipoDocumento.TipoDocumentoNuxeo,
-                                            name: documento_temp.Nombre,
+                                            name: file.nombre,
                                             properties: 'dc:title=' + file.nombre,
                                         })
                                         .param('document', documento_temp.Enlace)
