@@ -233,22 +233,25 @@ export class InscritosComponent implements OnInit {
         apoyoAlimentario.solicitudId = idSolicitud;
         apoyoAlimentario.terceroId = idTercero;
         apoyoAlimentario.usuarioAdministrador = this.usuarioWSO2;
-        this.listService.consutarRegitroApoyo(idTercero,null,null,this.periodo.Id,true,1,null).then((regAnt)=>{
+        apoyoAlimentario.fechaRegistro= this.myDate;
+        this.listService.consutarRegitroApoyo(idTercero,null,null,this.periodo.Id, this.myDate ,true,1,null).then((regAnt)=>{
           if (regAnt.length==0) {
             this.apoyoAlimentarioService.post('apoyo_alimentario', apoyoAlimentario)
               .subscribe(res => {
                 resolve(`Registro #${res.Data._id}`);
               }, (error) => reject(error));
           } else {
-            if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
-              let fechaReg=`${regAnt[0].fecha_creacion.split('T')[1].split('.')[0]} del ${regAnt[0].fecha_creacion.split('T')[0]} `;
-              reject(`ya uso el servicio a las ${fechaReg}`)
-            } else {
+            let fechaReg=`${regAnt[0].fecha_creacion.split('T')[1].split('.')[0]} del ${regAnt[0].fecha_creacion.split('T')[0]} `;
+            reject(`ya uso el servicio a las ${fechaReg}`)
+            /* if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
+              
+            }  */
+            /* else {
               this.apoyoAlimentarioService.post('apoyo_alimentario', apoyoAlimentario)
                 .subscribe(res => {
                   resolve(`Registro #${res.Data._id}`);
                 }, (error) => reject(error));
-            }
+            } */
           }
         })
       
