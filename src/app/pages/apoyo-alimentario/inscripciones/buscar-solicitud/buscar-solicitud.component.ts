@@ -37,6 +37,14 @@ export class BuscarSolicitudComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  /**
+   *Busca solicitudes relacionadas a un estudiante
+   *
+   * @param {NgForm} form
+   * @return {*} 
+   * @memberof BuscarSolicitudComponent
+   */
   buscar(form: NgForm) {
     if (form.invalid || this.periodos.length === 0) {
       Object.values(form.controls).forEach((control) => {
@@ -77,9 +85,7 @@ export class BuscarSolicitudComponent implements OnInit {
         this.utilService.showSwAlertError("Estudiante no encontrado",`<p>${error}</p>`);
       }
     );
-
   }
-
 }
 
 

@@ -89,6 +89,11 @@ export class CrearSolicitudComponent implements OnInit {
     }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));    
   }
 
+  /**
+   *Carga la informacion complementaria de un estudiante
+   *
+   * @memberof CrearSolicitudComponent
+   */
   loadInfoComp(){
     this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
       console.log("Entro info");
@@ -100,6 +105,11 @@ export class CrearSolicitudComponent implements OnInit {
     });
   }
 
+  /**
+   *Carga una solicitud ya existente de un estudiante en el periodo
+   *
+   * @memberof CrearSolicitudComponent
+   */
   loadSolicitud(){
     this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null).then(
       (resp) => {
@@ -110,7 +120,13 @@ export class CrearSolicitudComponent implements OnInit {
   ).catch((error) => console.error(error));
   }
 
-   /* Clasifica la informacion de listInfoComplementaria */
+   
+  /**
+   *Clasificamos la informacion complementaria
+   *
+   * @return {*}  {Promise<any>}
+   * @memberof CrearSolicitudComponent
+   */
   loadEstudiante(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.estudiante.Nombre = this.tercero.NombreCompleto;
@@ -197,7 +213,12 @@ export class CrearSolicitudComponent implements OnInit {
     });
   }
 
-  /* Clasifica la informacion socieconomica del estudiante */
+  /**
+   *Clasifica la informacion socioeconomica de un estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionSocioEconomica(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
@@ -250,7 +271,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Clasifica la informacion correspondiente a apoyo alimentario del estudiante */
+  /**
+   *Guarda la informacion complementaria de une estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionApoyoAlimentario(infComp: InfoComplementariaTercero) {
     this.infoComeplementariaPut.push(infComp.InfoComplementariaId.Id);
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
@@ -354,7 +380,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Clasifica informacion de basica */
+  /**
+   *Clasifica la informacion basica de un estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionBasica(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
@@ -413,7 +444,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Clasifica informacion de contacto */
+  /**
+    *Clasifica informacion de contacto de un estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionContacto(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
@@ -465,7 +501,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Carga los datos a estudiante y crea los formularios reactivos */
+  /**
+   *Carga los datos a estudiante y crea los formularios reactivos
+   *
+   * @private
+   * @memberof CrearSolicitudComponent
+   */
   private inicializarFormularios() {
     this.loadEstudiante()
       .then(() => {
@@ -707,6 +748,13 @@ export class CrearSolicitudComponent implements OnInit {
       });
   }
 
+  /**
+   *Muestra sweetAlert de error
+   *
+   * @param {string} titulo
+   * @param {*} msj
+   * @memberof CrearSolicitudComponent
+   */
   showError(titulo: string, msj: any) {
     this.loadData = false;
     Swal.close();
@@ -714,6 +762,12 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
 
+  /**
+   *Confirma la creacion de la solicitud y la crea
+   *
+   * @return {*} 
+   * @memberof CrearSolicitudComponent
+   */
   registrar() {
     let msj;
     if(!this.extraSolicitud){
@@ -733,19 +787,24 @@ export class CrearSolicitudComponent implements OnInit {
           Swal.showLoading();
           this.actualizarInfoEstudiante();
           /** Se compuerba que no exista una solciitud para el periodo actual */
+          let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
+          refSol.Periodo = this.periodo.Nombre;
+          /** Se calcula el puntaje con base en los datos diligenciados para crear la solicitud. */
+          refSol.Puntaje = await this.calcularPuntaje()
+          //console.log("Puntaje -->",refSol.Puntaje);
+          Swal.close();
           if (this.solicitud == null) {
-            let refSol: ReferenciaSolicitud = new ReferenciaSolicitud();
-            refSol.Periodo = this.periodo.Nombre;
-            /** Se calcula el puntaje con base en los datos diligenciados para crear la solicitud. */
-            refSol.Puntaje = await this.calcularPuntaje()
-            //console.log("Puntaje -->",refSol.Puntaje);
-            Swal.close();
             await this.listService.crearSolicitudApoyoAlimentario(
               this.tercero.Id,
               refSol
             );
           } else {
-            this.showError("Solicitud Duplicada","La solicitud ya existe y no se pueden diligenciar 2 por periodo.");
+            console.log(this.solicitud.EstadoTipoSolicitudId);
+            this.solicitud.Referencia=JSON.stringify(refSol);
+            await this.listService.editarSolicitudApoyoAlimentario(
+              this.tercero.Id,
+              this.solicitud
+            );
           }
           //this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
           
@@ -753,7 +812,14 @@ export class CrearSolicitudComponent implements OnInit {
       });
     return false;
   }
-  //Revisar caso de mayor tiempo de ejecución.
+  
+
+  /**
+   *Calcula el puntaje de la solicitud
+   *
+   * @return {*}  {number}
+   * @memberof CrearSolicitudComponent
+   */
   calcularPuntaje(): number {
 
     let puntajeSol=0;
@@ -782,42 +848,54 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Condiciones Familiares.
     let sostieneHogar=this.socioeconomica.get('cabezaFamilar').value;
+    sostieneHogar="El mismo"
     if(sostieneHogar=="El mismo"){
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
     }
 
     let sostieneASiMismo=this.socioeconomica.get('dependenciaEconomica').value;
+    sostieneASiMismo="El mismo"
     if(sostieneASiMismo=="El mismo"){
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
     }
     
     let conQuienReside=this.socioeconomica.get('conQuienVive').value;
+    conQuienReside="Solo"
     if (conQuienReside!="Familia") {
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
     }
 
     let tienePersonasACargo=this.personasacargo.get('tieneperacargo').value;
     let tieneHijos=this.personasacargo.get('hijos').value;
 
     if (tienePersonasACargo=="Si" || tieneHijos=="Si") {
-      condicionesFamiliares+=7.5;
+      condicionesFamiliares+=10;
+    }
+
+    if (condicionesFamiliares>30) {
+      condicionesFamiliares=30;
     }
 
     //Procedencia y lugar de residencia
     let tipoVivienda=this.socioeconomica.get('tipoVivienda').value;
+    this.estudiante.InfoSocioeconomica.PagaArriendo=true;
     if(this.estudiante.InfoSocioeconomica.PagaArriendo || tipoVivienda=="Arriendo" ){
-      procedenciaYLugarDeResidencia+=6.67;
+      procedenciaYLugarDeResidencia+=10;
     }
  
     let zonaVulnerabilidad=this.socioeconomica.get('zonaVulnerabilidad').value;    
     if (zonaVulnerabilidad=="true") {
-      procedenciaYLugarDeResidencia+=6.66;
+      procedenciaYLugarDeResidencia+=10;
     }
 
     let poblacionEspecial=this.especial.get('condicionEspecial').value;
 
     if (poblacionEspecial!="ninguna" && poblacionEspecial!=null) {
-      procedenciaYLugarDeResidencia+=6.67;
+      procedenciaYLugarDeResidencia+=10;
+    }
+
+    if (procedenciaYLugarDeResidencia>20) {
+      procedenciaYLugarDeResidencia=20;
     }
 
     //Condiciones de Salud
@@ -834,6 +912,7 @@ export class CrearSolicitudComponent implements OnInit {
     let puntajeSisben=this.sisben.get('puntaje_Sisben').value;
     let municipio=this.residencia.get('municipio').value;
     municipio=municipio.toLowerCase();
+    puntajeSisben=20;
     console.log(municipio);
     if(municipio=="bogota" || municipio=="bogotá"){     
       if(puntajeSisben>=0 && puntajeSisben<=54.86 ) {
@@ -854,13 +933,18 @@ export class CrearSolicitudComponent implements OnInit {
     //Puntaje Total:
     puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+condicionesSocioeconomicas;
 
-    console.log(puntajeSol);
-    
-    this.utilService.showToastAlert("Tu puntaje es: ",puntajeSol);
+    console.log("Tu puntaje es: ",puntajeSol);
 
     return puntajeSol;
   }
 
+
+  /**
+   *
+   *
+   * @param {*} validCarga
+   * @memberof CrearSolicitudComponent
+   */
   cargarDocumentos(validCarga) {
     delay(10000);
     if(validCarga){
@@ -872,9 +956,13 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
+  /**
+   *Se actualizara la información requerida que cambia constantemente para la solciitud de apoyo
+   *
+   * @memberof CrearSolicitudComponent
+   */
   actualizarInfoEstudiante() {
 
-    /** Se actualizara la información requerida que cambia constantemente para la solciitud de apoyo */
     if (this.validacionesForm()) {
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
@@ -915,9 +1003,16 @@ export class CrearSolicitudComponent implements OnInit {
 
   }
 
+  /**
+   * Se busca si existe información complementaria en la información obtenida al cargar el solicitante
+   *
+   * @param {string} nombreInfoComp
+   * @param {*} valor
+   * @return {*} 
+   * @memberof CrearSolicitudComponent
+   */
   buscarInfoComplemetaria(nombreInfoComp: string, valor: any) {
 
-    /** Se busca si eciste información complementaria en la información obtenida al cargar el solicitante */
     for (const infoComp of this.listInfoComplementaria) {
       /** Si existe, se procede a examinar y actualziar el dato */
       if (infoComp.InfoComplementariaId.Nombre == nombreInfoComp) {
@@ -967,6 +1062,21 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
   async save() {
+  
+    const isValidTerm = await this.utilService.termsAndConditional();
+    if (isValidTerm) {
+      if (this.validacionesForm()) {
+        this.listService.disparadorDeDocumentos.emit({
+          data:"validar"
+        });
+        if(this.validarDocs){
+          this.registrar();
+        }
+      }
+    }
+  }
+
+  async update() {
   
     const isValidTerm = await this.utilService.termsAndConditional();
 

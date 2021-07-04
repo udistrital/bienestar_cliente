@@ -1,3 +1,7 @@
+<button *ngIf="registros.length>0" class="btn back-button btn-block" (click)="registros=[]">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    Regresar
+</button>
 <nb-card>
     <nb-card-header>
         <div class="text-center pt-2">
@@ -37,6 +41,15 @@
                 </button>
             </mat-form-field>
 
+            <!-- Cambiar por un mejor input :v -->
+            <mat-form-field class="fechaRegistro">
+                <mat-label>Fecha registro</mat-label>
+                <input matInput type="date" placeholder="Fecha registro" [(ngModel)]="fechaRegistro">
+                <button mat-button *ngIf="fechaRegistro" matSuffix mat-icon-button aria-label="Limpiar" (click)="fechaRegistro=null">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
             <mat-form-field class="page">
                 <mat-label>Cantidad de registros</mat-label>
                 <select matNativeControl [(ngModel)]="limite">
@@ -63,10 +76,7 @@
     </nb-card-body>
 
     <nb-card-body *ngIf="registros.length>0">
-        <button class="btn back-button btn-block" (click)="registros=[]">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            Regresar
-        </button>
+ 
         <table class="table">
             <thead class="bg-ud-table">
                 <tr>
@@ -82,7 +92,7 @@
             <tbody class="bg-ud-table-cell">
                 <tr *ngFor="let item of registros;let i = index;">
                     <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
-                    <th scope="row">{{ item.id }}</th>
+                    <th scope="row">{{ (i+1)+(limite*(pagina-1)+itemOffSet)}}</th>
                     <td>{{ item.solicitudId==0 ? 'No inscrito' : item.solicitudId }}</td>
                     <td>{{ getNombrePeriodo(item.periodoId) }}</td>
                     <td>{{ getSedeAccesso(item.espacioFisicoId) }}</td>

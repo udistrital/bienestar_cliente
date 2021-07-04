@@ -186,6 +186,7 @@
                         <th scope="col">Puntaje</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Fecha radicacion</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody class="bg-ud-table-cell">
@@ -200,6 +201,10 @@
                         <td>{{ item.Puntaje }}</td>
                         <td>{{ item.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
                         <td>{{ item.Solicitud.FechaRadicacion | fechaFormat: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <span *ngIf="item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                            <span *ngIf="!item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>

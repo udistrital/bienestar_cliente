@@ -1,14 +1,11 @@
-# presupuesto_cliente
-Cliente para el **subsistema de Presupuesto** del *Sistema de Gestión Financiera KRONOS*.
+# bienestar_cliente
+Cliente para el **Bienestar institucional** que recibe el nombre *Sistema de Informacion Bienestar Universidad Distrital SIBUD*.
 
- Permite centralizar y gestionar el manejo de la información de la Universidad Distrital por medio de diferentes subsistemas, puntualmente se gestionan los siguientes procesos:
- - Preasignación de presupuesto inicial
- - Modificaciones presupuestales,
- - Gestión de las fuentes de financiamiento,
- - Gestión de los certificados de disponibilidad presupuestal
- - Gestión de los certificados de registro presupuestal,
- - Gestión de las vigencias y los reportes financieros
-
+ Donde actualmente se tienen los modulos:
+ - Apoyo alimentario
+ - Citas medicas
+ - Reliquidacion
+ 
 ## Especificaciones Técnicas
 
 ### Tecnologías Implementadas y Versiones
@@ -29,9 +26,9 @@ AWS_SECRET_ACCESS_KEY: Secreto de Usuario AWS
 Clonar el proyecto del repositorio de git
 ```bash
 # clone the project
-git clone https://github.com/udistrital/presupuesto_cliente.git
+git clone https://github.com/udistrital/bienestar_cliente.git
 # enter the project directory
-cd presupuesto_cliente
+cd bienestar_cliente
 ```
 Iniciar el servidor en local
 ```bash
@@ -94,14 +91,14 @@ Los siguientes mockups representan la estructura general de la aplicación, mód
 
 | Develop | Relese 0.0.1 | Master |
 | -- | -- | -- |
-| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/presupuesto_cliente/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/presupuesto_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/presupuesto_cliente/status.svg?ref=refs/heads/release/0.0.1)](https://hubci.portaloas.udistrital.edu.co/udistrital/presupuesto_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/presupuesto_cliente/status.svg?ref=refs/heads/master)](https://hubci.portaloas.udistrital.edu.co/udistrital/presupuesto_cliente) |
+| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/bienestar_cliente/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/bienestar_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/bienestar_cliente/status.svg?ref=refs/heads/release/0.0.1)](https://hubci.portaloas.udistrital.edu.co/udistrital/bienestar_cliente) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/bienestar_cliente/status.svg?ref=refs/heads/master)](https://hubci.portaloas.udistrital.edu.co/udistrital/bienestar_cliente) |
 
 ## Licencia
 
-[This file is part of presupuesto_cliente.](LICENSE)
+[This file is part of bienestar_cliente.](LICENSE)
 
-presupuesto_cliente is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (atSara Sampaio your option) any later version.
+bienestar_cliente is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (atSara Sampaio your option) any later version.
 
-presupuesto_cliente is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+bienestar_cliente is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with presupuesto_cliente. If not, see https://www.gnu.org/licenses/.
+You should have received a copy of the GNU General Public License along with bienestar_cliente. If not, see https://www.gnu.org/licenses/.

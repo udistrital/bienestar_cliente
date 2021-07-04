@@ -32,6 +32,7 @@ import { DocumentoService } from '../data/documento.service';
 import Swal from 'sweetalert2';
 import { AutenticacionMidService } from '../data/autenticacion_mid.service';
 import { UserRol } from '../data/models/userRol';
+import { range } from 'rxjs';
 
 
 @Injectable()
@@ -56,66 +57,6 @@ export class ListService {
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
 
-  /**
-   *Busca los registros de apoyo alimentario
-   *
-   * @return {*}  {Promise<ApoyoAlimentario[]>}
-   * @memberof ListService
-   */
-  findApoyoAlimentario(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, limite: number, offSet: number): Promise<ApoyoAlimentario[]> {
-    return new Promise((resolve, reject) => {
-      let url = "apoyo_alimentario"
-      let filtros = "";
-
-      if (terceroId != null) {
-        filtros += "tercero_id:" + terceroId
-      }
-      if (solicitudId != null) {
-        if (filtros != "") {
-          filtros += ","
-        }
-        filtros += "solicitud_id:" + solicitudId
-      }
-      if (espacioFisicoId != null) {
-        if (filtros != "") {
-          filtros += ","
-        }
-        filtros += "espacio_fisico_id:" + espacioFisicoId
-      }
-      if (periodoId != null) {
-        if (filtros != "") {
-          filtros += ","
-        }
-        filtros += "periodo_id:" + periodoId
-      }
-      if (filtros != "") {
-        url += "?query="
-        url += filtros
-        url += "&"
-      } else {
-        url += "?"
-      }
-      url += "sortby=id&order=desc"
-      if (limite > 0 || limite == -1) {
-        url += "&limit=" + limite;
-      }
-      if (offSet != null && offSet > 0) {
-        url += "&offset=" + offSet;
-      }
-
-      this.apoyoAlimentarioService.get(url)
-        .subscribe(
-          (result: any[]) => {
-            resolve(result)
-          },
-          error => {
-            reject(error);
-          },
-        );
-
-
-    });
-  }
 
   /**
    *Consulta los registro de apoyo alimentario con algunos parametros opcionales
@@ -129,24 +70,32 @@ export class ListService {
    * @return {*}  {Promise<ApoyoAlimentario[]>}
    * @memberof ListService
    */
-  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number): Promise<ApoyoAlimentario[]> {
+
+  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, fechaRegistro: string, activo: boolean, limite: number, offset: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
+
       let queryArr = []
       if (terceroId != null) {
-        queryArr.push(`tercero_id:${terceroId}`)
+        queryArr.push(`terceroId:${terceroId}`)
       }
       if (solicitudId != null) {
-        queryArr.push(`solicitud_id:${solicitudId}`)
+        queryArr.push(`solicitudId:${solicitudId}`)
       }
       if (espacioFisicoId != null) {
-        queryArr.push(`espacio_fisico_id:${espacioFisicoId}`)
+        queryArr.push(`espacioFisicoId:${espacioFisicoId}`)
       }
       if (periodoId != null) {
-        queryArr.push(`periodo_id:${periodoId}`)
+        queryArr.push(`periodoId:${periodoId}`)
       }
       if (activo != null) {
         queryArr.push(`activo:${activo}`)
       }
+      if (fechaRegistro != null) {
+        if (fechaRegistro != "") {
+          queryArr.push(`fechaRegistro:${fechaRegistro}`)
+        }
+      }
+
       let query = "";
 
       if (queryArr.length > 0) {
@@ -158,13 +107,12 @@ export class ListService {
           }
         }
       }
-      if (limite != null) {
 
-      }
-      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=id&order=desc${limite != null ? `&LIMIT=${limite}` : ''}`)
+
+      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=_id&order=desc${limite != null && limite > 0 ? `&limit=${limite}` : ''}${offset != null ? `&offset=${offset}` : ''}`)
         .subscribe(
           (result: any[]) => {
-            resolve(result)
+            resolve(result['Data'])
           },
           error => {
             reject(error);
@@ -314,8 +262,13 @@ export class ListService {
               /* Cargamos facultad y proyecto */
               this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
                 .subscribe((resp) => {
+                  console.log(resp)
                   if (Object.keys(resp[0]).length > 0) {
-                    resolve([resp[0].PadreId.Nombre, resp[0].HijaId.Nombre]);
+                    if (resp[0].Padre && resp[0].Hija) {
+                      resolve([resp[0].Padre.Nombre, resp[0].Hija.Nombre]);
+                    } else {
+                      reject("Problemas de formato en la facultad");
+                    }
                   } else {
                     reject("Facultad no encontrada");
                   }
@@ -631,6 +584,52 @@ export class ListService {
         });
   }
 
+  /**
+   *Actualiza una solicitud Apoyo Alimentario
+   *
+   * @param {number} idTercero
+   * @param {Solicitud} solicitud
+   * @memberof ListService
+   */
+  editarSolicitudApoyoAlimentario(idTercero: number, solicitud: Solicitud) {
+    Swal.fire({
+      title: "Espere",
+      html: `Se esta procesando su solicitud`,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+    Swal.showLoading();
+    this.solicitudService.put('solicitud', JSON.stringify(solicitud), solicitud.Id)
+      .subscribe(res => {
+        solicitud.Id = res['Data']['Id'];
+        /* No se si funciona */
+        this.crearEvolucionEstado(idTercero, solicitud, null);
+
+        this.loadTiposObservacion(1).then((resp) => {
+          /*  Agregar observacion*/
+
+          let observacionObj = new Observacion();
+          observacionObj.SolicitudId = solicitud;
+          observacionObj.TerceroId = idTercero;
+          observacionObj.Titulo = "Solicitud Actualizada";
+          observacionObj.Valor = "Se editaron los datos de la solicitud para apoyo alimentario con estado Radicada";
+          observacionObj.TipoObservacionId = resp['Data'][0];
+          this.crearObservacion(observacionObj).then((resp) => {
+
+            //window.location.reload();
+            Swal.close();
+            this.utilsService.showSwAlertSuccess("Edición de Solicitud procesada ", " Se estan actualizando los documentos.");
+            /** Disparador para cargar documentos del solicitante */
+            this.disparadorDeDocumentos.emit({
+              data: "carga",
+              newSol: solicitud
+            });
+
+          }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
+        }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
+
+      });
+  }
 
   /**
    *Busca solicitudes relacionadas a apoyo alimentario
@@ -704,6 +703,8 @@ export class ListService {
       this.solicitudService.get(`solicitud?query=Id:${idSolicitud}`)
         .subscribe(
           (result: any[]) => {
+            console.log(result);
+            console.log(result[0]);
             if (Object.keys(result[0]).length > 0) {
               resolve(result[0]);
             }
@@ -930,7 +931,7 @@ export class ListService {
 
   findSoportePaqueteByIdPaquete(idPaquete: number): Promise<SoportePaquete> {
     return new Promise((resolve, reject) => {
-      this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}`)
+      this.solicitudService.get(`soporte_paquete?query=PaqueteId.Id:${idPaquete}&limit=-1`)
         .subscribe(res => {
           if (res['Data'][0] == {}) {
             resolve(undefined);
@@ -1138,15 +1139,15 @@ export class ListService {
             resolve(userRol);
           }, (err) => reject(err)
         )
-      }else{
-        var err={
+      } else {
+        var err = {
           status: 412,
           msj: "No se encontro el correo"
         }
         reject(err)
 
       }
-      
+
     });
   }
 }

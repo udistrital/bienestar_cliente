@@ -61,6 +61,7 @@ export class SolicitudTerceroComponent implements OnInit {
             //usuarioWSO2 = "" javiermartinez25//9798 / 20152072116
             // pruebaInscripcion7//9787 //
             //pruebaInscripcion5//9788  // 20172010086
+            respUser.Codigo="20172010086"
             this.listService.loadTerceroByDocumento(respUser.Codigo).then((respTecero) => {
                 this.tercero = respTecero;
                 if (this.tercero !== undefined) {
@@ -144,6 +145,12 @@ export class SolicitudTerceroComponent implements OnInit {
             }).catch((errObs) => this.showError("Observación no encontrada", errObs));
         }).catch((errorSol) => this.showError("Solicitud no encontrada", errorSol));
     }
+
+    editarSolicitud(i: number) {
+        console.log("Edit");
+        this.creando=true;
+    }
+    
 
     nuevaSolicitud() {
         this.creando=true;
