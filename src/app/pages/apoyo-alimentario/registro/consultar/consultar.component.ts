@@ -24,7 +24,7 @@ export class ConsultarComponent implements OnInit {
   fechaRegistro: string = null;
   itemOffSet: number = 0;
   limite: number = 10;
-  itemsLim: number[] = [1,3, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
+  itemsLim: number[] = [5, 10, 25, 50, 100, 250, 500, 1000, 2500];
   pagina: number = 1;
   hasNext: boolean = true
 
@@ -98,26 +98,6 @@ export class ConsultarComponent implements OnInit {
 
   buscarRegistros(terceroId: number, offset: number){
     this.buscarRegistrosEntreFechas("2021-06-28",this.fechaRegistro,terceroId,offset);
-    /* 
-      
-    this.listService.consutarRegitroApoyo(terceroId, null, this.sede, this.periodo, this.fechaRegistro, true, this.limite, offset ).then((result) => {
-      if (result.length>0) {
-        this.registros = result;
-        if(this.registros.length<this.limite){
-          this.hasNext=false;
-        }
-      } else {              
-        if(this.pagina>1){
-          this.pagina-=1;
-          this.hasNext=false;
-        }else{
-          this.utilService.showSwAlertError("Sin resultados", "No se encontraron registros con los parametos seleccionados")
-        }
-      }
-    }).catch((err) => {
-      console.log("Volvio por error:c");
-      this.utilService.showSwAlertError("Error al consultar", err)
-    }); */
   }
 
   buscarRegistrosEntreFechas(fecha_inicial,fecha_fin, terceroId: number, offset: number){
@@ -205,6 +185,7 @@ export class ConsultarComponent implements OnInit {
             if (result.length>0) {
               console.log("encontro algo en ",fecha);
               for (const res of result) {
+                res.fecha_creacion= this.utilService.UTCtoGTM(res.fecha_creacion);
                 this.registros.push(res);
               }
               console.log("TAMAÑO result ",this.registros.length);
@@ -315,8 +296,6 @@ export class ConsultarComponent implements OnInit {
         }).then((result)=>{
           if(result.isConfirmed){
             this.router.navigate([`../../inscripciones/solicitudes/${solicitudId}`], { relativeTo: this.route });
-            /* this.router.navigateByUrl('/asd/'); */
-            
           }
         });
       } else {

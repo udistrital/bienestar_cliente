@@ -89,6 +89,11 @@ export class CrearSolicitudComponent implements OnInit {
     }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));    
   }
 
+  /**
+   *Carga la informacion complementaria de un estudiante
+   *
+   * @memberof CrearSolicitudComponent
+   */
   loadInfoComp(){
     this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
       console.log("Entro info");
@@ -100,6 +105,11 @@ export class CrearSolicitudComponent implements OnInit {
     });
   }
 
+  /**
+   *Carga una solicitud ya existente de un estudiante en el periodo
+   *
+   * @memberof CrearSolicitudComponent
+   */
   loadSolicitud(){
     this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null).then(
       (resp) => {
@@ -110,7 +120,13 @@ export class CrearSolicitudComponent implements OnInit {
   ).catch((error) => console.error(error));
   }
 
-   /* Clasifica la informacion de listInfoComplementaria */
+   
+  /**
+   *Clasificamos la informacion complementaria
+   *
+   * @return {*}  {Promise<any>}
+   * @memberof CrearSolicitudComponent
+   */
   loadEstudiante(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.estudiante.Nombre = this.tercero.NombreCompleto;
@@ -197,7 +213,12 @@ export class CrearSolicitudComponent implements OnInit {
     });
   }
 
-  /* Clasifica la informacion socieconomica del estudiante */
+  /**
+   *Clasifica la informacion socioeconomica de un estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionSocioEconomica(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
@@ -250,7 +271,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Clasifica la informacion correspondiente a apoyo alimentario del estudiante */
+  /**
+   *Guarda la informacion complementaria de une estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionApoyoAlimentario(infComp: InfoComplementariaTercero) {
     this.infoComeplementariaPut.push(infComp.InfoComplementariaId.Id);
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
@@ -354,7 +380,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Clasifica informacion de basica */
+  /**
+   *Clasifica la informacion basica de un estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionBasica(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
@@ -413,7 +444,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Clasifica informacion de contacto */
+  /**
+    *Clasifica informacion de contacto de un estudiante
+   *
+   * @param {InfoComplementariaTercero} infComp
+   * @memberof CrearSolicitudComponent
+   */
   agregarInformacionContacto(infComp: InfoComplementariaTercero) {
     const nombreInfComp = infComp.InfoComplementariaId.Nombre;
     switch (nombreInfComp) {
@@ -465,7 +501,12 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
-  /* Carga los datos a estudiante y crea los formularios reactivos */
+  /**
+   *Carga los datos a estudiante y crea los formularios reactivos
+   *
+   * @private
+   * @memberof CrearSolicitudComponent
+   */
   private inicializarFormularios() {
     this.loadEstudiante()
       .then(() => {
@@ -707,6 +748,13 @@ export class CrearSolicitudComponent implements OnInit {
       });
   }
 
+  /**
+   *Muestra sweetAlert de error
+   *
+   * @param {string} titulo
+   * @param {*} msj
+   * @memberof CrearSolicitudComponent
+   */
   showError(titulo: string, msj: any) {
     this.loadData = false;
     Swal.close();
@@ -714,6 +762,12 @@ export class CrearSolicitudComponent implements OnInit {
   }
 
 
+  /**
+   *Confirma la creacion de la solicitud y la crea
+   *
+   * @return {*} 
+   * @memberof CrearSolicitudComponent
+   */
   registrar() {
     let msj;
     if(!this.extraSolicitud){
@@ -758,7 +812,14 @@ export class CrearSolicitudComponent implements OnInit {
       });
     return false;
   }
-  //Revisar caso de mayor tiempo de ejecución.
+  
+
+  /**
+   *Calcula el puntaje de la solicitud
+   *
+   * @return {*}  {number}
+   * @memberof CrearSolicitudComponent
+   */
   calcularPuntaje(): number {
 
     let puntajeSol=0;
@@ -877,6 +938,13 @@ export class CrearSolicitudComponent implements OnInit {
     return puntajeSol;
   }
 
+
+  /**
+   *
+   *
+   * @param {*} validCarga
+   * @memberof CrearSolicitudComponent
+   */
   cargarDocumentos(validCarga) {
     delay(10000);
     if(validCarga){
@@ -888,9 +956,13 @@ export class CrearSolicitudComponent implements OnInit {
     }
   }
 
+  /**
+   *Se actualizara la información requerida que cambia constantemente para la solciitud de apoyo
+   *
+   * @memberof CrearSolicitudComponent
+   */
   actualizarInfoEstudiante() {
 
-    /** Se actualizara la información requerida que cambia constantemente para la solciitud de apoyo */
     if (this.validacionesForm()) {
       this.buscarInfoComplemetaria("ANTIGUEDAD_PROGRAMA", this.registro.get('programa').value);
 
@@ -931,9 +1003,16 @@ export class CrearSolicitudComponent implements OnInit {
 
   }
 
+  /**
+   * Se busca si existe información complementaria en la información obtenida al cargar el solicitante
+   *
+   * @param {string} nombreInfoComp
+   * @param {*} valor
+   * @return {*} 
+   * @memberof CrearSolicitudComponent
+   */
   buscarInfoComplemetaria(nombreInfoComp: string, valor: any) {
 
-    /** Se busca si eciste información complementaria en la información obtenida al cargar el solicitante */
     for (const infoComp of this.listInfoComplementaria) {
       /** Si existe, se procede a examinar y actualziar el dato */
       if (infoComp.InfoComplementariaId.Nombre == nombreInfoComp) {
@@ -985,9 +1064,7 @@ export class CrearSolicitudComponent implements OnInit {
   async save() {
   
     const isValidTerm = await this.utilService.termsAndConditional();
-
     if (isValidTerm) {
-      //***************************************************** */
       if (this.validacionesForm()) {
         this.listService.disparadorDeDocumentos.emit({
           data:"validar"

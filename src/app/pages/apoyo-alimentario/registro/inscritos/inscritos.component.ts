@@ -241,17 +241,10 @@ export class InscritosComponent implements OnInit {
                 resolve(`Registro #${res.Data._id}`);
               }, (error) => reject(error));
           } else {
-            let fechaReg=`${regAnt[0].fecha_creacion.split('T')[1].split('.')[0]} del ${regAnt[0].fecha_creacion.split('T')[0]} `;
-            reject(`ya uso el servicio a las ${fechaReg}`)
-            /* if (regAnt[0].fecha_creacion.split('T')[0] == apoyoAlimentario.fecha_creacion.split(' ')[0]) {
-              
-            }  */
-            /* else {
-              this.apoyoAlimentarioService.post('apoyo_alimentario', apoyoAlimentario)
-                .subscribe(res => {
-                  resolve(`Registro #${res.Data._id}`);
-                }, (error) => reject(error));
-            } */
+            
+            //let fechaReg=`${regAnt[0].fecha_creacion.split('T')[1].split('.')[0]} del ${regAnt[0].fecha_creacion.split('T')[0]} `;
+            reject(`ya uso el servicio a las ${this.utilsService.UTCtoGTM(regAnt[0].fecha_creacion)}`)
+
           }
         })
       

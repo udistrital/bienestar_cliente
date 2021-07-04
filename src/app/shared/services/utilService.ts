@@ -11,6 +11,16 @@ import { DatePipe } from '@angular/common';
 })
 export class UtilService {
 
+
+  UTCtoGTM(fecha_creacion: string) {
+    var date = new Date(fecha_creacion);
+    var dateLocal=date.toString()
+    var dateLocalSp= dateLocal.split(" ");
+    var format = "";
+    format=dateLocalSp[4] +" del " + dateLocalSp[2] +" " + dateLocalSp[1] +" " + dateLocalSp[3];
+    return format            
+  }
+
     constructor(
         private toastrService: NbToastrService,
         private translate: TranslateService,

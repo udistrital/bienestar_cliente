@@ -86,6 +86,14 @@ export class FallasJustificadasComponent implements OnInit {
 
   }
 
+
+  /**
+   *Crea una observacion de tipo justificacion
+   *
+   * @param {*} fecha
+   * @param {*} justificacion
+   * @memberof FallasJustificadasComponent
+   */
   agregarJustificacion(fecha, justificacion) {
 
     if (justificacion != "" && fecha != null) {
@@ -124,8 +132,6 @@ export class FallasJustificadasComponent implements OnInit {
     } else {
       this.addFalla = false;
     }
-
-
   }
 
 

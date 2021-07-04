@@ -17,7 +17,6 @@ export class PeriodosComponent implements OnInit {
   estadoPeriodo: String[][] = [];
   parametros: ParametroPeriodo[] = [];
 
-
   constructor(
     private listService: ListService,
     private utilService: UtilService,

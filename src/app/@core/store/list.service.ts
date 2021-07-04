@@ -73,7 +73,6 @@ export class ListService {
 
   consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, fechaRegistro: string, activo: boolean, limite: number, offset: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
-      console.log(fechaRegistro);
 
       let queryArr = []
       if (terceroId != null) {
@@ -108,13 +107,11 @@ export class ListService {
           }
         }
       }
-      console.log(query);
 
 
       this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=_id&order=desc${limite != null && limite > 0 ? `&limit=${limite}` : ''}${offset != null ? `&offset=${offset}` : ''}`)
         .subscribe(
           (result: any[]) => {
-            console.log(result);
             resolve(result['Data'])
           },
           error => {
@@ -122,108 +119,6 @@ export class ListService {
           },
         );
     });
-  }
-
-  consultarRegistroDiarioEntre(fecha_inicial: string, fecha_fin: string, terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean): Promise<ApoyoAlimentario[]> {
-    return new Promise((resolve, reject) => {
-      let fecha_incialSp: string[]   =fecha_inicial.split("-");
-      let fecha_finalSp: string[]   =fecha_fin.split("-");
-      let fechas: string[] = [];
-      let registros: ApoyoAlimentario[] = [];
-      let errorOut;
-
-      let fecha_inicial_dia :number;
-      let fecha_inicial_mes :number;
-      let fecha_inicial_anio :number;
-
-      let fecha_final_dia :number;
-      let fecha_final_mes :number;
-      let fecha_final_anio :number;
-      
-      if(fecha_incialSp.length!=3){
-        reject("Fecha inicial en formato erroneo");
-      }
-      if(fecha_finalSp.length!=3){
-        reject("Fecha final en formato erroneo");
-      }
-      
-      try {
-        fechas.push(fecha_inicial);
-
-        fecha_inicial_anio= +fecha_incialSp[0];
-        fecha_inicial_mes= +fecha_incialSp[1];
-        fecha_inicial_dia= +fecha_incialSp[2];
-
-        fecha_final_anio= +fecha_finalSp[0];
-        fecha_final_mes= +fecha_finalSp[1];
-        fecha_final_dia= +fecha_finalSp[2];
-         
-      } catch (error) {
-        reject("Error en el formato de las fechas")
-
-      } finally {
-        if(fecha_final_anio<fecha_inicial_anio){
-          reject("El año final es menor")
-        }
-        if(fecha_final_anio==fecha_inicial_anio){
-          if(fecha_final_mes<fecha_inicial_mes){
-            reject("El mes final es menor")
-          }
-        }
-        if(fecha_final_mes==fecha_inicial_mes){
-          if(fecha_final_dia<fecha_inicial_dia){
-            reject("El dia final es menor")
-          }
-        }
-        let mes = fecha_inicial_mes;
-        let dia = fecha_inicial_dia;
-        let anio = fecha_inicial_anio;
-        let continua: boolean =true;
-
-        console.log("va a entrar");
-                
-        while (continua){
-          //let fecha=anio+"-"+mes+"-"+dia;
-          let fecha=anio+"-";
-          fecha += (mes<10 ? "0" : "") + mes +"-";
-          fecha += (dia<10 ? "0" : "") + dia;
-                    
-          console.log(fecha);
-          fechas.push(fecha);
-          dia++;
-          if(dia>31){
-            dia=1;
-            mes++;
-          }
-          if(mes>12){
-            mes=1;
-            anio++;
-          }
-          if(anio>=fecha_final_anio){
-            if(mes>=fecha_final_mes){
-              if(dia>fecha_final_dia){
-                continua=false;
-                console.log("ya no continua");
-                //resolve(registros);
-              }
-            }
-          }
-          this.consutarRegitroApoyo(terceroId, solicitudId, espacioFisicoId, periodoId, fecha, activo, null, null).then((result) => {
-            if (result.length > 0) {
-              for (const res of result) {
-                registros.push(res);
-              }
-              if(!continua){
-                console.log("Ya va a volver");
-                
-                resolve(registros);
-              }
-            }
-          }).catch((err) => errorOut = err);
-        }
-      }
-    });
-
   }
 
   /* *******TERCEROS SERVICE**************  */
