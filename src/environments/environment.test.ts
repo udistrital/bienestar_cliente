@@ -56,5 +56,4 @@ export const environment = {
         SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
         SIGN_OUT_REDIRECT_URL: 'https://pruebasbienestar.portaloas.udistrital.edu.co',
    },
-
 };
