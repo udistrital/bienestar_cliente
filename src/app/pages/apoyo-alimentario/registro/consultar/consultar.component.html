@@ -41,13 +41,14 @@
                 </button>
             </mat-form-field>
 
-            <!-- Cambiar por un mejor input :v -->
-            <mat-form-field class="fechaRegistro">
-                <mat-label>Fecha registro</mat-label>
-                <input matInput type="date" placeholder="Fecha registro" [(ngModel)]="fechaRegistro">
-                <button mat-button *ngIf="fechaRegistro" matSuffix mat-icon-button aria-label="Limpiar" (click)="fechaRegistro=null">
-                    <mat-icon>close</mat-icon>
-                </button>
+            <mat-form-field class="fechaInicio">
+                <mat-label>Rango de fechas: Inicio</mat-label>
+                <input matInput type="date" placeholder="Fecha inicio" [(ngModel)]="fechaRegistroInicio">
+            </mat-form-field>
+
+            <mat-form-field class="fechaFin">
+                <mat-label>Rango de fechas: Fin</mat-label>
+                <input matInput type="date" placeholder="Fecha fin" [(ngModel)]="fechaRegistroFin">
             </mat-form-field>
 
             <mat-form-field class="page">
@@ -76,7 +77,7 @@
     </nb-card-body>
 
     <nb-card-body *ngIf="registros.length>0">
- 
+
         <table class="table">
             <thead class="bg-ud-table">
                 <tr>

@@ -21,7 +21,8 @@ export class ConsultarComponent implements OnInit {
   sedesAcceso: any[];
   sede: number = null;
   codigoEstudiante: number = undefined;
-  fechaRegistro: string = null;
+  fechaRegistroInicio: string = null;
+  fechaRegistroFin: string = null;
   itemOffSet: number = 0;
   limite: number = 10;
   itemsLim: number[] = [5, 10, 25, 50, 100, 250, 500, 1000, 2500];
@@ -54,6 +55,25 @@ export class ConsultarComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    /** Se inicializa rango de fechas */
+    let fechaTemp= new Date(Date.now());
+    let initFecha="";
+    initFecha+=fechaTemp.getFullYear()+"-";
+    let mesTemp=fechaTemp.getMonth()+1;
+    let diaTemp=fechaTemp.getDate();
+    if(mesTemp<10){
+      initFecha+="0"+mesTemp+"-";
+    }else{
+      initFecha+=mesTemp+"-";
+    }
+    if(diaTemp<10){
+      initFecha+="0"+diaTemp;
+    }else{
+      initFecha+=diaTemp;
+    }
+    this.fechaRegistroInicio=initFecha;
+    this.fechaRegistroFin=initFecha;
   }
 
   /**
@@ -63,6 +83,8 @@ export class ConsultarComponent implements OnInit {
    * @memberof ConsultarComponent
    */
   buscar(numPg) {
+    console.log(numPg);
+    console.log(this.pagina);
     if(numPg<this.pagina || numPg==1){
       this.hasNext=true;
     }
@@ -97,7 +119,7 @@ export class ConsultarComponent implements OnInit {
   }
 
   buscarRegistros(terceroId: number, offset: number){
-    this.buscarRegistrosEntreFechas("2021-06-28",this.fechaRegistro,terceroId,offset);
+    this.buscarRegistrosEntreFechas(this.fechaRegistroInicio,this.fechaRegistroFin,terceroId,offset);
   }
 
   buscarRegistrosEntreFechas(fecha_inicial,fecha_fin, terceroId: number, offset: number){
