@@ -14,7 +14,7 @@ export const environment = {
 },
 CLIENTE_APOYO: 'apoyo-alimentario',
 CLIENTE_SALUD: 'citas',
-APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/apoyo_alimentario_mongo_crud/v1/",
+APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/apoyo_alimentario_mongo_crud/",
 //APOYO_ALIMENTARIO: "http://localhost:8080/",
 ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
 AUTENTICACION_MID: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/',

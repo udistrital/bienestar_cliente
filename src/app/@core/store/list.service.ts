@@ -32,6 +32,7 @@ import { DocumentoService } from '../data/documento.service';
 import Swal from 'sweetalert2';
 import { AutenticacionMidService } from '../data/autenticacion_mid.service';
 import { UserRol } from '../data/models/userRol';
+import { range } from 'rxjs';
 
 
 @Injectable()
@@ -56,66 +57,6 @@ export class ListService {
 
   /*  ****APOYO ALIMENTARIO SERVICE ********** */
 
-  /**
-   *Busca los registros de apoyo alimentario
-   *
-   * @return {*}  {Promise<ApoyoAlimentario[]>}
-   * @memberof ListService
-   */
-  findApoyoAlimentario(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, limite: number, offSet: number): Promise<ApoyoAlimentario[]> {
-    return new Promise((resolve, reject) => {
-      let url = "apoyo_alimentario"
-      let filtros = "";
-
-      if (terceroId != null) {
-        filtros += "terceroId:" + terceroId
-      }
-      if (solicitudId != null) {
-        if (filtros != "") {
-          filtros += ","
-        }
-        filtros += "solicitudId:" + solicitudId
-      }
-      if (espacioFisicoId != null) {
-        if (filtros != "") {
-          filtros += ","
-        }
-        filtros += "espacioFisicoId:" + espacioFisicoId
-      }
-      if (periodoId != null) {
-        if (filtros != "") {
-          filtros += ","
-        }
-        filtros += "periodoId:" + periodoId
-      }
-      if (filtros != "") {
-        url += "?query="
-        url += filtros
-        url += "&"
-      } else {
-        url += "?"
-      }
-      url += "sortby=id&order=desc"
-      if (limite > 0 || limite == -1) {
-        url += "&limit=" + limite;
-      }
-      if (offSet != null && offSet > 0) {
-        url += "&offset=" + offSet;
-      }
-
-      this.apoyoAlimentarioService.get(url)
-        .subscribe(
-          (result: any[]) => {
-            resolve(result['Data'])
-          },
-          error => {
-            reject(error);
-          },
-        );
-
-
-    });
-  }
 
   /**
    *Consulta los registro de apoyo alimentario con algunos parametros opcionales
@@ -130,8 +71,9 @@ export class ListService {
    * @memberof ListService
    */
 
-  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, activo: boolean, limite: number, offset: number): Promise<ApoyoAlimentario[]> {
+  consutarRegitroApoyo(terceroId: number, solicitudId: number, espacioFisicoId: number, periodoId: number, fechaRegistro: string, activo: boolean, limite: number, offset: number): Promise<ApoyoAlimentario[]> {
     return new Promise((resolve, reject) => {
+
       let queryArr = []
       if (terceroId != null) {
         queryArr.push(`terceroId:${terceroId}`)
@@ -148,6 +90,12 @@ export class ListService {
       if (activo != null) {
         queryArr.push(`activo:${activo}`)
       }
+      if (fechaRegistro != null) {
+        if (fechaRegistro != "") {
+          queryArr.push(`fechaRegistro:${fechaRegistro}`)
+        }
+      }
+
       let query = "";
 
       if (queryArr.length > 0) {
@@ -159,11 +107,11 @@ export class ListService {
           }
         }
       }
-  
-      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=_id&order=desc${limite != null ? `&limit=${limite}` : ''}${offset != null ? `&offset=${offset}` : ''}`)
+
+
+      this.apoyoAlimentarioService.get(`apoyo_alimentario${query}${(query != "" ? "&" : "?")}sortby=_id&order=desc${limite != null && limite > 0 ? `&limit=${limite}` : ''}${offset != null ? `&offset=${offset}` : ''}`)
         .subscribe(
           (result: any[]) => {
-            console.log(result);
             resolve(result['Data'])
           },
           error => {
@@ -316,9 +264,9 @@ export class ListService {
                 .subscribe((resp) => {
                   console.log(resp)
                   if (Object.keys(resp[0]).length > 0) {
-                    if(resp[0].Padre && resp[0].Hija){
+                    if (resp[0].Padre && resp[0].Hija) {
                       resolve([resp[0].Padre.Nombre, resp[0].Hija.Nombre]);
-                    }else{
+                    } else {
                       reject("Problemas de formato en la facultad");
                     }
                   } else {
@@ -643,7 +591,7 @@ export class ListService {
    * @param {Solicitud} solicitud
    * @memberof ListService
    */
-   editarSolicitudApoyoAlimentario(idTercero: number, solicitud: Solicitud) {
+  editarSolicitudApoyoAlimentario(idTercero: number, solicitud: Solicitud) {
     Swal.fire({
       title: "Espere",
       html: `Se esta procesando su solicitud`,
@@ -651,7 +599,7 @@ export class ListService {
       showConfirmButton: false,
     });
     Swal.showLoading();
-    this.solicitudService.put('solicitud', JSON.stringify(solicitud),solicitud.Id)
+    this.solicitudService.put('solicitud', JSON.stringify(solicitud), solicitud.Id)
       .subscribe(res => {
         solicitud.Id = res['Data']['Id'];
         /* No se si funciona */
@@ -1191,15 +1139,15 @@ export class ListService {
             resolve(userRol);
           }, (err) => reject(err)
         )
-      }else{
-        var err={
+      } else {
+        var err = {
           status: 412,
           msj: "No se encontro el correo"
         }
         reject(err)
 
       }
-      
+
     });
   }
 }

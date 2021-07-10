@@ -796,12 +796,7 @@
             <mat-hint>El envío de documentos solo puede realizarse una vez.<br> Si usted diligencia nuevamente este formulario adjuntando los documentos solo se tendrá en cuenta el primer envío, se realizará la validación y dará respuesta únicamente basándose en
                 el primer diligenciamiento.
                 <br> Si está seguro(a) de enviar los documentos presione el botón enviar.<br>
-
                 <p class="line"></p>
-                <!-- Cambiar por save() -->
-                <!-- Cambiar por actualizarInfoEstudiante() -->
-                <!-- Cambiar por cargarDocumentos() -->
-
                 <div *ngIf="solicitud==null" class="form-group">
                     <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
                         <i class="fas fa-save mr-1"></i>
