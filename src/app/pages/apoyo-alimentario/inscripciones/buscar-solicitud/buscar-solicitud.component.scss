@@ -36,6 +36,12 @@
     }
 }
 
+@media (max-width: 750px) {
+    .fijo {
+        margin-right: 12px;
+    }
+}
+
 @media (max-width: 575px) {
     .input-group-prepend,
     .form-control input select {

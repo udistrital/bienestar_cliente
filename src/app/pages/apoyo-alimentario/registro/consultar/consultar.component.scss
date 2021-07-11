@@ -72,6 +72,10 @@
     width: 90%;
 }
 
+.pagination-reg {
+    width: 100%;
+}
+
 @media (max-width: 950px) {
     .contain {
         grid-template-columns: repeat(4, 1fr);
@@ -111,6 +115,15 @@
         grid-column: span 4;
         grid-row: 4;
         width: 80%;
+    }
+}
+
+@media (max-width: 825px) {
+    .fijo {
+        margin-right: 12px;
+    }
+    .pagination-reg {
+        width: 675px;
     }
 }
 

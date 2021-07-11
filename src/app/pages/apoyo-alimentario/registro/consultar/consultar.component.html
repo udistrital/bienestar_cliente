@@ -82,7 +82,7 @@
         </button>
     </nb-card-body>
 
-    <nb-card-body *ngIf="registros.length>0">
+    <nb-card-body class="fijo" *ngIf="registros.length>0">
 
         <table class="table">
             <thead class="bg-ud-table">
@@ -119,7 +119,7 @@
             </tbody>
         </table>
         <hr>
-        <div *ngIf="this.limite>0" style="width: 100%;" class="d-flex justify-content-around">
+        <div *ngIf="this.limite>0" class="d-flex justify-content-around pagination-reg">
             <button [disabled]="pagina<=1" title="Anterior" mat-mini-fab color="basic" aria-label="Anterior" (click)="buscar(pagina-1)">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
             </button>
