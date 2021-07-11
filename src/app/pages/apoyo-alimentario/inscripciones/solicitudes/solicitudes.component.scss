@@ -29,7 +29,7 @@
 }
 
 nb-card {
-    min-width: 75vh;
+    min-width: 75vw;
 }
 
 .contain {
@@ -40,7 +40,7 @@ nb-card {
     flex-direction: row-reverse;
     justify-content: space-evenly;
     align-content: center;
-    min-width: 75vh;
+    min-width: 75vw;
 }
 
 .contain .periodo {
@@ -96,7 +96,7 @@ nb-card {
     grid-template-columns: 1fr;
     justify-content: center;
     text-align: center;
-    min-width: 70vh;
+    min-width: 705px;
 }
 
 .download .btn {
@@ -104,11 +104,21 @@ nb-card {
     grid-column: span 1;
 }
 
+.table-pag {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+}
+
+.fijo {
+    margin-right: 12px;
+}
+
 @media (max-width: 800px) {
     .contain {
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        min-width: 65vh;
+        min-width: 65vw;
     }
     .contain .periodo {
         grid-column: span 2;
@@ -133,6 +143,36 @@ nb-card {
     .contain .finalizada {
         grid-column: span 2;
         grid-row: 3;
+    }
+    .download {
+        min-width: 705px;
+    }
+    .table-pag {
+        width: 705px;
+    }
+    .table-pag .page {
+        width: 50%;
+    }
+}
+
+@media (max-width: 500px) {
+    .contain .periodo {
+        width: 80%;
+    }
+    .contain .btn {
+        width: 80%;
+    }
+    .contain .estado {
+        width: 80%;
+    }
+    .contain .page {
+        width: 80%;
+    }
+    .contain .offset {
+        width: 80%;
+    }
+    .contain .finalizada {
+        width: 80%;
     }
 }
 

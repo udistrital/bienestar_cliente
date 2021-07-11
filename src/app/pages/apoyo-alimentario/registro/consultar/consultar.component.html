@@ -104,7 +104,7 @@
                     <td>{{ getNombrePeriodo(item.periodoId) }}</td>
                     <td>{{ getSedeAccesso(item.espacioFisicoId) }}</td>
                     <td>{{ item.usuarioAdministrador }}</td>
-                    <td>{{ item.fecha_creacion }}</td>
+                    <td>{{ item.fecha_creacion | date:'short':'UTC -5' }}</td>
                     <td>
                         <div class="example-button-row">
                             <button title="Ver estudiante" mat-mini-fab color="accent" aria-label="Ver estudiante" (click)="verEstudiante(i)">

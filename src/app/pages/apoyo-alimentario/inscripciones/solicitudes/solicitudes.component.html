@@ -76,8 +76,8 @@
         </button>
     </nb-card-body>
 
-    <nb-card-body *ngIf="solicitudesExt.length>0">
-        <div class="text-center">
+    <nb-card-body class="fijo" *ngIf="solicitudesExt.length>0">
+        <div class="text-center table-pag">
             <mat-form-field class="page justify-content-center text-center">
                 <mat-label class="text-center">Tamaño de Tabla</mat-label>
                 <select matNativeControl [(ngModel)]="paginacion">
@@ -128,7 +128,7 @@
             </pagination-controls>
         </div>
         <div class="download">
-            <button (click)="exportarCsv()" class="btn btn-primary">
+            <button (click)="exportarCsv()" class="btn btn-primary btn-block">
                 <i class="fa fa-download mr-1"></i>
                 Descargar solicitudes
             </button>

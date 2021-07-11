@@ -14,9 +14,41 @@ a:visited {
     text-decoration: underline !important;
 }
 
+.docs {
+    width: 80%;
+}
+
+.iframe-container {
+    overflow: hidden;
+    padding-top: 56.25%;
+    /* 16:9*/
+    position: relative;
+}
+
+.iframe-container iframe {
+    border: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
 .line {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border-top: 1;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 700px) {
+    .docs {
+        width: 90%;
+    }
+}
+
+@media (max-width: 500px) {
+    .docs {
+        width: 100%;
+    }
 }
