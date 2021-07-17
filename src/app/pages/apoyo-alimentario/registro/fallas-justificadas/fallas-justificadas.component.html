@@ -67,10 +67,6 @@
 
     <nb-card-body *ngIf="tercero!=undefined && !addFalla">
 
-        <!-- <button class="btn btn-danger btn-block mb-3" (click)="borrarBusqueda()">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            Regresar
-        </button> -->
         <div class="menu-list">
             <div class="item " style="font-size:1.25rem;">
                 <!-- form-group  -->
@@ -80,14 +76,9 @@
                 <label ng-readonly="!nueva" class="sub-item ">
                     {{ tercero.NombreCompleto }}
                 </label>
-                <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
             </div>
         </div>
         <hr>
-        <!-- Solicitante
-            Tercero
-            Justificaciones
-        -->
         <div class="container">
             <div *ngIf="justificaciones.length>0" class="timeline">
                 <div *ngFor="let jus of justificaciones" class="timeline__group">

@@ -153,8 +153,6 @@ export class ConsultarComponent implements OnInit {
         
       }
     } else {
-      console.log(numPg);
-      console.log(this.pagina);
       if (numPg < this.pagina || numPg == 1) {
         this.hasNext = true;
       }
@@ -211,7 +209,7 @@ export class ConsultarComponent implements OnInit {
       } else {
         this.utilService.showSwAlertError("Sin resultados", "No se encontraron resultados con los parametros indicados");
       }
-    }).catch((err) => console.log(err));
+    }).catch((err) => console.error(err));
   }
 
 
@@ -274,7 +272,6 @@ export class ConsultarComponent implements OnInit {
       let continua: boolean = true;
       this.registros = [];
 
-      console.log("va a entrar");
       while (continua) {
         let fecha = anio + "-";
         fecha += (mes < 10 ? "0" : "") + mes + "-";
@@ -292,24 +289,21 @@ export class ConsultarComponent implements OnInit {
           if (mes >= fecha_final_mes) {
             if (dia > fecha_final_dia) {
               continua = false;
-              console.log("ya no continua");
             }
           }
         }
         this.listService.consutarRegitroApoyo(terceroId, null, this.sede, this.periodo, fecha, true, this.limite, offset).then((result) => {
           if (result.length > 0) {
-            console.log("encontro algo en ", fecha);
             for (const res of result) {
               res.fecha_creacion = this.utilService.UTCtoGTM(res.fecha_creacion);
               this.registros.push(res);
             }
-            console.log("TAMAÑO result ", this.registros.length);
           } else {
             if (!continua && this.registros.length == 0 && fecha == fecha_fin) {
               this.utilService.showSwAlertError("Sin resultados", "No se encontraron resultados con los parametros indicados");
             }
           }
-        }).catch((err) => console.log(err));
+        }).catch((err) => console.error(err));
       }
     }
 
@@ -393,10 +387,8 @@ export class ConsultarComponent implements OnInit {
    */
   verSolicitud(index) {
     let solicitudId = this.registros[index].solicitudId
-    console.log(solicitudId);
     this.listService.loadSolicitud(solicitudId).then((respSolicitud) => {
       if (respSolicitud != undefined) {
-        console.log(respSolicitud)
         let solicitud = respSolicitud;
         let ref: ReferenciaSolicitud = JSON.parse(solicitud.Referencia);
         Swal.fire({

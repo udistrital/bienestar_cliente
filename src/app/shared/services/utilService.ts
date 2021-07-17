@@ -243,7 +243,6 @@ export class UtilService {
     validDateFormat(dateString, typeTransform?) {
         if(dateString) {
             //return dateString.replace(/\s/, 'T');    
-            console.log(dateString);
             
             let datePipe = new DatePipe('en-US');
             let dateCreated:string="";
@@ -264,7 +263,6 @@ export class UtilService {
             }else if(typeTransform==""){
             return datePipe.transform(dateCreated);
             }else{
-            console.log(datePipe.transform(dateCreated,typeTransform))
             return datePipe.transform(dateCreated,typeTransform);
             }
             

@@ -261,7 +261,6 @@ export class EvaluarSolicitudComponent implements OnInit {
                         this.utilsService.showSwAlertError("Cambio de estado de la solicitud", err);
                     })
                 } else {
-                    //console.log("Se cancela");
                 }
 
             });

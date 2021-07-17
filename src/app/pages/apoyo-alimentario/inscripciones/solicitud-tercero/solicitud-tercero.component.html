@@ -32,7 +32,6 @@
             </thead>
             <tbody class="bg-ud-table-cell">
                 <tr *ngFor="let item of solicitudes; let i = index">
-                    <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
                     <th scope="row">{{ (i+1) }}</th>
                     <td class="word-wrap">{{ tercero?.NombreCompleto }}</td>
                     <td> {{ item.Referencia | slice:12:18 }}</td>

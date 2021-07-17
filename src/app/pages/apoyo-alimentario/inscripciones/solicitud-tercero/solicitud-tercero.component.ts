@@ -149,7 +149,6 @@ export class SolicitudTerceroComponent implements OnInit {
     }
 
     editarSolicitud(i: number) {
-        console.log("Edit");
         this.creando=true;
     }
     

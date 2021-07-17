@@ -79,8 +79,6 @@ export class FallasJustificadasComponent implements OnInit {
     }).catch(
       (error) => {
         this.utilService.showSwAlertError("Estudiante no encontrado", `<p>${error}</p>`);
-        /* Swal.fire("Error",
-          `<p>${error}</p>`, "error"); */
       }
     );
 

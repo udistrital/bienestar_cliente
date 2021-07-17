@@ -262,7 +262,6 @@ export class ListService {
               /* Cargamos facultad y proyecto */
               this.oikosService.get(`dependencia_padre?query=HijaId.Id:${vinculacionDep}`)
                 .subscribe((resp) => {
-                  console.log(resp)
                   if (Object.keys(resp[0]).length > 0) {
                     if (resp[0].Padre && resp[0].Hija) {
                       resolve([resp[0].Padre.Nombre, resp[0].Hija.Nombre]);
@@ -703,8 +702,6 @@ export class ListService {
       this.solicitudService.get(`solicitud?query=Id:${idSolicitud}`)
         .subscribe(
           (result: any[]) => {
-            console.log(result);
-            console.log(result[0]);
             if (Object.keys(result[0]).length > 0) {
               resolve(result[0]);
             }
