@@ -7,7 +7,6 @@
     flex-direction: row-reverse;
     justify-content: space-evenly;
     align-content: center;
-    min-width: 75vh;
 }
 
 .contain .periodo {
@@ -16,6 +15,7 @@
     text-align: center;
     grid-column: span 2;
     grid-row: 1;
+    width: 90%;
 }
 
 .contain .sedes {
@@ -24,6 +24,7 @@
     text-align: center;
     grid-column: span 2;
     grid-row: 1;
+    width: 90%;
 }
 
 .contain .codigo {
@@ -32,49 +33,124 @@
     text-align: center;
     grid-column: span 2;
     grid-row: 1;
+    width: 95%;
+}
+
+.contain .fechaInicio {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 2;
+    grid-row: 2;
+    width: 90%;
+}
+
+.contain .fechaFin {
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    grid-column: span 2;
+    grid-row: 2;
+    width: 90%;
 }
 
 .contain .page {
     justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 2/4;
+    grid-column: span 1;
     grid-row: 2;
+    width: 90%;
 }
 
 .contain .offset {
     justify-self: center;
     align-self: center;
     text-align: center;
-    grid-column: 4/6;
+    grid-column: span 1;
     grid-row: 2;
+    width: 90%;
 }
 
-@media (max-width: 800px) {
+.pagination-reg {
+    width: 100%;
+}
+
+@media (max-width: 950px) {
     .contain {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-        min-width: 65vh;
+        grid-template-rows: repeat(4, 1fr);
     }
     .contain .periodo {
         grid-column: span 2;
         grid-row: 1;
+        width: 80%;
     }
     .contain .sedes {
         grid-column: span 2;
         grid-row: 1;
+        width: 80%;
     }
     .contain .page {
         grid-column: span 2;
         grid-row: 2;
+        width: 80%;
     }
     .contain .offset {
         grid-column: span 2;
         grid-row: 2;
+        width: 80%;
+    }
+    .contain .fechaInicio {
+        grid-column: span 2;
+        grid-row: 3;
+        width: 80%;
+    }
+    .contain .fechaFin {
+        grid-column: span 2;
+        grid-row: 3;
+        width: 80%;
     }
     .contain .codigo {
         grid-column: span 4;
-        grid-row: 3;
+        grid-row: 4;
+        width: 80%;
+    }
+}
+
+@media (max-width: 825px) {
+    .fijo {
+        margin-right: 12px;
+    }
+    .pagination-reg {
+        width: 675px;
+    }
+}
+
+@media (max-width: 500px) {
+    .contain {
+        min-width: 50vw;
+    }
+    .contain .periodo {
+        width: 80%;
+    }
+    .contain .sedes {
+        width: 80%;
+    }
+    .contain .page {
+        width: 80%;
+    }
+    .contain .offset {
+        width: 80%;
+    }
+    .contain .fechaInicio {
+        width: 80%;
+    }
+    .contain .fechaFin {
+        width: 80%;
+    }
+    .contain .codigo {
+        width: 80%;
     }
 }
 

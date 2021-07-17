@@ -41,7 +41,6 @@ export class CrearCitaComponent implements OnInit {
   buscarPaciente() {
     this.estudianteService.getEstudiante(this.crearCita.value.codigo)
       .subscribe((data: any) => {
-        console.log(data);
         var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
         this.nombre = paciente.nombre;
 

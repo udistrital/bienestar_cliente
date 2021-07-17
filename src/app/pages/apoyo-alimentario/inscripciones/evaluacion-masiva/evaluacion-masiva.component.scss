@@ -49,6 +49,10 @@
     margin-left: 0;
 }
 
+.btn-table {
+    min-width: 505px;
+}
+
 @media (max-width: 1040px) {
     .input-group-prepend {
         width: 22%;
@@ -100,6 +104,15 @@
     }
     .large-input {
         margin-left: 9%;
+    }
+}
+
+@media (max-width: 650px) {
+    .fijo {
+        margin-right: 12px;
+    }
+    .btn-table {
+        min-width: 515px;
     }
 }
 

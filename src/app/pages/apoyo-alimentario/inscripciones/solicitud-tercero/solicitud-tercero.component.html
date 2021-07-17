@@ -32,7 +32,6 @@
             </thead>
             <tbody class="bg-ud-table-cell">
                 <tr *ngFor="let item of solicitudes; let i = index">
-                    <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
                     <th scope="row">{{ (i+1) }}</th>
                     <td class="word-wrap">{{ tercero?.NombreCompleto }}</td>
                     <td> {{ item.Referencia | slice:12:18 }}</td>
@@ -43,7 +42,7 @@
                         <span *ngIf="!item.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
                     </td>
                     <td class="align-items-center">
-                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada" class="btn edit-icon btn-sm mb-1" (click)="editarSolicitud(i)" title="Editar solicitud">
+                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada && puedeEditar" class="btn edit-icon btn-sm mb-1" (click)="editarSolicitud(i)" title="Editar solicitud">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                             Editar
                         </button>

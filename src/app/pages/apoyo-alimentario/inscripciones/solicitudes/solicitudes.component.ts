@@ -146,7 +146,6 @@ export class SolicitudesComponent implements OnInit {
           Swal.close();
           this.utilService.showSwAlertError('Solicitudes no encontradas','No se encontro ninguna solicitud con los parametros seleccionados.');
         }else if(this.solicitudesExt.length==0 && this.itemOffSet>0){
-          console.log("no entre?");
           Swal.close();
           this.utilService.showSwAlertError('Solicitudes no encontradas',
           'No se encontro ninguna solicitud con los parametros seleccionados <br> <b> (Puede probar dejando el punto de partida en 0 para comprobar si existen solicitudes).</b>');

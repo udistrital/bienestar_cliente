@@ -40,7 +40,6 @@
                 </nb-accordion-item-header>
 
                 <nb-accordion-item-body *ngIf="tercero!=null">
-                    <!-- <input [disabled]="!nueva" fullWidth nbInput value={{solicitante?.Id}}> -->
                     <div class="menu-list">
                         <div class="item ">
                             <label class="sub-item label-color-ud">
@@ -49,7 +48,6 @@
                             <label class="sub-item field-color-ud">
                                 {{tercero?.Id}}
                             </label>
-                            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
@@ -112,7 +110,6 @@
                             <label ng-readonly="!nueva" class="sub-item field-color-ud">
                                 {{solicitud?.Id}}
                             </label>
-                            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
                         </div>
                         <div class="item">
                             <label class="sub-item label-color-ud">
@@ -189,8 +186,8 @@
                                 <h6 class="sub-item label-color-ud">{{selectDoc[0]}}</h6>
                                 <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
                             </div>
-                            <div class="item" *ngIf="!loading">
-                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" width="640" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <div class="item iframe-container" *ngIf="!loading">
+                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                             </div>
                             <div class="item">
                                 <hr>

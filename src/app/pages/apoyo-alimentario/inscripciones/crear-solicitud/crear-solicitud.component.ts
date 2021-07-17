@@ -67,7 +67,6 @@ export class CrearSolicitudComponent implements OnInit {
    }
 
   ngOnInit() {
-    console.log(this.tercero);
     this.loadSolicitud();
 
     this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
@@ -96,7 +95,6 @@ export class CrearSolicitudComponent implements OnInit {
    */
   loadInfoComp(){
     this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
-      console.log("Entro info");
       this.listInfoComplementaria = respIC;
       this.inicializarFormularios();
     }).catch((errIC) => {
@@ -372,7 +370,6 @@ export class CrearSolicitudComponent implements OnInit {
         if (contServices == this.estudiante.InfoNecesidades.ServiciosPublicos.length) {
           this.oneServicesP = true;
         }
-        //console.log('ServiciosPublicos :>> ', this.estudiante.InfoNecesidades.ServiciosPublicos);
         break;
 
       default:
@@ -791,7 +788,6 @@ export class CrearSolicitudComponent implements OnInit {
           refSol.Periodo = this.periodo.Nombre;
           /** Se calcula el puntaje con base en los datos diligenciados para crear la solicitud. */
           refSol.Puntaje = await this.calcularPuntaje()
-          //console.log("Puntaje -->",refSol.Puntaje);
           Swal.close();
           if (this.solicitud == null) {
             await this.listService.crearSolicitudApoyoAlimentario(
@@ -799,14 +795,12 @@ export class CrearSolicitudComponent implements OnInit {
               refSol
             );
           } else {
-            console.log(this.solicitud.EstadoTipoSolicitudId);
             this.solicitud.Referencia=JSON.stringify(refSol);
             await this.listService.editarSolicitudApoyoAlimentario(
               this.tercero.Id,
               this.solicitud
             );
           }
-          //this.utilService.showSwAlertSuccess("Solicitud creada", "Se cargaron los datos de forma correcta");
           
         }
       });
@@ -913,7 +907,6 @@ export class CrearSolicitudComponent implements OnInit {
     let municipio=this.residencia.get('municipio').value;
     municipio=municipio.toLowerCase();
     puntajeSisben=20;
-    console.log(municipio);
     if(municipio=="bogota" || municipio=="bogotá"){     
       if(puntajeSisben>=0 && puntajeSisben<=54.86 ) {
         condicionesSocioeconomicas+=10;
@@ -924,16 +917,8 @@ export class CrearSolicitudComponent implements OnInit {
       }
     }
 
-    console.log("ingresosFamiliares --> ",ingresosFamiliares);
-    console.log("condicionesFamiliares --> ",condicionesFamiliares);
-    console.log("procedenciaYLugarDeResidencia --> ",procedenciaYLugarDeResidencia);
-    console.log("condicionesDeSalud --> ",condicionesDeSalud);
-    console.log("condicionesSocioeconomicas --> ",condicionesSocioeconomicas);
-
     //Puntaje Total:
     puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+condicionesSocioeconomicas;
-
-    console.log("Tu puntaje es: ",puntajeSol);
 
     return puntajeSol;
   }
@@ -1029,16 +1014,13 @@ export class CrearSolicitudComponent implements OnInit {
               }
             }
             if (cont == 0) {
-              //console.log(`Se actualizo objetos ${nombreInfoComp}`);
               return true;
             }
           }
-          //console.log(`Actualizar ${objDato.value} 4 ${valor}`);
           objDato.value = valor;
           infoComp.Dato = JSON.stringify(objDato);
           this.listService.actualizarInfoComplementaria(infoComp);
         }
-        //console.log(`Se actualizo ${nombreInfoComp}`);
         return true;
       }
     }

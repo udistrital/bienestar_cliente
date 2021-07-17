@@ -41,18 +41,25 @@
                 </button>
             </mat-form-field>
 
-            <!-- Cambiar por un mejor input :v -->
-            <mat-form-field class="fechaRegistro">
-                <mat-label>Fecha registro</mat-label>
-                <input matInput type="date" placeholder="Fecha registro" [(ngModel)]="fechaRegistro">
-                <button mat-button *ngIf="fechaRegistro" matSuffix mat-icon-button aria-label="Limpiar" (click)="fechaRegistro=null">
+            <mat-form-field class="fechaInicio">
+                <mat-label>Fecha inicial</mat-label>
+                <input (change)="cambioFechaInicial()" matInput type="date" placeholder="Fecha inicio" [(ngModel)]="fechaRegistroInicio">
+                <button mat-button *ngIf="fechaRegistroInicio" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiarFechas()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field class="fechaFin">
+                <mat-label>Fecha final</mat-label>
+                <input (change)="cambioFechaFin()" matInput type="date" placeholder="Fecha fin" [(ngModel)]="fechaRegistroFin">
+                <button mat-button *ngIf="fechaRegistroFin" matSuffix mat-icon-button aria-label="Limpiar" (click)="limpiarFechas()">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
 
             <mat-form-field class="page">
                 <mat-label>Cantidad de registros</mat-label>
-                <select matNativeControl [(ngModel)]="limite">
+                <select [disabled]="modoRangoFechas" matNativeControl [(ngModel)]="limite">
                     <option *ngFor="let option of itemsLim" [value]="option" [selected]="limite === option">{{
                         option }}</option>
                     <option [value]="-1" [selected]="limite === -1"> Todas </option>
@@ -61,7 +68,7 @@
 
             <mat-form-field class="offset">
                 <mat-label>Punto de partida</mat-label>
-                <input matInput type="number" placeholder="Rango solicitud" min="0" [(ngModel)]="itemOffSet">
+                <input [disabled]="modoRangoFechas" matInput type="number" placeholder="Rango solicitud" min="0" [(ngModel)]="itemOffSet">
                 <button mat-button *ngIf="itemOffSet" matSuffix mat-icon-button aria-label="Limpiar" (click)="itemOffSet=0">
                     <mat-icon>close</mat-icon>
                 </button>
@@ -75,8 +82,8 @@
         </button>
     </nb-card-body>
 
-    <nb-card-body *ngIf="registros.length>0">
- 
+    <nb-card-body class="fijo" *ngIf="registros.length>0">
+
         <table class="table">
             <thead class="bg-ud-table">
                 <tr>
@@ -97,7 +104,7 @@
                     <td>{{ getNombrePeriodo(item.periodoId) }}</td>
                     <td>{{ getSedeAccesso(item.espacioFisicoId) }}</td>
                     <td>{{ item.usuarioAdministrador }}</td>
-                    <td>{{ item.fecha_creacion }}</td>
+                    <td>{{ item.fecha_creacion | date:'short':'UTC -5' }}</td>
                     <td>
                         <div class="example-button-row">
                             <button title="Ver estudiante" mat-mini-fab color="accent" aria-label="Ver estudiante" (click)="verEstudiante(i)">
@@ -112,7 +119,7 @@
             </tbody>
         </table>
         <hr>
-        <div style="width: 100%;" class="d-flex justify-content-around">
+        <div *ngIf="this.limite>0" class="d-flex justify-content-around pagination-reg">
             <button [disabled]="pagina<=1" title="Anterior" mat-mini-fab color="basic" aria-label="Anterior" (click)="buscar(pagina-1)">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
             </button>

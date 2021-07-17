@@ -26,7 +26,8 @@ export class SolicitudTerceroComponent implements OnInit {
     periodo: Periodo = null;
     loading: boolean = true;
     puedeCrear: boolean = false;
-    
+    puedeEditar: boolean = false;
+
     creando: boolean = false;
 
 
@@ -61,7 +62,7 @@ export class SolicitudTerceroComponent implements OnInit {
             //usuarioWSO2 = "" javiermartinez25//9798 / 20152072116
             // pruebaInscripcion7//9787 //
             //pruebaInscripcion5//9788  // 20172010086
-            respUser.Codigo="20172010086"
+            //respUser.Codigo="20161020046"
             this.listService.loadTerceroByDocumento(respUser.Codigo).then((respTecero) => {
                 this.tercero = respTecero;
                 if (this.tercero !== undefined) {
@@ -94,6 +95,7 @@ export class SolicitudTerceroComponent implements OnInit {
                 /* Se valida que la inscripcion exista en el periodo*/
                 if (resp.length > 0) {
                     /** Se obtiene id del periodo de inscripción. */
+                    this.puedeEditar=true;
                     this.periodo = resp[0].PeriodoId;
                     this.puedeCrearSolicitud();
                 }
@@ -147,7 +149,6 @@ export class SolicitudTerceroComponent implements OnInit {
     }
 
     editarSolicitud(i: number) {
-        console.log("Edit");
         this.creando=true;
     }
     

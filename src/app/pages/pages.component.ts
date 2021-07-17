@@ -76,8 +76,6 @@ export class PagesComponent implements OnInit {
   }
 
   loadMenu() {
-    console.log("roles↓↓↓");
-    console.log(this.roles);
     this.object = {
       title: 'Home',
       icon: 'home-outline',
@@ -90,7 +88,6 @@ export class PagesComponent implements OnInit {
 
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
-        console.log(data);
         this.dataMenu = <any>data;
         this.mapMenuByObjects(data);
         //this.translateMenu();

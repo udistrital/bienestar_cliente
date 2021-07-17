@@ -1,6 +1,7 @@
 @import "../../apoyo-alimentario.component.scss";
 a:link {
-    color: #01579b;
+    color: #01579b !important;
+    text-decoration: none;
 }
 
 a:hover {
@@ -8,10 +9,29 @@ a:hover {
     text-decoration: underline;
 }
 
-a:active,
-a:visited {
+a:active {
     color: #3d0c0c !important;
     text-decoration: underline !important;
+}
+
+a:visited {
+    color: var(--indigo);
+    text-decoration: underline;
+}
+
+.docs {
+    width: 80%;
+}
+
+.iframe-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.iframe-container iframe,
+.iframe-container embed {
+    height: 540px;
+    width: 80%;
 }
 
 .line {
@@ -19,4 +39,29 @@ a:visited {
     margin-bottom: 1rem;
     border-top: 1;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@media (min-height: 1000px) {
+    .iframe-container iframe {
+        height: 640px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .iframe-container iframe {
+        width: 90%;
+        height: 420px;
+    }
+}
+
+@media (max-width: 700px) {
+    .iframe-container iframe {
+        width: 90%;
+    }
+}
+
+@media (max-width: 500px) {
+    .iframe-container iframe {
+        width: 100%;
+    }
 }

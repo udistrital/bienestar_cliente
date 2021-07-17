@@ -68,7 +68,6 @@ export class CargarDocPbComponent implements OnInit {
   ngOnInit() {  
 
     if(this.solicitud!=null){
-      console.log("Se carga una solicitud");
       this.docsExistentes();
     }
 

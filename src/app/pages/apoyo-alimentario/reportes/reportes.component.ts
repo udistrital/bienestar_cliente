@@ -127,7 +127,6 @@ export class ReportesComponent implements OnInit {
   }
 
   showReport(label: string) {
-    console.log(label);
     this.reportConfig.documentLabel = label;
     this.getReporte();
   }
