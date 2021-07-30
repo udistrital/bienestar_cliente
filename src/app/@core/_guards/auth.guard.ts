@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
       if (!valid) {
         // not logged in so redirect to login page with the return url
         // or not exist role return url
-        this.authService.logout();
+       
         this.router.navigate(['/']);
       }
       return valid;
