@@ -480,7 +480,9 @@ export class CrearSolicitudComponent implements OnInit {
           this.estudiante.InfoResidencia.Municipio = resp.Nombre;
           this.residencia.get('municipio').setValue(resp.Nombre);
         }).catch((err) => {
-          this.showError("Ubicación no disponible", "Ocurrió un error al obtener el LUGAR_RESIDENCIA, intente más tarde");
+          //this.showError("Ubicación no disponible", "Ocurrió un error al obtener el LUGAR_RESIDENCIA, intente más tarde");
+          console.error(err);
+          
         });
         break;
       case "LOCALIDAD":
@@ -488,7 +490,8 @@ export class CrearSolicitudComponent implements OnInit {
           this.estudiante.InfoResidencia.Localidad = resp.Nombre;
           this.residencia.get('localidad').setValue(resp.Nombre);
         }).catch((err) => {
-          this.showError("Ubicación no disponible", "Ocurrió un error al obtener la LOCALIDAD, intente más tarde");
+          //this.showError("Ubicación no disponible", "Ocurrió un error al obtener la LOCALIDAD, intente más tarde");
+          console.error(err);
         });
         break;
 

@@ -6,6 +6,7 @@ import { EstudiantesService } from '../../../../shared/services/estudiantes.serv
 import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_autentication.service';
 import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pipe';
 import { ReferenciaSolicitudCita } from "../../../../@core/data/models/solicitud/referencia-solicitud-cita";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'ngx-solicitar-cita',
@@ -30,7 +31,8 @@ export class SolicitarCitaComponent implements OnInit {
     private route: ActivatedRoute,
     private est: EstudiantesService,
     private dateCustomPipe: DateCustomPipePipe,
-    private autenticacion: ImplicitAutenticationService) {
+    private autenticacion: ImplicitAutenticationService,
+    private toastr: ToastrService ) {
     this.solicitarCita = this.fb.group({
       telefono: [''],
       servicio: ['', Validators.required],
@@ -124,13 +126,15 @@ export class SolicitarCitaComponent implements OnInit {
     this.referencia.profesional = this.solicitarCita.value.especialista;
     this.referencia.plataforma = this.solicitarCita.value.plataforma;
     this.referencia.observaciones = this.solicitarCita.value.observacion;
-    console.log(this.referencia);
   }
   guardarSolicitud() {
     this.guardarDatosFormulario();
     const solicitud: any = {};
     solicitud.Id = null;
-    solicitud.EstadoTipoSolicitudId = '31';
+    solicitud.EstadoTipoSolicitudId = 
+    {
+      Id: 31
+    }
     solicitud.Referencia = JSON.stringify(this.referencia);;
     solicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
     solicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
@@ -138,9 +142,50 @@ export class SolicitarCitaComponent implements OnInit {
     solicitud.Resultado = '';
     solicitud.SolicitudFinalizada = false;
     solicitud.SolicitudPadreId = null;
-    console.log(solicitud);
-    this.est.grabarSolicitud(JSON.stringify(solicitud)).subscribe((solicitud) => {
+    solicitud.Activo = true;
+    this.est.grabarSolicitud(solicitud).subscribe((res) => {
+      const sol = res.Data;
+      this.grabarSolicitante(sol);
     });
   }
-
+  grabarSolicitante(solicitud: any){
+    console.log(solicitud.Id);
+    const solicitante: any = {};
+    solicitante.Id = null;
+    solicitante.TerceroId = this.estudiante.Id;
+    solicitante.SolicitudId = 
+    {
+      Id: solicitud.Id
+    }
+    solicitante.FechaCreacion = this.dateCustomPipe.transform(new Date());
+    solicitante.FechaModificacion = this.dateCustomPipe.transform(new Date());
+    solicitante.Activo = true;
+    this.est.grabarSolicitante(solicitante).subscribe((res) => {
+      this.grabarEvolucionSolicitud(solicitud);
+    });
+  }
+  grabarEvolucionSolicitud(solicitud: any){
+    const evolucionSolicitud: any = {};
+    evolucionSolicitud.Id = null;
+    evolucionSolicitud.TerceroId = this.estudiante.Id;
+    evolucionSolicitud.SolicitudId = {
+      Id: solicitud.Id
+    }
+    evolucionSolicitud.EstadoTipoSolicitudIdAnterior = null;
+    evolucionSolicitud.EstadoTipoSolicitudId = {
+      Id: solicitud.EstadoTipoSolicitudId.Id
+    }
+    evolucionSolicitud.FechaLimite = this.dateCustomPipe.transform(new Date());
+    evolucionSolicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
+    evolucionSolicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
+    evolucionSolicitud.Activo = true;
+    this.est.grabarSolicitudEvolucion(evolucionSolicitud).subscribe((res) => {
+      console.log(res);
+      this.toastr.success("Solicitud hecha satisfactoriamente");
+      setTimeout(() => {
+        window.location.reload();
+      },
+        1500);
+    });
+  }
 }
