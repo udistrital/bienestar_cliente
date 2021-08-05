@@ -1,27 +1,21 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { RolesConstanst } from '../../shared/constants/roles.constants';
-import { CustomLoginService } from '../../shared/services/custom-login.service';
-import { ImplicitAutenticationService } from '../utils/implicit_autentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private authService: ImplicitAutenticationService, private readonly customLogin: CustomLoginService) {
+  constructor(private router: Router) {
   }
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
       let valid: boolean =  false;
       const roles = route.data['roles'] as Array<string>;
       const id_token = window.localStorage.getItem('id_token').split('.');
       const payload = JSON.parse(atob(id_token[1]));
-      if(payload && payload.role===undefined){
-        let data = await this.customLogin.getRolesUser(payload);
-        payload.role = data.role;
-      }
+
       if (payload && payload.role) {
         for ( let i = 0; i < payload.role.length; i++) {
           for ( let j = 0; j < roles.length; j++) {
@@ -36,13 +30,13 @@ export class AuthGuard implements CanActivate {
       if (!valid) {
         // not logged in so redirect to login page with the return url
         // or not exist role return url
-       
         this.router.navigate(['/']);
       }
+
       return valid;
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
       return this.canActivate(route, state);
   }
 
