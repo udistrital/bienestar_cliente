@@ -199,30 +199,38 @@ export class CargarDocPbComponent implements OnInit {
           this.cargarDocs(paqSol).then((result)=>{
             let contSubmitDocs=0;
             const docs=result;
+            
             /** Se validan  si existian documentos subidos */
             if(Object.keys(docs).length>0){
-              // Revisa todos los documentos que subio el usuario     
-              for(let i = 0; i < Object.keys(docsAdd).length; i++){
-                // Revisa todos los documentos ya existentes de una solicitud para actualizar. 
-                docs.some(doc => {
-                  // Compara si ya existia un documento del mismo tipo.                 
-                  if(docsAdd[i].IdDocumento==doc.TipoDocumento.Id){
-                    return docsAdd[i].documento=doc.Id;
-                  }  
-                });
-                // Separa los que se crean y los que se actualizan.
-                if(docsAdd[i].documento==undefined){
-                    newSupps.push(docsAdd[i]);
-                }else{
-                    updateSupps.push(docsAdd[i]);
-                }
-              } 
+              // Revisa todos los documentos que subio el usuario 
+              
+                  
+              if(docsAdd!=undefined){
+                for(let i = 0; i < Object.keys(docsAdd).length; i++){
+                  // Revisa todos los documentos ya existentes de una solicitud para actualizar. 
+                  docs.some(doc => {
+                    // Compara si ya existia un documento del mismo tipo.                 
+                    if(docsAdd[i].IdDocumento==doc.TipoDocumento.Id){
+                      return docsAdd[i].documento=doc.Id;
+                    }  
+                  });
+                  // Separa los que se crean y los que se actualizan.
+                  if(docsAdd[i].documento==undefined){
+                      newSupps.push(docsAdd[i]);
+                  }else{
+                      updateSupps.push(docsAdd[i]);
+                  }
+                } 
+              }
 
+                           
               // El documento queda con el mismo ID para no cambiar el soporte.
               // Es decir solo se cambia el File (archivo) de ese documento.
               if(updateSupps.length>0){
                 this.actualizarDocs(updateSupps,docs).then((res)=>{
                   this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => { 
+                    console.log(res);
+                    
                     if(updateSupps.length==Object.keys(res).length){
                       contSubmitDocs+=1;
                       if(contSubmitDocs==2){
@@ -378,7 +386,7 @@ export class CargarDocPbComponent implements OnInit {
         ids.forEach(element => {
           this.listService.findDocumentoBySoporte(element).then((res)=>{
             docs.push(res);
-            if(docs.length==ids.length){
+            if(docs.length==ids.length){              
               resolve(docs);
             }
           });

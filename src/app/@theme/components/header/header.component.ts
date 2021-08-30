@@ -116,6 +116,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   logout() {
     this.autenticacion.logout();
+    this.autenticacion.clearStorage();
     // this.liveTokenValue = auth.live(true);
   }
   liveToken() {
