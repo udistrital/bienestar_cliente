@@ -215,7 +215,7 @@ export class RevisionInscComponent implements OnInit {
       };
 
     }
-    else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]) {
+    else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]) {
       this.settings = {
         actions: {
           add: false,
@@ -290,7 +290,7 @@ export class RevisionInscComponent implements OnInit {
   showReliquidacion(evento?: any) {
     if (evento) {
       const data = JSON.parse(evento.SolicitudId.Referencia);
-      if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]) {
+      if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]) {
         this.route.navigate([`pages/revision/${data.Id}`], { queryParams: { codSolicitud: evento.SolicitudId.Id, codActual: evento.Id } });
       } else if (this.rolesActivos[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE] && evento.EstadoTipoSolicitudId.EstadoId.Id === ApiConstanst.ESTADO_SOLICITUD.RADICADA) {
         this.pUpManager.showInfoToast('Solicitud de reliquidación no puede ser revisada, porque se encuentra en estado RADICADA. Se notificara cuando la solicitud cambie de estado.');
