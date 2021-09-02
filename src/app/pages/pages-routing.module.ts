@@ -39,7 +39,7 @@ const routes: Routes = [
             component: InscripcionEstComponent,
             canActivate: [AuthGuard],
             data:{
-                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES],
+                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR],
                 esRevision: true,
             }
         },
@@ -66,7 +66,7 @@ const routes: Routes = [
             component: RevisionInscComponent,
             canActivate: [AuthGuard],
             data:{
-                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_NECESIDADES]
+                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
             }
         },
         {
