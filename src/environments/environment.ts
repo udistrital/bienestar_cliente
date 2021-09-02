@@ -43,7 +43,7 @@ export const environment = {
         IDSOLICITUDPREPARADA: 30,
     },
 
-
+    SMMLV: 908526,
 
     KNOWAGE: {
         PROTOCOL: 'https',

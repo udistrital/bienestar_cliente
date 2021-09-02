@@ -29,7 +29,6 @@ NUXEO_2020: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/
 DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
 PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/',
 
-
 IDS: {
     IDTIPOPARAMETRO: 21,
     IDTIPOSOLICITUD: 9,
@@ -41,6 +40,7 @@ IDS: {
     IDSOLICITUDNOACEPTADA: 29,
     IDSOLICITUDPREPARADA: 30,
 },
+SMMLV: 908526,
 
 KNOWAGE: {
     PROTOCOL: 'https',

@@ -14,6 +14,7 @@ import { InfoComplementariaTercero } from "../../../../@core/data/models/tercero
 import { UtilService } from "../../../../shared/services/utilService";
 import { ApiConstanst } from "../../../../shared/constants/api.constans";
 import { delay } from "rxjs/operators";
+import { environment } from '../../../../../environments/environment.dev';
 
 @Component({
   selector: 'ngx-crear-solicitud',
@@ -828,7 +829,7 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Ingresos Familiares.
     let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
-    const SMMLV = 908526; // Salario Minimo Mensual Legal Vigente
+    const SMMLV = environment.SMMLV; // Salario Minimo Mensual Legal Vigente
 
     if(ingresosMes>=0 && ingresosMes<=SMMLV*3){
       ingresosFamiliares=30;
@@ -845,19 +846,16 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Condiciones Familiares.
     let sostieneHogar=this.socioeconomica.get('cabezaFamilar').value;
-    sostieneHogar="El mismo"
     if(sostieneHogar=="El mismo"){
       condicionesFamiliares+=10;
     }
 
     let sostieneASiMismo=this.socioeconomica.get('dependenciaEconomica').value;
-    sostieneASiMismo="El mismo"
     if(sostieneASiMismo=="El mismo"){
       condicionesFamiliares+=10;
     }
     
     let conQuienReside=this.socioeconomica.get('conQuienVive').value;
-    conQuienReside="Solo"
     if (conQuienReside!="Familia") {
       condicionesFamiliares+=10;
     }
@@ -875,7 +873,6 @@ export class CrearSolicitudComponent implements OnInit {
 
     //Procedencia y lugar de residencia
     let tipoVivienda=this.socioeconomica.get('tipoVivienda').value;
-    this.estudiante.InfoSocioeconomica.PagaArriendo=true;
     if(this.estudiante.InfoSocioeconomica.PagaArriendo || tipoVivienda=="Arriendo" ){
       procedenciaYLugarDeResidencia+=10;
     }
@@ -906,10 +903,10 @@ export class CrearSolicitudComponent implements OnInit {
       condicionesDeSalud+=5;
     }
 
+    //Condiciones Socioeconomicas
     let puntajeSisben=this.sisben.get('puntaje_Sisben').value;
     let municipio=this.residencia.get('municipio').value;
     municipio=municipio.toLowerCase();
-    puntajeSisben=20;
     if(municipio=="bogota" || municipio=="bogotá"){     
       if(puntajeSisben>=0 && puntajeSisben<=54.86 ) {
         condicionesSocioeconomicas+=10;
@@ -919,9 +916,19 @@ export class CrearSolicitudComponent implements OnInit {
         condicionesSocioeconomicas+=10;
       }
     }
+    
+    console.log(ingresosFamiliares 
+      , condicionesFamiliares
+      , procedenciaYLugarDeResidencia 
+      , condicionesDeSalud 
+      , condicionesSocioeconomicas);
 
     //Puntaje Total:
-    puntajeSol=ingresosFamiliares+condicionesFamiliares+procedenciaYLugarDeResidencia+condicionesDeSalud+condicionesSocioeconomicas;
+    puntajeSol= ingresosFamiliares 
+                + condicionesFamiliares
+                + procedenciaYLugarDeResidencia 
+                + condicionesDeSalud 
+                + condicionesSocioeconomicas;
 
     return puntajeSol;
   }

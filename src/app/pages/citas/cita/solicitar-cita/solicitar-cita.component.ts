@@ -185,7 +185,7 @@ export class SolicitarCitaComponent implements OnInit {
       setTimeout(() => {
         window.location.reload();
       },
-        1500);
+        500);
     });
   }
 }

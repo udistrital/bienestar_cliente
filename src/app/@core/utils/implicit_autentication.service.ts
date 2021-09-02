@@ -32,6 +32,7 @@ export class ImplicitAutenticationService {
 
     public logout() {
         auth.logout();
+        this.clearStorage();
     }
     public clearStorage() {
         window.localStorage.removeItem('access_token');
