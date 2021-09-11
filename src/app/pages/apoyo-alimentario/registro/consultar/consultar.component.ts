@@ -129,6 +129,10 @@ export class ConsultarComponent implements OnInit {
    */
   buscar(numPg) {
     if (this.modoRangoFechas) {
+      if(numPg!=1) {
+        numPg =1
+      }
+
       if (this.codigoEstudiante != undefined) {
         this.listService.loadTerceroByDocumento(this.codigoEstudiante.toString()).then((respTer) => {
           let tercero = respTer;
@@ -149,7 +153,6 @@ export class ConsultarComponent implements OnInit {
               this.buscarRegistrosEntreFechas(this.fechaRegistroInicio, this.fechaRegistroFin, null, 0);
             }
           });
-        
         
       }
     } else {
@@ -207,6 +210,8 @@ export class ConsultarComponent implements OnInit {
           this.hasNext = false;
         }
       } else {
+        this.hasNext = false;
+        this.pagina-=1
         this.utilService.showSwAlertError("Sin resultados", "No se encontraron resultados con los parametros indicados");
       }
     }).catch((err) => console.error(err));
@@ -295,7 +300,6 @@ export class ConsultarComponent implements OnInit {
         this.listService.consutarRegitroApoyo(terceroId, null, this.sede, this.periodo, fecha, true, this.limite, offset).then((result) => {
           if (result.length > 0) {
             for (const res of result) {
-              res.fecha_creacion = this.utilService.UTCtoGTM(res.fecha_creacion);
               this.registros.push(res);
             }
           } else {
