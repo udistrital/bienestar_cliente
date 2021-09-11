@@ -127,10 +127,12 @@
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" formControlName="programa">
+                                    <nb-select fullWidth formControlName="programa">
                                         <nb-option value="nuevo">Nuevo en el programa</nb-option>
                                         <nb-option value="antiguo">Antiguo en el programa</nb-option>
                                     </nb-select>
+
+                                    
                                 </div>
                             </div>
                         </form>
@@ -516,7 +518,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <!-- required> -->
-                                    <nb-select fullWidth size="large" placeholder="Grupo sisben" formControlName="grupo" required>
+                                    <nb-select size="large" placeholder="Grupo sisben" formControlName="grupo" required>
                                         <nb-option value="A">Grupo A</nb-option>
                                         <nb-option value="B">Grupo B</nb-option>
                                         <nb-option value="C">Grupo C</nb-option>
@@ -553,7 +555,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
+                                    <nb-select placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
                                         <!-- <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option> -->
                                         <nb-option value="ladrillo"> Ladrillo </nb-option>
                                         <nb-option value="madera"> Madera </nb-option>
@@ -569,6 +571,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
+                                    
                                     <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
                                         <nb-option value="1">1</nb-option>
                                         <nb-option value="2">2</nb-option>
@@ -623,13 +626,21 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" required>
+                                   <!--  <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" required>
                                         <nb-option value=""></nb-option>
                                         <nb-option value="acueducto">Acueducto</nb-option>
                                         <nb-option value="lluvias">Aguas Lluvias</nb-option>
                                         <nb-option value="poso">Poso o aljibe </nb-option>
                                         <nb-option value="carro-tanques">Suministro de carro tanques </nb-option>
-                                    </nb-select>
+                                    </nb-select> -->
+
+                                    <select placeholder="Origen Agua" formControlName="origenAgua" required>
+                                        <option value="null" disabled>Choose your profile</option>
+                                        <option value=""></option>
+                                        <option value="acueducto">Acueducto</option>
+                                        <option value="lluvias">Aguas Lluvias</option>
+                                        <option value="poso">Poso o aljibe </option>
+                                    </select> 
                                 </div>
                             </div>
 
