@@ -58,6 +58,7 @@ export class NuxeoService {
                     documentoService.get('tipo_documento/' + file.IdDocumento)
                         .subscribe(res => {
                             if (res !== null) {
+                                console.log("init subs")
                                 const tipoDocumento = <TipoDocumento>res;
                                 NuxeoService.nuxeo.operation('Document.Create')
                                     .params({
@@ -68,6 +69,7 @@ export class NuxeoService {
                                     .input(tipoDocumento.Workspace)
                                     .execute()
                                     .then(function (doc) {
+                                        console.log("nuxeo block")
                                         const nuxeoBlob = new Nuxeo.Blob({ content: file.file });
                                         NuxeoService.nuxeo.batchUpload()
                                             .upload(nuxeoBlob)
@@ -78,6 +80,7 @@ export class NuxeoService {
                                                     .input(response.blob)
                                                     .execute()
                                                     .then(function (respuesta) {
+                                                        console.log("rep ,docs")
                                                         const documentoPost = new Documento;
                                                         documentoPost.Enlace = file.uid;
                                                         documentoPost.Nombre = file.nombre;
@@ -101,7 +104,8 @@ export class NuxeoService {
                                         return error;
                                     })
                             }
-                        });
+                        },(error)=> console.log("Fail",error)
+                        );
                 });
             });
     }

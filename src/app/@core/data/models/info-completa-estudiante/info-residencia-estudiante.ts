@@ -14,8 +14,8 @@ export class InfoResidenciaEstudiante {
         this.Direccion= "DIRECCION";
         this.Telefono= "TELEFONO";
         this.Barrio="BARRIO";
-        this.Sisben= "SI";
-        this.Puntaje_Sisben= "60";
+        this.Sisben= null;
+        this.Puntaje_Sisben= null;
         this.Grupo_Sisben = null;
     }
 }
