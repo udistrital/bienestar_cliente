@@ -1055,24 +1055,14 @@ export class CrearSolicitudComponent implements OnInit {
 
   async save() {
 
-    console.log(this.registro.get('programa').value);
-    console.log(this.sisben.get('grupo').value);
-    console.log(this.necesidades.get('calidadVivienda').value);
-    console.log(this.necesidades.get('cuartosDormir').value);
-    console.log(this.necesidades.get('origenAgua').value);
-
-
-    if (this.validacionesForm() && false) {
+    if (this.validacionesForm()) {
       this.listService.disparadorDeDocumentos.emit({
         data: "validar"
       });
-      this.validarDocs=true;
       if (this.validarDocs) {
         const isValidTerm = await this.utilService.termsAndConditional();
         if (isValidTerm) {
-          console.log(this.registro.get('programa').value);
-          
-          //this.registrar();
+          this.registrar();
         }
       }
     }

@@ -127,11 +127,10 @@
                                     </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth formControlName="programa">
-                                        <nb-option value="nuevo">Nuevo en el programa</nb-option>
-                                        <nb-option value="antiguo">Antiguo en el programa</nb-option>
-                                    </nb-select>
-
+                                    <select class="custom-select" formControlName="programa">
+                                        <option value="nuevo">Nuevo en el programa</option>
+                                        <option value="antiguo">Antiguo en el programa</option>
+                                    </select>
                                     
                                 </div>
                             </div>
@@ -518,12 +517,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <!-- required> -->
-                                    <nb-select size="large" placeholder="Grupo sisben" formControlName="grupo" required>
-                                        <nb-option value="A">Grupo A</nb-option>
-                                        <nb-option value="B">Grupo B</nb-option>
-                                        <nb-option value="C">Grupo C</nb-option>
-                                        <nb-option value="D">Grupo D</nb-option>
-                                    </nb-select>
+                                    <select class="custom-select" placeholder="Grupo sisben" formControlName="grupo" required>
+                                        <option value="A">Grupo A</option>
+                                        <option value="B">Grupo B</option>
+                                        <option value="C">Grupo C</option>
+                                        <option value="D">Grupo D</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -555,13 +554,13 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
-                                        <!-- <nb-option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</nb-option> -->
-                                        <nb-option value="ladrillo"> Ladrillo </nb-option>
-                                        <nb-option value="madera"> Madera </nb-option>
-                                        <nb-option value="tela-asfaltica"> Tela asfáltica </nb-option>
-                                        <nb-option value="lamina-metalica"> Lamina metálica </nb-option>
-                                    </nb-select>
+                                    <select  class="custom-select" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
+                                        <!-- <option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</option> -->
+                                        <option value="ladrillo"> Ladrillo </option>
+                                        <option value="madera"> Madera </option>
+                                        <option value="tela-asfaltica"> Tela asfáltica </option>
+                                        <option value="lamina-metalica"> Lamina metálica </option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -572,13 +571,13 @@
                                 </div>
                                 <div class="col-md-8">
                                     
-                                    <nb-select fullWidth size="large" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
-                                        <nb-option value="1">1</nb-option>
-                                        <nb-option value="2">2</nb-option>
-                                        <nb-option value="3">3</nb-option>
-                                        <nb-option value="4">4</nb-option>
-                                        <nb-option value="+">Más de 4</nb-option>
-                                    </nb-select>
+                                    <select class="custom-select" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="+">Más de 4</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -588,18 +587,18 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Personas en el hogar" formControlName="personasHogar" required>
-                                        <nb-option value="1">1</nb-option>
-                                        <nb-option value="2">2</nb-option>
-                                        <nb-option value="3">3</nb-option>
-                                        <nb-option value="4">4</nb-option>
-                                        <nb-option value="5">5</nb-option>
-                                        <nb-option value="6">6</nb-option>
-                                        <nb-option value="7">7</nb-option>
-                                        <nb-option value="8">8</nb-option>
-                                        <nb-option value="9">9</nb-option>
-                                        <nb-option value="+">Más de 10</nb-option>
-                                    </nb-select>
+                                    <select class="custom-select" placeholder="Personas en el hogar" formControlName="personasHogar" required>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="+">Más de 10</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -626,20 +625,13 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                   <!--  <nb-select fullWidth size="large" placeholder="Origen Agua" formControlName="origenAgua" required>
-                                        <nb-option value=""></nb-option>
-                                        <nb-option value="acueducto">Acueducto</nb-option>
-                                        <nb-option value="lluvias">Aguas Lluvias</nb-option>
-                                        <nb-option value="poso">Poso o aljibe </nb-option>
-                                        <nb-option value="carro-tanques">Suministro de carro tanques </nb-option>
-                                    </nb-select> -->
-
-                                    <select placeholder="Origen Agua" formControlName="origenAgua" required>
-                                        <option value="null" disabled>Choose your profile</option>
-                                        <option value=""></option>
+                                   
+                                    <select class="custom-select" placeholder="Origen Agua" formControlName="origenAgua" required>
+                                        <option value="" disabled></option>
                                         <option value="acueducto">Acueducto</option>
                                         <option value="lluvias">Aguas Lluvias</option>
                                         <option value="poso">Poso o aljibe </option>
+                                        <option value="carro-tanques">Suministro de carro tanques </option>
                                     </select> 
                                 </div>
                             </div>
@@ -677,15 +669,15 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Población Especial" formControlName="condicionEspecial" required>
-                                        <nb-option value="victima-violencia">Victima de violencia</nb-option>
-                                        <nb-option value="desplazado">Desplazado</nb-option>
-                                        <nb-option value="indigena">Indigena</nb-option>
-                                        <nb-option value="afrodescendiente">Afrodescendiente</nb-option>
-                                        <nb-option value="desmovilizado">Desmovilizado</nb-option>
-                                        <nb-option value="ninguna">Ninguna</nb-option>
-                                        <nb-option value="otro">Otro</nb-option>
-                                    </nb-select>
+                                    <select class="custom-select" placeholder="Población Especial" formControlName="condicionEspecial" required>
+                                        <option value="victima-violencia">Victima de violencia</option>
+                                        <option value="desplazado">Desplazado</option>
+                                        <option value="indigena">Indigena</option>
+                                        <option value="afrodescendiente">Afrodescendiente</option>
+                                        <option value="desmovilizado">Desmovilizado</option>
+                                        <option value="ninguna">Ninguna</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -759,12 +751,12 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <nb-select fullWidth size="large" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
-                                        <nb-option value="sisben">Sisben</nb-option>
-                                        <nb-option value="eps">EPS</nb-option>
-                                        <nb-option value="prepagada">Prepagada</nb-option>
-                                        <nb-option value="ninguna">Ninguna</nb-option>
-                                    </nb-select>
+                                    <select class="custom-select" placeholder="Seguridad Social" formControlName="seguridadSocial" required>
+                                        <option value="sisben">Sisben</option>
+                                        <option value="eps">EPS</option>
+                                        <option value="prepagada">Prepagada</option>
+                                        <option value="ninguna">Ninguna</option>
+                                    </select>
                                 </div>
                             </div>
 

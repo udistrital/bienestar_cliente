@@ -35,6 +35,9 @@ export class InscritosComponent implements OnInit {
   myDate = formatDate(new Date(), "yyyy-MM-dd", "en");
   usuarioWSO2 = "";
 
+  //Ajustar segun las necesidades
+  estados_validos=['V','A'];
+
   constructor(
     private oikosService: OikosService,
     private datePipe: DatePipe,
@@ -195,7 +198,7 @@ export class InscritosComponent implements OnInit {
           }
           this.listService.cargarEstadoTercero(terceroId).then((estado) => {
             //Cambiar por A
-            if (estado == 'V') {
+            if (this.estados_validos.includes(estado)) {
               resolve(true);
             } else {
               reject(`tiene el estado: ${estado}`);
