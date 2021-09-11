@@ -107,7 +107,7 @@
                     <h4 class="non-selectable">Registros</h4>
                 </nb-accordion-item-header>
                 <nb-accordion-item-body>
-                    <div *ngFor="let reg of registros.reverse()">
+                    <div *ngFor="let reg of registros">
                         <div [ngClass]="reg.Clase" class="alert" role="alert">
                             <strong> {{reg.Titulo}} </strong> {{reg.Mensaje}}
                         </div>

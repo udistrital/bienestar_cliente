@@ -25,7 +25,7 @@ export class CrearSolicitudComponent implements OnInit {
 
   @Input() tercero: Tercero = null;
   @Input() periodo: Periodo = null;
-  @Input() extraSolicitud: boolean =false;
+  @Input() extraSolicitud: boolean = false;
 
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   solicitud: Solicitud = null;
@@ -64,19 +64,19 @@ export class CrearSolicitudComponent implements OnInit {
       showConfirmButton: false,
     });
     Swal.showLoading();
-  
-   }
+
+  }
 
   ngOnInit() {
     this.loadSolicitud();
 
     this.listService.findDocumentosTercero(this.tercero.Id, null).then((respDocs) => {
       for (const documento of respDocs) {
-          if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
-              this.estudiante.Carnet = documento;
-          } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
-              this.estudiante.Documento = documento;
-          }
+        if (this.estudiante.Carnet == null && documento.TipoDocumentoId.CodigoAbreviacion == "CODE") {
+          this.estudiante.Carnet = documento;
+        } else if (this.estudiante.Documento == null && documento.TipoDocumentoId.CodigoAbreviacion != "CODE") {
+          this.estudiante.Documento = documento;
+        }
       }
       this.listService.loadFacultadProyectoTercero(this.tercero.Id).then((nomFacultad) => {
         this.estudiante.Facultad = nomFacultad[0];
@@ -86,7 +86,7 @@ export class CrearSolicitudComponent implements OnInit {
         this.utilService.showSwAlertError("Facultad o Proyecto curricular no existe", errorFacu);
         this.loadInfoComp();
       });
-    }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));    
+    }).catch((errorDocs) => this.showError("Documentos no encontrados", errorDocs));
   }
 
   /**
@@ -94,7 +94,7 @@ export class CrearSolicitudComponent implements OnInit {
    *
    * @memberof CrearSolicitudComponent
    */
-  loadInfoComp(){
+  loadInfoComp() {
     this.listService.findInfoComplementariaTercero(this.tercero.Id).then((respIC) => {
       this.listInfoComplementaria = respIC;
       this.inicializarFormularios();
@@ -109,17 +109,17 @@ export class CrearSolicitudComponent implements OnInit {
    *
    * @memberof CrearSolicitudComponent
    */
-  loadSolicitud(){
+  loadSolicitud() {
     this.listService.loadSolicitanteByIdTercero(this.tercero.Id, null, this.periodo.Nombre, null).then(
       (resp) => {
-        if(resp.length>0){
-          this.solicitud=resp[0].SolicitudId;
+        if (resp.length > 0) {
+          this.solicitud = resp[0].SolicitudId;
         }
       }
-  ).catch((error) => console.error(error));
+    ).catch((error) => console.error(error));
   }
 
-   
+
   /**
    *Clasificamos la informacion complementaria
    *
@@ -483,7 +483,7 @@ export class CrearSolicitudComponent implements OnInit {
         }).catch((err) => {
           //this.showError("Ubicación no disponible", "Ocurrió un error al obtener el LUGAR_RESIDENCIA, intente más tarde");
           console.error(err);
-          
+
         });
         break;
       case "LOCALIDAD":
@@ -586,21 +586,21 @@ export class CrearSolicitudComponent implements OnInit {
         });
 
         this.academica = new FormGroup({
-          valorMatricula: new FormControl({ 
-            value: this.estudiante.InfoAcademica.ValorMatricula, 
-            disabled: false 
+          valorMatricula: new FormControl({
+            value: this.estudiante.InfoAcademica.ValorMatricula,
+            disabled: false
           }),
-          numeroCreditos: new FormControl({ 
-            value: this.estudiante.InfoAcademica.NumeroCreditos, 
-            disabled: false 
+          numeroCreditos: new FormControl({
+            value: this.estudiante.InfoAcademica.NumeroCreditos,
+            disabled: false
           }, Validators.required),
-          promedio: new FormControl({ 
+          promedio: new FormControl({
             value: this.estudiante.InfoAcademica.Promedio,
-            disabled: false 
+            disabled: false
           }),
-          matriculas: new FormControl({ 
+          matriculas: new FormControl({
             value: this.estudiante.InfoAcademica.Matriculas,
-            disabled: false 
+            disabled: false
           }),
         });
 
@@ -730,10 +730,10 @@ export class CrearSolicitudComponent implements OnInit {
         });
 
         this.especial = new FormGroup({
-          condicionEspecial: new FormControl({ value: this.estudiante.InfoEspecial.CondicionEspecial, disabled: false,}),
-          discapacidad: new FormControl({ value: this.estudiante.InfoEspecial.Discapacidad, disabled: false,}),
-          patologia: new FormControl({ value: this.estudiante.InfoEspecial.Patologia, disabled: false,}),
-          seguridadSocial: new FormControl({ value: this.estudiante.InfoEspecial.SeguridadSocial, disabled: false,}),
+          condicionEspecial: new FormControl({ value: this.estudiante.InfoEspecial.CondicionEspecial, disabled: false, }),
+          discapacidad: new FormControl({ value: this.estudiante.InfoEspecial.Discapacidad, disabled: false, }),
+          patologia: new FormControl({ value: this.estudiante.InfoEspecial.Patologia, disabled: false, }),
+          seguridadSocial: new FormControl({ value: this.estudiante.InfoEspecial.SeguridadSocial, disabled: false, }),
           serPiloPaga: new FormControl({ value: this.estudiante.InfoEspecial.SerPiloPaga, disabled: false }),
         });
 
@@ -771,12 +771,12 @@ export class CrearSolicitudComponent implements OnInit {
    */
   registrar() {
     let msj;
-    if(!this.extraSolicitud){
-      msj=`Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`;
-    }else{
-      msj=`Desea crear solicitud de apoyo alimentario en ExtraTiempo para ${this.tercero.NombreCompleto}`;
+    if (!this.extraSolicitud) {
+      msj = `Desea solicitar apoyo alimentario para ${this.tercero.NombreCompleto}`;
+    } else {
+      msj = `Desea crear solicitud de apoyo alimentario en ExtraTiempo para ${this.tercero.NombreCompleto}`;
     }
-    this.utilService.showSwAlertQuery("Está seguro?",msj, "Solicitar", "question")
+    this.utilService.showSwAlertQuery("Está seguro?", msj, "Solicitar", "question")
       .then(async (resp) => {
         if (resp) {
           Swal.fire({
@@ -799,18 +799,18 @@ export class CrearSolicitudComponent implements OnInit {
               refSol
             );
           } else {
-            this.solicitud.Referencia=JSON.stringify(refSol);
+            this.solicitud.Referencia = JSON.stringify(refSol);
             await this.listService.editarSolicitudApoyoAlimentario(
               this.tercero.Id,
               this.solicitud
             );
           }
-          
+
         }
       });
     return false;
   }
-  
+
 
   /**
    *Calcula el puntaje de la solicitud
@@ -820,115 +820,115 @@ export class CrearSolicitudComponent implements OnInit {
    */
   calcularPuntaje(): number {
 
-    let puntajeSol=0;
-    let ingresosFamiliares=0;
-    let condicionesFamiliares=0;
-    let procedenciaYLugarDeResidencia=0;
-    let condicionesDeSalud=0;
-    let condicionesSocioeconomicas=0;
+    let puntajeSol = 0;
+    let ingresosFamiliares = 0;
+    let condicionesFamiliares = 0;
+    let procedenciaYLugarDeResidencia = 0;
+    let condicionesDeSalud = 0;
+    let condicionesSocioeconomicas = 0;
 
     //Ingresos Familiares.
-    let ingresosMes=this.socioeconomica.get('ingresosMensuales').value;
+    let ingresosMes = this.socioeconomica.get('ingresosMensuales').value;
     const SMMLV = environment.SMMLV; // Salario Minimo Mensual Legal Vigente
 
-    if(ingresosMes>=0 && ingresosMes<=SMMLV*3){
-      ingresosFamiliares=30;
-    }else if(ingresosMes>(SMMLV*3) && ingresosMes<=(SMMLV*4)){
-      ingresosFamiliares=20;
-    }else if(ingresosMes>(SMMLV*4) && ingresosMes<=(SMMLV*5)){
-      ingresosFamiliares=10;
-    }else if(ingresosMes>(SMMLV*5)){
-      ingresosFamiliares=0;
-    }else{
+    if (ingresosMes >= 0 && ingresosMes <= SMMLV * 3) {
+      ingresosFamiliares = 30;
+    } else if (ingresosMes > (SMMLV * 3) && ingresosMes <= (SMMLV * 4)) {
+      ingresosFamiliares = 20;
+    } else if (ingresosMes > (SMMLV * 4) && ingresosMes <= (SMMLV * 5)) {
+      ingresosFamiliares = 10;
+    } else if (ingresosMes > (SMMLV * 5)) {
+      ingresosFamiliares = 0;
+    } else {
       //menos de 0 ingresos
-      ingresosFamiliares=0;
+      ingresosFamiliares = 0;
     }
 
     //Condiciones Familiares.
-    let sostieneHogar=this.socioeconomica.get('cabezaFamilar').value;
-    if(sostieneHogar=="El mismo"){
-      condicionesFamiliares+=10;
+    let sostieneHogar = this.socioeconomica.get('cabezaFamilar').value;
+    if (sostieneHogar == "El mismo") {
+      condicionesFamiliares += 10;
     }
 
-    let sostieneASiMismo=this.socioeconomica.get('dependenciaEconomica').value;
-    if(sostieneASiMismo=="El mismo"){
-      condicionesFamiliares+=10;
-    }
-    
-    let conQuienReside=this.socioeconomica.get('conQuienVive').value;
-    if (conQuienReside!="Familia") {
-      condicionesFamiliares+=10;
+    let sostieneASiMismo = this.socioeconomica.get('dependenciaEconomica').value;
+    if (sostieneASiMismo == "El mismo") {
+      condicionesFamiliares += 10;
     }
 
-    let tienePersonasACargo=this.personasacargo.get('tieneperacargo').value;
-    let tieneHijos=this.personasacargo.get('hijos').value;
-
-    if (tienePersonasACargo=="Si" || tieneHijos=="Si") {
-      condicionesFamiliares+=10;
+    let conQuienReside = this.socioeconomica.get('conQuienVive').value;
+    if (conQuienReside != "Familia") {
+      condicionesFamiliares += 10;
     }
 
-    if (condicionesFamiliares>30) {
-      condicionesFamiliares=30;
+    let tienePersonasACargo = this.personasacargo.get('tieneperacargo').value;
+    let tieneHijos = this.personasacargo.get('hijos').value;
+
+    if (tienePersonasACargo == "Si" || tieneHijos == "Si") {
+      condicionesFamiliares += 10;
+    }
+
+    if (condicionesFamiliares > 30) {
+      condicionesFamiliares = 30;
     }
 
     //Procedencia y lugar de residencia
-    let tipoVivienda=this.socioeconomica.get('tipoVivienda').value;
-    if(this.estudiante.InfoSocioeconomica.PagaArriendo || tipoVivienda=="Arriendo" ){
-      procedenciaYLugarDeResidencia+=10;
-    }
- 
-    let zonaVulnerabilidad=this.socioeconomica.get('zonaVulnerabilidad').value;    
-    if (zonaVulnerabilidad=="true") {
-      procedenciaYLugarDeResidencia+=10;
+    let tipoVivienda = this.socioeconomica.get('tipoVivienda').value;
+    if (this.estudiante.InfoSocioeconomica.PagaArriendo || tipoVivienda == "Arriendo") {
+      procedenciaYLugarDeResidencia += 10;
     }
 
-    let poblacionEspecial=this.especial.get('condicionEspecial').value;
-
-    if (poblacionEspecial!="ninguna" && poblacionEspecial!=null) {
-      procedenciaYLugarDeResidencia+=10;
+    let zonaVulnerabilidad = this.socioeconomica.get('zonaVulnerabilidad').value;
+    if (zonaVulnerabilidad == "true") {
+      procedenciaYLugarDeResidencia += 10;
     }
 
-    if (procedenciaYLugarDeResidencia>20) {
-      procedenciaYLugarDeResidencia=20;
+    let poblacionEspecial = this.especial.get('condicionEspecial').value;
+
+    if (poblacionEspecial != "ninguna" && poblacionEspecial != null) {
+      procedenciaYLugarDeResidencia += 10;
+    }
+
+    if (procedenciaYLugarDeResidencia > 20) {
+      procedenciaYLugarDeResidencia = 20;
     }
 
     //Condiciones de Salud
-    let presentaDiscapcidad=this.especial.get('discapacidad').value;
-    if (presentaDiscapcidad=="si") {
-      condicionesDeSalud+=5;
+    let presentaDiscapcidad = this.especial.get('discapacidad').value;
+    if (presentaDiscapcidad == "si") {
+      condicionesDeSalud += 5;
     }
 
-    let presentaPatologia=this.especial.get('patologia').value;
-    if (presentaPatologia=="Si") {
-      condicionesDeSalud+=5;
+    let presentaPatologia = this.especial.get('patologia').value;
+    if (presentaPatologia == "Si") {
+      condicionesDeSalud += 5;
     }
 
     //Condiciones Socioeconomicas
-    let puntajeSisben=this.sisben.get('puntaje_Sisben').value;
-    let municipio=this.residencia.get('municipio').value;
-    municipio=municipio.toLowerCase();
-    if(municipio=="bogota" || municipio=="bogotá"){     
-      if(puntajeSisben>=0 && puntajeSisben<=54.86 ) {
-        condicionesSocioeconomicas+=10;
-      }    
-    }else{
-      if(puntajeSisben>=0 && puntajeSisben<=37.80 ) {
-        condicionesSocioeconomicas+=10;
+    let puntajeSisben = this.sisben.get('puntaje_Sisben').value;
+    let municipio = this.residencia.get('municipio').value;
+    municipio = municipio.toLowerCase();
+    if (municipio == "bogota" || municipio == "bogotá") {
+      if (puntajeSisben >= 0 && puntajeSisben <= 54.86) {
+        condicionesSocioeconomicas += 10;
+      }
+    } else {
+      if (puntajeSisben >= 0 && puntajeSisben <= 37.80) {
+        condicionesSocioeconomicas += 10;
       }
     }
-    
-    console.log(ingresosFamiliares 
+
+    console.log(ingresosFamiliares
       , condicionesFamiliares
-      , procedenciaYLugarDeResidencia 
-      , condicionesDeSalud 
+      , procedenciaYLugarDeResidencia
+      , condicionesDeSalud
       , condicionesSocioeconomicas);
 
     //Puntaje Total:
-    puntajeSol= ingresosFamiliares 
-                + condicionesFamiliares
-                + procedenciaYLugarDeResidencia 
-                + condicionesDeSalud 
-                + condicionesSocioeconomicas;
+    puntajeSol = ingresosFamiliares
+      + condicionesFamiliares
+      + procedenciaYLugarDeResidencia
+      + condicionesDeSalud
+      + condicionesSocioeconomicas;
 
     return puntajeSol;
   }
@@ -942,12 +942,12 @@ export class CrearSolicitudComponent implements OnInit {
    */
   cargarDocumentos(validCarga) {
     delay(10000);
-    if(validCarga){
-      this.utilService.showSwAlertSuccess(" Felicitaciones!! "," Solicitud procesada con éxito");
+    if (validCarga) {
+      this.utilService.showSwAlertSuccess(" Felicitaciones!! ", " Solicitud procesada con éxito");
       delay(10000);
       window.location.reload();
-    }else{
-      this.utilService.showSwAlertError(" Documentos invalidos "," Ocurrio un error al cargar los documentos, asegurese de subirlos nuevamente.");
+    } else {
+      this.utilService.showSwAlertError(" Documentos invalidos ", " Ocurrio un error al cargar los documentos, asegurese de subirlos nuevamente.");
     }
   }
 
@@ -967,7 +967,7 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("CREDITOS_SEMESTRE_ACTUAL", this.academica.get('numeroCreditos').value);
       this.buscarInfoComplemetaria("Promedio de carrera", this.academica.get('promedio').value);
       this.buscarInfoComplemetaria("Número de matriculas", this.academica.get('matriculas').value);
-      
+
       this.buscarInfoComplemetaria("ZONA_VULNERABILIDAD", this.socioeconomica.get('zonaVulnerabilidad').value);
 
       this.buscarInfoComplemetaria("PERSONAS_A_CARGO", this.personasacargo.get('tieneperacargo').value);
@@ -976,7 +976,7 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("MENORES_EDAD_CONVIVE", this.personasacargo.get('menoresEdad').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES", this.personasacargo.get('menoresEstudiantes').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS", this.personasacargo.get('menoresMatriculados').value);
-      
+
       this.buscarInfoComplemetaria("Grupo Sisben", this.sisben.get('grupo').value);
 
       this.buscarInfoComplemetaria("CALIDAD_VIVIENDA", this.necesidades.get('calidadVivienda').value);
@@ -987,13 +987,13 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("ELIMINACION_AGUAS_NEGRAS", this.necesidades.get('aguasNegras').value);
       // DISCAPACIDAD?
       this.buscarInfoComplemetaria("PATOLOGIA_NUTRICION_ALIMENTACION", this.especial.get('patologia').value);
-      this.buscarInfoComplemetaria("Población Especial",this.especial.get('condicionEspecial').value);
-      this.buscarInfoComplemetaria("Tiene Discapacidad",this.especial.get('discapacidad').value);
-      this.buscarInfoComplemetaria("Seguridad Social",this.especial.get('seguridadSocial').value);
-      this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga",this.especial.get('serPiloPaga').value);
+      this.buscarInfoComplemetaria("Población Especial", this.especial.get('condicionEspecial').value);
+      this.buscarInfoComplemetaria("Tiene Discapacidad", this.especial.get('discapacidad').value);
+      this.buscarInfoComplemetaria("Seguridad Social", this.especial.get('seguridadSocial').value);
+      this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga", this.especial.get('serPiloPaga').value);
     }
     else {
-      this.showError("Fallo formualrio","Al parecer algun dato no quedo correctamente diligenciado.");
+      this.showError("Fallo formualrio", "Al parecer algun dato no quedo correctamente diligenciado.");
     }
 
   }
@@ -1050,35 +1050,45 @@ export class CrearSolicitudComponent implements OnInit {
       } else {
         this.utilService.showSwAlertError('Nueva informacion', "El nombre no coincide con un tipo de informacion complementaria");
       }
-    }).catch((err) => this.utilService.showSwAlertError('Actualizar informacion',err));
+    }).catch((err) => this.utilService.showSwAlertError('Actualizar informacion', err));
   }
 
   async save() {
-  
-    const isValidTerm = await this.utilService.termsAndConditional();
-    if (isValidTerm) {
-      if (this.validacionesForm()) {
-        this.listService.disparadorDeDocumentos.emit({
-          data:"validar"
-        });
-        if(this.validarDocs){
-          this.registrar();
+
+    console.log(this.registro.get('programa').value);
+    console.log(this.sisben.get('grupo').value);
+    console.log(this.necesidades.get('calidadVivienda').value);
+    console.log(this.necesidades.get('cuartosDormir').value);
+    console.log(this.necesidades.get('origenAgua').value);
+
+
+    if (this.validacionesForm() && false) {
+      this.listService.disparadorDeDocumentos.emit({
+        data: "validar"
+      });
+      this.validarDocs=true;
+      if (this.validarDocs) {
+        const isValidTerm = await this.utilService.termsAndConditional();
+        if (isValidTerm) {
+          console.log(this.registro.get('programa').value);
+          
+          //this.registrar();
         }
       }
     }
   }
 
   async update() {
-  
+
     const isValidTerm = await this.utilService.termsAndConditional();
 
     if (isValidTerm) {
       //***************************************************** */
       if (this.validacionesForm()) {
         this.listService.disparadorDeDocumentos.emit({
-          data:"validar"
+          data: "validar"
         });
-        if(this.validarDocs){
+        if (this.validarDocs) {
           this.registrar();
         }
       }
@@ -1091,112 +1101,112 @@ export class CrearSolicitudComponent implements OnInit {
     let valido: boolean = true;
     if (!this.registro.controls.programa.valid) {
       msj += " <strong> básica </strong> (Antiguedad del programa),";
-      valido=false;
+      valido = false;
     }
-    if (!this.residencia.controls.barrio.valid || this.residencia.controls.barrio.value==null || this.residencia.controls.barrio.value=="") {
+    if (!this.residencia.controls.barrio.valid || this.residencia.controls.barrio.value == null || this.residencia.controls.barrio.value == "") {
       msj += " <strong> residencia </strong> (Barrio residencia),";
-      valido=false;
+      valido = false;
     }
     if (!this.academica.valid) {
-      let menAcademica="";
-      
-      if(this.academica.controls.valorMatricula.value<=0 || this.academica.controls.valorMatricula.value==null || !this.academica.controls.valorMatricula.valid ){
-        menAcademica+=" Valor matricula,"
+      let menAcademica = "";
+
+      if (this.academica.controls.valorMatricula.value <= 0 || this.academica.controls.valorMatricula.value == null || !this.academica.controls.valorMatricula.valid) {
+        menAcademica += " Valor matricula,"
       }
-      if(this.academica.controls.numeroCreditos.value<0 || this.academica.controls.numeroCreditos.value>21 || this.academica.controls.numeroCreditos.value==null || !this.academica.controls.numeroCreditos.valid){
-        menAcademica+=" Numero de Creditos,"
+      if (this.academica.controls.numeroCreditos.value < 0 || this.academica.controls.numeroCreditos.value > 21 || this.academica.controls.numeroCreditos.value == null || !this.academica.controls.numeroCreditos.valid) {
+        menAcademica += " Numero de Creditos,"
       }
-      if(this.academica.controls.promedio.value<0 || this.academica.controls.promedio.value>5 || this.academica.controls.promedio.value==null || !this.academica.controls.promedio.valid){
-        menAcademica+=" Promedio ,"
+      if (this.academica.controls.promedio.value < 0 || this.academica.controls.promedio.value > 5 || this.academica.controls.promedio.value == null || !this.academica.controls.promedio.valid) {
+        menAcademica += " Promedio ,"
       }
-      if(this.academica.controls.matriculas.value<=0 || this.academica.controls.matriculas.value>15 || this.academica.controls.matriculas.value==null || !this.academica.controls.matriculas.valid ){
-        menAcademica+=" Número de Matriculas,"
+      if (this.academica.controls.matriculas.value <= 0 || this.academica.controls.matriculas.value > 15 || this.academica.controls.matriculas.value == null || !this.academica.controls.matriculas.valid) {
+        menAcademica += " Número de Matriculas,"
       }
       menAcademica = menAcademica.slice(0, -1);
       msj += ` <strong> academica </strong> (${menAcademica}), `;
-      valido=false;
+      valido = false;
     }
-    if (this.socioeconomica.controls.ingresosMensuales.value<=0) {
+    if (this.socioeconomica.controls.ingresosMensuales.value <= 0) {
       msj += " <strong> socioeconomica </strong> (ingresos mensuales), <strong> 'Si el problema persiste consulte CONDOR'.</strong> ";
-      valido=false;
+      valido = false;
     }
     if (!this.socioeconomica.controls.zonaVulnerabilidad.valid) {
       msj += " <strong> socioeconomica </strong> (Zona de vulnerabilidad),";
-      valido=false;
+      valido = false;
     }
-    
+
     if (!this.personasacargo.valid) {
-      let menPersonasACargo="";
-      if(!this.personasacargo.controls.tieneperacargo.valid){
-        menPersonasACargo+=" Tiene personas a cargo,"
+      let menPersonasACargo = "";
+      if (!this.personasacargo.controls.tieneperacargo.valid) {
+        menPersonasACargo += " Tiene personas a cargo,"
       }
-      if(!this.personasacargo.controls.hijos.valid){
-        menPersonasACargo+=" Tiene hijos,"
+      if (!this.personasacargo.controls.hijos.valid) {
+        menPersonasACargo += " Tiene hijos,"
       }
-      if(this.personasacargo.controls.numeroHijos.value<0 || this.personasacargo.controls.numeroHijos.value==null || !this.personasacargo.controls.numeroHijos.valid){
-        menPersonasACargo+=" numero de hijos ,"
+      if (this.personasacargo.controls.numeroHijos.value < 0 || this.personasacargo.controls.numeroHijos.value == null || !this.personasacargo.controls.numeroHijos.valid) {
+        menPersonasACargo += " numero de hijos ,"
       }
-      if(this.personasacargo.controls.menoresEdad.value<0 || this.personasacargo.controls.menoresEdad.value==null || !this.personasacargo.controls.menoresEdad.valid){
-        menPersonasACargo+=" menores con los que vive,"
+      if (this.personasacargo.controls.menoresEdad.value < 0 || this.personasacargo.controls.menoresEdad.value == null || !this.personasacargo.controls.menoresEdad.valid) {
+        menPersonasACargo += " menores con los que vive,"
       }
-      if(this.personasacargo.controls.menoresEstudiantes.value<0 || this.personasacargo.controls.menoresEstudiantes.value==null || !this.personasacargo.controls.menoresEstudiantes.valid){
-        menPersonasACargo+=" menores con educación,"
+      if (this.personasacargo.controls.menoresEstudiantes.value < 0 || this.personasacargo.controls.menoresEstudiantes.value == null || !this.personasacargo.controls.menoresEstudiantes.valid) {
+        menPersonasACargo += " menores con educación,"
       }
-      if(this.personasacargo.controls.menoresMatriculados.value<0 || this.personasacargo.controls.menoresMatriculados.value==null || !this.personasacargo.controls.menoresMatriculados.valid){
-        menPersonasACargo+=" menores matriculados,"
+      if (this.personasacargo.controls.menoresMatriculados.value < 0 || this.personasacargo.controls.menoresMatriculados.value == null || !this.personasacargo.controls.menoresMatriculados.valid) {
+        menPersonasACargo += " menores matriculados,"
       }
       menPersonasACargo = menPersonasACargo.slice(0, -1);
       msj += ` <strong> personas a cargo </strong> (${menPersonasACargo}), `;
-      valido=false;
-    } 
+      valido = false;
+    }
     if (!this.sisben.controls.grupo.valid) {
       msj += " <strong> sisben </strong> (Grupo),";
-      valido=false;
+      valido = false;
     }
     if (!this.necesidades.valid) {
-      let menNecesidades="";
-      if(!this.necesidades.controls.calidadVivienda.valid){
-        menNecesidades+=" Calidad vivienda,"
+      let menNecesidades = "";
+      if (!this.necesidades.controls.calidadVivienda.valid) {
+        menNecesidades += " Calidad vivienda,"
       }
-      if(!this.necesidades.controls.cuartosDormir.valid){
-        menNecesidades+=" cuartos para dormir,"
+      if (!this.necesidades.controls.cuartosDormir.valid) {
+        menNecesidades += " cuartos para dormir,"
       }
-      if(!this.necesidades.controls.personasHogar.valid){
-        menNecesidades+=" personas en el hogar,"
+      if (!this.necesidades.controls.personasHogar.valid) {
+        menNecesidades += " personas en el hogar,"
       }
-      if(!this.validServicios()){
-        menNecesidades+=" Servicios Públicos,"
+      if (!this.validServicios()) {
+        menNecesidades += " Servicios Públicos,"
       }
-      if(!this.necesidades.controls.origenAgua.valid){
-        menNecesidades+=" Origen agua,"
+      if (!this.necesidades.controls.origenAgua.valid) {
+        menNecesidades += " Origen agua,"
       }
-      if(this.necesidades.controls.aguasNegras.value==""){
-        menNecesidades+=" Aguas negras,"
+      if (this.necesidades.controls.aguasNegras.value == "") {
+        menNecesidades += " Aguas negras,"
       }
       menNecesidades = menNecesidades.slice(0, -1);
       msj += ` <strong> necesidades básicas </strong> (${menNecesidades}), `;
-      valido=false;
+      valido = false;
     }
     if (!this.especial.valid) {
-      let menEspecial="";
-      if(!this.especial.controls.condicionEspecial.valid){
-        menEspecial+=" Poblacion Especial,"
+      let menEspecial = "";
+      if (!this.especial.controls.condicionEspecial.valid) {
+        menEspecial += " Poblacion Especial,"
       }
-      if(!this.especial.controls.discapacidad.valid){
-        menEspecial+=" Discapacidad,"
+      if (!this.especial.controls.discapacidad.valid) {
+        menEspecial += " Discapacidad,"
       }
-      if(!this.especial.controls.patologia.valid){
-        menEspecial+=" Patologia,"
+      if (!this.especial.controls.patologia.valid) {
+        menEspecial += " Patologia,"
       }
-      if(!this.especial.controls.seguridadSocial.valid){
-        menEspecial+=" Seguridad Social,"
+      if (!this.especial.controls.seguridadSocial.valid) {
+        menEspecial += " Seguridad Social,"
       }
-      if(!this.especial.controls.serPiloPaga.valid){
-        menEspecial+=" Ser Pilo Paga,"
+      if (!this.especial.controls.serPiloPaga.valid) {
+        menEspecial += " Ser Pilo Paga,"
       }
       menEspecial = menEspecial.slice(0, -1);
       msj += ` <strong> info adicional </strong> (${menEspecial}), `;
-      valido=false;
+      valido = false;
     }
 
     msj = msj.slice(0, -1);
@@ -1205,7 +1215,7 @@ export class CrearSolicitudComponent implements OnInit {
     Algo no me cuadra aca en la logica
     Ahora si? :v
     */
-    if (!valido && msj.length>31) {
+    if (!valido && msj.length > 31) {
       this.utilService.showSwAlertError("Campos Vacios", `Los campos con ( <span style="${style}">*</span> ) es obligatorio diligenciarlos. <br> Hacen falta datos en:  ${msj}`);
     } else {
       valido = true;
@@ -1214,17 +1224,17 @@ export class CrearSolicitudComponent implements OnInit {
     return valido;
   }
 
-  validServicios(): boolean{
-    let cont=0;
+  validServicios(): boolean {
+    let cont = 0;
     for (let i of this.estudiante.InfoNecesidades.ServiciosPublicos) {
-      let element=this.serviciosPublicos.get(i[0]).value;
-      if(element==false){
-        cont+=1;
+      let element = this.serviciosPublicos.get(i[0]).value;
+      if (element == false) {
+        cont += 1;
       }
     }
-    if(cont==4){
+    if (cont == 4) {
       return false;
-    }else{
+    } else {
       return true;
     }
   }

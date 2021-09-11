@@ -292,8 +292,7 @@ export class InscritosComponent implements OnInit {
   showToast(titulo, mensaje) {
     Swal.close();
     let reg = new Registro(titulo, mensaje, "alert-success");
-    this.registros.push(reg);
-
+    this.agregarRegistro(reg);
     this.utilsService.showToastAlert(titulo, mensaje, null, 2000, null);
     this.registroBase.codigo = "";
   }
@@ -308,9 +307,15 @@ export class InscritosComponent implements OnInit {
   showError(titulo, error) {
     Swal.close();
     let reg = new Registro(titulo, error, "alert-danger");
-    this.registros.push(reg);
+    this.agregarRegistro(reg);
+    
     this.utilsService.showToastError(titulo, error, "alert-circle-outline");
     this.registroBase.codigo = "";
+  }
+
+  private agregarRegistro(reg){
+    //const newRegisters = (originArray.slice().reverse().concat(reg)).reverse(); // ES5
+    this.registros = [reg, ...this.registros]; // ES6+
   }
 
 }
