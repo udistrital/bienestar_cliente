@@ -917,11 +917,11 @@ export class CrearSolicitudComponent implements OnInit {
       }
     }
 
-    console.log(ingresosFamiliares
+    /* console.log(ingresosFamiliares
       , condicionesFamiliares
       , procedenciaYLugarDeResidencia
       , condicionesDeSalud
-      , condicionesSocioeconomicas);
+      , condicionesSocioeconomicas); */
 
     //Puntaje Total:
     puntajeSol = ingresosFamiliares
