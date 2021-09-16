@@ -6,7 +6,6 @@ export class InfoResidenciaEstudiante {
     Barrio: string;
     Telefono: string;
     Sisben: string;
-    Puntaje_Sisben: string;
     Grupo_Sisben: string;
     constructor() {
         this.Localidad= "LOCALIDAD";
@@ -15,7 +14,6 @@ export class InfoResidenciaEstudiante {
         this.Telefono= "TELEFONO";
         this.Barrio="BARRIO";
         this.Sisben= null;
-        this.Puntaje_Sisben= null;
         this.Grupo_Sisben = null;
     }
 }

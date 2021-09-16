@@ -182,7 +182,6 @@ export class CargarDocPbComponent implements OnInit {
   guardarDoc():boolean{
     /* Variable que almacena los documentos agregados al formulario*/
     const docsAdd =this.formApoyo.documentosAdjuntos;
-    console.log(this.solicitud);
     if(this.validarDocs()){
       Swal.fire({
         title: "Ya casi! Por favor espere",
@@ -203,8 +202,6 @@ export class CargarDocPbComponent implements OnInit {
             /** Se validan  si existian documentos subidos */
             if(Object.keys(docs).length>0){
               // Revisa todos los documentos que subio el usuario 
-              
-              console.log("Existen Docs?");   
               if(docsAdd!=undefined){
                 for(let i = 0; i < Object.keys(docsAdd).length; i++){
                   // Revisa todos los documentos ya existentes de una solicitud para actualizar. 
@@ -223,13 +220,11 @@ export class CargarDocPbComponent implements OnInit {
                 } 
               }
 
-              console.log("pasoo update-->",updateSupps,docs); 
               // El documento queda con el mismo ID para no cambiar el soporte.
               // Es decir solo se cambia el File (archivo) de ese documento.
               if(updateSupps.length>0){
                 this.actualizarDocs(updateSupps,docs).then((res)=>{
                   this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => { 
-                    console.log("Ya aactualice",res);
                     
                     if(updateSupps.length==Object.keys(res).length){
                       contSubmitDocs+=1;
@@ -243,8 +238,7 @@ export class CargarDocPbComponent implements OnInit {
                 },(err)=> console.log(err))
                 
               }else{
-                /** Si no hay archivos nuevos no se actualiza */    
-                console.log("No actualice");            
+                /** Si no hay archivos nuevos no se actualiza */              
                 contSubmitDocs+=1;
                 if(contSubmitDocs==2){
                   Swal.close();
@@ -252,7 +246,6 @@ export class CargarDocPbComponent implements OnInit {
                   return true;
                 }  
               }
-              console.log("pasoo new sups-->",newSupps,this.documentoService); 
               // Agrega los nuevos documentos que no existian o no tenian soporte.
               if(newSupps.length>0){
                 this.nuxeoService.getDocumentos$(newSupps, this.documentoService).subscribe((res) => {
@@ -312,20 +305,16 @@ export class CargarDocPbComponent implements OnInit {
 
               if(docsAdd.length==Object.keys(res).length){        
                 this.formApoyo.documentosCargados = res;
-                
-                console.log("pasoo-->",res);
-                
+                                
                 let paquete: Paquete = new Paquete();
                 paquete.Nombre = "Documentos apoyo alimentario"
                 /** Se crea nuevo paquete */
                 this.listService.crearPaquete(paquete).then((idPaq) => {
-                  console.log("pasoo 2-->",idPaq);
                   paquete.Id = idPaq;
                   let paqueteSolicitud: PaqueteSolicitud = new PaqueteSolicitud();
                   paqueteSolicitud.SolicitudId = this.solicitud;
                   paqueteSolicitud.EstadoTipoSolicitudId = this.solicitud.EstadoTipoSolicitudId;
                   paqueteSolicitud.PaqueteId = paquete;
-                  console.log("pasoo paquete solicitud-->",paqueteSolicitud);
                   /** Se crea relacion de nuevo paquete y solicitud*/
                   this.listService.crearPaqueteSolicitud(paqueteSolicitud).then((respPaqSol) => {
                     let contSupp=0;
@@ -337,7 +326,6 @@ export class CargarDocPbComponent implements OnInit {
                       soporte.Descripcion=documento.TipoDocumento.Nombre;
                       soporte.PaqueteId=paquete;
                       soporte.DocumentoId=documento.Id;
-                      console.log("pasoo soporte-->",documento);
                       this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
                         contSupp+=1;
                         if(contSupp==Object.keys(res).length){
@@ -388,7 +376,6 @@ export class CargarDocPbComponent implements OnInit {
           let element = soportes[i];
           ids.push(element.DocumentoId);
         }
-        console.log("pasoo update-->",soportes);
         /*Obtiene el objeto (documento) de esos soportes para hacer la comparación.*/
         ids.forEach(element => {
           this.listService.findDocumentoBySoporte(element).then((res)=>{

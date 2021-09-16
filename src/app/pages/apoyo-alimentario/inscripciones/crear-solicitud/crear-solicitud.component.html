@@ -131,7 +131,7 @@
                                         <option value="nuevo">Nuevo en el programa</option>
                                         <option value="antiguo">Antiguo en el programa</option>
                                     </select>
-                                    
+
                                 </div>
                             </div>
                         </form>
@@ -485,32 +485,20 @@
                     <nb-accordion-item-body>
                         <form [formGroup]="sisben">
                             <div class="row item-list">
-                                <div class="col-md-4">¿Tiene sisben?: </div>
+                                <div class="col-md-4">¿Tiene sisben?:
+                                    <span class="required-asterisk">*</span>
+                                </div>
                                 <div class="col-md-8">
                                     <nb-radio-group formControlName="tieneSisben" id="tieneSisben">
-                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='NO'" value="SI" disabled>
+                                        <nb-radio value="SI" (click)="activeSelect(false)">
                                             Si
                                         </nb-radio>
-                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='NO'" value="NO" checked>
-                                            No
-                                        </nb-radio>
-                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='SI'" value="SI" checked>
-                                            Si
-                                        </nb-radio>
-                                        <nb-radio *ngIf="this.estudiante.InfoResidencia.Sisben=='SI'" value="NO" disabled>
+                                        <nb-radio value="NO" (click)="activeSelect(true)">
                                             No
                                         </nb-radio>
                                     </nb-radio-group>
                                 </div>
                             </div>
-
-                            <div class="row item-list">
-                                <div class="col-md-4"> Puntaje Sisben: </div>
-                                <div class="col-md-8">
-                                    <input nbInput fullWidth formControlName="puntaje_Sisben">
-                                </div>
-                            </div>
-
                             <div class="row item-list">
                                 <div class="col-md-4"> Grupo de Sisben:
                                     <span class="required-asterisk">*</span>
@@ -554,7 +542,7 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <select  class="custom-select" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
+                                    <select class="custom-select" placeholder="Calidad Vivienda" formControlName="calidadVivienda" required>
                                         <!-- <option *ngFor="let item of materialVivienda" value="{{item}}">{{item}}</option> -->
                                         <option value="ladrillo"> Ladrillo </option>
                                         <option value="madera"> Madera </option>
@@ -570,7 +558,6 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    
                                     <select class="custom-select" placeholder="Cuartos para Dormir" formControlName="cuartosDormir" required>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -625,14 +612,14 @@
                                     <span class="required-asterisk">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                   
+
                                     <select class="custom-select" placeholder="Origen Agua" formControlName="origenAgua" required>
                                         <option value="" disabled></option>
                                         <option value="acueducto">Acueducto</option>
                                         <option value="lluvias">Aguas Lluvias</option>
                                         <option value="poso">Poso o aljibe </option>
                                         <option value="carro-tanques">Suministro de carro tanques </option>
-                                    </select> 
+                                    </select>
                                 </div>
                             </div>
 

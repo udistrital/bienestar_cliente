@@ -37,6 +37,7 @@ export class CrearSolicitudComponent implements OnInit {
   allServicesP: boolean = false;
   oneServicesP: boolean = false;
   validarDocs: boolean = false;
+  disabled: boolean = false;
 
   registro: FormGroup;
   residencia: FormGroup;
@@ -155,13 +156,6 @@ export class CrearSolicitudComponent implements OnInit {
             this.estudiante.InfoSocioeconomica.DependenciaEconomica =
               infComp.InfoComplementariaId.Nombre;
             break;
-          case "¿Tiene Sisben?":
-            this.estudiante.InfoResidencia.Sisben = infComp.InfoComplementariaId.Nombre
-            /*
-            SI: InfoComplementariaId.Id:170
-            NO: InfoComplementariaId.Id:171
-            */
-            break;
           case "Tipo de Colegio":
             /*
             Privado: InfoComplementariaId.Id:172
@@ -225,10 +219,6 @@ export class CrearSolicitudComponent implements OnInit {
         this.estudiante.InfoSocioeconomica.Estrato = JSON.parse(
           infComp.Dato
         ).ESTRATO;
-        break;
-
-      case "PUNTAJE_SISBEN":
-        this.estudiante.InfoResidencia.Puntaje_Sisben = infComp.Dato;
         break;
 
       case "CABEZA_FAMILIA":
@@ -313,6 +303,12 @@ export class CrearSolicitudComponent implements OnInit {
 
       case "MENORES_EDAD_MATRICULADOS":
         this.estudiante.InfoPersonasACargo.MenoresMatriculados = JSON.parse(
+          infComp.Dato
+        ).value;
+        break;
+
+      case "TIENE_SISBEN":
+        this.estudiante.InfoResidencia.Sisben = JSON.parse(
           infComp.Dato
         ).value;
         break;
@@ -675,15 +671,11 @@ export class CrearSolicitudComponent implements OnInit {
         this.sisben = new FormGroup({
           tieneSisben: new FormControl({
             value: this.estudiante.InfoResidencia.Sisben,
-            disabled: true,
-          }),
-          puntaje_Sisben: new FormControl({
-            value: this.estudiante.InfoResidencia.Puntaje_Sisben,
-            disabled: true,
+            disabled: false,
           }),
           grupo: new FormControl({
             value: this.estudiante.InfoResidencia.Grupo_Sisben,
-            disabled: false,
+            disabled: this.estudiante.InfoResidencia.Sisben=='SI' ? false : true,
           }),
         });
 
@@ -904,6 +896,14 @@ export class CrearSolicitudComponent implements OnInit {
     }
 
     //Condiciones Socioeconomicas
+
+    let tieneSisben = this.sisben.get('tieneSisben').value;
+    let grupoSisben = this.sisben.get('grupo').value;
+    if (tieneSisben=='SI' && (grupoSisben==='A' || grupoSisben==='B' || grupoSisben==='C')) {
+      condicionesSocioeconomicas += 10;
+    }
+    /* 
+    Calculo ANtiguo
     let puntajeSisben = this.sisben.get('puntaje_Sisben').value;
     let municipio = this.residencia.get('municipio').value;
     municipio = municipio.toLowerCase();
@@ -915,13 +915,14 @@ export class CrearSolicitudComponent implements OnInit {
       if (puntajeSisben >= 0 && puntajeSisben <= 37.80) {
         condicionesSocioeconomicas += 10;
       }
-    }
+    } */
 
-    console.log(ingresosFamiliares
+    // Ver cada valor de la varible
+    /* console.log(ingresosFamiliares
       , condicionesFamiliares
       , procedenciaYLugarDeResidencia
       , condicionesDeSalud
-      , condicionesSocioeconomicas);
+      , condicionesSocioeconomicas); */
 
     //Puntaje Total:
     puntajeSol = ingresosFamiliares
@@ -977,7 +978,10 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("MENORES_EDAD_ESTUDIANTES", this.personasacargo.get('menoresEstudiantes').value);
       this.buscarInfoComplemetaria("MENORES_EDAD_MATRICULADOS", this.personasacargo.get('menoresMatriculados').value);
 
-      this.buscarInfoComplemetaria("Grupo Sisben", this.sisben.get('grupo').value);
+      this.buscarInfoComplemetaria("TIENE_SISBEN", this.sisben.get('tieneSisben').value);
+      if(this.sisben.get('tieneSisben').value=='SI'){
+        this.buscarInfoComplemetaria("Grupo Sisben", this.sisben.get('grupo').value);
+      }
 
       this.buscarInfoComplemetaria("CALIDAD_VIVIENDA", this.necesidades.get('calidadVivienda').value);
       this.buscarInfoComplemetaria("NUMERO_CUARTOS_DORMIR", this.necesidades.get('cuartosDormir').value);
@@ -993,7 +997,7 @@ export class CrearSolicitudComponent implements OnInit {
       this.buscarInfoComplemetaria("Pertenece a Ser Pilo Paga", this.especial.get('serPiloPaga').value);
     }
     else {
-      this.showError("Fallo formualrio", "Al parecer algun dato no quedo correctamente diligenciado.");
+      this.showError("Fallo formulario", "Al parecer algun dato no quedo correctamente diligenciado.");
     }
 
   }
@@ -1149,9 +1153,20 @@ export class CrearSolicitudComponent implements OnInit {
       msj += ` <strong> personas a cargo </strong> (${menPersonasACargo}), `;
       valido = false;
     }
-    if (!this.sisben.controls.grupo.valid) {
-      msj += " <strong> sisben </strong> (Grupo),";
-      valido = false;
+    if ((this.sisben.controls.tieneSisben.value!='SI' && this.sisben.controls.tieneSisben.value!='NO') || !this.sisben.controls.grupo.valid) {
+      let menSisben="";
+      if (this.sisben.controls.tieneSisben.value!='SI' && this.sisben.controls.tieneSisben.value!='NO') {
+        menSisben += " Tiene Sisben,";
+      }
+      if(this.sisben.controls.tieneSisben.value=='SI' && this.sisben.controls.grupo.value!='A' && this.sisben.controls.grupo.value!='B' &&
+      this.sisben.controls.grupo.value!='C' && this.sisben.controls.grupo.value!='D'){
+        menSisben += " Grupo";
+      }
+
+      if(menSisben.length>1){
+        msj += ` <strong> sisben </strong> (${menSisben}), `;
+        valido = false;
+      }     
     }
     if (!this.necesidades.valid) {
       let menNecesidades = "";
@@ -1261,6 +1276,14 @@ export class CrearSolicitudComponent implements OnInit {
       this.oneServicesP = check;
     }
 
+  }
+
+  activeSelect(check){
+    if (check) {
+      this.sisben.controls.grupo.disable();
+  } else {
+      this.sisben.controls.grupo.enable();
+  }
   }
 
 }
