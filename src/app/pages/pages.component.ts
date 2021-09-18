@@ -90,7 +90,7 @@ export class PagesComponent implements OnInit {
 
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
-        this.dataMenu = <any>data;        
+        this.dataMenu = <any>data;
         this.mapMenuByObjects(data);
         //this.translateMenu();
 
