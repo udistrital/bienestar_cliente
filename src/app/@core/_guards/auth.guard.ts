@@ -28,8 +28,9 @@ export class AuthGuard implements CanActivate {
       }      
 
       if (!valid) {
+        // not logged in so redirect to login page with the return url
+        // or not exist role return url
         this.router.navigate(['/']);
-        return valid;
       }
       return valid;
       
@@ -43,7 +44,6 @@ export class AuthGuard implements CanActivate {
     for ( let i = 0; i < payload.role.length; i++) {
       for ( let j = 0; j < roles.length; j++) {
           if ( payload.role[i] === roles[j]) {
-              console.log("paso?");
               return true;
           }
       }
