@@ -42,7 +42,7 @@
                         <span *ngIf="!item.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
                     </td>
                     <td class="align-items-center">
-                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada && puedeEditar" class="btn edit-icon btn-sm mb-1" (click)="editarSolicitud(i)" title="Editar solicitud">
+                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada && puedeEditar(item)" class="btn edit-icon btn-sm mb-1" (click)="editarSolicitud(i)" title="Editar solicitud">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                             Editar
                         </button>
