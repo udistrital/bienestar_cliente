@@ -26,7 +26,6 @@ export class SolicitudTerceroComponent implements OnInit {
     periodo: Periodo = null;
     loading: boolean = true;
     puedeCrear: boolean = false;
-    puedeEditar: boolean = false;
 
     creando: boolean = false;
 
@@ -95,7 +94,6 @@ export class SolicitudTerceroComponent implements OnInit {
                 /* Se valida que la inscripcion exista en el periodo*/
                 if (resp.length > 0) {
                     /** Se obtiene id del periodo de inscripción. */
-                    this.puedeEditar=true;
                     this.periodo = resp[0].PeriodoId;
                     this.puedeCrearSolicitud();
                 }
@@ -132,7 +130,6 @@ export class SolicitudTerceroComponent implements OnInit {
     }
 
     ngOnInit() {
-       
     }
 
     verSolicitud(i: number) {
@@ -168,6 +165,22 @@ export class SolicitudTerceroComponent implements OnInit {
         this.loading = false;
         Swal.close();
         this.utilService.showSwAlertError(titulo, msj);
+    }
+
+    puedeEditar(sol){
+        let refSol: ReferenciaSolicitud;
+        try {
+          refSol = JSON.parse(sol.Referencia);
+          if (refSol != null) {
+            if (refSol.Periodo === this.periodo.Nombre) {
+              return true;
+            }else{
+              return false;
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        }
     }
 
 }

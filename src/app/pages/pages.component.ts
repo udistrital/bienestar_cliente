@@ -10,6 +10,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { CustomLoginService } from '../shared/services/custom-login.service';
 import { ListService } from '../@core/store/list.service';
+import { RolesConstanst } from '../shared/constants/roles.constants';
 
 @Component({
   selector: 'ngx-pages',
@@ -50,6 +51,7 @@ export class PagesComponent implements OnInit {
       if (temp == undefined) {
         this.listService.getInfoEstudiante().then((resp) => {
           this.roles = resp.role;
+          RolesConstanst.ROLES_EMAIL=this.roles;
           this.loadMenu();
         }).catch((error) => {
           this.roles = [];
@@ -88,7 +90,7 @@ export class PagesComponent implements OnInit {
 
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
-        this.dataMenu = <any>data;
+        this.dataMenu = <any>data;        
         this.mapMenuByObjects(data);
         //this.translateMenu();
 
