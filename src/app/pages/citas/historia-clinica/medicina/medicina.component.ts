@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-medicina',
   templateUrl: './medicina.component.html',
@@ -77,8 +78,9 @@ export class MedicinaComponent implements OnInit {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
-  constructor(private fb: FormBuilder, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService) { }
   ngOnInit() {
+    this.getHojaHistoria();
   }
   get analisisArr() {
     return this.medicinaForm.get('analisis') as FormArray;
@@ -175,5 +177,11 @@ export class MedicinaComponent implements OnInit {
       planDeManejo: this.medicinaForm.get('planDeManejo').value,
     }
     this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
+  }
+  getHojaHistoria() {
+    this.saludService.getHojaHistoria().subscribe(data => {
+      console.log(data);
+
+    });
   }
 }
