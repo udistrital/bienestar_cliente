@@ -179,9 +179,8 @@ export class MedicinaComponent implements OnInit {
     this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
   }
   getHojaHistoria() {
-    this.saludService.getHojaHistoria().subscribe(data => {
+    this.saludService.getHojaHistoria(20142020136).subscribe(data => {
       console.log(data);
-
     });
   }
 }
