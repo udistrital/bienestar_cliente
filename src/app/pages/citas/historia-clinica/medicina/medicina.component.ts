@@ -1,3 +1,4 @@
+import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -83,7 +84,7 @@ export class MedicinaComponent implements OnInit {
   }
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService) { }
   ngOnInit() {
-    this.getHojaHistoria();
+    this.getInfoHistoria();
   }
   get analisisArr() {
     return this.medicinaForm.get('analisis') as FormArray;
@@ -181,10 +182,16 @@ export class MedicinaComponent implements OnInit {
     }
     this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
   }
-  getHojaHistoria() {
+  getInfoHistoria() {
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
-      this.hojaHistoria = data[0] ||null;
- 
+      this.hojaHistoria = data[0] || null;
+      console.log(data);
+      this.evolucionArr.push(new FormControl(this.hojaHistoria.Evolucion));
+      
+    });
+    this.saludService.getAntecedente(this.hojaHistoria.IdHistoriaClinica).subscribe(data => {
+      // this.antecedente = data[0] ||null;
+      console.log(data);
     });
   }
 }

@@ -44,7 +44,9 @@ export class SaludService {
   getTipoExamen(): Observable<TipoExamen> {
     return this.httpClient.get<TipoExamen>(this.url + 'Medicina/TipoExamen');
   }
-  getAntecedente(): Observable<any> {
-    return this.httpClient.get<any>(this.url + 'Medicina/Antecedente');
+  getAntecedente(IdHistoriaClinica): Observable<any> {
+    console.log(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica:' + `${IdHistoriaClinica}`);
+
+    return this.httpClient.get<any>(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica:' + `${IdHistoriaClinica}`);
   }
 }
