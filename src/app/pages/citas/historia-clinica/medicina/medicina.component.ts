@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-medicina',
@@ -8,6 +9,8 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+  hojaHistoria: HojaHistoria;
+  motivo: string;
   nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
   nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
   medicinaForm: FormGroup = this.fb.group({
@@ -179,8 +182,9 @@ export class MedicinaComponent implements OnInit {
     this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
   }
   getHojaHistoria() {
-    this.saludService.getHojaHistoria(20142020136).subscribe(data => {
-      console.log(data);
+    this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
+      this.hojaHistoria = data[0] ||null;
+ 
     });
   }
 }

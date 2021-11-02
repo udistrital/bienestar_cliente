@@ -16,6 +16,8 @@ import { TipoExamen } from '../models/Salud/tipoExamen.model';
 })
 export class SaludService {
   url = environment.SALUD;
+  query = '?query=';
+  IdPersona: number | string;
   constructor(private httpClient: HttpClient) { }
 
   getConsultaFisioterapia(): Observable<ConsultaFisioterapia> {
@@ -33,9 +35,8 @@ export class SaludService {
   getSistemas(): Observable<Sistemas> {
     return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistemas');
   }
-  getHojaHistoria(id_persona): Observable<HojaHistoria> {
-    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + ',id_persona' + id_persona);
-
+  getHojaHistoria(IdPersona): Observable<HojaHistoria> {
+    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'IdPersona:' + `${IdPersona}`);
   }
   getHistoriaClinica(): Observable<HistoriaClinica> {
     return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica');
