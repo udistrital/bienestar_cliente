@@ -45,8 +45,8 @@ export class SaludService {
     return this.httpClient.get<TipoExamen>(this.url + 'Medicina/TipoExamen');
   }
   getAntecedente(IdHistoriaClinica): Observable<any> {
-    console.log(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica:' + `${IdHistoriaClinica}`);
+    console.log(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica.IdHistoriaClinica:' + `${IdHistoriaClinica}`);
 
-    return this.httpClient.get<any>(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica:' + `${IdHistoriaClinica}`);
+    return this.httpClient.get<any>(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica.IdHistoriaClinica:' + `${IdHistoriaClinica}`);
   }
 }

@@ -1,4 +1,5 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
   <div class="row">
     <div class="col md-12 me-4 mt-2 mb-4">
@@ -14,14 +15,14 @@
       <div class="col md-6 me-4 mt-4">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="patologicos" placeholder="Patológicos"
-            id="patologicos"></textarea>
+            value="{{antecedentes[0].Observaciones}}" id="patologicos"></textarea>
           <label for="patologicos">Patológicos</label>
         </div>
       </div>
       <div class="col md-6 me-4 mt-4">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="hospitalarios" placeholder="hospitalarios"
-            id="hospitalarios"></textarea>
+            value="{{antecedentes[1].Observaciones}}" id="hospitalarios"></textarea>
           <label for="hospitalarios">Hospitalarios</label>
         </div>
       </div>
@@ -30,14 +31,14 @@
       <div class="col md-6 me-4 mt-2">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="quirurgicos" placeholder="Quirúrgicos"
-            id="quirurgicos"></textarea>
+            value="{{antecedentes[2].Observaciones}}" id="quirurgicos"></textarea>
           <label for="quirurgicos">Quirúrgicos</label>
         </div>
       </div>
       <div class="col md-6 me-4 mt-2">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="traumaticos" placeholder="Traumáticos"
-            id="traumaticos"></textarea>
+            value="{{antecedentes[3].Observaciones}}" id="traumaticos"></textarea>
           <label for="traumaticos">Traumáticos</label>
         </div>
       </div>
@@ -46,21 +47,21 @@
       <div class="col md-6 me-4 mt-2">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="genitoUrinarios" placeholder="Genito/Urinarios"
-            id="genitoUrinarios"></textarea>
+            value="{{antecedentes[4].Observaciones}}" id="genitoUrinarios"></textarea>
           <label for="genitoUrinarios">Genito/Urinarios</label>
         </div>
       </div>
       <div class="col md-6 me-4 mt-2">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="alergicos" placeholder="Alérgicos"
-            id="alergicos"></textarea>
+            value="{{antecedentes[5].Observaciones}}" id="alergicos"></textarea>
           <label for="alergicos">Alérgicos</label>
         </div>
       </div>
       <div class="col md-6 me-4 mt-2">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="farmacologicos" placeholder="Farmacológicos"
-            id="farmacologicos"></textarea>
+            value="{{antecedentes[6].Observaciones}}" id="farmacologicos"></textarea>
           <label for="farmacologicos">Farmacológicos</label>
         </div>
       </div>
@@ -69,14 +70,14 @@
       <div class="col md-6 me-4 mt-2 mb-4">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="familiares" placeholder="Familiares"
-            id="familiares"></textarea>
+            value="{{antecedentes[7].Observaciones}}" id="familiares"></textarea>
           <label for="familiares">Familiares</label>
         </div>
       </div>
       <div class="col md-6 me-4 mt-2  mb-4">
         <div class="form-floating">
           <textarea class="form-control textArea-mid" formControlName="ocupacionales" placeholder="Ocupacionales"
-            id="ocupacionales"></textarea>
+            value="{{antecedentes[8].Observaciones}}" id="ocupacionales"></textarea>
           <label for="ocupacionales">Ocupacionales</label>
         </div>
       </div>

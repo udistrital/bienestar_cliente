@@ -2,6 +2,7 @@ import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Antecedente } from '../../../../shared/models/Salud/antecedente.model';
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
@@ -11,7 +12,8 @@ import { SaludService } from '../../../../shared/services/salud.service';
 })
 export class MedicinaComponent implements OnInit {
   hojaHistoria: HojaHistoria;
-  motivo: string;
+  idHistoria: number;
+  antecedentes: Antecedente;
   nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
   nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
   medicinaForm: FormGroup = this.fb.group({
@@ -83,9 +85,7 @@ export class MedicinaComponent implements OnInit {
     especialidad: 'ESPECIALIDAD 1',
   }
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService) { }
-  ngOnInit() {
-    this.getInfoHistoria();
-  }
+
   get analisisArr() {
     return this.medicinaForm.get('analisis') as FormArray;
   }
@@ -115,6 +115,7 @@ export class MedicinaComponent implements OnInit {
   buscarEspecialista() {
     // TODO
   }
+  //Formulario para guardar en la DB
   guardarHistoriaMedicina() {
     const historiaMedicina: any = {
       motivoConsulta: this.medicinaForm.get('motivoConsulta').value,
@@ -182,16 +183,26 @@ export class MedicinaComponent implements OnInit {
     }
     this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
   }
+  ngOnInit() {
+    this.getInfoHistoria();
+
+  }
+  //Llenado de la historia clínica
+
+
   getInfoHistoria() {
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
       this.hojaHistoria = data[0] || null;
       console.log(data);
       this.evolucionArr.push(new FormControl(this.hojaHistoria.Evolucion));
-      
-    });
-    this.saludService.getAntecedente(this.hojaHistoria.IdHistoriaClinica).subscribe(data => {
-      // this.antecedente = data[0] ||null;
-      console.log(data);
+      this.idHistoria = this.hojaHistoria.IdHistoriaClinica.IdHistoriaClinica
+      this.saludService.getAntecedente(this.hojaHistoria.IdHistoriaClinica.IdHistoriaClinica).subscribe(data => {
+        this.antecedentes = data || null;
+        console.log(data);
+        console.log(data[0].Observaciones);
+        
+      });
     });
   }
+
 }
