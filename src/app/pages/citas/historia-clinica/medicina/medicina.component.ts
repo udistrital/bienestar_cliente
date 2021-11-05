@@ -12,8 +12,8 @@ import { SaludService } from '../../../../shared/services/salud.service';
 })
 export class MedicinaComponent implements OnInit {
   hojaHistoria: HojaHistoria;
-  idHistoria: number;
-  antecedentes: Antecedente;
+  idHistoria: number | null;
+  antecedentes: Antecedente | null;
   nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
   nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
   medicinaForm: FormGroup = this.fb.group({
@@ -185,24 +185,31 @@ export class MedicinaComponent implements OnInit {
   }
   ngOnInit() {
     this.getInfoHistoria();
-
   }
   //Llenado de la historia clínica
 
 
   getInfoHistoria() {
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
-      this.hojaHistoria = data[0] || null;
-      console.log(data);
-      this.evolucionArr.push(new FormControl(this.hojaHistoria.Evolucion));
+      this.hojaHistoria = data[0];
+      this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
+      this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
+      if (this.hojaHistoria.Evolucion != null) {
+        this.evolucionArr.push(new FormControl(this.hojaHistoria.Evolucion));
+      }
       this.idHistoria = this.hojaHistoria.IdHistoriaClinica.IdHistoriaClinica
       this.saludService.getAntecedente(this.hojaHistoria.IdHistoriaClinica.IdHistoriaClinica).subscribe(data => {
-        this.antecedentes = data || null;
-        console.log(data);
-        console.log(data[0].Observaciones);
-        
+        this.antecedentes = data;
+        this.medicinaForm.controls.patologicos.setValue(this.antecedentes[0].Observaciones);
+        this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes[1].Observaciones);
+        this.medicinaForm.controls.quirurgicos.setValue(this.antecedentes[2].Observaciones);
+        this.medicinaForm.controls.genitoUrinarios.setValue(this.antecedentes[3].Observaciones);
+        this.medicinaForm.controls.traumaticos.setValue(this.antecedentes[4].Observaciones);
+        this.medicinaForm.controls.alergicos.setValue(this.antecedentes[5].Observaciones);
+        this.medicinaForm.controls.farmacologicos.setValue(this.antecedentes[6].Observaciones);
+        this.medicinaForm.controls.familiares.setValue(this.antecedentes[7].Observaciones);
+        this.medicinaForm.controls.ocupacionales.setValue(this.antecedentes[8].Observaciones);
       });
     });
   }
-
 }

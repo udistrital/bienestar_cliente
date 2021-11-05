@@ -10,6 +10,7 @@ import { TipoAntecedente } from '../models/Salud/tipoAntecedente.model';
 import { Sistemas } from '../models/Salud/sistemas.model';
 import { HistoriaClinica } from '../models/Salud/historiaClinica.model';
 import { TipoExamen } from '../models/Salud/tipoExamen.model';
+import { Antecedente } from '../models/Salud/antecedente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +45,7 @@ export class SaludService {
   getTipoExamen(): Observable<TipoExamen> {
     return this.httpClient.get<TipoExamen>(this.url + 'Medicina/TipoExamen');
   }
-  getAntecedente(IdHistoriaClinica): Observable<any> {
-    console.log(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica.IdHistoriaClinica:' + `${IdHistoriaClinica}`);
-
+  getAntecedente(IdHistoriaClinica): Observable<Antecedente> {
     return this.httpClient.get<any>(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica.IdHistoriaClinica:' + `${IdHistoriaClinica}`);
   }
 }
