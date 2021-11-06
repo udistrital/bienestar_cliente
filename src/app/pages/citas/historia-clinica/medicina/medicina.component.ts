@@ -9,6 +9,7 @@ import { Evolucion } from '../../../../shared/models/Salud/evolucion.model';
 import { Examen } from '../../../../shared/models/Salud/examen.model';
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { Sistemas } from '../../../../shared/models/Salud/sistemas.model';
+import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-medicina',
@@ -23,75 +24,76 @@ export class MedicinaComponent implements OnInit {
   examenes: Examen | null;
   evolucion: Evolucion[] = [];
   analisis: Analisis[] = [];
+  paciente: string;
   diagnostico: Diagnostico | null;
-  nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
-  nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
+  nuevoAnalisis: FormControl = this.fb.control('');
+  nuevaEvolucion: FormControl = this.fb.control('');
   medicinaForm: FormGroup = this.fb.group({
-    motivoConsulta: [null, Validators.required],
-    patologicos: [null, Validators.required],
-    hospitalarios: [null, Validators.required],
-    traumaticos: [null, Validators.required],
-    quirurgicos: [null, Validators.required],
-    genitoUrinarios: [null, Validators.required],
-    alergicos: [null, Validators.required],
-    farmacologicos: [null, Validators.required],
-    familiares: [null, Validators.required],
-    ocupacionales: [null, Validators.required],
-    menarquia: [null, Validators.required],
-    fur: [null, Validators.required],
-    ciclos: [null, Validators.required],
-    ias: [null, Validators.required],
-    compañeros: [null, Validators.required],
-    fo: [null, Validators.required],
-    fup: [null, Validators.required],
-    pp: [null, Validators.required],
-    fuccv: [null, Validators.required],
-    resultadoccv: [null, Validators.required],
-    examenSeno: [null, Validators.required],
-    resultadoSeno: [null, Validators.required],
-    piel: [null, Validators.required],
-    colageno: [null, Validators.required],
-    linfatico: [null, Validators.required],
-    oseo: [null, Validators.required],
-    muscular: [null, Validators.required],
-    articular: [null, Validators.required],
-    digestivo: [null, Validators.required],
-    urinario: [null, Validators.required],
-    sentidos: [null, Validators.required],
-    cardioVascular: [null, Validators.required],
-    neurologico: [null, Validators.required],
-    respiratorio: [null, Validators.required],
-    examenes: [null, Validators.required],
-    ta: [null, Validators.required],
-    fc: [null, Validators.required],
-    fr: [null, Validators.required],
-    sao2: [null, Validators.required],
-    peso: [null, Validators.required],
-    imc: [null, Validators.required],
-    talla: [null, Validators.required],
-    tc: [null, Validators.required],
-    estadoGeneral: [null, Validators.required],
-    cabezaYCuello: [null, Validators.required],
-    orl: [null, Validators.required],
-    ojos: [null, Validators.required],
-    torax: [null, Validators.required],
-    ruidosRespiratorios: [null, Validators.required],
-    ruidosCardiacos: [null, Validators.required],
-    abdomen: [null, Validators.required],
-    neurologicoE: [null, Validators.required],
-    genital: [null, Validators.required],
-    extremidades: [null, Validators.required],
-    diagnostico: [null, Validators.required],
+    motivoConsulta: [null],
+    patologicos: [null],
+    hospitalarios: [null],
+    traumaticos: [null],
+    quirurgicos: [null],
+    genitoUrinarios: [null],
+    alergicos: [null],
+    farmacologicos: [null],
+    familiares: [null],
+    ocupacionales: [null],
+    menarquia: [null],
+    fur: [null],
+    ciclos: [null],
+    ias: [null],
+    compañeros: [null],
+    fo: [null],
+    fup: [null],
+    pp: [null],
+    fuccv: [null],
+    resultadoccv: [null],
+    examenSeno: [null],
+    resultadoSeno: [null],
+    piel: [null],
+    colageno: [null],
+    linfatico: [null],
+    oseo: [null],
+    muscular: [null],
+    articular: [null],
+    digestivo: [null],
+    urinario: [null],
+    sentidos: [null],
+    cardioVascular: [null],
+    neurologico: [null],
+    respiratorio: [null],
+    examenes: [null],
+    ta: [null],
+    fc: [null],
+    fr: [null],
+    sao2: [null],
+    peso: [null],
+    imc: [null],
+    talla: [null],
+    tc: [null],
+    estadoGeneral: [null],
+    cabezaYCuello: [null],
+    orl: [null],
+    ojos: [null],
+    torax: [null],
+    ruidosRespiratorios: [null],
+    ruidosCardiacos: [null],
+    abdomen: [null],
+    neurologicoE: [null],
+    genital: [null],
+    extremidades: [null],
+    diagnostico: [null],
     analisis: this.fb.array([]),
     evolucion: this.fb.array([]),
-    planDeManejo: [null, Validators.required],
-    observacionesMedicina: [null, Validators.required]
+    planDeManejo: [null],
+    observacionesMedicina: [null]
   });
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService) { }
 
   get analisisArr() {
     return this.medicinaForm.get('analisis') as FormArray;
@@ -103,14 +105,14 @@ export class MedicinaComponent implements OnInit {
     if (this.nuevoAnalisis.invalid) {
       return
     }
-    this.analisisArr.push(new FormControl(this.nuevoAnalisis.value, Validators.required));
+    this.analisisArr.push(new FormControl(this.nuevoAnalisis.value));
     this.nuevoAnalisis.reset();
   }
   agregarEvolucion() {
     if (this.nuevaEvolucion.invalid) {
       return
     }
-    this.evolucionArr.push(new FormControl(this.nuevaEvolucion.value, Validators.required));
+    this.evolucionArr.push(new FormControl(this.nuevaEvolucion.value));
     this.nuevaEvolucion.reset();
   }
   borrarAnalisis(i: number) {
@@ -185,9 +187,13 @@ export class MedicinaComponent implements OnInit {
       evolucion: this.medicinaForm.get('evolucion').value,
       planDeManejo: this.medicinaForm.get('planDeManejo').value,
     }
-    this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
+    this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
   }
   ngOnInit() {
+    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+      var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+      this.paciente = paciente.nombre;
+    });
     this.getInfoHistoria();
   }
   getInfoHistoria() {
@@ -199,7 +205,9 @@ export class MedicinaComponent implements OnInit {
       let evolucion = JSON.parse(this.hojaHistoria.Evolucion);
       this.evolucion.push({ ...evolucion });
       let evolucion2 = this.evolucion[0].evolucion;
-      this.evolucionArr.push(new FormControl(evolucion2));
+      for (let i = 0; i < evolucion2.length; i++) {
+        this.evolucionArr.push(new FormControl(evolucion2[i]));
+      }
       this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
       this.saludService.IdHistoria = this.idHistoria;
       this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
@@ -263,7 +271,9 @@ export class MedicinaComponent implements OnInit {
         let analisis = JSON.parse(this.diagnostico.Analisis);
         this.analisis.push({ ...analisis });
         let analisis2 = this.analisis[0].analisis;
-        this.analisisArr.push(new FormControl(analisis2));
+        for (let i = 0; i < analisis2.length; i++) {
+          this.analisisArr.push(new FormControl(analisis2[i]));
+        }
       });
     });
   }

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ToastrService } from 'ngx-toastr';
 import { Evolucion } from '../../../../shared/models/Salud/evolucion.model';
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
+import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-psicologia',
@@ -12,41 +13,46 @@ import { SaludService } from '../../../../shared/services/salud.service';
 export class PsicologiaComponent implements OnInit {
   idHistoria: number | null;
   evolucion: Evolucion[] = [];
-  nuevaEvolucionPsico: FormControl = this.fb.control('', Validators.required);
+  paciente:string;
+  nuevaEvolucionPsico: FormControl = this.fb.control('');
   psicologiaForm: FormGroup = this.fb.group({
-    viveCon: [null, Validators.required],
-    difusos: [null, Validators.required],
-    claros: [null, Validators.required],
-    rigidos: [null, Validators.required],
-    actualesFamiliares: [null, Validators.required],
-    pasadosFamiliares: [null, Validators.required],
-    actualesPersonales: [null, Validators.required],
-    pasadosPersonales: [null, Validators.required],
-    figurasDeAutoridad: [null, Validators.required],
-    pares: [null, Validators.required],
-    pareja: [null, Validators.required],
-    relacionesSexuales: [null, Validators.required],
-    satisfaccion: [null, Validators.required],
-    metodoProteccion: [null, Validators.required],
-    orientacionSexual: [null, Validators.required],
-    economicos: [null, Validators.required],
-    judiciales: [null, Validators.required],
-    drogas: [null, Validators.required],
-    motivoConsultaPsico: [null, Validators.required],
-    problematicaActual: [null, Validators.required],
-    estiloAfrontamiento: [null, Validators.required],
-    comportamientoDuranteConsulta: ['', Validators.required],
-    hipotesis: [null, Validators.required],
-    acuerdos: [null, Validators.required],
-    observacionesPsicologia: [null, Validators.required],
+    viveCon: [null],
+    difusos: [null],
+    claros: [null],
+    rigidos: [null],
+    actualesFamiliares: [null],
+    pasadosFamiliares: [null],
+    actualesPersonales: [null],
+    pasadosPersonales: [null],
+    figurasDeAutoridad: [null],
+    pares: [null],
+    pareja: [null],
+    relacionesSexuales: [null],
+    satisfaccion: [null],
+    metodoProteccion: [null],
+    orientacionSexual: [null],
+    economicos: [null],
+    judiciales: [null],
+    drogas: [null],
+    motivoConsultaPsico: [null],
+    problematicaActual: [null],
+    estiloAfrontamiento: [null],
+    comportamientoDuranteConsulta: [''],
+    hipotesis: [null],
+    acuerdos: [null],
+    observacionesPsicologia: [null],
     evolucionPsico: this.fb.array([]),
   })
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService:EstudiantesService) { }
   ngOnInit() {
+    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+      var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+      this.paciente = paciente.nombre;
+    });
     this.getInfoPsicologia();
   }
   get evolucionPsicoArr() {
@@ -56,7 +62,7 @@ export class PsicologiaComponent implements OnInit {
     if (this.nuevaEvolucionPsico.invalid) {
       return
     }
-    this.evolucionPsicoArr.push(new FormControl(this.nuevaEvolucionPsico.value, Validators.required));
+    this.evolucionPsicoArr.push(new FormControl(this.nuevaEvolucionPsico.value));
     this.nuevaEvolucionPsico.reset();
   }
   borrarEvolucionPsico(i: number) {
@@ -68,9 +74,9 @@ export class PsicologiaComponent implements OnInit {
   guardarHistoriaPsicologia() {
     const historiaPsicologia: any = {
       viveCon: this.psicologiaForm.get('viveCon').value,
-      difusos: this.psicologiaForm.get('difusos').value,
-      claros: this.psicologiaForm.get('claros').value,
-      rigidos: this.psicologiaForm.get('rigidos').value,
+      Difusos: this.psicologiaForm.get('difusos').value,
+      Claros: this.psicologiaForm.get('claros').value,
+      Rigidos: this.psicologiaForm.get('rigidos').value,
       actualesFamiliares: this.psicologiaForm.get('actualesFamiliares').value,
       pasadosFamiliares: this.psicologiaForm.get('pasadosFamiliares').value,
       actualesPersonales: this.psicologiaForm.get('actualesPersonales').value,
@@ -91,10 +97,12 @@ export class PsicologiaComponent implements OnInit {
       comportamientoDuranteConsulta: this.psicologiaForm.get('comportamientoDuranteConsulta').value,
       hipotesis: this.psicologiaForm.get('hipotesis').value,
       acuerdos: this.psicologiaForm.get('acuerdos').value,
-      observaciones: this.psicologiaForm.get('observacionesPsicologia').value,
+      Observaciones: this.psicologiaForm.get('observacionesPsicologia').value,
       evolucionPsico: this.psicologiaForm.get('evolucionPsico').value,
     }
-    this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
+    console.log(historiaPsicologia);
+
+    this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
   }
   getInfoPsicologia() {
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
@@ -137,7 +145,7 @@ export class PsicologiaComponent implements OnInit {
         this.psicologiaForm.controls.comportamientoDuranteConsulta.setValue(data[0].Comportamiento);
       });
       this.saludService.getDiagnosticoPsicologia(this.idHistoria).subscribe(data => {
-        console.log(data);
+        // console.log(data);
         this.psicologiaForm.controls.hipotesis.setValue(data[0].Hipotesis);
         this.psicologiaForm.controls.acuerdos.setValue(data[0].Acuerdo);
         this.psicologiaForm.controls.observacionesPsicologia.setValue(data[0].Observaciones);

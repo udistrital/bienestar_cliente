@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { EstudiantesService } from "../../../../shared/services/estudiantes.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { SaludService } from "../../../../shared/services/salud.service";
 //import { ToastrService } from 'ngx-toastr';
 //import { UsuariosService } from 'src/app/services/usuarios.service';
 
@@ -10,13 +11,15 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
   styleUrls: ["./listar-paciente.component.css"],
 })
 export class ListarPacienteComponent implements OnInit {
+  @Output() newItemEvent = new EventEmitter<string>();
+
   nombre = "";
   carrera = "";
   codigo = "";
   estado = "";
   telefono = "";
   terceroId = "";
-  constructor(private estudianteService: EstudiantesService) { }
+  constructor(private estudianteService: EstudiantesService, private saludService: SaludService) { }
   miFormulario = new FormGroup({
     codigo: new FormControl(null, Validators.required),
   });
@@ -37,7 +40,7 @@ export class ListarPacienteComponent implements OnInit {
 
       });
     this.estudianteService.getInfoPorCodigo(this.miFormulario.value.codigo).subscribe((data) => {
-      this.terceroId = data[0].TerceroId.Id||null;
+      this.terceroId = data[0].TerceroId.Id || null;
       this.estudianteService.getInfoComplementaria(this.terceroId, 51).subscribe((data) => {
         this.telefono = data[0].Dato;
         // console.log(this.telefono);

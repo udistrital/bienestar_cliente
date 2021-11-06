@@ -1,97 +1,104 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
+import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-odontologia',
   templateUrl: './odontologia.component.html',
   styleUrls: ['../historia-clinica.component.css']
 })
 export class OdontologiaComponent implements OnInit {
-  nuevaEvolucionOdonto: FormControl = this.fb.control('', Validators.required);
+  paciente: string;
+  nuevaEvolucionOdonto: FormControl = this.fb.control('');
   odontologiaForm: FormGroup = this.fb.group({
-    motivoConsultaOdonto: [null, Validators.required],
-    tratamientoMedico: [null, Validators.required],
-    ingestionMedicamentos: [null, Validators.required],
-    reaccionesAlergicas: [null, Validators.required],
-    hemorragias: [null, Validators.required],
-    irradiaciones: [null, Validators.required],
-    sinusitis: [null, Validators.required],
-    enfermedadesRespiratorias: ['', Validators.required],
-    cardiopatias: [null, Validators.required],
-    diabetes: [null, Validators.required],
-    fiebreReumatica: [null, Validators.required],
-    hepatitis: [null, Validators.required],
-    hipertensionArterial: [null, Validators.required],
-    otrasEnfermedades: [null, Validators.required],
-    antecedentesFamiliares: [null, Validators.required],
-    cepillado: [null, Validators.required],
-    cepilladoCuantas: [null, Validators.required],
-    sedaDental: [null, Validators.required],
-    sedaDentalCuantas: [null, Validators.required],
-    enjuague: [null, Validators.required],
-    enjuagueCuantas: [null, Validators.required],
-    dulces: [null, Validators.required],
-    fuma: [null, Validators.required],
-    chicles: [null, Validators.required],
-    temperatura: [null, Validators.required],
-    pulso: [null, Validators.required],
-    tensionArterial: [null, Validators.required],
-    respiracion: [null, Validators.required],
-    articulacionTemporoMandibula: ['', Validators.required],
-    labios: [null, Validators.required],
-    lengua: [null, Validators.required],
-    paladar: [null, Validators.required],
-    pisoBoca: [null, Validators.required],
-    carrillos: [null, Validators.required],
-    glandulasSalivales: [null, Validators.required],
-    maxilares: [null, Validators.required],
-    senosMaxilares: [null, Validators.required],
-    musculosMasticadores: [null, Validators.required],
-    nerviosoOdontologia: [null, Validators.required],
-    vascularOdontologia: [null, Validators.required],
-    linfaticoRegionalOdontologia: [null, Validators.required],
-    Supernumerarios: [null, Validators.required],
-    abrasion: [null, Validators.required],
-    manchas: [null, Validators.required],
-    patologiaPulpar: [null, Validators.required],
-    placaBlanda: [null, Validators.required],
-    placaCalcificada: ['', Validators.required],
-    oclusion: [null, Validators.required],
-    otrosOdonto: [null, Validators.required],
-    observaciones: [null, Validators.required],
-    ultimaVisitaOdontologo: [null, Validators.required],
-    evaluacionEstadoFinal: [null, Validators.required],
-    indiceActualVestabular: [null, Validators.required],
-    indiceAnteriorVestabular: [null, Validators.required],
-    fechaPlacaVestabular: [null, Validators.required],
-    indiceActualVestibular: [null, Validators.required],
-    indiceAnteriorVestibular: [null, Validators.required],
-    fechaPlacaVestibular: [null, Validators.required],
-    observacionesVestibular: [null, Validators.required],
-    diagnosticoOdonto: [null, Validators.required],
-    pronosticoOdonto: [null, Validators.required],
-    periapicalInicio: [null, Validators.required],
-    periapicalFinal: [null, Validators.required],
-    panoramicaInicio: [null, Validators.required],
-    panoramicaFinal: [null, Validators.required],
-    otraInicio: [null, Validators.required],
-    otraFinal: [null, Validators.required],
-    examenesLaboratorioOdontoInicio: [null, Validators.required],
-    examenesLaboratorioOdontoFinal: [null, Validators.required],
-    tp: [null, Validators.required],
-    tpt: [null, Validators.required],
-    coagulacion: [null, Validators.required],
-    sangria: [null, Validators.required],
-    otra: [null, Validators.required],
-    observacionesOdontologia: [null, Validators.required],
+    motivoConsultaOdonto: [null],
+    tratamientoMedico: [null],
+    ingestionMedicamentos: [null],
+    reaccionesAlergicas: [null],
+    hemorragias: [null],
+    irradiaciones: [null],
+    sinusitis: [null],
+    enfermedadesRespiratorias: [''],
+    cardiopatias: [null],
+    diabetes: [null],
+    fiebreReumatica: [null],
+    hepatitis: [null],
+    hipertensionArterial: [null],
+    otrasEnfermedades: [null],
+    antecedentesFamiliares: [null],
+    cepillado: [null],
+    cepilladoCuantas: [null],
+    sedaDental: [null],
+    sedaDentalCuantas: [null],
+    enjuague: [null],
+    enjuagueCuantas: [null],
+    dulces: [null],
+    fuma: [null],
+    chicles: [null],
+    temperatura: [null],
+    pulso: [null],
+    tensionArterial: [null],
+    respiracion: [null],
+    articulacionTemporoMandibula: [''],
+    labios: [null],
+    lengua: [null],
+    paladar: [null],
+    pisoBoca: [null],
+    carrillos: [null],
+    glandulasSalivales: [null],
+    maxilares: [null],
+    senosMaxilares: [null],
+    musculosMasticadores: [null],
+    nerviosoOdontologia: [null],
+    vascularOdontologia: [null],
+    linfaticoRegionalOdontologia: [null],
+    Supernumerarios: [null],
+    abrasion: [null],
+    manchas: [null],
+    patologiaPulpar: [null],
+    placaBlanda: [null],
+    placaCalcificada: [''],
+    oclusion: [null],
+    otrosOdonto: [null],
+    observaciones: [null],
+    ultimaVisitaOdontologo: [null],
+    evaluacionEstadoFinal: [null],
+    indiceActualVestabular: [null],
+    indiceAnteriorVestabular: [null],
+    fechaPlacaVestabular: [null],
+    indiceActualVestibular: [null],
+    indiceAnteriorVestibular: [null],
+    fechaPlacaVestibular: [null],
+    observacionesVestibular: [null],
+    diagnosticoOdonto: [null],
+    pronosticoOdonto: [null],
+    periapicalInicio: [null],
+    periapicalFinal: [null],
+    panoramicaInicio: [null],
+    panoramicaFinal: [null],
+    otraInicio: [null],
+    otraFinal: [null],
+    examenesLaboratorioOdontoInicio: [null],
+    examenesLaboratorioOdontoFinal: [null],
+    tp: [null],
+    tpt: [null],
+    coagulacion: [null],
+    sangria: [null],
+    otra: [null],
+    observacionesOdontologia: [null],
     evolucionOdonto: this.fb.array([]),
   });
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
-  constructor(private fb: FormBuilder, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService) { }
   ngOnInit() {
+    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+      var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+      this.paciente = paciente.nombre;
+    });
   }
   get evolucionOdontoArr() {
     return this.odontologiaForm.get('evolucionOdonto') as FormArray;
@@ -100,7 +107,7 @@ export class OdontologiaComponent implements OnInit {
     if (this.nuevaEvolucionOdonto.invalid) {
       return
     }
-    this.evolucionOdontoArr.push(new FormControl(this.nuevaEvolucionOdonto.value, Validators.required));
+    this.evolucionOdontoArr.push(new FormControl(this.nuevaEvolucionOdonto.value));
     this.nuevaEvolucionOdonto.reset();
   }
   borrarEvolucionOdonto(i: number) {
@@ -189,6 +196,6 @@ export class OdontologiaComponent implements OnInit {
       observacionesFinales: this.odontologiaForm.get('observacionesOdontologia').value,
     }
 
-    this.toastr.success('Ahora conecta todos los servicios xD', '¡Funciona!');
+    this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
   }
 }

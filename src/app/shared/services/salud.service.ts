@@ -25,6 +25,7 @@ export class SaludService {
   url = environment.SALUD;
   url2 = environment.PSICOLOGIA;
   query = '?query=';
+  paciente = '';
   IdPersona: number | string;
   IdHistoria: number;
   constructor(private httpClient: HttpClient) { }
@@ -78,5 +79,14 @@ export class SaludService {
   }
   getDiagnosticoPsicologia(IdHistoriaClinica): Observable<DiagnosticoPsicologia> {
     return this.httpClient.get<DiagnosticoPsicologia>(this.url2 + 'Psicologia/Diagnostico/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  }
+
+  //Guardar y actualizar
+  postFisioterapia(consultaFisioterapia: ConsultaFisioterapia): Observable<ConsultaFisioterapia> {
+    return this.httpClient.post<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia', consultaFisioterapia);
+  }
+  putFisioterapia(IdHojaHistoria: number, consultaFisioterapia: ConsultaFisioterapia): Observable<ConsultaFisioterapia> {
+    console.log(this.url + `Medicina/ConsultaFisioterapia/${IdHojaHistoria}`, consultaFisioterapia);
+    return this.httpClient.put<ConsultaFisioterapia>(this.url + `Medicina/ConsultaFisioterapia/${IdHojaHistoria}`, consultaFisioterapia);
   }
 }
