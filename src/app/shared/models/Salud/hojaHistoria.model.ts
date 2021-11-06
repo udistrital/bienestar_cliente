@@ -5,7 +5,7 @@ export interface HojaHistoria {
     Id?: number,
     HistoriaClinica?: HistoriaClinica,
     Diagnostico?: Diagnostico,
-    Evolucion?: JSON,
+    Evolucion?: string,
     FechaConsulta?: string,
     Especialidad?: number,
     Persona?: number,

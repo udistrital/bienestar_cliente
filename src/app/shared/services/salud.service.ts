@@ -19,16 +19,17 @@ export class SaludService {
   url = environment.SALUD;
   query = '?query=';
   IdPersona: number | string;
+  IdHistoria: number;
   constructor(private httpClient: HttpClient) { }
 
-  getConsultaFisioterapia(): Observable<ConsultaFisioterapia> {
-    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia');
+  getConsultaFisioterapia(IdHistoriaClinica): Observable<ConsultaFisioterapia> {
+    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
   }
   getExamen(IdHistoriaClinica): Observable<Examen> {
     return this.httpClient.get<Examen>(this.url + 'Medicina/Examen' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
   }
-  getDiagnostico(): Observable<Diagnostico> {
-    return this.httpClient.get<Diagnostico>(this.url + 'Medicina/Diagnostico');
+  getDiagnostico(IdHistoriaClinica): Observable<Diagnostico> {
+    return this.httpClient.get<Diagnostico>(this.url + 'Medicina/Diagnostico' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
   }
   getTipoAntecedente(): Observable<TipoAntecedente> {
     return this.httpClient.get<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente');
