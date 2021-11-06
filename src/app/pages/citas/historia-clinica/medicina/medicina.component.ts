@@ -195,10 +195,12 @@ export class MedicinaComponent implements OnInit {
       this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
       this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
       if (this.hojaHistoria.Evolucion != null) {
-        this.evolucionArr.push(new FormControl(this.hojaHistoria.Evolucion));
+        const evolucion = Array.of(this.hojaHistoria.Evolucion);
+        console.log(evolucion);
+        this.evolucionArr.push(new FormControl(evolucion));
       }
-      this.idHistoria = this.hojaHistoria.IdHistoriaClinica.IdHistoriaClinica
-      this.saludService.getAntecedente(this.hojaHistoria.IdHistoriaClinica.IdHistoriaClinica).subscribe(data => {
+      this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
+      this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
         this.antecedentes = data;
         this.medicinaForm.controls.patologicos.setValue(this.antecedentes[0].Observaciones);
         this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes[1].Observaciones);

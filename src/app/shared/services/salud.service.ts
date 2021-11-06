@@ -33,11 +33,14 @@ export class SaludService {
   getTipoAntecedente(): Observable<TipoAntecedente> {
     return this.httpClient.get<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente');
   }
-  getSistemas(): Observable<Sistemas> {
-    return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistemas');
+  getSistema(): Observable<Sistemas> {
+    return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema');
+  }
+  getTipoSistema(): Observable<Sistemas> {
+    return this.httpClient.get<Sistemas>(this.url + 'Medicina/TipoSistema');
   }
   getHojaHistoria(IdPersona): Observable<HojaHistoria> {
-    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'IdPersona:' + `${IdPersona}`);
+    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'Persona:' + `${IdPersona}`);
   }
   getHistoriaClinica(): Observable<HistoriaClinica> {
     return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica');
@@ -46,6 +49,6 @@ export class SaludService {
     return this.httpClient.get<TipoExamen>(this.url + 'Medicina/TipoExamen');
   }
   getAntecedente(IdHistoriaClinica): Observable<Antecedente> {
-    return this.httpClient.get<any>(this.url + 'Medicina/Antecedente' + this.query + 'IdHistoriaClinica.IdHistoriaClinica:' + `${IdHistoriaClinica}`);
+    return this.httpClient.get<any>(this.url + 'Medicina/Antecedente/' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
   }
 }

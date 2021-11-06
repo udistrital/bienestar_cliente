@@ -1,4 +1,4 @@
 export interface HistoriaClinica {
-    IdHistoriaClinica: number,
-    IdTercero: number,
+    Id: number,
+    Tercero: number,
 }

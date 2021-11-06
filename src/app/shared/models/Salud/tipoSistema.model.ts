@@ -1,7 +1,5 @@
-export interface TipoAntecedente {
+export interface TipoSistema {
     Activo: boolean,
-    Descripcion: string,
-    FechaCreacion: Date,
     FechaModificacion: Date,
     Id: number,
     Nombre: string,

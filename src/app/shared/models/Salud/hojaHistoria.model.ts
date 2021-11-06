@@ -2,14 +2,14 @@ import { HistoriaClinica } from "./historiaClinica.model";
 import { Diagnostico } from "./diagnostico.model";
 
 export interface HojaHistoria {
-    IdHistoriaClinica?: HistoriaClinica,
-    IdDiagnostico?: Diagnostico,
-    Evolucion?: string,
+    Id?: number,
+    HistoriaClinica?: HistoriaClinica,
+    Diagnostico?: Diagnostico,
+    Evolucion?: JSON,
     FechaConsulta?: string,
-    IdEspecialidad?: number,
-    IdHojaHistoria?: number,
-    IdPersona?: number,
-    IdProfesional?: number,
+    Especialidad?: number,
+    Persona?: number,
+    Profesional?: number,
     Motivo?: string,
     Observacion?: string
 }

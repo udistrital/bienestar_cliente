@@ -2,9 +2,9 @@ import { HojaHistoria } from "./hojaHistoria.model";
 
 export interface ConsultaFisioterapia {
     Evolucion: string,
-    IdConsultaFisioterapia: number,
-    IdHojaHistoria: HojaHistoria,
-    Motivo_consulta: string,
+    Id: number,
+    HojaHistoria: HojaHistoria,
+    MotivoConsulta: string,
     Observaciones: string,
     PlanManejo: string,
     Valoracion: string,

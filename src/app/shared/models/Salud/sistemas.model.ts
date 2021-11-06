@@ -1,8 +1,11 @@
+import { HistoriaClinica } from "./historiaClinica.model";
 import { HojaHistoria } from "./hojaHistoria.model";
+import { TipoSistema } from "./tipoSistema.model";
 
 export interface Sistemas {
-    IdHojaHistoria: HojaHistoria,
-    IdSistema: number,
-    NombreSistema: string,
+    HojaHistoria: HojaHistoria,
+    HistoriaClinica:HistoriaClinica,
+    Id: number,
+    TipoSistema: TipoSistema,
     Observacion: string,
 }

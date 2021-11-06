@@ -1,4 +1,6 @@
 export interface TipoExamen {
-    IdTipoExamen: number,
+    Activo:boolean,
+    FechaModificacion:Date,
+    Id: number,
     Nombre: string,
 }
