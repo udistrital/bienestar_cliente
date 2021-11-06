@@ -2,8 +2,10 @@ import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Analisis } from '../../../../shared/models/Salud/analisis.model';
 import { Antecedente } from '../../../../shared/models/Salud/antecedente.model';
 import { Diagnostico } from '../../../../shared/models/Salud/diagnostico.model';
+import { Evolucion } from '../../../../shared/models/Salud/evolucion.model';
 import { Examen } from '../../../../shared/models/Salud/examen.model';
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { Sistemas } from '../../../../shared/models/Salud/sistemas.model';
@@ -19,6 +21,8 @@ export class MedicinaComponent implements OnInit {
   antecedentes: Antecedente | null;
   sistemas: Sistemas | null;
   examenes: Examen | null;
+  evolucion: Evolucion[] = [];
+  analisis: Analisis[] = [];
   diagnostico: Diagnostico | null;
   nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
   nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
@@ -192,11 +196,10 @@ export class MedicinaComponent implements OnInit {
       // console.log(this.hojaHistoria);
       this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
       this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
-      if (this.hojaHistoria.Evolucion != null) {
-        const evolucion = Array.of(this.hojaHistoria.Evolucion.split(','));
-        // console.log(evolucion);
-        this.evolucionArr.push(new FormControl(evolucion));
-      }
+      let evolucion = JSON.parse(this.hojaHistoria.Evolucion);
+      this.evolucion.push({ ...evolucion });
+      let evolucion2 = this.evolucion[0].evolucion;
+      this.evolucionArr.push(new FormControl(evolucion2));
       this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
       this.saludService.IdHistoria = this.idHistoria;
       this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
@@ -257,11 +260,10 @@ export class MedicinaComponent implements OnInit {
         this.diagnostico = data[0];
         this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
         this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
-        if (this.diagnostico.Analisis != null) {
-          const analisis = Array.of(this.diagnostico.Analisis.split(',')[0]);
-          // console.log(analisis);
-          this.analisisArr.push(new FormControl(analisis));
-        }
+        let analisis = JSON.parse(this.diagnostico.Analisis);
+        this.analisis.push({ ...analisis });
+        let analisis2 = this.analisis[0].analisis;
+        this.analisisArr.push(new FormControl(analisis2));
       });
     });
   }

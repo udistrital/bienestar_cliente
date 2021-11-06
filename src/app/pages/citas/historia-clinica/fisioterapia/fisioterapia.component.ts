@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ConsultaFisioterapia } from '../../../../shared/models/Salud/consultaFisioterapia.model';
+import { Evolucion } from '../../../../shared/models/Salud/evolucion.model';
 import { SaludService } from '../../../../shared/services/salud.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { SaludService } from '../../../../shared/services/salud.service';
 export class FisioterapiaComponent implements OnInit {
   idHistoria: number | null;
   fisioterapia: ConsultaFisioterapia | null;
+  evolucion: Evolucion[] = [];
   nuevaEvolucionFisio: FormControl = this.fb.control('', Validators.required);
   fisioterapiaForm: FormGroup = this.fb.group({
     motivoConsultaFisio: [null, Validators.required],
@@ -27,9 +29,6 @@ export class FisioterapiaComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService) { }
   ngOnInit() {
     this.cargarInformacion();
-    this.idHistoria = this.saludService.IdHistoria;
-    console.log(this.saludService.IdHistoria);
-
   }
   get evolucionFisioArr() {
     return this.fisioterapiaForm.get('evolucionFisio') as FormArray;
@@ -69,7 +68,9 @@ export class FisioterapiaComponent implements OnInit {
         this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
         this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.fisioterapia.Observaciones);
         let evolucion = JSON.parse(this.fisioterapia.Evolucion);
-        this.evolucionFisioArr.push(new FormControl(evolucion.Evolución));
+        this.evolucion.push({ ...evolucion });
+        let evolucion2 = this.evolucion[0].evolucion;
+        this.evolucionFisioArr.push(new FormControl(evolucion2));
       });
     });
 
