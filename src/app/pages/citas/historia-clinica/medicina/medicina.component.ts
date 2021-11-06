@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ToastrService } from 'ngx-toastr';
 import { Antecedente } from '../../../../shared/models/Salud/antecedente.model';
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
+import { Sistemas } from '../../../../shared/models/Salud/sistemas.model';
 import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-medicina',
@@ -11,9 +12,10 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
-  hojaHistoria: HojaHistoria;
+  hojaHistoria: HojaHistoria | null;
   idHistoria: number | null;
   antecedentes: Antecedente | null;
+  sistemas: Sistemas | null;
   nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
   nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
   medicinaForm: FormGroup = this.fb.group({
@@ -186,22 +188,21 @@ export class MedicinaComponent implements OnInit {
   ngOnInit() {
     this.getInfoHistoria();
   }
-  //Llenado de la historia clínica
-
-
   getInfoHistoria() {
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
       this.hojaHistoria = data[0];
+      // console.log(this.hojaHistoria);
       this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
       this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
       if (this.hojaHistoria.Evolucion != null) {
         const evolucion = Array.of(this.hojaHistoria.Evolucion);
-        console.log(evolucion);
+        // console.log(evolucion);
         this.evolucionArr.push(new FormControl(evolucion));
       }
       this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
       this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
         this.antecedentes = data;
+        // console.log(this.antecedentes);
         this.medicinaForm.controls.patologicos.setValue(this.antecedentes[0].Observaciones);
         this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes[1].Observaciones);
         this.medicinaForm.controls.quirurgicos.setValue(this.antecedentes[2].Observaciones);
@@ -211,6 +212,22 @@ export class MedicinaComponent implements OnInit {
         this.medicinaForm.controls.farmacologicos.setValue(this.antecedentes[6].Observaciones);
         this.medicinaForm.controls.familiares.setValue(this.antecedentes[7].Observaciones);
         this.medicinaForm.controls.ocupacionales.setValue(this.antecedentes[8].Observaciones);
+      });
+      this.saludService.getSistema(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
+        console.log(data);
+        this.sistemas = data;
+        this.medicinaForm.controls.piel.setValue(this.sistemas[0].Observacion);
+        this.medicinaForm.controls.colageno.setValue(this.sistemas[1].Observacion);
+        this.medicinaForm.controls.linfatico.setValue(this.sistemas[2].Observacion);
+        this.medicinaForm.controls.oseo.setValue(this.sistemas[3].Observacion);
+        this.medicinaForm.controls.muscular.setValue(this.sistemas[4].Observacion);
+        this.medicinaForm.controls.articular.setValue(this.sistemas[5].Observacion);
+        this.medicinaForm.controls.digestivo.setValue(this.sistemas[6].Observacion);
+        this.medicinaForm.controls.urinario.setValue(this.sistemas[7].Observacion);
+        this.medicinaForm.controls.sentidos.setValue(this.sistemas[8].Observacion);
+        this.medicinaForm.controls.cardioVascular.setValue(this.sistemas[9].Observacion);
+        this.medicinaForm.controls.neurologico.setValue(this.sistemas[10].Observacion);
+        this.medicinaForm.controls.respiratorio.setValue(this.sistemas[11].Observacion);
       });
     });
   }

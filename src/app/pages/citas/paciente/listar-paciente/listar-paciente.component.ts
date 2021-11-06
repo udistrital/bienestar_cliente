@@ -37,7 +37,7 @@ export class ListarPacienteComponent implements OnInit {
 
       });
     this.estudianteService.getInfoPorCodigo(this.miFormulario.value.codigo).subscribe((data) => {
-      this.terceroId = data[0].TerceroId.Id;
+      this.terceroId = data[0].TerceroId.Id||null;
       this.estudianteService.getInfoComplementaria(this.terceroId, 51).subscribe((data) => {
         this.telefono = data[0].Dato;
         // console.log(this.telefono);
