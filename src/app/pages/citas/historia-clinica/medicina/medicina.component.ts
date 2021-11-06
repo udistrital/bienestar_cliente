@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Antecedente } from '../../../../shared/models/Salud/antecedente.model';
+import { Examen } from '../../../../shared/models/Salud/examen.model';
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { Sistemas } from '../../../../shared/models/Salud/sistemas.model';
 import { SaludService } from '../../../../shared/services/salud.service';
@@ -16,6 +17,7 @@ export class MedicinaComponent implements OnInit {
   idHistoria: number | null;
   antecedentes: Antecedente | null;
   sistemas: Sistemas | null;
+  examenes: Examen | null;
   nuevoAnalisis: FormControl = this.fb.control('', Validators.required);
   nuevaEvolucion: FormControl = this.fb.control('', Validators.required);
   medicinaForm: FormGroup = this.fb.group({
@@ -214,7 +216,7 @@ export class MedicinaComponent implements OnInit {
         this.medicinaForm.controls.ocupacionales.setValue(this.antecedentes[8].Observaciones);
       });
       this.saludService.getSistema(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-        console.log(data);
+        // console.log(data);
         this.sistemas = data;
         this.medicinaForm.controls.piel.setValue(this.sistemas[0].Observacion);
         this.medicinaForm.controls.colageno.setValue(this.sistemas[1].Observacion);
@@ -228,6 +230,30 @@ export class MedicinaComponent implements OnInit {
         this.medicinaForm.controls.cardioVascular.setValue(this.sistemas[9].Observacion);
         this.medicinaForm.controls.neurologico.setValue(this.sistemas[10].Observacion);
         this.medicinaForm.controls.respiratorio.setValue(this.sistemas[11].Observacion);
+      });
+      this.saludService.getExamen(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
+        console.log(data);
+        this.examenes = data;
+        this.medicinaForm.controls.examenes.setValue(this.examenes[0].Observacion);
+        this.medicinaForm.controls.ta.setValue(this.examenes[1].Observacion);
+        this.medicinaForm.controls.fc.setValue(this.examenes[2].Observacion);
+        this.medicinaForm.controls.sao2.setValue(this.examenes[3].Observacion);
+        this.medicinaForm.controls.imc.setValue(this.examenes[4].Observacion);
+        this.medicinaForm.controls.fr.setValue(this.examenes[5].Observacion);
+        this.medicinaForm.controls.tc.setValue(this.examenes[6].Observacion);
+        this.medicinaForm.controls.peso.setValue(this.examenes[7].Observacion);
+        this.medicinaForm.controls.talla.setValue(this.examenes[8].Observacion);
+        this.medicinaForm.controls.estadoGeneral.setValue(this.examenes[9].Observacion);
+        this.medicinaForm.controls.cabezaYCuello.setValue(this.examenes[10].Observacion);
+        this.medicinaForm.controls.orl.setValue(this.examenes[11].Observacion);
+        this.medicinaForm.controls.ojos.setValue(this.examenes[12].Observacion);
+        this.medicinaForm.controls.torax.setValue(this.examenes[13].Observacion);
+        this.medicinaForm.controls.ruidosRespiratorios.setValue(this.examenes[14].Observacion);
+        this.medicinaForm.controls.ruidosCardiacos.setValue(this.examenes[15].Observacion);
+        this.medicinaForm.controls.abdomen.setValue(this.examenes[16].Observacion);
+        this.medicinaForm.controls.neurologicoE.setValue(this.examenes[17].Observacion);
+        this.medicinaForm.controls.genital.setValue(this.examenes[18].Observacion);
+        this.medicinaForm.controls.extremidades.setValue(this.examenes[19].Observacion);
       });
     });
   }

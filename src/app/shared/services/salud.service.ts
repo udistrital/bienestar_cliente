@@ -24,8 +24,8 @@ export class SaludService {
   getConsultaFisioterapia(): Observable<ConsultaFisioterapia> {
     return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia');
   }
-  getExamen(): Observable<Examen> {
-    return this.httpClient.get<Examen>(this.url + 'Medicina/Examen');
+  getExamen(IdHistoriaClinica): Observable<Examen> {
+    return this.httpClient.get<Examen>(this.url + 'Medicina/Examen' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
   }
   getDiagnostico(): Observable<Diagnostico> {
     return this.httpClient.get<Diagnostico>(this.url + 'Medicina/Diagnostico');
@@ -34,7 +34,7 @@ export class SaludService {
     return this.httpClient.get<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente');
   }
   getSistema(IdHistoriaClinica): Observable<Sistemas> {
-    return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`+'&limit=-1');
+    return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
   }
   getTipoSistema(): Observable<Sistemas> {
     return this.httpClient.get<Sistemas>(this.url + 'Medicina/TipoSistema');
