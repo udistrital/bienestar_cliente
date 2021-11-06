@@ -22,9 +22,6 @@ export class SaludService {
   IdHistoria: number;
   constructor(private httpClient: HttpClient) { }
 
-  getConsultaFisioterapia(IdHistoriaClinica): Observable<ConsultaFisioterapia> {
-    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
-  }
   getExamen(IdHistoriaClinica): Observable<Examen> {
     return this.httpClient.get<Examen>(this.url + 'Medicina/Examen' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
   }
@@ -51,5 +48,13 @@ export class SaludService {
   }
   getAntecedente(IdHistoriaClinica): Observable<Antecedente> {
     return this.httpClient.get<any>(this.url + 'Medicina/Antecedente/' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
+  }
+  // Fisioterapia
+  getConsultaFisioterapia(IdHistoriaClinica): Observable<ConsultaFisioterapia> {
+    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
+  }
+  //Psicología
+  getComposicionFamiliar(IdHistoriaClinica): Observable<any> {
+    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Psicologia/ComposicionFamiliar' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
   }
 }
