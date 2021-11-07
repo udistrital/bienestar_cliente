@@ -125,70 +125,7 @@ export class MedicinaComponent implements OnInit {
     // TODO
   }
   //Formulario para guardar en la DB
-  guardarHistoriaMedicina() {
-    const historiaMedicina: any = {
-      motivoConsulta: this.medicinaForm.get('motivoConsulta').value,
-      patologicos: this.medicinaForm.get('patologicos').value,
-      hospitalarios: this.medicinaForm.get('hospitalarios').value,
-      traumaticos: this.medicinaForm.get('traumaticos').value,
-      quirurgicos: this.medicinaForm.get('quirurgicos').value,
-      genitoUrinarios: this.medicinaForm.get('genitoUrinarios').value,
-      alergicos: this.medicinaForm.get('alergicos').value,
-      farmacologicos: this.medicinaForm.get('farmacologicos').value,
-      familiares: this.medicinaForm.get('familiares').value,
-      ocupacionales: this.medicinaForm.get('ocupacionales').value,
-      menarquia: this.medicinaForm.get('menarquia').value,
-      fur: this.medicinaForm.get('fur').value,
-      ciclos: this.medicinaForm.get('ciclos').value,
-      ias: this.medicinaForm.get('ias').value,
-      compañeros: this.medicinaForm.get('compañeros').value,
-      fo: this.medicinaForm.get('fo').value,
-      fup: this.medicinaForm.get('fup').value,
-      pp: this.medicinaForm.get('pp').value,
-      fuccv: this.medicinaForm.get('fuccv').value,
-      resultadoccv: this.medicinaForm.get('resultadoccv').value,
-      examenSeno: this.medicinaForm.get('examenSeno').value,
-      resultadoSeno: this.medicinaForm.get('resultadoSeno').value,
-      piel: this.medicinaForm.get('piel').value,
-      colageno: this.medicinaForm.get('colageno').value,
-      linfatico: this.medicinaForm.get('linfatico').value,
-      oseo: this.medicinaForm.get('oseo').value,
-      muscular: this.medicinaForm.get('muscular').value,
-      articular: this.medicinaForm.get('articular').value,
-      digestivo: this.medicinaForm.get('digestivo').value,
-      urinario: this.medicinaForm.get('urinario').value,
-      sentidos: this.medicinaForm.get('sentidos').value,
-      cardioVascular: this.medicinaForm.get('cardioVascular').value,
-      neurologico: this.medicinaForm.get('neurologico').value,
-      respiratorio: this.medicinaForm.get('respiratorio').value,
-      examenes: this.medicinaForm.get('examenes').value,
-      ta: this.medicinaForm.get('ta').value,
-      fc: this.medicinaForm.get('fc').value,
-      fr: this.medicinaForm.get('fr').value,
-      sao2: this.medicinaForm.get('sao2').value,
-      peso: this.medicinaForm.get('peso').value,
-      imc: this.medicinaForm.get('imc').value,
-      talla: this.medicinaForm.get('talla').value,
-      tc: this.medicinaForm.get('tc').value,
-      estadoGeneral: this.medicinaForm.get('estadoGeneral').value,
-      cabezaYCuello: this.medicinaForm.get('cabezaYCuello').value,
-      orl: this.medicinaForm.get('orl').value,
-      ojos: this.medicinaForm.get('ojos').value,
-      torax: this.medicinaForm.get('torax').value,
-      ruidosRespiratorios: this.medicinaForm.get('ruidosRespiratorios').value,
-      ruidosCardiacos: this.medicinaForm.get('ruidosCardiacos').value,
-      abdomen: this.medicinaForm.get('abdomen').value,
-      neurologicoE: this.medicinaForm.get('neurologicoE').value,
-      genital: this.medicinaForm.get('genital').value,
-      extremidades: this.medicinaForm.get('extremidades').value,
-      diagnostico: this.medicinaForm.get('diagnostico').value,
-      analisis: this.medicinaForm.get('analisis').value,
-      observaciones: this.medicinaForm.get('observacionesMedicina').value,
-      evolucion: this.medicinaForm.get('evolucion').value,
-      planDeManejo: this.medicinaForm.get('planDeManejo').value,
-    }
-    this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
-  }
+
   ngOnInit() {
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
@@ -196,6 +133,7 @@ export class MedicinaComponent implements OnInit {
     });
     this.getInfoHistoria();
   }
+
   getInfoHistoria() {
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
       this.hojaHistoria = data[0];
@@ -276,5 +214,77 @@ export class MedicinaComponent implements OnInit {
         }
       });
     });
+  }
+
+
+  guardarHistoriaMedicina() {
+    let evolucionCorregida = JSON.stringify(this.evolucionArr.value);
+    let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
+    let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
+    //POSTS
+    if (!this.idHistoria) {
+      const historiaMedicina: any = {
+        motivoConsulta: this.medicinaForm.get('motivoConsulta').value,
+        patologicos: this.medicinaForm.get('patologicos').value,
+        hospitalarios: this.medicinaForm.get('hospitalarios').value,
+        traumaticos: this.medicinaForm.get('traumaticos').value,
+        quirurgicos: this.medicinaForm.get('quirurgicos').value,
+        genitoUrinarios: this.medicinaForm.get('genitoUrinarios').value,
+        alergicos: this.medicinaForm.get('alergicos').value,
+        farmacologicos: this.medicinaForm.get('farmacologicos').value,
+        familiares: this.medicinaForm.get('familiares').value,
+        ocupacionales: this.medicinaForm.get('ocupacionales').value,
+        menarquia: this.medicinaForm.get('menarquia').value,
+        fur: this.medicinaForm.get('fur').value,
+        ciclos: this.medicinaForm.get('ciclos').value,
+        ias: this.medicinaForm.get('ias').value,
+        compañeros: this.medicinaForm.get('compañeros').value,
+        fo: this.medicinaForm.get('fo').value,
+        fup: this.medicinaForm.get('fup').value,
+        pp: this.medicinaForm.get('pp').value,
+        fuccv: this.medicinaForm.get('fuccv').value,
+        resultadoccv: this.medicinaForm.get('resultadoccv').value,
+        examenSeno: this.medicinaForm.get('examenSeno').value,
+        resultadoSeno: this.medicinaForm.get('resultadoSeno').value,
+        piel: this.medicinaForm.get('piel').value,
+        colageno: this.medicinaForm.get('colageno').value,
+        linfatico: this.medicinaForm.get('linfatico').value,
+        oseo: this.medicinaForm.get('oseo').value,
+        muscular: this.medicinaForm.get('muscular').value,
+        articular: this.medicinaForm.get('articular').value,
+        digestivo: this.medicinaForm.get('digestivo').value,
+        urinario: this.medicinaForm.get('urinario').value,
+        sentidos: this.medicinaForm.get('sentidos').value,
+        cardioVascular: this.medicinaForm.get('cardioVascular').value,
+        neurologico: this.medicinaForm.get('neurologico').value,
+        respiratorio: this.medicinaForm.get('respiratorio').value,
+        examenes: this.medicinaForm.get('examenes').value,
+        ta: this.medicinaForm.get('ta').value,
+        fc: this.medicinaForm.get('fc').value,
+        fr: this.medicinaForm.get('fr').value,
+        sao2: this.medicinaForm.get('sao2').value,
+        peso: this.medicinaForm.get('peso').value,
+        imc: this.medicinaForm.get('imc').value,
+        talla: this.medicinaForm.get('talla').value,
+        tc: this.medicinaForm.get('tc').value,
+        estadoGeneral: this.medicinaForm.get('estadoGeneral').value,
+        cabezaYCuello: this.medicinaForm.get('cabezaYCuello').value,
+        orl: this.medicinaForm.get('orl').value,
+        ojos: this.medicinaForm.get('ojos').value,
+        torax: this.medicinaForm.get('torax').value,
+        ruidosRespiratorios: this.medicinaForm.get('ruidosRespiratorios').value,
+        ruidosCardiacos: this.medicinaForm.get('ruidosCardiacos').value,
+        abdomen: this.medicinaForm.get('abdomen').value,
+        neurologicoE: this.medicinaForm.get('neurologicoE').value,
+        genital: this.medicinaForm.get('genital').value,
+        extremidades: this.medicinaForm.get('extremidades').value,
+        diagnostico: this.medicinaForm.get('diagnostico').value,
+        analisis: this.medicinaForm.get('analisis').value,
+        observaciones: this.medicinaForm.get('observacionesMedicina').value,
+        evolucion: this.medicinaForm.get('evolucion').value,
+        planDeManejo: this.medicinaForm.get('planDeManejo').value,
+      }
+      this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
+    }
   }
 }

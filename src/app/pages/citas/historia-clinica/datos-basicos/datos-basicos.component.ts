@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { HistoriaClinica } from '../../../../shared/models/Salud/historiaClinica.model';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
 @Component({
@@ -26,7 +28,7 @@ export class DatosBasicosComponent implements OnInit {
     tipo: ['', Validators.required],
     situacionAcademica: ['', Validators.required],
   })
-  constructor(private fb: FormBuilder, private estudianteService: EstudiantesService, private aRoute: ActivatedRoute, private saludService: SaludService) { }
+  constructor(private fb: FormBuilder, private estudianteService: EstudiantesService, private aRoute: ActivatedRoute, private saludService: SaludService, private toastr: ToastrService) { }
   public calcularEdad(fechaNacimiento): number {
     if (this.fechaNacimiento) {
       const actual = new Date();
@@ -44,6 +46,7 @@ export class DatosBasicosComponent implements OnInit {
   ngOnInit(): void {
     this.codigo = this.aRoute.snapshot.paramMap.get('codigo');
     this.saludService.IdPersona = this.codigo;
+    // this.verificarHistoria();
     this.cargarDatos();
 
   }
@@ -63,6 +66,23 @@ export class DatosBasicosComponent implements OnInit {
       this.estudianteService.getInfoComplementaria(this.terceroId, 54).subscribe((data) => {
         this.direccion = data[0].Dato;
       });
+      // this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
+      //   if (data === null) {
+      //     const historia: HistoriaClinica = {
+      //       Id: 0,
+      //       Tercero: this.terceroId,
+      //     }
+      //     this.saludService.postHistoriaClinica(historia).subscribe((data) => {
+      //       // console.log(data);
+      //       this.toastr.success(`Ha creado con éxito la historia clínica para ${this.nombre}`, '¡CREADO!');
+      //     }, (error) => {
+      //       this.toastr.error(`No se pudo crear la historia clínica para ${this.nombre}`, 'Error');
+      //     });
+      //   }
+      //   if (data) {
+      //     this.toastr.success(`Ya existía una historia clínica para ${this.nombre}`, '¡NADA POR HACER!');
+      //   }
+      // });
     });
 
     this.estudianteService
@@ -78,5 +98,6 @@ export class DatosBasicosComponent implements OnInit {
           });
       });
   }
+
 
 }

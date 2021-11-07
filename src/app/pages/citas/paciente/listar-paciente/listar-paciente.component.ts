@@ -18,7 +18,6 @@ export class ListarPacienteComponent implements OnInit {
   codigo = "";
   estado = "";
   telefono = "";
-  terceroId = "";
   constructor(private estudianteService: EstudiantesService, private saludService: SaludService) { }
   miFormulario = new FormGroup({
     codigo: new FormControl(null, Validators.required),
@@ -40,14 +39,14 @@ export class ListarPacienteComponent implements OnInit {
 
       });
     this.estudianteService.getInfoPorCodigo(this.miFormulario.value.codigo).subscribe((data) => {
-      this.terceroId = data[0].TerceroId.Id || null;
-      this.estudianteService.getInfoComplementaria(this.terceroId, 51).subscribe((data) => {
+      this.saludService.terceroId = data[0].TerceroId.Id || null;
+      console.log(data);
+      this.estudianteService.getInfoComplementaria(this.saludService.terceroId, 51).subscribe((data) => {
         this.telefono = data[0].Dato;
         // console.log(this.telefono);
       });
     });
   }
   ngOnInit() {
-    this.buscarPaciente();
   }
 }

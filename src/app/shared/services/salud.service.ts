@@ -29,6 +29,7 @@ export class SaludService {
   IdPersona: number | string;
   IdHistoria: number;
   falloPsico: boolean = false;
+  terceroId: number;
   constructor(private httpClient: HttpClient) { }
 
   getExamen(IdHistoriaClinica): Observable<Examen> {
@@ -49,8 +50,8 @@ export class SaludService {
   getHojaHistoria(IdPersona): Observable<HojaHistoria> {
     return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'Persona:' + `${IdPersona}`);
   }
-  getHistoriaClinica(): Observable<HistoriaClinica> {
-    return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica');
+  getHistoriaClinica(IdTercero): Observable<HistoriaClinica> {
+    return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica' + this.query + 'Tercero:' + `${IdTercero}`);
   }
   getTipoExamen(): Observable<TipoExamen> {
     return this.httpClient.get<TipoExamen>(this.url + 'Medicina/TipoExamen');
@@ -125,6 +126,42 @@ export class SaludService {
   }
   putValoracionInterpersonal(IdValoracionInterpersonal: number, valoracionInterpersonal: ValoracionInterpersonal): Observable<ValoracionInterpersonal> {
     return this.httpClient.put<ValoracionInterpersonal>(this.url2 + `Psicologia/ValoracionInterpersonal/${IdValoracionInterpersonal}`, valoracionInterpersonal);
+  }
+  postSistema(sistema: Sistemas): Observable<Sistemas> {
+    return this.httpClient.post<Sistemas>(this.url + 'Medicina/Sistema', sistema);
+  }
+  putSistema(IdSistema: number, sistema: Sistemas): Observable<Sistemas> {
+    return this.httpClient.put<Sistemas>(this.url + `Medicina/Sistema/${IdSistema}`, sistema);
+  }
+  postExamen(examen: Examen): Observable<Examen> {
+    return this.httpClient.post<Examen>(this.url + 'Medicina/Examen', examen);
+  }
+  putExamen(IdExamen: number, examen: Examen): Observable<Examen> {
+    return this.httpClient.put<Examen>(this.url + `Medicina/Examen/${IdExamen}`, examen);
+  }
+  postDiagnostico(diagnostico: Diagnostico): Observable<Diagnostico> {
+    return this.httpClient.post<Diagnostico>(this.url + 'Medicina/Diagnostico', diagnostico);
+  }
+  putDiagnostico(IdDiagnostico: number, diagnostico: Diagnostico): Observable<Diagnostico> {
+    return this.httpClient.put<Diagnostico>(this.url + `Medicina/Diagnostico/${IdDiagnostico}`, diagnostico);
+  }
+  postTipoAntecedente(tipoAntecedente: TipoAntecedente): Observable<TipoAntecedente> {
+    return this.httpClient.post<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente', tipoAntecedente);
+  }
+  putTipoAntecedente(IdTipoAntecedente: number, tipoAntecedente: TipoAntecedente): Observable<TipoAntecedente> {
+    return this.httpClient.put<TipoAntecedente>(this.url + `Medicina/TipoAntecedente/${IdTipoAntecedente}`, tipoAntecedente);
+  }
+  postHojaHistoria(hojaHistoria: HojaHistoria): Observable<HojaHistoria> {
+    return this.httpClient.post<HojaHistoria>(this.url + 'Medicina/HojaHistoria', hojaHistoria);
+  }
+  postHistoriaClinica(historiaClinica: HistoriaClinica): Observable<HistoriaClinica> {
+    return this.httpClient.post<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica', historiaClinica);
+  }
+  postAntecedente(antecedente: Antecedente): Observable<Antecedente> {
+    return this.httpClient.post<Antecedente>(this.url + 'Medicina/Antecedente', antecedente);
+  }
+  putAntecedente(IdAntecedente: number, antecedente: Antecedente): Observable<Antecedente> {
+    return this.httpClient.put<Antecedente>(this.url + `Medicina/Antecedente/${IdAntecedente}`, antecedente);
   }
 
 }
