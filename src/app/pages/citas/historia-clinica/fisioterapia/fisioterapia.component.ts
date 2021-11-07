@@ -80,7 +80,6 @@ export class FisioterapiaComponent implements OnInit {
     let evolucionCorregida = JSON.stringify(this.evolucionFisioArr.value);
     let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
-    // console.log('{"evolucion":[' + evolucion2 + ']}');
 
     if (!this.fisioterapia.HojaHistoria.Id) {
       const historiaFisio: any = {

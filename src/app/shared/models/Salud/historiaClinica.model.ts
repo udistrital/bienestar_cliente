@@ -1,4 +1,4 @@
 export interface HistoriaClinica {
-    Id: number,
-    Tercero: number,
+    Id?: number,
+    Tercero?: number,
 }

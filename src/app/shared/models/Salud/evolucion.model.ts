@@ -1,3 +1,3 @@
 export interface Evolucion {
-    evolucion: string;
+    evolucion?: string;
 }

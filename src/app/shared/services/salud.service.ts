@@ -28,6 +28,7 @@ export class SaludService {
   paciente = '';
   IdPersona: number | string;
   IdHistoria: number;
+  falloPsico: boolean = false;
   constructor(private httpClient: HttpClient) { }
 
   getExamen(IdHistoriaClinica): Observable<Examen> {
@@ -89,4 +90,41 @@ export class SaludService {
     console.log(this.url + `Medicina/ConsultaFisioterapia/${IdHojaHistoria}`, consultaFisioterapia);
     return this.httpClient.put<ConsultaFisioterapia>(this.url + `Medicina/ConsultaFisioterapia/${IdHojaHistoria}`, consultaFisioterapia);
   }
+  postAntecedentePsicologia(antecedentePsicologia: AntecedentePsicologia): Observable<AntecedentePsicologia> {
+    return this.httpClient.post<AntecedentePsicologia>(this.url2 + 'Psicologia/Antecedente', antecedentePsicologia);
+  }
+  putAntecedentePsicologia(IdAntecedente: number, antecedentePsicologia: AntecedentePsicologia): Observable<AntecedentePsicologia> {
+    return this.httpClient.put<AntecedentePsicologia>(this.url2 + `Psicologia/Antecedente/${IdAntecedente}`, antecedentePsicologia);
+  }
+  postComportamientoConsulta(comportamientoConsulta: ComportamientoConsulta): Observable<ComportamientoConsulta> {
+    return this.httpClient.post<ComportamientoConsulta>(this.url2 + 'Psicologia/ComportamientoConsulta', comportamientoConsulta);
+  }
+  putComportamientoConsulta(IdComportamientoConsulta: number, comportamientoConsulta: ComportamientoConsulta): Observable<ComportamientoConsulta> {
+    return this.httpClient.put<ComportamientoConsulta>(this.url2 + `Psicologia/ComportamientoConsulta/${IdComportamientoConsulta}`, comportamientoConsulta);
+  }
+  postComposicionFamiliar(composicionFamiliar: ComposicionFamiliar): Observable<ComposicionFamiliar> {
+    return this.httpClient.post<ComposicionFamiliar>(this.url2 + 'Psicologia/ComposicionFamiliar', composicionFamiliar);
+  }
+  putComposicionFamiliar(IdComposicionFamiliar: number, composicionFamiliar: ComposicionFamiliar): Observable<ComposicionFamiliar> {
+    return this.httpClient.put<ComposicionFamiliar>(this.url2 + `Psicologia/ComposicionFamiliar/${IdComposicionFamiliar}`, composicionFamiliar);
+  }
+  postDiagnosticoPsicologia(diagnosticoPsicologia: DiagnosticoPsicologia): Observable<DiagnosticoPsicologia> {
+    return this.httpClient.post<DiagnosticoPsicologia>(this.url2 + 'Psicologia/Diagnostico', diagnosticoPsicologia);
+  }
+  putDiagnosticoPsicologia(IdDiagnostico: number, diagnosticoPsicologia: DiagnosticoPsicologia): Observable<DiagnosticoPsicologia> {
+    return this.httpClient.put<DiagnosticoPsicologia>(this.url2 + `Psicologia/Diagnostico/${IdDiagnostico}`, diagnosticoPsicologia);
+  }
+  postLimites(limites: Limites): Observable<Limites> {
+    return this.httpClient.post<Limites>(this.url2 + 'Psicologia/Limites', limites);
+  }
+  putLimites(IdLimites: number, limites: Limites): Observable<Limites> {
+    return this.httpClient.put<Limites>(this.url2 + `Psicologia/Limites/${IdLimites}`, limites);
+  }
+  postValoracionInterpersonal(valoracionInterpersonal: ValoracionInterpersonal): Observable<ValoracionInterpersonal> {
+    return this.httpClient.post<ValoracionInterpersonal>(this.url2 + 'Psicologia/ValoracionInterpersonal', valoracionInterpersonal);
+  }
+  putValoracionInterpersonal(IdValoracionInterpersonal: number, valoracionInterpersonal: ValoracionInterpersonal): Observable<ValoracionInterpersonal> {
+    return this.httpClient.put<ValoracionInterpersonal>(this.url2 + `Psicologia/ValoracionInterpersonal/${IdValoracionInterpersonal}`, valoracionInterpersonal);
+  }
+
 }
