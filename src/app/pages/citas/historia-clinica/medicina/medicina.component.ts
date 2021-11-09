@@ -135,9 +135,9 @@ export class MedicinaComponent implements OnInit {
   }
 
   getInfoHistoria() {
+    //HojaHistoria
     this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
       this.hojaHistoria = data[0];
-      // console.log(this.hojaHistoria);
       this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
       this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
       let evolucion = JSON.parse(this.hojaHistoria.Evolucion);
@@ -148,6 +148,7 @@ export class MedicinaComponent implements OnInit {
       }
       this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
       this.saludService.IdHistoria = this.idHistoria;
+      //Antecedente
       this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
         this.antecedentes = data;
         // console.log(this.antecedentes);
@@ -161,6 +162,7 @@ export class MedicinaComponent implements OnInit {
         this.medicinaForm.controls.familiares.setValue(this.antecedentes[7].Observaciones);
         this.medicinaForm.controls.ocupacionales.setValue(this.antecedentes[8].Observaciones);
       });
+      //Sistemas
       this.saludService.getSistema(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
         // console.log(data);
         this.sistemas = data;
@@ -177,6 +179,7 @@ export class MedicinaComponent implements OnInit {
         this.medicinaForm.controls.neurologico.setValue(this.sistemas[10].Observacion);
         this.medicinaForm.controls.respiratorio.setValue(this.sistemas[11].Observacion);
       });
+      //Exámenes
       this.saludService.getExamen(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
         // console.log(data);
         this.examenes = data;
@@ -201,6 +204,7 @@ export class MedicinaComponent implements OnInit {
         this.medicinaForm.controls.genital.setValue(this.examenes[18].Observacion);
         this.medicinaForm.controls.extremidades.setValue(this.examenes[19].Observacion);
       });
+      //Diagnostico
       this.saludService.getDiagnostico(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
         // console.log(data[0]);
         this.diagnostico = data[0];
@@ -221,6 +225,10 @@ export class MedicinaComponent implements OnInit {
     let evolucionCorregida = JSON.stringify(this.evolucionArr.value);
     let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
+
+    let analisisCorregido = JSON.stringify(this.analisisArr.value);
+    let analisis = analisisCorregido.slice(1, analisisCorregido.length - 1);
+    let analisis2 = analisis.replace(/]/g, "").replace(/\[/g, "");
     //POSTS
     if (!this.idHistoria) {
       const historiaMedicina: any = {
@@ -285,6 +293,84 @@ export class MedicinaComponent implements OnInit {
         planDeManejo: this.medicinaForm.get('planDeManejo').value,
       }
       this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
+    }
+    //PUTS
+    //Hoja historia clínica
+    if (this.idHistoria) {
+      const hojaHistoria: HojaHistoria = {
+        Id: this.hojaHistoria.Id,
+        HistoriaClinica: { Id: this.idHistoria },
+        Diagnostico: this.medicinaForm.get('diagnostico').value,
+        Evolucion: '{"evolucion":[' + evolucion2 + ']}',
+        FechaConsulta: new Date(),
+        Especialidad: this.hojaHistoria.Especialidad,
+        Persona: this.hojaHistoria.Persona,
+        Profesional: this.hojaHistoria.Profesional,
+        Motivo: this.medicinaForm.get('motivoConsulta').value,
+        Observacion: this.medicinaForm.get('observacionesMedicina').value,
+      }
+      // console.log(hojaHistoria);
+      // this.saludService.putHojaHistoria(this.idHistoria, hojaHistoria).subscribe((data) => {
+      //   console.log('Hoja historia: ' + data);
+      //   this.saludService.falloPsico = false;
+      // }, error => {
+      //   this.saludService.falloPsico = true;
+      // });
+      //Sistemas
+      const sistema1: Sistemas = {
+        HojaHistoria: hojaHistoria,
+        HistoriaClinica: { Id: this.idHistoria },
+        Id: this.sistemas.Id,
+        TipoSistema: { Id: 1 },
+        Observacion: this.medicinaForm.get('piel').value,
+      }
+      const sistema2: Sistemas = {
+        HojaHistoria: hojaHistoria,
+        HistoriaClinica: { Id: this.idHistoria },
+        Id: this.sistemas.Id,
+        TipoSistema: { Id: 2 },
+        Observacion: this.medicinaForm.get('colageno').value,
+      }
+      // this.saludService.putSistema(this.idHistoria, sistema1).subscribe((data) => {
+      //   console.log('Sistema: ' + data);
+      //   this.saludService.falloMedicina = false;
+      // }, error => {
+      //   this.saludService.falloPsico = true;
+      // });
+      //Diagnostico
+      const diagnostico: Diagnostico = {
+        Id: this.diagnostico.Id,
+        HistoriaClinica: { Id: this.idHistoria },
+        HojaHistoria: { Id: this.hojaHistoria.Id },
+        Activo: this.diagnostico.Activo,
+        Analisis: '{"analisis":[' + analisis2 + ']}',
+        Descripcion: this.medicinaForm.get('diagnostico').value,
+        FechaCreacion: this.diagnostico.FechaCreacion,
+        FechaModificacion: new Date(),
+        Nombre: this.diagnostico.Nombre,
+        Numero: this.diagnostico.Numero,
+        PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
+      }
+      // console.log(diagnostico);
+      // this.saludService.putDiagnostico(this.idHistoria, diagnostico).subscribe((data) => {
+      //   console.log('Diagnostico: ' + data);
+      //   this.saludService.falloMedicina = false;
+      // }, error => {
+      //   this.saludService.falloMedicina = true;
+      // });
+
+      //Antecedentes
+      // const antecedente: Antecedente = {
+      //   Id: this.antecedentes.Id,
+      //   HistoriaClinica: {Id: this.idHistoria},
+      //   TipoAntecedente?: TipoAntecedente,
+      //   Observaciones?: string,
+      // }
+      if (this.saludService.falloMedicina === false) {
+        this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
+      } else {
+        this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
+      }
     }
   }
 }

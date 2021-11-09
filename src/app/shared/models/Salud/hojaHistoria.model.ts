@@ -3,10 +3,10 @@ import { Diagnostico } from "./diagnostico.model";
 
 export interface HojaHistoria {
     Id?: number,
-    HistoriaClinica?: HistoriaClinica,
+    HistoriaClinica?: HistoriaClinica | any,
     Diagnostico?: Diagnostico,
     Evolucion?: string,
-    FechaConsulta?: string,
+    FechaConsulta?: Date,
     Especialidad?: number,
     Persona?: number,
     Profesional?: number,

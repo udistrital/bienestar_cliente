@@ -40,7 +40,7 @@ export class ListarPacienteComponent implements OnInit {
       });
     this.estudianteService.getInfoPorCodigo(this.miFormulario.value.codigo).subscribe((data) => {
       this.saludService.terceroId = data[0].TerceroId.Id || null;
-      console.log(data);
+      // console.log(data);
       this.estudianteService.getInfoComplementaria(this.saludService.terceroId, 51).subscribe((data) => {
         this.telefono = data[0].Dato;
         // console.log(this.telefono);

@@ -29,6 +29,7 @@ export class SaludService {
   IdPersona: number | string;
   IdHistoria: number;
   falloPsico: boolean = false;
+  falloMedicina: boolean = false;
   terceroId: number;
   constructor(private httpClient: HttpClient) { }
 
@@ -88,7 +89,6 @@ export class SaludService {
     return this.httpClient.post<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia', consultaFisioterapia);
   }
   putFisioterapia(IdHojaHistoria: number, consultaFisioterapia: ConsultaFisioterapia): Observable<ConsultaFisioterapia> {
-    console.log(this.url + `Medicina/ConsultaFisioterapia/${IdHojaHistoria}`, consultaFisioterapia);
     return this.httpClient.put<ConsultaFisioterapia>(this.url + `Medicina/ConsultaFisioterapia/${IdHojaHistoria}`, consultaFisioterapia);
   }
   postAntecedentePsicologia(antecedentePsicologia: AntecedentePsicologia): Observable<AntecedentePsicologia> {
@@ -130,7 +130,7 @@ export class SaludService {
   postSistema(sistema: Sistemas): Observable<Sistemas> {
     return this.httpClient.post<Sistemas>(this.url + 'Medicina/Sistema', sistema);
   }
-  putSistema(IdSistema: number, sistema: Sistemas): Observable<Sistemas> {
+  putSistema(IdSistema: number, sistema: any): Observable<Sistemas> {
     return this.httpClient.put<Sistemas>(this.url + `Medicina/Sistema/${IdSistema}`, sistema);
   }
   postExamen(examen: Examen): Observable<Examen> {
@@ -149,10 +149,14 @@ export class SaludService {
     return this.httpClient.post<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente', tipoAntecedente);
   }
   putTipoAntecedente(IdTipoAntecedente: number, tipoAntecedente: TipoAntecedente): Observable<TipoAntecedente> {
+
     return this.httpClient.put<TipoAntecedente>(this.url + `Medicina/TipoAntecedente/${IdTipoAntecedente}`, tipoAntecedente);
   }
   postHojaHistoria(hojaHistoria: HojaHistoria): Observable<HojaHistoria> {
     return this.httpClient.post<HojaHistoria>(this.url + 'Medicina/HojaHistoria', hojaHistoria);
+  }
+  putHojaHistoria(IdHojaHistoria: number, hojaHistoria: HojaHistoria): Observable<HojaHistoria> {
+    return this.httpClient.put<HojaHistoria>(this.url + `Medicina/HojaHistoria/${IdHojaHistoria}`, hojaHistoria);
   }
   postHistoriaClinica(historiaClinica: HistoriaClinica): Observable<HistoriaClinica> {
     return this.httpClient.post<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica', historiaClinica);
