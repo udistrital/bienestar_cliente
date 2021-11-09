@@ -45,6 +45,9 @@ export class FisioterapiaComponent implements OnInit {
       this.historiaNueva = data[0];
       this.idTercero = data[0].Tercero;
     });
+    this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
+      this.hojahistoria = data[0];
+    });
     this.cargarInformacion();
   }
   get evolucionFisioArr() {
@@ -66,14 +69,13 @@ export class FisioterapiaComponent implements OnInit {
 
   cargarInformacion() {
 
-    //this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => { //Reemplazar para pruebas
-    //this.idHistoria = data[0].Id;
+    // this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => { //Reemplazar para pruebas
+    // this.idHistoria = data[0].Id;
     this.saludService.getHistoriaClinica(this.saludService.terceroId).subscribe((data: any) => {
       this.idHistoria = data[0].Id;
       this.saludService.getConsultaFisioterapia(this.idHistoria).subscribe(data => {
-        console.log(data);
+        // console.log(data);
         this.fisioterapia = data[0];
-        this.hojahistoria = data[0].HojaHistoria;
         this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.fisioterapia.MotivoConsulta);
         this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
         this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
@@ -96,7 +98,7 @@ export class FisioterapiaComponent implements OnInit {
     if (!this.fisioterapia) {
       const historiaFisio: any = {
         Id: 0,
-        HojaHistoria: null,//Reemplazar para pruebas
+        HojaHistoria: this.hojahistoria,//Reemplazar para pruebas
         Historiaclinica: this.historiaNueva,
         MotivoConsulta: this.fisioterapiaForm.get('motivoConsultaFisio').value,
         Valoracion: this.fisioterapiaForm.get('valoracion').value,
@@ -106,7 +108,7 @@ export class FisioterapiaComponent implements OnInit {
       };
       console.log(historiaFisio);
       this.saludService.postFisioterapia(historiaFisio).subscribe(data => {
-        console.log(data);
+        console.log('Fisioterapia: ' + data);
         this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
       }, error => {
         this.toastr.error(error, '¡ERROR!');

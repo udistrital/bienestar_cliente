@@ -89,64 +89,67 @@ export class PsicologiaComponent implements OnInit {
     // TODO
   }
   getInfoPsicologia() {
-    this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
+    this.saludService.getHistoriaClinica(this.saludService.terceroId).subscribe((data: any) => {
       this.idHistoria = data[0].Id;
-      this.saludService.getComposicionFamiliar(this.idHistoria).subscribe(data => {
-        this.psicologiaForm.controls.viveCon.setValue(data[0].Observaciones);
-        this.idComposicion = data[0].Id;
-      });
-      this.saludService.getLimites(this.idHistoria).subscribe(data => {
-        // console.log(data);
-        this.idLimites = data[0].Id;
-        this.psicologiaForm.controls.difusos.setValue(data[0].Difusos);
-        this.psicologiaForm.controls.claros.setValue(data[0].Claros);
-        this.psicologiaForm.controls.rigidos.setValue(data[0].Rigidos);
-      });
-      this.saludService.getAntecedentesPsicologicos(this.idHistoria).subscribe(data => {
-        // console.log(data);
-        this.psicologiaForm.controls.actualesFamiliares.setValue(data[0].ActualSomatico);
-        this.psicologiaForm.controls.pasadosFamiliares.setValue(data[0].PasadoSomatico);
-        this.idAntecedenteFamiliar = data[0].Id;
-        this.tipoAntecedenteFamiliar = data[0].TipoAntecedente;
-        this.psicologiaForm.controls.actualesPersonales.setValue(data[1].ActualSomatico);
-        this.psicologiaForm.controls.pasadosPersonales.setValue(data[1].PasadoSomatico);
-        this.idAntecedentePersonal = data[1].Id;
-        this.tipoAntecedentePersonal = data[1].TipoAntecedente;
+      this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
+        this.idHistoria = data[0].Id;
+        this.saludService.getComposicionFamiliar(this.idHistoria).subscribe(data => {
+          this.psicologiaForm.controls.viveCon.setValue(data[0].Observaciones);
+          this.idComposicion = data[0].Id;
+        });
+        this.saludService.getLimites(this.idHistoria).subscribe(data => {
+          // console.log(data);
+          this.idLimites = data[0].Id;
+          this.psicologiaForm.controls.difusos.setValue(data[0].Difusos);
+          this.psicologiaForm.controls.claros.setValue(data[0].Claros);
+          this.psicologiaForm.controls.rigidos.setValue(data[0].Rigidos);
+        });
+        this.saludService.getAntecedentesPsicologicos(this.idHistoria).subscribe(data => {
+          // console.log(data);
+          this.psicologiaForm.controls.actualesFamiliares.setValue(data[0].ActualSomatico);
+          this.psicologiaForm.controls.pasadosFamiliares.setValue(data[0].PasadoSomatico);
+          this.idAntecedenteFamiliar = data[0].Id;
+          this.tipoAntecedenteFamiliar = data[0].TipoAntecedente;
+          this.psicologiaForm.controls.actualesPersonales.setValue(data[1].ActualSomatico);
+          this.psicologiaForm.controls.pasadosPersonales.setValue(data[1].PasadoSomatico);
+          this.idAntecedentePersonal = data[1].Id;
+          this.tipoAntecedentePersonal = data[1].TipoAntecedente;
 
-      });
-      this.saludService.getValoracionInterpersonal(this.idHistoria).subscribe(data => {
-        // console.log(data);
-        this.idValoracion = data[0].Id;
-        this.psicologiaForm.controls.figurasDeAutoridad.setValue(data[0].Autoridad);
-        this.psicologiaForm.controls.pares.setValue(data[0].Pares);
-        this.psicologiaForm.controls.pareja.setValue(data[0].Pareja);
-        this.psicologiaForm.controls.relacionesSexuales.setValue(data[0].RelacionesSexuales);
-        this.psicologiaForm.controls.satisfaccion.setValue(data[0].Satisfaccion);
-        this.psicologiaForm.controls.metodoProteccion.setValue(data[0].Proteccion);
-        this.psicologiaForm.controls.orientacionSexual.setValue(data[0].Orientacion);
-        this.psicologiaForm.controls.economicos.setValue(data[0].Economicos);
-        this.psicologiaForm.controls.judiciales.setValue(data[0].Judiciales);
-        this.psicologiaForm.controls.drogas.setValue(data[0].Drogas);
-        this.psicologiaForm.controls.motivoConsultaPsico.setValue(data[0].Motivo);
-      });
-      this.saludService.getComportamientoConslta(this.idHistoria).subscribe(data => {
-        // console.log(data);
-        this.idHojaHistoria = data[0].HojaHistoriaId;
-        this.idComportamiento = data[0].Id;
-        this.psicologiaForm.controls.problematicaActual.setValue(data[0].Problematica);
-        this.psicologiaForm.controls.estiloAfrontamiento.setValue(data[0].Afrontamiento);
-        this.psicologiaForm.controls.comportamientoDuranteConsulta.setValue(data[0].Comportamiento);
-      });
-      this.saludService.getDiagnosticoPsicologia(this.idHistoria).subscribe(data => {
-        // console.log(data);
-        this.idDiagnostico = data[0].Id;
-        this.psicologiaForm.controls.hipotesis.setValue(data[0].Hipotesis);
-        this.psicologiaForm.controls.acuerdos.setValue(data[0].Acuerdo);
-        this.psicologiaForm.controls.observacionesPsicologia.setValue(data[0].Observaciones);
-        let evolucion = JSON.parse(data[0].Evolucion);
-        this.evolucion.push({ ...evolucion });
-        let evolucion2 = this.evolucion[0].evolucion;
-        this.evolucionPsicoArr.push(new FormControl(evolucion2));
+        });
+        this.saludService.getValoracionInterpersonal(this.idHistoria).subscribe(data => {
+          // console.log(data);
+          this.idValoracion = data[0].Id;
+          this.psicologiaForm.controls.figurasDeAutoridad.setValue(data[0].Autoridad);
+          this.psicologiaForm.controls.pares.setValue(data[0].Pares);
+          this.psicologiaForm.controls.pareja.setValue(data[0].Pareja);
+          this.psicologiaForm.controls.relacionesSexuales.setValue(data[0].RelacionesSexuales);
+          this.psicologiaForm.controls.satisfaccion.setValue(data[0].Satisfaccion);
+          this.psicologiaForm.controls.metodoProteccion.setValue(data[0].Proteccion);
+          this.psicologiaForm.controls.orientacionSexual.setValue(data[0].Orientacion);
+          this.psicologiaForm.controls.economicos.setValue(data[0].Economicos);
+          this.psicologiaForm.controls.judiciales.setValue(data[0].Judiciales);
+          this.psicologiaForm.controls.drogas.setValue(data[0].Drogas);
+          this.psicologiaForm.controls.motivoConsultaPsico.setValue(data[0].Motivo);
+        });
+        this.saludService.getComportamientoConslta(this.idHistoria).subscribe(data => {
+          // console.log(data);
+          this.idHojaHistoria = data[0].HojaHistoriaId;
+          this.idComportamiento = data[0].Id;
+          this.psicologiaForm.controls.problematicaActual.setValue(data[0].Problematica);
+          this.psicologiaForm.controls.estiloAfrontamiento.setValue(data[0].Afrontamiento);
+          this.psicologiaForm.controls.comportamientoDuranteConsulta.setValue(data[0].Comportamiento);
+        });
+        this.saludService.getDiagnosticoPsicologia(this.idHistoria).subscribe(data => {
+          // console.log(data);
+          this.idDiagnostico = data[0].Id;
+          this.psicologiaForm.controls.hipotesis.setValue(data[0].Hipotesis);
+          this.psicologiaForm.controls.acuerdos.setValue(data[0].Acuerdo);
+          this.psicologiaForm.controls.observacionesPsicologia.setValue(data[0].Observaciones);
+          let evolucion = JSON.parse(data[0].Evolucion);
+          this.evolucion.push({ ...evolucion });
+          let evolucion2 = this.evolucion[0].evolucion;
+          this.evolucionPsicoArr.push(new FormControl(evolucion2));
+        });
       });
     });
   }

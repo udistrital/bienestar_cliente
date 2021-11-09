@@ -26,7 +26,7 @@ export class SaludService {
   url2 = environment.PSICOLOGIA;
   query = '?query=';
   paciente = '';
-  IdPersona: number | string;
+  IdPersona: number;
   IdHistoria: number;
   falloPsico: boolean = false;
   falloMedicina: boolean = false;

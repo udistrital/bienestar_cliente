@@ -45,7 +45,7 @@ export class DatosBasicosComponent implements OnInit {
   }
   ngOnInit(): void {
     this.codigo = this.aRoute.snapshot.paramMap.get('codigo');
-    this.saludService.IdPersona = this.codigo;
+    this.saludService.IdPersona = parseInt(this.codigo);
     // this.verificarHistoria();
     this.cargarDatos();
 

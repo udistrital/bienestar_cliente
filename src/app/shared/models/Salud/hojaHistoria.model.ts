@@ -9,7 +9,7 @@ export interface HojaHistoria {
     FechaConsulta?: Date,
     Especialidad?: number,
     Persona?: number,
-    Profesional?: number,
+    Profesional?: number | string,
     Motivo?: string,
     Observacion?: string
 }
