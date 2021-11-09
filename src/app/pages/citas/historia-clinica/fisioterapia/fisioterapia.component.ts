@@ -123,7 +123,7 @@ export class FisioterapiaComponent implements OnInit {
         Observaciones: this.fisioterapiaForm.get('observacionesFisioterapia').value,
       };
       // console.log(historiaFisio);
-      this.saludService.putFisioterapia(this.fisioterapia.HojaHistoria.Id, historiaFisio).subscribe(data => {
+      this.saludService.putFisioterapia(this.fisioterapia.Id, historiaFisio).subscribe(data => {
         // console.log(data);
 
         this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
