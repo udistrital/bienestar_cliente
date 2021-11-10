@@ -17,7 +17,8 @@ export class SolicitarCitaComponent implements OnInit {
   date = new Date();
   dateToday = this.date.setHours(this.date.getHours() + 1);
   servicios: any[] = ["Medicina", "Enfermería", "Psicología", "Odontología", "Fisioterapia"];
-  facultades: any[] = [];
+  facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa","Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
+  "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
   plataformas: any[] = ["Teléfono", "Meet", "Zoom", "Presencial"];
   referencia: ReferenciaSolicitudCita = new ReferenciaSolicitudCita();
   solicitarCita: FormGroup;
@@ -34,7 +35,7 @@ export class SolicitarCitaComponent implements OnInit {
     private autenticacion: ImplicitAutenticationService,
     private toastr: ToastrService ) {
     this.solicitarCita = this.fb.group({
-      telefono: [''],
+      telefono: ['', Validators.required],
       servicio: ['', Validators.required],
       facultad: ['', Validators.required],
       plataforma: ['', Validators.required],
@@ -46,7 +47,6 @@ export class SolicitarCitaComponent implements OnInit {
   ngOnInit() {
     this.obtenerDataIngreso();
     this.obtenerInfoUsuario();
-    this.obtenerFacultades();
     console.log(this.route.snapshot.data['roles']);
   }
   calcularEdad(fechaNacimiento): number {
@@ -69,13 +69,6 @@ export class SolicitarCitaComponent implements OnInit {
     } else {
       this.hideForm = true;
     }
-  }
-  obtenerFacultades() {
-    this.est.getFacultades().subscribe((data: any) => {
-      for (let i in data) {
-        this.facultades.push(data[i].DependenciaId.Nombre);
-      }
-    });
   }
 
   obtenerDataIngreso() {
@@ -106,22 +99,20 @@ export class SolicitarCitaComponent implements OnInit {
     });
     this.referencia.documento = this.estudiante.documento;
     this.referencia.facultad = this.solicitarCita.value.facultad;
-    this.referencia.proyecto = '';
     this.referencia.edad = this.calcularEdad(this.estudiante.FechaNacimiento).toString();
+    this.referencia.telefono = null;
     this.est.getInfoComplementaria(this.estudiante.Id, 51).subscribe((data) => {
       if (data) {
         this.referencia.telefono = data[0].Dato;
-      } else {
-        this.referencia.telefono = '';
       }
     });
+    this.referencia.correo = null;
     this.est.getInfoComplementaria(this.estudiante.Id, 53).subscribe((data) => {
       if (data) {
         this.referencia.correo = data[0].Dato;
-      } else {
-        this.referencia.correo = '';
       }
     });
+    this.referencia.servicio = this.solicitarCita.value.servicio;
     this.referencia.telefonoAdicional = this.solicitarCita.value.telefono;
     this.referencia.profesional = this.solicitarCita.value.especialista;
     this.referencia.plataforma = this.solicitarCita.value.plataforma;

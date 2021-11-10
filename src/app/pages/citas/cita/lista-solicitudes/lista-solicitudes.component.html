@@ -1,0 +1,62 @@
+<div class="card text-center">
+    <span class="h3">Listado de Solicitudes pendientes</span>
+</div>
+<table  mat-table [dataSource]="datasource" matSort class="mat-elevation-z8">
+    <caption style="display: none">
+      Solicitudes de citas médicas
+  </caption>
+      <ng-container matColumnDef="documento">
+      <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> 
+        Documento
+      </th>
+      <td mat-cell *matCellDef="let cita">{{ cita.documento }}</td>
+    </ng-container>
+    <ng-container matColumnDef="nombre">
+      <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+        Nombre
+      </th>
+      <td mat-cell *matCellDef="let cita"> {{ cita.Nombrecompleto }} </td>
+    </ng-container>
+    <ng-container matColumnDef="telefono">
+      <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+        Telefono
+      </th>
+      <td mat-cell *matCellDef="let cita">
+        {{cita.telefono}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="facultad">
+      <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+        Facultad
+      </th>
+      <td mat-cell *matCellDef="let cita">
+        {{cita.facultad}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="plataforma">
+      <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+        Plataforma
+      </th>
+      <td mat-cell *matCellDef="let cita"> {{cita.plataforma}} </td>
+    </ng-container>
+    <ng-container matColumnDef="servicio">
+      <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+        Servicio
+      </th>
+      <td mat-cell *matCellDef="let cita">
+        {{cita.servicio}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="especialista">
+        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
+        Especialista
+        </th>
+        <td mat-cell *matCellDef="let cita">
+          {{cita.profesional}}
+        </td>
+      </ng-container>
+
+    <!-- elementos necesarios para el mat-table de angular material-->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>

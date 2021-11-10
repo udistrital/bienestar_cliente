@@ -30,6 +30,7 @@ import { PacienteCitaComponent } from './paciente/paciente-cita/paciente-cita.co
 import { OdontogramaVInfantilComponent } from './historia-clinica/odontologia/odontograma-v-infantil/odontograma-v-infantil.component';
 import { OdontogramaLingualesComponent } from './historia-clinica/odontologia/odontograma-linguales/odontograma-linguales.component';
 import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.component';
+import { ListaSolicitudesComponent } from './cita/lista-solicitudes/lista-solicitudes.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -54,6 +55,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     OdontogramaVInfantilComponent,
     OdontogramaLingualesComponent,
     SolicitarCitaComponent,
+    ListaSolicitudesComponent,
   ],
   imports: [
     CommonModule,
