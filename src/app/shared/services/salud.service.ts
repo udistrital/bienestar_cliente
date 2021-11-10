@@ -6,10 +6,8 @@ import { HojaHistoria } from '../models/Salud/hojaHistoria.model';
 import { ConsultaFisioterapia } from '../models/Salud/consultaFisioterapia.model';
 import { Examen } from '../models/Salud/examen.model';
 import { Diagnostico } from '../models/Salud/diagnostico.model';
-import { TipoAntecedente } from '../models/Salud/tipoAntecedente.model';
 import { Sistemas } from '../models/Salud/sistemas.model';
 import { HistoriaClinica } from '../models/Salud/historiaClinica.model';
-import { TipoExamen } from '../models/Salud/tipoExamen.model';
 import { Antecedente } from '../models/Salud/antecedente.model';
 import { ComposicionFamiliar } from '../models/Salud/composicionFamiliar.model';
 import { Limites } from '../models/Salud/limites.model';
@@ -39,9 +37,6 @@ export class SaludService {
   getDiagnostico(IdHistoriaClinica): Observable<Diagnostico> {
     return this.httpClient.get<Diagnostico>(this.url + 'Medicina/Diagnostico' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
   }
-  getTipoAntecedente(): Observable<TipoAntecedente> {
-    return this.httpClient.get<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente');
-  }
   getSistema(IdHistoriaClinica): Observable<Sistemas> {
     return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
   }
@@ -53,9 +48,6 @@ export class SaludService {
   }
   getHistoriaClinica(IdTercero): Observable<HistoriaClinica> {
     return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica' + this.query + 'Tercero:' + `${IdTercero}`);
-  }
-  getTipoExamen(): Observable<TipoExamen> {
-    return this.httpClient.get<TipoExamen>(this.url + 'Medicina/TipoExamen');
   }
   getAntecedente(IdHistoriaClinica): Observable<Antecedente> {
     return this.httpClient.get<any>(this.url + 'Medicina/Antecedente/' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
@@ -144,13 +136,6 @@ export class SaludService {
   }
   putDiagnostico(IdDiagnostico: number, diagnostico: Diagnostico): Observable<Diagnostico> {
     return this.httpClient.put<Diagnostico>(this.url + `Medicina/Diagnostico/${IdDiagnostico}`, diagnostico);
-  }
-  postTipoAntecedente(tipoAntecedente: TipoAntecedente): Observable<TipoAntecedente> {
-    return this.httpClient.post<TipoAntecedente>(this.url + 'Medicina/TipoAntecedente', tipoAntecedente);
-  }
-  putTipoAntecedente(IdTipoAntecedente: number, tipoAntecedente: TipoAntecedente): Observable<TipoAntecedente> {
-
-    return this.httpClient.put<TipoAntecedente>(this.url + `Medicina/TipoAntecedente/${IdTipoAntecedente}`, tipoAntecedente);
   }
   postHojaHistoria(hojaHistoria: HojaHistoria): Observable<HojaHistoria> {
     return this.httpClient.post<HojaHistoria>(this.url + 'Medicina/HojaHistoria', hojaHistoria);

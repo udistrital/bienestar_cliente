@@ -1,6 +1,5 @@
 import { HistoriaClinica } from "./historiaClinica.model";
 import { HojaHistoria } from "./hojaHistoria.model"
-import { TipoExamen } from "./tipoExamen.model";
 
 export interface Examen {
     HojaHistoria?: HojaHistoria,
