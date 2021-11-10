@@ -195,7 +195,7 @@ export class MedicinaComponent implements OnInit {
           this.medicinaForm.controls.urinario.setValue(this.sistemas.Urinario);
           //Exámenes
           this.saludService.getExamen(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-            console.log(data);
+            // console.log(data);
             this.examenes = data[0];
             this.medicinaForm.controls.examenes.setValue(this.examenes.Laboratorio);
             this.medicinaForm.controls.ta.setValue(this.examenes.Ta);

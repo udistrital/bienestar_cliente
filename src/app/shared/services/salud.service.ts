@@ -75,7 +75,6 @@ export class SaludService {
   getDiagnosticoPsicologia(IdHistoriaClinica): Observable<DiagnosticoPsicologia> {
     return this.httpClient.get<DiagnosticoPsicologia>(this.url2 + 'Psicologia/Diagnostico/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
   }
-
   //Guardar y actualizar
   postFisioterapia(consultaFisioterapia: ConsultaFisioterapia): Observable<ConsultaFisioterapia> {
     return this.httpClient.post<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia', consultaFisioterapia);
