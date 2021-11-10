@@ -3,11 +3,27 @@ import { HojaHistoria } from "./hojaHistoria.model"
 import { TipoExamen } from "./tipoExamen.model";
 
 export interface Examen {
-    FechaExamen?: Date,
     HojaHistoria?: HojaHistoria,
     HistoriaClinica?: HistoriaClinica,
     Id?: number,
-    TipoExamen?: TipoExamen,
-    Nombre?: string,
-    Observacion?: string,
+    Abdomen?: string,
+    CabezaYCuello?: string,
+    EstadoGeneral?: string,
+    Extremidades?: string,
+    Fc?: string,
+    Fr?: string,
+    Genital?: string,
+    Imc?: string,
+    Laboratorio?: string,
+    Neurologico?: string,
+    Ojos?: string,
+    Orl?: string,
+    Peso?: string,
+    RuidosCardiacos?: string,
+    RuidosRespiratorios?: string
+    Sao2?: string,
+    Ta?: string,
+    Talla?: string,
+    Temperatura?: string,
+    Torax?: string,
 }

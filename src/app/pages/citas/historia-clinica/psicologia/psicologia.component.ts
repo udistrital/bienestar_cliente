@@ -159,6 +159,8 @@ export class PsicologiaComponent implements OnInit {
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
     //POSTS
     if (!this.idHistoria) {
+      console.log("no existe historia");
+
       const antecedentePsicologiaFamiliar: AntecedentePsicologia = {
         ActualSomatico: this.psicologiaForm.get('actualesFamiliares').value,
         HistoriaClinicaId: null,
@@ -259,7 +261,7 @@ export class PsicologiaComponent implements OnInit {
           Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
         }
         // console.log(valoracionInterpersonal);
-        this.saludService.postValoracionInterpersonal(valoracionInterpersonal).subscribe(data => {
+        this.saludService.putValoracionInterpersonal(this.idValoracion, valoracionInterpersonal,).subscribe(data => {
           console.log('ValoracionInterpersonal: ' + data);
         });
         this.saludService.falloPsico = true;

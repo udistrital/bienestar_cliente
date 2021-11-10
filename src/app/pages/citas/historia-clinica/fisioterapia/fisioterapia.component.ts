@@ -69,10 +69,10 @@ export class FisioterapiaComponent implements OnInit {
 
   cargarInformacion() {
 
-    // this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => { //Reemplazar para pruebas
-    // this.idHistoria = data[0].Id;
-    this.saludService.getHistoriaClinica(this.saludService.terceroId).subscribe((data: any) => {
+    this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => { //Reemplazar para pruebas
       this.idHistoria = data[0].Id;
+      // this.saludService.getHistoriaClinica(this.saludService.terceroId).subscribe((data: any) => {
+      //   this.idHistoria = data[0].Id;
       this.saludService.getConsultaFisioterapia(this.idHistoria).subscribe(data => {
         // console.log(data);
         this.fisioterapia = data[0];
@@ -108,7 +108,7 @@ export class FisioterapiaComponent implements OnInit {
       };
       console.log(historiaFisio);
       this.saludService.postFisioterapia(historiaFisio).subscribe(data => {
-        console.log('Fisioterapia: ' + data);
+        console.log('Fisioterapia: ' + data[0]);
         this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
       }, error => {
         this.toastr.error(error, '¡ERROR!');
@@ -127,7 +127,6 @@ export class FisioterapiaComponent implements OnInit {
       // console.log(historiaFisio);
       this.saludService.putFisioterapia(this.fisioterapia.Id, historiaFisio).subscribe(data => {
         // console.log(data);
-
         this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
       }, error => {
         this.toastr.error(error, '¡ERROR!');

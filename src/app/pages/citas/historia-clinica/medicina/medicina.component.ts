@@ -156,85 +156,93 @@ export class MedicinaComponent implements OnInit {
         this.saludService.IdHistoria = this.idHistoria;
         //Antecedente
         this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-          this.antecedentes = data;
+          this.antecedentes = data[0];
           // console.log(this.antecedentes);
-          this.medicinaForm.controls.patologicos.setValue(this.antecedentes[0].Observaciones);
-          this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes[1].Observaciones);
-          this.medicinaForm.controls.quirurgicos.setValue(this.antecedentes[2].Observaciones);
-          this.medicinaForm.controls.genitoUrinarios.setValue(this.antecedentes[3].Observaciones);
-          this.medicinaForm.controls.traumaticos.setValue(this.antecedentes[4].Observaciones);
-          this.medicinaForm.controls.alergicos.setValue(this.antecedentes[5].Observaciones);
-          this.medicinaForm.controls.farmacologicos.setValue(this.antecedentes[6].Observaciones);
-          this.medicinaForm.controls.familiares.setValue(this.antecedentes[7].Observaciones);
-          this.medicinaForm.controls.ocupacionales.setValue(this.antecedentes[8].Observaciones);
+          this.medicinaForm.controls.patologicos.setValue(this.antecedentes.Patologicos);
+          this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes.Hospitalarios);
+          this.medicinaForm.controls.quirurgicos.setValue(this.antecedentes.Quirurgicos);
+          this.medicinaForm.controls.traumaticos.setValue(this.antecedentes.Traumaticos);
+          this.medicinaForm.controls.genitoUrinarios.setValue(this.antecedentes.GenitoUrinarios);
+          this.medicinaForm.controls.alergicos.setValue(this.antecedentes.Alergicos);
+          this.medicinaForm.controls.farmacologicos.setValue(this.antecedentes.Farmacologicos);
+          this.medicinaForm.controls.familiares.setValue(this.antecedentes.Familiares);
+          this.medicinaForm.controls.ocupacionales.setValue(this.antecedentes.Ocupacionales);
+          //CCV
+          this.medicinaForm.controls.ciclos.setValue(this.antecedentes.Ciclos);
+          this.medicinaForm.controls.compañeros.setValue(this.antecedentes.CompañerosSexuales);
+          this.medicinaForm.controls.fog.setValue(this.antecedentes.Fog || null);
+          this.medicinaForm.controls.fup.setValue(this.antecedentes.Fup || null);
+          this.medicinaForm.controls.fur.setValue(this.antecedentes.Fur || null);
+          this.medicinaForm.controls.menarquia.setValue(this.antecedentes.Menarquia || null);
+          this.medicinaForm.controls.pp.setValue(this.antecedentes.Pp || null);
+          //Seno
         });
         //Sistemas
         this.saludService.getSistema(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
           // console.log(data);
-          this.sistemas = data;
-          this.medicinaForm.controls.piel.setValue(this.sistemas[0].Observacion);
-          this.medicinaForm.controls.colageno.setValue(this.sistemas[1].Observacion);
-          this.medicinaForm.controls.linfatico.setValue(this.sistemas[2].Observacion);
-          this.medicinaForm.controls.oseo.setValue(this.sistemas[3].Observacion);
-          this.medicinaForm.controls.muscular.setValue(this.sistemas[4].Observacion);
-          this.medicinaForm.controls.articular.setValue(this.sistemas[5].Observacion);
-          this.medicinaForm.controls.digestivo.setValue(this.sistemas[6].Observacion);
-          this.medicinaForm.controls.urinario.setValue(this.sistemas[7].Observacion);
-          this.medicinaForm.controls.sentidos.setValue(this.sistemas[8].Observacion);
-          this.medicinaForm.controls.cardioVascular.setValue(this.sistemas[9].Observacion);
-          this.medicinaForm.controls.neurologico.setValue(this.sistemas[10].Observacion);
-          this.medicinaForm.controls.respiratorio.setValue(this.sistemas[11].Observacion);
-        });
-        //Exámenes
-        this.saludService.getExamen(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-          // console.log(data);
-          this.examenes = data;
-          this.medicinaForm.controls.examenes.setValue(this.examenes[0].Observacion);
-          this.medicinaForm.controls.ta.setValue(this.examenes[1].Observacion);
-          this.medicinaForm.controls.fc.setValue(this.examenes[2].Observacion);
-          this.medicinaForm.controls.sao2.setValue(this.examenes[3].Observacion);
-          this.medicinaForm.controls.imc.setValue(this.examenes[4].Observacion);
-          this.medicinaForm.controls.fr.setValue(this.examenes[5].Observacion);
-          this.medicinaForm.controls.tc.setValue(this.examenes[6].Observacion);
-          this.medicinaForm.controls.peso.setValue(this.examenes[7].Observacion);
-          this.medicinaForm.controls.talla.setValue(this.examenes[8].Observacion);
-          this.medicinaForm.controls.estadoGeneral.setValue(this.examenes[9].Observacion);
-          this.medicinaForm.controls.cabezaYCuello.setValue(this.examenes[10].Observacion);
-          this.medicinaForm.controls.orl.setValue(this.examenes[11].Observacion);
-          this.medicinaForm.controls.ojos.setValue(this.examenes[12].Observacion);
-          this.medicinaForm.controls.torax.setValue(this.examenes[13].Observacion);
-          this.medicinaForm.controls.ruidosRespiratorios.setValue(this.examenes[14].Observacion);
-          this.medicinaForm.controls.ruidosCardiacos.setValue(this.examenes[15].Observacion);
-          this.medicinaForm.controls.abdomen.setValue(this.examenes[16].Observacion);
-          this.medicinaForm.controls.neurologicoE.setValue(this.examenes[17].Observacion);
-          this.medicinaForm.controls.genital.setValue(this.examenes[18].Observacion);
-          this.medicinaForm.controls.extremidades.setValue(this.examenes[19].Observacion);
-        });
-        //Diagnostico
-        this.saludService.getDiagnostico(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-          // console.log(data[0]);
-          this.diagnostico = data[0];
-          this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
-          this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
-          let analisis = JSON.parse(this.diagnostico.Analisis);
-          this.analisis.push({ ...analisis });
-          let analisis2 = this.analisis[0].analisis;
-          for (let i = 0; i < analisis2.length; i++) {
-            this.analisisArr.push(new FormControl(analisis2[i]));
-          }
+          this.sistemas = data[0];
+          this.medicinaForm.controls.articular.setValue(this.sistemas.Articular);
+          this.medicinaForm.controls.cardioVascular.setValue(this.sistemas.CardioVascular);
+          this.medicinaForm.controls.colageno.setValue(this.sistemas.Colageno);
+          this.medicinaForm.controls.digestivo.setValue(this.sistemas.Digestivo);
+          this.medicinaForm.controls.linfatico.setValue(this.sistemas.Linfatico);
+          this.medicinaForm.controls.muscular.setValue(this.sistemas.Muscular);
+          this.medicinaForm.controls.neurologico.setValue(this.sistemas.Neurologico);
+          this.medicinaForm.controls.oseo.setValue(this.sistemas.Oseo);
+          this.medicinaForm.controls.piel.setValue(this.sistemas.Piel);
+          this.medicinaForm.controls.respiratorio.setValue(this.sistemas.Respiratorio);
+          this.medicinaForm.controls.sentidos.setValue(this.sistemas.Sentidos);
+          this.medicinaForm.controls.urinario.setValue(this.sistemas.Urinario);
+          //Exámenes
+          this.saludService.getExamen(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
+            console.log(data);
+            this.examenes = data[0];
+            this.medicinaForm.controls.examenes.setValue(this.examenes.Laboratorio);
+            this.medicinaForm.controls.ta.setValue(this.examenes.Ta);
+            this.medicinaForm.controls.fc.setValue(this.examenes.Fc);
+            this.medicinaForm.controls.sao2.setValue(this.examenes.Sao2);
+            this.medicinaForm.controls.imc.setValue(this.examenes.Imc);
+            this.medicinaForm.controls.fr.setValue(this.examenes.Fr);
+            this.medicinaForm.controls.tc.setValue(this.examenes.Temperatura);
+            this.medicinaForm.controls.peso.setValue(this.examenes.Peso);
+            this.medicinaForm.controls.talla.setValue(this.examenes.Talla);
+            this.medicinaForm.controls.estadoGeneral.setValue(this.examenes.EstadoGeneral);
+            this.medicinaForm.controls.cabezaYCuello.setValue(this.examenes.CabezaYCuello);
+            this.medicinaForm.controls.orl.setValue(this.examenes.Orl);
+            this.medicinaForm.controls.ojos.setValue(this.examenes.Ojos);
+            this.medicinaForm.controls.torax.setValue(this.examenes.Torax);
+            this.medicinaForm.controls.ruidosRespiratorios.setValue(this.examenes.RuidosRespiratorios);
+            this.medicinaForm.controls.ruidosCardiacos.setValue(this.examenes.RuidosCardiacos);
+            this.medicinaForm.controls.abdomen.setValue(this.examenes.Abdomen);
+            this.medicinaForm.controls.neurologicoE.setValue(this.examenes.Neurologico);
+            this.medicinaForm.controls.genital.setValue(this.examenes.Genital);
+            this.medicinaForm.controls.extremidades.setValue(this.examenes.Extremidades);
+          });
+          //Diagnostico
+          this.saludService.getDiagnostico(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
+            // console.log(data[0]);
+            this.diagnostico = data[0];
+            this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
+            this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
+            let analisis = JSON.parse(this.diagnostico.Analisis);
+            this.analisis.push({ ...analisis });
+            let analisis2 = this.analisis[0].analisis;
+            for (let i = 0; i < analisis2.length; i++) {
+              this.analisisArr.push(new FormControl(analisis2[i]));
+            }
+          });
         });
       });
     });
   }
-
   guardarHistoriaMedicina() {
-    let evolucionCorregida = JSON.stringify(this.evolucionArr.value);
-    let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
-    let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
+    // let evolucionCorregida = JSON.stringify(this.evolucionArr.value);
+    // let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
+    // let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
 
-    let analisisCorregido = JSON.stringify(this.analisisArr.value);
-    let analisis = analisisCorregido.slice(1, analisisCorregido.length - 1);
-    let analisis2 = analisis.replace(/]/g, "").replace(/\[/g, "");
+    // let analisisCorregido = JSON.stringify(this.analisisArr.value);
+    // let analisis = analisisCorregido.slice(1, analisisCorregido.length - 1);
+    // let analisis2 = analisis.replace(/]/g, "").replace(/\[/g, "");
     //POSTS
     if (this.hojaHistoria.Id === null || this.hojaHistoria.Id === undefined) {
       // || !this.antecedentes || !this.sistemas || !this.diagnostico || !this.examenes
@@ -242,7 +250,7 @@ export class MedicinaComponent implements OnInit {
         Id: null,
         HistoriaClinica: this.historiaClinica,
         Diagnostico: this.medicinaForm.get('diagnostico').value,
-        Evolucion: '{"evolucion":[' + evolucion2 + ']}',
+        // Evolucion: '{"evolucion":[' + evolucion2 + ']}',
         FechaConsulta: new Date(),
         Especialidad: 1,
         Persona: this.saludService.IdPersona,
@@ -268,7 +276,7 @@ export class MedicinaComponent implements OnInit {
           HistoriaClinica: this.historiaClinica,
           HojaHistoria: { Id: this.hojaHistoria.Id },
           Activo: true,
-          Analisis: '{"analisis":[' + analisis2 + ']}',
+          // Analisis: '{"analisis":[' + analisis2 + ']}',
           Descripcion: this.medicinaForm.get('diagnostico').value,
           FechaCreacion: new Date(),
           FechaModificacion: new Date(),
@@ -293,7 +301,7 @@ export class MedicinaComponent implements OnInit {
         Id: this.hojaHistoria.Id,
         HistoriaClinica: { Id: this.idHistoria },
         Diagnostico: this.medicinaForm.get('diagnostico').value,
-        Evolucion: '{"evolucion":[' + evolucion2 + ']}',
+        // Evolucion: '{"evolucion":[' + evolucion2 + ']}',
         FechaConsulta: new Date(),
         Especialidad: this.hojaHistoria.Especialidad,
         Persona: this.hojaHistoria.Persona,
@@ -348,7 +356,7 @@ export class MedicinaComponent implements OnInit {
         HistoriaClinica: { Id: this.idHistoria },
         HojaHistoria: { Id: this.hojaHistoria.Id },
         Activo: this.diagnostico.Activo,
-        Analisis: '{"analisis":[' + analisis2 + ']}',
+        // Analisis: '{"analisis":[' + analisis2 + ']}',
         Descripcion: this.medicinaForm.get('diagnostico').value,
         FechaCreacion: this.diagnostico.FechaCreacion,
         FechaModificacion: new Date(),
