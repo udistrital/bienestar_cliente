@@ -3,7 +3,7 @@ import { HojaHistoria } from "./hojaHistoria.model"
 
 export interface Examen {
     HojaHistoria?: HojaHistoria,
-    HistoriaClinica?: HistoriaClinica,
+    HistoriaClinica?: HistoriaClinica | number,
     Id?: number,
     Abdomen?: string,
     CabezaYCuello?: string,

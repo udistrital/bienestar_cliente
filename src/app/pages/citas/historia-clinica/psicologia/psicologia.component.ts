@@ -264,8 +264,7 @@ export class PsicologiaComponent implements OnInit {
         this.saludService.falloPsico = true;
       });
     }
-
-
+    ///ACTUALIZACIÓN 
     // PUTS
     if (this.antecedentes) {
       const antecedentePsicologia: AntecedentePsicologia = {
