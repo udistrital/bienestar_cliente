@@ -14,6 +14,6 @@ export interface ValoracionInterpersonal {
     Pareja?: string,
     Pares?: string,
     Proteccion?: string,
-    Relaciones?: boolean,
+    RelacionesSexuales?: boolean,
     Satisfaccion?: string,
 }

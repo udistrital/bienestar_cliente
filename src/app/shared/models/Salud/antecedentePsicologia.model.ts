@@ -2,7 +2,7 @@ import { HistoriaClinica } from "./historiaClinica.model";
 
 export interface AntecedentePsicologia {
     Id?: number,
-    HistoriaClinica?: HistoriaClinica | number,
+    HistoriaClinicaId?: HistoriaClinica | number,
     ActualFamiliar?: string,
     ActualPersonal?: string,
     PasadoFamiliar?: string,

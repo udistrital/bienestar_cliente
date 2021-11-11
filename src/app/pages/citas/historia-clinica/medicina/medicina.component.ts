@@ -269,7 +269,6 @@ export class MedicinaComponent implements OnInit {
     }
     //Diagnostico
     if (!this.diagnostico) {
-
       setTimeout(() => {
         const diagnostico: Diagnostico = {
           Id: 0,
