@@ -103,7 +103,7 @@ export class PsicologiaComponent implements OnInit {
           this.psicologiaForm.controls.rigidos.setValue(this.limites.Rigidos);
         });
         this.saludService.getAntecedentesPsicologicos(this.Historia.Id).subscribe(data => {
-          console.log(data);
+          // console.log(data);
           this.antecedentes = data[0];
           this.psicologiaForm.controls.actualesFamiliares.setValue(data[0].ActualFamiliar);
           this.psicologiaForm.controls.pasadosFamiliares.setValue(data[0].PasadoFamiliar);
@@ -151,112 +151,118 @@ export class PsicologiaComponent implements OnInit {
     let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
     //POSTS
-    if (!this.Historia.Id) {
-      // console.log("no existe historia");
-
-      // const antecedentePsicologia: AntecedentePsicologia = {
-      //   Id: 0,
-      //   PasadoFamiliar: this.psicologiaForm.controls.pasadosFamiliares.value,
-      //   ActualFamiliar: this.psicologiaForm.controls.actualesFamiliares.value,
-      //   PasadoPersonal: this.psicologiaForm.controls.pasadosPersonales.value,
-      //   ActualPersonal: this.psicologiaForm.controls.actualesPersonales.value,
-      //   HistoriaClinica: { Id: this.HojaHistoria.Id }
-      // }
+    if (!this.antecedentes) {
+      const antecedentePsicologia: AntecedentePsicologia = {
+        Id: 0,
+        PasadoFamiliar: this.psicologiaForm.controls.pasadosFamiliares.value,
+        ActualFamiliar: this.psicologiaForm.controls.actualesFamiliares.value,
+        PasadoPersonal: this.psicologiaForm.controls.pasadosPersonales.value,
+        ActualPersonal: this.psicologiaForm.controls.actualesPersonales.value,
+        HistoriaClinicaId: this.antecedentes.HistoriaClinicaId,
+      }
       // console.log(antecedentePsicologia);
-      // // this.saludService.postAntecedentePsicologia(antecedentePsicologia).subscribe(data => {
-      // //   console.log('AntecedentePsicologia: ' + data);
-      // //   this.saludService.falloPsico = true;
-      // // }, error => {
-      // //   this.saludService.falloPsico = false;
-      // // });
-      // const comportamientoConsulta: ComportamientoConsulta = {
-      //   Afrontamiento: this.psicologiaForm.get('estiloAfrontamiento').value,
-      //   Comportamiento: this.psicologiaForm.get('comportamientoDuranteConsulta').value,
-      //   HistoriaClinicaId: this.Historia.Id,
-      //   HojaHistoriaId: this.HojaHistoria.Id,
-      //   Id: this.comportamiento.Id,
-      //   Problematica: this.psicologiaForm.get('problematicaActual').value,
-      // }
+      this.saludService.postAntecedentePsicologia(antecedentePsicologia).subscribe(data => {
+        console.log('AntecedentePsicologia: ' + data);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (!this.comportamiento) {
+      const comportamientoConsulta: ComportamientoConsulta = {
+        Afrontamiento: this.psicologiaForm.get('estiloAfrontamiento').value,
+        Comportamiento: this.psicologiaForm.get('comportamientoDuranteConsulta').value,
+        HistoriaClinicaId: this.comportamiento.HistoriaClinicaId,
+        Id: 0,
+        Problematica: this.psicologiaForm.get('problematicaActual').value,
+        HojaHistoriaId: this.comportamiento.HojaHistoriaId,
+      }
       // console.log(comportamientoConsulta);
-      // // this.saludService.postComportamientoConsulta(comportamientoConsulta).subscribe(data => {
-      // //   console.log('ComportamientoConsulta: ' + data);
-      // //   this.saludService.falloPsico = true;
-      // // }, error => {
-      // //   this.saludService.falloPsico = false;
-      // // });
-      // const composicionFamiliar: ComposicionFamiliar = {
-      //   HistoriaClinicaId: this.Historia.Id,
-      //   HojaHistoriaId: this.HojaHistoria.Id,
-      //   Id: this.composicion.Id,
-      //   Observaciones: this.psicologiaForm.get('observacionesPsicologia').value,
-      // }
+      this.saludService.postComportamientoConsulta(comportamientoConsulta).subscribe(data => {
+        console.log('ComportamientoConsulta: ' + data);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (!this.composicion) {
+      const composicionFamiliar: ComposicionFamiliar = {
+        HistoriaClinicaId: this.composicion.HistoriaClinicaId,
+        HojaHistoriaId: this.composicion.HojaHistoriaId,
+        Id: 0,
+        Observaciones: this.psicologiaForm.get('observacionesPsicologia').value,
+      }
+      // console.log('Ya había composicion');
       // console.log(composicionFamiliar);
-      // // this.saludService.postComposicionFamiliar(composicionFamiliar).subscribe(data => {
-      // //   console.log('ComposicionFamiliar: ' + data);
-      // //   this.saludService.falloPsico = true;
-      // // }, error => {
-      // //   this.saludService.falloPsico = false;
-      // // });
-      // const diagnostico: DiagnosticoPsicologia = {
-      //   Acuerdo: this.psicologiaForm.get('acuerdos').value,
-      //   Evolucion: '{"evolucion":[' + evolucion2 + ']}',
-      //   Hipotesis: this.psicologiaForm.get('hipotesis').value,
-      //   HistoriaClinicaId: this.Historia.Id,
-      //   HojaHistoriaId: this.HojaHistoria.Id,
-      //   Id: this.diagnostico.Id,
-      //   Observaciones: this.psicologiaForm.get('observacionesPsicologia').value,
-      // }
+      this.saludService.postComposicionFamiliar(composicionFamiliar).subscribe(data => {
+        console.log('ComposicionFamiliar: ' + data);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (!this.diagnostico) {
+      const diagnostico: DiagnosticoPsicologia = {
+        Acuerdo: this.psicologiaForm.get('acuerdos').value,
+        Evolucion: '{"evolucion":[' + evolucion2 + ']}',
+        Hipotesis: this.psicologiaForm.get('hipotesis').value,
+        HistoriaClinicaId: this.diagnostico.HistoriaClinicaId,
+        HojaHistoriaId: this.diagnostico.HojaHistoriaId,
+        Id: 0,
+        Observaciones: this.psicologiaForm.get('observacionesPsicologia').value,
+      }
+      // console.log('Ya había diagnostico');
       // console.log(diagnostico);
-      // // this.saludService.postDiagnosticoPsicologia(diagnostico).subscribe(data => {
-      // //   console.log('DiagnosticoPsicologia: ' + data);
-      // //   this.saludService.falloPsico = true;
-      // // }, error => {
-      // //   this.saludService.falloPsico = false;
-      // // });
-      // const limites: Limites = {
-      //   Claros: this.psicologiaForm.get('claros').value,
-      //   Difusos: this.psicologiaForm.get('difusos').value,
-      //   HistoriaClinicaId: this.Historia.Id,
-      //   HojaHistoriaId: this.HojaHistoria.Id,
-      //   Id: this.limites.Id,
-      //   Rigidos: this.psicologiaForm.get('rigidos').value,
-      // }
+      this.saludService.postDiagnosticoPsicologia(diagnostico).subscribe(data => {
+        console.log('DiagnosticoPsicologia: ' + data);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (!this.limites) {
+      const limites: Limites = {
+        Claros: this.psicologiaForm.get('claros').value,
+        Difusos: this.psicologiaForm.get('difusos').value,
+        HistoriaClinicaId: this.limites.HistoriaClinicaId,
+        HojaHistoriaId: this.limites.HojaHistoriaId,
+        Id: 0,
+        Rigidos: this.psicologiaForm.get('rigidos').value,
+      }
+      // console.log('Ya había limites');
       // console.log(limites);
-      // // this.saludService.postLimites(limites).subscribe(data => {
-      // //   console.log('Limites: ' + data);
-      // //   this.saludService.falloPsico = true;
-      // // }, error => {
-      // //   this.saludService.falloPsico = false;
-      // // });
-      // const valoracionInterpersonal: ValoracionInterpersonal = {
-      //   Autoridad: this.psicologiaForm.get('figurasDeAutoridad').value,
-      //   Drogas: this.psicologiaForm.get('drogas').value,
-      //   Economicos: this.psicologiaForm.get('economicos').value,
-      //   HistoriaClinicaId: this.Historia.Id,
-      //   HojaHistoriaId: this.HojaHistoria.Id,
-      //   Id: this.valoracion.Id,
-      //   Judiciales: this.psicologiaForm.get('judiciales').value,
-      //   Motivo: this.psicologiaForm.get('motivoConsultaPsico').value,
-      //   Orientacion: this.psicologiaForm.get('orientacionSexual').value,
-      //   Pareja: this.psicologiaForm.get('pareja').value,
-      //   Pares: this.psicologiaForm.get('pares').value,
-      //   Proteccion: this.psicologiaForm.get('metodoProteccion').value,
-      //   RelacionesSexuales: this.psicologiaForm.get('relacionesSexuales').value,
-      //   Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
-      // }
+      this.saludService.postLimites(limites).subscribe(data => {
+        console.log('Limites: ' + data);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (!this.valoracion) {
+      const valoracionInterpersonal: ValoracionInterpersonal = {
+        Autoridad: this.psicologiaForm.get('figurasDeAutoridad').value,
+        Drogas: this.psicologiaForm.get('drogas').value,
+        Economicos: this.psicologiaForm.get('economicos').value,
+        HistoriaClinicaId: this.valoracion.HistoriaClinicaId,
+        HojaHistoriaId: this.valoracion.HojaHistoriaId,
+        Id: 0,
+        Judiciales: this.psicologiaForm.get('judiciales').value,
+        Motivo: this.psicologiaForm.get('motivoConsultaPsico').value,
+        Orientacion: this.psicologiaForm.get('orientacionSexual').value,
+        Pareja: this.psicologiaForm.get('pareja').value,
+        Pares: this.psicologiaForm.get('pares').value,
+        Proteccion: this.psicologiaForm.get('metodoProteccion').value,
+        RelacionesSexuales: this.psicologiaForm.get('relacionesSexuales').value,
+        Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
+      }
+      // console.log('Ya había valoracion');
       // console.log(valoracionInterpersonal);
-      // // this.saludService.postValoracionInterpersonal( valoracionInterpersonal,).subscribe(data => {
-      // //   console.log('ValoracionInterpersonal: ' + data);
-      // //   this.saludService.falloPsico = true;
-      // // }, error => {
-      // //   this.saludService.falloPsico = false;
-      // // });
-      // console.log(this.saludService.falloPsico);
-      // if (this.saludService.falloPsico === false) {
-      //   this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
-      // } else {
-      //   this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
-      // }
+      this.saludService.postValoracionInterpersonal(valoracionInterpersonal).subscribe(data => {
+        console.log('ValoracionInterpersonal: ' + data);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
     }
 
 
