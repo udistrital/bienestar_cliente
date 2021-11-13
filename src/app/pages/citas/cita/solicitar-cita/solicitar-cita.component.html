@@ -49,6 +49,12 @@
                 <mat-label>Teléfono*</mat-label>
                 <input matInput placeholder="Teléfono" type="number" formControlName="telefono" />
                 <mat-hint>Ingrese su número de teléfono</mat-hint>
+                <mat-error *ngIf="!solicitarCita.controls.telefono.value && solicitarCita.controls.telefono.touched">
+                    Campo
+                    obligatorio</mat-error>
+                <mat-error *ngIf="solicitarCita.controls.telefono.errors?.pattern && solicitarCita.controls.telefono.dirty">
+                    Solo
+                    números permitidos. Mínimo 7 dígitos. Máximo 10</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="select-group" class="col-md-6">

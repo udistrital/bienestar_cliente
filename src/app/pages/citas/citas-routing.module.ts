@@ -27,7 +27,7 @@ const routes: Routes = [
     path: "",
     children: [
       { path: "listarCita", component: ListarCitaComponent },
-      { path: "crearCita", component: CrearCitaComponent },
+      { path: "crearCita/:tercero/:solicitud", component: CrearCitaComponent },
       { path: "horarios", component: HorariosComponent },
       { path: "listarPaciente", component: ListarPacienteComponent },
       { path: "historiaClinica/:codigo", component: HistoriaClinicaComponent },

@@ -35,7 +35,10 @@ export class SolicitarCitaComponent implements OnInit {
     private autenticacion: ImplicitAutenticationService,
     private toastr: ToastrService ) {
     this.solicitarCita = this.fb.group({
-      telefono: ['', Validators.required],
+      telefono: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{7,10}$'),
+      ]),],
       servicio: ['', Validators.required],
       facultad: ['', Validators.required],
       plataforma: ['', Validators.required],
@@ -90,11 +93,11 @@ export class SolicitarCitaComponent implements OnInit {
   guardarDatosFormulario() {
     this.referencia.Nombrecompleto = this.estudiante.NombreCompleto;
     this.referencia.estamento = '';
+    this.referencia.tercero = this.estudiante.Id;
+    this.referencia.codigo = null;
     this.est.getCodigoTercero(this.estudiante.Id, 14).subscribe((data) => {
       if (data) {
         this.referencia.codigo = data[0].Numero;
-      } else {
-        this.referencia.codigo = '';
       }
     });
     this.referencia.documento = this.estudiante.documento;
@@ -126,7 +129,7 @@ export class SolicitarCitaComponent implements OnInit {
     {
       Id: 31
     }
-    solicitud.Referencia = JSON.stringify(this.referencia);;
+    solicitud.Referencia = JSON.stringify(this.referencia);
     solicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
     solicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
     solicitud.FechaRadicacion = this.dateCustomPipe.transform(new Date());
@@ -171,7 +174,6 @@ export class SolicitarCitaComponent implements OnInit {
     evolucionSolicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
     evolucionSolicitud.Activo = true;
     this.est.grabarSolicitudEvolucion(evolucionSolicitud).subscribe((res) => {
-      console.log(res);
       this.toastr.success("Solicitud hecha satisfactoriamente");
       setTimeout(() => {
         window.location.reload();
