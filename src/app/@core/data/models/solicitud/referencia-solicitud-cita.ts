@@ -1,18 +1,19 @@
 export class ReferenciaSolicitudCita {
-    Nombrecompleto: string;
-    estamento: string;
-    codigo: string;
-    documento: string;
-    facultad: string;
-    proyecto: string;
-    edad: string;
-    telefono: string;
-    telefonoAdicional: string;
-    correo: string;
-    servicio: string;
-    profesional: string;
-    plataforma: string;
-    observaciones: string;
+    Nombrecompleto: any;
+    estamento: any;
+    tercero: any;
+    codigo: any;
+    documento: any;
+    facultad: any;
+    proyecto: any;
+    edad: any;
+    telefono: any;
+    telefonoAdicional: any;
+    correo: any;
+    servicio: any;
+    profesional: any;
+    plataforma: any;
+    observaciones: any;
     constructor() {
     }
 }

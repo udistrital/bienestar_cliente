@@ -1,0 +1,49 @@
+<div class="card text-center">
+  <span class="h3">Listado de Solicitudes pendientes</span>
+</div>
+<div class="card text-center">
+  <div class="card-body">
+    <mat-table [dataSource]="datasource" #sort="matSort" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="documento">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Documento</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.documento}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.Nombrecompleto}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="telefono">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.telefono? cita.telefono:cita.telefonoAdicional}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="facultad">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Facultad</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.facultad}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="plataforma">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Plataforma</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.plataforma}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="servicio">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.servicio}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="especialista">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Especialista</mat-header-cell>
+        <mat-cell *matCellDef="let cita">{{cita.profesional}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+        <mat-cell *matCellDef="let cita"><a class="btn" [routerLink]="['../crearCita', cita.tercero, cita.id ]"
+            matTooltip="Crear">
+            <mat-icon color="warn">add_circle</mat-icon>
+          </a></mat-cell>
+      </ng-container>
+
+      <!-- elementos necesarios para el mat-table de angular material-->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator="matPaginator" [pageSize]="20" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

@@ -16,12 +16,14 @@ const headers = {
 const estudianteUrl = environment.ACADEMICA;
 const infoUrl = environment.TERCEROS_CRUD_SERVICE;
 const oikosUrl = environment.OIKOS_SERVICE;
+const soliUrl = environment.SOLICITUD_CRUD_SERVICE;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'
+const consultaSolicitudes = 'solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:10';
 @Injectable({
   providedIn: 'root'
 })
@@ -124,5 +126,8 @@ export class EstudiantesService {
       ),
     );
 
+  }
+  obtenerSolicitudes(){
+    return this.http.get(soliUrl + consultaSolicitudes, headers);
   }
 }
