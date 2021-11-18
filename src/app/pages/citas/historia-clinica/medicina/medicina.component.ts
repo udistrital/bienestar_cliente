@@ -164,12 +164,12 @@ export class MedicinaComponent implements OnInit {
       }
       // console.log(hojaHistoria);
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
-        console.log('Hoja historia: ' + data);
-        this.toastr.success('Se creó la hoja de hisotira clínica', 'Exito');
+        console.log('Hoja historia: ' + data[0]);
+        this.toastr.success(`Ha creado también la hoja de historia clínica para: ${this.paciente}`, '¡LISTO!');
         this.saludService.falloMedicina = false;
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 1500);
       }, error => {
         this.saludService.falloMedicina = true;
       });
@@ -197,9 +197,9 @@ export class MedicinaComponent implements OnInit {
         this.saludService.historia = this.idHistoria;
         //Antecedente
         this.saludService.getAntecedente(this.saludService.historia).subscribe(data => {
-          console.log(data);
+          // console.log(data);
           this.antecedentes = data[0];
-          console.log(this.antecedentes);
+          // console.log(this.antecedentes);
           this.medicinaForm.controls.patologicos.setValue(this.antecedentes.Patologicos);
           this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes.Hospitalarios);
           this.medicinaForm.controls.quirurgicos.setValue(this.antecedentes.Quirurgicos);
@@ -221,7 +221,7 @@ export class MedicinaComponent implements OnInit {
         });
         //Sistemas
         this.saludService.getSistema(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-          console.log(data);
+          // console.log(data);
           this.sistemas = data[0];
           this.medicinaForm.controls.articular.setValue(this.sistemas.Articular);
           this.medicinaForm.controls.cardioVascular.setValue(this.sistemas.CardioVascular);
@@ -342,7 +342,7 @@ export class MedicinaComponent implements OnInit {
         Urinario: this.medicinaForm.get('urinario').value,
       }
       this.saludService.postSistema(sistemas).subscribe(data => {
-        console.log('Sistemas: ' + data);
+        console.log('Sistemas: ' + data[0]);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -375,7 +375,7 @@ export class MedicinaComponent implements OnInit {
         Torax: this.medicinaForm.get('torax').value,
       }
       this.saludService.postExamen(examenes).subscribe(data => {
-        console.log('Examenes: ' + data);
+        console.log('Examenes: ' + data[0]);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -397,7 +397,7 @@ export class MedicinaComponent implements OnInit {
         PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
       }
       this.saludService.postDiagnostico(diagnostico).subscribe(data => {
-        console.log('Diagnóstico: ' + data);
+        console.log('Diagnóstico: ' + data[0]);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
