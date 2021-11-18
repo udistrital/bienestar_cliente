@@ -132,7 +132,6 @@ export class MedicinaComponent implements OnInit {
 
   ngOnInit() {
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
-
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
@@ -185,6 +184,7 @@ export class MedicinaComponent implements OnInit {
       this.saludService.getHojaHistoria(this.terceroId).subscribe(data => {//Reemplazar por terceroId
         // console.log(data[0]);
         this.hojaHistoria = data[0];
+        this.saludService.hojaHistoria = data[0].Id;
         this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
         this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
         let evolucion = JSON.parse(this.hojaHistoria.Evolucion);

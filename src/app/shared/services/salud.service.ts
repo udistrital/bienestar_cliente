@@ -26,6 +26,7 @@ export class SaludService {
   paciente = '';
   IdPersona: number;
   historia: any;
+  hojaHistoria: any;
   falloPsico: boolean = false;
   falloMedicina: boolean = false;
   terceroId: number;
