@@ -66,22 +66,24 @@ export class FisioterapiaComponent implements OnInit {
 
   cargarInformacion() {
 
-    this.saludService.getConsultaFisioterapia(this.saludService.historia).subscribe(data => {
-      // console.log(data);
-      this.fisioterapia = data[0] || '';
-      this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.fisioterapia.MotivoConsulta);
-      this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
-      this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
-      this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.fisioterapia.Observaciones);
-      let evolucion = JSON.parse(this.fisioterapia.Evolucion) || [];
-      this.evolucion.push({ ...evolucion });
-      let evolucion2: any = this.evolucion[0].evolucion;
-      for (let i = 0; i < evolucion2.length; i++) {
-        this.evolucionFisioArr.push(new FormControl(evolucion2[i]));
+    this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
+      this.idHistoria = data[0].Id;
+      this.saludService.getConsultaFisioterapia(this.idHistoria).subscribe(data => {
+        console.log(data);
+        this.fisioterapia = data[0] || '';
+        this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.fisioterapia.MotivoConsulta);
+        this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
+        this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
+        this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.fisioterapia.Observaciones);
+        let evolucion = JSON.parse(this.fisioterapia.Evolucion) || [];
+        this.evolucion.push({ ...evolucion });
+        let evolucion2: any = this.evolucion[0].evolucion;
+        for (let i = 0; i < evolucion2.length; i++) {
+          this.evolucionFisioArr.push(new FormControl(evolucion2[i]));
+        }
       }
-    }
-    );
-
+      );
+    });
   }
 
   guardarHistoriaFisioterapia() {
@@ -121,6 +123,7 @@ export class FisioterapiaComponent implements OnInit {
       this.saludService.putFisioterapia(this.fisioterapia.Id, historiaFisio).subscribe(data => {
         console.log(data);
         this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
+        // window.location.reload();
       }, error => {
         this.toastr.error(error, '¡ERROR!');
       }

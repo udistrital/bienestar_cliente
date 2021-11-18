@@ -73,7 +73,7 @@ export class DatosBasicosComponent implements OnInit {
             Tercero: this.terceroId,
           }
           this.saludService.postHistoriaClinica(historia).subscribe((data) => {
-            console.log(data);
+            // console.log(data);
             this.toastr.success(`Ha creado con éxito la historia clínica para ${this.nombre}`, '¡CREADO!');
           }, (error) => {
             this.toastr.error(`No se pudo crear la historia clínica para ${this.nombre}`, 'Error');

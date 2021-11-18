@@ -385,6 +385,7 @@ export class PsicologiaComponent implements OnInit {
     // console.log(this.saludService.falloPsico);
     if (this.saludService.falloPsico === false) {
       this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
+      // window.location.reload();
     } else {
       this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
     }
