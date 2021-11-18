@@ -1,6 +1,7 @@
 import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Analisis } from '../../../../shared/models/Salud/analisis.model';
 import { Antecedente } from '../../../../shared/models/Salud/antecedente.model';
@@ -18,6 +19,7 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+  terceroId: any;
   idHistoria: number | null;
   historiaClinica: HistoriaClinica;
   hojaHistoria: HojaHistoria | null;
@@ -95,7 +97,7 @@ export class MedicinaComponent implements OnInit {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
 
   get analisisArr() {
     return this.medicinaForm.get('analisis') as FormArray;
@@ -129,20 +131,59 @@ export class MedicinaComponent implements OnInit {
   //Formulario para guardar en la DB
 
   ngOnInit() {
+    this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
+
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });
     this.getInfoHistoria();
+    setTimeout(() => {
+      this.crearHojaHistoria();
+    }, 2000);
+  }
+  crearHojaHistoria() {
+    if (this.hojaHistoria === undefined || this.hojaHistoria === null) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+    if (Object.entries(this.hojaHistoria).length === 0) {
+
+      const hojaHistoria: HojaHistoria = {
+        Id: 0,
+        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        Diagnostico: null,
+        Evolucion: null,
+        FechaConsulta: null,
+        Especialidad: null,
+        Persona: null,
+        Profesional: null,
+        Motivo: null,
+        Observacion: null,
+      }
+      // console.log(hojaHistoria);
+      this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
+        console.log('Hoja historia: ' + data);
+        this.toastr.success('Se creó la hoja de hisotira clínica', 'Exito');
+        this.saludService.falloMedicina = false;
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }, error => {
+        this.saludService.falloMedicina = true;
+      });
+    }
   }
 
   getInfoHistoria() {
-    this.saludService.getHistoriaClinica(this.saludService.terceroId).subscribe((data: any) => {
+    this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
       this.historiaClinica = data[0];
-      this.idHistoria = data[0].Id;
+      // console.log(data);
+      this.saludService.historia = data[0].Id;
       //HojaHistoria
-      this.saludService.getHojaHistoria(this.saludService.IdPersona).subscribe(data => {
-        // console.log(this.saludService.IdPersona);
+      this.saludService.getHojaHistoria(this.terceroId).subscribe(data => {//Reemplazar por terceroId
+        // console.log(data[0]);
         this.hojaHistoria = data[0];
         this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
         this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
@@ -152,12 +193,13 @@ export class MedicinaComponent implements OnInit {
         for (let i = 0; i < evolucion2.length; i++) {
           this.evolucionArr.push(new FormControl(evolucion2[i]));
         }
-        // this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
-        this.saludService.IdHistoria = this.idHistoria;
+        this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
+        this.saludService.historia = this.idHistoria;
         //Antecedente
-        this.saludService.getAntecedente(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
+        this.saludService.getAntecedente(this.saludService.historia).subscribe(data => {
+          console.log(data);
           this.antecedentes = data[0];
-          // console.log(this.antecedentes);
+          console.log(this.antecedentes);
           this.medicinaForm.controls.patologicos.setValue(this.antecedentes.Patologicos);
           this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes.Hospitalarios);
           this.medicinaForm.controls.quirurgicos.setValue(this.antecedentes.Quirurgicos);
@@ -179,7 +221,7 @@ export class MedicinaComponent implements OnInit {
         });
         //Sistemas
         this.saludService.getSistema(this.hojaHistoria.HistoriaClinica.Id).subscribe(data => {
-          // console.log(data);
+          console.log(data);
           this.sistemas = data[0];
           this.medicinaForm.controls.articular.setValue(this.sistemas.Articular);
           this.medicinaForm.controls.cardioVascular.setValue(this.sistemas.CardioVascular);
@@ -243,154 +285,123 @@ export class MedicinaComponent implements OnInit {
     let analisisCorregido = JSON.stringify(this.analisisArr.value);
     let analisis = analisisCorregido.slice(1, analisisCorregido.length - 1);
     let analisis2 = analisis.replace(/]/g, "").replace(/\[/g, "");
+
     //POSTS
-    //HojaHistoria
-    if (this.hojaHistoria.Id === null || this.hojaHistoria.Id === undefined) {
-      console.log('creación hoja historia');
-      const hojaHistoria: HojaHistoria = {
-        Id: null,
-        HistoriaClinica: this.historiaClinica,
-        Diagnostico: this.medicinaForm.get('diagnostico').value,
-        Evolucion: '{"evolucion":[' + evolucion2 + ']}',
-        FechaConsulta: new Date(),
-        Especialidad: 1,
-        Persona: this.saludService.IdPersona,
-        Profesional: null,
-        Motivo: this.medicinaForm.get('motivoConsulta').value,
-        Observacion: this.medicinaForm.get('observacionesMedicina').value,
+    //Antecedentes
+    if (this.antecedentes === null || this.antecedentes === undefined) {
+      // console.log("crear");
+      const antecedentes: Antecedente = {
+        Id: 0,
+        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        Alergicos: this.medicinaForm.get('alergicos').value,
+        Ccv: null,
+        Ciclos: this.medicinaForm.get('ciclos').value,
+        CompañerosSexuales: this.medicinaForm.get('compañeros').value,
+        Familiares: this.medicinaForm.get('familiares').value,
+        Farmacologicos: this.medicinaForm.get('farmacologicos').value,
+        Fog: this.medicinaForm.get('fo').value,
+        Fup: this.medicinaForm.get('fup').value,
+        Fur: this.medicinaForm.get('fur').value,
+        GenitoUrinarios: this.medicinaForm.get('genitoUrinarios').value,
+        Hospitalarios: this.medicinaForm.get('hospitalarios').value,
+        Menarquia: this.medicinaForm.get('menarquia').value,
+        Ocupacionales: this.medicinaForm.get('ocupacionales').value,
+        Patologicos: this.medicinaForm.get('patologicos').value,
+        Pp: this.medicinaForm.get('pp').value,
+        Quirurgicos: this.medicinaForm.get('quirurgicos').value,
+        Seno: null,
+        Traumaticos: this.medicinaForm.get('traumaticos').value,
       }
-      // console.log(hojaHistoria);
-      this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
-        console.log('Hoja historia: ' + data[0]);
+      // console.log(this.antecedentes);
+
+      this.saludService.postAntecedente(antecedentes).subscribe(data => {
+        console.log('Antecedentes: ' + data[0]);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
       });
-      this.getInfoHistoria();
-    }
-    //Antecedentes
-    if (!this.antecedentes) {
-      console.log('creación antecedentes');
-      setTimeout(() => {
-        const antecedentes: Antecedente = {
-          Id: 0,
-          HistoriaClinica: this.historiaClinica,
-          Alergicos: this.medicinaForm.get('alergicos').value,
-          Ccv: null,
-          Ciclos: this.medicinaForm.get('ciclos').value,
-          CompañerosSexuales: this.medicinaForm.get('compañeros').value,
-          Familiares: this.medicinaForm.get('familiares').value,
-          Farmacologicos: this.medicinaForm.get('farmacologicos').value,
-          Fog: this.medicinaForm.get('fo').value,
-          Fup: this.medicinaForm.get('fup').value,
-          Fur: this.medicinaForm.get('fur').value,
-          GenitoUrinarios: this.medicinaForm.get('genitoUrinarios').value,
-          Hospitalarios: this.medicinaForm.get('hospitalarios').value,
-          Menarquia: this.medicinaForm.get('menarquia').value,
-          Ocupacionales: this.medicinaForm.get('ocupacionales').value,
-          Patologicos: this.medicinaForm.get('patologicos').value,
-          Pp: this.medicinaForm.get('pp').value,
-          Quirurgicos: this.medicinaForm.get('quirurgicos').value,
-          Seno: null,
-          Traumaticos: this.medicinaForm.get('traumaticos').value,
-        }
-        this.saludService.postAntecedente(antecedentes).subscribe(data => {
-          console.log('Antecedentes: ' + data[0]);
-          this.saludService.falloMedicina = false;
-        }, error => {
-          this.saludService.falloMedicina = true;
-        });
-      }, 2000);
+
     }
     //Sistemas
-    if (!this.sistemas) {
-      console.log('creación sistemas');
-      setTimeout(() => {
-        const sistemas: Sistemas = {
-          HistoriaClinica: this.historiaClinica,
-          HojaHistoria: { Id: this.hojaHistoria.Id },
-          Id: 0,
-          Articular: this.medicinaForm.get('articular').value,
-          CardioVascular: this.medicinaForm.get('cardioVascular').value,
-          Colageno: this.medicinaForm.get('colageno').value,
-          Digestivo: this.medicinaForm.get('digestivo').value,
-          Linfatico: this.medicinaForm.get('linfatico').value,
-          Muscular: this.medicinaForm.get('muscular').value,
-          Neurologico: this.medicinaForm.get('neurologico').value,
-          Oseo: this.medicinaForm.get('oseo').value,
-          Piel: this.medicinaForm.get('piel').value,
-          Respiratorio: this.medicinaForm.get('respiratorio').value,
-          Sentidos: this.medicinaForm.get('sentidos').value,
-          Urinario: this.medicinaForm.get('urinario').value,
-        }
-        this.saludService.postSistema(sistemas).subscribe(data => {
-          console.log('Sistemas: ' + data[0]);
-          this.saludService.falloMedicina = false;
-        }, error => {
-          this.saludService.falloMedicina = true;
-        });
-      }, 2000);
+    if (this.sistemas === null || this.sistemas === undefined) {
+      const sistemas: Sistemas = {
+        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        HojaHistoria: this.hojaHistoria,
+        Id: 0,
+        Articular: this.medicinaForm.get('articular').value,
+        CardioVascular: this.medicinaForm.get('cardioVascular').value,
+        Colageno: this.medicinaForm.get('colageno').value,
+        Digestivo: this.medicinaForm.get('digestivo').value,
+        Linfatico: this.medicinaForm.get('linfatico').value,
+        Muscular: this.medicinaForm.get('muscular').value,
+        Neurologico: this.medicinaForm.get('neurologico').value,
+        Oseo: this.medicinaForm.get('oseo').value,
+        Piel: this.medicinaForm.get('piel').value,
+        Respiratorio: this.medicinaForm.get('respiratorio').value,
+        Sentidos: this.medicinaForm.get('sentidos').value,
+        Urinario: this.medicinaForm.get('urinario').value,
+      }
+      this.saludService.postSistema(sistemas).subscribe(data => {
+        console.log('Sistemas: ' + data);
+        this.saludService.falloMedicina = false;
+      }, error => {
+        this.saludService.falloMedicina = true;
+      });
     }
-    if (!this.examenes) {
-      console.log('creación examenes');
-      setTimeout(() => {
-        const examenes: Examen = {
-          HistoriaClinica: this.historiaClinica,
-          HojaHistoria: { Id: this.hojaHistoria.Id },
-          Id: 0,
-          Abdomen: this.medicinaForm.get('abdomen').value,
-          CabezaYCuello: this.medicinaForm.get('cabezaYCuello').value,
-          EstadoGeneral: this.medicinaForm.get('estadoGeneral').value,
-          Extremidades: this.medicinaForm.get('extremidades').value,
-          Fc: this.medicinaForm.get('fc').value,
-          Fr: this.medicinaForm.get('fr').value,
-          Genital: this.medicinaForm.get('genital').value,
-          Imc: this.medicinaForm.get('imc').value,
-          Laboratorio: this.medicinaForm.get('examenes').value,
-          Neurologico: this.medicinaForm.get('neurologicoE').value,
-          Ojos: this.medicinaForm.get('ojos').value,
-          Orl: this.medicinaForm.get('orl').value,
-          Peso: this.medicinaForm.get('peso').value,
-          RuidosCardiacos: this.medicinaForm.get('ruidosCardiacos').value,
-          RuidosRespiratorios: this.medicinaForm.get('ruidosRespiratorios').value,
-          Sao2: this.medicinaForm.get('sao2').value,
-          Ta: this.medicinaForm.get('ta').value,
-          Talla: this.medicinaForm.get('talla').value,
-          Temperatura: this.medicinaForm.get('tc').value,
-          Torax: this.medicinaForm.get('torax').value,
-        }
-        this.saludService.postExamen(examenes).subscribe(data => {
-          console.log('Examenes: ' + data[0]);
-          this.saludService.falloMedicina = false;
-        }, error => {
-          this.saludService.falloMedicina = true;
-        });
-      }, 2000);
+    if (this.examenes === null || this.examenes === undefined) {
+      const examenes: Examen = {
+        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        HojaHistoria: this.hojaHistoria,
+        Id: 0,
+        Abdomen: this.medicinaForm.get('abdomen').value,
+        CabezaYCuello: this.medicinaForm.get('cabezaYCuello').value,
+        EstadoGeneral: this.medicinaForm.get('estadoGeneral').value,
+        Extremidades: this.medicinaForm.get('extremidades').value,
+        Fc: this.medicinaForm.get('fc').value,
+        Fr: this.medicinaForm.get('fr').value,
+        Genital: this.medicinaForm.get('genital').value,
+        Imc: this.medicinaForm.get('imc').value,
+        Laboratorio: this.medicinaForm.get('examenes').value,
+        Neurologico: this.medicinaForm.get('neurologicoE').value,
+        Ojos: this.medicinaForm.get('ojos').value,
+        Orl: this.medicinaForm.get('orl').value,
+        Peso: this.medicinaForm.get('peso').value,
+        RuidosCardiacos: this.medicinaForm.get('ruidosCardiacos').value,
+        RuidosRespiratorios: this.medicinaForm.get('ruidosRespiratorios').value,
+        Sao2: this.medicinaForm.get('sao2').value,
+        Ta: this.medicinaForm.get('ta').value,
+        Talla: this.medicinaForm.get('talla').value,
+        Temperatura: this.medicinaForm.get('tc').value,
+        Torax: this.medicinaForm.get('torax').value,
+      }
+      this.saludService.postExamen(examenes).subscribe(data => {
+        console.log('Examenes: ' + data);
+        this.saludService.falloMedicina = false;
+      }, error => {
+        this.saludService.falloMedicina = true;
+      });
     }
     //Diagnostico
-    if (!this.diagnostico) {
-      console.log('creación diagnostico');
-      setTimeout(() => {
-        const diagnostico: Diagnostico = {
-          Id: 0,
-          HistoriaClinica: this.historiaClinica,
-          HojaHistoria: { Id: this.hojaHistoria.Id },
-          Activo: true,
-          Analisis: '{"analisis":[' + analisis2 + ']}',
-          Descripcion: this.medicinaForm.get('diagnostico').value,
-          FechaCreacion: new Date(),
-          FechaModificacion: new Date(),
-          Nombre: null,
-          Numero: null,
-          PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
-        }
-        this.saludService.postDiagnostico(diagnostico).subscribe(data => {
-          console.log('Diagnóstico: ' + data[0]);
-          this.saludService.falloMedicina = false;
-        }, error => {
-          this.saludService.falloMedicina = true;
-        });
-      }, 2000);
+    if (!this.diagnostico || this.diagnostico === null || this.diagnostico === undefined) {
+      const diagnostico: Diagnostico = {
+        Id: 0,
+        HojaHistoria: this.hojaHistoria,
+        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        Activo: true,
+        Analisis: '{"analisis":[' + analisis2 + ']}',
+        Descripcion: this.medicinaForm.get('diagnostico').value,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Nombre: null,
+        Numero: null,
+        PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
+      }
+      this.saludService.postDiagnostico(diagnostico).subscribe(data => {
+        console.log('Diagnóstico: ' + data);
+        this.saludService.falloMedicina = false;
+      }, error => {
+        this.saludService.falloMedicina = true;
+      });
     }
     //PUTS
     //Hoja historia clínica
@@ -414,10 +425,10 @@ export class MedicinaComponent implements OnInit {
       }, error => {
         this.saludService.falloMedicina = true;
       });
-      this.getInfoHistoria();
     }
     //Antecedentes
-    if (this.antecedentes) {
+    if (this.antecedentes !== null && this.antecedentes !== undefined) {
+      // console.log('Actualizar');
       const antecedentes: Antecedente = {
         Id: this.antecedentes.Id,
         HistoriaClinica: this.antecedentes.HistoriaClinica,
@@ -441,6 +452,7 @@ export class MedicinaComponent implements OnInit {
         Fur: this.medicinaForm.get('fur').value,
       }
       this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
+
         console.log('Antecedentes: ' + data);
         this.saludService.falloMedicina = false;
       }, error => {
@@ -448,7 +460,7 @@ export class MedicinaComponent implements OnInit {
       });
     }
     //Sistemas
-    if (this.sistemas) {
+    if (this.sistemas !== null && this.sistemas !== undefined) {
       const sistemas: Sistemas = {
         HistoriaClinica: this.sistemas.HistoriaClinica,
         HojaHistoria: this.sistemas.HojaHistoria,
@@ -475,7 +487,7 @@ export class MedicinaComponent implements OnInit {
       });
     }
     //Examenes
-    if (this.examenes) {
+    if (this.examenes !== null && this.examenes !== undefined) {
       const examenes: Examen = {
         HistoriaClinica: this.examenes.HistoriaClinica,
         HojaHistoria: { Id: this.hojaHistoria.Id },
@@ -509,7 +521,7 @@ export class MedicinaComponent implements OnInit {
       });
     }
     //Diagnostico
-    if (this.diagnostico) {
+    if (this.diagnostico !== null && this.diagnostico !== undefined) {
       const diagnostico: Diagnostico = {
         Id: this.diagnostico.Id,
         HistoriaClinica: this.diagnostico.HistoriaClinica,

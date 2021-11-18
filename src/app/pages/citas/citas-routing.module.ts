@@ -30,7 +30,7 @@ const routes: Routes = [
       { path: "crearCita/:tercero/:solicitud", component: CrearCitaComponent },
       { path: "horarios", component: HorariosComponent },
       { path: "listarPaciente", component: ListarPacienteComponent },
-      { path: "historiaClinica/:codigo", component: HistoriaClinicaComponent },
+      { path: "historiaClinica/:codigo/:terceroId", component: HistoriaClinicaComponent },
       {path: "citaPaciente", component: PacienteCitaComponent},
       {path: "solicitarCita", component: SolicitarCitaComponent},
       {path: "solicitudes", component: ListaSolicitudesComponent},

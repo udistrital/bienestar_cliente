@@ -12,7 +12,7 @@ import { SaludService } from "../../../../shared/services/salud.service";
 })
 export class ListarPacienteComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<string>();
-
+  terceroId: number;
   nombre = "";
   carrera = "";
   codigo = "";
@@ -40,6 +40,7 @@ export class ListarPacienteComponent implements OnInit {
       });
     this.estudianteService.getInfoPorCodigo(this.miFormulario.value.codigo).subscribe((data) => {
       this.saludService.terceroId = data[0].TerceroId.Id || null;
+      this.terceroId = data[0].TerceroId.Id || null;
       // console.log(data);
       this.estudianteService.getInfoComplementaria(this.saludService.terceroId, 51).subscribe((data) => {
         this.telefono = data[0].Dato;

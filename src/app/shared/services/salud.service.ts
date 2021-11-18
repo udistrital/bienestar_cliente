@@ -25,7 +25,7 @@ export class SaludService {
   query = '?query=';
   paciente = '';
   IdPersona: number;
-  IdHistoria: number;
+  historia: any;
   falloPsico: boolean = false;
   falloMedicina: boolean = false;
   terceroId: number;
@@ -43,8 +43,8 @@ export class SaludService {
   getTipoSistema(): Observable<Sistemas> {
     return this.httpClient.get<Sistemas>(this.url + 'Medicina/TipoSistema');
   }
-  getHojaHistoria(IdPersona): Observable<HojaHistoria> {
-    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'Persona:' + `${IdPersona}`);
+  getHojaHistoria(IdTercero): Observable<HojaHistoria> {
+    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'HistoriaClinica.Tercero:' + `${IdTercero}`);
   }
   getHistoriaClinica(IdTercero): Observable<HistoriaClinica> {
     return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica' + this.query + 'Tercero:' + `${IdTercero}`);

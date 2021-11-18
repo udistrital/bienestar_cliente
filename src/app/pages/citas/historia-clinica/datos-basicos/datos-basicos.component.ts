@@ -66,23 +66,23 @@ export class DatosBasicosComponent implements OnInit {
       this.estudianteService.getInfoComplementaria(this.terceroId, 54).subscribe((data) => {
         this.direccion = data[0].Dato;
       });
-      // this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
-      //   if (data === null) {
-      //     const historia: HistoriaClinica = {
-      //       Id: 0,
-      //       Tercero: this.terceroId,
-      //     }
-      //     this.saludService.postHistoriaClinica(historia).subscribe((data) => {
-      //       // console.log(data);
-      //       this.toastr.success(`Ha creado con éxito la historia clínica para ${this.nombre}`, '¡CREADO!');
-      //     }, (error) => {
-      //       this.toastr.error(`No se pudo crear la historia clínica para ${this.nombre}`, 'Error');
-      //     });
-      //   }
-      //   if (data) {
-      //     this.toastr.success(`Ya existía una historia clínica para ${this.nombre}`, '¡NADA POR HACER!');
-      //   }
-      // });
+      this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
+        if (data === null) {
+          const historia: HistoriaClinica = {
+            Id: 0,
+            Tercero: this.terceroId,
+          }
+          this.saludService.postHistoriaClinica(historia).subscribe((data) => {
+            console.log(data);
+            this.toastr.success(`Ha creado con éxito la historia clínica para ${this.nombre}`, '¡CREADO!');
+          }, (error) => {
+            this.toastr.error(`No se pudo crear la historia clínica para ${this.nombre}`, 'Error');
+          });
+        }
+        if (data) {
+          this.toastr.success(`Ya existía una historia clínica para ${this.nombre}`, '¡NADA POR HACER!');
+        }
+      });
     });
 
     this.estudianteService
