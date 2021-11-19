@@ -61,7 +61,9 @@ export class DatosBasicosComponent implements OnInit {
         this.genero = data[0].InfoComplementariaId.Nombre;
       });
       this.estudianteService.getInfoComplementaria(this.terceroId, 51).subscribe((data) => {
-        this.telefono = data[0].Dato;
+        let telefono2 = data[0].Dato;
+        let telefonoCorregido = telefono2.replace(/{"telefono":"/g, "").replace(/"}/g, "");
+        this.telefono = telefonoCorregido;
       });
       this.estudianteService.getInfoComplementaria(this.terceroId, 54).subscribe((data) => {
         this.direccion = data[0].Dato;
