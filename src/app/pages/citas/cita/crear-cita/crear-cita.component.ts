@@ -9,21 +9,23 @@ import { EstudiantesService } from '../../../../shared/services/estudiantes.serv
   styleUrls: ['./crear-cita.component.scss']
 })
 export class CrearCitaComponent implements OnInit {
-  usuarios: any[] = [];
+  facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa","Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
+  "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
   empleados: any[] = [];
-  tipocitas: any[] = [];
+  tipocitas: any[] = ["Medicina", "Enfermería", "Psicología", "Odontología", "Fisioterapia"];
   crearCita: FormGroup;
-  nombre='';
+  nombre = '';
   submit = false;
   loading = false;
-  id: string;
+  terceroId: any;
+  solicitudId: any;
   titulo = 'Agregar Cita';
 
   constructor(private fb: FormBuilder, private estudianteService: EstudiantesService,
     private router: Router,
     private aRoute: ActivatedRoute) {
     this.crearCita = this.fb.group({
-      nombre:['',Validators.required],
+      nombre: ['', Validators.required],
       codigo: ['', Validators.required],
       fecha: ['', Validators.required],
       hora: ['', Validators.required],
@@ -31,19 +33,25 @@ export class CrearCitaComponent implements OnInit {
       tipocita: ['', Validators.required],
       especialista: ['', Validators.required],
     })
-    this.id = this.aRoute.snapshot.paramMap.get('id');
+    this.aRoute.params.subscribe(params => {
+      this.terceroId = params['tercero'];
+      this.solicitudId = params['solicitud'];
+    });
   }
 
   ngOnInit() {
-    //this.getUsuarios();
+    this.buscarPaciente();
   }
 
   buscarPaciente() {
-    this.estudianteService.getEstudiante(this.crearCita.value.codigo)
+    this.estudianteService.getSolicitud(this.solicitudId)
       .subscribe((data: any) => {
-        var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
-        this.nombre = paciente.nombre;
-
+        console.log(data);
+        let solicitud = JSON.parse(data.Referencia);
+        this.crearCita.controls['codigo'].setValue(solicitud.documento);
+        this.crearCita.controls['nombre'].setValue(solicitud.Nombrecompleto);
+        this.crearCita.controls['facultad'].setValue(solicitud.facultad);
+        this.crearCita.controls['tipocita'].setValue(solicitud.servicio);
       })
 
 

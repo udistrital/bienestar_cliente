@@ -7,32 +7,29 @@
             {{ titulo }}
           </h3>
           <form [formGroup]="crearCita" (ngSubmit)="agregarCita()">
-            <mat-form-field class="col-sm-11">
-              <mat-label>Código</mat-label>
-              <input matInput placeholder="Código estudiante" type="text" formControlName="codigo" />
+            <mat-form-field appearance="outline" class="select-group col-sm-12">
+              <mat-label>Documento</mat-label>
+              <input matInput type="text" formControlName="codigo" readonly>
             </mat-form-field>
-            <button mat-icon-button color="primary" type="button" (click)="buscarPaciente()">
-              <mat-icon>search</mat-icon>
-            </button>
             <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
               <mat-label>Paciente</mat-label>
               <input matInput [value]="nombre" formControlName="nombre" readonly>
               <mat-error>Campo obligatorio</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="select-group" class="col-sm-6">
+            <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
               <mat-label>Facultad</mat-label>
               <mat-select formControlName="facultad">
-                <mat-option [value]="usuario.facultad" *ngFor="let usuario of usuarios">
-                  {{usuario.facultad}}
+                <mat-option [value]="usuario" *ngFor="let usuario of facultades">
+                  {{usuario}}
                 </mat-option>
               </mat-select>
               <mat-hint>Seleccione la facultad</mat-hint>
               <mat-error>Campo obligatorio</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="select-group" class="col-sm-6">
+            <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
               <mat-label>Tipo de cita</mat-label>
               <mat-select formControlName="tipocita">
-                <mat-option [value]="tipocita.nombre" *ngFor="let tipocita of tipocitas">{{tipocita.nombre}}
+                <mat-option [value]="tipocita" *ngFor="let tipocita of tipocitas">{{tipocita}}
                 </mat-option>
               </mat-select>
               <mat-hint>Seleccione el tipo de cita</mat-hint>

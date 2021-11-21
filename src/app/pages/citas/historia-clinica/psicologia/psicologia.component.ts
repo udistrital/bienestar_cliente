@@ -19,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class PsicologiaComponent implements OnInit {
+  relaciones: any;
   terceroId: any;
   Historia: HistoriaClinica;
   HojaHistoria: HojaHistoria;
@@ -114,12 +115,13 @@ export class PsicologiaComponent implements OnInit {
           this.psicologiaForm.controls.pasadosPersonales.setValue(data[0].PasadoPersonal);
         });
         this.saludService.getValoracionInterpersonal(this.Historia.Id).subscribe(data => {
-          // console.log(data);
+          //console.log(data);
           this.valoracion = data[0];
           this.psicologiaForm.controls.figurasDeAutoridad.setValue(this.valoracion.Autoridad);
           this.psicologiaForm.controls.pares.setValue(this.valoracion.Pares);
           this.psicologiaForm.controls.pareja.setValue(this.valoracion.Pareja);
-          this.psicologiaForm.controls.relacionesSexuales.setValue(this.valoracion.RelacionesSexuales);
+          this.psicologiaForm.controls.relacionesSexuales.setValue(this.valoracion.Relaciones);
+          this.relaciones = this.valoracion.Relaciones;
           this.psicologiaForm.controls.satisfaccion.setValue(this.valoracion.Satisfaccion);
           this.psicologiaForm.controls.metodoProteccion.setValue(this.valoracion.Proteccion);
           this.psicologiaForm.controls.orientacionSexual.setValue(this.valoracion.Orientacion);
@@ -255,7 +257,7 @@ export class PsicologiaComponent implements OnInit {
         Pareja: this.psicologiaForm.get('pareja').value,
         Pares: this.psicologiaForm.get('pares').value,
         Proteccion: this.psicologiaForm.get('metodoProteccion').value,
-        RelacionesSexuales: this.psicologiaForm.get('relacionesSexuales').value,
+        Relaciones: JSON.parse(this.psicologiaForm.get('relacionesSexuales').value),
         Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
       }
       // console.log('Ya había valoracion');
@@ -370,7 +372,7 @@ export class PsicologiaComponent implements OnInit {
         Pareja: this.psicologiaForm.get('pareja').value,
         Pares: this.psicologiaForm.get('pares').value,
         Proteccion: this.psicologiaForm.get('metodoProteccion').value,
-        RelacionesSexuales: this.psicologiaForm.get('relacionesSexuales').value,
+        Relaciones: JSON.parse(this.psicologiaForm.get('relacionesSexuales').value),
         Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
       }
       // console.log('Ya había valoracion');

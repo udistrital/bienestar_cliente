@@ -94,16 +94,10 @@
     <div class="row mt-2">
         <div class="col md-4 me-4 mt-2 mb-2 float-right">
             <label class="me-2">¿Tiene relaciones sexuales en la actualidad? </label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="relacionesSexuales" id="si"
-                    value="True" />
-                <label class="form-check-label">Si</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="relacionesSexuales" id="no"
-                    value="False" />
-                <label class="form-check-label">No</label>
-            </div>
+            <mat-radio-group formControlName="relacionesSexuales">
+                <mat-radio-button [checked]="relaciones==true" value="true">Sí</mat-radio-button>&nbsp;
+                <mat-radio-button [checked]="relaciones==false" value="false">No</mat-radio-button>
+            </mat-radio-group>
         </div>
     </div>
     <div class="row">
