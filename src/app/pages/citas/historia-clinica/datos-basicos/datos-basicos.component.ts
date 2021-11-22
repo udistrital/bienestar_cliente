@@ -11,11 +11,15 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class DatosBasicosComponent implements OnInit {
+  vinculacion: any;
+  tipo: any;
+  dependencia: any = '';
+  procedenteDe: any = '';
   edad: number;
   nombre = "";
   apellido = "";
   carrera = "";
-  estado = "";
+  estado: any;
   telefono = "";
   direccion = "";
   genero = "";
@@ -26,7 +30,7 @@ export class DatosBasicosComponent implements OnInit {
   datosBasicos: FormGroup = this.fb.group({
     vinculacion: ['', Validators.required],
     tipo: ['', Validators.required],
-    situacionAcademica: ['', Validators.required],
+    estado: ['', Validators.required],
   })
   constructor(private fb: FormBuilder, private estudianteService: EstudiantesService, private aRoute: ActivatedRoute, private saludService: SaludService, private toastr: ToastrService) { }
   public calcularEdad(fechaNacimiento): number {
@@ -62,11 +66,13 @@ export class DatosBasicosComponent implements OnInit {
       });
       this.estudianteService.getInfoComplementaria(this.terceroId, 51).subscribe((data) => {
         let telefono2 = data[0].Dato;
-        let telefonoCorregido = telefono2.replace(/{"telefono":"/g, "").replace(/"}/g, "");
+        let telefonoCorregido = telefono2.replace(/{"telefono":"/g, '').replace(/"}/g, '');
         this.telefono = telefonoCorregido;
       });
       this.estudianteService.getInfoComplementaria(this.terceroId, 54).subscribe((data) => {
-        this.direccion = data[0].Dato;
+        let direccion2 = data[0].Dato;
+        let direccionCorregida = direccion2.replace(/{/g, '').replace(/Data/g, '').replace(/:/g, '').replace(/"/g, '').replace(/}/g, '');
+        this.direccion = direccionCorregida;
       });
       this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
         if (data === null) {

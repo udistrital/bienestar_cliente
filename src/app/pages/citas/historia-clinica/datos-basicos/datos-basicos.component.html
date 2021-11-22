@@ -25,35 +25,22 @@
     <div class="col md-4">
       <strong>Vinculación: </strong>
       <br />
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="vinculacion" id="estudiante" value="Estudiante" />
-        <label class="form-check-label" for="estudiante">Estudiante</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="vinculacion" id="funcionario"
-          value="Funcionario" />
-        <label class="form-check-label" for="funcionario">Funcionario</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="vinculacion" id="docente" value="Docente" />
-        <label class="form-check-label" for="docente">Docente</label>
-      </div>
+      <mat-radio-group formControlName="vinculacion">
+        <mat-radio-button [checked]="vinculacion=='estudiante'" value="true">Estudiante</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="vinculacion=='funcionario'" value="false">Funcionario</mat-radio-button>
+        <mat-radio-button [checked]="vinculacion=='docente'" value="false">Docente</mat-radio-button>
+      </mat-radio-group>
     </div>
     <!-- <div class="col md-4" *ngIf="prueba.vinculacion !== 'Estudiante'"> -->
     <div class="col md-4">
       <strong>Tipo: </strong>
       <br />
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="tipo" id="escpecial" value="Especial" />
-        <label class="form-check-label">Especial</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="tipo" id="otro" value="Otro" />
-        <label class="form-check-label">Otro</label>
-      </div>
+      <mat-radio-group formControlName="tipo">
+        <mat-radio-button [checked]="tipo=='especial'" value="especial">Especial</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="tipo=='otro'" value="otro">Otro</mat-radio-button>
+      </mat-radio-group>
     </div>
-    <!-- <div class="col md-4" *ngIf="prueba.tipo === 'Otro'"> -->
-    <div class="col md-4">
+    <div class="col md-4" *ngIf="tipo =='otro'">
       <strong>¿Cuál? </strong>
       <br />
       {{ 'prueba.cualTipo' }}
@@ -67,12 +54,10 @@
     <div class="col md-6">
       <strong>Proyecto curricular: </strong>{{ carrera | ngxCapitalize }}
     </div>
-    <!-- <div class="col md-4" *ngIf="prueba.dependencia !== null"> -->
-    <div class="col md-4">
+    <div class="col md-4" *ngIf="dependencia != null && dependencia!=''">
       <strong>Dependencia: </strong>
     </div>
-    <!-- <div class="col md-4" *ngIf="prueba.procedenteDe !== null"> -->
-    <div class="col md-4">
+    <div class="col md-4" *ngIf="procedenteDe !== null && procedenteDe!=''">
       <strong>Procedente de: </strong>
     </div>
   </div>
@@ -108,19 +93,11 @@
     <div class="col md-6">
       <strong>Situación Académica: </strong>
       <br />
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="situacionAcademica" id="prueba"
-          value="Prueba Académica" />
-        <label class="form-check-label" for="prueba">Prueba Académica</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="situacionAcademica" id="activo" value="Activo" />
-        <label class="form-check-label" for="activo">Activo</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" formControlName="situacionAcademica" id="otra" value="Otro" />
-        <label class="form-check-label" for="otra">Otro</label>
-      </div>
+      <mat-radio-group formControlName="estado">
+        <mat-radio-button [checked]="estado=='L'" value="L">Prueba Académica</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="estado=='A'" value="A">Activo</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="estado=='D'" value="D">Otro</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col md-6">
       <strong>¿Cuál?</strong>

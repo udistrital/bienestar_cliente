@@ -120,7 +120,6 @@ export class PsicologiaComponent implements OnInit {
           this.psicologiaForm.controls.figurasDeAutoridad.setValue(this.valoracion.Autoridad);
           this.psicologiaForm.controls.pares.setValue(this.valoracion.Pares);
           this.psicologiaForm.controls.pareja.setValue(this.valoracion.Pareja);
-          this.psicologiaForm.controls.relacionesSexuales.setValue(this.valoracion.Relaciones);
           this.relaciones = this.valoracion.Relaciones;
           this.psicologiaForm.controls.satisfaccion.setValue(this.valoracion.Satisfaccion);
           this.psicologiaForm.controls.metodoProteccion.setValue(this.valoracion.Proteccion);
