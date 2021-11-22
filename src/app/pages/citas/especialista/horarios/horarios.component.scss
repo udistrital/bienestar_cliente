@@ -20,26 +20,10 @@
   font-weight: inherit;
   line-height: inherit;
 }
-/* ::ng-deep.fc-event-title {
-  color: black !important;
-} */
-/* ::ng-deep.fc-event-time {
-  color: black !important;
-} */
 ::ng-deep.fc-daygrid-day.fc-day.fc-day-today {
   background-color: rgba(3, 155, 229, 0.2) !important;
   color: white !important;
 }
 ::ng-deep.fc-daygrid-event.fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future {
   background-color: rgba(3, 155, 229, 0.2);
-  /* color: white; */
-}
-.fc-day-today {
-  border: 1px solid red !important;
-  .fc-timeline-slot-frame {
-      border-top: 1px solid red !important; 
-  }
-}
-.fc-day-today + .fc-day-future {
-  border-left: 1px solid red !important;
 }
