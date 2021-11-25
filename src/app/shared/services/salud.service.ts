@@ -15,6 +15,10 @@ import { AntecedentePsicologia } from '../models/Salud/antecedentePsicologia.mod
 import { ValoracionInterpersonal } from '../models/Salud/valoracionInterpersonal.model';
 import { ComportamientoConsulta } from '../models/Salud/comportamientoConsulta.model';
 import { DiagnosticoPsicologia } from '../models/Salud/DiagnosticoPsicologia.model';
+import { Anamnesis } from '../models/Salud/ananmesis.model';
+import { ExamenDental } from '../models/Salud/examenDental.model';
+import { ExamenEstomatologico } from '../models/Salud/examenEstomatologico';
+import { DiagnosticoOdontologia } from '../models/Salud/diagnosticoOdontologia';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +26,7 @@ import { DiagnosticoPsicologia } from '../models/Salud/DiagnosticoPsicologia.mod
 export class SaludService {
   url = environment.SALUD;
   url2 = environment.PSICOLOGIA;
+  url3 = environment.ODONTOLOGIA;
   query = '?query=';
   paciente = '';
   IdPersona: number;
@@ -76,6 +81,20 @@ export class SaludService {
   getDiagnosticoPsicologia(IdHistoriaClinica): Observable<DiagnosticoPsicologia> {
     return this.httpClient.get<DiagnosticoPsicologia>(this.url2 + 'Psicologia/Diagnostico/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
   }
+  //Odontologia
+  getAnanmesis(IdHistoriaClinica): Observable<Antecedente> {
+    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Anamnesis/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  }
+  getExamenDental(IdHistoriaClinica): Observable<ExamenDental> {
+    return this.httpClient.get<ExamenDental>(this.url3 + 'Odontologia/ExamenDental/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  }
+  getExamenEstomatologico(IdHistoriaClinica): Observable<ExamenEstomatologico> {
+    return this.httpClient.get<ExamenEstomatologico>(this.url3 + 'Odontologia/ExamenEstomatologico/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  }
+  getDiagnosticoOdontologia(IdHistoriaClinica): Observable<DiagnosticoOdontologia> {
+    return this.httpClient.get<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/'+ this.query + 'HistoriaClinica:' + `${IdHistoriaClinica}`);
+  }
+
   //Guardar y actualizar
   postFisioterapia(consultaFisioterapia: ConsultaFisioterapia): Observable<ConsultaFisioterapia> {
     return this.httpClient.post<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia', consultaFisioterapia);
@@ -151,6 +170,30 @@ export class SaludService {
   }
   putAntecedente(IdAntecedente: number, antecedente: Antecedente): Observable<Antecedente> {
     return this.httpClient.put<Antecedente>(this.url + `Medicina/Antecedente/${IdAntecedente}`, antecedente);
+  }
+  postAnamnesis(anamnesis: Anamnesis): Observable<Antecedente> {
+    return this.httpClient.post<Anamnesis>(this.url3 + 'Odontologia/Anamnesis/', anamnesis);
+  }
+  putAnamnesis(IdAnamnesis: number, anamnesis: Anamnesis): Observable<Antecedente> {
+    return this.httpClient.put<Anamnesis>(this.url3 + `Odontologia/Anamnesis/${IdAnamnesis}`, anamnesis);
+  }
+  postExamenDental(examenDental: ExamenDental): Observable<ExamenDental> {
+    return this.httpClient.post<ExamenDental>(this.url3 + 'Odontologia/ExamenDental/', examenDental);
+  }
+  putExamenDental(IdExamenDental: number, examenDental: ExamenDental): Observable<ExamenDental> {
+    return this.httpClient.put<ExamenDental>(this.url3 + `Odontologia/ExamenDental/${IdExamenDental}`,examenDental);
+  }
+  postExamenEstomatologico(examenEstomatologico: ExamenEstomatologico): Observable<ExamenEstomatologico> {
+    return this.httpClient.post<ExamenEstomatologico>(this.url3 + 'Odontologia/ExamenEstomatologico/', examenEstomatologico);
+  }
+  putExamenEstomatologico(IdExamenEstomatologico: number, examenEstomatologico: ExamenEstomatologico): Observable<ExamenEstomatologico> {
+    return this.httpClient.put<ExamenEstomatologico>(this.url3 + `Odontologia/ExamenEstomatologico/${IdExamenEstomatologico}`, examenEstomatologico);
+  }
+  postDiagnosticoOdontologia(diagnostico: DiagnosticoOdontologia): Observable<DiagnosticoOdontologia> {
+    return this.httpClient.post<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/', diagnostico);
+  }
+  putDiagnosticoOdontologia(IdDiagnostico: number, diagnostico: DiagnosticoOdontologia): Observable<DiagnosticoOdontologia> {
+    return this.httpClient.put<DiagnosticoOdontologia>(this.url3 + `Odontologia/Diagnostico/${IdDiagnostico}`, diagnostico);
   }
 
 }

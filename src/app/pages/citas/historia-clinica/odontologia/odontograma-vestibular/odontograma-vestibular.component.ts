@@ -1,11 +1,11 @@
 import { Component, OnInit,Input } from '@angular/core';
 
 @Component({
-  selector: 'ngx-odontograma',
-  templateUrl: './odontograma.component.html',
-  styleUrls: ['./odontograma.component.css']
+  selector: 'ngx-odontograma-vestibular',
+  templateUrl: './odontograma-vestibular.component.html',
+  styleUrls: ['./odontograma-vestibular.component.css']
 })
-export class OdontogramaComponent implements OnInit {
+export class OdontogramaVestibularComponent implements OnInit {
   @Input() id: string;
   color: number = 1;
    dientesArriba: any[] = [

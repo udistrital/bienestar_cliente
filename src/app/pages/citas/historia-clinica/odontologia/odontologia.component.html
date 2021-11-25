@@ -15,225 +15,127 @@
   <div class="row mt-2">
     <div class="col me-4 border-right ">
       <label class="me-2">Tratamiento médico: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="tratamientoMedico" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="tratamientoMedico" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="tratamientoMedico" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="tratamientoMedico" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4 ">
       <label class="me-2">Ingestión de medicamentos: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="ingestionMedicamentos" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="ingestionMedicamentos" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="ingestionMedicamentos" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="ingestionMedicamentos" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row">
     <div class="col me-4 border-right ">
       <label class="me-2">Reacciones alérgicas: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="reaccionesAlergicas" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="reaccionesAlergicas" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="reaccionesAlergicas" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="reaccionesAlergicas" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4">
       <label class="me-2">Hemorragias: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hemorragias" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hemorragias" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hemorragias" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="hemorragias" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row">
     <div class="col me-4 border-right">
       <label class="me-2">Irradiaciones: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="irradiaciones" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="irradiaciones" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="irradiaciones" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="irradiaciones" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4">
       <label class="me-2">Sinusitis: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="sinusitis" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="sinusitis" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="sinusitis" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="sinusitis" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row">
     <div class="col me-4 border-right">
       <label class="me-2">Enfermedades Respiratorias: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="enfermedadesRespiratorias" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="enfermedadesRespiratorias" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="enfermedadesRespiratorias" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="enfermedadesRespiratorias" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4">
       <label class="me-2">Cardiopatías: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="cardiopatias" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="cardiopatias" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="cardiopatias" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="cardiopatias" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row">
     <div class="col me-4 border-right">
       <label class="me-2">Diabetes: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="diabetes" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="diabetes" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="diabetes" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="diabetes" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4">
       <label class="me-2">Fiebre Reumática: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="fiebreReumatica" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="fiebreReumatica" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="fiebreReumatica" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="fiebreReumatica" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row">
     <div class="col me-4 border-right">
       <label class="me-2">Hepatitis: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hepatitis" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hepatitis" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hepatitis" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="hepatitis" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4">
       <label class="me-2">Hipertensión Arterial: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hipertensionArterial" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hipertensionArterial" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="hipertensionArterial" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="hipertensionArterial" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row">
     <div class="col me-4 border-right">
       <label class="me-2">Otras enfermedades: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="otrasEnfermedades" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="otrasEnfermedades" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="otrasEnfermedades" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="otrasEnfermedades" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="col me-4">
       <label class="me-2">Antecedentes familiares: </label>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="antecedentesFamiliares" value="No Sabe" />
-        <label class="form-check-label">No sabe</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="antecedentesFamiliares" value="No" />
-        <label class="form-check-label">No</label>
-      </div>
-      <div class="form-check form-check-inline float-end">
-        <input class="form-check-input" type="radio" formControlName="antecedentesFamiliares" value="Si" />
-        <label class="form-check-label">Si</label>
-      </div>
+      <mat-radio-group formControlName="antecedentesFamiliares" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
   <div class="row mt-2">
@@ -251,10 +153,12 @@
         <div class="col-md-6">
           <div class="input-group mb-3">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="cepillado" value="">
+              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="cepillado" value=""
+                (change)="changeCepillado($event)">
               Cepillado
             </div>
-            <input type="text" class="form-control" formControlName="cepilladoCuantas" placeholder="¿Cuántas veces?">
+            <input type="number" class="form-control" formControlName="cepilladoCuantas" placeholder="¿Cuántas veces?"
+              min="0" [readonly]="odontologiaForm.value.cepillado==false" onKeyDown="return false" [value]="0">
           </div>
         </div>
       </div>
@@ -272,12 +176,14 @@
     <div class="row">
       <div class="col me-4 border-right ">
         <div class="col-md-6">
-          <div class="input-group mb-3">
+          <div class="input-group mb-6">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="sedaDental" value="">
+              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="sedaDental" value=""
+                (change)="changeSeda($event)">
               Seda Dental
             </div>
-            <input type="text" class="form-control" formControlName="sedaDentalCuantas" placeholder="¿Cuántas veces?">
+            <input type="number" class="form-control" formControlName="sedaDentalCuantas" placeholder="¿Cuántas veces?"
+              min="0" [readonly]="odontologiaForm.value.sedaDental==false" onKeyDown="return false" [value]="0">
           </div>
         </div>
       </div>
@@ -297,10 +203,12 @@
         <div class="col-md-6">
           <div class="input-group mb-3">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="enjuague" value="">
+              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="enjuague" value=""
+                (change)="changeEnjuague($event)">
               Enjuague
             </div>
-            <input type="text" class="form-control" formControlName="enjuagueCuantas" placeholder="¿Cuántas veces?">
+            <input type="number" class="form-control" formControlName="enjuagueCuantas" placeholder="¿Cuántas veces?"
+              min="0" [readonly]="odontologiaForm.value.enjuague==false" onKeyDown="return false" [value]="0">
           </div>
         </div>
       </div>
@@ -343,16 +251,11 @@
     </div>
     <div class="col-auto ">
       <div class="col ms-3 mt-3 mb-2 float-start">
-        <label>Articulación Temporo - Mandíbula:</label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input ms2-5" type="radio" formControlName="articulacionTemporoMandibula"
-            value="Normal" />
-          <label class="form-check-label ms-2">Normal</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="articulacionTemporoMandibula" value="Anormal" />
-          <label class="form-check-label">Anormal</label>
-        </div>
+        <label class="col-md-3 me-4">Articulación Temporo - Mandíbula: </label>
+        <mat-radio-group formControlName="articulacionTemporoMandibula">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
       </div>
     </div>
   </div>
@@ -374,58 +277,38 @@
       <div class="col-auto">
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Labios:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="labios" value="Normal" />
-            <label class="form-check-label">Normal</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="labios" value="Anormal" />
-            <label class="form-check-label">Anormal</label>
-          </div>
+          <mat-radio-group formControlName="labios">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class=" col-md-2 me-4">Lengua:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="lengua" value="Normal" />
-            <label class="form-check-label">Normal</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="lengua" value="Anormal" />
-            <label class="form-check-label">Anormal</label>
-          </div>
+          <mat-radio-group formControlName="lengua">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Paladar:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="paladar" value="Normal" />
-            <label class="form-check-label">Normal</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="paladar" value="Anormal" />
-            <label class="form-check-label">Anormal</label>
-          </div>
+          <mat-radio-group formControlName="paladar">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Piso de Boca:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="pisoBoca" value="Normal" />
-            <label class="form-check-label">Normal</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="pisoBoca" value="Anormal" />
-            <label class="form-check-label">Anormal</label>
-          </div>
+          <mat-radio-group formControlName="pisoBoca">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Carrillos:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="carrillos" value="Normal" />
-            <label class="form-check-label">Normal</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="carrillos" value="Anormal" />
-            <label class="form-check-label">Anormal</label>
-          </div>
+          <mat-radio-group formControlName="carrillos">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
         </div>
       </div>
     </div>
@@ -436,14 +319,10 @@
     <div class="col ">
       <div class="col  mt-2">
         <label class="col-md-2 ms-4 ">Glándulas Salivares:</label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input ms-3" type="radio" formControlName="glandulasSalivales" value="Normal" />
-          <label class="form-check-label ms-1">Normal</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="glandulasSalivales" value="Anormal" />
-          <label class="form-check-label">Anormal</label>
-        </div>
+        <mat-radio-group formControlName="glandulasSalivares">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
       </div>
     </div>
   </div>
@@ -453,14 +332,10 @@
     <div class="col ">
       <div class="col  mt-2">
         <label class="col-md-2 ms-4 ">Maxilares:</label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input ms-3" type="radio" formControlName="maxilares" value="Normal" />
-          <label class="form-check-label ms-1">Normal</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="maxilares" value="Anormal" />
-          <label class="form-check-label">Anormal</label>
-        </div>
+        <mat-radio-group formControlName="maxilares">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
       </div>
     </div>
   </div>
@@ -470,14 +345,10 @@
     <div class="col ">
       <div class="col  mt-2">
         <label class="col-md-2 ms-4 ">Senos Maxilares:</label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input ms-3" type="radio" formControlName="senosMaxilares" value="Normal" />
-          <label class="form-check-label ms-1">Normal</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="senosMaxilares" value="Anormal" />
-          <label class="form-check-label">Anormal</label>
-        </div>
+        <mat-radio-group formControlName="senosMaxilares">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
       </div>
     </div>
   </div>
@@ -487,14 +358,10 @@
     <div class="col">
       <div class="col  mt-2">
         <label class="col-md-2 ms-4 ">Músculos Masticadores: </label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input ms-3" type="radio" formControlName="musculosMasticadores" value="Normal" />
-          <label class="form-check-label ms-1">Normal</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input " type="radio" formControlName="musculosMasticadores" value="Anormal" />
-          <label class="form-check-label">Anormal</label>
-        </div>
+        <mat-radio-group formControlName="musculosMasticadores">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
       </div>
     </div>
   </div>
@@ -511,38 +378,24 @@
         <div class="col-auto">
           <div class="col me-4 mt-2 mb-2">
             <label class="col-md-2 me-4">Nervioso: </label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="nerviosoOdontologia" value="Normal" />
-              <label class="form-check-label">Normal</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="nerviosoOdontologia" value="Anormal" />
-              <label class="form-check-label">Anormal</label>
-            </div>
+            <mat-radio-group formControlName="nerviosoOdontologia">
+              <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+              <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+            </mat-radio-group>
           </div>
           <div class="col me-4 mt-2 mb-2">
             <label class=" col-md-2 me-4">Vascular: </label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="vascularOdontologia" value="Normal" />
-              <label class="form-check-label">Normal</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="vascularOdontologia" value="Anormal" />
-              <label class="form-check-label">Anormal</label>
-            </div>
+            <mat-radio-group formControlName="vascularOdontologia">
+              <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+              <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+            </mat-radio-group>
           </div>
           <div class="col me-4 mt-2 mb-2">
             <label class="col-md-2 me-4">Linfático Regional:</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="linfaticoRegionalOdontologia"
-                value="Normal" />
-              <label class="form-check-label">Normal</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="linfaticoRegionalOdontologia"
-                value="Anormal" />
-              <label class="form-check-label">Anormal</label>
-            </div>
+            <mat-radio-group formControlName="linfaticoRegionalOdontologia">
+              <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+              <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+            </mat-radio-group>
           </div>
         </div>
       </div>
@@ -556,80 +409,52 @@
       <div class="col-auto">
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Supernumerarios: </label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="Supernumerarios" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="Supernumerarios" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="Supernumerarios">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class=" col-md-2 me-4"> Abrasión: </label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="abrasion" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="abrasion" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="abrasion">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Manchas:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="manchas" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="manchas" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="manchas">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Patología Pulpar:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="patologiaPulpar" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="patologiaPulpar" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="patologiaPulpar">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Placa Blanda:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="placaBlanda" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="placaBlanda" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="placaBlanda">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Placa Calcificada:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="placaCalcificada" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="placaCalcificada" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="placaCalcificada">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="col me-4 mt-2 mb-2">
           <label class="col-md-2 me-4">Oclusión:</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="oclusion" value="Si" />
-            <label class="form-check-label">Si</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="oclusion" value="No" />
-            <label class="form-check-label">No</label>
-          </div>
+          <mat-radio-group formControlName="oclusion">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
         </div>
       </div>
     </div>
@@ -646,14 +471,19 @@
       <div class="form-floating">
         <textarea class="form-control textArea-mid" formControlName="observaciones" placeholder="Observaciones"
           id="observaciones"></textarea>
+
         <label for="observaciones"> Observaciones</label>
       </div>
     </div>
     <div class="col ms-2 mt-2 mb-2 me-4">
       <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="ultimaVisitaOdontologo"
-          placeholder="Última visita al odontólogo" id="ultimaVisitaOdontologo"></textarea>
-        <label for="ultimaVisitaOdontologo"> Última visita al odontólogo</label>
+        <mat-form-field appearance="outline" class="col-sm-12">
+          <mat-label>Última visita al odontólogo</mat-label>
+          <input matInput formControlName="ultimaVisitaOdontologo" id="ultimaVisitaOdontologo" [matDatepicker]="picker"
+            readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </div>
     </div>
   </div>
@@ -670,55 +500,15 @@
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestabular</p>
-  <div class="row">
-    <div class="col mb-3 me-2 mt-2">
-      <label for="indiceActualVestabular" class="form-label">Índice Actual</label>
-      <input type="text" class="form-control" id="indiceActualVestabular" formControlName="indiceActualVestabular" />
-    </div>
-    <div class="col mb-3 me-2 mt-2">
-      <label for="indiceAnteriorVestabular" class="form-label">Índice Anterior</label>
-      <input type="text" class="form-control" id="indiceAnteriorVestabular"
-        formControlName="indiceAnteriorVestabular" />
-    </div>
-    <div class="col">
-      <div class="form-group row">
-        <label for="fechaPlacaVestabular" class="col-2 col-form-label">Fecha</label>
-        <div class="col-10">
-          <input class="form-control" formControlName="fechaPlacaVestabular" type="date" value="2020-04-14"
-            id="fechaPlacaVestabular">
-        </div>
-      </div>
-    </div>
-  </div>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma [id]="'1'"></ngx-odontograma>
+  <ngx-odontograma-vestabular></ngx-odontograma-vestabular>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular</p>
-  <div class="row">
-    <div class="col mb-3 me-4 mt-2">
-      <label for="indiceActualVestibular" class="form-label">Índice Actual</label>
-      <input type="text" class="form-control" id="indiceActualVestibular" formControlName="indiceActualVestibular" />
-    </div>
-    <div class="col mb-3 me-4 mt-2">
-      <label for="indiceAnteriorVestibular" class="form-label">Índice Anterior</label>
-      <input type="text" class="form-control" id="indiceAnteriorVestibular"
-        formControlName="indiceAnteriorVestibular" />
-    </div>
-    <div class="col">
-      <div class="form-groip row">
-        <label for="fechaPlacaVestibular" class="col-2 col-form-label">Fecha</label>
-        <div class="col-10">
-          <input class="form-control" formControlName="fechaPlacaVestibular" type="date" value="2020-04-14"
-            id="fechaPlacaVestibular">
-        </div>
-      </div>
-    </div>
-  </div>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma [id]="'2'"></ngx-odontograma>
+  <ngx-odontograma-vestibular></ngx-odontograma-vestibular>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular infantil</p>
@@ -884,8 +674,8 @@
     <div class="row mt-4">
       <div class="col md-12 me-4">
         <div class="form-floating">
-          <textarea class="form-control textArea-big" formControlName="observacionesOdontologia" placeholder="Observaciones"
-            id="observaciones"></textarea>
+          <textarea class="form-control textArea-big" formControlName="observacionesOdontologia"
+            placeholder="Observaciones" id="observaciones"></textarea>
           <label for="observacionesOdontologia"> Observaciones</label>
         </div>
       </div>

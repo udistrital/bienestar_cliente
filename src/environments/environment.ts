@@ -18,6 +18,7 @@ export const environment = {
     APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/apoyo_alimentario_mongo_crud/",
     SALUD: "http://localhost:8080/",
     PSICOLOGIA: "http://localhost:8081/",
+    ODONTOLOGIA: "http://localhost:8082/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
     AUTENTICACION_MID: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/',
     UBICACIONES: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/ubicaciones_crud/v2/',
