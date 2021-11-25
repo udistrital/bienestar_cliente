@@ -129,11 +129,17 @@ export class OdontologiaComponent implements OnInit {
           this.odontologiaForm.controls.antecedentesFamiliares.setValue(this.anamnesis.AntecedenteFamiliar);
           this.odontologiaForm.controls.cardiopatias.setValue(this.anamnesis.Cardiopatias);
           this.odontologiaForm.controls.cepilladoCuantas.setValue(this.anamnesis.Cepillado);
+          if(this.anamnesis.Cepillado>0){
+            this.odontologiaForm.controls.cepillado.setValue(true);
+          }
           this.odontologiaForm.controls.chicles.setValue(this.anamnesis.Chicle);
           this.odontologiaForm.controls.diabetes.setValue(this.anamnesis.Diabetes);
           this.odontologiaForm.controls.dulces.setValue(this.anamnesis.Dulces);
           this.odontologiaForm.controls.enfermedadesRespiratorias.setValue(this.anamnesis.EnfermedadRespiratoria);
           this.odontologiaForm.controls.enjuagueCuantas.setValue(this.anamnesis.Enjuague);
+          if(this.anamnesis.Enjuague>0){
+            this.odontologiaForm.controls.enjuague.setValue(true);
+          }
           this.odontologiaForm.controls.fiebreReumatica.setValue(this.anamnesis.FiebreReumatica);
           this.odontologiaForm.controls.fuma.setValue(this.anamnesis.Fuma);
           this.odontologiaForm.controls.hemorragias.setValue(this.anamnesis.Hemorragias);
@@ -143,6 +149,9 @@ export class OdontologiaComponent implements OnInit {
           this.odontologiaForm.controls.ingestionMedicamentos.setValue(this.anamnesis.Medicamentos);
           this.odontologiaForm.controls.otrasEnfermedades.setValue(this.anamnesis.Otros);
           this.odontologiaForm.controls.sedaDentalCuantas.setValue(this.anamnesis.Seda);
+          if(this.anamnesis.Cepillado>0){
+            this.odontologiaForm.controls.sedaDental.setValue(true);
+          }
           this.odontologiaForm.controls.sinusitis.setValue(this.anamnesis.Sinusitis);
           this.odontologiaForm.controls.tratamientoMedico.setValue(this.anamnesis.Tratamiento);
           this.fechaUltimaVisita = new Date(this.anamnesis.UltimaVisita);
