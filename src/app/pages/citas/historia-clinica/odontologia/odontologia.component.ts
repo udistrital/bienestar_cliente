@@ -117,16 +117,6 @@ export class OdontologiaComponent implements OnInit {
   get evolucionOdontoArr() {
     return this.odontologiaForm.get('evolucionOdonto') as FormArray;
   }
-  agregarEvolucionOdonto() {
-    if (this.nuevaEvolucionOdonto.invalid) {
-      return
-    }
-    this.evolucionOdontoArr.push(new FormControl(this.nuevaEvolucionOdonto.value));
-    this.nuevaEvolucionOdonto.reset();
-  }
-  borrarEvolucionOdonto(i: number) {
-    this.evolucionOdontoArr.removeAt(i);
-  }
   getInfoOdontologia() {
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {  ///Remplazar para pruebas
       this.Historia = data[0];
@@ -139,7 +129,7 @@ export class OdontologiaComponent implements OnInit {
           this.odontologiaForm.controls.antecedentesFamiliares.setValue(this.anamnesis.AntecedenteFamiliar);
           this.odontologiaForm.controls.cardiopatias.setValue(this.anamnesis.Cardiopatias);
           this.odontologiaForm.controls.cepilladoCuantas.setValue(this.anamnesis.Cepillado);
-          if (this.anamnesis.Cepillado > 0) {
+          if(this.anamnesis.Cepillado>0){
             this.odontologiaForm.controls.cepillado.setValue(true);
           }
           this.odontologiaForm.controls.chicles.setValue(this.anamnesis.Chicle);
@@ -147,7 +137,7 @@ export class OdontologiaComponent implements OnInit {
           this.odontologiaForm.controls.dulces.setValue(this.anamnesis.Dulces);
           this.odontologiaForm.controls.enfermedadesRespiratorias.setValue(this.anamnesis.EnfermedadRespiratoria);
           this.odontologiaForm.controls.enjuagueCuantas.setValue(this.anamnesis.Enjuague);
-          if (this.anamnesis.Enjuague > 0) {
+          if(this.anamnesis.Enjuague>0){
             this.odontologiaForm.controls.enjuague.setValue(true);
           }
           this.odontologiaForm.controls.fiebreReumatica.setValue(this.anamnesis.FiebreReumatica);
@@ -159,7 +149,7 @@ export class OdontologiaComponent implements OnInit {
           this.odontologiaForm.controls.ingestionMedicamentos.setValue(this.anamnesis.Medicamentos);
           this.odontologiaForm.controls.otrasEnfermedades.setValue(this.anamnesis.Otros);
           this.odontologiaForm.controls.sedaDentalCuantas.setValue(this.anamnesis.Seda);
-          if (this.anamnesis.Cepillado > 0) {
+          if(this.anamnesis.Cepillado>0){
             this.odontologiaForm.controls.sedaDental.setValue(true);
           }
           this.odontologiaForm.controls.sinusitis.setValue(this.anamnesis.Sinusitis);
@@ -210,18 +200,25 @@ export class OdontologiaComponent implements OnInit {
           this.odontologiaForm.controls.temperatura.setValue(this.diagnostico.Temperatura);
           this.odontologiaForm.controls.tensionArterial.setValue(this.diagnostico.TensionArterial);
           this.odontologiaForm.controls.observacionesOdontologia.setValue(this.diagnostico.Observaciones);
-          let evolucion = JSON.parse(this.diagnostico.Evolucion) || [];
+          let evolucion = JSON.parse(this.diagnostico.Evolucion);
           this.evolucion.push({ ...evolucion });
-          let evolucion2: any = this.evolucion[0].evolucion;
-          for (let i = 0; i < evolucion2.length; i++) {
-            this.evolucionOdontoArr.push(new FormControl(evolucion2[i]));
-          }
+          let evolucion2 = this.evolucion[0].evolucion;
+          this.evolucionOdontoArr.push(new FormControl(evolucion2));
         });
       });
     });
 
   }
-
+  agregarEvolucionOdonto() {
+    if (this.nuevaEvolucionOdonto.invalid) {
+      return
+    }
+    this.evolucionOdontoArr.push(new FormControl(this.nuevaEvolucionOdonto.value));
+    this.nuevaEvolucionOdonto.reset();
+  }
+  borrarEvolucionOdonto(i: number) {
+    this.evolucionOdontoArr.removeAt(i);
+  }
 
   buscarEspecialista() {
     // TODO
