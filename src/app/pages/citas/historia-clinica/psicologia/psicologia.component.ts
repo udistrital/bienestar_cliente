@@ -142,10 +142,12 @@ export class PsicologiaComponent implements OnInit {
           this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
           this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
           this.psicologiaForm.controls.observacionesPsicologia.setValue(this.diagnostico.Observaciones);
-          let evolucion = JSON.parse(this.diagnostico.Evolucion);
+          let evolucion = JSON.parse(this.diagnostico.Evolucion) || [];
           this.evolucion.push({ ...evolucion });
-          let evolucion2 = this.evolucion[0].evolucion;
-          this.evolucionPsicoArr.push(new FormControl(evolucion2));
+          let evolucion2: any = this.evolucion[0].evolucion;
+          for (let i = 0; i < evolucion2.length; i++) {
+            this.evolucionPsicoArr.push(new FormControl(evolucion2[i]));
+          }
         });
       });
     });
