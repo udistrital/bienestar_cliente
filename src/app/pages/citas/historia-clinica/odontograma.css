@@ -122,4 +122,16 @@ svg|a text {
     fill: blue; /* Incluso para el texto, SVG usa fill para el color */
     text-decoration: underline;
   }
-  
+  .card-button {
+    background-color: #fdfdfd;
+    color: #52aed6;
+
+    font-weight: 180;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    border: 1px solid #52aed6;
+}
+.card-button:hover {
+    background-color: #33b5e5;
+    color: #fdfdfd;
+}

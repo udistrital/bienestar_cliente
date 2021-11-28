@@ -98,7 +98,6 @@ export class OdontologiaComponent implements OnInit {
     sangria: [null],
     otra: [null],
     observacionesOdontologia: [null],
-    observacionesVestibular: [null],
     evolucionOdonto: this.fb.array([]),
   });
   pruebaEspecialista = {
@@ -112,7 +111,7 @@ export class OdontologiaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });
-    this.getInfoOdontologia()
+    this.getInfoOdontologia();
   }
   get evolucionOdontoArr() {
     return this.odontologiaForm.get('evolucionOdonto') as FormArray;

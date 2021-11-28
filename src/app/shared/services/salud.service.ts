@@ -19,6 +19,7 @@ import { Anamnesis } from '../models/Salud/ananmesis.model';
 import { ExamenDental } from '../models/Salud/examenDental.model';
 import { ExamenEstomatologico } from '../models/Salud/examenEstomatologico';
 import { DiagnosticoOdontologia } from '../models/Salud/diagnosticoOdontologia';
+import { Odontograma } from '../models/Salud/odontograma';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,12 @@ export class SaludService {
   }
   getDiagnosticoOdontologia(IdHistoriaClinica): Observable<DiagnosticoOdontologia> {
     return this.httpClient.get<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/'+ this.query + 'HistoriaClinica:' + `${IdHistoriaClinica}`);
+  }
+  getOdontograma(IdHistoriaClinica, IdTipo): Observable<Antecedente> {
+    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Odontograma/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`+ ',IdTipoOdontograma.Id:' + `${IdTipo}`);
+  }
+  getTipoOdontograma(IdTipo): Observable<Antecedente> {
+    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/TipoOdontograma/'+ `${IdTipo}`);
   }
 
   //Guardar y actualizar
@@ -194,6 +201,12 @@ export class SaludService {
   }
   putDiagnosticoOdontologia(IdDiagnostico: number, diagnostico: DiagnosticoOdontologia): Observable<DiagnosticoOdontologia> {
     return this.httpClient.put<DiagnosticoOdontologia>(this.url3 + `Odontologia/Diagnostico/${IdDiagnostico}`, diagnostico);
+  }
+  postOdontograma(odontograma: Odontograma): Observable<Odontograma> {
+    return this.httpClient.post<Odontograma>(this.url3 + 'Odontologia/Odontograma/', odontograma);
+  }
+  putOdontograma(IdOdontograma:number, odontograma: Odontograma): Observable<Odontograma> {
+    return this.httpClient.put<Odontograma>(this.url3 + `Odontologia/Odontograma/${IdOdontograma}`, odontograma);
   }
 
 }

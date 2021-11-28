@@ -1,14 +1,31 @@
 import { Component, OnInit,Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { HistoriaClinica } from '../../../../../shared/models/Salud/historiaClinica.model';
+import { HojaHistoria } from '../../../../../shared/models/Salud/hojaHistoria.model';
+import { Odontograma } from '../../../../../shared/models/Salud/odontograma';
+import { TipoOdontograma } from '../../../../../shared/models/Salud/tipoOdontograma';
+import { EstudiantesService } from '../../../../../shared/services/estudiantes.service';
+import { SaludService } from '../../../../../shared/services/salud.service';
 
 @Component({
   selector: 'ngx-odontograma-vestibular',
   templateUrl: './odontograma-vestibular.component.html',
-  styleUrls: ['./odontograma-vestibular.component.css']
+  styleUrls: ['../../odontograma.css']
 })
 export class OdontogramaVestibularComponent implements OnInit {
-  @Input() id: string;
+  paciente: string;
+  terceroId: any;
+  Historia: HistoriaClinica;
+  HojaHistoria: HojaHistoria;
+  odontograma: Odontograma;
+  tipoOdontograma: TipoOdontograma;
+  odontogramaForm: FormGroup = this.fb.group({
+    observaciones: [null],
+  });
   color: number = 1;
-   dientesArriba: any[] = [
+  dientesArriba: any[] = [
     { diente: 0, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
     { diente: 1, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
     { diente: 2, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
@@ -836,10 +853,81 @@ export class OdontogramaVestibularComponent implements OnInit {
     this.dientesAbajo[diente].obturadoResina = 'invisible';
 
   }
+  guardarOdontograma() {
+    let json: {} = {};
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
+    let jsonOdontograma = JSON.stringify(json);
+    if (!this.odontograma) {
+      const odontograma: Odontograma = {
+        HistoriaClinicaId: this.Historia.Id,
+        IdHojaHistoria: this.HojaHistoria.Id,
+        Id: 0,
+        Observaciones: this.odontogramaForm.controls.observaciones.value,
+        IdTipoOdontograma: this.tipoOdontograma,
+        Diagrama: jsonOdontograma
+      };
+      this.saludService.postOdontograma(odontograma).subscribe(data => {
+        console.log('Vestibular: ' + data[0]);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (this.odontograma) {
+      const odontograma: Odontograma = {
+        HistoriaClinicaId: this.Historia.Id,
+        IdHojaHistoria: this.HojaHistoria.Id,
+        Id: this.odontograma.Id,
+        Observaciones: this.odontogramaForm.controls.observaciones.value,
+        IdTipoOdontograma: this.tipoOdontograma,
+        Diagrama: jsonOdontograma
+      };
+      this.saludService.putOdontograma(odontograma.Id, odontograma).subscribe(data => {
+        console.log('Vestibular: ' + data[0]);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (this.saludService.falloPsico === false) {
+      this.toastr.success(`Ha registrado con éxito el odontograma vestibular para: ${this.paciente}`, '¡Guardado!');
+      // window.location.reload();
+    } else {
+      this.toastr.error('Ha ocurrido un error al guardar el odontograma', 'Error');
+    }
+  }
+  getInfoOdontograma() {
+    this.saludService.getTipoOdontograma(2).subscribe((data: any) => {
+      this.tipoOdontograma = data;
+    });
+    this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {  ///Remplazar para pruebas
+      this.Historia = data[0];
+      this.saludService.getHojaHistoria(this.terceroId).subscribe(data => {
+        this.HojaHistoria = data[0];
+        this.saludService.getOdontograma(this.Historia.Id, 2).subscribe(data => {
+          this.odontograma = data[0];
+          // console.log(this.odontograma);
+          this.odontogramaForm.controls.observaciones.setValue(this.odontograma.Observaciones);
+          if(this.odontograma){
+            let json = JSON.parse(this.odontograma.Diagrama);
+            this.dientesArriba = json.dientesArriba;
+            this.dientesAbajo = json.dientesAbajo;
+          }
+        });
+      });
+    });
+  }
 
   ngOnInit(): void {
+    this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
+    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+      var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+      this.paciente = paciente.nombre;
+    });
+    this.getInfoOdontograma();
   }
-  constructor() {
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute) {
 
   }
 
