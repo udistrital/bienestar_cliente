@@ -44,3 +44,5 @@ Thumbs.db
 #/package.json
 *package-lock.json*
 
+sonar-project.properties
+.scannerwork/

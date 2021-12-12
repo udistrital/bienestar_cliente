@@ -14,6 +14,4 @@ export class ReferenciaSolicitudCita {
     profesional: any;
     plataforma: any;
     observaciones: any;
-    constructor() {
-    }
 }
