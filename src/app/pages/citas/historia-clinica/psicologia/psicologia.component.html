@@ -1,12 +1,27 @@
 <form [formGroup]="psicologiaForm" (ngSubmit)="guardarHistoriaPsicologia()">
     <h5 class="titulo mb-4 mt-4">Psicología</h5>
     <hr />
+    <div class="text-right" [hidden]="hideHistory">
+        <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+            <mat-icon>add</mat-icon> Añadir nueva hoja
+        </button>
+        <mat-form-field appearance="outline" class="select-group">
+            <mat-label>Historial</mat-label>
+            <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+                <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+                    {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <h6 class="titulo mt-2">Composición Familiar</h6>
-    <div class="col md-12 mb-4 me-4 mt-4">
-        <div class="form-floating">
-            <textarea class="form-control textArea-sm" formControlName="viveCon"
-                placeholder="¿Actualmente con quién vive?" id="viveCon"></textarea>
-            <label for="viveCon">¿Actualmente con quién vive?</label>
+    <div class="row">
+        <div class="col md-12">
+            <div class="form-floating">
+                <textarea class="form-control textArea-sm" formControlName="viveCon"
+                    placeholder="¿Actualmente con quién vive?" id="viveCon"></textarea>
+                <label for="viveCon">¿Actualmente con quién vive?</label>
+            </div>
         </div>
     </div>
     <h6 class="titulo mt-2">Límites</h6>

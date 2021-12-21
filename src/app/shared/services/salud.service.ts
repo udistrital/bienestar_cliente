@@ -20,6 +20,7 @@ import { ExamenDental } from '../models/Salud/examenDental.model';
 import { ExamenEstomatologico } from '../models/Salud/examenEstomatologico';
 import { DiagnosticoOdontologia } from '../models/Salud/diagnosticoOdontologia';
 import { Odontograma } from '../models/Salud/odontograma';
+import { Especialidad } from '../models/Salud/especialidad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class SaludService {
   url = environment.SALUD;
   url2 = environment.PSICOLOGIA;
   url3 = environment.ODONTOLOGIA;
+  url4 = environment.CITA;
   query = '?query=';
   paciente = '';
   IdPersona: number;
@@ -38,20 +40,20 @@ export class SaludService {
   terceroId: number;
   constructor(private httpClient: HttpClient) { }
 
-  getExamen(IdHistoriaClinica): Observable<Examen> {
-    return this.httpClient.get<Examen>(this.url + 'Medicina/Examen' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
+  getExamen(IdHojaHistoria): Observable<Examen> {
+    return this.httpClient.get<Examen>(this.url + 'Medicina/Examen' + this.query + 'HojaHistoria.Id:' + `${IdHojaHistoria}` + '&limit=-1');
   }
-  getDiagnostico(IdHistoriaClinica): Observable<Diagnostico> {
-    return this.httpClient.get<Diagnostico>(this.url + 'Medicina/Diagnostico' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
+  getDiagnostico(IdHojaHistoria): Observable<Diagnostico> {
+    return this.httpClient.get<Diagnostico>(this.url + 'Medicina/Diagnostico' + this.query + 'HojaHistoria.Id:' + `${IdHojaHistoria}`);
   }
-  getSistema(IdHistoriaClinica): Observable<Sistemas> {
-    return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
+  getSistema(IdHojaHistoria): Observable<Sistemas> {
+    return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema' + this.query + 'HojaHistoria.Id:' + `${IdHojaHistoria}` + '&limit=-1');
   }
-  getTipoSistema(): Observable<Sistemas> {
-    return this.httpClient.get<Sistemas>(this.url + 'Medicina/TipoSistema');
+  getHojaHistoria(IdTercero, IdEspecialidad): Observable<HojaHistoria> {
+    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'HistoriaClinica.Tercero:' + `${IdTercero}` + ',Especialidad:' + `${IdEspecialidad}`);
   }
-  getHojaHistoria(IdTercero): Observable<HojaHistoria> {
-    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'HistoriaClinica.Tercero:' + `${IdTercero}`);
+  getHojaHistoriaEspecifica(IdHojaHistoria): Observable<HojaHistoria> {
+    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + `${IdHojaHistoria}`);
   }
   getHistoriaClinica(IdTercero): Observable<HistoriaClinica> {
     return this.httpClient.get<HistoriaClinica>(this.url + 'Medicina/HistoriaClinica' + this.query + 'Tercero:' + `${IdTercero}`);
@@ -60,46 +62,49 @@ export class SaludService {
     return this.httpClient.get<any>(this.url + 'Medicina/Antecedente/' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&limit=-1');
   }
   // Fisioterapia
-  getConsultaFisioterapia(IdHistoriaClinica): Observable<ConsultaFisioterapia> {
-    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia/' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}`);
+  getConsultaFisioterapia(IdHojaHistoria): Observable<ConsultaFisioterapia> {
+    return this.httpClient.get<ConsultaFisioterapia>(this.url + 'Medicina/ConsultaFisioterapia/' + this.query + 'HojaHistoria.Id:' + `${IdHojaHistoria}`);
   }
   //Psicología
-  getComposicionFamiliar(IdHistoriaClinica): Observable<ComposicionFamiliar> {
-    return this.httpClient.get<ComposicionFamiliar>(this.url2 + 'Psicologia/ComposicionFamiliar/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  getComposicionFamiliar(IdHojaHistoria): Observable<ComposicionFamiliar> {
+    return this.httpClient.get<ComposicionFamiliar>(this.url2 + 'Psicologia/ComposicionFamiliar/' + this.query + 'HojaHistoriaId:' + `${IdHojaHistoria}`);
   }
-  getLimites(IdHistoriaClinica): Observable<Limites> {
-    return this.httpClient.get<Limites>(this.url2 + 'Psicologia/Limites/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  getLimites(IdHojaHistoria): Observable<Limites> {
+    return this.httpClient.get<Limites>(this.url2 + 'Psicologia/Limites/' + this.query + 'HojaHistoriaId:' + `${IdHojaHistoria}`);
   }
   getAntecedentesPsicologicos(IdHistoriaClinica): Observable<AntecedentePsicologia> {
     return this.httpClient.get<AntecedentePsicologia>(this.url2 + 'Psicologia/Antecedente/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
   }
-  getValoracionInterpersonal(IdHistoriaClinica): Observable<ValoracionInterpersonal> {
-    return this.httpClient.get<ValoracionInterpersonal>(this.url2 + 'Psicologia/ValoracionInterpersonal/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  getValoracionInterpersonal(IdHojaHistoria): Observable<ValoracionInterpersonal> {
+    return this.httpClient.get<ValoracionInterpersonal>(this.url2 + 'Psicologia/ValoracionInterpersonal/' + this.query + 'HojaHistoriaId:' + `${IdHojaHistoria}`);
   }
-  getComportamientoConslta(IdHistoriaClinica): Observable<ComportamientoConsulta> {
-    return this.httpClient.get<ComportamientoConsulta>(this.url2 + 'Psicologia/ComportamientoConsulta/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  getComportamientoConslta(IdHojaHistoria): Observable<ComportamientoConsulta> {
+    return this.httpClient.get<ComportamientoConsulta>(this.url2 + 'Psicologia/ComportamientoConsulta/' + this.query + 'HojaHistoriaId:' + `${IdHojaHistoria}`);
   }
-  getDiagnosticoPsicologia(IdHistoriaClinica): Observable<DiagnosticoPsicologia> {
-    return this.httpClient.get<DiagnosticoPsicologia>(this.url2 + 'Psicologia/Diagnostico/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+  getDiagnosticoPsicologia(IdHojaHistoria): Observable<DiagnosticoPsicologia> {
+    return this.httpClient.get<DiagnosticoPsicologia>(this.url2 + 'Psicologia/Diagnostico/' + this.query + 'HojaHistoriaId:' + `${IdHojaHistoria}`);
   }
   //Odontologia
   getAnanmesis(IdHistoriaClinica): Observable<Antecedente> {
-    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Anamnesis/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Anamnesis/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
   }
   getExamenDental(IdHistoriaClinica): Observable<ExamenDental> {
-    return this.httpClient.get<ExamenDental>(this.url3 + 'Odontologia/ExamenDental/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+    return this.httpClient.get<ExamenDental>(this.url3 + 'Odontologia/ExamenDental/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
   }
   getExamenEstomatologico(IdHistoriaClinica): Observable<ExamenEstomatologico> {
-    return this.httpClient.get<ExamenEstomatologico>(this.url3 + 'Odontologia/ExamenEstomatologico/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`);
+    return this.httpClient.get<ExamenEstomatologico>(this.url3 + 'Odontologia/ExamenEstomatologico/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
   }
   getDiagnosticoOdontologia(IdHistoriaClinica): Observable<DiagnosticoOdontologia> {
-    return this.httpClient.get<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/'+ this.query + 'HistoriaClinica:' + `${IdHistoriaClinica}`);
+    return this.httpClient.get<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
   }
   getOdontograma(IdHistoriaClinica, IdTipo): Observable<Antecedente> {
-    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Odontograma/'+ this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}`+ ',IdTipoOdontograma.Id:' + `${IdTipo}`);
+    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Odontograma/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}` + ',IdTipoOdontograma.Id:' + `${IdTipo}`);
   }
   getTipoOdontograma(IdTipo): Observable<Antecedente> {
-    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/TipoOdontograma/'+ `${IdTipo}`);
+    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/TipoOdontograma/' + `${IdTipo}`);
+  }
+  getEspecialidad(IdEspecialidad): Observable<Especialidad> {
+    return this.httpClient.get<Especialidad>(this.url + 'Medicina/Especialidad/' + `${IdEspecialidad}`);
   }
 
   //Guardar y actualizar
@@ -188,7 +193,7 @@ export class SaludService {
     return this.httpClient.post<ExamenDental>(this.url3 + 'Odontologia/ExamenDental/', examenDental);
   }
   putExamenDental(IdExamenDental: number, examenDental: ExamenDental): Observable<ExamenDental> {
-    return this.httpClient.put<ExamenDental>(this.url3 + `Odontologia/ExamenDental/${IdExamenDental}`,examenDental);
+    return this.httpClient.put<ExamenDental>(this.url3 + `Odontologia/ExamenDental/${IdExamenDental}`, examenDental);
   }
   postExamenEstomatologico(examenEstomatologico: ExamenEstomatologico): Observable<ExamenEstomatologico> {
     return this.httpClient.post<ExamenEstomatologico>(this.url3 + 'Odontologia/ExamenEstomatologico/', examenEstomatologico);
@@ -205,8 +210,10 @@ export class SaludService {
   postOdontograma(odontograma: Odontograma): Observable<Odontograma> {
     return this.httpClient.post<Odontograma>(this.url3 + 'Odontologia/Odontograma/', odontograma);
   }
-  putOdontograma(IdOdontograma:number, odontograma: Odontograma): Observable<Odontograma> {
+  putOdontograma(IdOdontograma: number, odontograma: Odontograma): Observable<Odontograma> {
     return this.httpClient.put<Odontograma>(this.url3 + `Odontologia/Odontograma/${IdOdontograma}`, odontograma);
   }
-
+  postCita(cita) {
+    return this.httpClient.post(this.url4 + 'Cita/Cita/', cita);
+  }
 }

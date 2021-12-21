@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -903,13 +903,13 @@ export class OdontogramaVestibularComponent implements OnInit {
     });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {  ///Remplazar para pruebas
       this.Historia = data[0];
-      this.saludService.getHojaHistoria(this.terceroId).subscribe(data => {
+      this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {
         this.HojaHistoria = data[0];
         this.saludService.getOdontograma(this.Historia.Id, 2).subscribe(data => {
           this.odontograma = data[0];
           // console.log(this.odontograma);
           this.odontogramaForm.controls.observaciones.setValue(this.odontograma.Observaciones);
-          if(this.odontograma){
+          if (this.odontograma) {
             let json = JSON.parse(this.odontograma.Diagrama);
             this.dientesArriba = json.dientesArriba;
             this.dientesAbajo = json.dientesAbajo;

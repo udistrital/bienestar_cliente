@@ -1,6 +1,19 @@
 <form [formGroup]="odontologiaForm" (ngSubmit)="guardarHistoriaOdontologia()">
   <h5 class="titulo"> Odontología</h5>
   <hr />
+  <div class="text-right" [hidden]="hideHistory">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+      <mat-icon>add</mat-icon> Añadir nueva hoja
+    </button>
+    <mat-form-field appearance="outline" class="select-group">
+      <mat-label>Historial</mat-label>
+      <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+        <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="row">
     <div class="col md-12 mt-4 mb-4 me-4">
       <div class="form-floating">
@@ -460,22 +473,23 @@
     </div>
   </div>
   <div class="row mt-2">
-    <div class="col-md-4 mt-2 mb-2">
+    <div class="col-md-4">
       <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="otrosOdonto" placeholder="Otros ¿Cuál?"
-          id="otrosOdonto"></textarea>
-        <label for="otrosOdonto"> Otros ¿Cuál?</label>
+        <mat-form-field class="col-sm-12" appearance="outline">
+          <mat-label>Otros ¿Cuál?</mat-label>
+          <textarea matInput formControlName="otrosOdonto"></textarea>
+        </mat-form-field>
       </div>
     </div>
-    <div class="col-md-4 ms-2 mt-2 mb-2">
+    <div class="col-md-4">
       <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observaciones" placeholder="Observaciones"
-          id="observaciones"></textarea>
-
-        <label for="observaciones"> Observaciones</label>
+        <mat-form-field class="col-sm-12" appearance="outline">
+          <mat-label>Observaciones</mat-label>
+          <textarea matInput formControlName="observaciones"></textarea>
+        </mat-form-field>
       </div>
     </div>
-    <div class="col ms-2 mt-2 mb-2 me-4">
+    <div class="col md-4">
       <div class="form-floating">
         <mat-form-field appearance="outline" class="col-sm-12">
           <mat-label>Última visita al odontólogo</mat-label>

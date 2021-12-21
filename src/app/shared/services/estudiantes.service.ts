@@ -23,7 +23,7 @@ const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'
-const consultaSolicitudes = 'solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:10';
+const consultaSolicitudes = 'solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:10,EstadoTipoSolicitudId.EstadoId.Id:10';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +35,14 @@ export class EstudiantesService {
   getEstudiante(codigo) {
     return this.http.get(estudianteUrl + 'datos_basicos_estudiante/' + codigo, headers);
   }
-  getPaciente(codigo){
-    return this.http.get(infoUrl + 'tercero/'+codigo);
+  getPaciente(codigo) {
+    return this.http.get(infoUrl + 'tercero/' + codigo);
   }
-  getSolicitud(codigo){
-    return this.http.get(soliUrl + 'solicitud/'+codigo);
+  getSolicitud(codigo) {
+    return this.http.get(soliUrl + 'solicitud/' + codigo);
   }
-  getCodigoTercero(terceroId,codIden){
-    return this.http.get(infoUrl + consultaIdentificacion + terceroId + ',TipoDocumentoId.Id:'+codIden, headers);
+  getCodigoTercero(terceroId, codIden) {
+    return this.http.get(infoUrl + consultaIdentificacion + terceroId + ',TipoDocumentoId.Id:' + codIden, headers);
   }
   getProyecto(codigop) {
     return this.http.get(estudianteUrl + 'carrera/' + codigop, headers);
@@ -58,6 +58,9 @@ export class EstudiantesService {
   }
   getFacultades() {
     return this.http.get(oikosUrl + consultaFacultades, headers);
+  }
+  actualizarEstadoSolicitud(codigo, solicitud) {
+    return this.http.put(soliUrl + 'solicitud/' + codigo, solicitud)
   }
   getEstudiantePorUser(user) {
     this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
@@ -133,7 +136,7 @@ export class EstudiantesService {
     );
 
   }
-  obtenerSolicitudes(){
+  obtenerSolicitudes() {
     return this.http.get(soliUrl + consultaSolicitudes, headers);
   }
 }

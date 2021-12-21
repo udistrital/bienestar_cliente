@@ -9,7 +9,6 @@ export interface ValoracionInterpersonal {
     HojaHistoriaId?: HojaHistoria | number,
     Id?: number,
     Judiciales?: string,
-    Motivo?: string,
     Orientacion?: string,
     Pareja?: string,
     Pares?: string,

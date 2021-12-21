@@ -898,7 +898,7 @@ export class OdontogramaLingualesComponent implements OnInit {
     });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {  ///Remplazar para pruebas
       this.Historia = data[0];
-      this.saludService.getHojaHistoria(this.terceroId).subscribe(data => {
+      this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {
         this.HojaHistoria = data[0];
         this.saludService.getOdontograma(this.Historia.Id, 3).subscribe(data => {
           this.odontograma = data[0];

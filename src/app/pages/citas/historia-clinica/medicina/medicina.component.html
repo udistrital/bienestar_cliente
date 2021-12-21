@@ -1,6 +1,20 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
+  <div class="text-right" [hidden]="hideHistory">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" 
+      (click)="crearNuevaHoja()">
+      <mat-icon>add</mat-icon> Añadir nueva hoja
+    </button>
+    <mat-form-field appearance="outline" class="select-group">
+      <mat-label>Historial</mat-label>
+      <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+        <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div>
     <div class="row">
       <div class="col md-12 me-4 mt-2 mb-4">
@@ -86,54 +100,81 @@
       <!-- Gineco Obstétricos -->
       <h6 class="titulo mt-2">Gineco-Obstétricos</h6>
       <div class="row">
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="menarquia" class="form-label">Menarquía</label>
-          <input type="text" class="form-control" id="menarquia" formControlName="menarquia" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Menarquía</mat-label>
+            <input matInput type="text" formControlName="menarquia" />
+          </mat-form-field>
         </div>
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="fur" class="form-label">FUR</label>
-          <input type="text" class="form-control" id="fur" formControlName="fur" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>FUR</mat-label>
+            <input matInput type="text" formControlName="fur" />
+          </mat-form-field>
         </div>
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="ciclos" class="form-label">Ciclos</label>
-          <input type="text" class="form-control" id="ciclos" formControlName="ciclos" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Ciclos</mat-label>
+            <input matInput type="text" formControlName="ciclos" />
+          </mat-form-field>
         </div>
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="ias" class="form-label">Inicio A.S.</label>
-          <input type="text" class="form-control" id="ias" formControlName="ias" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Inicio A.S.</mat-label>
+            <input matInput type="text" formControlName="ias" />
+          </mat-form-field>
         </div>
       </div>
       <div class="row">
-        <div class="col md-3 mb-3 me-4 mt-2">
-          <label for="compañeros" class="form-label">Compañeros Sexuales</label>
-          <input type="text" class="form-control" id="compañeros" formControlName="compañeros" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Compañeros Sexuales</mat-label>
+            <input matInput type="text" formControlName="compañeros" />
+          </mat-form-field>
         </div>
-        <div class="col md- mb-3 me-4 mt-2">
-          <label for="fo" class="form-label">FO:G</label>
-          <input type="text" class="form-control" id="fo" formControlName="fo" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>FO:G</mat-label>
+            <input matInput type="text" formControlName="fo" />
+          </mat-form-field>
         </div>
-        <div class="col md- mb-3 me-4 mt-2">
-          <label for="pp" class="form-label">PP</label>
-          <input type="text" class="form-control" id="pp" formControlName="pp" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>PP</mat-label>
+            <input matInput type="text" formControlName="pp" />
+          </mat-form-field>
         </div>
-        <div class="col md- mb-3 me-4 mt-2">
-          <label for="fup" class="form-label">FUP</label>
-          <input type="text" class="form-control" id="fup" formControlName="fup" />
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>FUP</mat-label>
+            <input matInput type="text" formControlName="fup" />
+          </mat-form-field>
         </div>
       </div>
       <div class="row me-4">
         <div class="col mb-3 me-4 mb-4">
-          <label for="example-date-input" class="col col-form-label">Fecha última CCV</label>
-          <input class="form-control" formControlName="fuccv" type="date" value="2020-04-14" id="example-date-input">
-          <label for="resultadoccv" class="form-label">Resultado</label>
-          <input type="text" class="form-control" id="resultadoccv" formControlName="resultadoccv" />
+          <mat-form-field appearance="outline" class="col-sm-12">
+            <mat-label>Fecha última CCV</mat-label>
+            <input matInput formControlName="fuccv" id="fuccv" [matDatepicker]="picker" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Resultado CCV</mat-label>
+            <input matInput type="text" formControlName="resultadoccv" />
+          </mat-form-field>
         </div>
         <div class="col mb-3 me-4 mb-4">
-          <label for="example-date-input" class="col col-form-label">Examen de Seno</label>
-          <input class="form-control" formControlName="examenSeno" type="date" value="2020-04-14"
-            id="example-date-input">
-          <label for="resultadoSeno" class="form-label">Resultado</label>
-          <input type="text" class="form-control" id="resultadoSeno" formControlName="resultadoSeno" />
+          <mat-form-field appearance="outline" class="col-sm-12">
+            <mat-label>Examen de Seno</mat-label>
+            <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Resultado examen de seno</mat-label>
+            <input matInput type="text" formControlName="resultadoSeno" />
+          </mat-form-field>
         </div>
       </div>
       <h6 class="titulo">Revisión por Sistemas</h6>
