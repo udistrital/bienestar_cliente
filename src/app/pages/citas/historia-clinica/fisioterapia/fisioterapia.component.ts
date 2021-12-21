@@ -175,6 +175,10 @@ export class FisioterapiaComponent implements OnInit {
       this.saludService.putFisioterapia(this.fisioterapia.Id, consultaFisio).subscribe(data => {
         //console.log(data);
         this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
+        setTimeout(() => {
+          window.location.reload();
+        },
+          1500);
         // window.location.reload();
       }, error => {
         this.toastr.error(error, '¡ERROR!');

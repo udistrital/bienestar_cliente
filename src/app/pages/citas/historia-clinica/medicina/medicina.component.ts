@@ -618,6 +618,10 @@ export class MedicinaComponent implements OnInit {
     }
     if (this.saludService.falloMedicina === false) {
       this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
+      setTimeout(() => {
+        window.location.reload();
+      },
+        1500);
       // window.location.reload();
     } else {
       this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
