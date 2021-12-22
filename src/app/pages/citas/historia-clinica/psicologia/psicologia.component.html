@@ -225,7 +225,7 @@
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionPsico">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionPsicoArr.controls; let i = index">
-                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" />
+                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly/>
                     <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)">
                         Borrar
                     </button>

@@ -50,7 +50,7 @@ export class SaludService {
     return this.httpClient.get<Sistemas>(this.url + 'Medicina/Sistema' + this.query + 'HojaHistoria.Id:' + `${IdHojaHistoria}` + '&limit=-1');
   }
   getHojaHistoria(IdTercero, IdEspecialidad): Observable<HojaHistoria> {
-    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'HistoriaClinica.Tercero:' + `${IdTercero}` + ',Especialidad:' + `${IdEspecialidad}`);
+    return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + this.query + 'HistoriaClinica.Tercero:' + `${IdTercero}` + ',Especialidad:' + `${IdEspecialidad}` + '&sortby=Id&order=desc');
   }
   getHojaHistoriaEspecifica(IdHojaHistoria): Observable<HojaHistoria> {
     return this.httpClient.get<HojaHistoria>(this.url + 'Medicina/HojaHistoria/' + `${IdHojaHistoria}`);
