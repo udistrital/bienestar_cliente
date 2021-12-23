@@ -90,23 +90,4 @@
             </td>
         </tbody>
     </table>
-    <form [formGroup]="odontogramaForm" (ngSubmit)="guardarOdontograma()">
-        <div class="row">
-            <div class="col  mt-2 me-4 mb-2">
-                <div class="form-floating">
-                    <textarea class="form-control textArea-mid" formControlName="observaciones"
-                        placeholder="Observaciones" id="observaciones"></textarea>
-                    <label for="observaciones"> Observaciones</label>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col titulo">
-              <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-                [disabled]="!odontogramaForm.valid">
-                <mat-icon>save</mat-icon> Guardar
-              </button>
-            </div>
-          </div>
-    </form>
 </body>

@@ -21,6 +21,7 @@ import { ExamenEstomatologico } from '../models/Salud/examenEstomatologico';
 import { DiagnosticoOdontologia } from '../models/Salud/diagnosticoOdontologia';
 import { Odontograma } from '../models/Salud/odontograma';
 import { Especialidad } from '../models/Salud/especialidad.model';
+import { TipoOdontograma } from '../models/Salud/tipoOdontograma';
 
 @Injectable({
   providedIn: 'root'
@@ -97,11 +98,14 @@ export class SaludService {
   getDiagnosticoOdontologia(IdHistoriaClinica): Observable<DiagnosticoOdontologia> {
     return this.httpClient.get<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
   }
-  getOdontograma(IdHistoriaClinica, IdTipo): Observable<Antecedente> {
-    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/Odontograma/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}` + ',IdTipoOdontograma.Id:' + `${IdTipo}`);
+  getOdontograma(IdHojaHistoria, IdTipo): Observable<Odontograma> {
+    return this.httpClient.get<Odontograma>(this.url3 + 'Odontologia/Odontograma/' + this.query + 'IdHojaHistoria:' + `${IdHojaHistoria}` + ',IdTipoOdontograma.Id:' + `${IdTipo}`);
   }
-  getTipoOdontograma(IdTipo): Observable<Antecedente> {
-    return this.httpClient.get<Anamnesis>(this.url3 + 'Odontologia/TipoOdontograma/' + `${IdTipo}`);
+  getOdontogramas(IdHistoriaClinica, IdTipo): Observable<Odontograma> {
+    return this.httpClient.get<Odontograma>(this.url3 + 'Odontologia/Odontograma/' + this.query + 'HistoriaClinicaId:' + `${IdHistoriaClinica}` + ',IdTipoOdontograma.Id:' + `${IdTipo}` + '&sortby=Id&order=desc');
+  }
+  getTipoOdontograma(IdTipo): Observable<TipoOdontograma> {
+    return this.httpClient.get<TipoOdontograma>(this.url3 + 'Odontologia/TipoOdontograma/' + `${IdTipo}`);
   }
   getEspecialidad(IdEspecialidad): Observable<Especialidad> {
     return this.httpClient.get<Especialidad>(this.url + 'Medicina/Especialidad/' + `${IdEspecialidad}`);

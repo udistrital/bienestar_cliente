@@ -2,14 +2,17 @@
   <h5 class="titulo"> Odontología</h5>
   <hr />
   <div class="text-right" [hidden]="hideHistory">
-    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()" (click)="vestibularInfantil.limpiarOdontograma()"
+    (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()">
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
       <mat-label>Historial</mat-label>
-      <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+      <mat-select (selectionChange)="cambiarHoja($event.value)" (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
+      (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)" (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)"
+      (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
-          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}} {{usuario.Id}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -516,25 +519,61 @@
   <p class="titulo subtitulo">Vestabular</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-vestabular></ngx-odontograma-vestabular>
+  <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular></ngx-odontograma-vestabular>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+        <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
+                placeholder="Observaciones" id="observacionesVestabular"></textarea>
+            <label for="observacionesVestabular">Observaciones</label>
+        </div>
+    </div>
+</div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-vestibular></ngx-odontograma-vestibular>
+  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular></ngx-odontograma-vestibular>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+        <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
+                placeholder="Observaciones" id="observacionesVestibular"></textarea>
+            <label for="observacionesVestibular"> Observaciones</label>
+        </div>
+    </div>
+</div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular infantil</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-v-infantil></ngx-odontograma-v-infantil>
+  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil></ngx-odontograma-v-infantil>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+        <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+                placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+            <label for="observacionesVestibularInfantil"> Observaciones</label>
+        </div>
+    </div>
+</div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Linguales infantil</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-linguales></ngx-odontograma-linguales>
+  <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil></ngx-odontograma-linguales>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+        <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="observacionesLingualesInfantil"
+                placeholder="Observaciones" id="observacionesLingualesInfantil"></textarea>
+            <label for="observacionesLingualesInfantil"> Observaciones</label>
+        </div>
+    </div>
+</div>
   <hr>
   <h6 class="titulo mt-2">Exámenes Complementarios</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
