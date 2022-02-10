@@ -15,6 +15,11 @@ import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model
 import { Sistemas } from '../../../../shared/models/Salud/sistemas.model';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Utils } from '../../../../shared/utils/utils';
+import { DatePipe } from '@angular/common';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-medicina',
   templateUrl: './medicina.component.html',
@@ -98,12 +103,14 @@ export class MedicinaComponent implements OnInit {
     analisis: this.fb.array([]),
     evolucion: this.fb.array([]),
     planDeManejo: [''],
-    observacionesMedicina: ['']
+    observacionesMedicina: [''],
+    medicamento: ['']
   });
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
+  logoDataUrl: string;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
 
   get analisisArr() {
@@ -138,6 +145,9 @@ export class MedicinaComponent implements OnInit {
   //Formulario para guardar en la DB
 
   ngOnInit() {
+    Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
+      result => this.logoDataUrl = result
+    )
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
@@ -227,6 +237,7 @@ export class MedicinaComponent implements OnInit {
               this.diagnostico = data[0];
               this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
               this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
+              this.medicinaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
               let analisis = JSON.parse(this.diagnostico.Analisis);
               this.analisis.push({ ...analisis });
               let analisis2 = this.analisis[0].analisis;
@@ -303,6 +314,7 @@ export class MedicinaComponent implements OnInit {
           this.diagnostico = data[0];
           this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
           this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
+          this.medicinaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
           let analisis = JSON.parse(this.diagnostico.Analisis);
           this.analisis.push({ ...analisis });
           let analisis2 = this.analisis[0].analisis;
@@ -476,6 +488,7 @@ export class MedicinaComponent implements OnInit {
           Analisis: '{"analisis":[' + analisis2 + ']}',
           Descripcion: this.medicinaForm.get('diagnostico').value,
           PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
+          Medicamento: this.medicinaForm.get('medicamento').value,
         }
         this.saludService.postDiagnostico(diagnostico).subscribe(data => {
           console.log('Diagnóstico: ' + data[0]);
@@ -608,6 +621,7 @@ export class MedicinaComponent implements OnInit {
         Analisis: '{"analisis":[' + analisis2 + ']}',
         Descripcion: this.medicinaForm.get('diagnostico').value,
         PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
+        Medicamento: this.medicinaForm.get('medicamento').value,
       }
       this.saludService.putDiagnostico(this.diagnostico.Id, diagnostico).subscribe(data => {
         console.log('Diagnóstico: ' + data);
@@ -675,4 +689,35 @@ export class MedicinaComponent implements OnInit {
     this.hideHistory = true;
   }
 
+  async openPdf() {
+    let fechaActual = new (Date);
+    let pipe = new DatePipe('en_US');
+    let myFormattedDate = pipe.transform(fechaActual, 'short');
+    const documentDefinition = {
+      content: [
+        { text: "Fecha: " + myFormattedDate },
+        { text: "Estudiante: " + this.paciente },
+        {
+          image: this.logoDataUrl,
+          width: 150,
+          height: 200,
+          alignment: 'center'
+        },
+
+        { text: '\n\nMedicamentos recetados - Módulo medicina\n', style: 'secondTitle' },
+        { text: '\n' + this.medicinaForm.controls.medicamento.value }
+      ],
+      styles: {
+        secondTitle: {
+          bold: true,
+          fontSize: 15,
+          alignment: 'center'
+        },
+      },
+      images: {
+        mySuperImage: 'data:image/png;base64,...content...'
+      }
+    };
+    pdfMake.createPdf(documentDefinition).open();
+  }
 }

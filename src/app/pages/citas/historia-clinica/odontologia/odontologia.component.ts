@@ -15,6 +15,11 @@ import { Evolucion } from '../../../../shared/models/Salud/evolucion.model';
 import { Especialidad } from '../../../../shared/models/Salud/especialidad.model';
 import { TipoOdontograma } from '../../../../shared/models/Salud/tipoOdontograma';
 import { Odontograma } from '../../../../shared/models/Salud/odontograma';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Utils } from '../../../../shared/utils/utils';
+import { DatePipe } from '@angular/common';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-odontologia',
   templateUrl: './odontologia.component.html',
@@ -122,14 +127,19 @@ export class OdontologiaComponent implements OnInit {
     observacionesVestabular: [null],
     observacionesVestibularInfantil: [null],
     observacionesLingualesInfantil: [null],
+    medicamento: [null],
     evolucionOdonto: this.fb.array([]),
   });
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
+  logoDataUrl: string;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute) { }
   ngOnInit() {
+    Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
+      result => this.logoDataUrl = result
+    )
     this.saludService.getTipoOdontograma(1).subscribe((data: any) => {
       this.tipoOdontogramaVestabular = data;
     });
@@ -229,6 +239,7 @@ export class OdontologiaComponent implements OnInit {
             this.odontologiaForm.controls.respiracion.setValue(this.diagnostico.Respiracion);
             this.odontologiaForm.controls.temperatura.setValue(this.diagnostico.Temperatura);
             this.odontologiaForm.controls.tensionArterial.setValue(this.diagnostico.TensionArterial);
+            this.odontologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
           });
         }
       });
@@ -381,6 +392,7 @@ export class OdontologiaComponent implements OnInit {
           Respiracion: this.odontologiaForm.controls.respiracion.value,
           Temperatura: this.odontologiaForm.controls.temperatura.value,
           TensionArterial: this.odontologiaForm.controls.tensionArterial.value,
+          Medicamento: this.odontologiaForm.controls.medicamento.value,
           HistoriaClinica: this.Historia.Id,
           HojaHistoriaId: this.HojaHistoria.Id
         }
@@ -556,6 +568,7 @@ export class OdontologiaComponent implements OnInit {
         Respiracion: this.odontologiaForm.controls.respiracion.value,
         Temperatura: this.odontologiaForm.controls.temperatura.value,
         TensionArterial: this.odontologiaForm.controls.tensionArterial.value,
+        Medicamento: this.odontologiaForm.controls.medicamento.value,
         HistoriaClinica: this.Historia.Id,
         HojaHistoriaId: this.HojaHistoria.Id
       }
@@ -708,6 +721,7 @@ export class OdontologiaComponent implements OnInit {
         this.odontologiaForm.controls.respiracion.setValue(this.diagnostico.Respiracion);
         this.odontologiaForm.controls.temperatura.setValue(this.diagnostico.Temperatura);
         this.odontologiaForm.controls.tensionArterial.setValue(this.diagnostico.TensionArterial);
+        this.odontologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
       });
       this.saludService.getOdontograma(this.HojaHistoria.Id, 1).subscribe(data => {
         this.getOdontogramaVestabular = data[0];
@@ -809,5 +823,36 @@ export class OdontologiaComponent implements OnInit {
       this.getOdontogramaVestibularInfantil = data[0];
       this.odontologiaForm.controls.observacionesVestibularInfantil.setValue(this.getOdontogramaVestibularInfantil.Observaciones);
     });
+  }
+  async openPdf() {
+    let fechaActual = new (Date);
+    let pipe = new DatePipe('en_US');
+   let  myFormattedDate = pipe.transform(fechaActual, 'short');
+    const documentDefinition = {
+      content: [
+        { text: "Fecha: " + myFormattedDate },
+        { text: "Estudiante: " + this.paciente },
+        {
+          image: this.logoDataUrl,
+          width: 150,
+          height: 200,
+          alignment: 'center'
+        },
+        
+        { text: '\n\nMedicamentos recetados - Módulo odontología\n', style: 'secondTitle' },
+        {text: '\n'+this.odontologiaForm.controls.medicamento.value}
+      ],
+      styles: {
+        secondTitle: {
+          bold: true,
+          fontSize: 15,
+          alignment: 'center'
+        },
+      },
+      images: {
+        mySuperImage: 'data:image/png;base64,...content...'
+      }
+    };
+    pdfMake.createPdf(documentDefinition).open();
   }
 }

@@ -7,4 +7,6 @@ export interface ConsultaFisioterapia {
     HistoriaClinica?: HistoriaClinica,
     PlanManejo?: string,
     Valoracion?: string,
+    Diagnostico?: string,
+    Medicamento?: string
 }

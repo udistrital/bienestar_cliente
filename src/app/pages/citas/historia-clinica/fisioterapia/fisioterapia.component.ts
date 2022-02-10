@@ -9,6 +9,11 @@ import { HistoriaClinica } from '../../../../shared/models/Salud/historiaClinica
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Utils } from '../../../../shared/utils/utils';
+import { DatePipe } from '@angular/common';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'ngx-fisioterapia',
@@ -21,7 +26,6 @@ export class FisioterapiaComponent implements OnInit {
   listaHojas: any = [];
   estado: string;
   especialidad: Especialidad;
-  @Input() nombre: string;
   historiaNueva: HistoriaClinica;
   hojahistoria: HojaHistoria;
   idHistoria: number | null;
@@ -33,16 +37,22 @@ export class FisioterapiaComponent implements OnInit {
   fisioterapiaForm: FormGroup = this.fb.group({
     motivoConsultaFisio: [null],
     valoracion: [null],
+    diagnostico: [null],
     planDeManejoFisio: [null],
     observacionesFisioterapia: [null],
+    medicamento: [null],
     evolucionFisio: this.fb.array([]),
   })
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
+  logoDataUrl: string;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
   ngOnInit() {
+    Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
+      result => this.logoDataUrl = result
+    )
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
@@ -98,6 +108,8 @@ export class FisioterapiaComponent implements OnInit {
             this.fisioterapia = data[0] || '';
             this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
             this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
+            this.fisioterapiaForm.controls.diagnostico.setValue(this.fisioterapia.Diagnostico);
+            this.fisioterapiaForm.controls.medicamento.setValue(this.fisioterapia.Medicamento);
           }
           );
         }
@@ -134,11 +146,17 @@ export class FisioterapiaComponent implements OnInit {
           HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
           Valoracion: this.fisioterapiaForm.get('valoracion').value,
           PlanManejo: this.fisioterapiaForm.get('planDeManejoFisio').value,
+          Diagnostico: this.fisioterapiaForm.get('diagnostico').value,
+          Medicamento: this.fisioterapiaForm.get('medicamento').value,
         };
         // console.log(historiaFisio);
         this.saludService.postFisioterapia(consultaFisio).subscribe(data => {
           console.log('Fisioterapia: ' + data);
           this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
+          setTimeout(() => {
+            window.location.reload();
+          },
+            1500);
         }, error => {
           this.toastr.error(error, '¡ERROR!');
         }
@@ -170,6 +188,8 @@ export class FisioterapiaComponent implements OnInit {
         HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
         Valoracion: this.fisioterapiaForm.get('valoracion').value,
         PlanManejo: this.fisioterapiaForm.get('planDeManejoFisio').value,
+        Diagnostico: this.fisioterapiaForm.get('diagnostico').value,
+        Medicamento: this.fisioterapiaForm.get('medicamento').value,
       };
       // console.log(historiaFisio);
       this.saludService.putFisioterapia(this.fisioterapia.Id, consultaFisio).subscribe(data => {
@@ -209,6 +229,8 @@ export class FisioterapiaComponent implements OnInit {
         this.fisioterapia = data[0] || '';
         this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
         this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
+        this.fisioterapiaForm.controls.diagnostico.setValue(this.fisioterapia.Diagnostico);
+        this.fisioterapiaForm.controls.medicamento.setValue(this.fisioterapia.Medicamento);
       }
       );
     }
@@ -219,5 +241,36 @@ export class FisioterapiaComponent implements OnInit {
     this.estado = "nueva";
     this.evolucionFisioArr.clear();
     this.hideHistory = true;
+  }
+  async openPdf() {
+    let fechaActual = new (Date);
+    let pipe = new DatePipe('en_US');
+   let  myFormattedDate = pipe.transform(fechaActual, 'short');
+    const documentDefinition = {
+      content: [
+        { text: "Fecha: " + myFormattedDate },
+        { text: "Estudiante: " + this.paciente },
+        {
+          image: this.logoDataUrl,
+          width: 150,
+          height: 200,
+          alignment: 'center'
+        },
+        
+        { text: '\n\nMedicamentos recetados - Módulo fisioterapia\n', style: 'secondTitle' },
+        {text: '\n'+this.fisioterapiaForm.controls.medicamento.value}
+      ],
+      styles: {
+        secondTitle: {
+          bold: true,
+          fontSize: 15,
+          alignment: 'center'
+        },
+      },
+      images: {
+        mySuperImage: 'data:image/png;base64,...content...'
+      }
+    };
+    pdfMake.createPdf(documentDefinition).open();
   }
 }

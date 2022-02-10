@@ -2,8 +2,7 @@
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
   <div class="text-right" [hidden]="hideHistory">
-    <button class="card-button m-2" type="button" mat-raised-button color="primary" 
-      (click)="crearNuevaHoja()">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -364,7 +363,7 @@
           <input type="text" class="form-control" id="extremidades" formControlName="extremidades" />
         </div>
       </div>
-      <h6 class="titulo">Impresión Diagnóstica</h6>
+      <h6 class="titulo">Impresión Diagnóstica (Código CIE-10)</h6>
 
       <div class="col md-6 me-4 mb-4 mt-4">
         <div class="form-floating">
@@ -374,6 +373,8 @@
             Impresión Diagnóstica</label>
         </div>
       </div>
+      <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a> <a
+        href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf" target="_blank"> Manual CIE-10</a>
       <!-- Análisis -->
       <h6 class="titulo">Análisis y plan de manejo</h6>
       <div class="row mt-2">
@@ -389,7 +390,7 @@
         <div class="row mt-2">
           <div class="col md-6 me-4 mb-4" formArrayName="analisis">
             <div class="input-group mb-1" *ngFor="let analisis of analisisArr.controls; let i = index">
-              <input class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" readonly/>
+              <input class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" readonly />
               <button class="btn btn-outline-danger" type="button" (click)="borrarAnalisis(i)">
                 Borrar
               </button>
@@ -397,6 +398,16 @@
           </div>
         </div>
       </div>
+      <h6 class="titulo mt-2">Medicamento</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                    name="medicamento" placeholder="Medicamento" formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
+            </div>
+        </div>
       <!-- Evolución -->
       <h6 class="titulo">Evolución</h6>
       <div class="row mt-2">
@@ -412,7 +423,7 @@
         <div class="row mt-2">
           <div class="col md-6 me-4 mb-4" formArrayName="evolucion">
             <div class="input-group mb-1" *ngFor="let evolucion of evolucionArr.controls; let i = index">
-              <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly/>
+              <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly />
               <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)">
                 Borrar
               </button>

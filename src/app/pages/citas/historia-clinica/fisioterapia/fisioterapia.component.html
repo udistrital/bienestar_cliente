@@ -30,12 +30,32 @@
                 <label for="valoracion">Valoración</label>
             </div>
         </div>
+        <h6 class="titulo mt-2">Diagnóstico (Código CIE-10)</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-big" formControlName="diagnostico" placeholder="Diagnóstico"
+                    id="valoracion"></textarea>
+                <label for="valoracion">Diagnóstico</label>
+            </div>
+        </div>
+        <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a> <a
+        href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf" target="_blank"> Manual CIE-10</a>
         <h6 class="titulo mt-2">Plan de Manejo</h6>
         <div class="col md-12 mb-4 me-4 mt-4">
             <div class="form-floating">
                 <textarea class="form-control textArea-big" formControlName="planDeManejoFisio"
                     placeholder="Plan de Manejo" id="planDeManejoFisio"></textarea>
                 <label for="planDeManejoFisio">Plan de Manejo</label>
+            </div>
+        </div>
+        <h6 class="titulo mt-2">Medicamento</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                    name="medicamento" placeholder="Medicamento" formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
             </div>
         </div>
     </div>

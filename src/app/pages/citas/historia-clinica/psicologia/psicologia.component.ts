@@ -14,6 +14,11 @@ import { HistoriaClinica } from '../../../../shared/models/Salud/historiaClinica
 import { HojaHistoria } from '../../../../shared/models/Salud/hojaHistoria.model';
 import { ActivatedRoute } from '@angular/router';
 import { Especialidad } from '../../../../shared/models/Salud/especialidad.model';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Utils } from '../../../../shared/utils/utils';
+import { DatePipe } from '@angular/common';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-psicologia',
   templateUrl: './psicologia.component.html',
@@ -63,15 +68,21 @@ export class PsicologiaComponent implements OnInit {
     comportamientoDuranteConsulta: [''],
     hipotesis: [null],
     acuerdos: [null],
+    diagnostico: [null],
     observacionesPsicologia: [null],
     evolucionPsico: this.fb.array([]),
+    medicamento: [null]
   })
   pruebaEspecialista = {
     nombre: 'NOMBRE1 APELLIDO1',
     especialidad: 'ESPECIALIDAD 1',
   }
+  logoDataUrl: string;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
   ngOnInit() {
+    Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
+      result => this.logoDataUrl = result
+    )
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
@@ -91,9 +102,6 @@ export class PsicologiaComponent implements OnInit {
   }
   borrarEvolucionPsico(i: number) {
     this.evolucionPsicoArr.removeAt(i);
-  }
-  buscarEspecialista() {
-    // TODO
   }
   getInfoPsicologia() {
     this.saludService.getEspecialidad(4).subscribe((data: any) => {
@@ -159,6 +167,8 @@ export class PsicologiaComponent implements OnInit {
             this.diagnostico = data[0];
             this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
             this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
+            this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
+            this.psicologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
           });
         }
       });
@@ -251,8 +261,10 @@ export class PsicologiaComponent implements OnInit {
           this.saludService.falloPsico = true;
         });
         const diagnostico: DiagnosticoPsicologia = {
+          Diagnostico: this.psicologiaForm.get('diagnostico').value,
           Acuerdo: this.psicologiaForm.get('acuerdos').value,
           Hipotesis: this.psicologiaForm.get('hipotesis').value,
+          Medicamento: this.psicologiaForm.get('medicamento').value,
           HistoriaClinicaId: this.saludService.historia,
           HojaHistoriaId: this.HojaHistoria.Id,
           Id: 0,
@@ -375,6 +387,8 @@ export class PsicologiaComponent implements OnInit {
         Acuerdo: this.psicologiaForm.get('acuerdos').value,
         Hipotesis: this.psicologiaForm.get('hipotesis').value,
         HistoriaClinicaId: this.saludService.historia,
+        Medicamento: this.psicologiaForm.get('medicamento').value,
+        Diagnostico: this.psicologiaForm.get('diagnostico').value,
         HojaHistoriaId: this.HojaHistoria.Id,
         Id: this.diagnostico.Id,
       }
@@ -493,6 +507,8 @@ export class PsicologiaComponent implements OnInit {
         this.diagnostico = data[0];
         this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
         this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
+        this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
+        this.psicologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
       });
     });
   }
@@ -512,6 +528,37 @@ export class PsicologiaComponent implements OnInit {
     this.estado = "nueva";
     this.evolucionPsicoArr.clear();
     this.hideHistory = true;
+  }
+  async openPdf() {
+    let fechaActual = new (Date);
+    let pipe = new DatePipe('en_US');
+   let  myFormattedDate = pipe.transform(fechaActual, 'short');
+    const documentDefinition = {
+      content: [
+        { text: "Fecha: " + myFormattedDate },
+        { text: "Estudiante: " + this.paciente },
+        {
+          image: this.logoDataUrl,
+          width: 150,
+          height: 200,
+          alignment: 'center'
+        },
+        
+        { text: '\n\nMedicamentos recetados - Módulo psicología\n', style: 'secondTitle' },
+        {text: '\n'+this.psicologiaForm.controls.medicamento.value}
+      ],
+      styles: {
+        secondTitle: {
+          bold: true,
+          fontSize: 15,
+          alignment: 'center'
+        },
+      },
+      images: {
+        mySuperImage: 'data:image/png;base64,...content...'
+      }
+    };
+    pdfMake.createPdf(documentDefinition).open();
   }
 
 }

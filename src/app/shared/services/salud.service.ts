@@ -22,6 +22,7 @@ import { DiagnosticoOdontologia } from '../models/Salud/diagnosticoOdontologia';
 import { Odontograma } from '../models/Salud/odontograma';
 import { Especialidad } from '../models/Salud/especialidad.model';
 import { TipoOdontograma } from '../models/Salud/tipoOdontograma';
+import { Enfermeria } from '../models/Salud/enfermeria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +110,9 @@ export class SaludService {
   }
   getEspecialidad(IdEspecialidad): Observable<Especialidad> {
     return this.httpClient.get<Especialidad>(this.url + 'Medicina/Especialidad/' + `${IdEspecialidad}`);
+  }
+  getEnfermeria(IdHistoriaClinica): Observable<Enfermeria> {
+    return this.httpClient.get<Enfermeria>(this.url + 'Medicina/NotasEnfermeria/' + this.query + 'HojaHistoria.Id:' + `${IdHistoriaClinica}`);
   }
 
   //Guardar y actualizar
@@ -216,6 +220,12 @@ export class SaludService {
   }
   putOdontograma(IdOdontograma: number, odontograma: Odontograma): Observable<Odontograma> {
     return this.httpClient.put<Odontograma>(this.url3 + `Odontologia/Odontograma/${IdOdontograma}`, odontograma);
+  }
+  postEnfermeria(enfermeria: Enfermeria): Observable<Enfermeria> {
+    return this.httpClient.post<Enfermeria>(this.url + 'Medicina/NotasEnfermeria/', enfermeria);
+  }
+  putEnfermeria(IdEnfermeria: number, enfermeria: Enfermeria): Observable<Odontograma> {
+    return this.httpClient.put<Odontograma>(this.url + `Medicina/NotasEnfermeria/${IdEnfermeria}`, enfermeria);
   }
   postCita(cita) {
     return this.httpClient.post(this.url4 + 'Cita/Cita/', cita);

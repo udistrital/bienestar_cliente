@@ -2,17 +2,20 @@
   <h5 class="titulo"> Odontología</h5>
   <hr />
   <div class="text-right" [hidden]="hideHistory">
-    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()" (click)="vestibularInfantil.limpiarOdontograma()"
-    (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
+      (click)="vestibularInfantil.limpiarOdontograma()" (click)="vestibular.limpiarOdontograma()"
+      (click)="vestabular.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()">
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
       <mat-label>Historial</mat-label>
-      <mat-select (selectionChange)="cambiarHoja($event.value)" (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
-      (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)" (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)"
-      (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
+      <mat-select (selectionChange)="cambiarHoja($event.value)"
+        (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
+        (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
+        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)"
+        (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
-          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}} {{usuario.Id}}
+          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -519,175 +522,162 @@
   <p class="titulo subtitulo">Vestabular</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular></ngx-odontograma-vestabular>
+  <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
+  </ngx-odontograma-vestabular>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
-        <div class="form-floating">
-            <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
-                placeholder="Observaciones" id="observacionesVestabular"></textarea>
-            <label for="observacionesVestabular">Observaciones</label>
-        </div>
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
+          placeholder="Observaciones" id="observacionesVestabular"></textarea>
+        <label for="observacionesVestabular">Observaciones</label>
+      </div>
     </div>
-</div>
+  </div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular></ngx-odontograma-vestibular>
+  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
+  </ngx-odontograma-vestibular>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
-        <div class="form-floating">
-            <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
-                placeholder="Observaciones" id="observacionesVestibular"></textarea>
-            <label for="observacionesVestibular"> Observaciones</label>
-        </div>
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
+          placeholder="Observaciones" id="observacionesVestibular"></textarea>
+        <label for="observacionesVestibular"> Observaciones</label>
+      </div>
     </div>
-</div>
+  </div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular infantil</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil></ngx-odontograma-v-infantil>
+  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
+  </ngx-odontograma-v-infantil>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
-        <div class="form-floating">
-            <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
-                placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
-            <label for="observacionesVestibularInfantil"> Observaciones</label>
-        </div>
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil"> Observaciones</label>
+      </div>
     </div>
-</div>
+  </div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Linguales infantil</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil></ngx-odontograma-linguales>
+  <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil>
+  </ngx-odontograma-linguales>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
-        <div class="form-floating">
-            <textarea class="form-control textArea-mid" formControlName="observacionesLingualesInfantil"
-                placeholder="Observaciones" id="observacionesLingualesInfantil"></textarea>
-            <label for="observacionesLingualesInfantil"> Observaciones</label>
-        </div>
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesLingualesInfantil"
+          placeholder="Observaciones" id="observacionesLingualesInfantil"></textarea>
+        <label for="observacionesLingualesInfantil"> Observaciones</label>
+      </div>
     </div>
-</div>
+  </div>
   <hr>
   <h6 class="titulo mt-2">Exámenes Complementarios</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
-  <div class="row mt-2">
-    <div class="col-md-2">
-    </div>
-    <div class="col me-">
-      <div class="col-auto">
-        <div class="col mt-2 mb-2">
-          <div class="row g-3 align-items-center">
-            <div class="col-2">
-              <label class="col-form-label">Periapical</label>
-            </div>
-            <div class="col-auto me-2 ms-2">
-              <label for="periapicalInicio" class="form-label">Inicio</label>
-              <input formControlName="periapicalInicio" class="form-control" type="file" id="periapicalInicio">
-            </div>
-            <div class="col-auto me-2 ms-2">
-              <label for="periapicalFinal" class="form-label">Final</label>
-              <input formControlName="periapicalFinal" class="form-control" type="file" id="periapicalFinal">
-            </div>
-          </div>
-        </div>
-        <div class="col mt-2 mb-2">
-          <div class="row g-3 align-items-center">
-            <div class="col-2">
-              <label class="col-form-label">Panorámica</label>
-            </div>
-            <div class="col-auto me-2 ms-2">
-              <label for="panoramicaInicio" class="form-label">Inicio</label>
-              <input formControlName="panoramicaInicio" class="form-control" type="file" id="panoramicaInicio">
-            </div>
-            <div class="col-auto me-2 ms-2">
-              <label for="panoramicaFinal" class="form-label">Final</label>
-              <input formControlName="panoramicaFinal" class="form-control" type="file" id="panoramicaFinal">
-            </div>
-          </div>
-        </div>
-        <div class="col mt-2 mb-2">
-          <div class="row g-3 align-items-center">
-            <div class="col-2">
-              <label class="col-form-label">Otra</label>
-            </div>
-            <div class="col-auto me-2 ms-2">
-              <label for="otraInicio" class="form-label">Inicio</label>
-              <input formControlName="otraInicio" class="form-control" type="file" id="otraInicio">
-            </div>
-            <div class="col-auto me-2 ms-2">
-              <label for="otraFinal" class="form-label">Final</label>
-              <input formControlName="otraFinal" class="form-control" type="file" id="otraFinal">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col mt-2 mb-2">
-        <div class="row g-3 align-items-center">
-          <div class="col-2">
-            <label class="col-form-label">Exámenes de Laboratorio</label>
-          </div>
-          <div class="col-auto me-2 ms-2">
-            <label for="examenesLaboratorioOdontoInicio" class="form-label">Inicio</label>
-            <input formControlName="examenesLaboratorioOdontoInicio" class="form-control" type="file"
-              id="examenesLaboratorioOdontoInicio">
-          </div>
-          <div class="col-auto me-2 ms-2">
-            <label for="examenesLaboratorioOdontoFinal" class="form-label">Final</label>
-            <input formControlName="examenesLaboratorioOdontoFinal" class="form-control" type="file"
-              id="examenesLaboratorioOdontoFinal">
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div class=" row">
-    <div class="col md-3 mb-3 me-4 mt-4">
-      <label for="tp" class="form-label">TP</label>
-      <input type="text" class="form-control" id="tp" formControlName="tp" />
-    </div>
-    <div class="col md-3 mb-3 me-4 mt-4">
-      <label for="tpt" class="form-label">TPT</label>
-      <input type="text" class="form-control" id="tpt" formControlName="tpt" />
-    </div>
-    <div class="col md-3 mb-3 me-4 mt-4">
-      <label for="coagulacion" class="form-label">Coagulación</label>
-      <input type="text" class="form-control" id="coagulacion" formControlName="coagulacion" />
-    </div>
-    <div class="col md-3 mb-3 me-4 mt-4">
-      <label for="sangria" class="form-label">Sangría</label>
-      <input type="text" class="form-control" id="sangria" formControlName="sangria" />
-    </div>
-    <div class="col md-3 mb-3 me-4 mt-4">
-      <label for="otra" class="form-label">Otra</label>
-      <input type="text" class="form-control" id="otra" formControlName="otra" />
-    </div>
-  </div>
-  <h6 class="titulo mt-2">Diagnóstico y Pronóstico</h6>
+  <p class="subtitulo">Periapical</p>
   <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="row">
-        <div class="col md-6 me-4 mt-2 mb-4">
-          <div class="form-floating">
-            <textarea class="form-control textArea-mid" formControlName="diagnosticoOdonto" placeholder="Diagnóstico"
-              id="diagnostico"></textarea>
-            <label for="diagnostico">Diagnóstico</label>
-          </div>
-        </div>
-        <div class="col md-6 me-2 mt-2  mb-4">
-          <div class="form-floating">
-            <textarea class="form-control textArea-mid" formControlName="pronosticoOdonto" placeholder="Pronóstico"
-              id="pronostico"></textarea>
-            <label for="pronostico">Pronóstico</label>
-          </div>
-        </div>
+    <div class="col-sm-6">
+      <label for="periapicalInicio" class="form-label">Inicio</label>
+      <input formControlName="periapicalInicio" class="form-control" type="file" id="periapicalInicio">
+    </div>
+    <div class="col-sm-6">
+      <label for="periapicalFinal" class="form-label">Final</label>
+      <input formControlName="periapicalFinal" class="form-control" type="file" id="periapicalFinal">
+    </div>
+  </div><br>
+  <p class="subtitulo">Panorámica</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="panoramicaInicio" class="form-label">Inicio</label>
+      <input formControlName="panoramicaInicio" class="form-control" type="file" id="panoramicaInicio">
+    </div>
+    <div class="col-sm-6">
+      <label for="panoramicaFinal" class="form-label">Final</label>
+      <input formControlName="panoramicaFinal" class="form-control" type="file" id="panoramicaFinal">
+    </div>
+  </div><br>
+  <p class="subtitulo">Otra</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="otraInicio" class="form-label">Inicio</label>
+      <input formControlName="otraInicio" class="form-control" type="file" id="otraInicio">
+    </div>
+    <div class="col-sm-6">
+      <label for="otraFinal" class="form-label">Final</label>
+      <input formControlName="otraFinal" class="form-control" type="file" id="otraFinal">
+    </div>
+  </div><br>
+  <p class="subtitulo">Exámenes de Laboratorio</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="examenesLaboratorioOdontoInicio" class="form-label">Inicio</label>
+      <input formControlName="examenesLaboratorioOdontoInicio" class="form-control" type="file"
+        id="examenesLaboratorioOdontoInicio">
+    </div>
+    <div class="col-sm-6">
+      <label for="examenesLaboratorioOdontoFinal" class="form-label">Final</label>
+      <input formControlName="examenesLaboratorioOdontoFinal" class="form-control" type="file"
+        id="examenesLaboratorioOdontoFinal">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <mat-form-field class="col-sm-2" appearance="outline">
+      <mat-label>TP</mat-label>
+      <input matInput formControlName="tp">
+    </mat-form-field>
+    <mat-form-field class="col-sm-2" appearance="outline">
+      <mat-label>TPT</mat-label>
+      <input matInput formControlName="tpt">
+    </mat-form-field>
+    <mat-form-field class="col-sm-3" appearance="outline">
+      <mat-label>Coagulación</mat-label>
+      <input matInput formControlName="coagulacion">
+    </mat-form-field>
+    <mat-form-field class="col-sm-3" appearance="outline">
+      <mat-label>Sangría</mat-label>
+      <input matInput formControlName="sangria">
+    </mat-form-field>
+    <mat-form-field class="col-sm-2" appearance="outline">
+      <mat-label>Otra</mat-label>
+      <input matInput formControlName="otra">
+    </mat-form-field>
+  </div>
+  <h6 class="titulo mt-2">Diagnóstico (Código CIE-10) y Pronóstico</h6>
+  <div class="row">
+    <mat-form-field class="col-sm-12" appearance="outline">
+      <mat-label>Diagnóstico</mat-label>
+      <textarea matInput formControlName="diagnosticoOdonto"></textarea>
+    </mat-form-field>
+    <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a><a
+      href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
+      target="_blank"> Manual CIE-10</a>
+  </div><br>
+  <div class="row">
+    <mat-form-field class="col-sm-12" appearance="outline">
+      <mat-label>Pronóstico</mat-label>
+      <textarea matInput formControlName="pronosticoOdonto"></textarea>
+    </mat-form-field>
+  </div>
+  <h6 class="titulo mt-2">Medicamento</h6>
+  <div class="row mt-4 mb-4">
+    <div class="col md-6 me-4 mb-4">
+      <div class="input-group">
+        <input type="text" class="form-control" name="medicamento" placeholder="Medicamento"
+          formControlName="medicamento" />
+        <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+          Ver PDF
+        </button>
       </div>
     </div>
   </div>
@@ -705,7 +695,7 @@
     <div class="row mt-2">
       <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
         <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
-          <input class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly/>
+          <input class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly />
           <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)">
             Borrar
           </button>

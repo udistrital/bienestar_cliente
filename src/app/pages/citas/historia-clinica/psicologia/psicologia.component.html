@@ -211,6 +211,25 @@
             </div>
         </div>
     </div>
+    <h6 class="titulo">Diagnóstico (Código CIE-10)</h6>
+    <div class="row">
+        <mat-form-field class="col-sm-12" appearance="outline">
+            <mat-label>Diagnóstico</mat-label>
+            <input matInput formControlName="diagnostico">
+        </mat-form-field>
+    </div>
+    <h6 class="titulo mt-2">Medicamento</h6>
+    <div class="row mt-4 mb-4">
+        <div class="col md-6 me-4 mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="medicamento" placeholder="Medicamento"
+                    formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
+            </div>
+        </div>
+    </div>
     <h6 class="titulo mt-2">Evolución</h6>
     <div class="row mt-4 mb-4">
         <div class="col md-6 me-4 mb-4">
@@ -225,7 +244,7 @@
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionPsico">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionPsicoArr.controls; let i = index">
-                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly/>
+                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly />
                     <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)">
                         Borrar
                     </button>
