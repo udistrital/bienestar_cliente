@@ -953,7 +953,7 @@ export class OdontogramaVestabularComponent implements OnInit {
           this.odontogramaOutput.emit(jsonOdontograma);
         } else {
           this.saludService.getOdontogramas(this.Historia.Id, 1).subscribe(data => {
-            console.log(data);
+            //console.log(data);
             this.odontograma = data[0];
             if (this.odontograma) {
               let json = JSON.parse(this.odontograma.Diagrama);

@@ -19,6 +19,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Utils } from '../../../../shared/utils/utils';
 import { DatePipe } from '@angular/common';
+import { ExamenesComplementarios } from '../../../../shared/models/Salud/examenesComplementarios';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-odontologia',
@@ -47,6 +48,7 @@ export class OdontologiaComponent implements OnInit {
   paciente: string;
   anamnesis: Anamnesis;
   examenDental: ExamenDental;
+  examenesComplementarios: ExamenesComplementarios;
   examenEstomatologico: ExamenEstomatologico;
   Historia: HistoriaClinica;
   HojaHistoria: HojaHistoria;
@@ -241,6 +243,15 @@ export class OdontologiaComponent implements OnInit {
             this.odontologiaForm.controls.tensionArterial.setValue(this.diagnostico.TensionArterial);
             this.odontologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
           });
+          this.saludService.getExamenesComplementarios(this.HojaHistoria.Id).subscribe(data => {
+            this.examenesComplementarios = data[0];
+            //console.log(this.examenesComplementarios);
+            this.odontologiaForm.controls.tp.setValue(this.examenesComplementarios.Tp);
+            this.odontologiaForm.controls.tpt.setValue(this.examenesComplementarios.Tpt);
+            this.odontologiaForm.controls.coagulacion.setValue(this.examenesComplementarios.Coagulacion);
+            this.odontologiaForm.controls.sangria.setValue(this.examenesComplementarios.Sangria);
+            this.odontologiaForm.controls.otra.setValue(this.examenesComplementarios.Otra);
+          });
         }
       });
     });
@@ -383,6 +394,30 @@ export class OdontologiaComponent implements OnInit {
         }, error => {
           this.saludService.falloPsico = true;
         });
+        const examenesComplementarios: ExamenesComplementarios = {
+          Id: 0,
+          PeriapicalInicio: null,
+          PeriapicalFinal: null,
+          PanoramicaInicio: null,
+          PanoramicaFinal: null,
+          OtraInicio: null,
+          OtraFinal: null,
+          LaboratorioInicio: null,
+          LaboratorioFinal: null,
+          Tp: this.odontologiaForm.controls.tp.value,     
+          Tpt: this.odontologiaForm.controls.tpt.value,             
+          Coagulacion: this.odontologiaForm.controls.coagulacion.value,     
+          Sangria: this.odontologiaForm.controls.sangria.value,          
+          Otra: this.odontologiaForm.controls.otra.value,             
+          HistoriaClinicaId: this.Historia.Id,
+          HojaHistoriaId: this.HojaHistoria.Id
+        }
+        this.saludService.postExamenesComplementarios(examenesComplementarios).subscribe(data => {
+          console.log('ExamenesComplementarios: ' + data[0]);
+          this.saludService.falloPsico = false;
+        }, error => {
+          this.saludService.falloPsico = true;
+        });
         const diagnostico: DiagnosticoOdontologia = {
           Id: 0,
           Evaluacion: this.odontologiaForm.controls.evaluacionEstadoFinal.value,
@@ -439,7 +474,7 @@ export class OdontologiaComponent implements OnInit {
           Diagrama: this.odontogramaVestibularInfantil
         };
         this.saludService.postOdontograma(odontogramaVestibularInfantil).subscribe(data => {
-          console.log('Vestibular: ' + data[0]);
+          console.log('VestibularInfantil: ' + data[0]);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -453,7 +488,7 @@ export class OdontologiaComponent implements OnInit {
           Diagrama: this.odontogramaLingualesInfantil
         };
         this.saludService.postOdontograma(odontogramaLingualesInfantil).subscribe(data => {
-          console.log('Vestibular: ' + data[0]);
+          console.log('LingualesInfantil: ' + data[0]);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -554,6 +589,30 @@ export class OdontologiaComponent implements OnInit {
       }
       this.saludService.putExamenEstomatologico(this.examenEstomatologico.Id, examenEstomatologico).subscribe(data => {
         console.log('ExamenEstomatologico: ' + data[0]);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+      const examenesComplementarios: ExamenesComplementarios = {
+        Id: this.examenesComplementarios.Id,
+        PeriapicalInicio: null,
+        PeriapicalFinal: null,
+        PanoramicaInicio: null,
+        PanoramicaFinal: null,
+        OtraInicio: null,
+        OtraFinal: null,
+        LaboratorioInicio: null,
+        LaboratorioFinal: null,
+        Tp: this.odontologiaForm.controls.tp.value,     
+        Tpt: this.odontologiaForm.controls.tpt.value,             
+        Coagulacion: this.odontologiaForm.controls.coagulacion.value,     
+        Sangria: this.odontologiaForm.controls.sangria.value,          
+        Otra: this.odontologiaForm.controls.otra.value,             
+        HistoriaClinicaId: this.Historia.Id,
+        HojaHistoriaId: this.HojaHistoria.Id
+      }
+      this.saludService.putExamenesComplementarios(this.examenesComplementarios.Id, examenesComplementarios).subscribe(data => {
+        console.log('ExamenesComplementarios: ' + data[0]);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -722,6 +781,15 @@ export class OdontologiaComponent implements OnInit {
         this.odontologiaForm.controls.temperatura.setValue(this.diagnostico.Temperatura);
         this.odontologiaForm.controls.tensionArterial.setValue(this.diagnostico.TensionArterial);
         this.odontologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
+      });
+      this.saludService.getExamenesComplementarios(this.HojaHistoria.Id).subscribe(data => {
+        this.examenesComplementarios = data[0];
+        //console.log(this.examenesComplementarios);
+        this.odontologiaForm.controls.tp.setValue(this.examenesComplementarios.Tp);
+        this.odontologiaForm.controls.tpt.setValue(this.examenesComplementarios.Tpt);
+        this.odontologiaForm.controls.coagulacion.setValue(this.examenesComplementarios.Coagulacion);
+        this.odontologiaForm.controls.sangria.setValue(this.examenesComplementarios.Sangria);
+        this.odontologiaForm.controls.otra.setValue(this.examenesComplementarios.Otra);
       });
       this.saludService.getOdontograma(this.HojaHistoria.Id, 1).subscribe(data => {
         this.getOdontogramaVestabular = data[0];

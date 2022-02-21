@@ -23,6 +23,7 @@ import { Odontograma } from '../models/Salud/odontograma';
 import { Especialidad } from '../models/Salud/especialidad.model';
 import { TipoOdontograma } from '../models/Salud/tipoOdontograma';
 import { Enfermeria } from '../models/Salud/enfermeria.model';
+import { ExamenesComplementarios } from '../models/Salud/examenesComplementarios';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,9 @@ export class SaludService {
   }
   getExamenEstomatologico(IdHistoriaClinica): Observable<ExamenEstomatologico> {
     return this.httpClient.get<ExamenEstomatologico>(this.url3 + 'Odontologia/ExamenEstomatologico/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
+  }
+  getExamenesComplementarios(IdHistoriaClinica): Observable<ExamenesComplementarios> {
+    return this.httpClient.get<ExamenesComplementarios>(this.url3 + 'Odontologia/ExamenesComplementarios/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
   }
   getDiagnosticoOdontologia(IdHistoriaClinica): Observable<DiagnosticoOdontologia> {
     return this.httpClient.get<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/' + this.query + 'HojaHistoriaId:' + `${IdHistoriaClinica}`);
@@ -208,6 +212,12 @@ export class SaludService {
   }
   putExamenEstomatologico(IdExamenEstomatologico: number, examenEstomatologico: ExamenEstomatologico): Observable<ExamenEstomatologico> {
     return this.httpClient.put<ExamenEstomatologico>(this.url3 + `Odontologia/ExamenEstomatologico/${IdExamenEstomatologico}`, examenEstomatologico);
+  }
+  postExamenesComplementarios(examenesComplementarios: ExamenesComplementarios): Observable<ExamenesComplementarios> {
+    return this.httpClient.post<ExamenesComplementarios>(this.url3 + 'Odontologia/ExamenesComplementarios/', examenesComplementarios);
+  }
+  putExamenesComplementarios(IdExamenesComplementarios: number, examenesComplementarios: ExamenesComplementarios): Observable<ExamenesComplementarios> {
+    return this.httpClient.put<ExamenesComplementarios>(this.url3 + `Odontologia/ExamenesComplementarios/${IdExamenesComplementarios}`, examenesComplementarios);
   }
   postDiagnosticoOdontologia(diagnostico: DiagnosticoOdontologia): Observable<DiagnosticoOdontologia> {
     return this.httpClient.post<DiagnosticoOdontologia>(this.url3 + 'Odontologia/Diagnostico/', diagnostico);
