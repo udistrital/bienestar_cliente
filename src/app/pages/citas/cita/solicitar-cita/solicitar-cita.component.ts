@@ -7,6 +7,7 @@ import { ImplicitAutenticationService } from '../../../../@core/utils/implicit_a
 import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pipe';
 import { ReferenciaSolicitudCita } from "../../../../@core/data/models/solicitud/referencia-solicitud-cita";
 import { ToastrService } from 'ngx-toastr';
+import { ListService } from '../../../../@core/store/list.service';
 
 @Component({
   selector: 'ngx-solicitar-cita',
@@ -17,8 +18,8 @@ export class SolicitarCitaComponent implements OnInit {
   date = new Date();
   dateToday = this.date.setHours(this.date.getHours() + 1);
   servicios: any[] = ["Medicina", "Enfermería", "Psicología", "Odontología", "Fisioterapia"];
-  facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa","Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
-  "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
+  facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
+    "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
   plataformas: any[] = ["Teléfono", "Meet", "Zoom", "Presencial"];
   referencia: ReferenciaSolicitudCita = new ReferenciaSolicitudCita();
   solicitarCita: FormGroup;
@@ -26,6 +27,7 @@ export class SolicitarCitaComponent implements OnInit {
   tipoId: any;
   rolesActivos: any = {};
   estudiante: any;
+  email: any;
   ROLES_CONSTANTS = RolesConstanst;
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -33,7 +35,7 @@ export class SolicitarCitaComponent implements OnInit {
     private est: EstudiantesService,
     private dateCustomPipe: DateCustomPipePipe,
     private autenticacion: ImplicitAutenticationService,
-    private toastr: ToastrService ) {
+    private toastr: ToastrService, private listService: ListService) {
     this.solicitarCita = this.fb.group({
       telefono: ['', Validators.compose([
         Validators.required,
@@ -84,10 +86,15 @@ export class SolicitarCitaComponent implements OnInit {
   }
 
   obtenerInfoUsuario() {
-    this.est.getEstudiantePorUser(this.autenticacion.getPayload().sub).subscribe((res) => {
-      this.estudiante = res[0].TerceroId;
-      this.estudiante.documento = this.autenticacion.getPayload().documento;
-      this.estudiante.documento_compuesto = this.autenticacion.getPayload().documento_compuesto;
+    this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
+      this.email = resp.email;
+      this.est.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+        //console.log(res);
+        this.estudiante = res[0].TerceroId;
+        this.estudiante.documento = res[0].Numero;
+        this.estudiante.documento_compuesto = res[0].TipoDocumentoId.CodigoAbreviacion + " " + this.estudiante.documento;
+      });
     });
   }
   guardarDatosFormulario() {
@@ -109,12 +116,7 @@ export class SolicitarCitaComponent implements OnInit {
         this.referencia.telefono = data[0].Dato;
       }
     });
-    this.referencia.correo = null;
-    this.est.getInfoComplementaria(this.estudiante.Id, 53).subscribe((data) => {
-      if (data) {
-        this.referencia.correo = data[0].Dato;
-      }
-    });
+    this.referencia.correo = this.email;
     this.referencia.servicio = this.solicitarCita.value.servicio;
     this.referencia.telefonoAdicional = this.solicitarCita.value.telefono;
     this.referencia.profesional = this.solicitarCita.value.especialista;
@@ -125,7 +127,7 @@ export class SolicitarCitaComponent implements OnInit {
     this.guardarDatosFormulario();
     const solicitud: any = {};
     solicitud.Id = null;
-    solicitud.EstadoTipoSolicitudId = 
+    solicitud.EstadoTipoSolicitudId =
     {
       Id: 31
     }
@@ -142,12 +144,12 @@ export class SolicitarCitaComponent implements OnInit {
       this.grabarSolicitante(sol);
     });
   }
-  grabarSolicitante(solicitud: any){
+  grabarSolicitante(solicitud: any) {
     console.log(solicitud.Id);
     const solicitante: any = {};
     solicitante.Id = null;
     solicitante.TerceroId = this.estudiante.Id;
-    solicitante.SolicitudId = 
+    solicitante.SolicitudId =
     {
       Id: solicitud.Id
     }
@@ -158,7 +160,7 @@ export class SolicitarCitaComponent implements OnInit {
       this.grabarEvolucionSolicitud(solicitud);
     });
   }
-  grabarEvolucionSolicitud(solicitud: any){
+  grabarEvolucionSolicitud(solicitud: any) {
     const evolucionSolicitud: any = {};
     evolucionSolicitud.Id = null;
     evolucionSolicitud.TerceroId = this.estudiante.Id;

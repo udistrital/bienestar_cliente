@@ -19,6 +19,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Utils } from '../../../../shared/utils/utils';
 import { DatePipe } from '@angular/common';
+import { ListService } from '../../../../@core/store/list.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-medicina',
@@ -106,12 +107,10 @@ export class MedicinaComponent implements OnInit {
     observacionesMedicina: [''],
     medicamento: ['']
   });
-  pruebaEspecialista = {
-    nombre: 'NOMBRE1 APELLIDO1',
-    especialidad: 'ESPECIALIDAD 1',
-  }
+  nombreEspecialista: any;
+  terceroEspecialista: any;
   logoDataUrl: string;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
 
   get analisisArr() {
     return this.medicinaForm.get('analisis') as FormArray;
@@ -153,7 +152,15 @@ export class MedicinaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });
-    this.getInfoHistoria();
+    this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
+      this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+        //console.log(res);
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoHistoria();
+      });
+    });
+
   }
 
 
@@ -171,6 +178,7 @@ export class MedicinaComponent implements OnInit {
         if (JSON.stringify(data[0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
+          this.nombreEspecialista = "";
         } else {
           this.listaHojas = data;
           this.firstOne = data[0].Id;
@@ -244,6 +252,9 @@ export class MedicinaComponent implements OnInit {
               for (let i = 0; i < analisis2.length; i++) {
                 this.analisisArr.push(new FormControl(analisis2[i]));
               }
+            });
+            this.personaService.getDatosPersonalesPorTercero(this.hojaHistoria.Profesional).subscribe(data => {
+              this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
             });
           });
         }
@@ -322,6 +333,9 @@ export class MedicinaComponent implements OnInit {
             this.analisisArr.push(new FormControl(analisis2[i]));
           }
         });
+        this.personaService.getDatosPersonalesPorTercero(this.hojaHistoria.Profesional).subscribe(data => {
+          this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
+        });
       });
     });
 
@@ -347,7 +361,7 @@ export class MedicinaComponent implements OnInit {
         FechaConsulta: fechaActual,
         Especialidad: this.especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.terceroEspecialista,
         Motivo: this.medicinaForm.get('motivoConsulta').value,
         Observacion: this.medicinaForm.get('observacionesMedicina').value,
       }
@@ -511,7 +525,7 @@ export class MedicinaComponent implements OnInit {
         FechaConsulta: new Date(this.hojaHistoria.FechaConsulta),
         Especialidad: this.hojaHistoria.Especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.hojaHistoria.Profesional,
         Motivo: this.medicinaForm.get('motivoConsulta').value,
         Observacion: this.medicinaForm.get('observacionesMedicina').value,
       }
@@ -687,6 +701,7 @@ export class MedicinaComponent implements OnInit {
     this.analisisArr.clear();
     this.evolucionArr.clear();
     this.hideHistory = true;
+    this.nombreEspecialista = "";
   }
 
   async openPdf() {

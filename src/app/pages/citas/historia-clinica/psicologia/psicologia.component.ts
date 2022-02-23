@@ -18,6 +18,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Utils } from '../../../../shared/utils/utils';
 import { DatePipe } from '@angular/common';
+import { ListService } from '../../../../@core/store/list.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-psicologia',
@@ -73,12 +74,10 @@ export class PsicologiaComponent implements OnInit {
     evolucionPsico: this.fb.array([]),
     medicamento: [null]
   })
-  pruebaEspecialista = {
-    nombre: 'NOMBRE1 APELLIDO1',
-    especialidad: 'ESPECIALIDAD 1',
-  }
+  nombreEspecialista: any;
+  terceroEspecialista: any;
   logoDataUrl: string;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
   ngOnInit() {
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
@@ -88,7 +87,15 @@ export class PsicologiaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });
-    this.getInfoPsicologia();
+    this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
+      this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+        //console.log(res);
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoPsicologia();
+      });
+    });
+    
   }
   get evolucionPsicoArr() {
     return this.psicologiaForm.get('evolucionPsico') as FormArray;
@@ -114,6 +121,7 @@ export class PsicologiaComponent implements OnInit {
         if (JSON.stringify(data[0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
+          this.nombreEspecialista = "";
         } else {
           this.listaHojas = data;
           this.firstOne = data[0].Id;
@@ -170,6 +178,9 @@ export class PsicologiaComponent implements OnInit {
             this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
             this.psicologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
           });
+          this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
+            this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
+          });
         }
       });
     });
@@ -189,7 +200,7 @@ export class PsicologiaComponent implements OnInit {
         FechaConsulta: fechaActual,
         Especialidad: this.especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.terceroEspecialista,
         Motivo: this.psicologiaForm.get('motivoConsultaPsico').value,
         Observacion: this.psicologiaForm.get('observacionesPsicologia').value,
       }
@@ -328,7 +339,7 @@ export class PsicologiaComponent implements OnInit {
         FechaConsulta: new Date(this.HojaHistoria.FechaConsulta),
         Especialidad: this.HojaHistoria.Especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.HojaHistoria.Profesional,
         Motivo: this.psicologiaForm.get('motivoConsultaPsico').value,
         Observacion: this.psicologiaForm.get('observacionesPsicologia').value,
       }
@@ -510,6 +521,9 @@ export class PsicologiaComponent implements OnInit {
         this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
         this.psicologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
       });
+      this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
+        this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
+      });
     });
   }
   getAntecedentes() {
@@ -528,6 +542,7 @@ export class PsicologiaComponent implements OnInit {
     this.estado = "nueva";
     this.evolucionPsicoArr.clear();
     this.hideHistory = true;
+    this.nombreEspecialista = "";
   }
   async openPdf() {
     let fechaActual = new (Date);

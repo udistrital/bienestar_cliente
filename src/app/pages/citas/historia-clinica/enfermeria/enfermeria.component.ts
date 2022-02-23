@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ListService } from '../../../../@core/store/list.service';
 import { Enfermeria } from '../../../../shared/models/Salud/enfermeria.model';
 import { Especialidad } from '../../../../shared/models/Salud/especialidad.model';
 import { HistoriaClinica } from '../../../../shared/models/Salud/historiaClinica.model';
@@ -30,12 +31,10 @@ export class EnfermeriaComponent implements OnInit {
     descripcion: [null],
     signosVitales: [null],
   })
-  pruebaEspecialista = {
-    nombre: 'NOMBRE1 APELLIDO1',
-    especialidad: 'ESPECIALIDAD 1',
-  }
+  nombreEspecialista: any;
+  terceroEspecialista: any;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
 
   ngOnInit() {
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
@@ -43,12 +42,20 @@ export class EnfermeriaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });
-    this.getInfoEnfermeria();
+    this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
+      this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+        //console.log(res);
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoEnfermeria();
+      });
+    });
   }
   crearNuevaHoja() {
     this.enfermeriaForm.reset();
     this.estado = "nueva";
     this.hideHistory = true;
+    this.nombreEspecialista = "";
   }
   cambiarHoja(data: any) {
     this.getHojaEspecifica(data);
@@ -64,7 +71,7 @@ export class EnfermeriaComponent implements OnInit {
         FechaConsulta: fechaActual,
         Especialidad: this.especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.terceroEspecialista,
         Motivo: null,
         Observacion: null,
       }
@@ -99,7 +106,7 @@ export class EnfermeriaComponent implements OnInit {
         FechaConsulta: new Date(this.HojaHistoria.FechaConsulta),
         Especialidad: this.HojaHistoria.Especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.HojaHistoria.Profesional,
         Motivo: null,
         Observacion: null,
       }
@@ -145,6 +152,9 @@ export class EnfermeriaComponent implements OnInit {
         this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
         this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
       });
+      this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
+        this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
+      });
     });
   }
   getInfoEnfermeria() {
@@ -158,6 +168,7 @@ export class EnfermeriaComponent implements OnInit {
         if (JSON.stringify(data[0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
+          this.nombreEspecialista = "";
         } else {
           this.listaHojas = data;
           this.firstOne = data[0].Id;
@@ -169,6 +180,9 @@ export class EnfermeriaComponent implements OnInit {
             // console.log(this.enfermeria);
             this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
             this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
+          });
+          this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
+            this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
           });
         }
       });

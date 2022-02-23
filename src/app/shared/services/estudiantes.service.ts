@@ -62,10 +62,13 @@ export class EstudiantesService {
   actualizarEstadoSolicitud(codigo, solicitud) {
     return this.http.put(soliUrl + 'solicitud/' + codigo, solicitud)
   }
-  getEstudiantePorUser(user) {
+  getDatosPersonalesPorTercero(tercero){
+    return this.http.get(infoUrl + consultaIdentificacion + tercero);
+  }
+  getEstudiantePorDocumento(document) {
     this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
 
-    return this.rqManager.get(`datos_identificacion?query=TerceroId.UsuarioWSO2%3A${user}`).pipe(
+    return this.rqManager.get(`datos_identificacion?query=Numero%3A${document}`).pipe(
       map(
         (res) => {
           if (res['Type'] === 'error') {

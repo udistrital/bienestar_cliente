@@ -20,6 +20,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Utils } from '../../../../shared/utils/utils';
 import { DatePipe } from '@angular/common';
 import { ExamenesComplementarios } from '../../../../shared/models/Salud/examenesComplementarios';
+import { ListService } from '../../../../@core/store/list.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-odontologia',
@@ -132,12 +133,11 @@ export class OdontologiaComponent implements OnInit {
     medicamento: [null],
     evolucionOdonto: this.fb.array([]),
   });
-  pruebaEspecialista = {
-    nombre: 'NOMBRE1 APELLIDO1',
-    especialidad: 'ESPECIALIDAD 1',
-  }
+  nombreEspecialista: any;
+  terceroEspecialista: any;
   logoDataUrl: string;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute,
+    private listService: ListService) { }
   ngOnInit() {
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
@@ -159,7 +159,14 @@ export class OdontologiaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });
-    this.getInfoOdontologia();
+    this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
+      this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+        //console.log(res);
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoOdontologia();
+      });
+    });
   }
   get evolucionOdontoArr() {
     return this.odontologiaForm.get('evolucionOdonto') as FormArray;
@@ -184,6 +191,7 @@ export class OdontologiaComponent implements OnInit {
         if (JSON.stringify(data[0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
+          this.nombreEspecialista = "";
         } else {
           this.listaHojas = data;
           this.firstOne = data[0].Id;
@@ -252,6 +260,9 @@ export class OdontologiaComponent implements OnInit {
             this.odontologiaForm.controls.sangria.setValue(this.examenesComplementarios.Sangria);
             this.odontologiaForm.controls.otra.setValue(this.examenesComplementarios.Otra);
           });
+          this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
+            this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
+          });
         }
       });
     });
@@ -276,7 +287,7 @@ export class OdontologiaComponent implements OnInit {
         FechaConsulta: fechaActual,
         Especialidad: this.especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.terceroEspecialista,
         Motivo: this.odontologiaForm.controls.motivoConsultaOdonto.value,
         Observacion: this.odontologiaForm.controls.observacionesOdontologia.value,
       }
@@ -506,7 +517,7 @@ export class OdontologiaComponent implements OnInit {
         FechaConsulta: new Date(this.HojaHistoria.FechaConsulta),
         Especialidad: this.HojaHistoria.Especialidad,
         Persona: this.saludService.IdPersona,
-        Profesional: null,
+        Profesional: this.HojaHistoria.Profesional,
         Motivo: this.odontologiaForm.controls.motivoConsultaOdonto.value,
         Observacion: this.odontologiaForm.controls.observacionesOdontologia.value,
       }
@@ -791,6 +802,9 @@ export class OdontologiaComponent implements OnInit {
         this.odontologiaForm.controls.sangria.setValue(this.examenesComplementarios.Sangria);
         this.odontologiaForm.controls.otra.setValue(this.examenesComplementarios.Otra);
       });
+      this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
+        this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
+      });
       this.saludService.getOdontograma(this.HojaHistoria.Id, 1).subscribe(data => {
         this.getOdontogramaVestabular = data[0];
         this.odontologiaForm.controls.observacionesVestabular.setValue(this.getOdontogramaVestabular.Observaciones);
@@ -815,6 +829,7 @@ export class OdontologiaComponent implements OnInit {
     this.estado = "nueva";
     this.evolucionOdontoArr.clear();
     this.hideHistory = true;
+    this.nombreEspecialista = "";
   }
   getAnanmesis() {
     this.saludService.getAnanmesis(this.Historia.Id).subscribe(data => {
