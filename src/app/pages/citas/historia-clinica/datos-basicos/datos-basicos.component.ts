@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ListService } from '../../../../@core/store/list.service';
+import { AccesoHistoria } from '../../../../shared/models/Salud/accesoHistoria.model';
 import { HistoriaClinica } from '../../../../shared/models/Salud/historiaClinica.model';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
@@ -32,7 +34,7 @@ export class DatosBasicosComponent implements OnInit {
     tipo: ['', Validators.required],
     estado: ['', Validators.required],
   })
-  constructor(private fb: FormBuilder, private estudianteService: EstudiantesService, private aRoute: ActivatedRoute, private saludService: SaludService, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private estudianteService: EstudiantesService, private aRoute: ActivatedRoute, private saludService: SaludService, private toastr: ToastrService, private listService: ListService) { }
   public calcularEdad(fechaNacimiento): number {
     if (this.fechaNacimiento) {
       const actual = new Date();
@@ -92,6 +94,22 @@ export class DatosBasicosComponent implements OnInit {
           });
         }
         if (data) {
+          let fechaActual = new (Date);
+          this.listService.getInfoEstudiante().then((resp) => {
+            //console.log(resp);
+            this.estudianteService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+              //console.log(res);
+              const accesoHistoria: AccesoHistoria = {
+                IdAccesoHistoria: 0,
+                IdHistoriaClinica: data[0].Id,
+                ProfesionalId: res[0].TerceroId.Id,
+                FechaAcceso: fechaActual
+              }
+              this.saludService.postAccesoHistoria(accesoHistoria).subscribe((response) => {
+              });
+
+            });
+          });
           this.toastr.success(`Ya existía una historia clínica para ${this.nombre}`, '¡NADA POR HACER!');
         }
       });

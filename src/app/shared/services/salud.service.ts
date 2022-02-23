@@ -24,6 +24,7 @@ import { Especialidad } from '../models/Salud/especialidad.model';
 import { TipoOdontograma } from '../models/Salud/tipoOdontograma';
 import { Enfermeria } from '../models/Salud/enfermeria.model';
 import { ExamenesComplementarios } from '../models/Salud/examenesComplementarios';
+import { AccesoHistoria } from '../models/Salud/accesoHistoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,8 @@ export class SaludService {
   url = environment.SALUD;
   url2 = environment.PSICOLOGIA;
   url3 = environment.ODONTOLOGIA;
-  url4 = environment.CITA;
+  url4 = environment.ACCESO_HISTORIA;
+  url5 = environment.CITA;
   query = '?query=';
   paciente = '';
   IdPersona: number;
@@ -237,7 +239,10 @@ export class SaludService {
   putEnfermeria(IdEnfermeria: number, enfermeria: Enfermeria): Observable<Odontograma> {
     return this.httpClient.put<Odontograma>(this.url + `Medicina/NotasEnfermeria/${IdEnfermeria}`, enfermeria);
   }
+  postAccesoHistoria(accesoHistoria: AccesoHistoria): Observable<AccesoHistoria>{
+    return this.httpClient.post<AccesoHistoria>(this.url4 + 'Salud/AccesoHistoria/', accesoHistoria);
+  }
   postCita(cita) {
-    return this.httpClient.post(this.url4 + 'Cita/Cita/', cita);
+    return this.httpClient.post(this.url5 + 'Cita/Cita/', cita);
   }
 }
