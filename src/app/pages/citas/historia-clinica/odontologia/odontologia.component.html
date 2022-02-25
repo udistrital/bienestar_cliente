@@ -1,4 +1,4 @@
-<form [formGroup]="odontologiaForm" (ngSubmit)="guardarHistoriaOdontologia()">
+<form [formGroup]="odontologiaForm" (ngSubmit)="guardarDocumentos()">
   <h5 class="titulo"> Odontología</h5>
   <hr />
   <div class="text-right" [hidden]="hideHistory">
@@ -582,52 +582,58 @@
     </div>
   </div>
   <hr>
-  <h6 class="titulo mt-2">Exámenes Complementarios</h6>
+  <h6 class="titulo mt-2">Exámenes Complementarios (formato PDF)</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
   <p class="subtitulo">Periapical</p>
   <div class="row">
     <div class="col-sm-6">
-      <label for="periapicalInicio" class="form-label">Inicio</label>
-      <input formControlName="periapicalInicio" class="form-control" type="file" id="periapicalInicio">
+      <label for="periapicalInicio" class="form-label">Inicio</label><br>
+      <input #inputPeriapicalInicio class="form-control" type="file" id="periapicalInicio" (change)="onFilePeriapicalInicio($event)" [hidden]="estadoPeriapicalInicio">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalInicio" (click)="downloadDocumentPeriapicalInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
-      <label for="periapicalFinal" class="form-label">Final</label>
-      <input formControlName="periapicalFinal" class="form-control" type="file" id="periapicalFinal">
+      <label for="periapicalFinal" class="form-label">Final</label><br>
+      <input #inputPeriapicalFinal class="form-control" type="file" id="periapicalFinal" (change)="onFilePeriapicalFinal($event)" [hidden]="estadoPeriapicalFinal">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalFinal" (click)="downloadDocumentPeriapicalFinal()">Descargar</button>
     </div>
   </div><br>
   <p class="subtitulo">Panorámica</p>
   <div class="row">
     <div class="col-sm-6">
-      <label for="panoramicaInicio" class="form-label">Inicio</label>
-      <input formControlName="panoramicaInicio" class="form-control" type="file" id="panoramicaInicio">
+      <label for="panoramicaInicio" class="form-label">Inicio</label><br>
+      <input #inputPanoramicaInicio class="form-control" type="file" id="panoramicaInicio" (change)="onFilePanoramicaInicio($event)" [hidden]="estadoPanoramicaInicio">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaInicio" (click)="downloadDocumentPanoramicaInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
-      <label for="panoramicaFinal" class="form-label">Final</label>
-      <input formControlName="panoramicaFinal" class="form-control" type="file" id="panoramicaFinal">
+      <label for="panoramicaFinal" class="form-label">Final</label><br>
+      <input #inputPanoramicaFinal class="form-control" type="file" id="panoramicaFinal" (change)="onFilePanoramicaFinal($event)" [hidden]="estadoPanoramicaFinal">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaFinal" (click)="downloadDocumentPanoramicaFinal()">Descargar</button>
     </div>
   </div><br>
   <p class="subtitulo">Otra</p>
   <div class="row">
     <div class="col-sm-6">
-      <label for="otraInicio" class="form-label">Inicio</label>
-      <input formControlName="otraInicio" class="form-control" type="file" id="otraInicio">
+      <label for="otraInicio" class="form-label">Inicio</label><br>
+      <input #inputOtraInicio class="form-control" type="file" id="otraInicio" (change)="onFileOtraInicio($event)" [hidden]="estadoOtraInicio">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraInicio" (click)="downloadDocumentOtraInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
-      <label for="otraFinal" class="form-label">Final</label>
-      <input formControlName="otraFinal" class="form-control" type="file" id="otraFinal">
+      <label for="otraFinal" class="form-label">Final</label><br>
+      <input #inputOtraFinal class="form-control" type="file" id="otraFinal" (change)="onFileOtraFinal($event)" [hidden]="estadoOtraFinal">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraFinal" (click)="downloadDocumentOtraFinal()">Descargar</button>
     </div>
   </div><br>
   <p class="subtitulo">Exámenes de Laboratorio</p>
   <div class="row">
     <div class="col-sm-6">
-      <label for="examenesLaboratorioOdontoInicio" class="form-label">Inicio</label>
-      <input formControlName="examenesLaboratorioOdontoInicio" class="form-control" type="file"
-        id="examenesLaboratorioOdontoInicio">
+      <label for="examenesLaboratorioOdontoInicio" class="form-label">Inicio</label><br>
+      <input #inputLaboratorioInicio class="form-control" type="file" (change)="onFileLaboratorioInicio($event)" id="examenesLaboratorioOdontoInicio" [hidden]="estadoLaboratorioInicio">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioInicio" (click)="downloadDocumentLaboratorioInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
-      <label for="examenesLaboratorioOdontoFinal" class="form-label">Final</label>
-      <input formControlName="examenesLaboratorioOdontoFinal" class="form-control" type="file"
-        id="examenesLaboratorioOdontoFinal">
+      <label for="examenesLaboratorioOdontoFinal" class="form-label">Final</label><br>
+      <input #inputLaboratorioFinal class="form-control" type="file" (change)="onFileLaboratorioFinal($event)" id="examenesLaboratorioOdontoFinal" [hidden]="estadoLaboratorioFinal">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioFinal" (click)="downloadDocumentLaboratorioFinal()">Descargar</button>
     </div>
   </div>
   <br>

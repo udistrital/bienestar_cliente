@@ -35,6 +35,7 @@ export class SaludService {
   url3 = environment.ODONTOLOGIA;
   url4 = environment.ACCESO_HISTORIA;
   url5 = environment.CITA;
+  urlDocumentos = environment.GESTOR_DOCUMENTAL;
   query = '?query=';
   paciente = '';
   IdPersona: number;
@@ -239,10 +240,16 @@ export class SaludService {
   putEnfermeria(IdEnfermeria: number, enfermeria: Enfermeria): Observable<Odontograma> {
     return this.httpClient.put<Odontograma>(this.url + `Medicina/NotasEnfermeria/${IdEnfermeria}`, enfermeria);
   }
-  postAccesoHistoria(accesoHistoria: AccesoHistoria): Observable<AccesoHistoria>{
+  postAccesoHistoria(accesoHistoria: AccesoHistoria): Observable<AccesoHistoria> {
     return this.httpClient.post<AccesoHistoria>(this.url4 + 'Salud/AccesoHistoria/', accesoHistoria);
   }
   postCita(cita) {
     return this.httpClient.post(this.url5 + 'Cita/Cita/', cita);
+  }
+  postDocumento(documento) {
+    return this.httpClient.post(this.urlDocumentos + 'document/upload', documento);
+  }
+  getDocumento(idDocumento) {
+    return this.httpClient.get(this.urlDocumentos + 'document/' + idDocumento);
   }
 }
