@@ -38,6 +38,7 @@ export class EnfermeriaComponent implements OnInit {
 
   ngOnInit() {
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
+    //console.log(this.saludService.IdPersona);
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
@@ -66,7 +67,7 @@ export class EnfermeriaComponent implements OnInit {
       fechaActual.setHours(fechaActual.getHours() - 5);
       const hojaHistoria: HojaHistoria = {
         Id: 0,
-        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        HistoriaClinica: { Id: this.Historia.Id, Tercero: parseInt(this.terceroId) },
         Evolucion: null,
         FechaConsulta: fechaActual,
         Especialidad: this.especialidad,
@@ -75,15 +76,15 @@ export class EnfermeriaComponent implements OnInit {
         Motivo: null,
         Observacion: null,
       }
+      //console.log(hojaHistoria);
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
-        // console.log(data);
         this.HojaHistoria = data;
         console.log('Hoja historia: ' + data);
         this.saludService.falloMedicina = false;
         const enfermeria: Enfermeria = {
           Descripcion: this.enfermeriaForm.get('descripcion').value,
           SignosVitales: this.enfermeriaForm.get('signosVitales').value,
-          HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+          HistoriaClinica: { Id: this.Historia.Id, Tercero: parseInt(this.terceroId) },
           Id: 0,
           HojaHistoria: { Id: this.HojaHistoria.Id }
         }
@@ -120,12 +121,13 @@ export class EnfermeriaComponent implements OnInit {
       const enfermeria: Enfermeria = {
         Descripcion: this.enfermeriaForm.get('descripcion').value,
         SignosVitales: this.enfermeriaForm.get('signosVitales').value,
-        HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
+        HistoriaClinica: this.HojaHistoria.HistoriaClinica,
         HojaHistoria: { Id: this.HojaHistoria.Id },
         Id: this.enfermeria.Id,
       }
-      // console.log(enfermeria);
+      console.log(enfermeria);
       this.saludService.putEnfermeria(this.enfermeria.Id, enfermeria).subscribe(data => {
+        console.log(data);
         console.log('NotasEnfermería: ' + data[0]);
         this.saludService.falloPsico = false;
       }, error => {

@@ -1283,10 +1283,10 @@ export class OdontologiaComponent implements OnInit {
   }
   onFileLaboratorioFinal(event: any) {
     //console.log(event.target.files);
-    //console.log(event.target.files);
     if (event.target.files.length > 0) {
       this.convertFile(event.target.files[0]).subscribe(base64 => {
         this.base64LaboratorioFinal = base64;
+        // console.log(base64);
       });
     }
     else {
@@ -1297,7 +1297,7 @@ export class OdontologiaComponent implements OnInit {
     const result = new ReplaySubject<string>(1);
     const reader = new FileReader();
     reader.readAsBinaryString(file);
-    reader.onload = (event) => result.next(btoa(event.target.result.toString()));
+    reader.onload = (event) => result.next(btoa(event.target["result"].toString()));
     return result;
   }
   downloadDocumentPeriapicalInicio() {
