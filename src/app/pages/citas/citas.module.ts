@@ -20,7 +20,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
-import { OdontogramaComponent } from './historia-clinica/odontologia/odontograma/odontograma.component';
+import { OdontogramaVestabularComponent } from './historia-clinica/odontologia/odontograma-vestabular/odontograma-vestabular.component';
 import { DatosBasicosComponent } from './historia-clinica/datos-basicos/datos-basicos.component';
 import { MedicinaComponent } from './historia-clinica/medicina/medicina.component';
 import { FisioterapiaComponent } from './historia-clinica/fisioterapia/fisioterapia.component';
@@ -30,6 +30,9 @@ import { PacienteCitaComponent } from './paciente/paciente-cita/paciente-cita.co
 import { OdontogramaVInfantilComponent } from './historia-clinica/odontologia/odontograma-v-infantil/odontograma-v-infantil.component';
 import { OdontogramaLingualesComponent } from './historia-clinica/odontologia/odontograma-linguales/odontograma-linguales.component';
 import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.component';
+import { ListaSolicitudesComponent } from './cita/lista-solicitudes/lista-solicitudes.component';
+import { OdontogramaVestibularComponent } from './historia-clinica/odontologia/odontograma-vestibular/odontograma-vestibular.component';
+import { EnfermeriaComponent } from './historia-clinica/enfermeria/enfermeria.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -44,7 +47,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ListarPacienteComponent,
     HomeComponent,
     HistoriaClinicaComponent,
-    OdontogramaComponent,
+    OdontogramaVestabularComponent,
+    OdontogramaVestibularComponent,
     DatosBasicosComponent,
     MedicinaComponent,
     FisioterapiaComponent,
@@ -54,6 +58,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     OdontogramaVInfantilComponent,
     OdontogramaLingualesComponent,
     SolicitarCitaComponent,
+    ListaSolicitudesComponent,
+    EnfermeriaComponent,
   ],
   imports: [
     CommonModule,

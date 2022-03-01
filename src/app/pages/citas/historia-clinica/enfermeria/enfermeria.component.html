@@ -1,0 +1,40 @@
+<form [formGroup]="enfermeriaForm" (ngSubmit)="guardarHistoriaEnfermeria()">
+    <h5 class="titulo mt-4 mb-4"> Notas de enfermería</h5>
+    <hr />
+    <div class="text-right" [hidden]="hideHistory">
+        <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+            <mat-icon>add</mat-icon> Añadir nueva hoja
+        </button>
+        <mat-form-field appearance="outline" class="select-group">
+            <mat-label>Historial</mat-label>
+            <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+                <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+                    {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <h6 class="titulo">Descripción</h6>
+    <div class="row">
+        <mat-form-field class="col-sm-12" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="descripcion"></textarea>
+          </mat-form-field>
+    </div>
+    <h6 class="titulo">Signos vitales</h6>
+    <div class="row">
+        <mat-form-field class="col-sm-12" appearance="outline">
+            <mat-label>Signos vitales</mat-label>
+            <textarea matInput formControlName="signosVitales"></textarea>
+          </mat-form-field>
+    </div>
+    <div class="row mt-4">
+        <div class="col titulo">
+            <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label><br>
+            <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
+                [disabled]="!enfermeriaForm.valid">
+                <mat-icon>save</mat-icon> Guardar
+            </button>
+        </div>
+    </div>
+</form>

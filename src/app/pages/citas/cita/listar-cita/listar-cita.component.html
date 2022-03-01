@@ -8,9 +8,7 @@
             <p> Espere por favor</p>
           </h5>
        
-    <div *ngIf="citas.length == 0" ><button class="m-auto" mat-button routerLink="../crearCita" [ngStyle]="{color: 'var(--azul-claro)'}">
-      <mat-icon>add</mat-icon> Asignar nueva cita
-    </button>
+    <div *ngIf="citas.length == 0" >
     <button class="m-auto" mat-button routerLink="../../home" [ngStyle]="{color: 'var(--azul-claro)'}">
       <mat-icon>keyboard_backspace</mat-icon> Volver
     </button>

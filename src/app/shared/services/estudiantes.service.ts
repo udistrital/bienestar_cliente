@@ -16,12 +16,17 @@ const headers = {
 const estudianteUrl = environment.ACADEMICA;
 const infoUrl = environment.TERCEROS_CRUD_SERVICE;
 const oikosUrl = environment.OIKOS_SERVICE;
+const soliUrl = environment.SOLICITUD_CRUD_SERVICE;
+const paraUrl = environment.PARAMETROS;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
+const consultaEspecialistas = 'vinculacion?query=CargoId:';
+const consultaVinculacion = 'vinculacion?query=Id:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'
+const consultaSolicitudes = 'solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:10,EstadoTipoSolicitudId.EstadoId.Id:10';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,8 +38,23 @@ export class EstudiantesService {
   getEstudiante(codigo) {
     return this.http.get(estudianteUrl + 'datos_basicos_estudiante/' + codigo, headers);
   }
-  getCodigoTercero(terceroId,codIden){
-    return this.http.get(infoUrl + consultaIdentificacion + terceroId + ',TipoDocumentoId.Id:'+codIden, headers);
+  getSolicitudCompleta(codigo) {
+    return this.http.get(soliUrl + 'solicitud?query=Id:' + codigo);
+  }
+  getPaciente(codigo) {
+    return this.http.get(infoUrl + 'tercero/' + codigo);
+  }
+  getVinculacion(codigo) {
+    return this.http.get(infoUrl + consultaVinculacion + codigo);
+  }
+  getParametro(codigo){
+    return this.http.get(paraUrl + 'parametro/' + codigo);
+  }
+  getSolicitud(codigo) {
+    return this.http.get(soliUrl + 'solicitud/' + codigo);
+  }
+  getCodigoTercero(terceroId, codIden) {
+    return this.http.get(infoUrl + consultaIdentificacion + terceroId + ',TipoDocumentoId.Id:' + codIden, headers);
   }
   getProyecto(codigop) {
     return this.http.get(estudianteUrl + 'carrera/' + codigop, headers);
@@ -51,10 +71,19 @@ export class EstudiantesService {
   getFacultades() {
     return this.http.get(oikosUrl + consultaFacultades, headers);
   }
-  getEstudiantePorUser(user) {
+  getEspecialistas(codEspecialista) {
+    return this.http.get(infoUrl + consultaEspecialistas + codEspecialista);
+  }
+  actualizarEstadoSolicitud(codigo, solicitud) {
+    return this.http.put(soliUrl + 'solicitud/' + codigo, solicitud)
+  }
+  getDatosPersonalesPorTercero(tercero) {
+    return this.http.get(infoUrl + consultaIdentificacion + tercero);
+  }
+  getEstudiantePorDocumento(document) {
     this.rqManager.setPath('TERCEROS_CRUD_SERVICE');
 
-    return this.rqManager.get(`datos_identificacion?query=TerceroId.UsuarioWSO2%3A${user}`).pipe(
+    return this.rqManager.get(`datos_identificacion?query=Numero%3A${document}`).pipe(
       map(
         (res) => {
           if (res['Type'] === 'error') {
@@ -124,5 +153,8 @@ export class EstudiantesService {
       ),
     );
 
+  }
+  obtenerSolicitudes() {
+    return this.http.get(soliUrl + consultaSolicitudes, headers);
   }
 }

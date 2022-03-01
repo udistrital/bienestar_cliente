@@ -1,14 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { HistoriaClinica } from '../../../../../shared/models/Salud/historiaClinica.model';
+import { HojaHistoria } from '../../../../../shared/models/Salud/hojaHistoria.model';
+import { Odontograma } from '../../../../../shared/models/Salud/odontograma';
+import { TipoOdontograma } from '../../../../../shared/models/Salud/tipoOdontograma';
+import { EstudiantesService } from '../../../../../shared/services/estudiantes.service';
+import { SaludService } from '../../../../../shared/services/salud.service';
 
 @Component({
   selector: 'ngx-odontograma-linguales',
   templateUrl: './odontograma-linguales.component.html',
-  styleUrls: ['./odontograma-linguales.component.css']
+  styleUrls: ['../../odontograma.css']
 })
 export class OdontogramaLingualesComponent implements OnInit {
-
+  @Output('odontograma') odontogramaOutput = new EventEmitter<any>();
+  paciente: string;
+  terceroId: any;
+  Historia: HistoriaClinica;
+  HojaHistoria: HojaHistoria;
+  odontograma: Odontograma;
+  tipoOdontograma: TipoOdontograma;
+  odontogramaForm: FormGroup = this.fb.group({
+    observaciones: [null],
+  });
   color: number = 1;
-   dientesArriba: any[] = [
+  dientesArriba: any[] = [
     { diente: 0, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
     { diente: 1, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
     { diente: 2, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
@@ -38,6 +56,8 @@ export class OdontogramaLingualesComponent implements OnInit {
     { diente: 14, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
     { diente: 15, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
   ];
+  defaultArriba = this.dientesArriba;
+  defaultAbajo = this.dientesAbajo;
   convencionesArriba: any[] = [
     { nombre: 'Normal', color: 'Lavender', estado: 1 },
     { nombre: 'Implante', color: '#CC66CC', estado: 2 },
@@ -413,6 +433,11 @@ export class OdontogramaLingualesComponent implements OnInit {
         this.dientesAbajo[diente].obturadoResina = 'marcadoDarkCyan';
       }
     }
+    let json: {} = {};
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
+    let jsonOdontograma = JSON.stringify(json);
+    this.odontogramaOutput.emit(jsonOdontograma);
   }
   cambiarColorArriba(diente: number, posicion: String) {
     if (posicion === "Arriba") {
@@ -765,6 +790,11 @@ export class OdontogramaLingualesComponent implements OnInit {
         this.dientesArriba[diente].obturadoResina = 'marcadoDarkCyan';
       }
     }
+    let json: {} = {};
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
+    let jsonOdontograma = JSON.stringify(json);
+    this.odontogramaOutput.emit(jsonOdontograma);
   }
   limpiarArriba(diente: number) {
     this.dientesArriba[diente].classArriba = 'diente';
@@ -830,9 +860,119 @@ export class OdontogramaLingualesComponent implements OnInit {
     this.dientesAbajo[diente].obturadoResina = 'invisible';
 
   }
-  constructor() { }
+  guardarOdontograma() {
+    let json: {} = {};
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
+    let jsonOdontograma = JSON.stringify(json);
+    if (!this.odontograma) {
+      const odontograma: Odontograma = {
+        HistoriaClinicaId: this.Historia.Id,
+        IdHojaHistoria: this.HojaHistoria.Id,
+        Id: 0,
+        Observaciones: this.odontogramaForm.controls.observaciones.value,
+        IdTipoOdontograma: this.tipoOdontograma,
+        Diagrama: jsonOdontograma
+      };
+      this.saludService.postOdontograma(odontograma).subscribe(data => {
+        console.log('Lingual: ' + data[0]);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (this.odontograma) {
+      const odontograma: Odontograma = {
+        HistoriaClinicaId: this.Historia.Id,
+        IdHojaHistoria: this.HojaHistoria.Id,
+        Id: this.odontograma.Id,
+        Observaciones: this.odontogramaForm.controls.observaciones.value,
+        IdTipoOdontograma: this.tipoOdontograma,
+        Diagrama: jsonOdontograma
+      };
+      this.saludService.putOdontograma(odontograma.Id, odontograma).subscribe(data => {
+        console.log('Lingual: ' + data[0]);
+        this.saludService.falloPsico = false;
+      }, error => {
+        this.saludService.falloPsico = true;
+      });
+    }
+    if (this.saludService.falloPsico === false) {
+      this.toastr.success(`Ha registrado con éxito el odontograma lingual infantil para: ${this.paciente}`, '¡Guardado!');
+      // window.location.reload();
+    } else {
+      this.toastr.error('Ha ocurrido un error al guardar el odontograma', 'Error');
+    }
+  }
+  getOdontogramaEspecifico(HojaHistoriaId) {
+    this.saludService.getOdontograma(HojaHistoriaId, 3).subscribe(data => {
+      this.odontograma = data[0];
+      // console.log(this.odontograma);
+      if (this.odontograma) {
+        let json = JSON.parse(this.odontograma.Diagrama);
+        this.dientesArriba = json.dientesArriba;
+        this.dientesAbajo = json.dientesAbajo;
+      }
+      let json: {} = {};
+      json['dientesArriba'] = this.dientesArriba;
+      json['dientesAbajo'] = this.dientesAbajo;
+      let jsonOdontograma = JSON.stringify(json);
+      this.odontogramaOutput.emit(jsonOdontograma);
+    });
+  }
 
-  ngOnInit() {
+  getInfoOdontograma() {
+    this.saludService.getTipoOdontograma(3).subscribe((data: any) => {
+      this.tipoOdontograma = data;
+    });
+    this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
+      this.Historia = data[0];
+      this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {//Reemplazar por terceroId
+        //console.log(data);
+        if (JSON.stringify(data[0]) === '{}') {
+          let json: {} = {};
+          json['dientesArriba'] = this.dientesArriba;
+          json['dientesAbajo'] = this.dientesAbajo;
+          let jsonOdontograma = JSON.stringify(json);
+          this.odontogramaOutput.emit(jsonOdontograma);
+        } else {
+          this.saludService.getOdontogramas(this.Historia.Id, 3).subscribe(data => {
+            this.odontograma = data[0];
+            // console.log(this.odontograma);
+            if (this.odontograma) {
+              let json = JSON.parse(this.odontograma.Diagrama);
+              this.dientesArriba = json.dientesArriba;
+              this.dientesAbajo = json.dientesAbajo;
+            }
+            let json: {} = {};
+            json['dientesArriba'] = this.dientesArriba;
+            json['dientesAbajo'] = this.dientesAbajo;
+            let jsonOdontograma = JSON.stringify(json);
+            this.odontogramaOutput.emit(jsonOdontograma);
+          });
+        }
+      });
+    });
+  }
+  limpiarOdontograma(){
+    this.dientesArriba = this.defaultArriba;
+    this.dientesAbajo = this.defaultAbajo;
+    let json: {} = {};
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
+    let jsonOdontograma = JSON.stringify(json);
+    this.odontogramaOutput.emit(jsonOdontograma);
+  }
+  ngOnInit(): void {
+    this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
+    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+      var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+      this.paciente = paciente.nombre;
+    });
+    this.getInfoOdontograma();
+  }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute) {
+
   }
 
 }

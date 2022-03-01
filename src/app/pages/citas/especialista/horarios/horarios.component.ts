@@ -10,7 +10,7 @@ const fechaHoy = new Date().toISOString(); // YYYY-MM-DDT:HH:mm
 @Component({
   selector: 'ngx-horarios',
   templateUrl: './horarios.component.html',
-  styleUrls: ['./horarios.component.css']
+  styleUrls: ['./horarios.component.scss']
 })
 
 export class HorariosComponent implements OnInit {
@@ -20,7 +20,7 @@ export class HorariosComponent implements OnInit {
   }
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridDay',
-    // themeSystem: 'bootstrap',
+    themeSystem: 'Litera',
     weekends: false,
     aspectRatio: 1.8,
     headerToolbar: {
@@ -48,10 +48,10 @@ export class HorariosComponent implements OnInit {
     slotLabelInterval: 30,
     snapDuration: '00:30:00',
     events: [
-      { title: 'Bryan Alejandro luis', date: '2021-04-21T10:30:00' },
-      { title: 'Diego Romero', date: '2021-04-22T11:00:00' },
-      { title: 'Diego Romero', date: '2021-04-22T15:00:00' },
-      { title: 'Bryan Alejandro luis', date: '2021-04-23T13:30:00' },
+      { title: 'Bryan Alejandro luis', date: '2021-11-22T10:30:00' },
+      { title: 'Diego Romero', date: '2021-11-22T11:00:00' },
+      { title: 'Diego Romero', date: '2021-11-22T15:00:00' },
+      { title: 'Bryan Alejandro luis', date: '2021-11-23T13:30:00' },
       { title: 'Andrés Castro', date: `${fechaHoy}` }
     ],
   };

@@ -45,77 +45,66 @@
     </nb-card-header>
     <nb-card-body>
         <form [formGroup]="solicitarCita">
-            <div class="row">
-                <div class="col col-sm-6">
-                    <mat-form-field appearance="outline" class="select-group">
-                        <mat-label>Teléfono</mat-label>
-                        <input matInput placeholder="Teléfono" type="number" formControlName="telefono" />
-                        <mat-hint>Ingrese su número de teléfono</mat-hint>
-                    </mat-form-field>
-                </div>
-                <div class="col col-sm-6">
-                    <mat-form-field appearance="outline" class="select-group">
-                        <mat-label>Tipo de servicio *</mat-label>
-                        <mat-select formControlName="servicio">
-                            <mat-option *ngFor="let servicio of servicios" [value]="servicio">
-                                {{servicio}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-hint>Seleccione el servicio</mat-hint>
-                        <mat-error>Campo obligatorio</mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col col-sm-6">
-                    <mat-form-field appearance="outline" class="select-group">
-                        <mat-label>Facultad *</mat-label>
-                        <mat-select formControlName="facultad">
-                            <mat-option *ngFor="let facultad of facultades" [value]="facultad">{{facultad}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-hint>Seleccione la facultad </mat-hint>
-                        <mat-error>Campo obligatorio</mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col col-sm-6">
-                    <mat-form-field appearance="outline" class="select-group">
-                        <mat-label>Plataforma *</mat-label>
-                        <mat-select formControlName="plataforma">
-                            <mat-option *ngFor="let plataforma of plataformas" [value]="plataforma">{{plataforma}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-hint>Seleccione la plataforma </mat-hint>
-                        <mat-error>Campo obligatorio</mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-sm-12">
-                    <mat-form-field [style.width.px]=327>
-                        <mat-label>Nombre especialista *</mat-label>
-                        <input matInput placeholder="Especialista" type="text" formControlName="especialista" />
-                        <mat-hint>Escribir No Aplica si no se tiene uno </mat-hint>
-                        <mat-error>Campo obligatorio</mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-sm-12">
-                    <mat-form-field [style.width.px]=327>
-                        <mat-label>Observaciones *</mat-label>
-                        <textarea matInput placeholder="Observaciones" type="text" formControlName="observacion"
-                            rows="3"></textarea>
-                        <mat-hint>Escriba las observaciones pertinentes</mat-hint>
-                        <mat-error>Campo obligatorio</mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-lg-12 align-center">
-                    <button class="card-button m-2" type="submit" mat-raised-button color="primary"
-                        [disabled]="!solicitarCita.valid" (click)="guardarSolicitud()">
-                        <mat-icon>send</mat-icon> Enviar solicitud
-                    </button>
-                </div>
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Teléfono*</mat-label>
+                <input matInput placeholder="Teléfono" type="number" formControlName="telefono" />
+                <mat-hint>Ingrese su número de teléfono</mat-hint>
+                <mat-error *ngIf="!solicitarCita.controls.telefono.value && solicitarCita.controls.telefono.touched">
+                    Campo
+                    obligatorio</mat-error>
+                <mat-error *ngIf="solicitarCita.controls.telefono.errors?.pattern && solicitarCita.controls.telefono.dirty">
+                    Solo
+                    números permitidos. Mínimo 7 dígitos. Máximo 10</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Tipo de servicio*</mat-label>
+                <mat-select formControlName="servicio">
+                    <mat-option *ngFor="let servicio of servicios" [value]="servicio">
+                        {{servicio}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el servicio</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Facultad*</mat-label>
+                <mat-select formControlName="facultad">
+                    <mat-option *ngFor="let facultad of facultades" [value]="facultad">{{facultad}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione la facultad </mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Plataforma*</mat-label>
+                <mat-select formControlName="plataforma">
+                    <mat-option *ngFor="let plataforma of plataformas" [value]="plataforma">{{plataforma}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione la plataforma </mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Nombre especialista*</mat-label>
+                <input matInput placeholder="Especialista" type="text" formControlName="especialista" />
+                <mat-hint>Escribir No Aplica si no se tiene uno </mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Motivo*</mat-label>
+                <textarea matInput placeholder="Observaciones" type="text" formControlName="observacion"
+                    rows="3"></textarea>
+                <mat-hint>Escriba las observaciones pertinentes</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+            <div class="col-lg-12 text-center">
+                <button class="card-button m-2" type="submit" mat-raised-button color="primary"
+                    [disabled]="!solicitarCita.valid" (click)="guardarSolicitud()">
+                    <mat-icon>send</mat-icon> Enviar solicitud
+                </button>
             </div>
         </form>
     </nb-card-body>

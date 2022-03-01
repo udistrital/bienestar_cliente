@@ -1,0 +1,27 @@
+import { HistoriaClinica } from "./historiaClinica.model";
+
+export interface Antecedente {
+    Id?: number,
+    HistoriaClinica?: HistoriaClinica,
+    Alergicos?: string,
+    Ccv?: Date,
+    Ciclos?: string,
+    CompañerosSexuales?: string,
+    Familiares?: string,
+    Farmacologicos?: string,
+    Fog?: string,
+    Fup?: string,
+    Fur?: string,
+    GenitoUrinarios?: string,
+    Hospitalarios?: string,
+    Ias?: string,
+    Menarquia?: string,
+    Ocupacionales?: string,
+    Patologicos?: string,
+    Pp?: string,
+    Quirurgicos?: string,
+    ResultadoCcv?: string,
+    ResultadoSeno?: string,
+    Seno?: Date,
+    Traumaticos?: string,
+}

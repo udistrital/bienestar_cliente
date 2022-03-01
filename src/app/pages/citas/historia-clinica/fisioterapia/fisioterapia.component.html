@@ -1,6 +1,19 @@
 <form [formGroup]="fisioterapiaForm" (ngSubmit)="guardarHistoriaFisioterapia()">
     <h5 class="titulo mt-4 mb-4"> Fisioterapia</h5>
     <hr />
+    <div class="text-right" [hidden]="hideHistory">
+        <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+            <mat-icon>add</mat-icon> Añadir nueva hoja
+        </button>
+        <mat-form-field appearance="outline" class="select-group">
+            <mat-label>Historial</mat-label>
+            <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+                <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+                    {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <div class="row">
         <div class="col md-12 mt-4 mb-4 me-4">
             <div class="form-floating">
@@ -17,12 +30,32 @@
                 <label for="valoracion">Valoración</label>
             </div>
         </div>
+        <h6 class="titulo mt-2">Diagnóstico (Código CIE-10)</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="form-floating">
+                <textarea class="form-control textArea-big" formControlName="diagnostico" placeholder="Diagnóstico"
+                    id="valoracion"></textarea>
+                <label for="valoracion">Diagnóstico</label>
+            </div>
+        </div>
+        <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a> <a
+        href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf" target="_blank"> Manual CIE-10</a>
         <h6 class="titulo mt-2">Plan de Manejo</h6>
         <div class="col md-12 mb-4 me-4 mt-4">
             <div class="form-floating">
                 <textarea class="form-control textArea-big" formControlName="planDeManejoFisio"
                     placeholder="Plan de Manejo" id="planDeManejoFisio"></textarea>
                 <label for="planDeManejoFisio">Plan de Manejo</label>
+            </div>
+        </div>
+        <h6 class="titulo mt-2">Medicamento</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                    name="medicamento" placeholder="Medicamento" formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
             </div>
         </div>
     </div>
@@ -39,8 +72,8 @@
         </div>
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionFisio">
-                <div class="input-group mb-1" *ngFor="let evolucion of evolucionFisioArr.controls; let i = index">
-                    <input class="form-control" *ngIf="evolucionFisioArr.length > 0" [formControlName]="i" />
+                <div class="input-group mb-1" *ngFor="let evolucion of evolucionFisioArr.value; let i = index">
+                    <input class="form-control" *ngIf="evolucionFisioArr.length > 0" [formControlName]="i" readonly/>
                     <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionFisio(i)">
                         Borrar
                     </button>
@@ -49,18 +82,18 @@
         </div>
         <h6 class="titulo mt-4">Observaciones</h6>
         <div class="row mt-4">
-          <div class="col md-12 me-4">
-            <div class="form-floating">
-              <textarea class="form-control textArea-big" formControlName="observacionesFisioterapia" placeholder="Observaciones"
-                id="observacionesFisioterapia"></textarea>
-              <label for="observacionesFisioterapia"> Observaciones</label>
+            <div class="col md-12 me-4">
+                <div class="form-floating">
+                    <textarea class="form-control textArea-big" formControlName="observacionesFisioterapia"
+                        placeholder="Observaciones" id="observacionesFisioterapia"></textarea>
+                    <label for="observacionesFisioterapia"> Observaciones</label>
+                </div>
             </div>
-          </div>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col titulo">
-            <label><strong>Realizó: </strong>{{ pruebaEspecialista.nombre | ngxCapitalize }}</label>
+            <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
             <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
                 [disabled]="!fisioterapiaForm.valid">
                 <mat-icon>save</mat-icon> Guardar

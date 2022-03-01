@@ -1,12 +1,27 @@
 <form [formGroup]="psicologiaForm" (ngSubmit)="guardarHistoriaPsicologia()">
     <h5 class="titulo mb-4 mt-4">Psicología</h5>
     <hr />
+    <div class="text-right" [hidden]="hideHistory">
+        <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+            <mat-icon>add</mat-icon> Añadir nueva hoja
+        </button>
+        <mat-form-field appearance="outline" class="select-group">
+            <mat-label>Historial</mat-label>
+            <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+                <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+                    {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <h6 class="titulo mt-2">Composición Familiar</h6>
-    <div class="col md-12 mb-4 me-4 mt-4">
-        <div class="form-floating">
-            <textarea class="form-control textArea-sm" formControlName="viveCon"
-                placeholder="¿Actualmente con quién vive?" id="viveCon"></textarea>
-            <label for="viveCon">¿Actualmente con quién vive?</label>
+    <div class="row">
+        <div class="col md-12">
+            <div class="form-floating">
+                <textarea class="form-control textArea-sm" formControlName="viveCon"
+                    placeholder="¿Actualmente con quién vive?" id="viveCon"></textarea>
+                <label for="viveCon">¿Actualmente con quién vive?</label>
+            </div>
         </div>
     </div>
     <h6 class="titulo mt-2">Límites</h6>
@@ -94,14 +109,10 @@
     <div class="row mt-2">
         <div class="col md-4 me-4 mt-2 mb-2 float-right">
             <label class="me-2">¿Tiene relaciones sexuales en la actualidad? </label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="relacionesSexuales" id="si" value="Si" />
-                <label class="form-check-label">Si</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="relacionesSexuales" id="no" value="No" />
-                <label class="form-check-label">No</label>
-            </div>
+            <mat-radio-group formControlName="relacionesSexuales">
+                <mat-radio-button [checked]="relaciones==true" value="true">Sí</mat-radio-button>&nbsp;
+                <mat-radio-button [checked]="relaciones==false" value="false">No</mat-radio-button>
+            </mat-radio-group>
         </div>
     </div>
     <div class="row">
@@ -200,6 +211,25 @@
             </div>
         </div>
     </div>
+    <h6 class="titulo">Diagnóstico (Código CIE-10)</h6>
+    <div class="row">
+        <mat-form-field class="col-sm-12" appearance="outline">
+            <mat-label>Diagnóstico</mat-label>
+            <input matInput formControlName="diagnostico">
+        </mat-form-field>
+    </div>
+    <h6 class="titulo mt-2">Medicamento</h6>
+    <div class="row mt-4 mb-4">
+        <div class="col md-6 me-4 mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="medicamento" placeholder="Medicamento"
+                    formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
+            </div>
+        </div>
+    </div>
     <h6 class="titulo mt-2">Evolución</h6>
     <div class="row mt-4 mb-4">
         <div class="col md-6 me-4 mb-4">
@@ -214,7 +244,7 @@
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionPsico">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionPsicoArr.controls; let i = index">
-                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" />
+                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly />
                     <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)">
                         Borrar
                     </button>
@@ -223,18 +253,18 @@
         </div>
         <h6 class="titulo mt-4">Observaciones</h6>
         <div class="row mt-4">
-          <div class="col md-12 me-4">
-            <div class="form-floating">
-              <textarea class="form-control textArea-big" formControlName="observacionesPsicologia" placeholder="Observaciones"
-                id="observacionesPsicologia"></textarea>
-              <label for="observacionesPsicologia"> Observaciones</label>
+            <div class="col md-12 me-4">
+                <div class="form-floating">
+                    <textarea class="form-control textArea-big" formControlName="observacionesPsicologia"
+                        placeholder="Observaciones" id="observacionesPsicologia"></textarea>
+                    <label for="observacionesPsicologia"> Observaciones</label>
+                </div>
             </div>
-          </div>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col titulo">
-            <label><strong>Realizó: </strong>{{ pruebaEspecialista.nombre | ngxCapitalize }}</label>
+            <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
             <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
                 [disabled]="!psicologiaForm.valid">
                 <mat-icon>save</mat-icon> Guardar

@@ -14,6 +14,7 @@ import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { HistoriaClinicaComponent } from "./historia-clinica/historia-clinica.component";
 import { PacienteCitaComponent } from "./paciente/paciente-cita/paciente-cita.component";
 import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.component';
+import { ListaSolicitudesComponent } from "./cita/lista-solicitudes/lista-solicitudes.component";
 // FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 //   dayGridPlugin,
 //   interactionPlugin,
@@ -26,12 +27,13 @@ const routes: Routes = [
     path: "",
     children: [
       { path: "listarCita", component: ListarCitaComponent },
-      { path: "crearCita", component: CrearCitaComponent },
+      { path: "crearCita/:tercero/:solicitud", component: CrearCitaComponent },
       { path: "horarios", component: HorariosComponent },
       { path: "listarPaciente", component: ListarPacienteComponent },
-      { path: "historiaClinica/:codigo", component: HistoriaClinicaComponent },
+      { path: "historiaClinica/:codigo/:terceroId", component: HistoriaClinicaComponent },
       {path: "citaPaciente", component: PacienteCitaComponent},
       {path: "solicitarCita", component: SolicitarCitaComponent},
+      {path: "solicitudes", component: ListaSolicitudesComponent},
       { path: "", component: HomeComponent },
       { path: "**", redirectTo: "" },
     ],

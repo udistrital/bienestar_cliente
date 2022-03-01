@@ -16,7 +16,11 @@ export const environment = {
     CLIENTE_APOYO: 'apoyo-alimentario',
     CLIENTE_SALUD: 'citas',
     APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/apoyo_alimentario_mongo_crud/",
-    //APOYO_ALIMENTARIO: "http://localhost:8080/",
+    SALUD: "http://localhost:8080/",
+    PSICOLOGIA: "http://localhost:8081/",
+    ODONTOLOGIA: "http://localhost:8082/",
+    ACCESO_HISTORIA: "http://localhost:8083/",
+    CITA: "http://localhost:8084/",
     ACADEMICA: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/academica_jbpm/v1/',
     AUTENTICACION_MID: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/',
     UBICACIONES: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/ubicaciones_crud/v2/',
@@ -29,6 +33,7 @@ export const environment = {
     NUXEO_2020: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/nuxeo_api/v1/',
     DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
     PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/',
+    GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
 
 
     IDS: {

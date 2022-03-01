@@ -1,10 +1,29 @@
 #calendar {
   max-width: 900px;
   margin: 40px auto;
-  background-color: whitesmoke;
-  color: black !important
+  background-color: whitesmoke !important;
 }
+
 .centrado {
   text-align: center;
-} 
-
+}
+::ng-deep.fc-daygrid-day-number {
+  color: #1a252f !important;
+}
+::ng-deep.fc .fc-col-header-cell-cushion {
+  color: #1a252f !important;
+}
+::ng-deep.nb-theme-kronos a {
+  color: #1a252f !important;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+::ng-deep.fc-daygrid-day.fc-day.fc-day-today {
+  background-color: rgba(3, 155, 229, 0.2) !important;
+  color: white !important;
+}
+::ng-deep.fc-daygrid-event.fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future {
+  background-color: rgba(3, 155, 229, 0.2);
+}
