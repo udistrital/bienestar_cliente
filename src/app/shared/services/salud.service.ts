@@ -246,6 +246,9 @@ export class SaludService {
   postCita(cita) {
     return this.httpClient.post(this.url5 + 'Cita/Cita/', cita);
   }
+  getCita(codTercero) {
+    return this.httpClient.get(this.url5 + 'Cita/Cita/?query=IdPaciente:'+codTercero);
+  }
   postDocumento(documento) {
     return this.httpClient.post(this.urlDocumentos + 'document/upload', documento);
   }

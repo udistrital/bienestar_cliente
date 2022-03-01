@@ -96,7 +96,7 @@ export class CrearCitaComponent implements OnInit {
         this.estudianteService.actualizarEstadoSolicitud(this.solicitudId, solicitud).subscribe((resp: any) => {
           this.toastr.success(`Ha registrado con éxito la cita médica`, '¡Guardado!');
           setTimeout(() => {
-            this.router.navigate(['pages/citas/solicitudes']);;
+            this.router.navigate(['pages/citas/solicitudes']);
           },
             500);
         });
