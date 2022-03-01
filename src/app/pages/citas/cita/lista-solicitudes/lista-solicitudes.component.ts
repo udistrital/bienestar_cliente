@@ -10,6 +10,7 @@ import { EstudiantesService } from '../../../../shared/services/estudiantes.serv
 export class ListaSolicitudesComponent implements OnInit {
   displayedColumns = ['documento', 'nombre', 'telefono', 'facultad', 'plataforma', 'servicio', 'especialista', 'acciones'];
   datasource = new MatTableDataSource([]);
+  solicitudes: boolean;
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild('sort', { static: true }) sort: MatSort;
 
@@ -20,16 +21,23 @@ export class ListaSolicitudesComponent implements OnInit {
   }
   obtenerSolicitudes() {
     this.est.obtenerSolicitudes().subscribe((data: any) => {
-      let array = [];
-      for (let i in data) {
-        let json = JSON.parse(data[i].Referencia);
-        json.id = data[i].Id;
-        array.push(json);
+      //console.log(data);
+      if (JSON.stringify(data[0]) === '{}') {
+        this.solicitudes = false;
       }
-      this.datasource.data = array;
-      this.datasource.paginator = this.paginator;
-      this.datasource.sort = this.sort;
-      console.log(this.datasource.data);
+      else {
+        this.solicitudes = true;
+        let array = [];
+        for (let i in data) {
+          let json = JSON.parse(data[i].Referencia);
+          json.id = data[i].Id;
+          array.push(json);
+        }
+        this.datasource.data = array;
+        this.datasource.paginator = this.paginator;
+        this.datasource.sort = this.sort;
+      }
+      //console.log(this.datasource.data);
     })
   }
 }

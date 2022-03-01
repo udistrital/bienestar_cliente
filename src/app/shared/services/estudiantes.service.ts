@@ -20,6 +20,7 @@ const soliUrl = environment.SOLICITUD_CRUD_SERVICE;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
+const consultaEspecialistas = 'vinculacion?query=CargoId:'
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'
@@ -34,6 +35,9 @@ export class EstudiantesService {
     private pUpManager: PopUpManager) { }
   getEstudiante(codigo) {
     return this.http.get(estudianteUrl + 'datos_basicos_estudiante/' + codigo, headers);
+  }
+  getSolicitudCompleta(codigo) {
+    return this.http.get(soliUrl + 'solicitud?query=Id:' + codigo);
   }
   getPaciente(codigo) {
     return this.http.get(infoUrl + 'tercero/' + codigo);
@@ -59,10 +63,13 @@ export class EstudiantesService {
   getFacultades() {
     return this.http.get(oikosUrl + consultaFacultades, headers);
   }
+  getEspecialistas(codEspecialista) {
+    return this.http.get(infoUrl + consultaEspecialistas + codEspecialista);
+  }
   actualizarEstadoSolicitud(codigo, solicitud) {
     return this.http.put(soliUrl + 'solicitud/' + codigo, solicitud)
   }
-  getDatosPersonalesPorTercero(tercero){
+  getDatosPersonalesPorTercero(tercero) {
     return this.http.get(infoUrl + consultaIdentificacion + tercero);
   }
   getEstudiantePorDocumento(document) {

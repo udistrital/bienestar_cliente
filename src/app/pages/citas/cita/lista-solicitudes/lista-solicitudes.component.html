@@ -2,7 +2,7 @@
   <span class="h3">Listado de Solicitudes pendientes</span>
 </div>
 <div class="card text-center">
-  <div class="card-body">
+  <div class="card-body" *ngIf="solicitudes">
     <mat-table [dataSource]="datasource" #sort="matSort" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="documento">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Documento</mat-header-cell>
@@ -45,5 +45,8 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
     <mat-paginator #paginator="matPaginator" [pageSize]="20" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="card-body">
+    <h5>No hay solicitudes por el momento</h5>
   </div>
 </div>

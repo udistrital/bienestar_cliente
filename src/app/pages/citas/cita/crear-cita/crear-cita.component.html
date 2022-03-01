@@ -28,8 +28,8 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
               <mat-label>Tipo de cita</mat-label>
-              <mat-select formControlName="tipocita">
-                <mat-option [value]="tipocita" *ngFor="let tipocita of tipocitas">{{tipocita}}
+              <mat-select formControlName="tipocita" (valueChange)="consultarEspecialistas($event)">
+                <mat-option [value]="tipocita.id" *ngFor="let tipocita of tipocitas">{{tipocita.nombre}}
                 </mat-option>
               </mat-select>
               <mat-hint>Seleccione el tipo de cita</mat-hint>
@@ -38,8 +38,7 @@
             <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
               <mat-label>Especialista</mat-label>
               <mat-select formControlName="especialista">
-                <mat-option [value]="empleado.nombre1 +' '+ empleado.apellido1" *ngFor="let empleado of empleados">
-                  {{empleado.nombre1 + ' ' + empleado.apellido1}}
+                <mat-option [value]="empleado.Id" *ngFor="let empleado of empleados">{{empleado.TerceroPrincipalId.NombreCompleto}}
                 </mat-option>
               </mat-select>
               <mat-hint>Seleccione el especialista</mat-hint>
