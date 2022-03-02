@@ -8,5 +8,8 @@ export interface Diagnostico {
     Analisis?: string,
     Descripcion?: string,
     PlanDeManejo?: string,
-    Medicamento?: string
+    Medicamento?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

@@ -17,5 +17,8 @@ export interface ExamenesComplementarios {
     Tpt?: string,
     Coagulacion?: string,
     Sangria?: string,
-    Otra?: string
+    Otra?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

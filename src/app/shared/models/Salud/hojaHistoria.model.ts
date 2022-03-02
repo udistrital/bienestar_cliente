@@ -12,5 +12,8 @@ export interface HojaHistoria {
     Persona?: number,
     Profesional?: number | string,
     Motivo?: string,
-    Observacion?: string
+    Observacion?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

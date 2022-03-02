@@ -144,6 +144,9 @@ export class FisioterapiaComponent implements OnInit {
         Profesional: this.terceroEspecialista,
         Motivo: this.fisioterapiaForm.get('motivoConsultaFisio').value,
         Observacion: this.fisioterapiaForm.get('observacionesFisioterapia').value,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
@@ -158,6 +161,9 @@ export class FisioterapiaComponent implements OnInit {
           PlanManejo: this.fisioterapiaForm.get('planDeManejoFisio').value,
           Diagnostico: this.fisioterapiaForm.get('diagnostico').value,
           Medicamento: this.fisioterapiaForm.get('medicamento').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         };
         // console.log(historiaFisio);
         this.saludService.postFisioterapia(consultaFisio).subscribe(data => {
@@ -184,6 +190,9 @@ export class FisioterapiaComponent implements OnInit {
         Profesional: this.hojahistoria.Profesional,
         Motivo: this.fisioterapiaForm.get('motivoConsultaFisio').value,
         Observacion: this.fisioterapiaForm.get('observacionesFisioterapia').value,
+        FechaCreacion: this.hojahistoria.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.hojahistoria.Id, hojaHistoria).subscribe(data => {
@@ -200,6 +209,9 @@ export class FisioterapiaComponent implements OnInit {
         PlanManejo: this.fisioterapiaForm.get('planDeManejoFisio').value,
         Diagnostico: this.fisioterapiaForm.get('diagnostico').value,
         Medicamento: this.fisioterapiaForm.get('medicamento').value,
+        FechaCreacion: this.fisioterapia.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       };
       // console.log(historiaFisio);
       this.saludService.putFisioterapia(this.fisioterapia.Id, consultaFisio).subscribe(data => {

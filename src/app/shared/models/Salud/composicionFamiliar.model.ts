@@ -6,4 +6,7 @@ export interface ComposicionFamiliar {
     HojaHistoriaId?: HojaHistoria | number,
     Id?: number,
     Observaciones?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

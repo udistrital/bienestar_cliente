@@ -25,4 +25,7 @@ export interface Examen {
     Talla?: string,
     Temperatura?: string,
     Torax?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

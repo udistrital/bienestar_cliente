@@ -4,5 +4,8 @@ export interface AccesoHistoria {
     IdAccesoHistoria?: number,
     IdHistoriaClinica?: HistoriaClinica | number,
     FechaAcceso?: Date,
-    ProfesionalId?: number
+    ProfesionalId?: number,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

@@ -8,4 +8,7 @@ export interface ComportamientoConsulta {
     HojaHistoriaId?: HojaHistoria | number,
     Id?: number,
     Problematica?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

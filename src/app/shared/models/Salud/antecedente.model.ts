@@ -24,4 +24,7 @@ export interface Antecedente {
     ResultadoSeno?: string,
     Seno?: Date,
     Traumaticos?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

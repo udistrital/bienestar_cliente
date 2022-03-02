@@ -8,4 +8,7 @@ export interface Limites {
     HojaHistoriaId?: HojaHistoria | number,
     Id?: number,
     Rigidos?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

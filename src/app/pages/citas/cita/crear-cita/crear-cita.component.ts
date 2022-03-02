@@ -75,8 +75,12 @@ export class CrearCitaComponent implements OnInit {
       IdSolicitud: Number(this.solicitudId),
       TipoServicio: this.crearCita.controls.tipocita.value,
       Sede: this.crearCita.controls.facultad.value,
+      FechaCreacion: new Date(),
+      FechaModificacion: new Date(),
+      Activo: true
     }
     this.saludService.postCita(cita).subscribe((data: any) => {
+      console.log(data);
       this.estudianteService.getSolicitudCompleta(Number(this.solicitudId)).subscribe((res: any) => {
         //console.log(res[0]);
         const solicitud = {
@@ -98,9 +102,9 @@ export class CrearCitaComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['pages/citas/solicitudes']);
           },
-            500);
+            1000);
         });
-        //console.log(data);
+        
       });
     });
   }

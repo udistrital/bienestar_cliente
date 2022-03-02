@@ -14,4 +14,7 @@ export interface ExamenDental {
     PlacaBlanda?: string,
     PlacaCalcificada?: string,
     Supernumerarios?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

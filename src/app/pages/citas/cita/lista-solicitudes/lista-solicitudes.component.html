@@ -46,7 +46,7 @@
     </mat-table>
     <mat-paginator #paginator="matPaginator" [pageSize]="20" showFirstLastButtons></mat-paginator>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="!solicitudes">
     <h5>No hay solicitudes por el momento</h5>
   </div>
 </div>

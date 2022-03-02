@@ -7,4 +7,7 @@ export interface AntecedentePsicologia {
     ActualPersonal?: string,
     PasadoFamiliar?: string,
     PasadoPersonal?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

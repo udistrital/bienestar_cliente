@@ -15,4 +15,7 @@ export interface ValoracionInterpersonal {
     Proteccion?: string,
     Relaciones?: boolean,
     Satisfaccion?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }
