@@ -879,7 +879,10 @@ export class OdontogramaVestibularComponent implements OnInit {
         Id: 0,
         Observaciones: this.odontogramaForm.controls.observaciones.value,
         IdTipoOdontograma: this.tipoOdontograma,
-        Diagrama: jsonOdontograma
+        Diagrama: jsonOdontograma,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Activo: true
       };
       this.saludService.postOdontograma(odontograma).subscribe(data => {
         console.log('Vestibular: ' + data[0]);
@@ -895,7 +898,10 @@ export class OdontogramaVestibularComponent implements OnInit {
         Id: this.odontograma.Id,
         Observaciones: this.odontogramaForm.controls.observaciones.value,
         IdTipoOdontograma: this.tipoOdontograma,
-        Diagrama: jsonOdontograma
+        Diagrama: jsonOdontograma,
+        FechaCreacion: this.odontograma.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       };
       this.saludService.putOdontograma(odontograma.Id, odontograma).subscribe(data => {
         console.log('Vestibular: ' + data[0]);

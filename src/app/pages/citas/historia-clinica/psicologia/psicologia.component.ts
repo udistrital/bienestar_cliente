@@ -203,6 +203,9 @@ export class PsicologiaComponent implements OnInit {
         Profesional: this.terceroEspecialista,
         Motivo: this.psicologiaForm.get('motivoConsultaPsico').value,
         Observacion: this.psicologiaForm.get('observacionesPsicologia').value,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
@@ -217,6 +220,9 @@ export class PsicologiaComponent implements OnInit {
             PasadoPersonal: this.psicologiaForm.controls.pasadosPersonales.value,
             ActualPersonal: this.psicologiaForm.controls.actualesPersonales.value,
             HistoriaClinicaId: this.saludService.historia,
+            FechaCreacion: new Date(),
+            FechaModificacion: new Date(),
+            Activo: true
           }
           // console.log(antecedentePsicologia);
           this.saludService.postAntecedentePsicologia(antecedentePsicologia).subscribe(data => {
@@ -233,6 +239,9 @@ export class PsicologiaComponent implements OnInit {
             PasadoPersonal: this.psicologiaForm.controls.pasadosPersonales.value,
             ActualPersonal: this.psicologiaForm.controls.actualesPersonales.value,
             HistoriaClinicaId: this.saludService.historia,
+            FechaCreacion: this.antecedentes.FechaCreacion,
+            FechaModificacion: new Date(),
+            Activo: true
           }
           // console.log(antecedentePsicologia);
           this.saludService.putAntecedentePsicologia(this.antecedentes.Id, antecedentePsicologia).subscribe(data => {
@@ -249,6 +258,9 @@ export class PsicologiaComponent implements OnInit {
           Id: 0,
           Problematica: this.psicologiaForm.get('problematicaActual').value,
           HojaHistoriaId: this.HojaHistoria.Id,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         // console.log(comportamientoConsulta);
         this.saludService.postComportamientoConsulta(comportamientoConsulta).subscribe(data => {
@@ -262,6 +274,9 @@ export class PsicologiaComponent implements OnInit {
           HojaHistoriaId: this.HojaHistoria.Id,
           Id: 0,
           Observaciones: this.psicologiaForm.get('viveCon').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         // console.log('Ya había composicion');
         // console.log(composicionFamiliar);
@@ -279,6 +294,9 @@ export class PsicologiaComponent implements OnInit {
           HistoriaClinicaId: this.saludService.historia,
           HojaHistoriaId: this.HojaHistoria.Id,
           Id: 0,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         // console.log('Ya había diagnostico');
         // console.log(diagnostico);
@@ -295,6 +313,9 @@ export class PsicologiaComponent implements OnInit {
           HojaHistoriaId: this.HojaHistoria.Id,
           Id: 0,
           Rigidos: this.psicologiaForm.get('rigidos').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         // console.log('Ya había limites');
         // console.log(limites);
@@ -318,6 +339,9 @@ export class PsicologiaComponent implements OnInit {
           Proteccion: this.psicologiaForm.get('metodoProteccion').value,
           Relaciones: JSON.parse(this.psicologiaForm.get('relacionesSexuales').value),
           Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         // console.log('Ya había valoracion');
         // console.log(valoracionInterpersonal);
@@ -342,6 +366,9 @@ export class PsicologiaComponent implements OnInit {
         Profesional: this.HojaHistoria.Profesional,
         Motivo: this.psicologiaForm.get('motivoConsultaPsico').value,
         Observacion: this.psicologiaForm.get('observacionesPsicologia').value,
+        FechaCreacion: this.HojaHistoria.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
@@ -357,6 +384,9 @@ export class PsicologiaComponent implements OnInit {
         PasadoPersonal: this.psicologiaForm.controls.pasadosPersonales.value,
         ActualPersonal: this.psicologiaForm.controls.actualesPersonales.value,
         HistoriaClinicaId: this.saludService.historia,
+        FechaCreacion: this.antecedentes.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(antecedentePsicologia);
       this.saludService.putAntecedentePsicologia(this.antecedentes.Id, antecedentePsicologia).subscribe(data => {
@@ -372,6 +402,9 @@ export class PsicologiaComponent implements OnInit {
         Id: this.comportamiento.Id,
         Problematica: this.psicologiaForm.get('problematicaActual').value,
         HojaHistoriaId: this.comportamiento.HojaHistoriaId,
+        FechaCreacion: this.comportamiento.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(comportamientoConsulta);
       this.saludService.putComportamientoConsulta(this.comportamiento.Id, comportamientoConsulta).subscribe(data => {
@@ -382,9 +415,12 @@ export class PsicologiaComponent implements OnInit {
       });
       const composicionFamiliar: ComposicionFamiliar = {
         HistoriaClinicaId: this.composicion.HistoriaClinicaId,
-        HojaHistoriaId: this.HojaHistoria.Id,
+        HojaHistoriaId: this.composicion.HojaHistoriaId,
         Id: this.composicion.Id,
         Observaciones: this.psicologiaForm.get('viveCon').value,
+        FechaCreacion: this.composicion.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log('Ya había composicion');
       // console.log(composicionFamiliar);
@@ -397,11 +433,14 @@ export class PsicologiaComponent implements OnInit {
       const diagnostico: DiagnosticoPsicologia = {
         Acuerdo: this.psicologiaForm.get('acuerdos').value,
         Hipotesis: this.psicologiaForm.get('hipotesis').value,
-        HistoriaClinicaId: this.saludService.historia,
+        HistoriaClinicaId: this.diagnostico.HistoriaClinicaId,
         Medicamento: this.psicologiaForm.get('medicamento').value,
         Diagnostico: this.psicologiaForm.get('diagnostico').value,
-        HojaHistoriaId: this.HojaHistoria.Id,
+        HojaHistoriaId: this.diagnostico.HojaHistoriaId,
         Id: this.diagnostico.Id,
+        FechaCreacion: this.diagnostico.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log('Ya había diagnostico');
       // console.log(diagnostico);
@@ -414,10 +453,13 @@ export class PsicologiaComponent implements OnInit {
       const limites: Limites = {
         Claros: this.psicologiaForm.get('claros').value,
         Difusos: this.psicologiaForm.get('difusos').value,
-        HistoriaClinicaId: this.saludService.historia,
-        HojaHistoriaId: this.HojaHistoria.Id,
+        HistoriaClinicaId: this.limites.HistoriaClinicaId,
+        HojaHistoriaId: this.limites.HojaHistoriaId,
         Id: this.limites.Id,
         Rigidos: this.psicologiaForm.get('rigidos').value,
+        FechaCreacion: this.limites.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log('Ya había limites');
       // console.log(limites);
@@ -431,8 +473,8 @@ export class PsicologiaComponent implements OnInit {
         Autoridad: this.psicologiaForm.get('figurasDeAutoridad').value,
         Drogas: this.psicologiaForm.get('drogas').value,
         Economicos: this.psicologiaForm.get('economicos').value,
-        HistoriaClinicaId: this.saludService.historia,
-        HojaHistoriaId: this.HojaHistoria.Id,
+        HistoriaClinicaId: this.valoracion.HistoriaClinicaId,
+        HojaHistoriaId: this.valoracion.HojaHistoriaId,
         Id: this.valoracion.Id,
         Judiciales: this.psicologiaForm.get('judiciales').value,
         Orientacion: this.psicologiaForm.get('orientacionSexual').value,
@@ -441,6 +483,9 @@ export class PsicologiaComponent implements OnInit {
         Proteccion: this.psicologiaForm.get('metodoProteccion').value,
         Relaciones: JSON.parse(this.psicologiaForm.get('relacionesSexuales').value),
         Satisfaccion: this.psicologiaForm.get('satisfaccion').value,
+        FechaCreacion: this.valoracion.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log('Ya había valoracion');
       // console.log(valoracionInterpersonal);

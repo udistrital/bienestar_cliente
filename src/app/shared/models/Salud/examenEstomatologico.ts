@@ -18,4 +18,7 @@ export interface ExamenEstomatologico {
     SistemaLinfaticoRegional?: string,
     SistemaNervioso?: string,
     SistemaVascular?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

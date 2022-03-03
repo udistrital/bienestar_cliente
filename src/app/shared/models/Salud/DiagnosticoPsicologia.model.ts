@@ -8,5 +8,8 @@ export interface DiagnosticoPsicologia {
     HistoriaClinicaId?: HistoriaClinica | number,
     HojaHistoriaId?: HojaHistoria | number,
     Id?: number,
-    Medicamento?: string
+    Medicamento?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

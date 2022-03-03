@@ -23,5 +23,8 @@ export interface Anamnesis {
     Seda?: number,
     Sinusitis?: string,
     Tratamiento?: string,
-    UltimaVisita?: Date
+    UltimaVisita?: Date,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

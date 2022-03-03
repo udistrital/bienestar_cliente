@@ -17,4 +17,7 @@ export interface Sistemas {
     Respiratorio?: string,
     Sentidos?: string,
     Urinario?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

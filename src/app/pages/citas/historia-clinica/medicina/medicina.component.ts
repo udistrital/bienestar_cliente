@@ -364,6 +364,9 @@ export class MedicinaComponent implements OnInit {
         Profesional: this.terceroEspecialista,
         Motivo: this.medicinaForm.get('motivoConsulta').value,
         Observacion: this.medicinaForm.get('observacionesMedicina').value,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
@@ -395,6 +398,9 @@ export class MedicinaComponent implements OnInit {
             ResultadoSeno: this.medicinaForm.controls.resultadoSeno.value,
             Seno: new Date(this.medicinaForm.controls.examenSeno.value),
             Traumaticos: this.medicinaForm.get('traumaticos').value,
+            FechaCreacion: new Date(),
+            FechaModificacion: new Date(),
+            Activo: true
           }
           // console.log(this.antecedentes);
 
@@ -429,6 +435,9 @@ export class MedicinaComponent implements OnInit {
             Fog: this.medicinaForm.get('fo').value,
             Fup: this.medicinaForm.get('fup').value,
             Fur: this.medicinaForm.get('fur').value,
+            FechaCreacion: this.antecedentes.FechaCreacion,
+            FechaModificacion: new Date(),
+            Activo: true
           }
           this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
 
@@ -456,6 +465,9 @@ export class MedicinaComponent implements OnInit {
           Respiratorio: this.medicinaForm.get('respiratorio').value,
           Sentidos: this.medicinaForm.get('sentidos').value,
           Urinario: this.medicinaForm.get('urinario').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postSistema(sistemas).subscribe(data => {
           console.log('Sistemas: ' + data[0]);
@@ -487,6 +499,9 @@ export class MedicinaComponent implements OnInit {
           Talla: this.medicinaForm.get('talla').value,
           Temperatura: this.medicinaForm.get('tc').value,
           Torax: this.medicinaForm.get('torax').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postExamen(examenes).subscribe(data => {
           console.log('Examenes: ' + data[0]);
@@ -503,6 +518,9 @@ export class MedicinaComponent implements OnInit {
           Descripcion: this.medicinaForm.get('diagnostico').value,
           PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
           Medicamento: this.medicinaForm.get('medicamento').value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postDiagnostico(diagnostico).subscribe(data => {
           console.log('Diagnóstico: ' + data[0]);
@@ -528,6 +546,9 @@ export class MedicinaComponent implements OnInit {
         Profesional: this.hojaHistoria.Profesional,
         Motivo: this.medicinaForm.get('motivoConsulta').value,
         Observacion: this.medicinaForm.get('observacionesMedicina').value,
+        FechaCreacion: this.hojaHistoria.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.hojaHistoria.Id, hojaHistoria).subscribe(data => {
@@ -562,6 +583,9 @@ export class MedicinaComponent implements OnInit {
         Fog: this.medicinaForm.get('fo').value,
         Fup: this.medicinaForm.get('fup').value,
         Fur: this.medicinaForm.get('fur').value,
+        FechaCreacion: this.antecedentes.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
 
@@ -587,6 +611,9 @@ export class MedicinaComponent implements OnInit {
         Respiratorio: this.medicinaForm.get('respiratorio').value,
         Sentidos: this.medicinaForm.get('sentidos').value,
         Urinario: this.medicinaForm.get('urinario').value,
+        FechaCreacion: this.sistemas.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(sistemas);
       this.saludService.putSistema(this.sistemas.Id, sistemas).subscribe(data => {
@@ -620,6 +647,9 @@ export class MedicinaComponent implements OnInit {
         Talla: this.medicinaForm.get('talla').value,
         Temperatura: this.medicinaForm.get('tc').value,
         Torax: this.medicinaForm.get('torax').value,
+        FechaCreacion: this.examenes.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putExamen(this.examenes.Id, examenes).subscribe(data => {
         console.log('Examenes: ' + data);
@@ -636,6 +666,9 @@ export class MedicinaComponent implements OnInit {
         Descripcion: this.medicinaForm.get('diagnostico').value,
         PlanDeManejo: this.medicinaForm.get('planDeManejo').value,
         Medicamento: this.medicinaForm.get('medicamento').value,
+        FechaCreacion: this.diagnostico.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putDiagnostico(this.diagnostico.Id, diagnostico).subscribe(data => {
         console.log('Diagnóstico: ' + data);

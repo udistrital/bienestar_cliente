@@ -75,6 +75,9 @@ export class EnfermeriaComponent implements OnInit {
         Profesional: this.terceroEspecialista,
         Motivo: null,
         Observacion: null,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Activo: true
       }
       //console.log(hojaHistoria);
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
@@ -86,7 +89,10 @@ export class EnfermeriaComponent implements OnInit {
           SignosVitales: this.enfermeriaForm.get('signosVitales').value,
           HistoriaClinica: { Id: this.Historia.Id, Tercero: parseInt(this.terceroId) },
           Id: 0,
-          HojaHistoria: { Id: this.HojaHistoria.Id }
+          HojaHistoria: { Id: this.HojaHistoria.Id },
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         // console.log(enfermeria);
         this.saludService.postEnfermeria(enfermeria).subscribe(data => {
@@ -110,6 +116,9 @@ export class EnfermeriaComponent implements OnInit {
         Profesional: this.HojaHistoria.Profesional,
         Motivo: null,
         Observacion: null,
+        FechaCreacion: this.HojaHistoria.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
@@ -124,6 +133,9 @@ export class EnfermeriaComponent implements OnInit {
         HistoriaClinica: this.HojaHistoria.HistoriaClinica,
         HojaHistoria: { Id: this.HojaHistoria.Id },
         Id: this.enfermeria.Id,
+        FechaCreacion: this.HojaHistoria.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       console.log(enfermeria);
       this.saludService.putEnfermeria(this.enfermeria.Id, enfermeria).subscribe(data => {

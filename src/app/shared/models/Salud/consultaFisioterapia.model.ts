@@ -8,5 +8,8 @@ export interface ConsultaFisioterapia {
     PlanManejo?: string,
     Valoracion?: string,
     Diagnostico?: string,
-    Medicamento?: string
+    Medicamento?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

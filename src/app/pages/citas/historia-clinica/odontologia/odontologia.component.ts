@@ -365,6 +365,7 @@ export class OdontologiaComponent implements OnInit {
   }
 
   guardarDocumentos() {
+    this.toastr.warning('Guardando documentos...');
     this.odontologiaForm.disable();
     if (this.base64PanoramicaInicio != null) {
       const documento: Documento = {
@@ -482,7 +483,7 @@ export class OdontologiaComponent implements OnInit {
     setTimeout(() => {
       this.guardarHistoriaOdontologia();
     },
-      3000);
+      4000);
   }
 
   guardarHistoriaOdontologia() {
@@ -502,6 +503,9 @@ export class OdontologiaComponent implements OnInit {
         Profesional: this.terceroEspecialista,
         Motivo: this.odontologiaForm.controls.motivoConsultaOdonto.value,
         Observacion: this.odontologiaForm.controls.observacionesOdontologia.value,
+        FechaCreacion: new Date(),
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
@@ -532,7 +536,10 @@ export class OdontologiaComponent implements OnInit {
             Sinusitis: this.odontologiaForm.controls.sinusitis.value,
             Tratamiento: this.odontologiaForm.controls.tratamientoMedico.value,
             UltimaVisita: new Date(this.odontologiaForm.controls.ultimaVisitaOdontologo.value),
-            HistoriaClinicaId: this.Historia.Id
+            HistoriaClinicaId: this.Historia.Id,
+            FechaCreacion: new Date(),
+            FechaModificacion: new Date(),
+            Activo: true
           }
           this.saludService.postAnamnesis(anamnesis).subscribe(data => {
             console.log('Anamnesis: ' + data[0]);
@@ -564,7 +571,10 @@ export class OdontologiaComponent implements OnInit {
             Sinusitis: this.odontologiaForm.controls.sinusitis.value,
             Tratamiento: this.odontologiaForm.controls.tratamientoMedico.value,
             UltimaVisita: new Date(this.odontologiaForm.controls.ultimaVisitaOdontologo.value),
-            HistoriaClinicaId: this.Historia.Id
+            HistoriaClinicaId: this.Historia.Id,
+            FechaCreacion: this.anamnesis.FechaCreacion,
+            FechaModificacion: new Date(),
+            Activo: true
           }
           this.saludService.putAnamnesis(this.anamnesis.Id, anamnesis).subscribe(data => {
             console.log('Anamnesis: ' + data[0]);
@@ -585,7 +595,10 @@ export class OdontologiaComponent implements OnInit {
           PlacaCalcificada: this.odontologiaForm.controls.placaCalcificada.value,
           Supernumerarios: this.odontologiaForm.controls.Supernumerarios.value,
           HistoriaClinicaId: this.Historia.Id,
-          HojaHistoriaId: this.HojaHistoria.Id
+          HojaHistoriaId: this.HojaHistoria.Id,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postExamenDental(examenDental).subscribe(data => {
           console.log('ExamenDental: ' + data[0]);
@@ -609,7 +622,10 @@ export class OdontologiaComponent implements OnInit {
           SistemaNervioso: this.odontologiaForm.controls.nerviosoOdontologia.value,
           SistemaVascular: this.odontologiaForm.controls.vascularOdontologia.value,
           HistoriaClinicaId: this.Historia.Id,
-          HojaHistoriaId: this.HojaHistoria.Id
+          HojaHistoriaId: this.HojaHistoria.Id,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postExamenEstomatologico(examenEstomatologico).subscribe(data => {
           console.log('ExamenEstomatologico: ' + data[0]);
@@ -633,7 +649,10 @@ export class OdontologiaComponent implements OnInit {
           Sangria: this.odontologiaForm.controls.sangria.value,
           Otra: this.odontologiaForm.controls.otra.value,
           HistoriaClinicaId: this.Historia.Id,
-          HojaHistoriaId: this.HojaHistoria.Id
+          HojaHistoriaId: this.HojaHistoria.Id,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postExamenesComplementarios(examenesComplementarios).subscribe(data => {
           console.log('ExamenesComplementarios: ' + data[0]);
@@ -652,7 +671,10 @@ export class OdontologiaComponent implements OnInit {
           TensionArterial: this.odontologiaForm.controls.tensionArterial.value,
           Medicamento: this.odontologiaForm.controls.medicamento.value,
           HistoriaClinica: this.Historia.Id,
-          HojaHistoriaId: this.HojaHistoria.Id
+          HojaHistoriaId: this.HojaHistoria.Id,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
         this.saludService.postDiagnosticoOdontologia(diagnostico).subscribe(data => {
           console.log('Diagnostico: ' + data[0]);
@@ -666,7 +688,10 @@ export class OdontologiaComponent implements OnInit {
           Id: 0,
           Observaciones: this.odontologiaForm.controls.observacionesVestabular.value,
           IdTipoOdontograma: this.tipoOdontogramaVestabular,
-          Diagrama: this.odontogramaVestabular
+          Diagrama: this.odontogramaVestabular,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         };
         this.saludService.postOdontograma(odontogramaVestabular).subscribe(data => {
           console.log('Vestabular: ' + data[0]);
@@ -680,7 +705,10 @@ export class OdontologiaComponent implements OnInit {
           Id: 0,
           Observaciones: this.odontologiaForm.controls.observacionesVestibular.value,
           IdTipoOdontograma: this.tipoOdontogramaVestibular,
-          Diagrama: this.odontogramaVestibular
+          Diagrama: this.odontogramaVestibular,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         };
         this.saludService.postOdontograma(odontogramaVestibular).subscribe(data => {
           console.log('Vestibular: ' + data[0]);
@@ -694,7 +722,10 @@ export class OdontologiaComponent implements OnInit {
           Id: 0,
           Observaciones: this.odontologiaForm.controls.observacionesVestibularInfantil.value,
           IdTipoOdontograma: this.tipoOdontogramaVestibularInfantil,
-          Diagrama: this.odontogramaVestibularInfantil
+          Diagrama: this.odontogramaVestibularInfantil,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         };
         this.saludService.postOdontograma(odontogramaVestibularInfantil).subscribe(data => {
           console.log('VestibularInfantil: ' + data[0]);
@@ -708,7 +739,10 @@ export class OdontologiaComponent implements OnInit {
           Id: 0,
           Observaciones: this.odontologiaForm.controls.observacionesLingualesInfantil.value,
           IdTipoOdontograma: this.tipoOdontogramaLingualesInfantil,
-          Diagrama: this.odontogramaLingualesInfantil
+          Diagrama: this.odontogramaLingualesInfantil,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         };
         this.saludService.postOdontograma(odontogramaLingualesInfantil).subscribe(data => {
           console.log('LingualesInfantil: ' + data[0]);
@@ -732,6 +766,9 @@ export class OdontologiaComponent implements OnInit {
         Profesional: this.HojaHistoria.Profesional,
         Motivo: this.odontologiaForm.controls.motivoConsultaOdonto.value,
         Observacion: this.odontologiaForm.controls.observacionesOdontologia.value,
+        FechaCreacion: this.HojaHistoria.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
@@ -763,7 +800,10 @@ export class OdontologiaComponent implements OnInit {
         Sinusitis: this.odontologiaForm.controls.sinusitis.value,
         Tratamiento: this.odontologiaForm.controls.tratamientoMedico.value,
         UltimaVisita: new Date(this.odontologiaForm.controls.ultimaVisitaOdontologo.value),
-        HistoriaClinicaId: this.Historia.Id
+        HistoriaClinicaId: this.Historia.Id,
+        FechaCreacion: this.anamnesis.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putAnamnesis(this.anamnesis.Id, anamnesis).subscribe(data => {
         console.log('Anamnesis: ' + data[0]);
@@ -784,7 +824,10 @@ export class OdontologiaComponent implements OnInit {
         PlacaCalcificada: this.odontologiaForm.controls.placaCalcificada.value,
         Supernumerarios: this.odontologiaForm.controls.Supernumerarios.value,
         HistoriaClinicaId: this.Historia.Id,
-        HojaHistoriaId: this.HojaHistoria.Id
+        HojaHistoriaId: this.HojaHistoria.Id,
+        FechaCreacion: this.examenDental.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putExamenDental(this.examenDental.Id, examenDental).subscribe(data => {
         console.log('ExamenDental: ' + data[0]);
@@ -808,7 +851,10 @@ export class OdontologiaComponent implements OnInit {
         SistemaNervioso: this.odontologiaForm.controls.nerviosoOdontologia.value,
         SistemaVascular: this.odontologiaForm.controls.vascularOdontologia.value,
         HistoriaClinicaId: this.Historia.Id,
-        HojaHistoriaId: this.HojaHistoria.Id
+        HojaHistoriaId: this.HojaHistoria.Id,
+        FechaCreacion: this.examenEstomatologico.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putExamenEstomatologico(this.examenEstomatologico.Id, examenEstomatologico).subscribe(data => {
         console.log('ExamenEstomatologico: ' + data[0]);
@@ -856,7 +902,10 @@ export class OdontologiaComponent implements OnInit {
         Sangria: this.odontologiaForm.controls.sangria.value,
         Otra: this.odontologiaForm.controls.otra.value,
         HistoriaClinicaId: this.Historia.Id,
-        HojaHistoriaId: this.HojaHistoria.Id
+        HojaHistoriaId: this.HojaHistoria.Id,
+        FechaCreacion: this.examenesComplementarios.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putExamenesComplementarios(this.examenesComplementarios.Id, examenesComplementarios).subscribe(data => {
         console.log('ExamenesComplementarios: ' + data[0]);
@@ -876,7 +925,10 @@ export class OdontologiaComponent implements OnInit {
         TensionArterial: this.odontologiaForm.controls.tensionArterial.value,
         Medicamento: this.odontologiaForm.controls.medicamento.value,
         HistoriaClinica: this.Historia.Id,
-        HojaHistoriaId: this.HojaHistoria.Id
+        HojaHistoriaId: this.HojaHistoria.Id,
+        FechaCreacion: this.diagnostico.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       }
       this.saludService.putDiagnosticoOdontologia(this.diagnostico.Id, diagnostico).subscribe(data => {
         console.log('Diagnostico: ' + data[0]);
@@ -890,7 +942,10 @@ export class OdontologiaComponent implements OnInit {
         Id: this.getOdontogramaVestabular.Id,
         Observaciones: this.odontologiaForm.controls.observacionesVestabular.value,
         IdTipoOdontograma: this.tipoOdontogramaVestabular,
-        Diagrama: this.odontogramaVestabular
+        Diagrama: this.odontogramaVestabular,
+        FechaCreacion: this.getOdontogramaVestabular.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       };
       this.saludService.putOdontograma(odontogramaVestabular.Id, odontogramaVestabular).subscribe(data => {
         console.log('Vestibular: ' + data[0]);
@@ -904,7 +959,10 @@ export class OdontologiaComponent implements OnInit {
         Id: this.getOdontogramaVestibular.Id,
         Observaciones: this.odontologiaForm.controls.observacionesVestibular.value,
         IdTipoOdontograma: this.tipoOdontogramaVestibular,
-        Diagrama: this.odontogramaVestibular
+        Diagrama: this.odontogramaVestibular,
+        FechaCreacion: this.getOdontogramaVestibular.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       };
       this.saludService.putOdontograma(odontogramaVestibular.Id, odontogramaVestibular).subscribe(data => {
         console.log('Vestibular: ' + data[0]);
@@ -918,7 +976,10 @@ export class OdontologiaComponent implements OnInit {
         Id: this.getOdontogramaVestibularInfantil.Id,
         Observaciones: this.odontologiaForm.controls.observacionesVestibularInfantil.value,
         IdTipoOdontograma: this.tipoOdontogramaVestibularInfantil,
-        Diagrama: this.odontogramaVestibularInfantil
+        Diagrama: this.odontogramaVestibularInfantil,
+        FechaCreacion: this.getOdontogramaVestibularInfantil.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       };
       this.saludService.putOdontograma(odontogramaVestibularInfantil.Id, odontogramaVestibularInfantil).subscribe(data => {
         console.log('Vestibular: ' + data[0]);
@@ -932,7 +993,10 @@ export class OdontologiaComponent implements OnInit {
         Id: this.getOdontogramaLingualesInfantil.Id,
         Observaciones: this.odontologiaForm.controls.observacionesLingualesInfantil.value,
         IdTipoOdontograma: this.tipoOdontogramaLingualesInfantil,
-        Diagrama: this.odontogramaLingualesInfantil
+        Diagrama: this.odontogramaLingualesInfantil,
+        FechaCreacion: this.getOdontogramaLingualesInfantil.FechaCreacion,
+        FechaModificacion: new Date(),
+        Activo: true
       };
       this.saludService.putOdontograma(odontogramaLingualesInfantil.Id, odontogramaLingualesInfantil).subscribe(data => {
         console.log('Vestibular: ' + data[0]);

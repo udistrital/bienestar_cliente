@@ -9,4 +9,7 @@ export interface Odontograma {
     Observaciones?: string,
     IdTipoOdontograma?: TipoOdontograma,
     Diagrama?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

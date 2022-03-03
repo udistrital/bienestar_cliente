@@ -12,5 +12,8 @@ export interface DiagnosticoOdontologia {
     Respiracion?: string,
     Temperatura?: string,
     TensionArterial?: string,
-    Medicamento?: string
+    Medicamento?: string,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }

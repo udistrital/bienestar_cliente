@@ -81,6 +81,9 @@ export class DatosBasicosComponent implements OnInit {
           const historia: HistoriaClinica = {
             Id: 0,
             Tercero: this.terceroId,
+            FechaCreacion: new Date(),
+            FechaModificacion: new Date(),
+            Activo: true
           }
           this.saludService.postHistoriaClinica(historia).subscribe((data) => {
             // console.log(data);
@@ -103,7 +106,10 @@ export class DatosBasicosComponent implements OnInit {
                 IdAccesoHistoria: 0,
                 IdHistoriaClinica: data[0].Id,
                 ProfesionalId: res[0].TerceroId.Id,
-                FechaAcceso: fechaActual
+                FechaAcceso: fechaActual,
+                FechaCreacion: new Date(),
+                FechaModificacion: new Date(),
+                Activo: true
               }
               this.saludService.postAccesoHistoria(accesoHistoria).subscribe((response) => {
               });

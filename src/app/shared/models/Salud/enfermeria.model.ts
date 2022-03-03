@@ -7,4 +7,7 @@ export interface Enfermeria {
     HistoriaClinica?: HistoriaClinica | number,
     HojaHistoria?: HojaHistoria | number,
     Id?: number,
+    FechaCreacion?: Date,
+    FechaModificacion?: Date,
+    Activo?: boolean,
 }
