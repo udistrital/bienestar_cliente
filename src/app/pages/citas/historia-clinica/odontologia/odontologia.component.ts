@@ -483,7 +483,7 @@ export class OdontologiaComponent implements OnInit {
     setTimeout(() => {
       this.guardarHistoriaOdontologia();
     },
-      4000);
+      5000);
   }
 
   guardarHistoriaOdontologia() {

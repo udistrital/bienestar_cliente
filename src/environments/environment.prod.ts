@@ -15,7 +15,7 @@ export const environment = {
   CLIENTE_APOYO: 'apoyo-alimentario',
   CLIENTE_SALUD: 'citas',
   APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/apoyo_alimentario_mongo_crud/",
-  SALUD: "http://localhost:8080/",
+  MEDICINA: "http://localhost:8080/",
   PSICOLOGIA: "http://localhost:8081/",
   ODONTOLOGIA: "http://localhost:8082/",
   ACCESO_HISTORIA: "http://localhost:8083/",

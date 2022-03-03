@@ -62,6 +62,7 @@ export class EnfermeriaComponent implements OnInit {
     this.getHojaEspecifica(data);
   }
   guardarHistoriaEnfermeria() {
+    this.enfermeriaForm.disable();
     if (this.estado == "nueva") {
       let fechaActual = new (Date);
       fechaActual.setHours(fechaActual.getHours() - 5);
