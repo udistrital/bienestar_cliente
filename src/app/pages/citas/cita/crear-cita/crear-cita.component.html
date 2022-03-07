@@ -17,7 +17,7 @@
               <mat-error>Campo obligatorio</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
-              <mat-label>Facultad</mat-label>
+              <mat-label>Facultad o plataforma</mat-label>
               <mat-select formControlName="facultad">
                 <mat-option [value]="usuario" *ngFor="let usuario of facultades">
                   {{usuario}}
@@ -38,7 +38,7 @@
             <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
               <mat-label>Especialista</mat-label>
               <mat-select formControlName="especialista">
-                <mat-option [value]="empleado.Id" *ngFor="let empleado of empleados">{{empleado.TerceroPrincipalId.NombreCompleto}}
+                <mat-option [value]="empleado.TerceroPrincipalId.Id" *ngFor="let empleado of empleados">{{empleado.TerceroPrincipalId.NombreCompleto}}
                 </mat-option>
               </mat-select>
               <mat-hint>Seleccione el especialista</mat-hint>

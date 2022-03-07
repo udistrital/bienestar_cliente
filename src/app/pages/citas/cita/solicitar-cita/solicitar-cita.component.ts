@@ -87,7 +87,7 @@ export class SolicitarCitaComponent implements OnInit {
 
   obtenerInfoUsuario() {
     this.listService.getInfoEstudiante().then((resp) => {
-      //console.log(resp);
+      console.log(resp);
       this.email = resp.email;
       this.est.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);

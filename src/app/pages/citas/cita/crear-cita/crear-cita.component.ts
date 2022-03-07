@@ -12,7 +12,7 @@ import { SaludService } from '../../../../shared/services/salud.service';
 })
 export class CrearCitaComponent implements OnInit {
   facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
-    "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
+    "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB", "Teléfono", "Meet", "Zoom"];
   empleados: any[] = [];
   tipocitas: any[] = [{ id: 766, nombre: "Medicina" }, { id: 765, nombre: "Enfermería" }, { id: 767, nombre: "Psicología" }, { id: 768, nombre: "Odontología" }, { id: 769, nombre: "Fisioterapia" }];
   crearCita: FormGroup;

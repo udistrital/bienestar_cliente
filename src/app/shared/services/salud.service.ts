@@ -247,7 +247,10 @@ export class SaludService {
     return this.httpClient.post(this.url5 + 'Cita/', cita);
   }
   getCita(codTercero) {
-    return this.httpClient.get(this.url5 + 'Cita/?query=IdPaciente:'+codTercero);
+    return this.httpClient.get(this.url5 + 'Cita/?query=IdPaciente:' + codTercero + '&sortby=Fecha,Hora&order=asc,asc');
+  }
+  getCitaEspecialista(codTercero) {
+    return this.httpClient.get(this.url5 + 'Cita/?query=IdProfesional:' + codTercero + '&sortby=Fecha,Hora&order=asc,asc');
   }
   postDocumento(documento) {
     return this.httpClient.post(this.urlDocumentos + 'document/upload', documento);

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { ListService } from '../../../../@core/store/list.service';
+import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
+import { SaludService } from '../../../../shared/services/salud.service';
 //import { ToastrService } from 'ngx-toastr';
 //import { CitasService } from 'src/app/services/citas.service';
 
@@ -8,34 +12,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./listar-cita.component.scss']
 })
 export class ListarCitaComponent implements OnInit {
-  citas: any[]=[];
-  displayedColumns = [   'nombre', 'fecha','hora','facultad','tipocita', 'especialista'];
-  datasource: any[]=[];
+  cita: any= [];
+  displayedColumns = [   'nombre', 'fecha','hora','facultad'];
   cargando = true;
 
-  constructor( /*private _CitasService: CitasService,
-    private toastr: ToastrService*/) { }
+  constructor( private listService: ListService, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService) { }
 
   ngOnInit() {
-    //this.getTipoCitas();
-  }
-  /*getTipoCitas(){
-    
-    this._CitasService.getCitas().subscribe(data=>{
-      this.citas =[];
-      this.datasource = this.citas;
-      data.forEach((element:any)=>{
-        this.citas.push({
-          id: element.payload.doc.id,
-          ...element.payload.doc.data()
-        })
+    this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
+      this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+        //console.log(res);
+        this.saludService.getCitaEspecialista(res[0].TerceroId.Id).subscribe((data) => {
+          //console.log(data);
+          if (data) {
+            this.cita = data;
+            for (let i in this.cita) {
+              this.personaService.getPaciente(this.cita[i].IdPaciente).subscribe((res) => {
+                this.cita[i].NombrePaciente= res["NombreCompleto"];
+                //console.log(res);
+              });
+            }
+          }
+        });
       });
-    })
+    });
   }
-  eliminarTipoCita(id: string){
-    this._CitasService.eliminarCitas(id).then(()=>{
-      this.toastr.error('Tipo Cita eliminado con éxito','Tipo cita eliminado');
-    })
-  }*/
 
 }

@@ -12,6 +12,7 @@ export class HistoriaClinicaComponent implements OnInit {
   constructor(private fb: FormBuilder, private listService: ListService) { }
   ngOnInit() {
     this.listService.getInfoEstudiante().then((resp) => {
+      //console.log(resp);
       this.roles = resp.role;
     });
   }
