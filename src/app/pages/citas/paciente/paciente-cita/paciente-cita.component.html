@@ -7,6 +7,9 @@
     </div>
 </div>
 <hr>
+<div class="card text-center" *ngIf="cita==null">
+    No tiene citas por el momento
+</div>
 <mat-card class="mt-2">
     <table class="table table-striped mt-2" *ngIf="cita!=null">
         <thead>

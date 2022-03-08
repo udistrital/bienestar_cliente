@@ -12,7 +12,7 @@
   <ngx-datos-basicos></ngx-datos-basicos>
 </mat-card>
 <!-- Notas Enfermería -->
-<div class="card mt-2" *ngIf="roles.includes('ENFERMERO')">
+<div class="card mt-2" [hidden]="!roles.includes('ENFERMERO')">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -28,7 +28,7 @@
   </mat-accordion>
 </div>
 <!-- Medicina General -->
-<div class="card mt-2" *ngIf="roles.includes('MEDICO')">
+<div class="card mt-2" [hidden]="!roles.includes('MEDICO')">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -46,7 +46,7 @@
   </mat-accordion>
 </div>
 <!-- Fisioterapia -->
-<div class="card mt-2" *ngIf="roles.includes('FISIOTERAPEUTA')">
+<div class="card mt-2" [hidden]="!roles.includes('FISIOTERAPEUTA')">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -62,7 +62,7 @@
   </mat-accordion>
 </div>
 <!-- Odontología -->
-<div class="card mt-2" *ngIf="roles.includes('ODONTOLOGO')">
+<div class="card mt-2">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -78,7 +78,7 @@
   </mat-accordion>
 </div>
 <!-- Psicología -->
-<div class="card mt-2" *ngIf="roles.includes('PSICOLOGO')">
+<div class="card mt-2" [hidden]="!roles.includes('PSICOLOGO')">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

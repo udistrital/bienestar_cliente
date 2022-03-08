@@ -341,6 +341,7 @@ export class MedicinaComponent implements OnInit {
 
   }
   guardarHistoriaMedicina() {
+    this.medicinaForm.disable();
     let evolucionCorregida = JSON.stringify(this.evolucionArr.value);
     let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");

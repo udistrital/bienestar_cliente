@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
@@ -24,6 +24,8 @@ import { ListService } from '../../../../@core/store/list.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Documento } from '../../../../shared/models/Salud/documento.model';
 import * as FileSaver from 'file-saver';
+import { sample } from 'rxjs-compat/operator/sample';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-odontologia',
@@ -127,7 +129,7 @@ export class OdontologiaComponent implements OnInit {
     observacionesLingualesInfantil: [null],
     medicamento: [null],
     evolucionOdonto: this.fb.array([]),
-  });
+  }, { validators: [validateDate] });
   nombreEspecialista: any;
   terceroEspecialista: any;
   logoDataUrl: string;
@@ -135,45 +137,54 @@ export class OdontologiaComponent implements OnInit {
   enlacePeriapicalInicio: any = null;
   blobPeriapicalInicio: Blob;
   estadoPeriapicalInicio: boolean = false;
+  subidoPeriapicalInicio: boolean = false;
   base64PeriapicalFinal: any = null;
   enlacePeriapicalFinal: any = null;
   estadoPeriapicalFinal: boolean = false;
+  subidoPeriapicalFinal: boolean = false;
   blobPeriapicalFinal: Blob;
   base64PanoramicaInicio: any = null;
   enlacePanoramicaInicio: any = null;
   estadoPanoramicaInicio: boolean = false;
+  subidoPanoramicaInicio: boolean = false;
   blobPanoramicaInicio: Blob;
   base64PanoramicaFinal: any = null;
   enlacePanoramicaFinal: any = null;
   estadoPanoramicaFinal: boolean = false;
+  subidoPanoramicaFinal: boolean = false;
   blobPanoramicaFinal: Blob;
   base64OtraInicio: any = null;
   enlaceOtraInicio: any = null;
   estadoOtraInicio: boolean = false;
+  subidoOtraInicio: boolean = false;
   blobOtraInicio: Blob;
   base64OtraFinal: any = null;
   enlaceOtraFinal: any = null;
   estadoOtraFinal: boolean = false;
+  subidoOtraFinal: boolean = false;
   blobOtraFinal: Blob;
   base64LaboratorioInicio: any = null;
   enlaceLaboratorioInicio: any = null;
   estadoLaboratorioInicio: boolean = false;
+  subidoLaboratorioInicio: boolean = false;
   blobLaboratorioInicio: Blob;
   base64LaboratorioFinal: any = null;
   enlaceLaboratorioFinal: any = null;
   estadoLaboratorioFinal: boolean = false;
+  subidoLaboratorioFinal: boolean = false;
   blobLaboratorioFinal: Blob;
-  @ViewChild('inputPeriapicalInicio',{static: true}) inputPeriapicalInicio: ElementRef;
-  @ViewChild('inputPeriapicalFinal',{static: true}) inputPeriapicalFinal: ElementRef;
-  @ViewChild('inputPanoramicaInicio',{static: true}) inputPanoramicaInicio: ElementRef;
-  @ViewChild('inputPanoramicaFinal',{static: true}) inputPanoramicaFinal: ElementRef;
-  @ViewChild('inputOtraInicio',{static: true}) inputOtraInicio: ElementRef;
-  @ViewChild('inputOtraFinal',{static: true}) inputOtraFinal: ElementRef;
-  @ViewChild('inputLaboratorioInicio',{static: true}) inputLaboratorioInicio: ElementRef;
-  @ViewChild('inputLaboratorioFinal',{static: true}) inputLaboratorioFinal: ElementRef;
+  @ViewChild('inputPeriapicalInicio', { static: true }) inputPeriapicalInicio: ElementRef;
+  @ViewChild('inputPeriapicalFinal', { static: true }) inputPeriapicalFinal: ElementRef;
+  @ViewChild('inputPanoramicaInicio', { static: true }) inputPanoramicaInicio: ElementRef;
+  @ViewChild('inputPanoramicaFinal', { static: true }) inputPanoramicaFinal: ElementRef;
+  @ViewChild('inputOtraInicio', { static: true }) inputOtraInicio: ElementRef;
+  @ViewChild('inputOtraFinal', { static: true }) inputOtraFinal: ElementRef;
+  @ViewChild('inputLaboratorioInicio', { static: true }) inputLaboratorioInicio: ElementRef;
+  @ViewChild('inputLaboratorioFinal', { static: true }) inputLaboratorioFinal: ElementRef;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute,
     private listService: ListService) { }
   ngOnInit() {
+    console.log(new Date());
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
     )
@@ -367,7 +378,10 @@ export class OdontologiaComponent implements OnInit {
   guardarDocumentos() {
     this.toastr.warning('Guardando documentos...');
     this.odontologiaForm.disable();
-    if (this.base64PanoramicaInicio != null) {
+    if (this.base64PanoramicaInicio == null) {
+      this.subidoPanoramicaInicio = true;
+    }
+    else if (this.base64PanoramicaInicio != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Panoramica Inicio " + this.paciente,
@@ -379,9 +393,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlacePanoramicaInicio = resp['res'].Enlace;
+        this.subidoPanoramicaInicio = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoPanoramicaInicio = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    if (this.base64PanoramicaFinal != null) {
+    if (this.base64PanoramicaFinal == null) {
+      this.subidoPanoramicaFinal = true;
+    }
+    else if (this.base64PanoramicaFinal != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Panoramica Final " + this.paciente,
@@ -393,9 +417,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlacePanoramicaFinal = resp['res'].Enlace;
+        this.subidoPanoramicaFinal = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoPanoramicaFinal = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    if (this.base64PeriapicalInicio != null) {
+    if (this.base64PeriapicalInicio == null) {
+      this.subidoPeriapicalInicio = true;
+    }
+    else if (this.base64PeriapicalInicio != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Periapical Inicio " + this.paciente,
@@ -407,9 +441,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlacePeriapicalInicio = resp['res'].Enlace;
+        this.subidoPeriapicalInicio = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoPeriapicalInicio = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    if (this.base64PeriapicalFinal != null) {
+    if (this.base64PeriapicalFinal == null) {
+      this.subidoPeriapicalFinal = true;
+    }
+    else if (this.base64PeriapicalFinal != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Periapical Final " + this.paciente,
@@ -421,9 +465,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlacePeriapicalFinal = resp['res'].Enlace;
+        this.subidoPeriapicalFinal = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoPeriapicalFinal = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    if (this.base64OtraInicio != null) {
+    if (this.base64OtraInicio == null) {
+      this.subidoOtraInicio = true;
+    }
+    else if (this.base64OtraInicio != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Otra Inicio " + this.paciente,
@@ -435,9 +489,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlaceOtraInicio = resp['res'].Enlace;
+        this.subidoOtraInicio = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoOtraInicio = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    if (this.base64OtraFinal != null) {
+    if (this.base64OtraFinal == null) {
+      this.subidoOtraFinal = true;
+    }
+    else if (this.base64OtraFinal != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Otra Final " + this.paciente,
@@ -449,9 +513,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlaceOtraFinal = resp['res'].Enlace;
+        this.subidoOtraFinal = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoOtraFinal = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    if (this.base64LaboratorioInicio != null) {
+    if (this.base64LaboratorioInicio == null) {
+      this.subidoLaboratorioInicio = true;
+    }
+    else if (this.base64LaboratorioInicio != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Laboratorio Inicio " + this.paciente,
@@ -463,10 +537,19 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlaceLaboratorioInicio = resp['res'].Enlace;
+        this.subidoLaboratorioInicio = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoLaboratorioInicio = true;
+        this.comprobarCargaDocumentos();
       });
     }
-
-    if (this.base64LaboratorioFinal != null) {
+    if (this.base64LaboratorioFinal == null) {
+      this.subidoLaboratorioFinal = true;
+    }
+    else if (this.base64LaboratorioFinal != null) {
       const documento: Documento = {
         IdTipoDocumento: 61,
         nombre: "Laboratorio Final " + this.paciente,
@@ -478,12 +561,15 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postDocumento(array).subscribe(resp => {
         console.log(resp);
         this.enlaceLaboratorioFinal = resp['res'].Enlace;
+        this.subidoLaboratorioFinal = true;
+        this.comprobarCargaDocumentos();
+      },
+      (err) => {
+        this.toastr.error(err)
+        this.subidoLaboratorioFinal = true;
+        this.comprobarCargaDocumentos();
       });
     }
-    setTimeout(() => {
-      this.guardarHistoriaOdontologia();
-    },
-      4000);
   }
 
   guardarHistoriaOdontologia() {
@@ -1268,11 +1354,18 @@ export class OdontologiaComponent implements OnInit {
     });
   }
   onFilePeriapicalInicio(event: any) {
-    //console.log(event.target.files);
+    // console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64PeriapicalInicio = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64PeriapicalInicio = base64;
+          //console.log(this.base64PeriapicalInicio);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputPeriapicalInicio.nativeElement.value = "";
+        this.base64PeriapicalInicio = null;
+      }
     }
     else {
       this.base64PeriapicalInicio = null;
@@ -1282,9 +1375,17 @@ export class OdontologiaComponent implements OnInit {
   onFilePeriapicalFinal(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64PeriapicalFinal = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64PeriapicalFinal = base64;
+          //console.log(this.base64PeriapicalFinal);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputPeriapicalFinal.nativeElement.value = "";
+        this.base64PeriapicalFinal = null;
+
+      }
     }
     else {
       this.base64PeriapicalFinal = null;
@@ -1293,9 +1394,16 @@ export class OdontologiaComponent implements OnInit {
   onFilePanoramicaInicio(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64PanoramicaInicio = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64PanoramicaInicio = base64;
+          //console.log(this.base64PanoramicaInicio);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputPanoramicaInicio.nativeElement.value = "";
+        this.base64PanoramicaInicio = null;
+      }
     }
     else {
       this.base64PanoramicaInicio = null;
@@ -1304,9 +1412,16 @@ export class OdontologiaComponent implements OnInit {
   onFilePanoramicaFinal(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64PanoramicaFinal = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64PanoramicaFinal = base64;
+          //console.log(this.base64PanoramicaFinal);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputPanoramicaFinal.nativeElement.value = "";
+        this.base64PanoramicaFinal = null;
+      }
     }
     else {
       this.base64PanoramicaFinal = null;
@@ -1315,9 +1430,16 @@ export class OdontologiaComponent implements OnInit {
   onFileOtraInicio(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64OtraInicio = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64OtraInicio = base64;
+          //console.log(this.base64OtraInicio);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputOtraInicio.nativeElement.value = "";
+        this.base64OtraInicio = null;
+      }
     }
     else {
       this.base64OtraInicio = null;
@@ -1326,9 +1448,16 @@ export class OdontologiaComponent implements OnInit {
   onFileOtraFinal(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64OtraFinal = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64OtraFinal = base64;
+          //console.log(this.base64OtraFinal);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputOtraFinal.nativeElement.value = "";
+        this.base64OtraFinal = null;
+      }
     }
     else {
       this.base64OtraFinal = null;
@@ -1337,9 +1466,16 @@ export class OdontologiaComponent implements OnInit {
   onFileLaboratorioInicio(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64LaboratorioInicio = base64;
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64LaboratorioInicio = base64;
+          //console.log(this.base64LaboratorioInicio);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputLaboratorioInicio.nativeElement.value = "";
+        this.base64LaboratorioInicio = null;
+      }
     }
     else {
       this.base64LaboratorioInicio = null;
@@ -1348,10 +1484,16 @@ export class OdontologiaComponent implements OnInit {
   onFileLaboratorioFinal(event: any) {
     //console.log(event.target.files);
     if (event.target.files.length > 0) {
-      this.convertFile(event.target.files[0]).subscribe(base64 => {
-        this.base64LaboratorioFinal = base64;
-        // console.log(base64);
-      });
+      if (event.target.files[0].type == "application/pdf") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.base64LaboratorioFinal = base64;
+          //console.log(this.base64LaboratorioFinal);
+        });
+      } else {
+        this.toastr.error("Solo permitidos documentos PDF");
+        this.inputLaboratorioFinal.nativeElement.value = "";
+        this.base64LaboratorioFinal = null;
+      }
     }
     else {
       this.base64LaboratorioFinal = null;
@@ -1388,22 +1530,22 @@ export class OdontologiaComponent implements OnInit {
   downloadDocumentLaboratorioFinal() {
     FileSaver.saveAs(this.blobLaboratorioFinal, "Laboratorio Final " + this.paciente + ".pdf");
   }
-  reset(){
+  reset() {
     this.inputPeriapicalInicio.nativeElement.value = "";
-    this.inputPeriapicalFinal.nativeElement.value = "";
-    this.inputPanoramicaInicio.nativeElement.value = "";
-    this.inputPanoramicaFinal.nativeElement.value = "";
-    this.inputOtraInicio.nativeElement.value = "";
-    this.inputOtraFinal.nativeElement.value = "";
-    this.inputLaboratorioInicio.nativeElement.value = "";
-    this.inputLaboratorioFinal.nativeElement.value = "";
     this.base64PeriapicalInicio = null;
+    this.inputPeriapicalFinal.nativeElement.value = "";
     this.base64PeriapicalFinal = null;
+    this.inputPanoramicaInicio.nativeElement.value = "";
     this.base64PanoramicaInicio = null;
+    this.inputPanoramicaFinal.nativeElement.value = "";
     this.base64PanoramicaFinal = null;
+    this.inputOtraInicio.nativeElement.value = "";
     this.base64OtraInicio = null;
+    this.inputOtraFinal.nativeElement.value = "";
     this.base64OtraFinal = null;
+    this.inputLaboratorioInicio.nativeElement.value = "";
     this.base64LaboratorioInicio = null;
+    this.inputLaboratorioFinal.nativeElement.value = "";
     this.base64LaboratorioFinal = null;
     this.estadoPeriapicalInicio = false;
     this.estadoPeriapicalFinal = false;
@@ -1413,6 +1555,11 @@ export class OdontologiaComponent implements OnInit {
     this.estadoOtraFinal = false;
     this.estadoLaboratorioInicio = false;
     this.estadoLaboratorioFinal = false;
+  }
+  comprobarCargaDocumentos() {
+    if (this.subidoLaboratorioFinal == true && this.subidoLaboratorioInicio == true && this.subidoOtraFinal == true && this.subidoOtraInicio == true && this.subidoPanoramicaFinal == true && this.subidoPanoramicaInicio == true && this.subidoPeriapicalFinal == true && this.subidoPeriapicalInicio == true) {
+      this.guardarHistoriaOdontologia();
+    }
   }
   async openPdf() {
     let fechaActual = new (Date);
@@ -1445,4 +1592,8 @@ export class OdontologiaComponent implements OnInit {
     };
     pdfMake.createPdf(documentDefinition).open();
   }
+}
+function validateDate(c: AbstractControl) {
+  let date = new Date();
+  return 0;
 }

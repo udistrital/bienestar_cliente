@@ -112,6 +112,7 @@ export class DatosBasicosComponent implements OnInit {
                 Activo: true
               }
               this.saludService.postAccesoHistoria(accesoHistoria).subscribe((response) => {
+                //console.log(response);
               });
 
             });

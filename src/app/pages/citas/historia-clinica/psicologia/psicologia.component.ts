@@ -186,6 +186,7 @@ export class PsicologiaComponent implements OnInit {
     });
   }
   guardarHistoriaPsicologia() {
+    this.psicologiaForm.disable();
     let evolucionCorregida = JSON.stringify(this.evolucionPsicoArr.value);
     let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");

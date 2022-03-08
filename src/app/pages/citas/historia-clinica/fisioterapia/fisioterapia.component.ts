@@ -128,6 +128,7 @@ export class FisioterapiaComponent implements OnInit {
   }
 
   guardarHistoriaFisioterapia() {
+    this.fisioterapiaForm.disable();
     let evolucionCorregida = JSON.stringify(this.evolucionFisioArr.value);
     let evolucion = evolucionCorregida.slice(1, evolucionCorregida.length - 1);
     let evolucion2 = evolucion.replace(/]/g, "").replace(/\[/g, "");
