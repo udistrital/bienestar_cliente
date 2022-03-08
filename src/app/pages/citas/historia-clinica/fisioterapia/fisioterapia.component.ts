@@ -86,21 +86,21 @@ export class FisioterapiaComponent implements OnInit {
   cargarInformacion() {
 
     this.saludService.getEspecialidad(2).subscribe((data: any) => {
-      this.especialidad = data;
+      this.especialidad = data['Data'];
     });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
-      this.idHistoria = data[0].Id;
+      this.idHistoria = data['Data'][0].Id;
       this.saludService.getHojaHistoria(parseInt(this.terceroId), 2).subscribe(data => {
-        if (JSON.stringify(data[0]) === '{}') {
+        if (JSON.stringify(data['Data'][0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
         } else {
-          this.listaHojas = data;
-          this.firstOne = data[0].Id;
+          this.listaHojas = data['Data'];
+          this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
           this.hideHistory = false;
-          this.hojahistoria = data[0];
+          this.hojahistoria = data['Data'][0];
           this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.hojahistoria.Motivo);
           this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.hojahistoria.Observacion);
           this.evolucion = [];
@@ -112,7 +112,7 @@ export class FisioterapiaComponent implements OnInit {
           }
           this.saludService.getConsultaFisioterapia(this.hojahistoria.Id).subscribe(data => {
             // console.log(data);
-            this.fisioterapia = data[0] || '';
+            this.fisioterapia = data['Data'][0] || '';
             this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
             this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
             this.fisioterapiaForm.controls.diagnostico.setValue(this.fisioterapia.Diagnostico);
@@ -151,8 +151,8 @@ export class FisioterapiaComponent implements OnInit {
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
-        this.hojahistoria = data;
-        console.log('Hoja historia: ' + data);
+        this.hojahistoria = data['Data'];
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
         const consultaFisio: ConsultaFisioterapia = {
           Id: 0,
@@ -168,7 +168,7 @@ export class FisioterapiaComponent implements OnInit {
         };
         // console.log(historiaFisio);
         this.saludService.postFisioterapia(consultaFisio).subscribe(data => {
-          console.log('Fisioterapia: ' + data);
+          console.log('Fisioterapia: ' + data['Data']);
           this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
           setTimeout(() => {
             window.location.reload();
@@ -197,7 +197,7 @@ export class FisioterapiaComponent implements OnInit {
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.hojahistoria.Id, hojaHistoria).subscribe(data => {
-        console.log('Hoja historia: ' + data);
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -237,7 +237,7 @@ export class FisioterapiaComponent implements OnInit {
   getHojaEspecifica(Id: any) {
     this.saludService.getHojaHistoriaEspecifica(Id).subscribe(data => {//Reemplazar por terceroId
       //console.log(data);
-      this.hojahistoria = data;
+      this.hojahistoria = data['Data'];
       this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.hojahistoria.Motivo);
       this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.hojahistoria.Observacion);
       this.evolucion = [];
@@ -249,7 +249,7 @@ export class FisioterapiaComponent implements OnInit {
       }
       this.saludService.getConsultaFisioterapia(this.hojahistoria.Id).subscribe(data => {
         // console.log(data);
-        this.fisioterapia = data[0] || '';
+        this.fisioterapia = data['Data'][0] || '';
         this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
         this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
         this.fisioterapiaForm.controls.diagnostico.setValue(this.fisioterapia.Diagnostico);

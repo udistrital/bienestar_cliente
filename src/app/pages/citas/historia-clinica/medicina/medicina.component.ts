@@ -166,25 +166,25 @@ export class MedicinaComponent implements OnInit {
 
   getInfoHistoria() {
     this.saludService.getEspecialidad(1).subscribe((data: any) => {
-      this.especialidad = data;
+      this.especialidad = data['Data'];
     });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
-      this.historiaClinica = data[0];
+      this.historiaClinica = data['Data'][0];
       // console.log(data);
-      this.saludService.historia = data[0].Id;
+      this.saludService.historia = data['Data'][0].Id;
       //HojaHistoria
       this.saludService.getHojaHistoria(this.terceroId, 1).subscribe(data => {//Reemplazar por terceroId
         //console.log(data);
-        if (JSON.stringify(data[0]) === '{}') {
+        if (JSON.stringify(data['Data'][0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
         } else {
-          this.listaHojas = data;
-          this.firstOne = data[0].Id;
+          this.listaHojas = data['Data'];
+          this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
           this.hideHistory = false;
-          this.hojaHistoria = data[0];
+          this.hojaHistoria = data['Data'][0];
           this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
           this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
           this.evolucion = [];
@@ -201,7 +201,7 @@ export class MedicinaComponent implements OnInit {
           //Sistemas
           this.saludService.getSistema(this.hojaHistoria.Id).subscribe(data => {
             // console.log(data);
-            this.sistemas = data[0];
+            this.sistemas = data['Data'][0];
             this.medicinaForm.controls.articular.setValue(this.sistemas.Articular);
             this.medicinaForm.controls.cardioVascular.setValue(this.sistemas.CardioVascular);
             this.medicinaForm.controls.colageno.setValue(this.sistemas.Colageno);
@@ -217,7 +217,7 @@ export class MedicinaComponent implements OnInit {
             //Exámenes
             this.saludService.getExamen(this.hojaHistoria.Id).subscribe(data => {
               // console.log(data);
-              this.examenes = data[0];
+              this.examenes = data['Data'][0];
               this.medicinaForm.controls.examenes.setValue(this.examenes.Laboratorio);
               this.medicinaForm.controls.ta.setValue(this.examenes.Ta);
               this.medicinaForm.controls.fc.setValue(this.examenes.Fc);
@@ -242,7 +242,7 @@ export class MedicinaComponent implements OnInit {
             //Diagnostico
             this.saludService.getDiagnostico(this.hojaHistoria.Id).subscribe(data => {
               // console.log(data[0]);
-              this.diagnostico = data[0];
+              this.diagnostico = data['Data'][0];
               this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
               this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
               this.medicinaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
@@ -264,7 +264,7 @@ export class MedicinaComponent implements OnInit {
   getHojaEspecifica(Id: any) {
     this.saludService.getHojaHistoriaEspecifica(Id).subscribe(data => {//Reemplazar por terceroId
       //console.log(data);
-      this.hojaHistoria = data;
+      this.hojaHistoria = data['Data'];
       this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
       this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
       this.evolucion = [];
@@ -281,7 +281,7 @@ export class MedicinaComponent implements OnInit {
       //Sistemas
       this.saludService.getSistema(this.hojaHistoria.Id).subscribe(data => {
         // console.log(data);
-        this.sistemas = data[0];
+        this.sistemas = data['Data'][0];
         this.medicinaForm.controls.articular.setValue(this.sistemas.Articular);
         this.medicinaForm.controls.cardioVascular.setValue(this.sistemas.CardioVascular);
         this.medicinaForm.controls.colageno.setValue(this.sistemas.Colageno);
@@ -297,7 +297,7 @@ export class MedicinaComponent implements OnInit {
         //Exámenes
         this.saludService.getExamen(this.hojaHistoria.Id).subscribe(data => {
           // console.log(data);
-          this.examenes = data[0];
+          this.examenes = data['Data'][0];
           this.medicinaForm.controls.examenes.setValue(this.examenes.Laboratorio);
           this.medicinaForm.controls.ta.setValue(this.examenes.Ta);
           this.medicinaForm.controls.fc.setValue(this.examenes.Fc);
@@ -322,7 +322,7 @@ export class MedicinaComponent implements OnInit {
         //Diagnostico
         this.saludService.getDiagnostico(this.hojaHistoria.Id).subscribe(data => {
           // console.log(data[0]);
-          this.diagnostico = data[0];
+          this.diagnostico = data['Data'][0];
           this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
           this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
           this.medicinaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
@@ -371,8 +371,8 @@ export class MedicinaComponent implements OnInit {
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
-        this.hojaHistoria = data;
-        console.log('Hoja historia: ' + data);
+        this.hojaHistoria = data['Data'];
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
         if (!this.antecedentes) {
           const antecedentes: Antecedente = {
@@ -406,7 +406,7 @@ export class MedicinaComponent implements OnInit {
           // console.log(this.antecedentes);
 
           this.saludService.postAntecedente(antecedentes).subscribe(data => {
-            console.log('Antecedentes: ' + data[0]);
+            console.log('Antecedentes: ' + data['Data']);
             this.saludService.falloMedicina = false;
           }, error => {
             this.saludService.falloMedicina = true;
@@ -442,7 +442,7 @@ export class MedicinaComponent implements OnInit {
           }
           this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
 
-            console.log('Antecedentes: ' + data);
+            console.log('Antecedentes: ' + data['Data']);
             this.saludService.falloMedicina = false;
           }, error => {
             this.saludService.falloMedicina = true;
@@ -471,7 +471,7 @@ export class MedicinaComponent implements OnInit {
           Activo: true
         }
         this.saludService.postSistema(sistemas).subscribe(data => {
-          console.log('Sistemas: ' + data[0]);
+          console.log('Sistemas: ' + data['Data']);
           this.saludService.falloMedicina = false;
         }, error => {
           this.saludService.falloMedicina = true;
@@ -505,7 +505,7 @@ export class MedicinaComponent implements OnInit {
           Activo: true
         }
         this.saludService.postExamen(examenes).subscribe(data => {
-          console.log('Examenes: ' + data[0]);
+          console.log('Examenes: ' + data['Data']);
           this.saludService.falloMedicina = false;
         }, error => {
           this.saludService.falloMedicina = true;
@@ -524,7 +524,7 @@ export class MedicinaComponent implements OnInit {
           Activo: true
         }
         this.saludService.postDiagnostico(diagnostico).subscribe(data => {
-          console.log('Diagnóstico: ' + data[0]);
+          console.log('Diagnóstico: ' + data['Data']);
           this.saludService.falloMedicina = false;
         }, error => {
           this.saludService.falloMedicina = true;
@@ -553,7 +553,7 @@ export class MedicinaComponent implements OnInit {
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.hojaHistoria.Id, hojaHistoria).subscribe(data => {
-        console.log('Hoja historia: ' + data);
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -590,7 +590,7 @@ export class MedicinaComponent implements OnInit {
       }
       this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
 
-        console.log('Antecedentes: ' + data);
+        console.log('Antecedentes: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -618,7 +618,7 @@ export class MedicinaComponent implements OnInit {
       }
       // console.log(sistemas);
       this.saludService.putSistema(this.sistemas.Id, sistemas).subscribe(data => {
-        console.log('Sistemas: ' + data);
+        console.log('Sistemas: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -653,7 +653,7 @@ export class MedicinaComponent implements OnInit {
         Activo: true
       }
       this.saludService.putExamen(this.examenes.Id, examenes).subscribe(data => {
-        console.log('Examenes: ' + data);
+        console.log('Examenes: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -672,7 +672,7 @@ export class MedicinaComponent implements OnInit {
         Activo: true
       }
       this.saludService.putDiagnostico(this.diagnostico.Id, diagnostico).subscribe(data => {
-        console.log('Diagnóstico: ' + data);
+        console.log('Diagnóstico: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -699,7 +699,7 @@ export class MedicinaComponent implements OnInit {
     //Antecedente
     this.saludService.getAntecedente(this.saludService.historia).subscribe(data => {
       // console.log(data);
-      this.antecedentes = data[0];
+      this.antecedentes = data['Data'][0];
       // console.log(this.antecedentes);
       this.medicinaForm.controls.patologicos.setValue(this.antecedentes.Patologicos);
       this.medicinaForm.controls.hospitalarios.setValue(this.antecedentes.Hospitalarios);

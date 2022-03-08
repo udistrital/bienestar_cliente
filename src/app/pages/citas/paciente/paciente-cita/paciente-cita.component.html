@@ -7,11 +7,11 @@
     </div>
 </div>
 <hr>
-<div class="card text-center" *ngIf="cita==null">
-    No tiene citas por el momento
+<div class="text-center" *ngIf="!estado">
+   <h6> No tiene citas por el momento </h6> 
 </div>
-<mat-card class="mt-2">
-    <table class="table table-striped mt-2" *ngIf="cita!=null">
+<mat-card class="mt-2" *ngIf="estado">
+    <table class="table table-striped mt-2">
         <thead>
             <tr>
                 <th scope="col">Fecha</th>

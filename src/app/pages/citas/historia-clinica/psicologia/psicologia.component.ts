@@ -112,22 +112,22 @@ export class PsicologiaComponent implements OnInit {
   }
   getInfoPsicologia() {
     this.saludService.getEspecialidad(4).subscribe((data: any) => {
-      this.especialidad = data;
+      this.especialidad = data['Data'];
     });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {  ///Remplazar para pruebas
-      this.Historia = data[0];
+      this.Historia = data['Data'][0];
       // console.log(data);
       this.saludService.getHojaHistoria(this.terceroId, 4).subscribe(data => {
-        if (JSON.stringify(data[0]) === '{}') {
+        if (JSON.stringify(data['Data'][0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
         } else {
-          this.listaHojas = data;
-          this.firstOne = data[0].Id;
+          this.listaHojas = data['Data'];
+          this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
           this.hideHistory = false;
-          this.HojaHistoria = data[0];
+          this.HojaHistoria = data['Data'][0];
           this.psicologiaForm.controls.motivoConsultaPsico.setValue(this.HojaHistoria.Motivo);
           this.psicologiaForm.controls.observacionesPsicologia.setValue(this.HojaHistoria.Observacion);
           this.evolucion = [];
@@ -138,12 +138,12 @@ export class PsicologiaComponent implements OnInit {
             this.evolucionPsicoArr.push(new FormControl(evolucion2[i]));
           }
           this.saludService.getComposicionFamiliar(this.HojaHistoria.Id).subscribe(data => {
-            this.composicion = data[0];
+            this.composicion = data['Data'][0];
             this.psicologiaForm.controls.viveCon.setValue(this.composicion.Observaciones);
           });
           this.saludService.getLimites(this.HojaHistoria.Id).subscribe(data => {
             // console.log(data);       
-            this.limites = data[0];
+            this.limites = data['Data'][0];
             this.psicologiaForm.controls.difusos.setValue(this.limites.Difusos);
             this.psicologiaForm.controls.claros.setValue(this.limites.Claros);
             this.psicologiaForm.controls.rigidos.setValue(this.limites.Rigidos);
@@ -151,7 +151,7 @@ export class PsicologiaComponent implements OnInit {
           this.getAntecedentes();
           this.saludService.getValoracionInterpersonal(this.HojaHistoria.Id).subscribe(data => {
             //console.log(data);
-            this.valoracion = data[0];
+            this.valoracion = data['Data'][0];
             this.psicologiaForm.controls.figurasDeAutoridad.setValue(this.valoracion.Autoridad);
             this.psicologiaForm.controls.pares.setValue(this.valoracion.Pares);
             this.psicologiaForm.controls.pareja.setValue(this.valoracion.Pareja);
@@ -165,14 +165,14 @@ export class PsicologiaComponent implements OnInit {
           });
           this.saludService.getComportamientoConslta(this.HojaHistoria.Id).subscribe(data => {
             // console.log(data);
-            this.comportamiento = data[0];
+            this.comportamiento = data['Data'][0];
             this.psicologiaForm.controls.problematicaActual.setValue(this.comportamiento.Problematica);
             this.psicologiaForm.controls.estiloAfrontamiento.setValue(this.comportamiento.Afrontamiento);
             this.psicologiaForm.controls.comportamientoDuranteConsulta.setValue(this.comportamiento.Comportamiento);
           });
           this.saludService.getDiagnosticoPsicologia(this.HojaHistoria.Id).subscribe(data => {
             // console.log(data);
-            this.diagnostico = data[0];
+            this.diagnostico = data['Data'][0];
             this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
             this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
             this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
@@ -210,8 +210,8 @@ export class PsicologiaComponent implements OnInit {
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
-        this.HojaHistoria = data;
-        console.log('Hoja historia: ' + data);
+        this.HojaHistoria = data['Data'];
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
         if (!this.antecedentes) {
           const antecedentePsicologia: AntecedentePsicologia = {
@@ -227,7 +227,7 @@ export class PsicologiaComponent implements OnInit {
           }
           // console.log(antecedentePsicologia);
           this.saludService.postAntecedentePsicologia(antecedentePsicologia).subscribe(data => {
-            console.log('AntecedentePsicologia: ' + data[0]);
+            console.log('AntecedentePsicologia: ' + data['Data']);
             this.saludService.falloPsico = false;
           }, error => {
             this.saludService.falloPsico = true;
@@ -246,7 +246,7 @@ export class PsicologiaComponent implements OnInit {
           }
           // console.log(antecedentePsicologia);
           this.saludService.putAntecedentePsicologia(this.antecedentes.Id, antecedentePsicologia).subscribe(data => {
-            console.log('AntecedentePsicologia: ' + data);
+            console.log('AntecedentePsicologia: ' + data['Data']);
             this.saludService.falloPsico = false;
           }, error => {
             this.saludService.falloPsico = true;
@@ -265,7 +265,7 @@ export class PsicologiaComponent implements OnInit {
         }
         // console.log(comportamientoConsulta);
         this.saludService.postComportamientoConsulta(comportamientoConsulta).subscribe(data => {
-          console.log('ComportamientoConsulta: ' + data);
+          console.log('ComportamientoConsulta: ' + data['Data']);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -282,7 +282,7 @@ export class PsicologiaComponent implements OnInit {
         // console.log('Ya había composicion');
         // console.log(composicionFamiliar);
         this.saludService.postComposicionFamiliar(composicionFamiliar).subscribe(data => {
-          console.log('ComposicionFamiliar: ' + data);
+          console.log('ComposicionFamiliar: ' + data['Data']);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -302,7 +302,7 @@ export class PsicologiaComponent implements OnInit {
         // console.log('Ya había diagnostico');
         // console.log(diagnostico);
         this.saludService.postDiagnosticoPsicologia(diagnostico).subscribe(data => {
-          console.log('DiagnosticoPsicologia: ' + data[0]);
+          console.log('DiagnosticoPsicologia: ' + data['Data']);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -321,7 +321,7 @@ export class PsicologiaComponent implements OnInit {
         // console.log('Ya había limites');
         // console.log(limites);
         this.saludService.postLimites(limites).subscribe(data => {
-          console.log('Limites: ' + data[0]);
+          console.log('Limites: ' + data['Data']);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -347,7 +347,7 @@ export class PsicologiaComponent implements OnInit {
         // console.log('Ya había valoracion');
         // console.log(valoracionInterpersonal);
         this.saludService.postValoracionInterpersonal(valoracionInterpersonal).subscribe(data => {
-          console.log('ValoracionInterpersonal: ' + data[0]);
+          console.log('ValoracionInterpersonal: ' + data['Data']);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -373,7 +373,7 @@ export class PsicologiaComponent implements OnInit {
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
-        console.log('Hoja historia: ' + data);
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -391,7 +391,7 @@ export class PsicologiaComponent implements OnInit {
       }
       // console.log(antecedentePsicologia);
       this.saludService.putAntecedentePsicologia(this.antecedentes.Id, antecedentePsicologia).subscribe(data => {
-        console.log('AntecedentePsicologia: ' + data);
+        console.log('AntecedentePsicologia: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -409,7 +409,7 @@ export class PsicologiaComponent implements OnInit {
       }
       // console.log(comportamientoConsulta);
       this.saludService.putComportamientoConsulta(this.comportamiento.Id, comportamientoConsulta).subscribe(data => {
-        console.log('ComportamientoConsulta: ' + data);
+        console.log('ComportamientoConsulta: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -426,7 +426,7 @@ export class PsicologiaComponent implements OnInit {
       // console.log('Ya había composicion');
       // console.log(composicionFamiliar);
       this.saludService.putComposicionFamiliar(this.composicion.Id, composicionFamiliar).subscribe(data => {
-        console.log('ComposicionFamiliar: ' + data);
+        console.log('ComposicionFamiliar: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -446,7 +446,7 @@ export class PsicologiaComponent implements OnInit {
       // console.log('Ya había diagnostico');
       // console.log(diagnostico);
       this.saludService.putDiagnosticoPsicologia(this.diagnostico.Id, diagnostico).subscribe(data => {
-        console.log('DiagnosticoPsicologia: ' + data);
+        console.log('DiagnosticoPsicologia: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -465,7 +465,7 @@ export class PsicologiaComponent implements OnInit {
       // console.log('Ya había limites');
       // console.log(limites);
       this.saludService.putLimites(this.limites.Id, limites).subscribe(data => {
-        console.log('Limites: ' + data);
+        console.log('Limites: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -516,7 +516,7 @@ export class PsicologiaComponent implements OnInit {
   getHojaEspecifica(Id: any) {
     this.saludService.getHojaHistoriaEspecifica(Id).subscribe(data => {//Reemplazar por terceroId
       //console.log(data);
-      this.HojaHistoria = data;
+      this.HojaHistoria = data['Data'];
       this.psicologiaForm.controls.motivoConsultaPsico.setValue(this.HojaHistoria.Motivo);
       this.psicologiaForm.controls.observacionesPsicologia.setValue(this.HojaHistoria.Observacion);
       this.evolucion = [];
@@ -527,12 +527,12 @@ export class PsicologiaComponent implements OnInit {
         this.evolucionPsicoArr.push(new FormControl(evolucion2[i]));
       }
       this.saludService.getComposicionFamiliar(this.HojaHistoria.Id).subscribe(data => {
-        this.composicion = data[0];
+        this.composicion = data['Data'][0];
         this.psicologiaForm.controls.viveCon.setValue(this.composicion.Observaciones);
       });
       this.saludService.getLimites(this.HojaHistoria.Id).subscribe(data => {
         // console.log(data);       
-        this.limites = data[0];
+        this.limites = data['Data'][0];
         this.psicologiaForm.controls.difusos.setValue(this.limites.Difusos);
         this.psicologiaForm.controls.claros.setValue(this.limites.Claros);
         this.psicologiaForm.controls.rigidos.setValue(this.limites.Rigidos);
@@ -540,7 +540,7 @@ export class PsicologiaComponent implements OnInit {
       this.getAntecedentes();
       this.saludService.getValoracionInterpersonal(this.HojaHistoria.Id).subscribe(data => {
         //console.log(data);
-        this.valoracion = data[0];
+        this.valoracion = data['Data'][0];
         this.psicologiaForm.controls.figurasDeAutoridad.setValue(this.valoracion.Autoridad);
         this.psicologiaForm.controls.pares.setValue(this.valoracion.Pares);
         this.psicologiaForm.controls.pareja.setValue(this.valoracion.Pareja);
@@ -554,14 +554,14 @@ export class PsicologiaComponent implements OnInit {
       });
       this.saludService.getComportamientoConslta(this.HojaHistoria.Id).subscribe(data => {
         // console.log(data);
-        this.comportamiento = data[0];
+        this.comportamiento = data['Data'][0];
         this.psicologiaForm.controls.problematicaActual.setValue(this.comportamiento.Problematica);
         this.psicologiaForm.controls.estiloAfrontamiento.setValue(this.comportamiento.Afrontamiento);
         this.psicologiaForm.controls.comportamientoDuranteConsulta.setValue(this.comportamiento.Comportamiento);
       });
       this.saludService.getDiagnosticoPsicologia(this.HojaHistoria.Id).subscribe(data => {
         // console.log(data);
-        this.diagnostico = data[0];
+        this.diagnostico = data['Data'][0];
         this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
         this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
         this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
@@ -575,11 +575,11 @@ export class PsicologiaComponent implements OnInit {
   getAntecedentes() {
     this.saludService.getAntecedentesPsicologicos(this.Historia.Id).subscribe(data => {
       // console.log(data);
-      this.antecedentes = data[0];
-      this.psicologiaForm.controls.actualesFamiliares.setValue(data[0].ActualFamiliar);
-      this.psicologiaForm.controls.pasadosFamiliares.setValue(data[0].PasadoFamiliar);
-      this.psicologiaForm.controls.actualesPersonales.setValue(data[0].ActualPersonal);
-      this.psicologiaForm.controls.pasadosPersonales.setValue(data[0].PasadoPersonal);
+      this.antecedentes = data['Data'][0];
+      this.psicologiaForm.controls.actualesFamiliares.setValue(this.antecedentes.ActualFamiliar);
+      this.psicologiaForm.controls.pasadosFamiliares.setValue(this.antecedentes.PasadoFamiliar);
+      this.psicologiaForm.controls.actualesPersonales.setValue(this.antecedentes.ActualPersonal);
+      this.psicologiaForm.controls.pasadosPersonales.setValue(this.antecedentes.PasadoPersonal);
     });
   }
   crearNuevaHoja() {

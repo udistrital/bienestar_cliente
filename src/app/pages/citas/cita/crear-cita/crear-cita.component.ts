@@ -80,7 +80,7 @@ export class CrearCitaComponent implements OnInit {
       Activo: true
     }
     this.saludService.postCita(cita).subscribe((data: any) => {
-      console.log(data);
+      //console.log(data);
       this.estudianteService.getSolicitudCompleta(Number(this.solicitudId)).subscribe((res: any) => {
         //console.log(res[0]);
         const solicitud = {

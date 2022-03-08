@@ -82,8 +82,8 @@ export class EnfermeriaComponent implements OnInit {
       }
       //console.log(hojaHistoria);
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
-        this.HojaHistoria = data;
-        console.log('Hoja historia: ' + data);
+        this.HojaHistoria = data['Data'];
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
         const enfermeria: Enfermeria = {
           Descripcion: this.enfermeriaForm.get('descripcion').value,
@@ -97,7 +97,7 @@ export class EnfermeriaComponent implements OnInit {
         }
         // console.log(enfermeria);
         this.saludService.postEnfermeria(enfermeria).subscribe(data => {
-          console.log('NotasEnfermería: ' + data[0]);
+          console.log('NotasEnfermería: ' + data['Data']);
           this.saludService.falloPsico = false;
         }, error => {
           this.saludService.falloPsico = true;
@@ -123,7 +123,7 @@ export class EnfermeriaComponent implements OnInit {
       }
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
-        console.log('Hoja historia: ' + data);
+        console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
       }, error => {
         this.saludService.falloMedicina = true;
@@ -140,8 +140,8 @@ export class EnfermeriaComponent implements OnInit {
       }
       console.log(enfermeria);
       this.saludService.putEnfermeria(this.enfermeria.Id, enfermeria).subscribe(data => {
-        console.log(data);
-        console.log('NotasEnfermería: ' + data[0]);
+        // console.log(data);
+        console.log('NotasEnfermería: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -161,9 +161,9 @@ export class EnfermeriaComponent implements OnInit {
   getHojaEspecifica(Id: any) {
     this.saludService.getHojaHistoriaEspecifica(Id).subscribe(data => {//Reemplazar por terceroId
       //console.log(data);
-      this.HojaHistoria = data;
+      this.HojaHistoria = data['Data'];
       this.saludService.getEnfermeria(this.HojaHistoria.Id).subscribe(data => {
-        this.enfermeria = data[0];
+        this.enfermeria = data['Data'][0];
         this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
         this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
       });
@@ -174,24 +174,24 @@ export class EnfermeriaComponent implements OnInit {
   }
   getInfoEnfermeria() {
     this.saludService.getEspecialidad(5).subscribe((data: any) => {
-      this.especialidad = data;
+      this.especialidad = data['Data'];
     });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {  ///Remplazar para pruebas
-      this.Historia = data[0];
+      this.Historia = data['Data'][0];
       // console.log(data);
       this.saludService.getHojaHistoria(this.terceroId, 5).subscribe(data => {
-        if (JSON.stringify(data[0]) === '{}') {
+        if (JSON.stringify(data['Data'][0]) === '{}') {
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
         } else {
-          this.listaHojas = data;
-          this.firstOne = data[0].Id;
+          this.listaHojas = data['Data'];
+          this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
           this.hideHistory = false;
-          this.HojaHistoria = data[0];
+          this.HojaHistoria = data['Data'][0];
           this.saludService.getEnfermeria(this.HojaHistoria.Id).subscribe(data => {
-            this.enfermeria = data[0];
+            this.enfermeria = data['Data'][0];
             // console.log(this.enfermeria);
             this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
             this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);

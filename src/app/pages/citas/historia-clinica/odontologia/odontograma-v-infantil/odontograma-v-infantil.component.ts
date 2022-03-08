@@ -879,7 +879,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
         Activo: true
       };
       this.saludService.postOdontograma(odontograma).subscribe(data => {
-        console.log('Vestibular infantil: ' + data[0]);
+        console.log('Vestibular infantil: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -898,7 +898,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
         Activo: true
       };
       this.saludService.putOdontograma(odontograma.Id, odontograma).subscribe(data => {
-        console.log('Vestibular infanil: ' + data[0]);
+        console.log('Vestibular infanil: ' + data['Data']);
         this.saludService.falloPsico = false;
       }, error => {
         this.saludService.falloPsico = true;
@@ -913,7 +913,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
   }
   getOdontogramaEspecifico(HojaHistoriaId) {
     this.saludService.getOdontograma(HojaHistoriaId, 4).subscribe(data => {
-      this.odontograma = data[0];
+      this.odontograma = data['Data'][0];
       // console.log(this.odontograma);
       if (this.odontograma) {
         let json = JSON.parse(this.odontograma.Diagrama);
@@ -929,11 +929,14 @@ export class OdontogramaVInfantilComponent implements OnInit {
   }
 
   getInfoOdontograma() {
+    this.saludService.getTipoOdontograma(4).subscribe((data: any) => {
+      this.tipoOdontograma = data['Data'];
+    });
     this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
-      this.Historia = data[0];
+      this.Historia = data['Data'][0];
       this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {//Reemplazar por terceroId
         //console.log(data);
-        if (JSON.stringify(data[0]) === '{}') {
+        if (JSON.stringify(data['Data'][0]) === '{}') {
           let json: {} = {};
           json['dientesArriba'] = this.dientesArriba;
           json['dientesAbajo'] = this.dientesAbajo;
@@ -941,7 +944,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
           this.odontogramaOutput.emit(jsonOdontograma);
         } else {
           this.saludService.getOdontogramas(this.Historia.Id, 4).subscribe(data => {
-            this.odontograma = data[0];
+            this.odontograma = data['Data'][0];
             // console.log(this.odontograma);
             if (this.odontograma) {
               let json = JSON.parse(this.odontograma.Diagrama);

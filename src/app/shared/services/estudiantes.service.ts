@@ -22,7 +22,7 @@ const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
 const consultaEspecialistas = 'vinculacion?query=CargoId:';
-const consultaVinculacion = 'vinculacion?query=Id:';
+const consultaVinculacion = 'vinculacion?query=TerceroPrincipalId.Id:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'

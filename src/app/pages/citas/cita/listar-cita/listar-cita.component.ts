@@ -14,7 +14,7 @@ import { SaludService } from '../../../../shared/services/salud.service';
 export class ListarCitaComponent implements OnInit {
   cita: any= [];
   displayedColumns = [   'nombre', 'fecha','hora','facultad'];
-  cargando = true;
+  estado: boolean;
 
   constructor( private listService: ListService, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService) { }
 
@@ -26,13 +26,18 @@ export class ListarCitaComponent implements OnInit {
         this.saludService.getCitaEspecialista(res[0].TerceroId.Id).subscribe((data) => {
           //console.log(data);
           if (data) {
-            this.cita = data;
+            this.cita = data['Data'];
+            if (JSON.stringify(data['Data'][0]) != '{}') {
+              this.estado = true;
             for (let i in this.cita) {
               this.personaService.getPaciente(this.cita[i].IdPaciente).subscribe((res) => {
                 this.cita[i].NombrePaciente= res["NombreCompleto"];
                 //console.log(res);
               });
             }
+          }else{
+            this.estado = false;
+          }
           }
         });
       });

@@ -13,7 +13,8 @@ import { SaludService } from '../../../../shared/services/salud.service';
 export class PacienteCitaComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private listService: ListService, private personaService: EstudiantesService, private saludService: SaludService) { }
-  cita: any = [];
+  cita: any = [{}];
+  estado: boolean;
 
   ngOnInit() {
     this.listService.getInfoEstudiante().then((resp) => {
@@ -23,15 +24,20 @@ export class PacienteCitaComponent implements OnInit {
         this.saludService.getCita(res[0].TerceroId.Id).subscribe((data) => {
           //console.log(data);
           if (data) {
-            this.cita = data;
-            for (let i in this.cita) {
-              this.personaService.getVinculacion(this.cita[i].IdProfesional).subscribe((res) => {
-                this.cita[i].NombreProfesional = res[0].TerceroPrincipalId.NombreCompleto;
-                //console.log(res);
-              });
-              this.personaService.getParametro(this.cita[i].TipoServicio).subscribe((res) => {
-                this.cita[i].TipoEspecialista = res['Data'].Nombre;
-              });
+            this.cita = data['Data'];
+            if (JSON.stringify(data['Data'][0]) != '{}') {
+              this.estado = true;
+              for (let i in this.cita) {
+                this.personaService.getVinculacion(this.cita[i].IdProfesional).subscribe((res) => {
+                  //console.log(res);
+                  this.cita[i].NombreProfesional = res[0].TerceroPrincipalId.NombreCompleto;
+                });
+                this.personaService.getParametro(this.cita[i].TipoServicio).subscribe((res) => {
+                  this.cita[i].TipoEspecialista = res['Data'].Nombre;
+                });
+              }
+            }else{
+              this.estado = false;
             }
           }
         });
