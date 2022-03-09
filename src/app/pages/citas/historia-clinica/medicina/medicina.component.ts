@@ -27,6 +27,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+  fechaActual = new Date();
   firstOne: any;
   hideHistory: boolean = false;
   especialidad: Especialidad;
@@ -144,6 +145,7 @@ export class MedicinaComponent implements OnInit {
   //Formulario para guardar en la DB
 
   ngOnInit() {
+    this.fechaActual.setDate(this.fechaActual.getDate() - 1);
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
     )

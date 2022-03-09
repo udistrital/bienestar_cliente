@@ -46,7 +46,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-sm-6">
               <mat-label>Fecha de la cita</mat-label>
-              <input matInput formControlName="fecha" [matDatepicker]="picker" readonly>
+              <input matInput formControlName="fecha" [matDatepicker]="picker" [min]="fechaActual" readonly>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
               <mat-hint>Ingrese la fecha de la cita</mat-hint>
@@ -55,9 +55,9 @@
             <mat-form-field appearance="outline" class="col-sm-6">
               <mat-label>Hora cita</mat-label>
               <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora" min="08:00 am"
-                max="04:45 pm" [disableClick]="false" readonly/>
+                max="05:00 pm" [disableClick]="false" readonly/>
               <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
-              <ngx-material-timepicker #hora [editableHintTmpl]="hint" #with5Gap [minutesGap]="15">
+              <ngx-material-timepicker #hora [editableHintTmpl]="hint" #with5Gap [minutesGap]="20">
               </ngx-material-timepicker>
               <mat-hint>Ingrese la hora de la cita</mat-hint>
               <ng-template #hint>

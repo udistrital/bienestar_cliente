@@ -1,0 +1,11 @@
+<h5 mat-dialog-title>{{mensaje.nombre}}</h5>
+<div mat-dialog-content align="center">
+    <h6>Correo institucional </h6>{{mensaje.correo}}<br><br>
+    <h6>Proyecto curricular </h6>{{mensaje.proyecto}}<br><br>
+    <h6>Especialista </h6>{{mensaje.especialista}}<br><br>
+    <h6>Motivo </h6>{{mensaje.motivo}}<br><br>
+</div>
+<div mat-dialog-actions align="center">
+    <button class="btn btn-primary card-button m-2" mat-raised-button (click)="confirmado()">Cerrar
+    </button>
+</div>

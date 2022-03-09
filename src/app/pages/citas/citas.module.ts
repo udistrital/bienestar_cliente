@@ -33,6 +33,7 @@ import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.com
 import { ListaSolicitudesComponent } from './cita/lista-solicitudes/lista-solicitudes.component';
 import { OdontogramaVestibularComponent } from './historia-clinica/odontologia/odontograma-vestibular/odontograma-vestibular.component';
 import { EnfermeriaComponent } from './historia-clinica/enfermeria/enfermeria.component';
+import { DialogoSolicitudesComponent } from './cita/lista-solicitudes/dialogo-solicitudes/dialogo-solicitudes.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -60,6 +61,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SolicitarCitaComponent,
     ListaSolicitudesComponent,
     EnfermeriaComponent,
+    DialogoSolicitudesComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +87,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ComboGenericoModule,
     RadioSelectGenericoModule,
     FullCalendarModule,
+  ],
+  entryComponents: [
+    DialogoSolicitudesComponent
   ]
 })
 export class CitasModule { }

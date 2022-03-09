@@ -22,6 +22,7 @@ export class CrearCitaComponent implements OnInit {
   terceroId: any;
   solicitudId: any;
   titulo = 'Agregar Cita';
+  fechaActual = new Date();
 
   constructor(private fb: FormBuilder, private estudianteService: EstudiantesService,
     private router: Router,
@@ -43,6 +44,7 @@ export class CrearCitaComponent implements OnInit {
 
   ngOnInit() {
     this.buscarPaciente();
+    this.fechaActual.setDate(this.fechaActual.getDate() + 1);
   }
 
   buscarPaciente() {
@@ -104,7 +106,7 @@ export class CrearCitaComponent implements OnInit {
           },
             1000);
         });
-        
+
       });
     });
   }

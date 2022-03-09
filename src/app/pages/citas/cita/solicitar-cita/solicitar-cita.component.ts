@@ -17,7 +17,7 @@ import { ListService } from '../../../../@core/store/list.service';
 export class SolicitarCitaComponent implements OnInit {
   date = new Date();
   dateToday = this.date.setHours(this.date.getHours() + 1);
-  servicios: any[] = ["Medicina", "Enfermería", "Psicología", "Odontología", "Fisioterapia"];
+  servicios: any[] = [{ id: 766, nombre: "Medicina" }, { id: 765, nombre: "Enfermería" }, { id: 767, nombre: "Psicología" }, { id: 768, nombre: "Odontología" }, { id: 769, nombre: "Fisioterapia" }];
   facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
     "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
   plataformas: any[] = ["Teléfono", "Meet", "Zoom", "Presencial"];
@@ -46,6 +46,7 @@ export class SolicitarCitaComponent implements OnInit {
       plataforma: ['', Validators.required],
       especialista: ['', Validators.required],
       observacion: ['', Validators.required],
+      proyecto: ['', Validators.required]
     })
   }
 
@@ -109,6 +110,7 @@ export class SolicitarCitaComponent implements OnInit {
     });
     this.referencia.documento = this.estudiante.documento;
     this.referencia.facultad = this.solicitarCita.value.facultad;
+    this.referencia.proyecto = this.solicitarCita.value.proyecto;
     this.referencia.edad = this.calcularEdad(this.estudiante.FechaNacimiento).toString();
     this.referencia.telefono = null;
     this.est.getInfoComplementaria(this.estudiante.Id, 51).subscribe((data) => {

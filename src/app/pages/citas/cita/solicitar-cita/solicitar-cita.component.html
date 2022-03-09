@@ -52,7 +52,8 @@
                 <mat-error *ngIf="!solicitarCita.controls.telefono.value && solicitarCita.controls.telefono.touched">
                     Campo
                     obligatorio</mat-error>
-                <mat-error *ngIf="solicitarCita.controls.telefono.errors?.pattern && solicitarCita.controls.telefono.dirty">
+                <mat-error
+                    *ngIf="solicitarCita.controls.telefono.errors?.pattern && solicitarCita.controls.telefono.dirty">
                     Solo
                     números permitidos. Mínimo 7 dígitos. Máximo 10</mat-error>
             </mat-form-field>
@@ -60,8 +61,8 @@
             <mat-form-field appearance="outline" class="select-group" class="col-md-6">
                 <mat-label>Tipo de servicio*</mat-label>
                 <mat-select formControlName="servicio">
-                    <mat-option *ngFor="let servicio of servicios" [value]="servicio">
-                        {{servicio}}
+                    <mat-option *ngFor="let servicio of servicios" [value]="servicio.id">
+                        {{servicio.nombre}}
                     </mat-option>
                 </mat-select>
                 <mat-hint>Seleccione el servicio</mat-hint>
@@ -75,6 +76,13 @@
                     </mat-option>
                 </mat-select>
                 <mat-hint>Seleccione la facultad </mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Proyecto Curricular*</mat-label>
+                <input matInput placeholder="Proyecto" type="text" formControlName="proyecto" />
+                <mat-hint>Ingrese su proyecto curricular</mat-hint>
                 <mat-error>Campo obligatorio</mat-error>
             </mat-form-field>
 

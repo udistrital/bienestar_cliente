@@ -154,7 +154,7 @@
         <div class="col mb-3 me-4 mb-4">
           <mat-form-field appearance="outline" class="col-sm-12">
             <mat-label>Fecha última CCV</mat-label>
-            <input matInput formControlName="fuccv" id="fuccv" [matDatepicker]="picker" readonly>
+            <input matInput formControlName="fuccv" id="fuccv" [matDatepicker]="picker" [max]="fechaActual" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -166,7 +166,7 @@
         <div class="col mb-3 me-4 mb-4">
           <mat-form-field appearance="outline" class="col-sm-12">
             <mat-label>Examen de Seno</mat-label>
-            <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" readonly>
+            <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" [max]="fechaActual" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>

@@ -33,6 +33,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class OdontologiaComponent implements OnInit {
+  fechaActual = new Date();
   tipoOdontogramaVestibular: TipoOdontograma;
   tipoOdontogramaVestabular: TipoOdontograma;
   tipoOdontogramaVestibularInfantil: TipoOdontograma;
@@ -184,6 +185,7 @@ export class OdontologiaComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute,
     private listService: ListService) { }
   ngOnInit() {
+    this.fechaActual.setDate(this.fechaActual.getDate() - 1);
     //console.log(new Date());
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
@@ -1106,10 +1108,10 @@ export class OdontologiaComponent implements OnInit {
     }
     if (this.saludService.falloPsico === false) {
       this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
-      // setTimeout(() => {
-      //   window.location.reload();
-      // },
-      //   1000);
+      setTimeout(() => {
+        window.location.reload();
+      },
+        1000);
     } else {
       this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
     }

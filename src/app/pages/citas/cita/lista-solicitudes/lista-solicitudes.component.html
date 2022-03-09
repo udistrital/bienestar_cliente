@@ -14,7 +14,7 @@
       </ng-container>
       <ng-container matColumnDef="telefono">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.telefono? cita.telefono:cita.telefonoAdicional}}</mat-cell>
+        <mat-cell *matCellDef="let cita">{{cita.telefonoAdicional}}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="facultad">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Facultad</mat-header-cell>
@@ -26,18 +26,18 @@
       </ng-container>
       <ng-container matColumnDef="servicio">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.servicio}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="especialista">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Especialista</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.profesional}}</mat-cell>
+        <mat-cell *matCellDef="let cita">{{cita.nombreEspecialidad}}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="acciones">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
-        <mat-cell *matCellDef="let cita"><a class="btn" [routerLink]="['../crearCita', cita.tercero, cita.id ]"
-            matTooltip="Crear">
+        <mat-cell *matCellDef="let cita"><button class="btn" matTooltip="Ver más información" data-toggle="modal"
+            data-target="#modalAditional" (click)="mostrarDialogo(cita.servicio)">
+            <mat-icon color="primary">remove_red_eye</mat-icon>
+          </button>
+          <button class="btn" [routerLink]="['../crearCita', cita.tercero, cita.id ]" matTooltip="Crear">
             <mat-icon color="warn">add_circle</mat-icon>
-          </a></mat-cell>
+          </button>
+        </mat-cell>
       </ng-container>
 
       <!-- elementos necesarios para el mat-table de angular material-->
