@@ -56,6 +56,7 @@ export class CrearCitaComponent implements OnInit {
         this.crearCita.controls['nombre'].setValue(solicitud.Nombrecompleto);
         this.crearCita.controls['facultad'].setValue(solicitud.facultad);
         this.crearCita.controls['tipocita'].setValue(solicitud.servicio);
+        this.consultarEspecialistas(solicitud.servicio);
       });
   }
 
@@ -68,11 +69,14 @@ export class CrearCitaComponent implements OnInit {
   }
 
   agregarCita() {
+    let fecha = new Date(this.crearCita.controls.fecha.value);
+    fecha.setDate(fecha.getDate() + 1);
+    let nuevaFecha = fecha;
     const cita: any = {
       IdCita: 0,
       IdProfesional: this.crearCita.controls.especialista.value,
       IdPaciente: Number(this.terceroId),
-      Fecha: this.crearCita.controls.fecha.value,
+      Fecha: nuevaFecha,
       Hora: this.crearCita.controls.hora.value,
       IdSolicitud: Number(this.solicitudId),
       TipoServicio: this.crearCita.controls.tipocita.value,
