@@ -26,9 +26,30 @@ export class ListarCitaComponent implements OnInit {
         this.saludService.getCitaEspecialista(res[0].TerceroId.Id).subscribe((data) => {
           //console.log(data);
           if (data) {
-            this.cita = data['Data'];
             if (JSON.stringify(data['Data'][0]) != '{}') {
               this.estado = true;
+              for (let i in data['Data']) {
+                let fechaCita = new Date(data['Data'][i].Fecha);
+                let horaCita = new Date(data['Data'][i].Hora);
+                horaCita.setHours(horaCita.getHours() + 5);
+                let fechaActual = new Date();
+                let horaActual = fechaActual.getHours();
+                let minutosActual = fechaActual.getMinutes();
+                fechaCita.setHours(0, 0, 0, 0);
+                fechaActual.setHours(0, 0, 0, 0);
+                if (fechaActual.getTime() == fechaCita.getTime()) {
+                  if (horaActual < horaCita.getHours()) {
+                    this.cita.push(data['Data'][i]);
+                  }
+                  else if (horaActual == horaCita.getHours()) {
+                    if (minutosActual <= horaCita.getMinutes()) {
+                      this.cita.push(data['Data'][i]);
+                    }
+                  }
+                } else if (fechaActual.getTime() < fechaCita.getTime()) {
+                  this.cita.push(data['Data'][i]);
+                }
+              }
             for (let i in this.cita) {
               this.personaService.getPaciente(this.cita[i].IdPaciente).subscribe((res) => {
                 this.cita[i].NombrePaciente= res["NombreCompleto"];
