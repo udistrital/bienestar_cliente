@@ -54,7 +54,7 @@ export class CrearCitaComponent implements OnInit {
             let fechaCompleta = separadorFecha[0] + " " + separadorHora[1];
             this.fechasEstudiante.push(fechaCompleta);
           }
-          // console.log(this.fechasEstudiante);
+          //console.log(this.fechasEstudiante);
         }
       });
     });
@@ -158,13 +158,11 @@ export class CrearCitaComponent implements OnInit {
 
   agregarCita() {
     let fecha = new Date(this.crearCita.controls.fecha.value);
-    fecha.setDate(fecha.getDate() + 1);
-    let nuevaFecha = fecha;
     const cita: any = {
       IdCita: 0,
       IdProfesional: this.crearCita.controls.especialista.value,
       IdPaciente: Number(this.terceroId),
-      Fecha: nuevaFecha,
+      Fecha: fecha,
       Hora: this.crearCita.controls.hora.value,
       IdSolicitud: Number(this.solicitudId),
       TipoServicio: this.crearCita.controls.tipocita.value,
