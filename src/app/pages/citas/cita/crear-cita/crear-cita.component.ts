@@ -20,9 +20,15 @@ export class CrearCitaComponent implements OnInit {
   submit = false;
   loading = false;
   terceroId: any;
+  disableDate = true;
+  disableHour = true;
   solicitudId: any;
   titulo = 'Agregar Cita';
   fechaActual = new Date();
+  fechasEstudiante: any[] = [];
+  fechasEspecialista: any[] = [];
+  fechaCita: string;
+  fechaCompletaCita: string;
 
   constructor(private fb: FormBuilder, private estudianteService: EstudiantesService,
     private router: Router,
@@ -39,12 +45,72 @@ export class CrearCitaComponent implements OnInit {
     this.aRoute.params.subscribe(params => {
       this.terceroId = params['tercero'];
       this.solicitudId = params['solicitud'];
+      this.saludService.getCita(this.terceroId).subscribe((data) => {
+        if (JSON.stringify(data['Data'][0]) != '{}') {
+          for (let i in data['Data']) {
+            let separadorFecha = data['Data'][i].Fecha.split("T");
+            let separadorHora = data['Data'][i].Hora.split(" ");
+            separadorHora[1] = separadorHora[1].slice(0, -3);
+            let fechaCompleta = separadorFecha[0] + " " + separadorHora[1];
+            this.fechasEstudiante.push(fechaCompleta);
+          }
+          // console.log(this.fechasEstudiante);
+        }
+      });
     });
   }
 
   ngOnInit() {
     this.buscarPaciente();
     this.fechaActual.setDate(this.fechaActual.getDate() + 1);
+  }
+
+  consultarFecha(data: any) {
+    this.fechaCompletaCita = "";
+    if (data == "") {
+      this.crearCita.controls['hora'].setValue("");
+      this.disableHour = true;
+    } else {
+      let mes = "";
+      let dia = "";
+      if (data.getMonth() + 1 < 10) {
+        mes = "0" + (data.getMonth() + 1).toString();
+      } else {
+        mes = (data.getMonth() + 1).toString();
+      }
+      if (data.getDate() < 10) {
+        dia = "0" + data.getDate().toString();
+      } else {
+        dia = data.getDate().toString();
+      }
+      this.fechaCita = data.getFullYear() + "-" + mes + "-" + dia;
+      //console.log(this.fechaCita);
+      this.disableHour = false;
+
+    }
+  }
+
+  consultarHora(data: any) {
+    //console.log(data);
+    if (data != "") {
+      this.fechaCompletaCita = this.fechaCita + " " + data;
+      for (let i in this.fechasEstudiante){
+        if (this.fechaCompletaCita == this.fechasEstudiante[i]){
+          this.crearCita.controls['hora'].setValue("");
+          this.toastr.error("El estudiante ya tiene una cita médica a esta hora");
+          break;
+        }
+      }
+      for (let i in this.fechasEspecialista){
+        if (this.fechaCompletaCita == this.fechasEspecialista[i]){
+          this.crearCita.controls['hora'].setValue("");
+          this.toastr.error("El especialista ya tiene una cita médica a esta hora");
+          break;
+        }
+      }
+      // console.log(this.fechaCompletaCita);
+      this.fechaCompletaCita = "";
+    }
   }
 
   buscarPaciente() {
@@ -66,6 +132,28 @@ export class CrearCitaComponent implements OnInit {
       //console.log(data);
       this.empleados = data;
     });
+  }
+  consultarCitasEspecialistas(dato: any) {
+    this.fechasEspecialista = [];
+    //console.log(dato);
+    this.crearCita.controls['fecha'].setValue("");
+    if (dato == "") {
+      this.disableDate = true;
+    } else {
+      this.disableDate = false;
+      this.saludService.getCitaEspecialista(dato).subscribe((data) => {
+        if (JSON.stringify(data['Data'][0]) != '{}') {
+          for (let i in data['Data']) {
+            let separadorFecha = data['Data'][i].Fecha.split("T");
+            let separadorHora = data['Data'][i].Hora.split(" ");
+            separadorHora[1] = separadorHora[1].slice(0, -3);
+            let fechaCompleta = separadorFecha[0] + " " + separadorHora[1];
+            this.fechasEspecialista.push(fechaCompleta);
+          }
+          // console.log(this.fechasEspecialista);
+        }
+      });
+    }
   }
 
   agregarCita() {
