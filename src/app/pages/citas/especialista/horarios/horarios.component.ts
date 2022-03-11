@@ -21,14 +21,8 @@ const fechaHoy = new Date().toISOString(); // YYYY-MM-DDT:HH:mm
 export class HorariosComponent implements OnInit {
   cita: any;
   citas: any[] = [];
-  calendarOptions: CalendarOptions;
-  constructor(private listService: ListService, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService) { }
-  ngOnInit() {
-    this.cargarCitas();
-    this.cargarCalendario();
-  }
-  cargarCalendario(){
-  this.calendarOptions = {
+  pruebaCita = [{ title: 'JHON GABRIEL CASTELLANOS JIMENEZ- Facultad de Ciencias y Educación (Macarena)', date: '2022-03-14T14:00:00' }, { title: 'JHON GABRIEL CASTELLANOS JIMENEZ- Facultad Tecnológica', date: '2022-03-15T15:30:00' }]
+  calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     themeSystem: 'Litera',
     weekends: false,
@@ -55,12 +49,18 @@ export class HorariosComponent implements OnInit {
     slotMaxTime: '17:00:00',
     slotDuration: '00:30:00',
     slotLabelInterval: 30,
-    snapDuration: '00:30:00',
-    events: [
-      
-    ],
-  };
-}
+    snapDuration: '00:30:00'
+  }
+  constructor(private listService: ListService, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService) { }
+  ngOnInit() {
+    this.actualizarCalendario();
+  }
+  actualizarCalendario() {
+    this.cargarCitas();
+    setTimeout(() => {
+      this.calendarOptions.events = this.citas;
+    }, 3000);
+  }
   cargarCitas() {
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
@@ -69,42 +69,44 @@ export class HorariosComponent implements OnInit {
         this.saludService.getCitaEspecialista(res[0].TerceroId.Id).subscribe((data) => {
           //console.log(data);
           if (data) {
-            this.cita = data;
-            for (let i in this.cita) {
-              this.personaService.getPaciente(this.cita[i].IdPaciente).subscribe((res) => {
-                let date = new Date(this.cita[i].Fecha);
-                //console.log(date);
-                let dateHora = new Date(this.cita[i].Hora);
-                dateHora.setHours(dateHora.getHours() + 5);
-                // console.log(dateHora);
-                let hours = dateHora.getHours();
-                let minutes = dateHora.getMinutes();
-                let seconds = dateHora.getSeconds();
-                let fechaHora;
-                if (minutes < 10 && seconds < 10) {
-                  fechaHora = hours + ':' + '0' + minutes + ':' + '0' + seconds;
-                } else if (minutes >= 10 && seconds < 10) {
-                  fechaHora = hours + ':' + minutes + ':' + '0' + seconds;
-                } else if (minutes < 10 && seconds >= 10) {
-                  fechaHora = hours + ':' + '0' + minutes + ':' + seconds;
-                } else {
-                  fechaHora = hours + ':' + minutes + ':' + seconds;
-                }
-                //console.log(fechaHora);
-                let day = date.getDate();
-                let month = date.getMonth() + 1;
-                let year = date.getFullYear();
-                let fecha;
-                if (month < 10) {
-                  fecha = `${year}-0${month}-${day}`;
-                } else {
-                  fecha = `${year}-${month}-${day}`;
-                }
-                this.cita[i].NombrePaciente = res["NombreCompleto"];
-                let formato = { title: this.cita[i].NombrePaciente + '- ' + this.cita[i].Sede, date: fecha + 'T' + fechaHora }
-                this.citas.push(formato);
-                this.calendarOptions.events = this.citas;
-              });
+            this.cita = data['Data'];
+            if (JSON.stringify(data['Data'][0]) != '{}') {
+              for (let i in this.cita) {
+                this.personaService.getPaciente(this.cita[i].IdPaciente).subscribe((res) => {
+                  let date = new Date(this.cita[i].Fecha);
+                  //console.log(date);
+                  let dateHora = new Date(this.cita[i].Hora);
+                  dateHora.setHours(dateHora.getHours() + 5);
+                  // console.log(dateHora);
+                  let hours = dateHora.getHours();
+                  let minutes = dateHora.getMinutes();
+                  let seconds = dateHora.getSeconds();
+                  let fechaHora;
+                  if (minutes < 10 && seconds < 10) {
+                    fechaHora = hours + ':' + '0' + minutes + ':' + '0' + seconds;
+                  } else if (minutes >= 10 && seconds < 10) {
+                    fechaHora = hours + ':' + minutes + ':' + '0' + seconds;
+                  } else if (minutes < 10 && seconds >= 10) {
+                    fechaHora = hours + ':' + '0' + minutes + ':' + seconds;
+                  } else {
+                    fechaHora = hours + ':' + minutes + ':' + seconds;
+                  }
+                  //console.log(fechaHora);
+                  let day = date.getDate();
+                  let month = date.getMonth() + 1;
+                  let year = date.getFullYear();
+                  let fecha;
+                  if (month < 10) {
+                    fecha = `${year}-0${month}-${day}`;
+                  } else {
+                    fecha = `${year}-${month}-${day}`;
+                  }
+                  this.cita[i].NombrePaciente = res["NombreCompleto"];
+                  let formato = { title: this.cita[i].NombrePaciente + '- ' + this.cita[i].Sede, date: fecha + 'T' + fechaHora }
+                  this.citas.push(formato);
+                  //console.log(this.citas);
+                });
+              }
             }
           }
         });

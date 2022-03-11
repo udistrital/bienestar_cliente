@@ -77,7 +77,7 @@ export class DatosBasicosComponent implements OnInit {
         this.direccion = direccionCorregida;
       });
       this.saludService.getHistoriaClinica(this.terceroId).subscribe((data: any) => {
-        if (data === null) {
+        if (JSON.stringify(data.Data[0]) === '{}') {
           const historia: HistoriaClinica = {
             Id: 0,
             Tercero: this.terceroId,
@@ -96,7 +96,7 @@ export class DatosBasicosComponent implements OnInit {
             this.toastr.error(`No se pudo crear la historia clínica para ${this.nombre}`, 'Error');
           });
         }
-        if (data) {
+        else {
           let fechaActual = new (Date);
           this.listService.getInfoEstudiante().then((resp) => {
             //console.log(resp);
@@ -104,7 +104,7 @@ export class DatosBasicosComponent implements OnInit {
               //console.log(res);
               const accesoHistoria: AccesoHistoria = {
                 IdAccesoHistoria: 0,
-                IdHistoriaClinica: data[0].Id,
+                IdHistoriaClinica: data.Data[0].Id,
                 ProfesionalId: res[0].TerceroId.Id,
                 FechaAcceso: fechaActual,
                 FechaCreacion: new Date(),
@@ -112,7 +112,7 @@ export class DatosBasicosComponent implements OnInit {
                 Activo: true
               }
               this.saludService.postAccesoHistoria(accesoHistoria).subscribe((response) => {
-                //console.log(response);
+                // console.log(response);
               });
 
             });

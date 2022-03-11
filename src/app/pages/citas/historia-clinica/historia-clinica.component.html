@@ -62,7 +62,7 @@
   </mat-accordion>
 </div>
 <!-- Odontología -->
-<div class="card mt-2">
+<div class="card mt-2" [hidden]="!roles.includes('ODONTOLOGO')">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

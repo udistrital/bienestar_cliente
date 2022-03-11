@@ -6,10 +6,10 @@
   </button>
 </div>
 <mat-card class="mt-2">
-  <div class="text-center" *ngIf="cita.length==0">
+  <div class="text-center" *ngIf="!estado">
     <h6>No tiene citas por el momento</h6>
   </div>
-  <table class="table table-striped mt-2" *ngIf="cita.length>0">
+  <table class="table table-striped mt-2" *ngIf="estado">
     <thead>
       <tr>
         <th scope="col">Paciente</th>

@@ -499,7 +499,7 @@
       <div class="form-floating">
         <mat-form-field appearance="outline" class="col-sm-12">
           <mat-label>Última visita al odontólogo</mat-label>
-          <input matInput formControlName="ultimaVisitaOdontologo" id="ultimaVisitaOdontologo" [matDatepicker]="picker"
+          <input matInput formControlName="ultimaVisitaOdontologo" id="ultimaVisitaOdontologo" [matDatepicker]="picker" [max]="fechaActual"
             readonly>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>

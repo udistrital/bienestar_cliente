@@ -16,13 +16,14 @@ const headers = {
 const estudianteUrl = environment.ACADEMICA;
 const infoUrl = environment.TERCEROS_CRUD_SERVICE;
 const oikosUrl = environment.OIKOS_SERVICE;
+const oikosUrl2 = environment.OIKOS_SERVICE_2;
 const soliUrl = environment.SOLICITUD_CRUD_SERVICE;
 const paraUrl = environment.PARAMETROS;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
 const consultaEspecialistas = 'vinculacion?query=CargoId:';
-const consultaVinculacion = 'vinculacion?query=Id:';
+const consultaVinculacion = 'vinculacion?query=TerceroPrincipalId.Id:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'
@@ -52,6 +53,9 @@ export class EstudiantesService {
   }
   getSolicitud(codigo) {
     return this.http.get(soliUrl + 'solicitud/' + codigo);
+  }
+  getDependencia(codigo){
+    return this.http.get(oikosUrl2 + 'dependencia/' + codigo);
   }
   getCodigoTercero(terceroId, codIden) {
     return this.http.get(infoUrl + consultaIdentificacion + terceroId + ',TipoDocumentoId.Id:' + codIden, headers);
