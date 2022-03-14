@@ -67,11 +67,11 @@ export class CrearCitaComponent implements OnInit {
     this.buscarPaciente();
     this.estudianteService.getParametro(environment.IDS.IDHORARIOINICIO).subscribe((res) => {
       this.horarioInicial = res['Data'].Nombre;
-      console.log(this.horarioInicial);
+      //console.log(this.horarioInicial);
     });
     this.estudianteService.getParametro(environment.IDS.IDHORARIOFINAL).subscribe((res) => {
       this.horarioFinal = res['Data'].Nombre;
-      console.log(this.horarioFinal);
+      //console.log(this.horarioFinal);
     });
     this.fechaActual.setDate(this.fechaActual.getDate() + 1);
   }
@@ -105,15 +105,15 @@ export class CrearCitaComponent implements OnInit {
     //console.log(data);
     if (data != "") {
       this.fechaCompletaCita = this.fechaCita + " " + data;
-      for (let i in this.fechasEstudiante){
-        if (this.fechaCompletaCita == this.fechasEstudiante[i]){
+      for (let i in this.fechasEstudiante) {
+        if (this.fechaCompletaCita == this.fechasEstudiante[i]) {
           this.crearCita.controls['hora'].setValue("");
           this.toastr.error("El estudiante ya tiene una cita médica a esta hora");
           break;
         }
       }
-      for (let i in this.fechasEspecialista){
-        if (this.fechaCompletaCita == this.fechasEspecialista[i]){
+      for (let i in this.fechasEspecialista) {
+        if (this.fechaCompletaCita == this.fechasEspecialista[i]) {
           this.crearCita.controls['hora'].setValue("");
           this.toastr.error("El especialista ya tiene una cita médica a esta hora");
           break;
@@ -127,13 +127,18 @@ export class CrearCitaComponent implements OnInit {
   buscarPaciente() {
     this.estudianteService.getSolicitud(this.solicitudId)
       .subscribe((data: any) => {
-        // console.log(data);
-        let solicitud = JSON.parse(data.Referencia);
-        this.crearCita.controls['codigo'].setValue(solicitud.documento);
-        this.crearCita.controls['nombre'].setValue(solicitud.Nombrecompleto);
-        this.crearCita.controls['facultad'].setValue(solicitud.facultad);
-        this.crearCita.controls['tipocita'].setValue(solicitud.servicio);
-        this.consultarEspecialistas(solicitud.servicio);
+        //console.log(data);
+        if (data['EstadoTipoSolicitudId']['Id'] == environment.IDS.IDESTADOSOLICITUDAGENDADA) {
+          this.crearCita.disable();
+          this.toastr.error("Solicitud ya fue manejada. Por favor intente con otra");
+        } else {
+          let solicitud = JSON.parse(data.Referencia);
+          this.crearCita.controls['codigo'].setValue(solicitud.documento);
+          this.crearCita.controls['nombre'].setValue(solicitud.Nombrecompleto);
+          this.crearCita.controls['facultad'].setValue(solicitud.facultad);
+          this.crearCita.controls['tipocita'].setValue(solicitud.servicio);
+          this.consultarEspecialistas(solicitud.servicio);
+        }
       });
   }
 
@@ -168,47 +173,54 @@ export class CrearCitaComponent implements OnInit {
   }
 
   agregarCita() {
-    let fecha = new Date(this.crearCita.controls.fecha.value);
-    const cita: any = {
-      IdCita: 0,
-      IdProfesional: this.crearCita.controls.especialista.value,
-      IdPaciente: Number(this.terceroId),
-      Fecha: fecha,
-      Hora: this.crearCita.controls.hora.value,
-      IdSolicitud: Number(this.solicitudId),
-      TipoServicio: this.crearCita.controls.tipocita.value,
-      Sede: this.crearCita.controls.facultad.value,
-      FechaCreacion: new Date(),
-      FechaModificacion: new Date(),
-      Activo: true
-    }
-    this.saludService.postCita(cita).subscribe((data: any) => {
-      //console.log(data);
-      this.estudianteService.getSolicitudCompleta(Number(this.solicitudId)).subscribe((res: any) => {
-        //console.log(res[0]);
-        const solicitud = {
-          Id: res[0].Id,
-          EstadoTipoSolicitudId: {
-            Id: 46
-          },
-          Referencia: res[0].Referencia,
-          Resultado: res[0].Resultado,
-          FechaRadicacion: res[0].FechaRadicacion,
-          FechaCreacion: res[0].FechaCreacion,
-          FechaModificacion: res[0].FechaModificacion,
-          SolicitudFinalizada: res[0].SolicitudFinalizada,
-          Activo: res[0].Activo,
-          SolicitudPadreId: res[0].SolicitudPadreId
+    this.estudianteService.getSolicitudCompleta(Number(this.solicitudId)).subscribe((res: any) => {
+      if (res[0].EstadoTipoSolicitudId.Id == environment.IDS.IDESTADOSOLICITUDAGENDADA) {
+        this.crearCita.disable();
+        this.toastr.error("Solicitud ya fue manejada. Por favor intente con otra");
+      } else {
+        let fecha = new Date(this.crearCita.controls.fecha.value);
+        const cita: any = {
+          IdCita: 0,
+          IdProfesional: this.crearCita.controls.especialista.value,
+          IdPaciente: Number(this.terceroId),
+          Fecha: fecha,
+          Hora: this.crearCita.controls.hora.value,
+          IdSolicitud: Number(this.solicitudId),
+          TipoServicio: this.crearCita.controls.tipocita.value,
+          Sede: this.crearCita.controls.facultad.value,
+          FechaCreacion: new Date(),
+          FechaModificacion: new Date(),
+          Activo: true
         }
-        this.estudianteService.actualizarEstadoSolicitud(this.solicitudId, solicitud).subscribe((resp: any) => {
-          this.toastr.success(`Ha registrado con éxito la cita médica`, '¡Guardado!');
-          setTimeout(() => {
-            this.router.navigate(['pages/citas/solicitudes']);
-          },
-            1000);
-        });
+        this.saludService.postCita(cita).subscribe((data: any) => {
+          //console.log(data);
 
-      });
+          //console.log(res[0]);
+          const solicitud = {
+            Id: res[0].Id,
+            EstadoTipoSolicitudId: {
+              Id: environment.IDS.IDESTADOSOLICITUDAGENDADA
+            },
+            Referencia: res[0].Referencia,
+            Resultado: res[0].Resultado,
+            FechaRadicacion: res[0].FechaRadicacion,
+            FechaCreacion: res[0].FechaCreacion,
+            FechaModificacion: res[0].FechaModificacion,
+            SolicitudFinalizada: res[0].SolicitudFinalizada,
+            Activo: res[0].Activo,
+            SolicitudPadreId: res[0].SolicitudPadreId
+          }
+          this.estudianteService.actualizarEstadoSolicitud(this.solicitudId, solicitud).subscribe((resp: any) => {
+            this.crearCita.disable();
+            this.toastr.success(`Ha registrado con éxito la cita médica`, '¡Guardado!');
+            setTimeout(() => {
+              this.router.navigate(['pages/citas/solicitudes']);
+            },
+              1000);
+          });
+
+        });
+      }
     });
   }
 

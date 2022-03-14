@@ -137,7 +137,7 @@ export class SolicitarCitaComponent implements OnInit {
     solicitud.Id = null;
     solicitud.EstadoTipoSolicitudId =
     {
-      Id: 31
+      Id: environment.IDS.IDESTADOSOLICITUDESPERA
     }
     solicitud.Referencia = JSON.stringify(this.referencia);
     solicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
