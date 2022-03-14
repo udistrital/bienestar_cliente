@@ -15,6 +15,7 @@ import { HistoriaClinicaComponent } from "./historia-clinica/historia-clinica.co
 import { PacienteCitaComponent } from "./paciente/paciente-cita/paciente-cita.component";
 import { SolicitarCitaComponent } from './cita/solicitar-cita/solicitar-cita.component';
 import { ListaSolicitudesComponent } from "./cita/lista-solicitudes/lista-solicitudes.component";
+import { ParametrizarHorariosComponent } from "./cita/parametrizar-horarios/parametrizar-horarios.component";
 // FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 //   dayGridPlugin,
 //   interactionPlugin,
@@ -34,6 +35,7 @@ const routes: Routes = [
       {path: "citaPaciente", component: PacienteCitaComponent},
       {path: "solicitarCita", component: SolicitarCitaComponent},
       {path: "solicitudes", component: ListaSolicitudesComponent},
+      {path: "parametrizarHorarios", component: ParametrizarHorariosComponent},
       { path: "", component: HomeComponent },
       { path: "**", redirectTo: "" },
     ],

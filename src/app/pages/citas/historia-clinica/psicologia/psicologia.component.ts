@@ -77,6 +77,13 @@ export class PsicologiaComponent implements OnInit {
   nombreEspecialista: any;
   terceroEspecialista: any;
   logoDataUrl: string;
+  estadoAntecedente: boolean = false;
+  estadoComportamientoConsulta: boolean = false;
+  estadoComposicionFamiliar: boolean = false;
+  estadoDiagnostico: boolean = false;
+  estadoLimites: boolean = false;
+  estadoValoracionInterpersonal: boolean = false;
+  estadoHoja: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
   ngOnInit() {
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
@@ -210,6 +217,7 @@ export class PsicologiaComponent implements OnInit {
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
+        this.estadoHoja = true;
         this.HojaHistoria = data['Data'];
         console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
@@ -228,9 +236,11 @@ export class PsicologiaComponent implements OnInit {
           // console.log(antecedentePsicologia);
           this.saludService.postAntecedentePsicologia(antecedentePsicologia).subscribe(data => {
             console.log('AntecedentePsicologia: ' + data['Data']);
-            this.saludService.falloPsico = false;
+            this.estadoAntecedente = true;
+            this.comprobarHoja();
           }, error => {
-            this.saludService.falloPsico = true;
+            this.estadoAntecedente = false;
+            this.toastr.error(error);
           });
         } else if (this.antecedentes) {
           const antecedentePsicologia: AntecedentePsicologia = {
@@ -247,9 +257,11 @@ export class PsicologiaComponent implements OnInit {
           // console.log(antecedentePsicologia);
           this.saludService.putAntecedentePsicologia(this.antecedentes.Id, antecedentePsicologia).subscribe(data => {
             console.log('AntecedentePsicologia: ' + data['Data']);
-            this.saludService.falloPsico = false;
+            this.estadoAntecedente = true;
+            this.comprobarHoja();
           }, error => {
-            this.saludService.falloPsico = true;
+            this.estadoAntecedente = false;
+            this.toastr.error(error);
           });
         }
         const comportamientoConsulta: ComportamientoConsulta = {
@@ -266,9 +278,11 @@ export class PsicologiaComponent implements OnInit {
         // console.log(comportamientoConsulta);
         this.saludService.postComportamientoConsulta(comportamientoConsulta).subscribe(data => {
           console.log('ComportamientoConsulta: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoComportamientoConsulta = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoComportamientoConsulta = false;
+          this.toastr.error(error);
         });
         const composicionFamiliar: ComposicionFamiliar = {
           HistoriaClinicaId: this.saludService.historia,
@@ -283,9 +297,11 @@ export class PsicologiaComponent implements OnInit {
         // console.log(composicionFamiliar);
         this.saludService.postComposicionFamiliar(composicionFamiliar).subscribe(data => {
           console.log('ComposicionFamiliar: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoComposicionFamiliar = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoComposicionFamiliar = false;
+          this.toastr.error(error);
         });
         const diagnostico: DiagnosticoPsicologia = {
           Diagnostico: this.psicologiaForm.get('diagnostico').value,
@@ -303,9 +319,11 @@ export class PsicologiaComponent implements OnInit {
         // console.log(diagnostico);
         this.saludService.postDiagnosticoPsicologia(diagnostico).subscribe(data => {
           console.log('DiagnosticoPsicologia: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoDiagnostico = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoDiagnostico = false;
+          this.toastr.error(error);
         });
         const limites: Limites = {
           Claros: this.psicologiaForm.get('claros').value,
@@ -322,9 +340,11 @@ export class PsicologiaComponent implements OnInit {
         // console.log(limites);
         this.saludService.postLimites(limites).subscribe(data => {
           console.log('Limites: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.comprobarHoja();
+          this.estadoLimites = true;
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoLimites = false;
+          this.toastr.error(error);
         });
         const valoracionInterpersonal: ValoracionInterpersonal = {
           Autoridad: this.psicologiaForm.get('figurasDeAutoridad').value,
@@ -348,9 +368,11 @@ export class PsicologiaComponent implements OnInit {
         // console.log(valoracionInterpersonal);
         this.saludService.postValoracionInterpersonal(valoracionInterpersonal).subscribe(data => {
           console.log('ValoracionInterpersonal: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoValoracionInterpersonal = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoValoracionInterpersonal = false;
+          this.toastr.error(error);
         });
       });
     } else if (this.estado == "vieja") {
@@ -374,9 +396,11 @@ export class PsicologiaComponent implements OnInit {
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
         console.log('Hoja historia: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoHoja = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoHoja = false;
+        this.toastr.error(error);
       });
       const antecedentePsicologia: AntecedentePsicologia = {
         Id: this.antecedentes.Id,
@@ -392,9 +416,11 @@ export class PsicologiaComponent implements OnInit {
       // console.log(antecedentePsicologia);
       this.saludService.putAntecedentePsicologia(this.antecedentes.Id, antecedentePsicologia).subscribe(data => {
         console.log('AntecedentePsicologia: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoAntecedente = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoAntecedente = false;
+        this.toastr.error(error);
       });
       const comportamientoConsulta: ComportamientoConsulta = {
         Afrontamiento: this.psicologiaForm.get('estiloAfrontamiento').value,
@@ -410,9 +436,11 @@ export class PsicologiaComponent implements OnInit {
       // console.log(comportamientoConsulta);
       this.saludService.putComportamientoConsulta(this.comportamiento.Id, comportamientoConsulta).subscribe(data => {
         console.log('ComportamientoConsulta: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoComportamientoConsulta = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoComportamientoConsulta = false;
+        this.toastr.error(error);
       });
       const composicionFamiliar: ComposicionFamiliar = {
         HistoriaClinicaId: this.composicion.HistoriaClinicaId,
@@ -427,9 +455,11 @@ export class PsicologiaComponent implements OnInit {
       // console.log(composicionFamiliar);
       this.saludService.putComposicionFamiliar(this.composicion.Id, composicionFamiliar).subscribe(data => {
         console.log('ComposicionFamiliar: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoComposicionFamiliar = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoComposicionFamiliar = false;
+        this.toastr.error(error);
       });
       const diagnostico: DiagnosticoPsicologia = {
         Acuerdo: this.psicologiaForm.get('acuerdos').value,
@@ -447,9 +477,11 @@ export class PsicologiaComponent implements OnInit {
       // console.log(diagnostico);
       this.saludService.putDiagnosticoPsicologia(this.diagnostico.Id, diagnostico).subscribe(data => {
         console.log('DiagnosticoPsicologia: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoDiagnostico = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoDiagnostico = false;
+        this.toastr.error(error);
       });
       const limites: Limites = {
         Claros: this.psicologiaForm.get('claros').value,
@@ -466,9 +498,11 @@ export class PsicologiaComponent implements OnInit {
       // console.log(limites);
       this.saludService.putLimites(this.limites.Id, limites).subscribe(data => {
         console.log('Limites: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoLimites = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoLimites = false;
+        this.toastr.error(error);
       });
       const valoracionInterpersonal: ValoracionInterpersonal = {
         Autoridad: this.psicologiaForm.get('figurasDeAutoridad').value,
@@ -492,22 +526,23 @@ export class PsicologiaComponent implements OnInit {
       // console.log(valoracionInterpersonal);
       this.saludService.putValoracionInterpersonal(this.valoracion.Id, valoracionInterpersonal).subscribe(data => {
         console.log('ValoracionInterpersonal: ' + data);
-        this.saludService.falloPsico = false;
+        this.estadoValoracionInterpersonal = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoValoracionInterpersonal = false;
+        this.toastr.error(error);
       });
     }
-    // console.log(this.saludService.falloPsico);
-    if (this.saludService.falloPsico === false) {
-      this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
-      setTimeout(() => {
-        window.location.reload();
-      },
-        1500);
-      // window.location.reload();
-    } else {
-      this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
-    }
+  }
+  comprobarHoja(){
+    if (this.estadoAntecedente && this.estadoComportamientoConsulta && this.estadoComposicionFamiliar && this.estadoDiagnostico && this.estadoHoja && this.estadoLimites &&
+      this.estadoValoracionInterpersonal){
+        this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
+        setTimeout(() => {
+          window.location.reload();
+        },
+          1000);
+      }
   }
   cambiarHoja(data: any) {
     this.evolucionPsicoArr.clear();

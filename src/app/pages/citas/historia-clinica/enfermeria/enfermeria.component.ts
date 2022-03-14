@@ -33,6 +33,8 @@ export class EnfermeriaComponent implements OnInit {
   })
   nombreEspecialista: any;
   terceroEspecialista: any;
+  estadoHoja: boolean = false;
+  estadoEnfermeria: boolean = false;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
 
@@ -82,6 +84,7 @@ export class EnfermeriaComponent implements OnInit {
       }
       //console.log(hojaHistoria);
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
+        this.estadoHoja = true;
         this.HojaHistoria = data['Data'];
         console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
@@ -98,9 +101,11 @@ export class EnfermeriaComponent implements OnInit {
         // console.log(enfermeria);
         this.saludService.postEnfermeria(enfermeria).subscribe(data => {
           console.log('NotasEnfermería: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoEnfermeria = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoEnfermeria = false;
+          this.toastr.error(error);
         });
       });
     } else if (this.estado == "vieja") {
@@ -124,9 +129,11 @@ export class EnfermeriaComponent implements OnInit {
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
         console.log('Hoja historia: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoHoja = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoHoja = false;
+        this.toastr.error(error);
       });
       const enfermeria: Enfermeria = {
         Descripcion: this.enfermeriaForm.get('descripcion').value,
@@ -138,24 +145,25 @@ export class EnfermeriaComponent implements OnInit {
         FechaModificacion: new Date(),
         Activo: true
       }
-      console.log(enfermeria);
+      //console.log(enfermeria);
       this.saludService.putEnfermeria(this.enfermeria.Id, enfermeria).subscribe(data => {
         // console.log(data);
         console.log('NotasEnfermería: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoEnfermeria = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoEnfermeria = false;
+        this.toastr.error(error);
       });
     }
-    if (this.saludService.falloPsico === false) {
+  }
+  comprobarHoja(){
+    if (this.estadoEnfermeria && this.estadoHoja){
       this.toastr.success(`Ha registrado con éxito la historia clínica de enfermería para: ${this.paciente}`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },
-        1500);
-      // window.location.reload();
-    } else {
-      this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
+        1000);
     }
   }
   getHojaEspecifica(Id: any) {

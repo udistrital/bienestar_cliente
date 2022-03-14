@@ -8,6 +8,7 @@ import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pi
 import { ReferenciaSolicitudCita } from "../../../../@core/data/models/solicitud/referencia-solicitud-cita";
 import { ToastrService } from 'ngx-toastr';
 import { ListService } from '../../../../@core/store/list.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'ngx-solicitar-cita',
@@ -17,7 +18,7 @@ import { ListService } from '../../../../@core/store/list.service';
 export class SolicitarCitaComponent implements OnInit {
   date = new Date();
   dateToday = this.date.setHours(this.date.getHours() + 1);
-  servicios: any[] = [{ id: 766, nombre: "Medicina" }, { id: 765, nombre: "Enfermería" }, { id: 767, nombre: "Psicología" }, { id: 768, nombre: "Odontología" }, { id: 769, nombre: "Fisioterapia" }];
+  servicios: any[] = [{ id: environment.IDS.IDMEDICINA, nombre: "Medicina" }, { id: environment.IDS.IDENFERMERIA, nombre: "Enfermería" }, { id: environment.IDS.IDPSICOLOGIA, nombre: "Psicología" }, { id: environment.IDS.IDODONTOLOGIA, nombre: "Odontología" }, { id: environment.IDS.IDFISIOTERAPIA, nombre: "Fisioterapia" }];
   facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
     "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
   plataformas: any[] = ["Teléfono", "Meet", "Zoom", "Presencial"];

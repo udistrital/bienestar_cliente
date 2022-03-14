@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ListService } from '../../../@core/store/list.service';
+import { SaludService } from '../../../shared/services/salud.service';
 @Component({
   selector: 'ngx-historia-clinica',
   templateUrl: './historia-clinica.component.html',

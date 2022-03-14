@@ -44,6 +44,13 @@ export const environment = {
         IDSOLICITUDACEPTADA: 28,
         IDSOLICITUDNOACEPTADA: 29,
         IDSOLICITUDPREPARADA: 30,
+        IDENFERMERIA: 765,
+        IDMEDICINA: 766,
+        IDPSICOLOGIA: 767,
+        IDODONTOLOGIA: 768,
+        IDFISIOTERAPIA: 769,
+        IDHORARIOINICIO: 787,
+        IDHORARIOFINAL: 788,
     },
     SMMLV: 908526,
     KNOWAGE: {
@@ -62,5 +69,5 @@ export const environment = {
         REDIRECT_URL: 'https://pruebasbienestar.portaloas.udistrital.edu.co',
         SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
         SIGN_OUT_REDIRECT_URL: 'https://pruebasbienestar.portaloas.udistrital.edu.co',
-   },
+    },
 };

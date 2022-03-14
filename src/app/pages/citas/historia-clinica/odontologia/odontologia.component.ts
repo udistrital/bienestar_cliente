@@ -174,6 +174,17 @@ export class OdontologiaComponent implements OnInit {
   estadoLaboratorioFinal: boolean = false;
   subidoLaboratorioFinal: boolean = false;
   blobLaboratorioFinal: Blob;
+  estadoHoja: boolean = false;
+  estadoAnanmesis: boolean = false;
+  estadoDiagnostico: boolean = false;
+  estadoExamenDental: boolean = false;
+  estadoExamenEstomatologico: boolean = false;
+  estadoExamenesComplementarios: boolean = false;
+  estadoOdontogramaVestabular: boolean = false;
+  estadoOdontogramaVestibular: boolean = false;
+  estadoOdontogramaVestibularInfantil: boolean = false;
+  estadoOdontogramaLingualesInfantil: boolean = false;
+
   @ViewChild('inputPeriapicalInicio', { static: true }) inputPeriapicalInicio: ElementRef;
   @ViewChild('inputPeriapicalFinal', { static: true }) inputPeriapicalFinal: ElementRef;
   @ViewChild('inputPanoramicaInicio', { static: true }) inputPanoramicaInicio: ElementRef;
@@ -399,11 +410,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoPanoramicaInicio = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoPanoramicaInicio = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoPanoramicaInicio = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64PanoramicaFinal == null) {
       this.subidoPanoramicaFinal = true;
@@ -424,11 +435,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoPanoramicaFinal = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoPanoramicaFinal = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoPanoramicaFinal = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64PeriapicalInicio == null) {
       this.subidoPeriapicalInicio = true;
@@ -449,11 +460,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoPeriapicalInicio = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoPeriapicalInicio = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoPeriapicalInicio = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64PeriapicalFinal == null) {
       this.subidoPeriapicalFinal = true;
@@ -474,11 +485,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoPeriapicalFinal = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoPeriapicalFinal = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoPeriapicalFinal = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64OtraInicio == null) {
       this.subidoOtraInicio = true;
@@ -499,11 +510,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoOtraInicio = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoOtraInicio = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoOtraInicio = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64OtraFinal == null) {
       this.subidoOtraFinal = true;
@@ -524,11 +535,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoOtraFinal = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoOtraFinal = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoOtraFinal = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64LaboratorioInicio == null) {
       this.subidoLaboratorioInicio = true;
@@ -549,11 +560,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoLaboratorioInicio = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoLaboratorioInicio = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoLaboratorioInicio = true;
+          this.comprobarCargaDocumentos();
+        });
     }
     if (this.base64LaboratorioFinal == null) {
       this.subidoLaboratorioFinal = true;
@@ -574,11 +585,11 @@ export class OdontologiaComponent implements OnInit {
         this.subidoLaboratorioFinal = true;
         this.comprobarCargaDocumentos();
       },
-      (err) => {
-        this.toastr.error(err)
-        this.subidoLaboratorioFinal = true;
-        this.comprobarCargaDocumentos();
-      });
+        (err) => {
+          this.toastr.error(err)
+          this.subidoLaboratorioFinal = true;
+          this.comprobarCargaDocumentos();
+        });
     }
   }
 
@@ -606,6 +617,7 @@ export class OdontologiaComponent implements OnInit {
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
         this.HojaHistoria = data['Data'];
+        this.estadoHoja = true;
         console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
         if (!this.anamnesis) {
@@ -639,9 +651,11 @@ export class OdontologiaComponent implements OnInit {
           }
           this.saludService.postAnamnesis(anamnesis).subscribe(data => {
             console.log('Anamnesis: ' + data['Data']);
-            this.saludService.falloPsico = false;
+            this.estadoAnanmesis = true;
+            this.comprobarHojaHistoria();
           }, error => {
-            this.saludService.falloPsico = true;
+            this.estadoAnanmesis = false;
+            this.toastr.error(error);
           });
         } else if (this.anamnesis) {
           const anamnesis: Anamnesis = {
@@ -674,9 +688,11 @@ export class OdontologiaComponent implements OnInit {
           }
           this.saludService.putAnamnesis(this.anamnesis.Id, anamnesis).subscribe(data => {
             console.log('Anamnesis: ' + data['Data']);
-            this.saludService.falloPsico = false;
+            this.estadoAnanmesis = true;
+            this.comprobarHojaHistoria();
           }, error => {
-            this.saludService.falloPsico = true;
+            this.estadoAnanmesis = false;
+            this.toastr.error(error);
           });
         }
         const examenDental: ExamenDental = {
@@ -698,9 +714,11 @@ export class OdontologiaComponent implements OnInit {
         }
         this.saludService.postExamenDental(examenDental).subscribe(data => {
           console.log('ExamenDental: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoExamenDental = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoExamenDental = false;
+          this.toastr.error(error);
         });
         const examenEstomatologico: ExamenEstomatologico = {
           Id: 0,
@@ -725,9 +743,11 @@ export class OdontologiaComponent implements OnInit {
         }
         this.saludService.postExamenEstomatologico(examenEstomatologico).subscribe(data => {
           console.log('ExamenEstomatologico: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoExamenEstomatologico = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoExamenEstomatologico = false;
+          this.toastr.error(error);
         });
         const examenesComplementarios: ExamenesComplementarios = {
           Id: 0,
@@ -752,9 +772,11 @@ export class OdontologiaComponent implements OnInit {
         }
         this.saludService.postExamenesComplementarios(examenesComplementarios).subscribe(data => {
           console.log('ExamenesComplementarios: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoExamenesComplementarios = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoExamenesComplementarios = false;
+          this.toastr.error(error);
         });
         const diagnostico: DiagnosticoOdontologia = {
           Id: 0,
@@ -774,9 +796,11 @@ export class OdontologiaComponent implements OnInit {
         }
         this.saludService.postDiagnosticoOdontologia(diagnostico).subscribe(data => {
           console.log('Diagnostico: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoDiagnostico = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoDiagnostico = false;
+          this.toastr.error(error);
         });
         const odontogramaVestabular: Odontograma = {
           HistoriaClinicaId: this.Historia.Id,
@@ -789,12 +813,14 @@ export class OdontologiaComponent implements OnInit {
           FechaModificacion: new Date(),
           Activo: true
         };
-        console.log(odontogramaVestabular);
+        //console.log(odontogramaVestabular);
         this.saludService.postOdontograma(odontogramaVestabular).subscribe(data => {
           console.log('Vestabular: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoOdontogramaVestabular = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoOdontogramaVestabular = false;
+          this.toastr.error(error);
         });
         const odontogramaVestibular: Odontograma = {
           HistoriaClinicaId: this.Historia.Id,
@@ -807,12 +833,14 @@ export class OdontologiaComponent implements OnInit {
           FechaModificacion: new Date(),
           Activo: true
         };
-        console.log(odontogramaVestibular);
+        //console.log(odontogramaVestibular);
         this.saludService.postOdontograma(odontogramaVestibular).subscribe(data => {
           console.log('Vestibular: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoOdontogramaVestibular = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoOdontogramaVestibular = false;
+          this.toastr.error(error);
         });
         const odontogramaVestibularInfantil: Odontograma = {
           HistoriaClinicaId: this.Historia.Id,
@@ -825,12 +853,14 @@ export class OdontologiaComponent implements OnInit {
           FechaModificacion: new Date(),
           Activo: true
         };
-        console.log(odontogramaVestibularInfantil);
+        //console.log(odontogramaVestibularInfantil);
         this.saludService.postOdontograma(odontogramaVestibularInfantil).subscribe(data => {
           console.log('VestibularInfantil: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoOdontogramaVestibularInfantil = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoOdontogramaVestibularInfantil = false;
+          this.toastr.error(error);
         });
         const odontogramaLingualesInfantil: Odontograma = {
           HistoriaClinicaId: this.Historia.Id,
@@ -843,12 +873,14 @@ export class OdontologiaComponent implements OnInit {
           FechaModificacion: new Date(),
           Activo: true
         };
-        console.log(odontogramaLingualesInfantil);
+        //console.log(odontogramaLingualesInfantil);
         this.saludService.postOdontograma(odontogramaLingualesInfantil).subscribe(data => {
           console.log('LingualesInfantil: ' + data['Data']);
-          this.saludService.falloPsico = false;
+          this.estadoOdontogramaLingualesInfantil = true;
+          this.comprobarHojaHistoria();
         }, error => {
-          this.saludService.falloPsico = true;
+          this.estadoOdontogramaLingualesInfantil = false;
+          this.toastr.error(error);
         });
       });
     }
@@ -873,9 +905,11 @@ export class OdontologiaComponent implements OnInit {
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.HojaHistoria.Id, hojaHistoria).subscribe(data => {
         console.log('Hoja historia: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoHoja = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoHoja = false;
+        this.toastr.error(error);
       });
       const anamnesis: Anamnesis = {
         Id: this.anamnesis.Id,
@@ -907,9 +941,11 @@ export class OdontologiaComponent implements OnInit {
       }
       this.saludService.putAnamnesis(this.anamnesis.Id, anamnesis).subscribe(data => {
         console.log('Anamnesis: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoAnanmesis = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoAnanmesis = false;
+        this.toastr.error(error);
       });
 
       const examenDental: ExamenDental = {
@@ -931,9 +967,11 @@ export class OdontologiaComponent implements OnInit {
       }
       this.saludService.putExamenDental(this.examenDental.Id, examenDental).subscribe(data => {
         console.log('ExamenDental: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoExamenDental = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoExamenDental = false;
+        this.toastr.error(error);
       });
       const examenEstomatologico: ExamenEstomatologico = {
         Id: this.examenEstomatologico.Id,
@@ -958,9 +996,11 @@ export class OdontologiaComponent implements OnInit {
       }
       this.saludService.putExamenEstomatologico(this.examenEstomatologico.Id, examenEstomatologico).subscribe(data => {
         console.log('ExamenEstomatologico: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoExamenEstomatologico = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoExamenEstomatologico = false;
+        this.toastr.error(error);
       });
       if (this.examenesComplementarios.PeriapicalInicio != null && this.examenesComplementarios.PeriapicalInicio != "") {
         this.enlacePeriapicalInicio = this.examenesComplementarios.PeriapicalInicio;
@@ -1009,9 +1049,11 @@ export class OdontologiaComponent implements OnInit {
       }
       this.saludService.putExamenesComplementarios(this.examenesComplementarios.Id, examenesComplementarios).subscribe(data => {
         console.log('ExamenesComplementarios: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoExamenesComplementarios = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoExamenesComplementarios = false;
+        this.toastr.error(error);
       });
 
       const diagnostico: DiagnosticoOdontologia = {
@@ -1032,9 +1074,11 @@ export class OdontologiaComponent implements OnInit {
       }
       this.saludService.putDiagnosticoOdontologia(this.diagnostico.Id, diagnostico).subscribe(data => {
         console.log('Diagnostico: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoDiagnostico = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoDiagnostico = false;
+        this.toastr.error(error);
       });
       const odontogramaVestabular: Odontograma = {
         HistoriaClinicaId: this.Historia.Id,
@@ -1049,9 +1093,11 @@ export class OdontologiaComponent implements OnInit {
       };
       this.saludService.putOdontograma(odontogramaVestabular.Id, odontogramaVestabular).subscribe(data => {
         console.log('Vestibular: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoOdontogramaVestabular = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoOdontogramaVestabular = false;
+        this.toastr.error(error);
       });
       const odontogramaVestibular: Odontograma = {
         HistoriaClinicaId: this.Historia.Id,
@@ -1066,9 +1112,11 @@ export class OdontologiaComponent implements OnInit {
       };
       this.saludService.putOdontograma(odontogramaVestibular.Id, odontogramaVestibular).subscribe(data => {
         console.log('Vestibular: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoOdontogramaVestibular = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoOdontogramaVestibular = false;
+        this.toastr.error(error);
       });
       const odontogramaVestibularInfantil: Odontograma = {
         HistoriaClinicaId: this.Historia.Id,
@@ -1083,9 +1131,11 @@ export class OdontologiaComponent implements OnInit {
       };
       this.saludService.putOdontograma(odontogramaVestibularInfantil.Id, odontogramaVestibularInfantil).subscribe(data => {
         console.log('Vestibular: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoOdontogramaVestibularInfantil = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoOdontogramaVestibularInfantil = false;
+        this.toastr.error(error);
       });
       const odontogramaLingualesInfantil: Odontograma = {
         HistoriaClinicaId: this.Historia.Id,
@@ -1100,20 +1150,24 @@ export class OdontologiaComponent implements OnInit {
       };
       this.saludService.putOdontograma(odontogramaLingualesInfantil.Id, odontogramaLingualesInfantil).subscribe(data => {
         console.log('Vestibular: ' + data['Data']);
-        this.saludService.falloPsico = false;
+        this.estadoOdontogramaLingualesInfantil = true;
+        this.comprobarHojaHistoria();
       }, error => {
-        this.saludService.falloPsico = true;
+        this.estadoOdontogramaLingualesInfantil = false;
+        this.toastr.error(error);
       });
 
     }
-    if (this.saludService.falloPsico === false) {
-      this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
+  }
+
+  comprobarHojaHistoria() {
+    if (this.estadoHoja && this.estadoAnanmesis && this.estadoDiagnostico && this.estadoExamenDental && this.estadoExamenEstomatologico && this.estadoExamenesComplementarios && 
+      this.estadoOdontogramaVestabular && this.estadoOdontogramaVestibular && this.estadoOdontogramaVestibularInfantil && this.estadoOdontogramaLingualesInfantil) {
+        this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },
         1000);
-    } else {
-      this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
     }
   }
 

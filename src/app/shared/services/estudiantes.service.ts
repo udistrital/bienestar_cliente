@@ -51,6 +51,9 @@ export class EstudiantesService {
   getParametro(codigo){
     return this.http.get(paraUrl + 'parametro/' + codigo);
   }
+  actualizarParametro(codigo, parametro){
+    return this.http.put(paraUrl + 'parametro/' + codigo, parametro);
+  }
   getSolicitud(codigo) {
     return this.http.get(soliUrl + 'solicitud/' + codigo);
   }

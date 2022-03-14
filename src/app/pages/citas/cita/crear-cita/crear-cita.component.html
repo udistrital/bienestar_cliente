@@ -56,8 +56,8 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-sm-6">
               <mat-label>Hora cita</mat-label>
-              <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora" min="08:00 am"
-                max="05:00 pm" [disableClick]="false" readonly (ngModelChange)="consultarHora($event)"/>
+              <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora" [min]="horarioInicial"
+                [max]="horarioFinal" [disableClick]="false" readonly (ngModelChange)="consultarHora($event)"/>
               <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
               <ngx-material-timepicker #hora [editableHintTmpl]="hint" #with5Gap [minutesGap]="20" [hidden]="disableHour">
               </ngx-material-timepicker>
@@ -65,9 +65,10 @@
               <ng-template #hint>
                 <span class="time-hint">Ingrese la hora en formato 24 horas</span>
               </ng-template>
+              <mat-error>La hora es obligatoria</mat-error>
             </mat-form-field>
             <mat-card-actions class="form-action mt-4" fxLayoutAlign="center" fxLayout.lt-sm="column">
-              <button class="card-button m-2" type="button" mat-raised-button routerLink="../listarCita">
+              <button class="card-button m-2" type="button" mat-raised-button routerLink="../../home">
                 <mat-icon>arrow_back</mat-icon>Regresar
               </button>
               <button class="card-button m-2" type="submit" mat-raised-button [disabled]="!crearCita.valid">

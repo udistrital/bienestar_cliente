@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { SaludService } from '../../../../shared/services/salud.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'ngx-crear-cita',
@@ -14,7 +15,7 @@ export class CrearCitaComponent implements OnInit {
   facultades: any[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
     "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB", "Teléfono", "Meet", "Zoom"];
   empleados: any[] = [];
-  tipocitas: any[] = [{ id: 766, nombre: "Medicina" }, { id: 765, nombre: "Enfermería" }, { id: 767, nombre: "Psicología" }, { id: 768, nombre: "Odontología" }, { id: 769, nombre: "Fisioterapia" }];
+  tipocitas: any[] = [{ id: environment.IDS.IDMEDICINA, nombre: "Medicina" }, { id: environment.IDS.IDENFERMERIA, nombre: "Enfermería" }, { id: environment.IDS.IDPSICOLOGIA, nombre: "Psicología" }, { id: environment.IDS.IDODONTOLOGIA, nombre: "Odontología" }, { id: environment.IDS.IDFISIOTERAPIA, nombre: "Fisioterapia" }];
   crearCita: FormGroup;
   nombre = '';
   submit = false;
@@ -29,6 +30,8 @@ export class CrearCitaComponent implements OnInit {
   fechasEspecialista: any[] = [];
   fechaCita: string;
   fechaCompletaCita: string;
+  horarioInicial: string;
+  horarioFinal: string;
 
   constructor(private fb: FormBuilder, private estudianteService: EstudiantesService,
     private router: Router,
@@ -62,13 +65,21 @@ export class CrearCitaComponent implements OnInit {
 
   ngOnInit() {
     this.buscarPaciente();
+    this.estudianteService.getParametro(environment.IDS.IDHORARIOINICIO).subscribe((res) => {
+      this.horarioInicial = res['Data'].Nombre;
+      console.log(this.horarioInicial);
+    });
+    this.estudianteService.getParametro(environment.IDS.IDHORARIOFINAL).subscribe((res) => {
+      this.horarioFinal = res['Data'].Nombre;
+      console.log(this.horarioFinal);
+    });
     this.fechaActual.setDate(this.fechaActual.getDate() + 1);
   }
 
   consultarFecha(data: any) {
+    this.crearCita.controls['hora'].setValue("");
     this.fechaCompletaCita = "";
     if (data == "") {
-      this.crearCita.controls['hora'].setValue("");
       this.disableHour = true;
     } else {
       let mes = "";

@@ -34,6 +34,7 @@ import { ListaSolicitudesComponent } from './cita/lista-solicitudes/lista-solici
 import { OdontogramaVestibularComponent } from './historia-clinica/odontologia/odontograma-vestibular/odontograma-vestibular.component';
 import { EnfermeriaComponent } from './historia-clinica/enfermeria/enfermeria.component';
 import { DialogoSolicitudesComponent } from './cita/lista-solicitudes/dialogo-solicitudes/dialogo-solicitudes.component';
+import { ParametrizarHorariosComponent } from './cita/parametrizar-horarios/parametrizar-horarios.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -62,6 +63,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ListaSolicitudesComponent,
     EnfermeriaComponent,
     DialogoSolicitudesComponent,
+    ParametrizarHorariosComponent,
   ],
   imports: [
     CommonModule,

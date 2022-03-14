@@ -47,6 +47,8 @@ export class FisioterapiaComponent implements OnInit {
   nombreEspecialista: any;
   terceroEspecialista: any;
   logoDataUrl: string;
+  estadoHoja: boolean = false;
+  estadoFisio: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
   ngOnInit() {
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
@@ -78,9 +80,6 @@ export class FisioterapiaComponent implements OnInit {
   }
   borrarEvolucionFisio(i: number) {
     this.evolucionFisioArr.removeAt(i);
-  }
-  buscarEspecialista() {
-    // TODO
   }
 
   cargarInformacion() {
@@ -151,6 +150,7 @@ export class FisioterapiaComponent implements OnInit {
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
+        this.estadoHoja = true;
         this.hojahistoria = data['Data'];
         console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
@@ -169,13 +169,11 @@ export class FisioterapiaComponent implements OnInit {
         // console.log(historiaFisio);
         this.saludService.postFisioterapia(consultaFisio).subscribe(data => {
           console.log('Fisioterapia: ' + data['Data']);
-          this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
-          setTimeout(() => {
-            window.location.reload();
-          },
-            1500);
+          this.estadoFisio = true;
+          this.comprobarHoja();
         }, error => {
-          this.toastr.error(error, '¡ERROR!');
+          this.estadoFisio = false;
+          this.toastr.error(error);
         }
         );
       });
@@ -198,9 +196,11 @@ export class FisioterapiaComponent implements OnInit {
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.hojahistoria.Id, hojaHistoria).subscribe(data => {
         console.log('Hoja historia: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoHoja = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoHoja = false;
+        this.toastr.error(error);
       });
       const consultaFisio: ConsultaFisioterapia = {
         Id: this.fisioterapia.Id,
@@ -216,19 +216,25 @@ export class FisioterapiaComponent implements OnInit {
       };
       // console.log(historiaFisio);
       this.saludService.putFisioterapia(this.fisioterapia.Id, consultaFisio).subscribe(data => {
-        //console.log(data);
-        this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
-        setTimeout(() => {
-          window.location.reload();
-        },
-          1500);
-        // window.location.reload();
+        console.log('Fisioterapia: ' + data['Data']);
+        this.estadoFisio = true;
+        this.comprobarHoja();
       }, error => {
-        this.toastr.error(error, '¡ERROR!');
+        this.estadoFisio = false;
+        this.toastr.error(error);
       }
       );
     }
 
+  }
+  comprobarHoja(){
+    if (this.estadoHoja && this.estadoFisio){
+      this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
+        setTimeout(() => {
+          window.location.reload();
+        },
+          1000);
+    }
   }
   cambiarHoja(data: any) {
     this.evolucionFisioArr.clear();
