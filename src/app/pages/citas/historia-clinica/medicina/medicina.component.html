@@ -2,7 +2,7 @@
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
   <div class="text-right" [hidden]="hideHistory">
-    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()" [disabled]="superAdmin">
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -456,7 +456,7 @@
   <div class="row mt-4">
     <div class="col titulo">
       <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
-      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button [disabled]="!medicinaForm.valid">
+      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button [disabled]="!medicinaForm.valid || superAdmin">
         <mat-icon>save</mat-icon> Guardar
       </button>
     </div>

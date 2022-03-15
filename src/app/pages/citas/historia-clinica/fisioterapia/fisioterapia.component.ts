@@ -23,6 +23,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class FisioterapiaComponent implements OnInit {
   firstOne: any;
+  superAdmin: boolean = false;
   hideHistory: boolean = false;
   listaHojas: any = [];
   estado: string;
@@ -61,6 +62,10 @@ export class FisioterapiaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+        this.fisioterapiaForm.disable();
+        this.superAdmin = true;
+      }
       this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);
         this.terceroEspecialista = res[0].TerceroId.Id;

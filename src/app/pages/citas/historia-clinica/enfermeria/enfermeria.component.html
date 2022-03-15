@@ -2,7 +2,7 @@
     <h5 class="titulo mt-4 mb-4"> Notas de enfermería</h5>
     <hr />
     <div class="text-right" [hidden]="hideHistory">
-        <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()">
+        <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()" [disabled]="superAdmin">
             <mat-icon>add</mat-icon> Añadir nueva hoja
         </button>
         <mat-form-field appearance="outline" class="select-group">
@@ -32,7 +32,7 @@
         <div class="col titulo">
             <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label><br>
             <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-                [disabled]="!enfermeriaForm.valid">
+                [disabled]="!enfermeriaForm.valid || superAdmin">
                 <mat-icon>save</mat-icon> Guardar
             </button>
         </div>

@@ -27,6 +27,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+  superAdmin: boolean = false;
   fechaActual = new Date();
   firstOne: any;
   hideHistory: boolean = false;
@@ -161,6 +162,10 @@ export class MedicinaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+        this.medicinaForm.disable();
+        this.superAdmin = true;
+      }
       this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);
         this.terceroEspecialista = res[0].TerceroId.Id;

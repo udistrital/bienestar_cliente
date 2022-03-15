@@ -16,6 +16,7 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class EnfermeriaComponent implements OnInit {
+  superAdmin: boolean = false;
   firstOne: any;
   hideHistory: boolean = false;
   especialidad: Especialidad;
@@ -47,6 +48,10 @@ export class EnfermeriaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+        this.enfermeriaForm.disable();
+        this.superAdmin = true;
+      }
       this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);
         this.terceroEspecialista = res[0].TerceroId.Id;
