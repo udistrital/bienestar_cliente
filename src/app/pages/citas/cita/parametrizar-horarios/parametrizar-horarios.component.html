@@ -1,0 +1,51 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-7 col-md-7 offset-lg-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>
+                        Parametrizar horarios
+                    </h3>
+                    <form [formGroup]="parametrizarHorario" (ngSubmit)="cambiarHorario()">
+                    <mat-form-field appearance="outline" class="col-sm-6">
+                        <mat-label>Hora inicio jornada</mat-label>
+                        <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24"
+                            formControlName="horaInicio" min="06:00 am" max="12:00 pm" [disableClick]="false"
+                            readonly />
+                        <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
+                        <ngx-material-timepicker #hora [editableHintTmpl]="hint" #with5Gap [minutesGap]="20">
+                        </ngx-material-timepicker>
+                        <mat-hint>Ingrese la hora de la cita</mat-hint>
+                        <ng-template #hint>
+                            <span class="time-hint">Ingrese la hora en formato 24 horas</span>
+                        </ng-template>
+                        <mat-error>La hora es obligatoria</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-sm-6">
+                        <mat-label>Hora final jornada</mat-label>
+                        <input id="timePicker" matInput [ngxTimepicker]="horaFinal" [format]="24"
+                            formControlName="horaFinal" min="12:20 pm" max="08:00 pm" [disableClick]="false" readonly />
+                        <mat-icon class="toggle-picker" matSuffix (click)="horaFinal.open()">schedule</mat-icon>
+                        <ngx-material-timepicker #horaFinal [editableHintTmpl]="hint" #with5Gap [minutesGap]="20">
+                        </ngx-material-timepicker>
+                        <mat-hint>Ingrese la hora de la cita</mat-hint>
+                        <ng-template #hint>
+                            <span class="time-hint">Ingrese la hora en formato 24 horas</span>
+                        </ng-template>
+                        <mat-error>La hora es obligatoria</mat-error>
+                    </mat-form-field>
+                    <mat-card-actions class="form-action mt-4" fxLayoutAlign="center" fxLayout.lt-sm="column">
+                        <button class="card-button m-2" type="button" mat-raised-button routerLink="../../home">
+                          <mat-icon>arrow_back</mat-icon>Regresar
+                        </button>
+                        <button class="card-button m-2" type="submit" mat-raised-button [disabled]="!parametrizarHorario.valid">
+                          <mat-icon>save</mat-icon> Guardar
+                        </button>
+                        <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
+                      </mat-card-actions>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

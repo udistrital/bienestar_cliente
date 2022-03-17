@@ -98,6 +98,7 @@ export class DatosBasicosComponent implements OnInit {
         }
         else {
           let fechaActual = new (Date);
+          fechaActual.setHours(fechaActual.getHours() - 5);
           this.listService.getInfoEstudiante().then((resp) => {
             //console.log(resp);
             this.estudianteService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {

@@ -20,6 +20,7 @@ const fechaHoy = new Date().toISOString(); // YYYY-MM-DDT:HH:mm
 
 export class HorariosComponent implements OnInit {
   cita: any;
+  estadoHorario: boolean = false;
   citas: any[] = [];
   pruebaCita = [{ title: 'JHON GABRIEL CASTELLANOS JIMENEZ- Facultad de Ciencias y Educación (Macarena)', date: '2022-03-14T14:00:00' }, { title: 'JHON GABRIEL CASTELLANOS JIMENEZ- Facultad Tecnológica', date: '2022-03-15T15:30:00' }]
   calendarOptions: CalendarOptions = {
@@ -53,13 +54,12 @@ export class HorariosComponent implements OnInit {
   }
   constructor(private listService: ListService, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService) { }
   ngOnInit() {
-    this.actualizarCalendario();
+    this.cargarCitas();
   }
   actualizarCalendario() {
-    this.cargarCitas();
-    setTimeout(() => {
+    if (this.estadoHorario) {
       this.calendarOptions.events = this.citas;
-    }, 3000);
+    }
   }
   cargarCitas() {
     this.listService.getInfoEstudiante().then((resp) => {
@@ -104,6 +104,10 @@ export class HorariosComponent implements OnInit {
                   this.cita[i].NombrePaciente = res["NombreCompleto"];
                   let formato = { title: this.cita[i].NombrePaciente + '- ' + this.cita[i].Sede, date: fecha + 'T' + fechaHora }
                   this.citas.push(formato);
+                  if (this.cita.length == this.citas.length) {
+                    this.estadoHorario = true;
+                  }
+                  this.actualizarCalendario();
                   //console.log(this.citas);
                 });
               }

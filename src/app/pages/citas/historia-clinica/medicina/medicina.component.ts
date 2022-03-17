@@ -27,6 +27,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+  superAdmin: boolean = false;
   fechaActual = new Date();
   firstOne: any;
   hideHistory: boolean = false;
@@ -111,6 +112,11 @@ export class MedicinaComponent implements OnInit {
   nombreEspecialista: any;
   terceroEspecialista: any;
   logoDataUrl: string;
+  estadoHoja: boolean = false;
+  estadoSistema: boolean = false;
+  estadoExamen: boolean = false;
+  estadoDiagnostico: boolean = false;
+  estadoAntecedente: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
 
   get analisisArr() {
@@ -156,6 +162,10 @@ export class MedicinaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+        this.medicinaForm.disable();
+        this.superAdmin = true;
+      }
       this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);
         this.terceroEspecialista = res[0].TerceroId.Id;
@@ -373,6 +383,7 @@ export class MedicinaComponent implements OnInit {
       }
       this.saludService.postHojaHistoria(hojaHistoria).subscribe(data => {
         //console.log(data);
+        this.estadoHoja = true;
         this.hojaHistoria = data['Data'];
         console.log('Hoja historia: ' + data['Data']);
         this.saludService.falloMedicina = false;
@@ -409,9 +420,11 @@ export class MedicinaComponent implements OnInit {
 
           this.saludService.postAntecedente(antecedentes).subscribe(data => {
             console.log('Antecedentes: ' + data['Data']);
-            this.saludService.falloMedicina = false;
+            this.estadoAntecedente = true;
+            this.comprobarHoja();
           }, error => {
-            this.saludService.falloMedicina = true;
+            this.estadoAntecedente = false;
+            this.toastr.error(error);
           });
         } else if (this.antecedentes) {
           const antecedentes: Antecedente = {
@@ -443,11 +456,12 @@ export class MedicinaComponent implements OnInit {
             Activo: true
           }
           this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
-
             console.log('Antecedentes: ' + data['Data']);
-            this.saludService.falloMedicina = false;
+            this.estadoAntecedente = true;
+            this.comprobarHoja();
           }, error => {
-            this.saludService.falloMedicina = true;
+            this.estadoAntecedente = false;
+            this.toastr.error(error);
           });
 
         }
@@ -474,9 +488,11 @@ export class MedicinaComponent implements OnInit {
         }
         this.saludService.postSistema(sistemas).subscribe(data => {
           console.log('Sistemas: ' + data['Data']);
-          this.saludService.falloMedicina = false;
+          this.estadoSistema = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloMedicina = true;
+          this.estadoSistema = false;
+          this.toastr.error(error);
         });
         const examenes: Examen = {
           HistoriaClinica: { Id: this.saludService.historia, Tercero: parseInt(this.terceroId) },
@@ -508,9 +524,11 @@ export class MedicinaComponent implements OnInit {
         }
         this.saludService.postExamen(examenes).subscribe(data => {
           console.log('Examenes: ' + data['Data']);
-          this.saludService.falloMedicina = false;
+          this.estadoExamen = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloMedicina = true;
+          this.estadoExamen = false;
+          this.toastr.error(error);
         });
         //Diagnostico
         const diagnostico: Diagnostico = {
@@ -527,12 +545,15 @@ export class MedicinaComponent implements OnInit {
         }
         this.saludService.postDiagnostico(diagnostico).subscribe(data => {
           console.log('Diagnóstico: ' + data['Data']);
-          this.saludService.falloMedicina = false;
+          this.estadoDiagnostico = true;
+          this.comprobarHoja();
         }, error => {
-          this.saludService.falloMedicina = true;
+          this.estadoDiagnostico = false;
+          this.toastr.error(error);
         });
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoHoja = false;
+        this.toastr.error(error);
       });
       // console.log("crear");
 
@@ -556,9 +577,11 @@ export class MedicinaComponent implements OnInit {
       // console.log(hojaHistoria);
       this.saludService.putHojaHistoria(this.hojaHistoria.Id, hojaHistoria).subscribe(data => {
         console.log('Hoja historia: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoHoja = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoHoja = false;
+        this.toastr.error(error);
       });
       //Antecedentes
       // console.log('Actualizar');
@@ -591,11 +614,12 @@ export class MedicinaComponent implements OnInit {
         Activo: true
       }
       this.saludService.putAntecedente(this.antecedentes.Id, antecedentes).subscribe(data => {
-
         console.log('Antecedentes: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoAntecedente = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoAntecedente = false;
+        this.toastr.error(error);
       });
       //Sistemas
       const sistemas: Sistemas = {
@@ -621,9 +645,11 @@ export class MedicinaComponent implements OnInit {
       // console.log(sistemas);
       this.saludService.putSistema(this.sistemas.Id, sistemas).subscribe(data => {
         console.log('Sistemas: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoSistema = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoSistema = false;
+        this.toastr.error(error);
       });
       //Examenes
       const examenes: Examen = {
@@ -656,9 +682,11 @@ export class MedicinaComponent implements OnInit {
       }
       this.saludService.putExamen(this.examenes.Id, examenes).subscribe(data => {
         console.log('Examenes: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoExamen = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoExamen = false;
+        this.toastr.error(error);
       });
       //Diagnostico
       const diagnostico: Diagnostico = {
@@ -675,22 +703,24 @@ export class MedicinaComponent implements OnInit {
       }
       this.saludService.putDiagnostico(this.diagnostico.Id, diagnostico).subscribe(data => {
         console.log('Diagnóstico: ' + data['Data']);
-        this.saludService.falloMedicina = false;
+        this.estadoDiagnostico = true;
+        this.comprobarHoja();
       }, error => {
-        this.saludService.falloMedicina = true;
+        this.estadoDiagnostico = false;
+        this.toastr.error(error);
       });
     }
-    if (this.saludService.falloMedicina === false) {
+  }
+  comprobarHoja(){
+    if (this.estadoHoja && this.estadoAntecedente && this.estadoDiagnostico && this.estadoExamen && this.estadoSistema){
       this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },
-        1500);
-      // window.location.reload();
-    } else {
-      this.toastr.error('Ha ocurrido un error al guardar la historia clínica', 'Error');
+        1000);
     }
   }
+
   cambiarHoja(data: any) {
     this.analisisArr.clear();
     this.evolucionArr.clear();

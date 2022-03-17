@@ -27,7 +27,7 @@ const consultaVinculacion = 'vinculacion?query=TerceroPrincipalId.Id:';
 const info = 'info_complementaria_tercero/?query=TerceroId.Id:';
 const grupoComplementaria = ',InfoComplementariaId.GrupoInfoComplementariaId.Id:';
 const infoComplementaria = ',InfoComplementariaId.Id:'
-const consultaSolicitudes = 'solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:10,EstadoTipoSolicitudId.EstadoId.Id:10';
+const consultaSolicitudes = 'solicitud?query=EstadoTipoSolicitudId.Id:' + environment.IDS.IDESTADOSOLICITUDESPERA;
 @Injectable({
   providedIn: 'root'
 })
@@ -48,13 +48,16 @@ export class EstudiantesService {
   getVinculacion(codigo) {
     return this.http.get(infoUrl + consultaVinculacion + codigo);
   }
-  getParametro(codigo){
+  getParametro(codigo) {
     return this.http.get(paraUrl + 'parametro/' + codigo);
+  }
+  actualizarParametro(codigo, parametro) {
+    return this.http.put(paraUrl + 'parametro/' + codigo, parametro);
   }
   getSolicitud(codigo) {
     return this.http.get(soliUrl + 'solicitud/' + codigo);
   }
-  getDependencia(codigo){
+  getDependencia(codigo) {
     return this.http.get(oikosUrl2 + 'dependencia/' + codigo);
   }
   getCodigoTercero(terceroId, codIden) {

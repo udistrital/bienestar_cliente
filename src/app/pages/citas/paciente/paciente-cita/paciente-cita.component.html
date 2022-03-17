@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody *ngFor="let cita of cita, let i = index">
-            <td>{{ cita.Fecha | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ cita.Fecha | date: 'dd-MM-yyyy': '+0500' }}</td>
             <td>{{ cita.Hora | date: 'HH:mm': '+0000'}}</td>
             <td>{{ cita.TipoEspecialista }}</td>
             <td>{{ cita.Sede }}</td>
