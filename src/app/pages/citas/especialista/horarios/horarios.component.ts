@@ -59,7 +59,7 @@ export class HorariosComponent implements OnInit {
   actualizarCalendario() {
     if (this.estadoHorario) {
       this.calendarOptions.events = this.citas;
-      console.log(this.citas);
+      // console.log(this.citas);
     }
   }
   cargarCitas() {
