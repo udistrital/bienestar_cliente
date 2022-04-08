@@ -99,6 +99,7 @@ export class PsicologiaComponent implements OnInit {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
         this.psicologiaForm.disable();
+        this.superAdmin = true;
       }
       this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);
