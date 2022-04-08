@@ -59,6 +59,7 @@ export class HorariosComponent implements OnInit {
   actualizarCalendario() {
     if (this.estadoHorario) {
       this.calendarOptions.events = this.citas;
+      console.log(this.citas);
     }
   }
   cargarCitas() {
@@ -67,7 +68,7 @@ export class HorariosComponent implements OnInit {
       this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
         //console.log(res);
         this.saludService.getCitaEspecialista(res[0].TerceroId.Id).subscribe((data) => {
-          //console.log(data);
+          // console.log(data);
           if (data) {
             this.cita = data['Data'];
             if (JSON.stringify(data['Data'][0]) != '{}') {
@@ -82,24 +83,34 @@ export class HorariosComponent implements OnInit {
                   let minutes = dateHora.getMinutes();
                   let seconds = dateHora.getSeconds();
                   let fechaHora;
-                  if (minutes < 10 && seconds < 10) {
-                    fechaHora = hours + ':' + '0' + minutes + ':' + '0' + seconds;
-                  } else if (minutes >= 10 && seconds < 10) {
-                    fechaHora = hours + ':' + minutes + ':' + '0' + seconds;
-                  } else if (minutes < 10 && seconds >= 10) {
-                    fechaHora = hours + ':' + '0' + minutes + ':' + seconds;
+                  let stringHours = "";
+                  if (hours >= 10) {
+                    stringHours = hours.toString();
                   } else {
-                    fechaHora = hours + ':' + minutes + ':' + seconds;
+                    stringHours = '0' + hours.toString();
+                  }
+                  if (minutes < 10 && seconds < 10) {
+                    fechaHora = stringHours + ':' + '0' + minutes + ':' + '0' + seconds;
+                  } else if (minutes >= 10 && seconds < 10) {
+                    fechaHora = stringHours + ':' + minutes + ':' + '0' + seconds;
+                  } else if (minutes < 10 && seconds >= 10) {
+                    fechaHora = stringHours + ':' + '0' + minutes + ':' + seconds;
+                  } else {
+                    fechaHora = stringHours + ':' + minutes + ':' + seconds;
                   }
                   //console.log(fechaHora);
                   let day = date.getDate();
                   let month = date.getMonth() + 1;
                   let year = date.getFullYear();
                   let fecha;
-                  if (month < 10) {
+                  if (month < 10 && day >= 10) {
                     fecha = `${year}-0${month}-${day}`;
-                  } else {
+                  } else if (month >= 10 && day >= 10) {
                     fecha = `${year}-${month}-${day}`;
+                  } else if (month < 10 && day < 10) {
+                    fecha = `${year}-0${month}-0${day}`;
+                  } else if (month >= 10 && day < 10) {
+                    fecha = `${year}-${month}-0${day}`;
                   }
                   this.cita[i].NombrePaciente = res["NombreCompleto"];
                   let formato = { title: this.cita[i].NombrePaciente + '- ' + this.cita[i].Sede, date: fecha + 'T' + fechaHora }
