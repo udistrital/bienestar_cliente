@@ -28,56 +28,69 @@ export class OdontogramaVInfantilComponent implements OnInit {
   });
   color: number = 1;
   dientesArriba: any[] = [
-    { diente: 0, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 1, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 2, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 3, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 4, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 5, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 6, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 7, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 8, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 9, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 10, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 11, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 12, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 13, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 14, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 15, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
+    { diente: 0, dienteLabel: 18, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 1, dienteLabel: 17, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 2, dienteLabel: 16, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 3, dienteLabel: 15, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 4, dienteLabel: 14, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 5, dienteLabel: 13, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 6, dienteLabel: 12, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 7, dienteLabel: 11, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 8, dienteLabel: 21, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 9, dienteLabel: 22, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 10, dienteLabel: 23, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 11, dienteLabel: 24, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 12, dienteLabel: 25, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 13, dienteLabel: 26, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 14, dienteLabel: 27, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 15, dienteLabel: 28, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible'},
   ];
   dientesAbajo: any[] = [
-    { diente: 0, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 1, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 2, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 3, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 4, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 5, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 6, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 7, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 8, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
-    { diente: 9, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', desgaste: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', obturado: 'invisible', obturadoResina: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible' },
+    { diente: 0, dienteLabel: 48, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 1, dienteLabel: 47, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 2, dienteLabel: 46, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 3, dienteLabel: 45, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 4, dienteLabel: 44, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 5, dienteLabel: 43, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 6, dienteLabel: 42, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 7, dienteLabel: 41, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 8, dienteLabel: 31, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 9, dienteLabel: 32, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 10, dienteLabel: 33, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 11, dienteLabel: 34, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 12, dienteLabel: 35, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 13, dienteLabel: 36, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 14, dienteLabel: 37, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
+    { diente: 15, dienteLabel: 38, classArriba: 'diente', classIzquierda: 'diente', classDerecha: 'diente', classCentro: 'diente', classAbajo: 'diente', ausente: 'invisible', rotado: 'invisible', retenido: 'invisible', coronaDestruida: 'invisible', fracturado: 'invisible', erupcionado: 'invisible', sellanteDesadaptado: 'invisible', sano: 'invisible', corona: 'invisible', endodoncia: 'invisible', implante: 'invisible', endodonciaIndicada: 'invisible', coronaDesadaptada: 'invisible', exodonciaIndicada: 'invisible', sellante: 'invisible' },
   ];
   defaultArriba = this.dientesArriba;
   defaultAbajo = this.dientesAbajo;
-  convencionesArriba: any[] = [
-    { nombre: 'Normal', color: 'Lavender', estado: 1 },
-    { nombre: 'Implante', color: '#CC66CC', estado: 2 },
-    { nombre: 'Ausente', color: 'tomato', estado: 3 },
-    { nombre: 'Resina', color: '#CC6600', estado: 4 },
-    { nombre: 'Caries', color: 'yellow', estado: 5 },
-    { nombre: 'Sellante', color: 'green', estado: 6 },
-    { nombre: 'Corona', color: 'blue', estado: 7 },
-    { nombre: 'Desgaste', color: 'DarkKhaki', estado: 8 },
+  convencionesPrimero: any[] = [
+    { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
+    { nombre: 'Sano (✓)', color: '#709f51', estado: 16, borde: 'none' },
+    { nombre: 'Implante (│)', color: '#CC66CC', estado: 2, borde: 'none' },
+    { nombre: 'Ausente (▬)', color: 'black', estado: 3, borde: 'none' },
+    { nombre: 'Resina', color: '#709f51', estado: 4, borde: 'none' },
+    { nombre: 'Resina Desadaptada', color: '#709f51', estado: 6, borde: 'red' },
+    { nombre: 'Caries', color: 'red', estado: 5, borde: 'none' },
   ];
-  convencionesAbajo: any[] = [
-    { nombre: 'Fracturado', color: 'GoldenRod', estado: 9 },
-    { nombre: 'Rotado', color: 'cyan', estado: 10 },
-    { nombre: 'Endodoncia', color: 'orange', estado: 11 },
-    { nombre: 'Amalgama', color: 'red', estado: 12 },
-    { nombre: 'Erupcionado', color: 'black', estado: 13 },
-    { nombre: 'Obturado', color: 'Maroon', estado: 14 },
-    { nombre: 'Corona Destruida', color: 'DarkMagenta', estado: 15 },
-    { nombre: 'Opturado con resina', color: 'DarkCyan', estado: 16 },
+  convencionesSegundo: any[] = [
+    { nombre: 'Corona Existente (O)', color: '#5b9bd5', estado: 7, borde: 'none' },
+    { nombre: 'Corona Desadaptada (O)', color: '#5b9bd5', estado: 19, borde: 'red' },
+    { nombre: 'Corona Indicada (■)', color: 'white', estado: 15, borde: 'red' },
+    { nombre: 'Retenido (\\)', color: 'black', estado: 8, borde: 'none' },
+    { nombre: 'Fracturado (⚡)', color: 'black', estado: 9, borde: 'none' },
+    { nombre: 'Rotado (↳)', color: 'black', estado: 10, borde: 'none' },
+    { nombre: 'Endodoncia Existente (Δ)', color: 'black', estado: 11, borde: 'none' },
+  ];
+  convencionesTercero: any[] = [
+    { nombre: 'Endodoncia Indicada (Δ)', color: 'red', estado: 18, borde: 'none' },
+    { nombre: 'Amalgama', color: '#555e7a', estado: 12, borde: 'none' },
+    { nombre: 'Amalgama Desadaptada', color: '#555e7a', estado: 17, borde: 'red' },
+    { nombre: 'Erupcionado (🠉)', color: 'black', estado: 13, borde: 'none' },
+    { nombre: 'Exodoncia Indicada (X)', color: 'red', estado: 20, borde: 'none' },
+    { nombre: 'Sellante (S)', color: '#5b9bd5', estado: 21, borde: 'none' },
+    { nombre: 'Sellante Desadaptado (S)', color: 'red', estado: 14, borde: 'none' },
   ];
 
   tipoDiente(est: number) {
@@ -95,7 +108,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].ausente = 'marcadoTomate';
+        this.dientesAbajo[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesAbajo(diente);
@@ -103,11 +116,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classArriba = 'marcadoAmarillo';
+        this.dientesAbajo[diente].classArriba = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classArriba = 'marcadoVerde';
+        this.dientesAbajo[diente].classArriba = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarAbajo(diente);
@@ -115,35 +128,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].desgaste = 'marcadoKhaki';
+        this.dientesAbajo[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].fracturado = 'marcadoDorado';
+        this.dientesAbajo[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].rotado = 'marcadoCyan';
+        this.dientesAbajo[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].endodoncia = 'marcadoNaranja';
+        this.dientesAbajo[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classArriba = 'marcadoRojo';
+        this.dientesAbajo[diente].classArriba = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].erupcionado = 'marcadoNegro';
+        this.dientesAbajo[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturado = 'marcadoMaroon';
+        this.dientesAbajo[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarAbajo(diente);
@@ -151,7 +164,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesAbajo[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesAbajo(diente);
+        this.dientesAbajo[diente].classArriba = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Derecha") {
@@ -165,7 +198,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].ausente = 'marcadoTomate';
+        this.dientesAbajo[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesAbajo(diente);
@@ -173,11 +206,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classDerecha = 'marcadoAmarillo';
+        this.dientesAbajo[diente].classDerecha = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classDerecha = 'marcadoVerde';
+        this.dientesAbajo[diente].classDerecha = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarAbajo(diente);
@@ -185,35 +218,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].desgaste = 'marcadoKhaki';
+        this.dientesAbajo[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].fracturado = 'marcadoDorado';
+        this.dientesAbajo[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].rotado = 'marcadoCyan';
+        this.dientesAbajo[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].endodoncia = 'marcadoNaranja';
+        this.dientesAbajo[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classDerecha = 'marcadoRojo';
+        this.dientesAbajo[diente].classDerecha = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].erupcionado = 'marcadoNegro';
+        this.dientesAbajo[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturado = 'marcadoMaroon';
+        this.dientesAbajo[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarAbajo(diente);
@@ -221,7 +254,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesAbajo[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesAbajo(diente);
+        this.dientesAbajo[diente].classDerecha = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Izquierda") {
@@ -235,7 +288,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].ausente = 'marcadoTomate';
+        this.dientesAbajo[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesAbajo(diente);
@@ -243,11 +296,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classIzquierda = 'marcadoAmarillo';
+        this.dientesAbajo[diente].classIzquierda = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classIzquierda = 'marcadoVerde';
+        this.dientesAbajo[diente].classIzquierda = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarAbajo(diente);
@@ -255,35 +308,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].desgaste = 'marcadoKhaki';
+        this.dientesAbajo[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].fracturado = 'marcadoDorado';
+        this.dientesAbajo[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].rotado = 'marcadoCyan';
+        this.dientesAbajo[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].endodoncia = 'marcadoNaranja';
+        this.dientesAbajo[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classIzquierda = 'marcadoRojo';
+        this.dientesAbajo[diente].classIzquierda = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].erupcionado = 'marcadoNegro';
+        this.dientesAbajo[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturado = 'marcadoMaroon';
+        this.dientesAbajo[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarAbajo(diente);
@@ -291,7 +344,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesAbajo[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesAbajo(diente);
+        this.dientesAbajo[diente].classIzquierda = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Centro") {
@@ -305,7 +378,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].ausente = 'marcadoTomate';
+        this.dientesAbajo[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesAbajo(diente);
@@ -313,11 +386,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classCentro = 'marcadoAmarillo';
+        this.dientesAbajo[diente].classCentro = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classCentro = 'marcadoVerde';
+        this.dientesAbajo[diente].classCentro = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarAbajo(diente);
@@ -325,35 +398,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].desgaste = 'marcadoKhaki';
+        this.dientesAbajo[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].fracturado = 'marcadoDorado';
+        this.dientesAbajo[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].rotado = 'marcadoCyan';
+        this.dientesAbajo[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].endodoncia = 'marcadoNaranja';
+        this.dientesAbajo[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classCentro = 'marcadoRojo';
+        this.dientesAbajo[diente].classCentro = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].erupcionado = 'marcadoNegro';
+        this.dientesAbajo[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturado = 'marcadoMaroon';
+        this.dientesAbajo[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarAbajo(diente);
@@ -361,7 +434,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesAbajo[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesAbajo(diente);
+        this.dientesAbajo[diente].classCentro = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Abajo") {
@@ -375,7 +468,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].ausente = 'marcadoTomate';
+        this.dientesAbajo[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesAbajo(diente);
@@ -383,11 +476,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classAbajo = 'marcadoAmarillo';
+        this.dientesAbajo[diente].classAbajo = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classAbajo = 'marcadoVerde';
+        this.dientesAbajo[diente].classAbajo = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarAbajo(diente);
@@ -395,35 +488,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].desgaste = 'marcadoKhaki';
+        this.dientesAbajo[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].fracturado = 'marcadoDorado';
+        this.dientesAbajo[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].rotado = 'marcadoCyan';
+        this.dientesAbajo[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].endodoncia = 'marcadoNaranja';
+        this.dientesAbajo[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesAbajo(diente);
-        this.dientesAbajo[diente].classAbajo = 'marcadoRojo';
+        this.dientesAbajo[diente].classAbajo = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].erupcionado = 'marcadoNegro';
+        this.dientesAbajo[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturado = 'marcadoMaroon';
+        this.dientesAbajo[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarAbajo(diente);
@@ -431,7 +524,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarAbajo(diente);
-        this.dientesAbajo[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesAbajo[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesAbajo(diente);
+        this.dientesAbajo[diente].classAbajo = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarAbajo(diente);
+        this.dientesAbajo[diente].sellante = 'marcadoAzul';
       }
     }
     let json: {} = {};
@@ -452,7 +565,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].ausente = 'marcadoTomate';
+        this.dientesArriba[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesArriba(diente);
@@ -460,11 +573,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classArriba = 'marcadoAmarillo';
+        this.dientesArriba[diente].classArriba = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classArriba = 'marcadoVerde';
+        this.dientesArriba[diente].classArriba = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarArriba(diente);
@@ -472,35 +585,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].desgaste = 'marcadoKhaki';
+        this.dientesArriba[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].fracturado = 'marcadoDorado';
+        this.dientesArriba[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].rotado = 'marcadoCyan';
+        this.dientesArriba[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].endodoncia = 'marcadoNaranja';
+        this.dientesArriba[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classArriba = 'marcadoRojo';
+        this.dientesArriba[diente].classArriba = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].erupcionado = 'marcadoNegro';
+        this.dientesArriba[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturado = 'marcadoMaroon';
+        this.dientesArriba[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarArriba(diente);
@@ -508,7 +621,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesArriba[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesArriba(diente);
+        this.dientesArriba[diente].classArriba = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Derecha") {
@@ -522,7 +655,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].ausente = 'marcadoTomate';
+        this.dientesArriba[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesArriba(diente);
@@ -530,11 +663,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classDerecha = 'marcadoAmarillo';
+        this.dientesArriba[diente].classDerecha = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classDerecha = 'marcadoVerde';
+        this.dientesArriba[diente].classDerecha = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarArriba(diente);
@@ -542,35 +675,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].desgaste = 'marcadoKhaki';
+        this.dientesArriba[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].fracturado = 'marcadoDorado';
+        this.dientesArriba[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].rotado = 'marcadoCyan';
+        this.dientesArriba[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].endodoncia = 'marcadoNaranja';
+        this.dientesArriba[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classDerecha = 'marcadoRojo';
+        this.dientesArriba[diente].classDerecha = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].erupcionado = 'marcadoNegro';
+        this.dientesArriba[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturado = 'marcadoMaroon';
+        this.dientesArriba[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarArriba(diente);
@@ -578,7 +711,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesArriba[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesArriba(diente);
+        this.dientesArriba[diente].classDerecha = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Izquierda") {
@@ -592,7 +745,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].ausente = 'marcadoTomate';
+        this.dientesArriba[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesArriba(diente);
@@ -600,11 +753,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classIzquierda = 'marcadoAmarillo';
+        this.dientesArriba[diente].classIzquierda = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classIzquierda = 'marcadoVerde';
+        this.dientesArriba[diente].classIzquierda = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarArriba(diente);
@@ -612,35 +765,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].desgaste = 'marcadoKhaki';
+        this.dientesArriba[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].fracturado = 'marcadoDorado';
+        this.dientesArriba[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].rotado = 'marcadoCyan';
+        this.dientesArriba[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].endodoncia = 'marcadoNaranja';
+        this.dientesArriba[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classIzquierda = 'marcadoRojo';
+        this.dientesArriba[diente].classIzquierda = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].erupcionado = 'marcadoNegro';
+        this.dientesArriba[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturado = 'marcadoMaroon';
+        this.dientesArriba[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarArriba(diente);
@@ -648,7 +801,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesArriba[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesArriba(diente);
+        this.dientesArriba[diente].classIzquierda = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Centro") {
@@ -662,7 +835,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].ausente = 'marcadoTomate';
+        this.dientesArriba[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesArriba(diente);
@@ -670,11 +843,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classCentro = 'marcadoAmarillo';
+        this.dientesArriba[diente].classCentro = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classCentro = 'marcadoVerde';
+        this.dientesArriba[diente].classCentro = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarArriba(diente);
@@ -682,35 +855,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].desgaste = 'marcadoKhaki';
+        this.dientesArriba[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].fracturado = 'marcadoDorado';
+        this.dientesArriba[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].rotado = 'marcadoCyan';
+        this.dientesArriba[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].endodoncia = 'marcadoNaranja';
+        this.dientesArriba[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classCentro = 'marcadoRojo';
+        this.dientesArriba[diente].classCentro = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].erupcionado = 'marcadoNegro';
+        this.dientesArriba[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturado = 'marcadoMaroon';
+        this.dientesArriba[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarArriba(diente);
@@ -718,7 +891,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesArriba[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesArriba(diente);
+        this.dientesArriba[diente].classCentro = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].sellante = 'marcadoAzul';
       }
     }
     else if (posicion === "Abajo") {
@@ -732,7 +925,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 3) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].ausente = 'marcadoTomate';
+        this.dientesArriba[diente].ausente = 'marcadoNegroLleno';
       }
       else if (this.color == 4) {
         this.limpiarEspecialesArriba(diente);
@@ -740,11 +933,11 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 5) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classAbajo = 'marcadoAmarillo';
+        this.dientesArriba[diente].classAbajo = 'marcadoRojo';
       }
       else if (this.color == 6) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classAbajo = 'marcadoVerde';
+        this.dientesArriba[diente].classAbajo = 'marcadoVerdeRojo';
       }
       else if (this.color == 7) {
         this.limpiarArriba(diente);
@@ -752,35 +945,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 8) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].desgaste = 'marcadoKhaki';
+        this.dientesArriba[diente].retenido = 'marcadoNegroLleno';
 
       }
       else if (this.color == 9) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].fracturado = 'marcadoDorado';
+        this.dientesArriba[diente].fracturado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 10) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].rotado = 'marcadoCyan';
+        this.dientesArriba[diente].rotado = 'marcadoNegroLleno';
 
       }
       else if (this.color == 11) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].endodoncia = 'marcadoNaranja';
+        this.dientesArriba[diente].endodoncia = 'marcadoNegroLleno';
 
       }
       else if (this.color == 12) {
         this.limpiarEspecialesArriba(diente);
-        this.dientesArriba[diente].classAbajo = 'marcadoRojo';
+        this.dientesArriba[diente].classAbajo = 'marcadoGris';
       }
       else if (this.color == 13) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].erupcionado = 'marcadoNegro';
+        this.dientesArriba[diente].erupcionado = 'marcadoNegroLleno';
       }
       else if (this.color == 14) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturado = 'marcadoMaroon';
+        this.dientesArriba[diente].sellanteDesadaptado = 'marcadoRojo';
       }
       else if (this.color == 15) {
         this.limpiarArriba(diente);
@@ -788,7 +981,27 @@ export class OdontogramaVInfantilComponent implements OnInit {
       }
       else if (this.color == 16) {
         this.limpiarArriba(diente);
-        this.dientesArriba[diente].obturadoResina = 'marcadoDarkCyan';
+        this.dientesArriba[diente].sano = 'marcadoMarron';
+      }
+      else if (this.color == 17) {
+        this.limpiarEspecialesArriba(diente);
+        this.dientesArriba[diente].classAbajo = 'marcadoGrisRojo';
+      }
+      else if (this.color == 18) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].endodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 19) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].coronaDesadaptada = 'marcadoAzulRojo';
+      }
+      else if (this.color == 20) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].exodonciaIndicada = 'marcadoRojo';
+      }
+      else if (this.color == 21) {
+        this.limpiarArriba(diente);
+        this.dientesArriba[diente].sellante = 'marcadoAzul';
       }
     }
     let json: {} = {};
@@ -806,28 +1019,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
     this.dientesArriba[diente].implante = 'invisible';
     this.dientesArriba[diente].ausente = 'invisible';
     this.dientesArriba[diente].corona = 'invisible';
-    this.dientesArriba[diente].desgaste = 'invisible';
+    this.dientesArriba[diente].retenido = 'invisible';
     this.dientesArriba[diente].fracturado = 'invisible';
     this.dientesArriba[diente].rotado = 'invisible';
     this.dientesArriba[diente].endodoncia = 'invisible';
     this.dientesArriba[diente].erupcionado = 'invisible';
-    this.dientesArriba[diente].obturado = 'invisible';
+    this.dientesArriba[diente].sellanteDesadaptado = 'invisible';
     this.dientesArriba[diente].coronaDestruida = 'invisible';
-    this.dientesArriba[diente].obturadoResina = 'invisible';
+    this.dientesArriba[diente].coronaDesadaptada = 'invisible';
+    this.dientesArriba[diente].sano = 'invisible';
+    this.dientesArriba[diente].endodonciaIndicada = 'invisible';
+    this.dientesArriba[diente].exodonciaIndicada = 'invisible';
+    this.dientesArriba[diente].sellante = 'invisible';
   }
   limpiarEspecialesArriba(diente: number) {
     this.dientesArriba[diente].implante = 'invisible';
     this.dientesArriba[diente].ausente = 'invisible';
     this.dientesArriba[diente].corona = 'invisible';
-    this.dientesArriba[diente].desgaste = 'invisible';
+    this.dientesArriba[diente].retenido = 'invisible';
     this.dientesArriba[diente].fracturado = 'invisible';
     this.dientesArriba[diente].rotado = 'invisible';
     this.dientesArriba[diente].endodoncia = 'invisible';
     this.dientesArriba[diente].erupcionado = 'invisible';
-    this.dientesArriba[diente].obturado = 'invisible';
+    this.dientesArriba[diente].sellanteDesadaptado = 'invisible';
     this.dientesArriba[diente].coronaDestruida = 'invisible';
-    this.dientesArriba[diente].obturadoResina = 'invisible';
-
+    this.dientesArriba[diente].sano = 'invisible';
+    this.dientesArriba[diente].endodonciaIndicada = 'invisible';
+    this.dientesArriba[diente].coronaDesadaptada = 'invisible';
+    this.dientesArriba[diente].exodonciaIndicada = 'invisible';
+    this.dientesArriba[diente].sellante = 'invisible';
   }
   limpiarAbajo(diente: number) {
     this.dientesAbajo[diente].classArriba = 'diente';
@@ -838,28 +1058,35 @@ export class OdontogramaVInfantilComponent implements OnInit {
     this.dientesAbajo[diente].implante = 'invisible';
     this.dientesAbajo[diente].ausente = 'invisible';
     this.dientesAbajo[diente].corona = 'invisible';
-    this.dientesAbajo[diente].desgaste = 'invisible';
+    this.dientesAbajo[diente].retenido = 'invisible';
     this.dientesAbajo[diente].fracturado = 'invisible';
     this.dientesAbajo[diente].rotado = 'invisible';
     this.dientesAbajo[diente].endodoncia = 'invisible';
     this.dientesAbajo[diente].erupcionado = 'invisible';
-    this.dientesAbajo[diente].obturado = 'invisible';
+    this.dientesAbajo[diente].sellanteDesadaptado = 'invisible';
     this.dientesAbajo[diente].coronaDestruida = 'invisible';
-    this.dientesAbajo[diente].obturadoResina = 'invisible';
+    this.dientesAbajo[diente].sano = 'invisible';
+    this.dientesAbajo[diente].endodonciaIndicada = 'invisible';
+    this.dientesAbajo[diente].coronaDesadaptada = 'invisible';
+    this.dientesAbajo[diente].exodonciaIndicada = 'invisible';
+    this.dientesAbajo[diente].sellante = 'invisible';
   }
   limpiarEspecialesAbajo(diente: number) {
     this.dientesAbajo[diente].implante = 'invisible';
     this.dientesAbajo[diente].ausente = 'invisible';
     this.dientesAbajo[diente].corona = 'invisible';
-    this.dientesAbajo[diente].desgaste = 'invisible';
+    this.dientesAbajo[diente].retenido = 'invisible';
     this.dientesAbajo[diente].fracturado = 'invisible';
     this.dientesAbajo[diente].rotado = 'invisible';
     this.dientesAbajo[diente].endodoncia = 'invisible';
     this.dientesAbajo[diente].erupcionado = 'invisible';
-    this.dientesAbajo[diente].obturado = 'invisible';
+    this.dientesAbajo[diente].sellanteDesadaptado = 'invisible';
     this.dientesAbajo[diente].coronaDestruida = 'invisible';
-    this.dientesAbajo[diente].obturadoResina = 'invisible';
-
+    this.dientesAbajo[diente].sano = 'invisible';
+    this.dientesAbajo[diente].endodonciaIndicada = 'invisible';
+    this.dientesAbajo[diente].coronaDesadaptada = 'invisible';
+    this.dientesAbajo[diente].exodonciaIndicada = 'invisible';
+    this.dientesAbajo[diente].sellante = 'invisible';
   }
   guardarOdontograma() {
     let json: {} = {};

@@ -1,8 +1,14 @@
 
 .marcadoAzul {
-    fill: none;
-    stroke: blue;
-    stroke-width: 7px;
+    fill: #5b9bd5;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoAzulRojo {
+    fill: #5b9bd5;
+    stroke: red;
+    stroke-width: 1px;
 }
 
 .marcadoVerde {
@@ -17,9 +23,27 @@
     stroke-width: 1px;
 }
 
-.marcadoMarron {
-    fill: #CC6600;
+.marcadoGris {
+    fill: #555e7a;
     stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoGrisRojo {
+    fill: #555e7a;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.marcadoMarron {
+    fill: #709f51;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoVerdeRojo {
+    fill: #709f51;
+    stroke: red;
     stroke-width: 1px;
 }
 
@@ -35,40 +59,10 @@
     stroke-width: 1px;
 }
 
-.marcadoCyan {
-    fill: cyan;
-    stroke: black;
-    stroke-width: 1px;
-}
-
-.marcadoNaranja {
-    fill: orange;
-    stroke: black;
-    stroke-width: 1px;
-}
-
-.marcadoTomate {
-    fill: tomato;
-    stroke: black;
-    stroke-width: 1px;
-}
-
-.marcadoKhaki {
-    fill: DarkKhaki;
-    stroke: black;
-    stroke-width: 1px;
-}
-
 .marcadoMagenta {
-    fill: DarkMagenta;
-    stroke: black;
-    stroke-width: 1px;
-}
-
-.marcadoDorado {
-    fill: GoldenRod;
-    stroke: black;
-    stroke-width: 1px;
+    fill: white;
+    stroke: red;
+    stroke-width: 6px;
 }
 
 .marcadoNegro {
@@ -76,16 +70,15 @@
     stroke: black;
     stroke-width: 3px;
 }
+.marcadoNegroLleno {
+    fill: black;
+    stroke: black;
+    stroke-width: 1px;
+}
 
 .marcadoMaroon {
     fill: none;
     stroke: maroon;
-    stroke-width: 7px;
-}
-
-.marcadoDarkCyan {
-    fill: none;
-    stroke: DarkCyan;
     stroke-width: 7px;
 }
 
