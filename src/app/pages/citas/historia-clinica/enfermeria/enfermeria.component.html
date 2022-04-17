@@ -32,7 +32,7 @@
         <div class="col titulo">
             <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label><br>
             <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-                [disabled]="!enfermeriaForm.valid || superAdmin">
+                [disabled]="!enfermeriaForm.valid || superAdmin || !crear">
                 <mat-icon>save</mat-icon> Guardar
             </button>
         </div>

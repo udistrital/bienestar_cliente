@@ -2,7 +2,8 @@
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
   <div class="text-right" [hidden]="hideHistory">
-    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()" [disabled]="superAdmin">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
+      [disabled]="superAdmin">
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -166,7 +167,8 @@
         <div class="col mb-3 me-4 mb-4">
           <mat-form-field appearance="outline" class="col-sm-12">
             <mat-label>Examen de Seno</mat-label>
-            <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" [max]="fechaActual" readonly>
+            <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" [max]="fechaActual"
+              readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
@@ -374,15 +376,16 @@
         </div>
       </div>
       <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a> <a
-        href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf" target="_blank"> Manual CIE-10</a>
+        href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
+        target="_blank"> Manual CIE-10</a>
       <!-- Análisis -->
       <h6 class="titulo">Análisis y plan de manejo</h6>
       <div class="row mt-2">
         <div class="col md-6 me-4 mt-4 mb-4">
           <div class="input-group">
             <input type="text" class="form-control" (keyup.enter)="agregarAnalisis()" name="nuevoAnalisis"
-              placeholder="Agregar" [formControl]="nuevoAnalisis" />
-            <button class="btn btn-outline-primary" type="button" (click)="agregarAnalisis()">
+              placeholder="Agregar" [formControl]="nuevoAnalisis" [readonly]="!crear || superAdmin" />
+            <button class="btn btn-outline-primary" type="button" (click)="agregarAnalisis()" [disabled]="!crear || superAdmin">
               Agregar
             </button>
           </div>
@@ -391,7 +394,7 @@
           <div class="col md-6 me-4 mb-4" formArrayName="analisis">
             <div class="input-group mb-1" *ngFor="let analisis of analisisArr.controls; let i = index">
               <input class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" readonly />
-              <button class="btn btn-outline-danger" type="button" (click)="borrarAnalisis(i)">
+              <button class="btn btn-outline-danger" type="button" (click)="borrarAnalisis(i)" [disabled]="!crear || superAdmin">
                 Borrar
               </button>
             </div>
@@ -399,23 +402,23 @@
         </div>
       </div>
       <h6 class="titulo mt-2">Medicamento</h6>
-        <div class="col md-12 mb-4 me-4 mt-4">
-            <div class="input-group">
-                <input type="text" class="form-control"
-                    name="medicamento" placeholder="Medicamento" formControlName="medicamento" />
-                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
-                    Ver PDF
-                </button>
-            </div>
+      <div class="col md-12 mb-4 me-4 mt-4">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Medicamento"
+            formControlName="medicamento" />
+          <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+            Ver PDF
+          </button>
         </div>
+      </div>
       <!-- Evolución -->
       <h6 class="titulo">Evolución</h6>
       <div class="row mt-2">
         <div class="col md-6 me-4 mb-4 mt-4">
           <div class="input-group">
-            <input type="text" class="form-control" (keyup.enter)="agregarEvolucion()" name="nuevaEvolucion"
-              placeholder="Agregar" [formControl]="nuevaEvolucion" />
-            <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()">
+            <input type="text" class="form-control" (keyup.enter)="agregarEvolucion()"
+              placeholder="Agregar" [formControl]="nuevaEvolucion" [readonly]="!crear || superAdmin"/>
+            <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()" [disabled]="!crear || superAdmin">
               Agregar
             </button>
           </div>
@@ -424,7 +427,7 @@
           <div class="col md-6 me-4 mb-4" formArrayName="evolucion">
             <div class="input-group mb-1" *ngFor="let evolucion of evolucionArr.controls; let i = index">
               <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly />
-              <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)">
+              <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)" [disabled]="!crear || superAdmin">
                 Borrar
               </button>
             </div>
@@ -456,7 +459,8 @@
   <div class="row mt-4">
     <div class="col titulo">
       <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
-      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button [disabled]="!medicinaForm.valid || superAdmin">
+      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
+        [disabled]="!medicinaForm.valid || superAdmin || !crear">
         <mat-icon>save</mat-icon> Guardar
       </button>
     </div>

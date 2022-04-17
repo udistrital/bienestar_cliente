@@ -33,6 +33,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class OdontologiaComponent implements OnInit {
+  crear: boolean = false;
   superAdmin: boolean = false;
   fechaActual = new Date();
   tipoOdontogramaVestibular: TipoOdontograma;
@@ -197,6 +198,7 @@ export class OdontologiaComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService, private personaService: EstudiantesService, private saludService: SaludService, private aRoute: ActivatedRoute,
     private listService: ListService) { }
   ngOnInit() {
+    this.odontologiaForm.disable();
     this.fechaActual.setDate(this.fechaActual.getDate() - 1);
     //console.log(new Date());
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
@@ -221,7 +223,7 @@ export class OdontologiaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
-      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
         this.odontologiaForm.disable();
         this.superAdmin = true;
       }
@@ -253,10 +255,15 @@ export class OdontologiaComponent implements OnInit {
       this.Historia = data['Data'][0];
       this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {
         if (JSON.stringify(data['Data'][0]) === '{}') {
+          this.crear = true;
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
+          if (!this.superAdmin) {
+            this.odontologiaForm.enable();
+          }
         } else {
+          this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
@@ -391,6 +398,73 @@ export class OdontologiaComponent implements OnInit {
       });
     });
 
+  }
+  getInfoOdontologiaNuevaHoja() {
+    this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {
+      this.HojaHistoria = data['Data'][0];
+      this.evolucion = [];
+      let evolucion = JSON.parse(this.HojaHistoria.Evolucion) || [];
+      this.evolucion.push({ ...evolucion });
+      let evolucion2: any = this.evolucion[0].evolucion;
+      for (let i = 0; i < evolucion2.length; i++) {
+        this.evolucionOdontoArr.push(new FormControl(evolucion2[i]));
+      }
+      this.odontologiaForm.controls.motivoConsultaOdonto.setValue(this.HojaHistoria.Motivo);
+      this.odontologiaForm.controls.observacionesOdontologia.setValue(this.HojaHistoria.Observacion);
+      this.getAnanmesis();
+      this.getOdontogramas();
+      this.saludService.getExamenDental(this.HojaHistoria.Id).subscribe(data => {
+        this.examenDental = data['Data'][0];
+        //console.log(this.examenDental);
+        this.odontologiaForm.controls.abrasion.setValue(this.examenDental.Abrasion);
+        this.odontologiaForm.controls.manchas.setValue(this.examenDental.Manchas);
+        this.odontologiaForm.controls.observaciones.setValue(this.examenDental.Observaciones);
+        this.odontologiaForm.controls.oclusion.setValue(this.examenDental.Oclusion);
+        this.odontologiaForm.controls.otrosOdonto.setValue(this.examenDental.Otros);
+        this.odontologiaForm.controls.patologiaPulpar.setValue(this.examenDental.PatologiaPulpar);
+        this.odontologiaForm.controls.placaBlanda.setValue(this.examenDental.PlacaBlanda);
+        this.odontologiaForm.controls.placaCalcificada.setValue(this.examenDental.PlacaCalcificada);
+        this.odontologiaForm.controls.Supernumerarios.setValue(this.examenDental.Supernumerarios);
+      });
+      this.saludService.getExamenEstomatologico(this.HojaHistoria.Id).subscribe(data => {
+        this.examenEstomatologico = data['Data'][0];
+        //console.log(this.examenEstomatologico);
+        this.odontologiaForm.controls.articulacionTemporoMandibula.setValue(this.examenEstomatologico.ArticulacionTemporo);
+        this.odontologiaForm.controls.carrillos.setValue(this.examenEstomatologico.Carrillos);
+        this.odontologiaForm.controls.glandulasSalivares.setValue(this.examenEstomatologico.GlandulasSalivares);
+        this.odontologiaForm.controls.labios.setValue(this.examenEstomatologico.Labios);
+        this.odontologiaForm.controls.lengua.setValue(this.examenEstomatologico.Lengua);
+        this.odontologiaForm.controls.maxilares.setValue(this.examenEstomatologico.Maxilares);
+        this.odontologiaForm.controls.musculosMasticadores.setValue(this.examenEstomatologico.MusculosMasticadores);
+        this.odontologiaForm.controls.paladar.setValue(this.examenEstomatologico.Paladar);
+        this.odontologiaForm.controls.pisoBoca.setValue(this.examenEstomatologico.PisoBoca);
+        this.odontologiaForm.controls.senosMaxilares.setValue(this.examenEstomatologico.SenosMaxilares);
+        this.odontologiaForm.controls.linfaticoRegionalOdontologia.setValue(this.examenEstomatologico.SistemaLinfaticoRegional);
+        this.odontologiaForm.controls.nerviosoOdontologia.setValue(this.examenEstomatologico.SistemaNervioso);
+        this.odontologiaForm.controls.vascularOdontologia.setValue(this.examenEstomatologico.SistemaVascular);
+      });
+      this.saludService.getDiagnosticoOdontologia(this.HojaHistoria.Id).subscribe(data => {
+        this.diagnostico = data['Data'][0];
+        //console.log(this.diagnostico);
+        this.odontologiaForm.controls.evaluacionEstadoFinal.setValue(this.diagnostico.Evaluacion);
+        this.odontologiaForm.controls.diagnosticoOdonto.setValue(this.diagnostico.Diagnostico);
+        this.odontologiaForm.controls.pronosticoOdonto.setValue(this.diagnostico.Pronostico);
+        this.odontologiaForm.controls.pulso.setValue(this.diagnostico.Pulso);
+        this.odontologiaForm.controls.respiracion.setValue(this.diagnostico.Respiracion);
+        this.odontologiaForm.controls.temperatura.setValue(this.diagnostico.Temperatura);
+        this.odontologiaForm.controls.tensionArterial.setValue(this.diagnostico.TensionArterial);
+        this.odontologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
+      });
+      this.saludService.getExamenesComplementarios(this.HojaHistoria.Id).subscribe(data => {
+        //console.log(this.examenesComplementarios);
+        this.examenesComplementarios = data['Data'][0];
+        this.odontologiaForm.controls.tp.setValue(this.examenesComplementarios.Tp);
+        this.odontologiaForm.controls.tpt.setValue(this.examenesComplementarios.Tpt);
+        this.odontologiaForm.controls.coagulacion.setValue(this.examenesComplementarios.Coagulacion);
+        this.odontologiaForm.controls.sangria.setValue(this.examenesComplementarios.Sangria);
+        this.odontologiaForm.controls.otra.setValue(this.examenesComplementarios.Otra);
+      });
+    });
   }
 
   guardarDocumentos() {
@@ -1166,9 +1240,9 @@ export class OdontologiaComponent implements OnInit {
   }
 
   comprobarHojaHistoria() {
-    if (this.estadoHoja && this.estadoAnanmesis && this.estadoDiagnostico && this.estadoExamenDental && this.estadoExamenEstomatologico && this.estadoExamenesComplementarios && 
+    if (this.estadoHoja && this.estadoAnanmesis && this.estadoDiagnostico && this.estadoExamenDental && this.estadoExamenEstomatologico && this.estadoExamenesComplementarios &&
       this.estadoOdontogramaVestabular && this.estadoOdontogramaVestibular && this.estadoOdontogramaVestibularInfantil && this.estadoOdontogramaLingualesInfantil) {
-        this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
+      this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },
@@ -1342,10 +1416,12 @@ export class OdontologiaComponent implements OnInit {
     });
   }
   crearNuevaHoja() {
+    this.crear = true;
     this.odontologiaForm.reset();
-    this.getAnanmesis();
     this.estado = "nueva";
     this.evolucionOdontoArr.clear();
+    this.getInfoOdontologiaNuevaHoja();
+    this.odontologiaForm.enable();
     this.hideHistory = true;
     this.nombreEspecialista = "";
     this.reset();

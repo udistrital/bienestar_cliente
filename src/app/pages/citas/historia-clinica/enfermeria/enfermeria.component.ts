@@ -16,6 +16,7 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class EnfermeriaComponent implements OnInit {
+  crear: boolean = false;
   superAdmin: boolean = false;
   firstOne: any;
   hideHistory: boolean = false;
@@ -40,6 +41,7 @@ export class EnfermeriaComponent implements OnInit {
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
 
   ngOnInit() {
+    this.enfermeriaForm.disable();
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
     //console.log(this.saludService.IdPersona);
     this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
@@ -48,7 +50,7 @@ export class EnfermeriaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
-      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
         this.enfermeriaForm.disable();
         this.superAdmin = true;
       }
@@ -60,7 +62,10 @@ export class EnfermeriaComponent implements OnInit {
     });
   }
   crearNuevaHoja() {
+    this.crear = true
     this.enfermeriaForm.reset();
+    this.getInfoEnfermeriaNuevaHoja();
+    this.enfermeriaForm.enable();
     this.estado = "nueva";
     this.hideHistory = true;
     this.nombreEspecialista = "";
@@ -162,8 +167,8 @@ export class EnfermeriaComponent implements OnInit {
       });
     }
   }
-  comprobarHoja(){
-    if (this.estadoEnfermeria && this.estadoHoja){
+  comprobarHoja() {
+    if (this.estadoEnfermeria && this.estadoHoja) {
       this.toastr.success(`Ha registrado con éxito la historia clínica de enfermería para: ${this.paciente}`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
@@ -194,10 +199,15 @@ export class EnfermeriaComponent implements OnInit {
       // console.log(data);
       this.saludService.getHojaHistoria(this.terceroId, 5).subscribe(data => {
         if (JSON.stringify(data['Data'][0]) === '{}') {
+          this.crear = true;
           this.estado = "nueva";
+          if (!this.superAdmin) {
+            this.enfermeriaForm.enable();
+          }
           this.hideHistory = true;
           this.nombreEspecialista = "";
         } else {
+          this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
@@ -213,6 +223,17 @@ export class EnfermeriaComponent implements OnInit {
             this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
           });
         }
+      });
+    });
+  }
+  getInfoEnfermeriaNuevaHoja() {
+    this.saludService.getHojaHistoria(this.terceroId, 5).subscribe(data => {
+      this.HojaHistoria = data['Data'][0];
+      this.saludService.getEnfermeria(this.HojaHistoria.Id).subscribe(data => {
+        this.enfermeria = data['Data'][0];
+        // console.log(this.enfermeria);
+        this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
+        this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
       });
     });
   }
