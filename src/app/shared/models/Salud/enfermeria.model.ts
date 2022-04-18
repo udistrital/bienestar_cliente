@@ -22,6 +22,7 @@ export interface Enfermeria {
     Talla?: string,
     Temperatura?: string,
     Torax?: string,
+    Contacto?: string,
     HistoriaClinica?: HistoriaClinica | number,
     HojaHistoria?: HojaHistoria | number,
     Id?: number,

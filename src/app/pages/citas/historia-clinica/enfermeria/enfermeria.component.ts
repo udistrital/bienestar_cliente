@@ -50,6 +50,7 @@ export class EnfermeriaComponent implements OnInit {
     neurologicoE: [''],
     genital: [''],
     extremidades: [''],
+    contacto: [''],
   })
   nombreEspecialista: any;
   terceroEspecialista: any;
@@ -137,6 +138,7 @@ export class EnfermeriaComponent implements OnInit {
           Talla: this.enfermeriaForm.get('talla').value,
           Temperatura: this.enfermeriaForm.get('tc').value,
           Torax: this.enfermeriaForm.get('torax').value,
+          Contacto: this.enfermeriaForm.get('contacto').value,
           HistoriaClinica: { Id: this.Historia.Id, Tercero: parseInt(this.terceroId) },
           Id: 0,
           HojaHistoria: { Id: this.HojaHistoria.Id },
@@ -202,6 +204,7 @@ export class EnfermeriaComponent implements OnInit {
         Talla: this.enfermeriaForm.get('talla').value,
         Temperatura: this.enfermeriaForm.get('tc').value,
         Torax: this.enfermeriaForm.get('torax').value,
+        Contacto: this.enfermeriaForm.get('contacto').value,
         HistoriaClinica: this.HojaHistoria.HistoriaClinica,
         HojaHistoria: { Id: this.HojaHistoria.Id },
         Id: this.enfermeria.Id,
@@ -256,6 +259,7 @@ export class EnfermeriaComponent implements OnInit {
         this.enfermeriaForm.controls.talla.setValue(this.enfermeria.Talla);
         this.enfermeriaForm.controls.tc.setValue(this.enfermeria.Temperatura);
         this.enfermeriaForm.controls.torax.setValue(this.enfermeria.Torax);
+        this.enfermeriaForm.controls.contacto.setValue(this.enfermeria.Contacto);
       });
       this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
         this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
@@ -308,6 +312,7 @@ export class EnfermeriaComponent implements OnInit {
             this.enfermeriaForm.controls.talla.setValue(this.enfermeria.Talla);
             this.enfermeriaForm.controls.tc.setValue(this.enfermeria.Temperatura);
             this.enfermeriaForm.controls.torax.setValue(this.enfermeria.Torax);
+            this.enfermeriaForm.controls.contacto.setValue(this.enfermeria.Contacto);
           });
           this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
             this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
@@ -342,6 +347,7 @@ export class EnfermeriaComponent implements OnInit {
         this.enfermeriaForm.controls.talla.setValue(this.enfermeria.Talla);
         this.enfermeriaForm.controls.tc.setValue(this.enfermeria.Temperatura);
         this.enfermeriaForm.controls.torax.setValue(this.enfermeria.Torax);
+        this.enfermeriaForm.controls.contacto.setValue(this.enfermeria.Contacto);
       });
     });
   }
