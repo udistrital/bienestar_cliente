@@ -30,8 +30,26 @@ export class EnfermeriaComponent implements OnInit {
   paciente: string;
   enfermeria: Enfermeria;
   enfermeriaForm: FormGroup = this.fb.group({
-    descripcion: [null],
-    signosVitales: [null],
+    descripcion: [''],
+    ta: [''],
+    fc: [''],
+    fr: [''],
+    sao2: [''],
+    peso: [''],
+    imc: [''],
+    talla: [''],
+    tc: [''],
+    estadoGeneral: [''],
+    cabezaYCuello: [''],
+    orl: [''],
+    ojos: [''],
+    torax: [''],
+    ruidosRespiratorios: [''],
+    ruidosCardiacos: [''],
+    abdomen: [''],
+    neurologicoE: [''],
+    genital: [''],
+    extremidades: [''],
   })
   nombreEspecialista: any;
   terceroEspecialista: any;
@@ -100,7 +118,25 @@ export class EnfermeriaComponent implements OnInit {
         this.saludService.falloMedicina = false;
         const enfermeria: Enfermeria = {
           Descripcion: this.enfermeriaForm.get('descripcion').value,
-          SignosVitales: this.enfermeriaForm.get('signosVitales').value,
+          Abdomen: this.enfermeriaForm.get('abdomen').value,
+          CabezaYCuello: this.enfermeriaForm.get('cabezaYCuello').value,
+          EstadoGeneral: this.enfermeriaForm.get('estadoGeneral').value,
+          Extremidades: this.enfermeriaForm.get('extremidades').value,
+          Fc: this.enfermeriaForm.get('fc').value,
+          Fr: this.enfermeriaForm.get('fr').value,
+          Genital: this.enfermeriaForm.get('genital').value,
+          Imc: this.enfermeriaForm.get('imc').value,
+          Neurologico: this.enfermeriaForm.get('neurologicoE').value,
+          Ojos: this.enfermeriaForm.get('ojos').value,
+          Orl: this.enfermeriaForm.get('orl').value,
+          Peso: this.enfermeriaForm.get('peso').value,
+          RuidosCardiacos: this.enfermeriaForm.get('ruidosCardiacos').value,
+          RuidosRespiratorios: this.enfermeriaForm.get('ruidosRespiratorios').value,
+          Sao2: this.enfermeriaForm.get('sao2').value,
+          Ta: this.enfermeriaForm.get('ta').value,
+          Talla: this.enfermeriaForm.get('talla').value,
+          Temperatura: this.enfermeriaForm.get('tc').value,
+          Torax: this.enfermeriaForm.get('torax').value,
           HistoriaClinica: { Id: this.Historia.Id, Tercero: parseInt(this.terceroId) },
           Id: 0,
           HojaHistoria: { Id: this.HojaHistoria.Id },
@@ -147,7 +183,25 @@ export class EnfermeriaComponent implements OnInit {
       });
       const enfermeria: Enfermeria = {
         Descripcion: this.enfermeriaForm.get('descripcion').value,
-        SignosVitales: this.enfermeriaForm.get('signosVitales').value,
+        Abdomen: this.enfermeriaForm.get('abdomen').value,
+        CabezaYCuello: this.enfermeriaForm.get('cabezaYCuello').value,
+        EstadoGeneral: this.enfermeriaForm.get('estadoGeneral').value,
+        Extremidades: this.enfermeriaForm.get('extremidades').value,
+        Fc: this.enfermeriaForm.get('fc').value,
+        Fr: this.enfermeriaForm.get('fr').value,
+        Genital: this.enfermeriaForm.get('genital').value,
+        Imc: this.enfermeriaForm.get('imc').value,
+        Neurologico: this.enfermeriaForm.get('neurologicoE').value,
+        Ojos: this.enfermeriaForm.get('ojos').value,
+        Orl: this.enfermeriaForm.get('orl').value,
+        Peso: this.enfermeriaForm.get('peso').value,
+        RuidosCardiacos: this.enfermeriaForm.get('ruidosCardiacos').value,
+        RuidosRespiratorios: this.enfermeriaForm.get('ruidosRespiratorios').value,
+        Sao2: this.enfermeriaForm.get('sao2').value,
+        Ta: this.enfermeriaForm.get('ta').value,
+        Talla: this.enfermeriaForm.get('talla').value,
+        Temperatura: this.enfermeriaForm.get('tc').value,
+        Torax: this.enfermeriaForm.get('torax').value,
         HistoriaClinica: this.HojaHistoria.HistoriaClinica,
         HojaHistoria: { Id: this.HojaHistoria.Id },
         Id: this.enfermeria.Id,
@@ -183,7 +237,25 @@ export class EnfermeriaComponent implements OnInit {
       this.saludService.getEnfermeria(this.HojaHistoria.Id).subscribe(data => {
         this.enfermeria = data['Data'][0];
         this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
-        this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
+        this.enfermeriaForm.controls.abdomen.setValue(this.enfermeria.Abdomen);
+        this.enfermeriaForm.controls.cabezaYCuello.setValue(this.enfermeria.CabezaYCuello);
+        this.enfermeriaForm.controls.estadoGeneral.setValue(this.enfermeria.EstadoGeneral);
+        this.enfermeriaForm.controls.extremidades.setValue(this.enfermeria.Extremidades);
+        this.enfermeriaForm.controls.fc.setValue(this.enfermeria.Fc);
+        this.enfermeriaForm.controls.fr.setValue(this.enfermeria.Fr);
+        this.enfermeriaForm.controls.genital.setValue(this.enfermeria.Genital);
+        this.enfermeriaForm.controls.imc.setValue(this.enfermeria.Imc);
+        this.enfermeriaForm.controls.neurologicoE.setValue(this.enfermeria.Neurologico);
+        this.enfermeriaForm.controls.ojos.setValue(this.enfermeria.Ojos);
+        this.enfermeriaForm.controls.orl.setValue(this.enfermeria.Orl);
+        this.enfermeriaForm.controls.peso.setValue(this.enfermeria.Peso);
+        this.enfermeriaForm.controls.ruidosCardiacos.setValue(this.enfermeria.RuidosCardiacos);
+        this.enfermeriaForm.controls.ruidosRespiratorios.setValue(this.enfermeria.RuidosRespiratorios);
+        this.enfermeriaForm.controls.sao2.setValue(this.enfermeria.Sao2);
+        this.enfermeriaForm.controls.ta.setValue(this.enfermeria.Ta);
+        this.enfermeriaForm.controls.talla.setValue(this.enfermeria.Talla);
+        this.enfermeriaForm.controls.tc.setValue(this.enfermeria.Temperatura);
+        this.enfermeriaForm.controls.torax.setValue(this.enfermeria.Torax);
       });
       this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
         this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
@@ -217,7 +289,25 @@ export class EnfermeriaComponent implements OnInit {
             this.enfermeria = data['Data'][0];
             // console.log(this.enfermeria);
             this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
-            this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
+            this.enfermeriaForm.controls.abdomen.setValue(this.enfermeria.Abdomen);
+            this.enfermeriaForm.controls.cabezaYCuello.setValue(this.enfermeria.CabezaYCuello);
+            this.enfermeriaForm.controls.estadoGeneral.setValue(this.enfermeria.EstadoGeneral);
+            this.enfermeriaForm.controls.extremidades.setValue(this.enfermeria.Extremidades);
+            this.enfermeriaForm.controls.fc.setValue(this.enfermeria.Fc);
+            this.enfermeriaForm.controls.fr.setValue(this.enfermeria.Fr);
+            this.enfermeriaForm.controls.genital.setValue(this.enfermeria.Genital);
+            this.enfermeriaForm.controls.imc.setValue(this.enfermeria.Imc);
+            this.enfermeriaForm.controls.neurologicoE.setValue(this.enfermeria.Neurologico);
+            this.enfermeriaForm.controls.ojos.setValue(this.enfermeria.Ojos);
+            this.enfermeriaForm.controls.orl.setValue(this.enfermeria.Orl);
+            this.enfermeriaForm.controls.peso.setValue(this.enfermeria.Peso);
+            this.enfermeriaForm.controls.ruidosCardiacos.setValue(this.enfermeria.RuidosCardiacos);
+            this.enfermeriaForm.controls.ruidosRespiratorios.setValue(this.enfermeria.RuidosRespiratorios);
+            this.enfermeriaForm.controls.sao2.setValue(this.enfermeria.Sao2);
+            this.enfermeriaForm.controls.ta.setValue(this.enfermeria.Ta);
+            this.enfermeriaForm.controls.talla.setValue(this.enfermeria.Talla);
+            this.enfermeriaForm.controls.tc.setValue(this.enfermeria.Temperatura);
+            this.enfermeriaForm.controls.torax.setValue(this.enfermeria.Torax);
           });
           this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
             this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
@@ -233,7 +323,25 @@ export class EnfermeriaComponent implements OnInit {
         this.enfermeria = data['Data'][0];
         // console.log(this.enfermeria);
         this.enfermeriaForm.controls.descripcion.setValue(this.enfermeria.Descripcion);
-        this.enfermeriaForm.controls.signosVitales.setValue(this.enfermeria.SignosVitales);
+        this.enfermeriaForm.controls.abdomen.setValue(this.enfermeria.Abdomen);
+        this.enfermeriaForm.controls.cabezaYCuello.setValue(this.enfermeria.CabezaYCuello);
+        this.enfermeriaForm.controls.estadoGeneral.setValue(this.enfermeria.EstadoGeneral);
+        this.enfermeriaForm.controls.extremidades.setValue(this.enfermeria.Extremidades);
+        this.enfermeriaForm.controls.fc.setValue(this.enfermeria.Fc);
+        this.enfermeriaForm.controls.fr.setValue(this.enfermeria.Fr);
+        this.enfermeriaForm.controls.genital.setValue(this.enfermeria.Genital);
+        this.enfermeriaForm.controls.imc.setValue(this.enfermeria.Imc);
+        this.enfermeriaForm.controls.neurologicoE.setValue(this.enfermeria.Neurologico);
+        this.enfermeriaForm.controls.ojos.setValue(this.enfermeria.Ojos);
+        this.enfermeriaForm.controls.orl.setValue(this.enfermeria.Orl);
+        this.enfermeriaForm.controls.peso.setValue(this.enfermeria.Peso);
+        this.enfermeriaForm.controls.ruidosCardiacos.setValue(this.enfermeria.RuidosCardiacos);
+        this.enfermeriaForm.controls.ruidosRespiratorios.setValue(this.enfermeria.RuidosRespiratorios);
+        this.enfermeriaForm.controls.sao2.setValue(this.enfermeria.Sao2);
+        this.enfermeriaForm.controls.ta.setValue(this.enfermeria.Ta);
+        this.enfermeriaForm.controls.talla.setValue(this.enfermeria.Talla);
+        this.enfermeriaForm.controls.tc.setValue(this.enfermeria.Temperatura);
+        this.enfermeriaForm.controls.torax.setValue(this.enfermeria.Torax);
       });
     });
   }

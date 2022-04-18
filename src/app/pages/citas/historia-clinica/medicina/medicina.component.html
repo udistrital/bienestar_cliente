@@ -280,91 +280,91 @@
       <!-- Examen médico -->
       <h6 class="titulo">Examen médico</h6>
       <div class="row">
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="ta" class="form-label">T.A</label>
-          <input type="text" class="form-control" id="ta" formControlName="ta" />
-        </div>
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="fc" class="form-label">FC</label>
-          <input type="text" class="form-control" id="fc" formControlName="fc" />
-        </div>
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="sao2" class="form-label">SaO2</label>
-          <input type="text" class="form-control" id="sao2" formControlName="sao2" />
-        </div>
-        <div class="col md-3 mb-3 me-4 mt-4">
-          <label for="imc" class="form-label">IMC</label>
-          <input type="text" class="form-control" id="imc" formControlName="imc" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col md-3 mb-3 me-4 mt-2">
-          <label for="fr" class="form-label">F.R</label>
-          <input type="text" class="form-control" id="fr" formControlName="fr" />
-        </div>
-        <div class="col md- mb-3 me-4 mt-2">
-          <label for="tc" class="form-label">T°C</label>
-          <input type="text" class="form-control" id="tc" formControlName="tc" />
-        </div>
-        <div class="col md- mb-3 me-4 mt-2">
-          <label for="peso" class="form-label">Peso</label>
-          <input type="text" class="form-control" id="peso" formControlName="peso" />
-        </div>
-        <div class="col md- mb-3 me-4 mt-2">
-          <label for="talla" class="form-label">Talla</label>
-          <input type="text" class="form-control" id="talla" formControlName="talla" />
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col md-6 me-4 mb-4">
-          <label for="estadoGeneral" class="form-label">Estado General</label>
-          <input type="text" class="form-control" id="estadoGeneral" formControlName="estadoGeneral" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="cabezaYCuello" class="form-label">Cabeza y Cuello</label>
-          <input type="text" class="form-control" id="cabezaYCuello" formControlName="cabezaYCuello" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="orl" class="form-label">O.R.L</label>
-          <input type="text" class="form-control" id="orl" formControlName="orl" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="ojos" class="form-label">Ojos</label>
-          <input type="text" class="form-control" id="ojos" formControlName="ojos" />
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col md-6 me-4 mb-4">
-          <label for="torax" class="form-label">Tórax</label>
-          <input type="text" class="form-control" id="torax" formControlName="torax" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="ruidosRespiratorios" class="form-label">Ruidos Respiratorios</label>
-          <input type="text" class="form-control" id="ruidosRespiratorios" formControlName="ruidosRespiratorios" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="ruidosCardiacos" class="form-label">Ruidos Cardíacos</label>
-          <input type="text" class="form-control" id="ruidosCardiacos" formControlName="ruidosCardiacos" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="abdomen" class="form-label">Abdomen</label>
-          <input type="text" class="form-control" id="abdomen" formControlName="abdomen" />
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col md-6 me-4 mb-4">
-          <label for="neurologicoE" class="form-label">Neurológico</label>
-          <input type="text" class="form-control" id="neurologicoE" formControlName="neurologicoE" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="genital" class="form-label">Genital</label>
-          <input type="text" class="form-control" id="genital" formControlName="genital" />
-        </div>
-        <div class="col md-6 me-4 mb-4">
-          <label for="extremidades" class="form-label">Extremidades</label>
-          <input type="text" class="form-control" id="extremidades" formControlName="extremidades" />
-        </div>
-      </div>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>T.A</mat-label>
+            <input type="text" matInput formControlName="ta"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>FC</mat-label>
+            <input type="text" matInput formControlName="fc"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>SaO2</mat-label>
+            <input type="text" matInput formControlName="sao2"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>IMC</mat-label>
+            <input type="text" matInput formControlName="imc"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>F.R</mat-label>
+            <input type="text" matInput formControlName="fr"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>T°C</mat-label>
+            <input type="text" matInput formControlName="tc"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Peso</mat-label>
+            <input type="text" matInput formControlName="peso"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Talla</mat-label>
+            <input type="text" matInput formControlName="talla"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Estado General</mat-label>
+            <input type="text" matInput formControlName="estadoGeneral"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Cabeza y Cuello</mat-label>
+            <input type="text" matInput formControlName="cabezaYCuello"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>O.R.L</mat-label>
+            <input type="text" matInput formControlName="orl"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ojos</mat-label>
+            <input type="text" matInput formControlName="ojos"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Tórax</mat-label>
+            <input type="text" matInput formControlName="torax"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ruidos Respiratorios</mat-label>
+            <input type="text" matInput formControlName="ruidosRespiratorios"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ruidos Cardíacos</mat-label>
+            <input type="text" matInput formControlName="ruidosCardiacos"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Abdomen</mat-label>
+            <input type="text" matInput formControlName="abdomen"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Neurológico</mat-label>
+            <input type="text" matInput formControlName="neurologicoE"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Genital</mat-label>
+            <input type="text" matInput formControlName="genital"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Extremidades</mat-label>
+            <input type="text" matInput formControlName="extremidades"/>
+        </mat-form-field>
+    </div>
       <h6 class="titulo">Impresión Diagnóstica (Código CIE-10)</h6>
 
       <div class="col md-6 me-4 mb-4 mt-4">
