@@ -417,8 +417,8 @@
         <div class="col md-6 me-4 mb-4 mt-4">
           <div class="input-group">
             <input type="text" class="form-control" (keyup.enter)="agregarEvolucion()"
-              placeholder="Agregar" [formControl]="nuevaEvolucion" [readonly]="!crear || superAdmin"/>
-            <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()" [disabled]="!crear || superAdmin">
+              placeholder="Agregar" [formControl]="nuevaEvolucion" [readonly]="superAdmin"/>
+            <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()" [disabled]="superAdmin">
               Agregar
             </button>
           </div>
@@ -427,7 +427,7 @@
           <div class="col md-6 me-4 mb-4" formArrayName="evolucion">
             <div class="input-group mb-1" *ngFor="let evolucion of evolucionArr.controls; let i = index">
               <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly />
-              <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)" [disabled]="!crear || superAdmin">
+              <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)" [disabled]="superAdmin">
                 Borrar
               </button>
             </div>
@@ -460,7 +460,7 @@
     <div class="col titulo">
       <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
       <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-        [disabled]="!medicinaForm.valid || superAdmin || !crear">
+        [disabled]="!medicinaForm.valid || superAdmin">
         <mat-icon>save</mat-icon> Guardar
       </button>
     </div>

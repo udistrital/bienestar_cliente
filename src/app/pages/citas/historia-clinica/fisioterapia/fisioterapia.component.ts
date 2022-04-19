@@ -106,6 +106,7 @@ export class FisioterapiaComponent implements OnInit {
             this.fisioterapiaForm.enable();
           }
         } else {
+          this.fisioterapiaForm.controls.observacionesFisioterapia.enable();
           this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
@@ -142,14 +143,6 @@ export class FisioterapiaComponent implements OnInit {
     this.saludService.getHojaHistoria(parseInt(this.terceroId), 2).subscribe(data => {
       this.hojahistoria = data['Data'][0];
       this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.hojahistoria.Motivo);
-      this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.hojahistoria.Observacion);
-      this.evolucion = [];
-      let evolucion = JSON.parse(this.hojahistoria.Evolucion) || [];
-      this.evolucion.push({ ...evolucion });
-      let evolucion2: any = this.evolucion[0].evolucion;
-      for (let i = 0; i < evolucion2.length; i++) {
-        this.evolucionFisioArr.push(new FormControl(evolucion2[i]));
-      }
       this.saludService.getConsultaFisioterapia(this.hojahistoria.Id).subscribe(data => {
         // console.log(data);
         this.fisioterapia = data['Data'][0] || '';

@@ -140,6 +140,7 @@ export class PsicologiaComponent implements OnInit {
             this.psicologiaForm.enable();
           }
         } else {
+          this.psicologiaForm.controls.observacionesPsicologia.enable();
           this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
@@ -206,14 +207,6 @@ export class PsicologiaComponent implements OnInit {
     this.saludService.getHojaHistoria(this.terceroId, 4).subscribe(data => {
       this.HojaHistoria = data['Data'][0];
           this.psicologiaForm.controls.motivoConsultaPsico.setValue(this.HojaHistoria.Motivo);
-          this.psicologiaForm.controls.observacionesPsicologia.setValue(this.HojaHistoria.Observacion);
-          this.evolucion = [];
-          let evolucion = JSON.parse(this.HojaHistoria.Evolucion) || [];
-          this.evolucion.push({ ...evolucion });
-          let evolucion2: any = this.evolucion[0].evolucion;
-          for (let i = 0; i < evolucion2.length; i++) {
-            this.evolucionPsicoArr.push(new FormControl(evolucion2[i]));
-          }
           this.saludService.getComposicionFamiliar(this.HojaHistoria.Id).subscribe(data => {
             this.composicion = data['Data'][0];
             this.psicologiaForm.controls.viveCon.setValue(this.composicion.Observaciones);

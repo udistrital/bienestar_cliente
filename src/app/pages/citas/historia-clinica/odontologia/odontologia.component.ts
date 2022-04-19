@@ -402,17 +402,8 @@ export class OdontologiaComponent implements OnInit {
   getInfoOdontologiaNuevaHoja() {
     this.saludService.getHojaHistoria(this.terceroId, 3).subscribe(data => {
       this.HojaHistoria = data['Data'][0];
-      this.evolucion = [];
-      let evolucion = JSON.parse(this.HojaHistoria.Evolucion) || [];
-      this.evolucion.push({ ...evolucion });
-      let evolucion2: any = this.evolucion[0].evolucion;
-      for (let i = 0; i < evolucion2.length; i++) {
-        this.evolucionOdontoArr.push(new FormControl(evolucion2[i]));
-      }
       this.odontologiaForm.controls.motivoConsultaOdonto.setValue(this.HojaHistoria.Motivo);
-      this.odontologiaForm.controls.observacionesOdontologia.setValue(this.HojaHistoria.Observacion);
       this.getAnanmesis();
-      this.getOdontogramas();
       this.saludService.getExamenDental(this.HojaHistoria.Id).subscribe(data => {
         this.examenDental = data['Data'][0];
         //console.log(this.examenDental);
