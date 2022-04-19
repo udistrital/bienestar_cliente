@@ -2,9 +2,10 @@
   <h5 class="titulo"> Odontología</h5>
   <hr />
   <div class="text-right" [hidden]="hideHistory">
-    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()" [disabled]="superAdmin"
-      (click)="vestibularInfantil.limpiarOdontograma()" (click)="vestibular.limpiarOdontograma()"
-      (click)="vestabular.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja(); vestabular.getInfoOdontograma(); vestibular.getInfoOdontograma(); vestibularInfantil.getInfoOdontograma(); lingualesInfantil.getInfoOdontograma()"
+      [disabled]="superAdmin" (click)="vestibularInfantil.limpiarOdontograma()"
+      (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()"
+      (click)="lingualesInfantil.limpiarOdontograma()">
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -499,8 +500,8 @@
       <div class="form-floating">
         <mat-form-field appearance="outline" class="col-sm-12">
           <mat-label>Última visita al odontólogo</mat-label>
-          <input matInput formControlName="ultimaVisitaOdontologo" id="ultimaVisitaOdontologo" [matDatepicker]="picker" [max]="fechaActual"
-            readonly>
+          <input matInput formControlName="ultimaVisitaOdontologo" id="ultimaVisitaOdontologo" [matDatepicker]="picker"
+            [max]="fechaActual" readonly>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -588,52 +589,68 @@
   <div class="row">
     <div class="col-sm-6">
       <label for="periapicalInicio" class="form-label">Inicio</label><br>
-      <input #inputPeriapicalInicio class="form-control" type="file" id="periapicalInicio" (change)="onFilePeriapicalInicio($event)" [hidden]="estadoPeriapicalInicio">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalInicio" (click)="downloadDocumentPeriapicalInicio()">Descargar</button>
+      <input #inputPeriapicalInicio class="form-control" type="file" id="periapicalInicio"
+        (change)="onFilePeriapicalInicio($event)" [hidden]="estadoPeriapicalInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalInicio"
+        (click)="downloadDocumentPeriapicalInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
       <label for="periapicalFinal" class="form-label">Final</label><br>
-      <input #inputPeriapicalFinal class="form-control" type="file" id="periapicalFinal" (change)="onFilePeriapicalFinal($event)" [hidden]="estadoPeriapicalFinal">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalFinal" (click)="downloadDocumentPeriapicalFinal()">Descargar</button>
+      <input #inputPeriapicalFinal class="form-control" type="file" id="periapicalFinal"
+        (change)="onFilePeriapicalFinal($event)" [hidden]="estadoPeriapicalFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalFinal"
+        (click)="downloadDocumentPeriapicalFinal()">Descargar</button>
     </div>
   </div><br>
   <p class="subtitulo">Panorámica</p>
   <div class="row">
     <div class="col-sm-6">
       <label for="panoramicaInicio" class="form-label">Inicio</label><br>
-      <input #inputPanoramicaInicio class="form-control" type="file" id="panoramicaInicio" (change)="onFilePanoramicaInicio($event)" [hidden]="estadoPanoramicaInicio">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaInicio" (click)="downloadDocumentPanoramicaInicio()">Descargar</button>
+      <input #inputPanoramicaInicio class="form-control" type="file" id="panoramicaInicio"
+        (change)="onFilePanoramicaInicio($event)" [hidden]="estadoPanoramicaInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaInicio"
+        (click)="downloadDocumentPanoramicaInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
       <label for="panoramicaFinal" class="form-label">Final</label><br>
-      <input #inputPanoramicaFinal class="form-control" type="file" id="panoramicaFinal" (change)="onFilePanoramicaFinal($event)" [hidden]="estadoPanoramicaFinal">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaFinal" (click)="downloadDocumentPanoramicaFinal()">Descargar</button>
+      <input #inputPanoramicaFinal class="form-control" type="file" id="panoramicaFinal"
+        (change)="onFilePanoramicaFinal($event)" [hidden]="estadoPanoramicaFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaFinal"
+        (click)="downloadDocumentPanoramicaFinal()">Descargar</button>
     </div>
   </div><br>
   <p class="subtitulo">Otra</p>
   <div class="row">
     <div class="col-sm-6">
       <label for="otraInicio" class="form-label">Inicio</label><br>
-      <input #inputOtraInicio class="form-control" type="file" id="otraInicio" (change)="onFileOtraInicio($event)" [hidden]="estadoOtraInicio">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraInicio" (click)="downloadDocumentOtraInicio()">Descargar</button>
+      <input #inputOtraInicio class="form-control" type="file" id="otraInicio" (change)="onFileOtraInicio($event)"
+        [hidden]="estadoOtraInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraInicio"
+        (click)="downloadDocumentOtraInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
       <label for="otraFinal" class="form-label">Final</label><br>
-      <input #inputOtraFinal class="form-control" type="file" id="otraFinal" (change)="onFileOtraFinal($event)" [hidden]="estadoOtraFinal">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraFinal" (click)="downloadDocumentOtraFinal()">Descargar</button>
+      <input #inputOtraFinal class="form-control" type="file" id="otraFinal" (change)="onFileOtraFinal($event)"
+        [hidden]="estadoOtraFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraFinal"
+        (click)="downloadDocumentOtraFinal()">Descargar</button>
     </div>
   </div><br>
   <p class="subtitulo">Exámenes de Laboratorio</p>
   <div class="row">
     <div class="col-sm-6">
       <label for="examenesLaboratorioOdontoInicio" class="form-label">Inicio</label><br>
-      <input #inputLaboratorioInicio class="form-control" type="file" (change)="onFileLaboratorioInicio($event)" id="examenesLaboratorioOdontoInicio" [hidden]="estadoLaboratorioInicio">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioInicio" (click)="downloadDocumentLaboratorioInicio()">Descargar</button>
+      <input #inputLaboratorioInicio class="form-control" type="file" (change)="onFileLaboratorioInicio($event)"
+        id="examenesLaboratorioOdontoInicio" [hidden]="estadoLaboratorioInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioInicio"
+        (click)="downloadDocumentLaboratorioInicio()">Descargar</button>
     </div>
     <div class="col-sm-6">
       <label for="examenesLaboratorioOdontoFinal" class="form-label">Final</label><br>
-      <input #inputLaboratorioFinal class="form-control" type="file" (change)="onFileLaboratorioFinal($event)" id="examenesLaboratorioOdontoFinal" [hidden]="estadoLaboratorioFinal">
-      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioFinal" (click)="downloadDocumentLaboratorioFinal()">Descargar</button>
+      <input #inputLaboratorioFinal class="form-control" type="file" (change)="onFileLaboratorioFinal($event)"
+        id="examenesLaboratorioOdontoFinal" [hidden]="estadoLaboratorioFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioFinal"
+        (click)="downloadDocumentLaboratorioFinal()">Descargar</button>
     </div>
   </div>
   <br>
@@ -679,7 +696,7 @@
   <div class="row mt-4 mb-4">
     <div class="col md-6 me-4 mb-4">
       <div class="input-group">
-        <input type="text" class="form-control" name="medicamento" placeholder="Medicamento"
+        <input type="text" class="form-control" placeholder="Medicamento"
           formControlName="medicamento" />
         <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
           Ver PDF
@@ -692,8 +709,8 @@
     <div class="col md-6 me-4 mb-4">
       <div class="input-group">
         <input type="text" class="form-control" (keyup.enter)="agregarEvolucionOdonto()" name="nuevaEvolucionOdonto"
-          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" />
-        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()">
+          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="!crear || superAdmin" />
+        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="!crear || superAdmin">
           Agregar
         </button>
       </div>
@@ -702,7 +719,7 @@
       <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
         <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
           <input class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly />
-          <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)">
+          <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="!crear || superAdmin">
             Borrar
           </button>
         </div>
@@ -723,7 +740,7 @@
     <div class="col titulo">
       <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
       <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-        [disabled]="!odontologiaForm.valid || superAdmin">
+        [disabled]="!odontologiaForm.valid || superAdmin || !crear">
         <mat-icon>save</mat-icon> Guardar
       </button>
     </div>

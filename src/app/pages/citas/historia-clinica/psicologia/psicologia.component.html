@@ -220,25 +220,13 @@
     </div>
     <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a> <br><a
         href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf" target="_blank"> Manual CIE-10</a>
-    <h6 class="titulo mt-2">Medicamento</h6>
-    <div class="row mt-4 mb-4">
-        <div class="col md-6 me-4 mb-4">
-            <div class="input-group">
-                <input type="text" class="form-control" name="medicamento" placeholder="Medicamento"
-                    formControlName="medicamento" />
-                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
-                    Ver PDF
-                </button>
-            </div>
-        </div>
-    </div>
     <h6 class="titulo mt-2">Evolución</h6>
     <div class="row mt-4 mb-4">
         <div class="col md-6 me-4 mb-4">
             <div class="input-group">
                 <input type="text" class="form-control" (keyup.enter)="agregarEvolucionPsico()"
-                    name="nuevaEvolucionPsico" placeholder="Agregar" [formControl]="nuevaEvolucionPsico" />
-                <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionPsico()">
+                    name="nuevaEvolucionPsico" placeholder="Agregar" [formControl]="nuevaEvolucionPsico"  [readonly]="!crear || superAdmin"/>
+                <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionPsico()" [disabled]="!crear || superAdmin">
                     Agregar
                 </button>
             </div>
@@ -247,7 +235,7 @@
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionPsico">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionPsicoArr.controls; let i = index">
                     <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly />
-                    <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)">
+                    <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)" [disabled]="!crear || superAdmin">
                         Borrar
                     </button>
                 </div>
@@ -268,7 +256,7 @@
         <div class="col titulo">
             <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
             <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-                [disabled]="!psicologiaForm.valid || superAdmin">
+                [disabled]="!psicologiaForm.valid || superAdmin || !crear">
                 <mat-icon>save</mat-icon> Guardar
             </button>
         </div>

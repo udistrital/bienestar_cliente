@@ -23,16 +23,101 @@
     </div>
     <h6 class="titulo">Signos vitales</h6>
     <div class="row">
-        <mat-form-field class="col-sm-12" appearance="outline">
-            <mat-label>Signos vitales</mat-label>
-            <textarea matInput formControlName="signosVitales"></textarea>
-          </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>T.A</mat-label>
+            <input type="text" matInput formControlName="ta"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>FC</mat-label>
+            <input type="text" matInput formControlName="fc"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>SaO2</mat-label>
+            <input type="text" matInput formControlName="sao2"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>IMC</mat-label>
+            <input type="text" matInput formControlName="imc"/>
+        </mat-form-field>
     </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>F.R</mat-label>
+            <input type="text" matInput formControlName="fr"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>T°C</mat-label>
+            <input type="text" matInput formControlName="tc"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Peso</mat-label>
+            <input type="text" matInput formControlName="peso"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Talla</mat-label>
+            <input type="text" matInput formControlName="talla"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Estado General</mat-label>
+            <input type="text" matInput formControlName="estadoGeneral"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Cabeza y Cuello</mat-label>
+            <input type="text" matInput formControlName="cabezaYCuello"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>O.R.L</mat-label>
+            <input type="text" matInput formControlName="orl"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ojos</mat-label>
+            <input type="text" matInput formControlName="ojos"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Tórax</mat-label>
+            <input type="text" matInput formControlName="torax"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ruidos Respiratorios</mat-label>
+            <input type="text" matInput formControlName="ruidosRespiratorios"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ruidos Cardíacos</mat-label>
+            <input type="text" matInput formControlName="ruidosCardiacos"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Abdomen</mat-label>
+            <input type="text" matInput formControlName="abdomen"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Neurológico</mat-label>
+            <input type="text" matInput formControlName="neurologicoE"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Genital</mat-label>
+            <input type="text" matInput formControlName="genital"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Extremidades</mat-label>
+            <input type="text" matInput formControlName="extremidades"/>
+        </mat-form-field>
+    </div>
+    <h6 class="titulo">Contacto</h6>
+    <mat-form-field class="col-sm-12" appearance="outline">
+        <mat-label>Número y persona de contacto</mat-label>
+        <input type="text" matInput formControlName="contacto"/>
+    </mat-form-field>
     <div class="row mt-4">
         <div class="col titulo">
             <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label><br>
             <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-                [disabled]="!enfermeriaForm.valid || superAdmin">
+                [disabled]="!enfermeriaForm.valid || superAdmin || !crear">
                 <mat-icon>save</mat-icon> Guardar
             </button>
         </div>

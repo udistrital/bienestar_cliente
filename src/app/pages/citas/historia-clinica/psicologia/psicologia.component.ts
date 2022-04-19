@@ -26,6 +26,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class PsicologiaComponent implements OnInit {
+  crear: boolean = false;
   superAdmin: boolean = false;
   firstOne: any;
   hideHistory: boolean = false;
@@ -72,8 +73,7 @@ export class PsicologiaComponent implements OnInit {
     acuerdos: [null],
     diagnostico: [null],
     observacionesPsicologia: [null],
-    evolucionPsico: this.fb.array([]),
-    medicamento: [null]
+    evolucionPsico: this.fb.array([])
   })
   nombreEspecialista: any;
   terceroEspecialista: any;
@@ -87,6 +87,7 @@ export class PsicologiaComponent implements OnInit {
   estadoHoja: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
   ngOnInit() {
+    this.psicologiaForm.disable();
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
     )
@@ -131,10 +132,15 @@ export class PsicologiaComponent implements OnInit {
       // console.log(data);
       this.saludService.getHojaHistoria(this.terceroId, 4).subscribe(data => {
         if (JSON.stringify(data['Data'][0]) === '{}') {
+          this.crear = true;
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
+          if (!this.superAdmin){
+            this.psicologiaForm.enable();
+          }
         } else {
+          this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
@@ -188,7 +194,6 @@ export class PsicologiaComponent implements OnInit {
             this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
             this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
             this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
-            this.psicologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
           });
           this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
             this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
@@ -196,6 +201,60 @@ export class PsicologiaComponent implements OnInit {
         }
       });
     });
+  }
+  getInfoPsicologiaNuevaHoja() {
+    this.saludService.getHojaHistoria(this.terceroId, 4).subscribe(data => {
+      this.HojaHistoria = data['Data'][0];
+          this.psicologiaForm.controls.motivoConsultaPsico.setValue(this.HojaHistoria.Motivo);
+          this.psicologiaForm.controls.observacionesPsicologia.setValue(this.HojaHistoria.Observacion);
+          this.evolucion = [];
+          let evolucion = JSON.parse(this.HojaHistoria.Evolucion) || [];
+          this.evolucion.push({ ...evolucion });
+          let evolucion2: any = this.evolucion[0].evolucion;
+          for (let i = 0; i < evolucion2.length; i++) {
+            this.evolucionPsicoArr.push(new FormControl(evolucion2[i]));
+          }
+          this.saludService.getComposicionFamiliar(this.HojaHistoria.Id).subscribe(data => {
+            this.composicion = data['Data'][0];
+            this.psicologiaForm.controls.viveCon.setValue(this.composicion.Observaciones);
+          });
+          this.saludService.getLimites(this.HojaHistoria.Id).subscribe(data => {
+            // console.log(data);       
+            this.limites = data['Data'][0];
+            this.psicologiaForm.controls.difusos.setValue(this.limites.Difusos);
+            this.psicologiaForm.controls.claros.setValue(this.limites.Claros);
+            this.psicologiaForm.controls.rigidos.setValue(this.limites.Rigidos);
+          });
+          this.getAntecedentes();
+          this.saludService.getValoracionInterpersonal(this.HojaHistoria.Id).subscribe(data => {
+            //console.log(data);
+            this.valoracion = data['Data'][0];
+            this.psicologiaForm.controls.figurasDeAutoridad.setValue(this.valoracion.Autoridad);
+            this.psicologiaForm.controls.pares.setValue(this.valoracion.Pares);
+            this.psicologiaForm.controls.pareja.setValue(this.valoracion.Pareja);
+            this.relaciones = this.valoracion.Relaciones;
+            this.psicologiaForm.controls.satisfaccion.setValue(this.valoracion.Satisfaccion);
+            this.psicologiaForm.controls.metodoProteccion.setValue(this.valoracion.Proteccion);
+            this.psicologiaForm.controls.orientacionSexual.setValue(this.valoracion.Orientacion);
+            this.psicologiaForm.controls.economicos.setValue(this.valoracion.Economicos);
+            this.psicologiaForm.controls.judiciales.setValue(this.valoracion.Judiciales);
+            this.psicologiaForm.controls.drogas.setValue(this.valoracion.Drogas);
+          });
+          this.saludService.getComportamientoConslta(this.HojaHistoria.Id).subscribe(data => {
+            // console.log(data);
+            this.comportamiento = data['Data'][0];
+            this.psicologiaForm.controls.problematicaActual.setValue(this.comportamiento.Problematica);
+            this.psicologiaForm.controls.estiloAfrontamiento.setValue(this.comportamiento.Afrontamiento);
+            this.psicologiaForm.controls.comportamientoDuranteConsulta.setValue(this.comportamiento.Comportamiento);
+          });
+          this.saludService.getDiagnosticoPsicologia(this.HojaHistoria.Id).subscribe(data => {
+            // console.log(data);
+            this.diagnostico = data['Data'][0];
+            this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
+            this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
+            this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
+          });
+      });
   }
   guardarHistoriaPsicologia() {
     this.psicologiaForm.disable();
@@ -312,7 +371,7 @@ export class PsicologiaComponent implements OnInit {
           Diagnostico: this.psicologiaForm.get('diagnostico').value,
           Acuerdo: this.psicologiaForm.get('acuerdos').value,
           Hipotesis: this.psicologiaForm.get('hipotesis').value,
-          Medicamento: this.psicologiaForm.get('medicamento').value,
+          Medicamento: null,
           HistoriaClinicaId: this.saludService.historia,
           HojaHistoriaId: this.HojaHistoria.Id,
           Id: 0,
@@ -470,7 +529,7 @@ export class PsicologiaComponent implements OnInit {
         Acuerdo: this.psicologiaForm.get('acuerdos').value,
         Hipotesis: this.psicologiaForm.get('hipotesis').value,
         HistoriaClinicaId: this.diagnostico.HistoriaClinicaId,
-        Medicamento: this.psicologiaForm.get('medicamento').value,
+        Medicamento: null,
         Diagnostico: this.psicologiaForm.get('diagnostico').value,
         HojaHistoriaId: this.diagnostico.HojaHistoriaId,
         Id: this.diagnostico.Id,
@@ -605,7 +664,6 @@ export class PsicologiaComponent implements OnInit {
         this.psicologiaForm.controls.hipotesis.setValue(this.diagnostico.Hipotesis);
         this.psicologiaForm.controls.acuerdos.setValue(this.diagnostico.Acuerdo);
         this.psicologiaForm.controls.diagnostico.setValue(this.diagnostico.Diagnostico);
-        this.psicologiaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
       });
       this.personaService.getDatosPersonalesPorTercero(this.HojaHistoria.Profesional).subscribe(data => {
         this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
@@ -623,43 +681,14 @@ export class PsicologiaComponent implements OnInit {
     });
   }
   crearNuevaHoja() {
+    this.crear = true;
     this.psicologiaForm.reset();
-    this.getAntecedentes();
-    this.estado = "nueva";
     this.evolucionPsicoArr.clear();
+    this.getInfoPsicologiaNuevaHoja();
+    this.psicologiaForm.enable();
+    this.estado = "nueva";
     this.hideHistory = true;
     this.nombreEspecialista = "";
-  }
-  async openPdf() {
-    let fechaActual = new (Date);
-    let pipe = new DatePipe('en_US');
-   let  myFormattedDate = pipe.transform(fechaActual, 'short');
-    const documentDefinition = {
-      content: [
-        { text: "Fecha: " + myFormattedDate },
-        { text: "Estudiante: " + this.paciente },
-        {
-          image: this.logoDataUrl,
-          width: 150,
-          height: 200,
-          alignment: 'center'
-        },
-        
-        { text: '\n\nMedicamentos recetados - Módulo psicología\n', style: 'secondTitle' },
-        {text: '\n'+this.psicologiaForm.controls.medicamento.value}
-      ],
-      styles: {
-        secondTitle: {
-          bold: true,
-          fontSize: 15,
-          alignment: 'center'
-        },
-      },
-      images: {
-        mySuperImage: 'data:image/png;base64,...content...'
-      }
-    };
-    pdfMake.createPdf(documentDefinition).open();
   }
 
 }

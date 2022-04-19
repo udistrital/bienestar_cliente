@@ -22,6 +22,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class FisioterapiaComponent implements OnInit {
+  crear: boolean = false;
   firstOne: any;
   superAdmin: boolean = false;
   hideHistory: boolean = false;
@@ -52,6 +53,7 @@ export class FisioterapiaComponent implements OnInit {
   estadoFisio: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private saludService: SaludService, private personaService: EstudiantesService, private aRoute: ActivatedRoute, private listService: ListService) { }
   ngOnInit() {
+    this.fisioterapiaForm.disable();
     Utils.getImageDataUrlFromLocalPath1('../../../../assets/images/Escudo_UD.png').then(
       result => this.logoDataUrl = result
     )
@@ -62,7 +64,7 @@ export class FisioterapiaComponent implements OnInit {
     });
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
-      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
+      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
         this.fisioterapiaForm.disable();
         this.superAdmin = true;
       }
@@ -99,7 +101,12 @@ export class FisioterapiaComponent implements OnInit {
           this.estado = "nueva";
           this.hideHistory = true;
           this.nombreEspecialista = "";
+          this.crear = true;
+          if (!this.superAdmin) {
+            this.fisioterapiaForm.enable();
+          }
         } else {
+          this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
           this.estado = "vieja";
@@ -128,6 +135,30 @@ export class FisioterapiaComponent implements OnInit {
           });
         }
       });
+    });
+  }
+
+  cargarInformacionNuevaHoja() {
+    this.saludService.getHojaHistoria(parseInt(this.terceroId), 2).subscribe(data => {
+      this.hojahistoria = data['Data'][0];
+      this.fisioterapiaForm.controls.motivoConsultaFisio.setValue(this.hojahistoria.Motivo);
+      this.fisioterapiaForm.controls.observacionesFisioterapia.setValue(this.hojahistoria.Observacion);
+      this.evolucion = [];
+      let evolucion = JSON.parse(this.hojahistoria.Evolucion) || [];
+      this.evolucion.push({ ...evolucion });
+      let evolucion2: any = this.evolucion[0].evolucion;
+      for (let i = 0; i < evolucion2.length; i++) {
+        this.evolucionFisioArr.push(new FormControl(evolucion2[i]));
+      }
+      this.saludService.getConsultaFisioterapia(this.hojahistoria.Id).subscribe(data => {
+        // console.log(data);
+        this.fisioterapia = data['Data'][0] || '';
+        this.fisioterapiaForm.controls.valoracion.setValue(this.fisioterapia.Valoracion);
+        this.fisioterapiaForm.controls.planDeManejoFisio.setValue(this.fisioterapia.PlanManejo);
+        this.fisioterapiaForm.controls.diagnostico.setValue(this.fisioterapia.Diagnostico);
+        this.fisioterapiaForm.controls.medicamento.setValue(this.fisioterapia.Medicamento);
+      }
+      );
     });
   }
 
@@ -232,13 +263,13 @@ export class FisioterapiaComponent implements OnInit {
     }
 
   }
-  comprobarHoja(){
-    if (this.estadoHoja && this.estadoFisio){
+  comprobarHoja() {
+    if (this.estadoHoja && this.estadoFisio) {
       this.toastr.success(`Ha registrado con éxito la historia clínica de fisioterapia para: ${this.paciente}`, '¡Guardado!');
-        setTimeout(() => {
-          window.location.reload();
-        },
-          1000);
+      setTimeout(() => {
+        window.location.reload();
+      },
+        1000);
     }
   }
   cambiarHoja(data: any) {
@@ -275,15 +306,18 @@ export class FisioterapiaComponent implements OnInit {
   }
   crearNuevaHoja() {
     this.fisioterapiaForm.reset();
-    this.estado = "nueva";
+    this.crear = true;
     this.evolucionFisioArr.clear();
+    this.cargarInformacionNuevaHoja();
+    this.fisioterapiaForm.enable();
+    this.estado = "nueva";
     this.hideHistory = true;
     this.nombreEspecialista = "";
   }
   async openPdf() {
     let fechaActual = new (Date);
     let pipe = new DatePipe('en_US');
-   let  myFormattedDate = pipe.transform(fechaActual, 'short');
+    let myFormattedDate = pipe.transform(fechaActual, 'short');
     const documentDefinition = {
       content: [
         { text: "Fecha: " + myFormattedDate },
@@ -294,9 +328,9 @@ export class FisioterapiaComponent implements OnInit {
           height: 200,
           alignment: 'center'
         },
-        
+
         { text: '\n\nMedicamentos recetados - Módulo fisioterapia\n', style: 'secondTitle' },
-        {text: '\n'+this.fisioterapiaForm.controls.medicamento.value}
+        { text: '\n' + this.fisioterapiaForm.controls.medicamento.value }
       ],
       styles: {
         secondTitle: {
