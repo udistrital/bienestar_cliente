@@ -198,6 +198,7 @@ export class MedicinaComponent implements OnInit {
             this.medicinaForm.enable();
           }
         } else {
+          this.medicinaForm.controls.observacionesMedicina.enable();
           this.crear = false;
           this.listaHojas = data['Data'];
           this.firstOne = data['Data'][0].Id;
@@ -284,15 +285,6 @@ export class MedicinaComponent implements OnInit {
     this.saludService.getHojaHistoria(this.terceroId, 1).subscribe(data => {
       this.hojaHistoria = data['Data'][0];
       this.medicinaForm.controls.motivoConsulta.setValue(this.hojaHistoria.Motivo);
-      this.medicinaForm.controls.observacionesMedicina.setValue(this.hojaHistoria.Observacion);
-      this.evolucion = [];
-      this.analisis = [];
-      let evolucion = JSON.parse(this.hojaHistoria.Evolucion);
-      this.evolucion.push({ ...evolucion });
-      let evolucion2 = this.evolucion[0].evolucion;
-      for (let i = 0; i < evolucion2.length; i++) {
-        this.evolucionArr.push(new FormControl(evolucion2[i]));
-      }
       this.idHistoria = this.hojaHistoria.HistoriaClinica.Id;
       this.saludService.historia = this.idHistoria;
       this.getAntecedentes();
