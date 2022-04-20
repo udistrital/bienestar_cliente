@@ -20,6 +20,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Utils } from '../../../../shared/utils/utils';
 import { DatePipe } from '@angular/common';
 import { ListService } from '../../../../@core/store/list.service';
+import { Enfermeria } from '../../../../shared/models/Salud/enfermeria.model';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'ngx-medicina',
@@ -27,6 +28,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+  enfermeria: Enfermeria | null;
   crear: boolean = false;
   superAdmin: boolean = false;
   fechaActual = new Date();
@@ -309,25 +311,31 @@ export class MedicinaComponent implements OnInit {
           // console.log(data);
           this.examenes = data['Data'][0];
           this.medicinaForm.controls.examenes.setValue(this.examenes.Laboratorio);
-          this.medicinaForm.controls.ta.setValue(this.examenes.Ta);
-          this.medicinaForm.controls.fc.setValue(this.examenes.Fc);
-          this.medicinaForm.controls.sao2.setValue(this.examenes.Sao2);
-          this.medicinaForm.controls.imc.setValue(this.examenes.Imc);
-          this.medicinaForm.controls.fr.setValue(this.examenes.Fr);
-          this.medicinaForm.controls.tc.setValue(this.examenes.Temperatura);
-          this.medicinaForm.controls.peso.setValue(this.examenes.Peso);
-          this.medicinaForm.controls.talla.setValue(this.examenes.Talla);
-          this.medicinaForm.controls.estadoGeneral.setValue(this.examenes.EstadoGeneral);
-          this.medicinaForm.controls.cabezaYCuello.setValue(this.examenes.CabezaYCuello);
-          this.medicinaForm.controls.orl.setValue(this.examenes.Orl);
-          this.medicinaForm.controls.ojos.setValue(this.examenes.Ojos);
-          this.medicinaForm.controls.torax.setValue(this.examenes.Torax);
-          this.medicinaForm.controls.ruidosRespiratorios.setValue(this.examenes.RuidosRespiratorios);
-          this.medicinaForm.controls.ruidosCardiacos.setValue(this.examenes.RuidosCardiacos);
-          this.medicinaForm.controls.abdomen.setValue(this.examenes.Abdomen);
-          this.medicinaForm.controls.neurologicoE.setValue(this.examenes.Neurologico);
-          this.medicinaForm.controls.genital.setValue(this.examenes.Genital);
-          this.medicinaForm.controls.extremidades.setValue(this.examenes.Extremidades);
+        });
+        this.saludService.getAllEnfermeria(this.historiaClinica.Id).subscribe(data => {
+          // console.log(data);
+          if (JSON.stringify(data['Data'][0]) !== '{}') {
+            this.enfermeria = data['Data'][0];
+            this.medicinaForm.controls.ta.setValue(this.enfermeria.Ta);
+            this.medicinaForm.controls.fc.setValue(this.enfermeria.Fc);
+            this.medicinaForm.controls.sao2.setValue(this.enfermeria.Sao2);
+            this.medicinaForm.controls.imc.setValue(this.enfermeria.Imc);
+            this.medicinaForm.controls.fr.setValue(this.enfermeria.Fr);
+            this.medicinaForm.controls.tc.setValue(this.enfermeria.Temperatura);
+            this.medicinaForm.controls.peso.setValue(this.enfermeria.Peso);
+            this.medicinaForm.controls.talla.setValue(this.enfermeria.Talla);
+            this.medicinaForm.controls.estadoGeneral.setValue(this.enfermeria.EstadoGeneral);
+            this.medicinaForm.controls.cabezaYCuello.setValue(this.enfermeria.CabezaYCuello);
+            this.medicinaForm.controls.orl.setValue(this.enfermeria.Orl);
+            this.medicinaForm.controls.ojos.setValue(this.enfermeria.Ojos);
+            this.medicinaForm.controls.torax.setValue(this.enfermeria.Torax);
+            this.medicinaForm.controls.ruidosRespiratorios.setValue(this.enfermeria.RuidosRespiratorios);
+            this.medicinaForm.controls.ruidosCardiacos.setValue(this.enfermeria.RuidosCardiacos);
+            this.medicinaForm.controls.abdomen.setValue(this.enfermeria.Abdomen);
+            this.medicinaForm.controls.neurologicoE.setValue(this.enfermeria.Neurologico);
+            this.medicinaForm.controls.genital.setValue(this.enfermeria.Genital);
+            this.medicinaForm.controls.extremidades.setValue(this.enfermeria.Extremidades);
+          }
         });
         //Diagnostico
         this.saludService.getDiagnostico(this.hojaHistoria.Id).subscribe(data => {
@@ -336,15 +344,6 @@ export class MedicinaComponent implements OnInit {
           this.medicinaForm.controls.diagnostico.setValue(this.diagnostico.Descripcion);
           this.medicinaForm.controls.planDeManejo.setValue(this.diagnostico.PlanDeManejo);
           this.medicinaForm.controls.medicamento.setValue(this.diagnostico.Medicamento);
-          let analisis = JSON.parse(this.diagnostico.Analisis);
-          this.analisis.push({ ...analisis });
-          let analisis2 = this.analisis[0].analisis;
-          for (let i = 0; i < analisis2.length; i++) {
-            this.analisisArr.push(new FormControl(analisis2[i]));
-          }
-        });
-        this.personaService.getDatosPersonalesPorTercero(this.hojaHistoria.Profesional).subscribe(data => {
-          this.nombreEspecialista = data[0].TerceroId.NombreCompleto;
         });
       });
     });

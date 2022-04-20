@@ -121,6 +121,9 @@ export class SaludService {
   getEnfermeria(IdHistoriaClinica): Observable<Enfermeria> {
     return this.httpClient.get<Enfermeria>(this.url + 'NotasEnfermeria/' + this.query + 'HojaHistoria.Id:' + `${IdHistoriaClinica}`);
   }
+  getAllEnfermeria(IdHistoriaClinica): Observable<Enfermeria> {
+    return this.httpClient.get<Enfermeria>(this.url + 'NotasEnfermeria/' + this.query + 'HistoriaClinica.Id:' + `${IdHistoriaClinica}` + '&sortby=FechaCreacion&order=desc');
+  }
 
   //Guardar y actualizar
   postFisioterapia(consultaFisioterapia: ConsultaFisioterapia): Observable<ConsultaFisioterapia> {
