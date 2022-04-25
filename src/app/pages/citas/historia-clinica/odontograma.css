@@ -1,0 +1,130 @@
+
+.marcadoAzul {
+    fill: #5b9bd5;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoAzulRojo {
+    fill: #5b9bd5;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.marcadoVerde {
+    fill: green;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoMorado {
+    fill: #CC66CC;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoGris {
+    fill: #555e7a;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoGrisRojo {
+    fill: #555e7a;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.marcadoMarron {
+    fill: #709f51;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoVerdeRojo {
+    fill: #709f51;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.marcadoAmarillo {
+    fill: yellow;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoRojo {
+    fill: red;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoMagenta {
+    fill: white;
+    stroke: red;
+    stroke-width: 6px;
+}
+
+.marcadoNegro {
+    fill: none;
+    stroke: black;
+    stroke-width: 3px;
+}
+.marcadoNegroLleno {
+    fill: black;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.marcadoMaroon {
+    fill: none;
+    stroke: maroon;
+    stroke-width: 7px;
+}
+
+.diente {
+    fill-opacity: 0;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.invisible {
+    fill: none;
+    opacity: 0;
+}
+
+table th {
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+    width: 100px;
+}
+
+table tr {
+    text-align: center;
+    width: 100px;
+    vertical-align: middle;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+svg|a text {
+    fill: blue; /* Incluso para el texto, SVG usa fill para el color */
+    text-decoration: underline;
+  }
+  .card-button {
+    background-color: #fdfdfd;
+    color: #52aed6;
+
+    font-weight: 180;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    border: 1px solid #52aed6;
+}
+.card-button:hover {
+    background-color: #33b5e5;
+    color: #fdfdfd;
+}

@@ -21,6 +21,7 @@ export class RequestManager {
       headers: new HttpHeaders({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        
       }),
     };
   }
@@ -73,10 +74,11 @@ export class RequestManager {
    * Perform a POST http request
    * @param endpoint service's end-point
    * @param element data to send as JSON
+   * @param httpOptions httpOptionsCustom
    * @returns Observable<any>
    */
-  post(endpoint, element) {
-    return this.http.post<any>(`${this.path}${endpoint}`, element, this.httpOptions).pipe(
+  post(endpoint, element, httpOptions?) {
+    return this.http.post<any>(`${this.path}${endpoint}`, element, httpOptions || this.httpOptions).pipe(
       catchError(this.errManager.handleError),
       map(
         (res) => {
@@ -98,7 +100,14 @@ export class RequestManager {
    * @returns Observable<any>
    */
   put(endpoint, element, id) {
-    return this.http.put<any>(`${this.path}${endpoint}${id}`, JSON.stringify(element), this.httpOptions).pipe(
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'authorization': `Bearer ${window.localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json'
+      }),
+    };
+    return this.http.put<any>(`${this.path}${endpoint}/${id}`, element, this.httpOptions).pipe(
       catchError(this.errManager.handleError),
     );
   }

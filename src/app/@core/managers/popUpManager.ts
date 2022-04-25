@@ -32,7 +32,7 @@ export class PopUpManager {
 
     public showAlert(status: any, title: string, text: string) {
         return Swal.fire({
-            type: status,
+            icon: status,
             title: title,
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -43,7 +43,7 @@ export class PopUpManager {
 
     public showAlertInput(status: any, title: string, text: string, text_validtador: string, input: any) {
         return Swal.fire({
-            type: status,
+            icon: status,
             title: title,
             text: text,
             input: input,
@@ -73,7 +73,7 @@ export class PopUpManager {
 
     public showSuccessAlert(text, tittle?) {
         return Swal.fire({
-            type: 'success',
+            icon: 'success',
             title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -82,7 +82,7 @@ export class PopUpManager {
 
     public showInfoAlert(text: string, tittle?: string) {
         Swal.fire({
-            type: 'info',
+            icon: 'info',
             title: tittle ? this.translate.instant(tittle) : this.translate.instant('GLOBAL.operacion_exitosa'),
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -91,7 +91,7 @@ export class PopUpManager {
 
     public showSuccessTemplate(template) {
         Swal.fire({
-            type: 'success',
+            icon: 'success',
             title: this.translate.instant('GLOBAL.operacion_exitosa'),
             html: template,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
@@ -100,7 +100,7 @@ export class PopUpManager {
 
     public showErrorAlert(text) {
         Swal.fire({
-            type: 'error',
+            icon: 'error',
             title: this.translate.instant('GLOBAL.error'),
             text: text,
             confirmButtonText: this.translate.instant('GLOBAL.aceptar'),

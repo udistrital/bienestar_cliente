@@ -1,0 +1,108 @@
+<form [formGroup]="datosBasicos">
+  <h5 class="titulo">Datos Básicos</h5>
+  <hr />
+  <div class="row">
+    <div class="col md-3"><strong>Nombre: </strong> {{ nombre }}</div>
+    <div class="col md-3"><strong>Código: </strong>{{codigo }}</div>
+    <div class="col md-3">
+      <strong>Documento: </strong>{{ 'documento' }}
+    </div>
+    <div class="col md-3"><strong>EPS: </strong>{{ 'prueba.eps' }}</div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Fecha de nacimiento: </strong>
+      {{ fechaNacimiento | date: "dd-MMMM-yyyy":"":"es-CO" }}
+    </div>
+    <div class="col md-6">
+      <strong>Lugar de Nacimiento: </strong>{{ lugarNacimiento}}
+    </div>
+    <div class="col md-4"><strong>Edad: </strong>{{ edad }}</div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-4">
+      <strong>Vinculación: </strong>
+      <br />
+      <mat-radio-group formControlName="vinculacion">
+        <mat-radio-button [checked]="vinculacion=='estudiante'" value="true">Estudiante</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="vinculacion=='funcionario'" value="false">Funcionario</mat-radio-button>
+        <mat-radio-button [checked]="vinculacion=='docente'" value="false">Docente</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <!-- <div class="col md-4" *ngIf="prueba.vinculacion !== 'Estudiante'"> -->
+    <div class="col md-4">
+      <strong>Tipo: </strong>
+      <br />
+      <mat-radio-group formControlName="tipo">
+        <mat-radio-button [checked]="tipo=='especial'" value="especial">Especial</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="tipo=='otro'" value="otro">Otro</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col md-4" *ngIf="tipo =='otro'">
+      <strong>¿Cuál? </strong>
+      <br />
+      {{ 'prueba.cualTipo' }}
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Facultad: </strong> {{ 'Facultad' }}
+    </div>
+    <div class="col md-6">
+      <strong>Proyecto curricular: </strong>{{ carrera | ngxCapitalize }}
+    </div>
+    <div class="col md-4" *ngIf="dependencia != null && dependencia!=''">
+      <strong>Dependencia: </strong>
+    </div>
+    <div class="col md-4" *ngIf="procedenteDe !== null && procedenteDe!=''">
+      <strong>Procedente de: </strong>
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Dirección: </strong> {{ direccion }}
+    </div>
+    <div class="col md-6">
+      <strong>Teléfono: </strong> {{ telefono}}
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="flex-column col float-right md-6">
+      <strong>Contacto de emergencia: </strong>
+      {{' prueba.contactoEmergencia' }}
+    </div>
+    <div class="col md-6">
+      <strong>Parentesco: </strong> {{ 'prueba.parentesco' }}
+    </div>
+  </div>
+  <div class="row mt-3 mb-4">
+    <div class="col md-6">
+      <strong>Dirección: </strong> {{' prueba.direccionContacto '}}
+    </div>
+    <div class="col md-6">
+      <strong>Teléfono: </strong> {{ 'prueba.telefonoContacto' }}
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col md-6">
+      <strong>Situación Académica: </strong>
+      <br />
+      <mat-radio-group formControlName="estado">
+        <mat-radio-button [checked]="estado=='L'" value="L">Prueba Académica</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="estado=='A'" value="A">Activo</mat-radio-button>&nbsp;
+        <mat-radio-button [checked]="estado=='D'" value="D">Otro</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col md-6">
+      <strong>¿Cuál?</strong>
+      <br />
+      {{ 'prueba.cualSituacion' }}
+    </div>
+  </div>
+</form>

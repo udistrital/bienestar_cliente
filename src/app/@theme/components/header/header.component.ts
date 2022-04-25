@@ -107,8 +107,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    this.router.navigate(['/pages/plan-cuentas/rubros']);
-    // this.menuService.navigateHome();
+    //this.router.navigate(['/pages/home']);
+    this.menuService.navigateHome();
     return false;
   }
   login() {
@@ -116,12 +116,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   logout() {
     this.autenticacion.logout();
+    this.autenticacion.clearStorage();
     // this.liveTokenValue = auth.live(true);
   }
   liveToken() {
     if (this.autenticacion.live()) {
       this.liveTokenValue = this.autenticacion.live();
-      this.username = (this.autenticacion.getPayload()).sub;
+      this.username = (this.autenticacion.getPayload()).email
+        ? ((this.autenticacion.getPayload()).email.split('@')).shift()
+        : (this.autenticacion.getPayload()).sub;
     }
     return this.autenticacion.live();
   }
@@ -131,12 +134,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/pages/notificacion/listado']);
     }
   }
+
+
   goToHome() {
     this.menuService.navigateHome();
   }
+
   changeStateNoView(): void {
     // this.notificacionService.changeStateNoView(this.username);
   }
+
   toggleNotifications(): boolean {
     this.sidebarService.toggle(false, 'notifications-sidebar');
     this.changeStateNoView();

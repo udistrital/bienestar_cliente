@@ -1,0 +1,81 @@
+@import "../../apoyo-alimentario.component.scss";
+.menu-list {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.menu-list .item {
+    //flex: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.menu-list .item .sub-item {
+    //flex: 60%;
+    margin: 2px 5px 2px 5px;
+    text-transform: capitalize;
+}
+
+.non-selectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.form-control {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.form-control input select {
+    width: 83%;
+}
+
+.input-group-prepend {
+    width: 18%;
+}
+
+@media (max-width: 770px) {
+    .input-group-prepend {
+        width: 30%;
+    }
+    .form-control input select {
+        width: 70%;
+    }
+    .small-ud {
+        margin-left: 28%;
+    }
+}
+
+@media (max-width: 575px) {
+    .input-group-prepend,
+    .form-control input select {
+        width: 55%;
+    }
+    .small-ud {
+        margin-left: 1%;
+    }
+}
+
+.item-list {
+    align-items: center;
+    margin-bottom: 10px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+nb-accordion {
+    box-shadow: none;
+}

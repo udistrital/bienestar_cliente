@@ -1,0 +1,121 @@
+<div class="col-md-12 col-lg-12 ">
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex justify-content-between">
+          <h5>Lista de solicitudes</h5>
+          <button nbButton status="success" *ngIf="esRevisionEstudiante" class="mx-2" type="button" (click)="nuevaSolicitud()">Agregar nueva solicitud</button>
+          <button nbButton status="success" *ngIf="!esRevisionEstudiante" class="mx-2" type="button" (click)="abrirParametria()">Cambiar fecha formulario</button>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-list-entity
+        [isOnlyCrud]="isOnlyCrud" 
+        [uuidReadFieldName]="uuidReadFieldName"
+        [uuidDeleteFieldName]="uuidDeleteFieldName"
+        [listColumns]="listColumns"
+        [deleteConfirmMessage]="deleteConfirmMessage"
+        [deleteMessage]="deleteMessage"
+        [loadDataFunction]="loadDataFunction"
+        [deleteDataFunction]="deleteDataFunction"
+        [formEntity]="formEntity"
+        [formTittle]="formTittle"
+        [updateMessage]="updateMessage"
+        [createMessage]="createMessage"
+        [updateConfirmMessage]="updateConfirmMessage"
+        [createConfirmMessage]="createConfirmMessage"
+        [loadFormDataFunction]="loadFormDataFunction"
+        [updateEntityFunction]="updateEntityFunction"
+        [createEntityFunction]="createEntityFunction"
+        [listSettings]="this.settings"
+        [(reloadTable)]="recargarTabla"
+        (totalElementosChange)="elementosEncontrados = $event"
+        >
+      </ngx-list-entity>
+      </nb-card-body>
+    </nb-card>
+    <ngx-custom-paginator [(page)]="page" (pageChange)="recargarTablaPage($event)" [totalElementos]="elementosEncontrados"></ngx-custom-paginator>
+  </div>
+
+  <ng-template #observaciones>
+    <h4 mat-dialog-title>Enviar observación</h4>
+    <form [formGroup]="modalObservaciones" (ngSubmit)="guardarObservacion()">
+    <div mat-dialog-content class="container">
+            <div class="row item-list">
+                <ngx-combo-generico 
+                    class="col-12" 
+                    etiqueta="Tipo de observacion" 
+                    nombreInput="tipoObservacion"
+                    [servicio]="reliquidacionHelper" 
+                    metodo="obtenerTipoObservacion"
+                    campoListado="Data"
+                    campoCodigo="Id"
+                    campoValor="Nombre" 
+                    [grupo]="modalObservaciones" 
+                    [requerido]="true" 
+                    [validar]="validarObservacion"
+                    [(modelo)]="observacion.tipo_observacion_id"
+                    >
+                </ngx-combo-generico>
+            </div>
+            <div class="row item-list">
+                <ngx-combo-generico 
+                    class="col-12" 
+                    etiqueta="Estado de la solicitud" 
+                    nombreInput="estadoSolicitud"
+                    [servicio]="reliquidacionHelper" 
+                    metodo="obtenerEstadoTipoSolicitud"
+                    campoListado="Data"
+                    campoCodigo="Id"
+                    [esAnidado]="true"
+                    [camposValorAnidado]="['EstadoId','Nombre']"
+                    [grupo]="modalObservaciones" 
+                    [requerido]="true" 
+                    [validar]="validarObservacion"
+                    [(modelo)]="idEstadoSolicitud"
+                >
+                </ngx-combo-generico>
+            </div>
+            <div class="row item-list">
+                <ngx-input-generico
+                    class="col-12"
+                    nombreInput="descObservacion"
+                    [grupo]="modalObservaciones"
+                    etiqueta="Observación"
+                    tipo="caja"
+                    [requerido]="true"
+                    [validar]="validarObservacion"
+                    [(modelo)]="observacion.valor"
+                ></ngx-input-generico>
+            </div>
+    </div>
+    <div mat-dialog-actions class="d-flex justify-content-end">
+        <button nbButton status="basic" class="mx-2" type="button" (click)="this.dialog.closeAll()">Cancelar</button>
+        <button nbButton status="primary" class="mx-2" type="submit">Aceptar</button>
+    </div>
+    </form>
+</ng-template>
+
+<ng-template #verObservaciones>
+  <h4 mat-dialog-title>Observaciones de la solicitud</h4>
+  <div mat-dialog-content class="container mx-0">
+    <div class="row" *ngFor="let observacion of observacionesSolicitud">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{observacion.Valor}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Observación realizada sobre la solicitud</h6>
+            <p class="card-text">{{'Estado de la solicitud: ' + observacion.TipoObservacionId.Nombre}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="d-flex flex-row-reverse">
+    <button nbButton status="success" class="mx-2" type="button" (click)="dialog.closeAll()">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #dialogParametria>
+  <h4 mat-dialog-title>Cambiar fecha de parametría</h4>
+  <ngx-parametria-periodo (cerrar)="dialog.closeAll()"></ngx-parametria-periodo>
+</ng-template>

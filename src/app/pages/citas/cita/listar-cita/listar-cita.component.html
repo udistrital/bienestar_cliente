@@ -1,0 +1,29 @@
+<div class="card text-center">
+  <span class="h3">Listado de Citas</span>
+
+  <button class="m-auto" mat-button routerLink="../../home" [ngStyle]="{color: 'var(--azul-claro)'}">
+    <mat-icon>keyboard_backspace</mat-icon> Volver
+  </button>
+</div>
+<mat-card class="mt-2">
+  <div class="text-center" *ngIf="!estado">
+    <h6>No tiene citas por el momento</h6>
+  </div>
+  <table class="table table-striped mt-2" *ngIf="estado">
+    <thead>
+      <tr>
+        <th scope="col">Paciente</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Hora</th>
+        <th scope="col">Facultad/Plataforma</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let cita of cita, let i = index">
+      <td>{{cita.NombrePaciente}}</td>
+      <td>{{ cita.Fecha | date: 'dd-MM-yyyy': '+0500' }}</td>
+      <td>{{ cita.Hora | date: 'HH:mm': '+0000'}}</td>
+      <td>{{ cita.Sede }}</td>
+      <hr>
+    </tbody>
+  </table>
+</mat-card>

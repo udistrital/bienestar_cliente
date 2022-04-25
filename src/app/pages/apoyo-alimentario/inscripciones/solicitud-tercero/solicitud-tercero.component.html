@@ -1,0 +1,208 @@
+<nb-card *ngIf="tercero==null && !loading">
+    <div class="menu-header m-4">
+        <h1>
+            Hubo un error con tus credenciales, intente iniciar sesión nuevamente.
+        </h1>
+    </div>
+</nb-card>
+
+
+<nb-card *ngIf="solicitud==null && tercero!=null && !creando">
+    <nb-card-header>
+        <h2 class="text-center">
+            Mis solicitudes
+        </h2>
+    </nb-card-header>
+    <nb-card-body>
+        <button *ngIf="puedeCrear" class="btn btn-block btn-success" (click)="nuevaSolicitud()">
+            <i class="fas fa-plus-circle"></i>
+            Crear solicitud para {{periodo.Nombre}}</button>
+        <hr>
+        <table class="table" *ngIf="solicitudes.length>0">
+            <thead class="bg-ud-table">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha radicacion</th>
+                    <th scope="col"></th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-ud-table-cell">
+                <tr *ngFor="let item of solicitudes; let i = index">
+                    <th scope="row">{{ (i+1) }}</th>
+                    <td class="word-wrap">{{ tercero?.NombreCompleto }}</td>
+                    <td> {{ item.Referencia | slice:12:18 }}</td>
+                    <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre}}</td>
+                    <td>{{ item.FechaRadicacion | fechaFormat}}</td>
+                    <td>
+                        <span *ngIf="item.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                        <span *ngIf="!item.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                    </td>
+                    <td class="align-items-center">
+                        <button *ngIf="item.EstadoTipoSolicitudId.EstadoId.Id==1 && !item.SolicitudFinalizada && puedeEditar(item)" class="btn edit-icon btn-sm mb-1" (click)="editarSolicitud(i)" title="Editar solicitud">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                            Editar
+                        </button>
+                        <button class="btn init-icon btn-sm mb-1" (click)="verSolicitud(i)" title="Ver solicitud">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Ver
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="solicitudes.length==0" class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No hay solicitudes</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x    "></i>
+            </p>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>
+
+<div *ngIf="solicitud!=null">
+    <button class="btn back-button btn-block" (click)="solicitud=null">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <!-- Mostrar una solicitud-->
+    <nb-card *ngIf="solicitud!==null && periodo!==null ">
+        <nb-card-header>
+            <div class="menu-header m-3">
+                <h1>
+                    Solicitud apoyo alimentario {{referencia}}
+                </h1>
+            </div>
+        </nb-card-header>
+        <hr>
+        <nb-card-body>
+
+            <div class="menu-list">
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        ID Solicitud:
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{solicitud?.Id}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Solicitante:
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{tercero?.NombreCompleto}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Periodo :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud">
+                        {{referencia}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Tipo Solicitud :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{solicitud?.EstadoTipoSolicitudId.TipoSolicitud.Nombre}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Estado Solicitud :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{solicitud.EstadoTipoSolicitudId.EstadoId.Nombre}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Estado :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        <span *ngIf="solicitud?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                        <span *ngIf="!solicitud?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Solicitud Finalizada :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        <span *ngIf="solicitud?.SolicitudFinalizada"
+                            class="badge rounded-pill bg-danger">Finalizada</span>
+                        <span *ngIf="!solicitud?.SolicitudFinalizada"
+                            class="badge rounded-pill bg-success">Activa</span>
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Fecha Radicación :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{solicitud?.FechaRadicacion | fechaFormat}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Fecha Creación :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{solicitud?.FechaCreacion | fechaFormat}}
+                    </label>
+                </div>
+                <div class="item.SolicitudId">
+                    <label class="sub-item.SolicitudId label-color-ud">
+                        Fecha Modificación :
+                    </label>
+                    <label class="sub-item.SolicitudId field-color-ud ">
+                        {{solicitud?.FechaModificacion | fechaFormat}}
+                    </label>
+                </div>
+            </div>
+
+
+            <div *ngIf="observaciones.length>0">
+                <hr>
+                <div class="container">
+                    <h4>Observaciones</h4>
+                    <div class="timeline">
+                        <div *ngFor="let obs of observaciones" class="timeline__group">
+                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion |
+                                fechaFormat:'medium' }}
+                            </span>
+                            <div class="timeline__cards">
+                                <div class="timeline__card card">
+                                    <header class="card__header">
+                                        <b>{{obs.Titulo}}</b>
+                                    </header>
+                                    <div class="card__content">
+                                        <p>{{obs.Valor.split('//')[0]}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>
+
+<div *ngIf="creando">
+    <button class="btn back-button btn-block" (click)="creando=false">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <ngx-crear-solicitud [tercero]="tercero" [periodo]="periodo">
+    </ngx-crear-solicitud>
+</div>

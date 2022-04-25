@@ -1,0 +1,382 @@
+<!-- Caso que no se encuentre solicitud y no se busque agregar una nueva solicitud--------------------------------->
+<nb-card *ngIf="solicitud==null && !nueva">
+    <div class="text-center pt-2">
+        <div class="menu-header">
+            <h1>
+                No se encontro la solicitud
+            </h1>
+            <button class="btn back-button btn-block" routerLink="../">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Regresar
+            </button>
+        </div>
+    </div>
+</nb-card>
+
+<!-- Se carga información de una solicitud--------------------------------->
+<nb-card *ngIf="solicitud!=null && !nueva">
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1 *ngIf="!nueva">
+                    Solicitud apoyo alimentario No. {{ idSolicitud }}
+                </h1>
+                <button class="btn back-button btn-block" routerLink="../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+
+            </div>
+        </div>
+    </nb-card-header>
+    <hr>
+    <nb-card-body>
+
+        <nb-accordion *ngIf="tercero!=null">
+            <!-- Informacion solicitante -->
+            <nb-accordion-item expanded>
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Información solicitante</h4>
+                </nb-accordion-item-header>
+
+                <nb-accordion-item-body *ngIf="tercero!=null">
+                    <div class="menu-list">
+                        <div class="item ">
+                            <label class="sub-item label-color-ud">
+                                ID :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.Id}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Nombres:
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.PrimerNombre}} {{tercero?.SegundoNombre}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Apellidos :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.PrimerApellido}} {{tercero?.SegundoApellido}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha de Nacimiento :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.FechaNacimiento | fechaFormat}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Estado:
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                <!-- {{tercero?.Activo}} -->
+                                <span *ngIf="tercero?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                                <span *ngIf="!tercero?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud ">
+                                Usuario App:
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{tercero?.UsuarioWSO2}}
+                            </label>
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <!-- Informacion solicitud -->
+            <nb-accordion-item *ngIf="solicitud!=null">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Información solicitud</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="menu-list">
+                        <div class="item ">
+                            <!-- form-group  -->
+                            <label class="sub-item label-color-ud">
+                                ID :
+                            </label>
+                            <label ng-readonly="!nueva" class="sub-item field-color-ud">
+                                {{solicitud?.Id}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha Radicación :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaRadicacion | fechaFormat}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha Creación :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaCreacion | fechaFormat}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Fecha Modificación :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.FechaModificacion | fechaFormat}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Solicitud:
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                <span *ngIf="solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                                <span *ngIf="!solicitud?.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Referencia :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                Periodo : &emsp; {{referencia[0]}} , Puntaje : &emsp; {{referencia[1]}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Tipo Solicitud :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
+                            </label>
+                        </div>
+                        <div class="item">
+                            <label class="sub-item label-color-ud">
+                                Estado :
+                            </label>
+                            <label class="sub-item field-color-ud">
+                                <!-- {{solicitud?.Activo}} -->
+                                <span *ngIf="solicitud?.Activo" class="badge rounded-pill bg-success">Activo</span>
+                                <span *ngIf="!solicitud?.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
+                            </label>
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <!-- Documentos -->
+            <nb-accordion-item *ngIf="!nueva">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Documentos</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div *ngIf="loadDocs">
+                        <div class="text-center">
+                            <div class="item">
+                                <h6 class="sub-item label-color-ud">{{selectDoc[0]}}</h6>
+                                <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
+                            </div>
+                            <div class="item iframe-container" *ngIf="!loading">
+                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            </div>
+                            <div class="item">
+                                <hr>
+                                <h6>Cambiar documento</h6>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mt-2">
+                                    <label class="sub-item label-color-ud">
+                                        Ver documento :
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
+                                        <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
+                                            {{ doc[0] }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!loadDocs">
+                        <h6 style="text-align: center; color: #d33;"> No se pudo cargar los documentos</h6>
+                    </div>
+
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <!-- Observaciones -->
+            <nb-accordion-item *ngIf="!nueva">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Observaciones</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div *ngIf="observaciones.length>0" class="timeline">
+                        <div *ngFor="let obs of observaciones" class="timeline__group">
+                            <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
+                            </span>
+                            <div class="timeline__cards">
+                                <div class="timeline__card card">
+                                    <header class="card__header">
+                                        <b>{{obs.Titulo}}</b>
+                                    </header>
+                                    <div class="card__content">
+                                        <p>{{obs.Valor.split('//')[0]}}</p>
+                                        <small class="text-muted" *ngIf="obs.Valor.split('//')[1]">
+                                            Creador: {{obs.Valor.split('//')[1]}}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="observaciones.length==0">
+                        <h6 style="text-align: center; color: #d33;"> No existe ninguna observación</h6>
+                    </div>
+
+                    <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Agregar observacion
+                    </button>
+
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <!-- Estado de la solicitud -->
+            <nb-accordion-item *ngIf="solicitud!=null && !nueva">
+                <nb-accordion-item-header>
+                    <h4 class="non-selectable">Estado solicitud</h4>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="menu-list">
+                        <div class="item ">
+                            <!-- form-group  -->
+                            <label class="sub-item label-color-ud">
+                                Estado actual :
+                            </label>
+                            <label ng-readonly="!nueva" class="sub-item field-color-ud">
+                                {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
+                            </label>
+                            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="item">
+                            <hr>
+                            <h6>Cambiar estado</h6>
+                            <br>
+                        </div>
+                        <div class="text-center mb-3">
+                            <div class="item row justify-content-center">
+                                <div class="col-md-10">
+                                    <label class="label-color-ud">
+                                        Nuevo estado :
+                                    </label>
+                                    <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                                        <option [ngValue]="null">Selecciona el siguiente estado</option>
+                                        <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                                            {{estadoTipo.EstadoId.Nombre }}</option>
+                                    </select>
+                                    <br>
+                                </div>
+                            </div>
+                            <div *ngIf="nuevoEstado!=null" class="item row justify-content-center mt-3">
+                                <div class="col-md-10">
+                                    <label class="label-color-ud">
+                                        Observacion cambio de estado:
+                                    </label>
+                                    <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="tercero!=null && !nueva">
+                        <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                            <i class="fas fa-save mr-1"></i>
+                            Guardar cambios
+                        </button>
+                    </div>
+
+                    <hr>
+
+                    <button *ngIf="!this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
+                        Finalizar solicitud
+                        <i class="fas fa-toggle-off ml-1"></i>
+                    </button>
+
+                    <button *ngIf="this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="success" (click)="cambiarSolicitudFinalizada(false)" class="submit-button">
+                        Activar solicitud
+                        <i class="fas fa-toggle-on ml-1"></i>
+                    </button>
+
+
+                </nb-accordion-item-body>
+                <hr>
+            </nb-accordion-item>
+        </nb-accordion>
+    </nb-card-body>
+</nb-card>
+
+<!-- Se Solicita documento para una nueva solicitud cuando ya se cerraron inscripciones--->
+<nb-card *ngIf="solicitud==null && nueva && tercero==null">
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1 *ngIf="periodo!=null">
+                    Nueva solicitud apoyo alimentario periodo {{ periodo?.Nombre }}
+                </h1>
+                <h1 *ngIf="periodo==null">
+                    No hay un periodo activo para apoyo alimentario
+                </h1>
+                <button class="btn back-button btn-block" routerLink="../">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Regresar
+                </button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div *ngIf="periodo!=null" class="container">
+            <h5>Documento del solicitante</h5>
+            <input #documentoNew nbInput fullWidth shape="semi-round" placeholder="Documento o Carné" alt="Documento o Carné" class="input-query-ud" value={{solicitante?.Id}}>
+            <br>
+            <hr>
+            <div class="mt-2">
+                <button nbButton fullWidth hero shape="semi-round" status="success" (click)="cargarSolicitante(documentoNew.value)" class="submit-button">
+                    <i class="far fa-id-card mr-1"></i>
+                    Cargar solicitante
+                </button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<!-- Se carga formulario para una nueva solicitud--->
+<div *ngIf="!loadForm">
+    <button class="btn back-button btn-block" (click)="loadForm=true; tercero=null;">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Regresar
+    </button>
+    <ngx-crear-solicitud *ngIf="solicitud==null && nueva && tercero!=null" [tercero]="tercero" [periodo]="periodo" [extraSolicitud]="true"></ngx-crear-solicitud>
+</div>
+
+
+<div *ngIf="solicitud==null && !nueva" class="alert alert-warning text-center mt-3">
+    <h3 class="alert-heading">No se encuentra la solicitud {{idSolicitud}}</h3>
+    <p>
+        <i class="fa fa-exclamation fa-2x    "></i>
+    </p>
+</div>

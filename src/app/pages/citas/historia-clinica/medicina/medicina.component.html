@@ -1,0 +1,468 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<form [formGroup]="medicinaForm" (ngSubmit)="guardarHistoriaMedicina()">
+  <div class="text-right" [hidden]="hideHistory">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
+      [disabled]="superAdmin">
+      <mat-icon>add</mat-icon> Añadir nueva hoja
+    </button>
+    <mat-form-field appearance="outline" class="select-group">
+      <mat-label>Historial</mat-label>
+      <mat-select (selectionChange)="cambiarHoja($event.value)" [(value)]="firstOne">
+        <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col md-12 me-4 mt-2 mb-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-big" formControlName="motivoConsulta"
+            placeholder="Motivo de consulta y enfermedad actual" id="motivo"></textarea>
+          <label for="motivo"> Motivo de consulta y enfermedad actual </label>
+        </div>
+      </div>
+      <!-- Antecedentes -->
+      <div class="row me-2">
+        <h6 class="titulo mt-2">Antecedentes</h6>
+        <div class="col md-6 me-4 mt-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="patologicos" placeholder="Patológicos"
+              id="patologicos"></textarea>
+            <label for="patologicos">Patológicos</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="hospitalarios" placeholder="hospitalarios"
+              id="hospitalarios"></textarea>
+            <label for="hospitalarios">Hospitalarios</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="quirurgicos" placeholder="Quirúrgicos"
+              id="quirurgicos"></textarea>
+            <label for="quirurgicos">Quirúrgicos</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="traumaticos" placeholder="Traumáticos"
+              id="traumaticos"></textarea>
+            <label for="traumaticos">Traumáticos</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="genitoUrinarios" placeholder="Genito/Urinarios"
+              id="genitoUrinarios"></textarea>
+            <label for="genitoUrinarios">Genito/Urinarios</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="alergicos" placeholder="Alérgicos"
+              id="alergicos"></textarea>
+            <label for="alergicos">Alérgicos</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="farmacologicos" placeholder="Farmacológicos"
+              id="farmacologicos"></textarea>
+            <label for="farmacologicos">Farmacológicos</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col md-6 me-4 mt-2 mb-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="familiares" placeholder="Familiares"
+              id="familiares"></textarea>
+            <label for="familiares">Familiares</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2  mb-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="ocupacionales" placeholder="Ocupacionales"
+              id="ocupacionales"></textarea>
+            <label for="ocupacionales">Ocupacionales</label>
+          </div>
+        </div>
+      </div>
+      <!-- Gineco Obstétricos -->
+      <h6 class="titulo mt-2">Gineco-Obstétricos</h6>
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Menarquía</mat-label>
+            <input matInput type="text" formControlName="menarquia" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>FUR</mat-label>
+            <input matInput type="text" formControlName="fur" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Ciclos</mat-label>
+            <input matInput type="text" formControlName="ciclos" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Inicio A.S.</mat-label>
+            <input matInput type="text" formControlName="ias" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Compañeros Sexuales</mat-label>
+            <input matInput type="text" formControlName="compañeros" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>FO:G</mat-label>
+            <input matInput type="text" formControlName="fo" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>PP</mat-label>
+            <input matInput type="text" formControlName="pp" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>FUP</mat-label>
+            <input matInput type="text" formControlName="fup" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row me-4">
+        <div class="col mb-3 me-4 mb-4">
+          <mat-form-field appearance="outline" class="col-sm-12">
+            <mat-label>Fecha última CCV</mat-label>
+            <input matInput formControlName="fuccv" id="fuccv" [matDatepicker]="picker" [max]="fechaActual" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Resultado CCV</mat-label>
+            <input matInput type="text" formControlName="resultadoccv" />
+          </mat-form-field>
+        </div>
+        <div class="col mb-3 me-4 mb-4">
+          <mat-form-field appearance="outline" class="col-sm-12">
+            <mat-label>Examen de Seno</mat-label>
+            <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" [max]="fechaActual"
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+            <mat-label>Resultado examen de seno</mat-label>
+            <input matInput type="text" formControlName="resultadoSeno" />
+          </mat-form-field>
+        </div>
+      </div>
+      <h6 class="titulo">Revisión por Sistemas</h6>
+      <div class="row">
+        <div class="col md-6 me-4 mt-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="piel" placeholder="Piel" id="piel"></textarea>
+            <label for="piel">Piel</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="colageno" placeholder="Colágeno"
+              id="colageno"></textarea>
+            <label for="colageno"> Colágeno</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="linfatico" placeholder="Linfático"
+              id="linfatico"></textarea>
+            <label for="linfatico">Linfático</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="oseo" placeholder="Óseo" id="oseo"></textarea>
+            <label for="oseo"> Óseo</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="muscular" placeholder="Muscular"
+              id="muscular"></textarea>
+            <label for="muscular"> Muscular</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="articular" placeholder="Articular"
+              id="articular"></textarea>
+            <label for="articular"> Articular</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="digestivo" placeholder="Digestivo"
+              id="digestivo"></textarea>
+            <label for="digestivo"> Digestivo</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="urinario" placeholder="Urinario"
+              id="urinario"></textarea>
+            <label for="urinario"> Urinario</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col md-6 me-4 mt-2 mb-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="sentidos" placeholder="Sentidos"
+              id="sentidos"></textarea>
+            <label for="sentidos">Sentidos</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="cardioVascular" placeholder="Cardio Vascular"
+              id="cardioVascular"></textarea>
+            <label for="cardioVascular"> Cardio Vascular</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="neurologico" placeholder="Neurológico"
+              id="neurologico"></textarea>
+            <label for="neurologico"> Neurológico</label>
+          </div>
+        </div>
+        <div class="col md-6 me-4 mt-2 mb-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-mid" formControlName="respiratorio" placeholder="Respiratorio"
+              id="respiratorio"></textarea>
+            <label for="respiratorio"> Respiratorio </label>
+          </div>
+        </div>
+      </div>
+      <!-- Exámenes médicos -->
+      <h6 class="titulo">Exámenes de laboratorio y pruebas diagnósticas</h6>
+      <div class="col md-6 me-4 mb-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-big" formControlName="examenes"
+            placeholder="Exámenes de laboratorio y pruebas diagnósticas" id="examenes"></textarea>
+          <label for="examenes">
+            Exámenes de laboratorio y pruebas diagnósticas</label>
+        </div>
+      </div>
+      <!-- Examen médico -->
+      <h6 class="titulo">Examen médico</h6>
+      <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>T.A</mat-label>
+            <input type="text" matInput formControlName="ta"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>FC</mat-label>
+            <input type="text" matInput formControlName="fc"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>SaO2</mat-label>
+            <input type="text" matInput formControlName="sao2"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>IMC</mat-label>
+            <input type="text" matInput formControlName="imc"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>F.R</mat-label>
+            <input type="text" matInput formControlName="fr"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>T°C</mat-label>
+            <input type="text" matInput formControlName="tc"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Peso</mat-label>
+            <input type="text" matInput formControlName="peso"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Talla</mat-label>
+            <input type="text" matInput formControlName="talla"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Estado General</mat-label>
+            <input type="text" matInput formControlName="estadoGeneral"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Cabeza y Cuello</mat-label>
+            <input type="text" matInput formControlName="cabezaYCuello"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>O.R.L</mat-label>
+            <input type="text" matInput formControlName="orl"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ojos</mat-label>
+            <input type="text" matInput formControlName="ojos"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Tórax</mat-label>
+            <input type="text" matInput formControlName="torax"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ruidos Respiratorios</mat-label>
+            <input type="text" matInput formControlName="ruidosRespiratorios"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Ruidos Cardíacos</mat-label>
+            <input type="text" matInput formControlName="ruidosCardiacos"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3" appearance="outline">
+            <mat-label>Abdomen</mat-label>
+            <input type="text" matInput formControlName="abdomen"/>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Neurológico</mat-label>
+            <input type="text" matInput formControlName="neurologicoE"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Genital</mat-label>
+            <input type="text" matInput formControlName="genital"/>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4" appearance="outline">
+            <mat-label>Extremidades</mat-label>
+            <input type="text" matInput formControlName="extremidades"/>
+        </mat-form-field>
+    </div>
+      <h6 class="titulo">Impresión Diagnóstica (Código CIE-10)</h6>
+
+      <div class="col md-6 me-4 mb-4 mt-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-big" formControlName="diagnostico" placeholder="Impresión Diagnóstica"
+            id="diagnostico"></textarea>
+          <label for="diagnostico">
+            Impresión Diagnóstica</label>
+        </div>
+      </div>
+      <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a> <a
+        href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
+        target="_blank"> Manual CIE-10</a>
+      <!-- Análisis -->
+      <h6 class="titulo">Análisis y plan de manejo</h6>
+      <div class="row mt-2">
+        <div class="col md-6 me-4 mt-4 mb-4">
+          <div class="input-group">
+            <input type="text" class="form-control" (keyup.enter)="agregarAnalisis()" name="nuevoAnalisis"
+              placeholder="Agregar" [formControl]="nuevoAnalisis" [readonly]="!crear || superAdmin" />
+            <button class="btn btn-outline-primary" type="button" (click)="agregarAnalisis()" [disabled]="!crear || superAdmin">
+              Agregar
+            </button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col md-6 me-4 mb-4" formArrayName="analisis">
+            <div class="input-group mb-1" *ngFor="let analisis of analisisArr.controls; let i = index">
+              <input class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" readonly />
+              <button class="btn btn-outline-danger" type="button" (click)="borrarAnalisis(i)" [disabled]="!crear || superAdmin">
+                Borrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h6 class="titulo mt-2">Medicamento</h6>
+      <div class="col md-12 mb-4 me-4 mt-4">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Medicamento"
+            formControlName="medicamento" />
+          <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+            Ver PDF
+          </button>
+        </div>
+      </div>
+      <!-- Evolución -->
+      <h6 class="titulo">Evolución</h6>
+      <div class="row mt-2">
+        <div class="col md-6 me-4 mb-4 mt-4">
+          <div class="input-group">
+            <input type="text" class="form-control" (keyup.enter)="agregarEvolucion()"
+              placeholder="Agregar" [formControl]="nuevaEvolucion" [readonly]="superAdmin"/>
+            <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()" [disabled]="superAdmin">
+              Agregar
+            </button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col md-6 me-4 mb-4" formArrayName="evolucion">
+            <div class="input-group mb-1" *ngFor="let evolucion of evolucionArr.controls; let i = index">
+              <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly />
+              <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)" [disabled]="superAdmin">
+                Borrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h6 class="titulo">Plan de Manejo</h6>
+      <div class="row mt-4">
+        <div class="col md-12 me-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-big" formControlName="planDeManejo" placeholder="Plan de Manejo"
+              id="planDeManejo"></textarea>
+            <label for="planDeManejo"> Plan de Manejo</label>
+          </div>
+        </div>
+      </div>
+      <h6 class="titulo mt-4">Observaciones</h6>
+      <div class="row mt-4">
+        <div class="col md-12 me-4">
+          <div class="form-floating">
+            <textarea class="form-control textArea-big" formControlName="observacionesMedicina"
+              placeholder="Observaciones" id="observacionesMedicina"></textarea>
+            <label for="observacionesMedicina">Observaciones</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col titulo">
+      <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
+      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
+        [disabled]="!medicinaForm.valid || superAdmin">
+        <mat-icon>save</mat-icon> Guardar
+      </button>
+    </div>
+  </div>
+</form>

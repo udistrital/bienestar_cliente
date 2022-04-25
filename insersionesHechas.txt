@@ -1,0 +1,420 @@
+*****Apoyo Alimentario*******
+----Post----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/area_tipo
+{
+    "Id": 10,
+    "Nombre": "Bienestar Institucional",
+    "Descripcion": "Datos para  proyecto de bienestar institucional",
+    "CodigoAbreviacion": "BI",
+    "Activo": true,
+    "NumeroOrden": 0,
+    "FechaCreacion": "2021-03-15 12:05:33.557196 +0000 +0000",
+    "FechaModificacion": "2021-03-15 12:07:05.361177 +0000 +0000"
+}
+---Post----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/tipo_parametro
+{
+  "Activo": true,
+  "AreaTipoId": {
+    "Id": 10,
+    "Nombre": "Bienestar Institucional",
+    "Descripcion": "Datos para  proyecto de bienestar institucional",
+    "CodigoAbreviacion": "BI",
+    "Activo": true,
+    "NumeroOrden": 0,
+    "FechaCreacion": "2021-03-15 12:05:33.557196 +0000 +0000",
+    "FechaModificacion": "2021-03-15 12:07:05.361177 +0000 +0000"
+},
+  "CodigoAbreviacion": "APAL",
+  "Descripcion": "historico servicio apoyo alimentario Bienestar UD",
+  "FechaCreacion": "2021-03-15 12:42:00 +0000 +0000",
+  "FechaModificacion": "2021-03-15 12:42:00 +0000 +0000",
+  "Id": 0,
+  "Nombre": "Apoyo alimentario",
+  "NumeroOrden": 0
+}
+
+---POST----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/parametro
+
+{
+  "Activo": true,
+  "CodigoAbreviacion": "IAPAL",
+  "Descripcion": "Habilitar inscripciones al servicio de apoyo alimentario a un periodo",
+  "FechaCreacion": "2021-03-15 12:42:00 +0000 +0000",
+  "FechaModificacion": "2021-03-15 12:42:00 +0000 +0000",
+  "Id": 347,
+  "Nombre": "Inscripciones apoyo alimentario",
+  "NumeroOrden": 0,
+  "ParametroPadreId": null,
+  "TipoParametroId": {
+      "Id": 21,
+      "Nombre": "Apoyo alimentario",
+      "Descripcion": "historico servicio apoyo alimentario Bienestar UD",
+      "CodigoAbreviacion": "APAL",
+      "Activo": true,
+      "NumeroOrden": 0,
+      "FechaCreacion": "2021-03-15 12:51:16.997451 +0000 +0000",
+      "FechaModificacion": "2021-03-15 12:51:16.997544 +0000 +0000",
+      "AreaTipoId": {
+        "Id": 10,
+        "Nombre": "",
+        "Descripcion": "",
+        "CodigoAbreviacion": "",
+        "Activo": false,
+        "NumeroOrden": 0,
+        "FechaCreacion": "",
+        "FechaModificacion": ""
+      }
+    }
+}
+      
+
+{
+  "Activo": true,
+  "CodigoAbreviacion": "SAPAL",
+  "Descripcion": "Habilitar prestacion del servicio de apoyo alimentario a un periodo",
+  "FechaCreacion": "2021-03-15 12:42:00 +0000 +0000",
+  "FechaModificacion": "2021-03-15 12:42:00 +0000 +0000",
+  "Id": 0,
+  "Nombre": "Habilitar apoyo alimentario",
+  "NumeroOrden": 1,
+  "ParametroPadreId": null,
+  "TipoParametroId": {
+      "Id": 21,
+      "Nombre": "Apoyo alimentario",
+      "Descripcion": "historico servicio apoyo alimentario Bienestar UD",
+      "CodigoAbreviacion": "APAL",
+      "Activo": true,
+      "NumeroOrden": 0,
+      "FechaCreacion": "2021-03-15 12:51:16.997451 +0000 +0000",
+      "FechaModificacion": "2021-03-15 12:51:16.997544 +0000 +0000",
+      "AreaTipoId": {
+        "Id": 10,
+        "Nombre": "",
+        "Descripcion": "",
+        "CodigoAbreviacion": "",
+        "Activo": false,
+        "NumeroOrden": 0,
+        "FechaCreacion": "",
+        "FechaModificacion": ""
+      }
+    }
+}      
+--------Inscripciones-------
+--------Prestando servicio---------
+
+
+----POST-----
+https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud
+
+{
+  "Activo": true,
+  "DependenciaId": 0,
+  "EstadoId": { 
+      "Id": 1,
+      "Nombre": "Radicada",
+      "Descripcion": "",
+      "CodigoAbreviacion": "RAD",
+      "NumeroOrden": 1,
+      "FechaCreacion": "2020-11-28 09:57:40.286495 +0000 +0000",
+      "FechaModificacion": "2020-11-28 09:57:40.286495 +0000 +0000",
+      "Activo": true
+  },
+  "FechaCreacion": "string",
+  "FechaModificacion": "string",
+  "Id": 0,
+  "NumeroDias": 15,
+  "TipoSolicitud": {
+      "Id": 9,
+      "Nombre": "Apoyo Alimentario",
+      "Descripcion": "Solicitud de servicio de apoyo alimentario",
+      "CodigoAbreviacion": "APAL",
+      "NumeroOrden": 0,
+      "FechaCreacion": "2021-03-17 10:05:36.996627 +0000 +0000",
+      "FechaModificacion": "2021-03-17 10:05:36.996748 +0000 +0000",
+      "Activo": true
+  }
+}
+
+
+----POST-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/grupo_info_complementaria
+
+{
+    "Id": 0,
+    "Nombre": "Apoyo Alimentario",
+    "Descripcion": "Información de una solicitud para apoyo alimentario",
+    "CodigoAbreviacion": "APAL",
+    "Activo": true,
+    "FechaCreacion": "string",
+    "FechaModificacion": "string"
+  }
+
+----PUT-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria/232
+
+{
+  "Id": 232,
+  "Nombre": "CALIDAD_VIVIENDA",
+  "CodigoAbreviacion": "CV",
+  "Activo": true,
+  "TipoDeDato": "",
+  "GrupoInfoComplementariaId": {
+    "Id": 49,
+    "Nombre": "Apoyo Alimentario",
+    "Descripcion": "Información de una solicitud para apoyo alimentario",
+    "CodigoAbreviacion": "APAL",
+    "Activo": true,
+    "FechaCreacion": "2021-04-20 10:34:03.688541 +0000 +0000",
+    "FechaModificacion": "2021-04-20 10:34:03.688632 +0000 +0000"
+  },
+  "FechaCreacion": "2021-04-20T11:54:04.457167Z",
+  "FechaModificacion": "2021-04-20T12:13:59.380853724-05:00"
+}
+
+----POST-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria_tercero
+
+{
+    "Id": 32504,
+    "InfoComplementariaId": {
+        "Id": 232,
+        "Nombre": "CALIDAD_VIVIENDA",
+        "CodigoAbreviacion": "CV",
+        "Activo": true,
+        "TipoDeDato": "",
+        "GrupoInfoComplementariaId": {
+            "Id": 49,
+            "Nombre": "Apoyo Alimentario",
+            "Descripcion": "Información de una solicitud para apoyo alimentario",
+            "CodigoAbreviacion": "APAL",
+            "Activo": true,
+            "FechaCreacion": "2021-04-20 10:34:03.688541 +0000 +0000",
+            "FechaModificacion": "2021-04-20 10:34:03.688632 +0000 +0000"
+        },
+        "FechaCreacion": "2021-04-20T11:54:04.457167Z",
+        "FechaModificacion": "2021-04-20T12:13:59.380853724-05:00"
+    },
+    "TerceroId": {
+        "Id": 9823,
+        "NombreCompleto": "David Alejandro Romero Romero",
+        "PrimerNombre": "David",
+        "SegundoNombre": "Alejandro",
+        "PrimerApellido": "Romero",
+        "SegundoApellido": "Romero",
+        "LugarOrigen": 0,
+        "FechaNacimiento": "1998-07-28T07:11:18.332069Z",
+        "Activo": true,
+        "TipoContribuyenteId": {
+            "Id": 1,
+            "Nombre": "PERSONA NATURAL",
+            "Descripcion": "",
+            "CodigoAbreviacion": "P_NATURAL",
+            "Activo": true,
+            "FechaCreacion": "2019-11-25 20:39:54.419232 +0000 +0000",
+            "FechaModificacion": "2019-11-25 20:39:54.419232 +0000 +0000"
+        },
+        "FechaCreacion": "2021-03-18 10:40:11.218448 +0000 +0000",
+        "FechaModificacion": "2021-03-18 10:40:11.21857 +0000 +0000",
+        "UsuarioWSO2": "daromeror"
+    },
+    "Activo": true,
+    "Dato": "{\"value\":\"Ladrillo\"}",
+    "FechaCreacion": "string",
+    "FechaModificacion": "string",
+    "InfoCompleTerceroPadreId": null
+}
+
+----POST-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/grupo_info_complementaria
+
+{
+    "Id": 76,
+    "Nombre": "Información básica",
+    "Descripcion": "Información básica de una persona natural",
+    "CodigoAbreviacion": "INFO_BASICA",
+    "Activo": true,
+    "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+    "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+}
+
+
+----POST-----
+
+https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/info_complementaria
+
+{
+    "Id": 295,
+    "Nombre": "Barrio de residencia",
+    "CodigoAbreviacion": "BRRIO_RESIDENCIA",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:47:10.216608743-05:00",
+    "FechaModificacion": "2021-05-26T16:47:10.216723924-05:00"
+}
+
+{
+    "Id": 296,
+    "Nombre": "Valor de matricula",
+    "CodigoAbreviacion": "VAL_MATRICULA",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:50:51.049179272-05:00",
+    "FechaModificacion": "2021-05-26T16:50:51.049287535-05:00"
+}
+
+{
+    "Id": 297,
+    "Nombre": "Promedio de carrera",
+    "CodigoAbreviacion": "PROM_CARRERA",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:52:48.465847353-05:00",
+    "FechaModificacion": "2021-05-26T16:52:48.465943913-05:00"
+}
+
+{
+    "Id": 298,
+    "Nombre": "Número de matriculas",
+    "CodigoAbreviacion": "NUM_MATRICULAS",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:53:32.929627778-05:00",
+    "FechaModificacion": "2021-05-26T16:53:32.929807397-05:00"
+}
+
+{
+    "Id": 299,
+    "Nombre": "Grupo Sisben",
+    "CodigoAbreviacion": "GRUPO_SISBEN",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T16:55:28.438614584-05:00",
+    "FechaModificacion": "2021-05-26T16:55:28.438715048-05:00"
+}
+
+{
+    "Id": 300,
+    "Nombre": "Población Especial",
+    "CodigoAbreviacion": "POBLACION_ESPECIAL",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:07:12.276146584-05:00",
+    "FechaModificacion": "2021-05-26T17:07:12.276256031-05:00"
+}
+
+{
+    "Id": 301,
+    "Nombre": "Seguridad Social",
+    "CodigoAbreviacion": "SEGURIDAD_SOCIAL",
+    "Activo": true,
+    "TipoDeDato": "",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:08:24.860999943-05:00",
+    "FechaModificacion": "2021-05-26T17:08:24.861074672-05:00"
+}
+
+{
+    "Id": 302,
+    "Nombre": "Pertenece a Ser Pilo Paga",
+    "CodigoAbreviacion": "SER_PILO_PAGA",
+    "Activo": true,
+    "TipoDeDato": "RADIO",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:10:09.13278942-05:00",
+    "FechaModificacion": "2021-05-26T17:10:09.13290949-05:00"
+}
+
+{
+    "Id": 303,
+    "Nombre": "Tiene Discapacidad",
+    "CodigoAbreviacion": "DISCAPACIDAD",
+    "Activo": true,
+    "TipoDeDato": "RADIO",
+    "GrupoInfoComplementariaId": {
+        "Id": 76,
+        "Nombre": "Información básica",
+        "Descripcion": "Información básica de una persona natural",
+        "CodigoAbreviacion": "INFO_BASICA",
+        "Activo": true,
+        "FechaCreacion": "2021-05-26T16:41:00.708691172-05:00",
+        "FechaModificacion": "2021-05-26T16:41:00.70881407-05:00"
+    },
+    "FechaCreacion": "2021-05-26T17:34:45.897431249-05:00",
+    "FechaModificacion": "2021-05-26T17:34:45.897534854-05:00"
+}

@@ -1,0 +1,79 @@
+<nb-card>
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1>
+                    Listado de Periodos
+                </h1>
+            </div>
+        </div>
+    </nb-card-header>
+    <hr>
+    <nb-card-body>
+        <table *ngIf="periodos.length>0" class="table mt-2" style="text-align:center;">
+            <thead class="bg-ud-table">
+                <tr>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of periodos; let i = index">
+                    <th>
+                        {{ item.Nombre }} &nbsp; &nbsp;
+                        <span *ngIf="item.Activo" class="badge rounded-pill bg-success">Activo</span>
+                        <span *ngIf="!item.Activo" class="badge rounded-pill bg-danger">Inactivo</span>
+                    </th>
+                    <td>
+                        <button *ngIf="estadoPeriodo[i][0]=='iniciar'" class="btn init-icon " (click)="iniciarParametro(i,'inscripciones')" title="Iniciar inscripciones">
+                            <i class="fa fa-play " aria-hidden="true"></i>
+                            Iniciar inscripciones
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][0]=='detener'" class="btn delete-icon " (click)="detenerParametro(i,'inscripciones')" title="Detener inscripciones">
+                            <i class="fa fa-stop " aria-hidden="true"></i>
+                            Detener inscripciones
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][0]=='reiniciar'" class="btn student-icon" (click)="reactivarParametro(i,'inscripciones')" title="Reactivar periodo">
+                            <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
+                            Reactivar inscripciones
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][1]=='iniciar'" class="btn init-icon" (click)="iniciarParametro(i,'servicio')" title="Iniciar servicio">
+                            <i class="fa fa-play " aria-hidden="true"></i>
+                            Iniciar servicio
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][1]=='detener'" class="btn delete-icon" (click)="detenerParametro(i,'servicio')" title="Detener servicio">
+                            <i class="fa fa-stop " aria-hidden="true"></i>
+                            Detener servicio
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][1]=='reiniciar'" class="btn student-icon" (click)="reactivarParametro(i,'servicio')" title="Reactivar servicio">
+                            <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
+                            Reactivar servicio
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][2]=='iniciar'" class="btn delete-icon" (click)="iniciarParametro(i, 'cierre')" title="Cerrar periodo">
+                            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
+                            Cerrar periodo
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][2]=='detener'" class="btn student-icon" (click)="detenerParametro(i,'cierre')" title="Reactivar periodo">
+                            <i class="fa fa-redo-alt fa-lg " aria-hidden="true"></i>
+                            Reactivar periodo
+                        </button>
+                        <button *ngIf="estadoPeriodo[i][2]=='reiniciar'" class="btn delete-icon" (click)="reactivarParametro(i, 'cierre')" title="Volver a cerrar periodo">
+                            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
+                            Cerrar periodo
+                        </button>
+                        <h4 *ngIf="estadoPeriodo[i][2]=='cerrado'">
+                            <span class="badge rounded-pill bg-info">Periodo cerrado</span>
+                        </h4>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="periodos.length==0" class="alert alert-warning text-center mt-3">
+            <h3 class="alert-heading">No hay registros</h3>
+            <p>
+                <i class="fa fa-exclamation fa-2x    "></i>
+            </p>
+        </div>
+    </nb-card-body>
+</nb-card>

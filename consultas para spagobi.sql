@@ -1,0 +1,1 @@
+select * from solicitud,estado_tipo_solicitud where solicitud.estado_tipo_solicitud_id=estado_tipo_solicitud.id and estado_tipo_solicitud.tipo_solicitud=9

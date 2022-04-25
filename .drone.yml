@@ -32,9 +32,7 @@ steps:
   - python /app/check_commits.py
   when:
     branch:
-    - develop
     - feature/*
-    - release/*
     event:
     - push
 

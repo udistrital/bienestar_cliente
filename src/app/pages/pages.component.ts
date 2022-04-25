@@ -7,12 +7,16 @@ import { ImplicitAutenticationService } from './../@core/utils/implicit_autentic
 import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { CustomLoginService } from '../shared/services/custom-login.service';
+import { ListService } from '../@core/store/list.service';
+import { RolesConstanst } from '../shared/constants/roles.constants';
 
 @Component({
   selector: 'ngx-pages',
   template: `
     <ngx-one-column-layout>
-      <nb-menu [items]="menu"></nb-menu>
+    <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-one-column-layout>
   `,
@@ -29,46 +33,83 @@ export class PagesComponent implements OnInit {
   dataMenu: any;
   roles: any;
 
-  url_presupuesto  = environment.CLIENTE_PRESUPUESTO;
-  url_contabilidad = environment.CLIENTE_CONTABILIDAD;
-  application_conf = 'presupuesto_kronos';
+  url_apoyo = environment.CLIENTE_APOYO;
+  url_citas = environment.CLIENTE_SALUD;
+  application_conf = 'SIBUD';
 
   constructor(
-    public  menuws: MenuService,
+    public menuws: MenuService,
     private translate: TranslateService,
-    private autenticacion: ImplicitAutenticationService
+    private autenticacion: ImplicitAutenticationService,
+    private listService: ListService,
+    private readonly customLogin: CustomLoginService
   ) { }
 
   ngOnInit() {
     if (this.autenticacion.live()) {
-      this.roles = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
-        .filter((data: any) => (data.indexOf('/') === -1));
-      this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
-        data => {
-          this.dataMenu = <any>data;
-          this.mapMenuByObjects(this.dataMenu);
-          this.translateMenu();
-        },
-        (error: HttpErrorResponse) => {
+      const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
+      if (temp == undefined) {
+        this.listService.getInfoEstudiante().then((resp) => {
+          this.roles = resp.role;
+          RolesConstanst.ROLES_EMAIL=this.roles;
+          this.loadMenu();
+        }).catch((error) => {
+          this.roles = [];
           Swal.fire({
-            type: 'error',
+            icon: 'error',
             title: error.status + '',
             text: this.translate.instant('ERROR.' + error.status),
-            footer: this.translate.instant('GLOBAL.cargar') + '-' +
-              this.translate.instant('GLOBAL.menu'),
-            confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+            footer: this.translate.instant('ROL.cargar') + '-' +
+              this.translate.instant('ROL.menu'),
+            confirmButtonText: this.translate.instant('ROL.aceptar'),
           });
-          this.menu = [];
-          this.translateMenu();
-        });
+        })
+      } else {
+        this.roles = temp.filter((data: any) => (data.indexOf('/') === -1));
+        this.loadMenu();
+      }
     } else {
       this.rol = 'PUBLICO';
       this.menu = [];
-      this.translateMenu();
     }
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => { // Live reload
       this.translateMenu();
     });
+  }
+
+  loadMenu() {
+    this.object = {
+      title: 'Home',
+      icon: 'home-outline',
+      link: `home`,
+      home: true,
+      key: "Home",
+      children: this.mapMenuChildrenObject(null)
+    };
+    this.menu.push(this.object);
+    this.roles = this.roles.filter((item) => item !== "Internal/everyone");
+    // console.log(this.roles);
+    
+    this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
+      data => {
+        this.dataMenu = <any>data;
+        this.mapMenuByObjects(data);
+        //this.translateMenu();
+
+      },
+      (error: HttpErrorResponse) => {
+        Swal.fire({
+          icon: 'error',
+          title: error.status + '',
+          text: this.translate.instant('ERROR.' + error.status),
+          footer: this.translate.instant('GLOBAL.cargar') + '-' +
+            this.translate.instant('GLOBAL.menu'),
+          confirmButtonText: this.translate.instant('GLOBAL.aceptar'),
+        });
+        this.menu = [];
+        this.translateMenu();
+      });
+
   }
 
   /**
@@ -76,14 +117,15 @@ export class PagesComponent implements OnInit {
    *  @param menuArray
    */
   mapMenuByObjects(menuArray) {
-    menuArray.map( itemMenu => {
+    menuArray.map(itemMenu => {
+
       const urlNested = this.replaceUrlNested(itemMenu.Url);
-      this.object   = {
+      this.object = {
         title: itemMenu.Nombre,
-        icon:  'file-text',
-        link:  `${urlNested}`,
-        home:  true,
-        key:   itemMenu.Nombre,
+        icon: 'file-text',
+        link: `${urlNested}`,
+        home: true,
+        key: itemMenu.Nombre,
         children: this.mapMenuChildrenObject(itemMenu.Opciones)
       };
       this.menu.push(this.object);
@@ -101,10 +143,10 @@ export class PagesComponent implements OnInit {
         const urlNested = this.replaceUrlNested(itemChild.Url);
         this.object = {
           title: itemChild.Nombre,
-          icon:  '',
-          link:  `${urlNested}`,
-          home:  false,
-          key:   itemChild.Nombre,
+          icon: '',
+          link: `${urlNested}`,
+          home: false,
+          key: itemChild.Nombre,
           children: this.mapMenuChildrenObject(itemChild.Opciones)
         };
         submenu.push(this.object);
@@ -118,8 +160,8 @@ export class PagesComponent implements OnInit {
    *  @param urlNested
    */
   replaceUrlNested(urlNested) {
-    return urlNested.replace('${url_contabilidad}', this.url_contabilidad)
-                    .replace('${url_presupuesto}', this.url_presupuesto);
+    return urlNested.replace('${url_apoyo}', this.url_apoyo)
+          .replace('${url_citas}', this.url_citas);
   }
 
   /**

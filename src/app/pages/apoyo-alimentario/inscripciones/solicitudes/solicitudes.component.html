@@ -1,0 +1,148 @@
+<button *ngIf="solicitudesExt.length>0" class="btn back-button btn-block" (click)="solicitudesExt=[]">
+    <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+    Regresar
+</button>
+<nb-card>
+    <nb-card-header>
+        <div class="text-center pt-2">
+            <div class="menu-header">
+                <h1>
+                    Listado de solicitudes {{estadoNum!=null ? estados[estadoNum].Nombre : ''}} {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                </h1>
+            </div>
+            <small>
+                Las solicitudes se cargan de la más reciente a la más antigua.
+            </small>
+        </div>
+    </nb-card-header>
+    <hr>
+    <nb-card-body *ngIf="solicitudesExt.length==0">
+        <div class="contain">
+            <mat-form-field class="periodo">
+
+                <mat-label>Periodo</mat-label>
+                <select matNativeControl [(ngModel)]="periodo">
+                    <option *ngFor="let option of periodos;let i = index;" [ngValue]="i">
+                        {{option.Nombre }}</option>
+                    <option [ngValue]="null">Todos los periodos</option>
+                </select>
+
+                <br>
+            </mat-form-field>
+
+            <mat-form-field class="estado">
+                <mat-label>Estado Solicitud</mat-label>
+                <select matNativeControl [(ngModel)]="estadoTipo">
+                    <option [ngValue]="null" (click)="estadoNum=null;">Todos los estados</option>
+                    <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [ngValue]="estadoTipo.Id" (click)="estadoNum=i;">
+                        {{estadoTipo.EstadoId.Nombre }}</option>
+                </select>
+            </mat-form-field>
+            <mat-form-field class="page">
+                <mat-label>Cantidad de Solicitudes</mat-label>
+                <select matNativeControl [(ngModel)]="itemSelect">
+                    <option *ngFor="let option of itemsPag" [value]="option" [selected]="itemSelect === option">{{
+                        option }}</option>
+                    <option [value]="-1" [selected]="itemSelect === -1"> Todas </option>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="offset">
+                <mat-label>Punto de partida</mat-label>
+                <input matInput type="number" placeholder="Rango solicitud" [(ngModel)]="itemOffSet">
+                <button mat-button *ngIf="itemOffSet" matSuffix mat-icon-button aria-label="Limpiar" (click)="itemOffSet=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field class="finalizada">
+                <mat-label>Tipo de Solicitud</mat-label>
+                <select matNativeControl [(ngModel)]="itemTipoSol">
+                    <option value="activa">Activa</option>
+                    <option value="finalizada"> Finalizada </option>
+                    <option value="null">Cualquiera</option>
+                </select>
+            </mat-form-field>
+
+            <button class="btn btn-success" routerLink="./0">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Agregar solicitud
+            </button>
+        </div>
+        <p class="line"></p>
+        <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button" (click)="buscarSolicitudes()">
+            <i class="fa fa-search mr-1" aria-hidden="true"></i>
+            Buscar solicitudes
+        </button>
+    </nb-card-body>
+
+    <nb-card-body class="fijo" *ngIf="solicitudesExt.length>0">
+        <div class="text-center table-pag">
+            <mat-form-field class="page justify-content-center text-center">
+                <mat-label class="text-center">Tamaño de Tabla</mat-label>
+                <select matNativeControl [(ngModel)]="paginacion">
+                    <option *ngFor="let option of itemsPag | slice:0:6" [value]="option" [selected]="paginacion === option">{{
+                        option }}</option>
+                </select>
+            </mat-form-field>
+        </div>
+        <table class="table">
+            <thead class="bg-ud-table">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tipo solicitud</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha radicacion</th>
+                    <th scope="col">Puntaje</th>
+                    <th scope="col">Periodo</th>
+                    <th scope="col"></th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-ud-table-cell">
+                <tr *ngFor="let item of solicitudesExt | paginate: {itemsPerPage: paginacion, currentPage: pagActual} ; let i = index">
+                    <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
+                    <th scope="row">{{ (i+1) + (pagActual -1)*paginacion }}</th>
+                    <td>{{ item.Solicitud.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
+                    <td>{{ item.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
+                    <td>{{ item.Solicitud.FechaRadicacion | fechaFormat }}</td>
+                    <td>{{ item.Puntaje }}</td>
+                    <td>{{ item.Periodo }}</td>
+                    <td>
+                        <span *ngIf="item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                        <span *ngIf="!item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                    </td>
+                    <!-- | date: 'dd/MM/yyyy' -->
+                    <td>
+                        <button class="btn init-icon " routerLink="./{{item.Solicitud.Id}}" title="Ver solicitante">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Evaluar solicitud
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="center-block">
+            <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
+            </pagination-controls>
+        </div>
+        <div class="download">
+            <button (click)="exportarCsv()" class="btn btn-primary btn-block">
+                <i class="fa fa-download mr-1"></i>
+                Descargar solicitudes
+            </button>
+        </div>
+    </nb-card-body>
+
+</nb-card>
+
+
+<nb-card *ngIf="periodos==[]">
+    <div class="alert alert-warning text-center mt-3">
+        <h3 class="alert-heading">No hay ningun periodo para consultar</h3>
+        <p>
+            <i class="fa fa-exclamation fa-2x    "></i>
+        </p>
+    </div>
+</nb-card>
