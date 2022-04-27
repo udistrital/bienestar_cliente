@@ -68,11 +68,11 @@ export const environment = {
   },
   TOKEN: {
     AUTORIZATION_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize',
-    CLIENTE_ID: 'TJ43YHyy3T29GrlTx9l0j7J7Cl8a',
+    CLIENTE_ID: 'OupisOB1RipVe7jLSp8VS5NYmWga',
     RESPONSE_TYPE: 'id_token token',
     SCOPE: 'openid email role',
-    REDIRECT_URL: 'http://10.20.0.254/presupuesto_cliente/',
+    REDIRECT_URL: 'https://bienestar.portaloas.udistrital.edu.co',
     SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
-    SIGN_OUT_REDIRECT_URL: 'http://10.20.0.254/presupuesto_cliente/',
+    SIGN_OUT_REDIRECT_URL: 'https://bienestar.portaloas.udistrital.edu.co',
   },
 };
