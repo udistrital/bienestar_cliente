@@ -87,7 +87,7 @@ export class PagesComponent implements OnInit {
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
-    this.roles = this.= roles.replace(/\//g, '-');
+    this.roles = this.roles.replace(/\//g, '-');
     // console.log(this.roles);
     
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
