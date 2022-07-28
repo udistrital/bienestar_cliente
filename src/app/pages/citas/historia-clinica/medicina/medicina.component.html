@@ -166,14 +166,14 @@
         </div>
         <div class="col mb-3 me-4 mb-4">
           <mat-form-field appearance="outline" class="col-sm-12">
-            <mat-label>Examen de Seno</mat-label>
+            <mat-label>Autoexamen de seno</mat-label>
             <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" [max]="fechaActual"
               readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
           <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
-            <mat-label>Resultado examen de seno</mat-label>
+            <mat-label>Resultados de autoexamen de seno</mat-label>
             <input matInput type="text" formControlName="resultadoSeno" />
           </mat-form-field>
         </div>
