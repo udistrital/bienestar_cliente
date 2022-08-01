@@ -79,7 +79,7 @@ export class PagesComponent implements OnInit {
 
   loadMenu() {
     this.object = {
-      title: 'Home',
+      title: 'Inicio',
       icon: 'home-outline',
       link: `home`,
       home: true,
@@ -87,7 +87,7 @@ export class PagesComponent implements OnInit {
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
-     
+
     for(var i = 0; i < this.roles.length; i++){
       this.roles[i] = this.roles[i].replace(/\//g, '-');
     }
@@ -95,7 +95,7 @@ export class PagesComponent implements OnInit {
 
     //this.roles = this.roles.replace(/\//g, '-');
     // console.log(this.roles);
-    
+
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
         this.dataMenu = <any>data;
