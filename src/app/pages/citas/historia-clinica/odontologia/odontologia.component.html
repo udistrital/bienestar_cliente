@@ -3,9 +3,8 @@
   <hr />
   <div class="text-right" [hidden]="hideHistory">
     <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
-      [disabled]="superAdmin" (click)="vestibularInfantil.limpiarOdontograma()"
-      (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()"
-      (click)="lingualesInfantil.limpiarOdontograma()">
+      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()"
+      (click)="vestibularInfantil.limpiarOdontograma()"> <!--(click)="lingualesInfantil.limpiarOdontograma()">-->
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -13,8 +12,8 @@
       <mat-select (selectionChange)="cambiarHoja($event.value)"
         (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
         (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
-        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)"
-        (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
+        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
+        <!--(selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"-->
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
           {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
         </mat-option>
@@ -520,11 +519,11 @@
   </div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
-  <p class="titulo subtitulo">Vestibular</p>
   <hr>
-  <h6 class="titulo mt-2">Odontograma</h6>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
   <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
   </ngx-odontograma-vestabular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
       <div class="form-floating">
@@ -535,12 +534,12 @@
     </div>
   </div>
   <hr>
-  <h6 class="titulo mt-2">Control de Placa</h6>
-  <p class="titulo subtitulo">Vestibular</p>
-  <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
+  <hr>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
   <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
   </ngx-odontograma-vestibular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
       <div class="form-floating">
@@ -551,7 +550,23 @@
     </div>
   </div>
   <hr>
-  <h6 class="titulo mt-2">Control de Placa</h6>
+  <h6 class="titulo mt-2">Odontograma Final</h6>
+  <hr>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
+  </ngx-odontograma-vestibular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil"> Observaciones</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!--<h6 class="titulo mt-2">Control de Placa</h6>
   <p class="titulo subtitulo">Vestibular infantil</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
@@ -582,7 +597,7 @@
       </div>
     </div>
   </div>
-  <hr>
+  <hr>-->
   <h6 class="titulo mt-2">Exámenes Complementarios (formato PDF)</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
   <p class="subtitulo">Periapical</p>
@@ -708,8 +723,8 @@
   <div class="row mt-4 mb-4">
     <div class="col md-6 me-4 mb-4">
       <div class="input-group">
-        <input type="text" class="form-control" (keyup.enter)="agregarEvolucionOdonto()" name="nuevaEvolucionOdonto"
-          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="!crear || superAdmin" />
+        <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarEvolucionOdonto()" formControlName="nuevaEvolucionOdonto" name="nuevaEvolucionOdonto"
+          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="!crear || superAdmin"></textarea> <!--/>-->
         <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="!crear || superAdmin">
           Agregar
         </button>
@@ -718,7 +733,7 @@
     <div class="row mt-2">
       <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
         <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
-          <input class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly />
+          <!--<input--> <textarea class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
           <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="!crear || superAdmin">
             Borrar
           </button>

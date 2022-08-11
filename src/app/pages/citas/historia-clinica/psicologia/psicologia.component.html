@@ -224,8 +224,8 @@
     <div class="row mt-4 mb-4">
         <div class="col md-6 me-4 mb-4">
             <div class="input-group">
-                <input type="text" class="form-control" (keyup.enter)="agregarEvolucionPsico()"
-                    name="nuevaEvolucionPsico" placeholder="Agregar" [formControl]="nuevaEvolucionPsico"  [readonly]="superAdmin"/>
+                <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarEvolucionPsico()" formControlName="nuevaEvolucionPsico"
+                    name="nuevaEvolucionPsico" placeholder="Agregar" [formControl]="nuevaEvolucionPsico"  [readonly]="superAdmin"></textarea> <!--/>-->
                 <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionPsico()" [disabled]="superAdmin">
                     Agregar
                 </button>
@@ -234,7 +234,7 @@
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionPsico">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionPsicoArr.controls; let i = index">
-                    <input class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly />
+                    <!--<input--> <textarea class="form-control" *ngIf="evolucionPsicoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
                     <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionPsico(i)" [disabled]="superAdmin">
                         Borrar
                     </button>
