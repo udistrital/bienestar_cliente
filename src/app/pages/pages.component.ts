@@ -87,7 +87,11 @@ export class PagesComponent implements OnInit {
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
-    this.roles = this.roles.filter((item) => item !== "Internal/everyone");
+     
+    for(var i = 0; i < this.roles.length; i++){
+      this.roles[i] = this.roles[i].replace(/\//g, '-');
+    }
+   // this.roles = this.roles.filter((item) => item !== "Internal/everyone");
 
     //this.roles = this.roles.replace(/\//g, '-');
     // console.log(this.roles);
