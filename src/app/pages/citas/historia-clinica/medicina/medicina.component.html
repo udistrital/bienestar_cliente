@@ -166,14 +166,14 @@
         </div>
         <div class="col mb-3 me-4 mb-4">
           <mat-form-field appearance="outline" class="col-sm-12">
-            <mat-label>Examen de Seno</mat-label>
+            <mat-label>Autoexamen de seno</mat-label>
             <input matInput formControlName="examenSeno" id="examenSeno" [matDatepicker]="picker1" [max]="fechaActual"
               readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
           <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
-            <mat-label>Resultado examen de seno</mat-label>
+            <mat-label>Resultados de autoexamen de seno</mat-label>
             <input matInput type="text" formControlName="resultadoSeno" />
           </mat-form-field>
         </div>
@@ -383,8 +383,8 @@
       <div class="row mt-2">
         <div class="col md-6 me-4 mt-4 mb-4">
           <div class="input-group">
-            <input type="text" class="form-control" (keyup.enter)="agregarAnalisis()" name="nuevoAnalisis"
-              placeholder="Agregar" [formControl]="nuevoAnalisis" [readonly]="!crear || superAdmin" />
+            <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarAnalisis()" formControlName="nuevoAnalisis" name="nuevoAnalisis"
+              placeholder="Agregar" [formControl]="nuevoAnalisis" [readonly]="!crear || superAdmin"></textarea> <!--/>-->
             <button class="btn btn-outline-primary" type="button" (click)="agregarAnalisis()" [disabled]="!crear || superAdmin">
               Agregar
             </button>
@@ -393,7 +393,7 @@
         <div class="row mt-2">
           <div class="col md-6 me-4 mb-4" formArrayName="analisis">
             <div class="input-group mb-1" *ngFor="let analisis of analisisArr.controls; let i = index">
-              <input class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" readonly />
+              <!--<input--> <textarea class="form-control" *ngIf="analisisArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
               <button class="btn btn-outline-danger" type="button" (click)="borrarAnalisis(i)" [disabled]="!crear || superAdmin">
                 Borrar
               </button>
@@ -416,8 +416,8 @@
       <div class="row mt-2">
         <div class="col md-6 me-4 mb-4 mt-4">
           <div class="input-group">
-            <input type="text" class="form-control" (keyup.enter)="agregarEvolucion()"
-              placeholder="Agregar" [formControl]="nuevaEvolucion" [readonly]="superAdmin"/>
+            <!--<input type="text"--> <textarea type="text" class="form-control" (keyup.enter)="agregarEvolucion()"
+              placeholder="Agregar" [formControl]="nuevaEvolucion" [readonly]="superAdmin"></textarea> <!--/>-->
             <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucion()" [disabled]="superAdmin">
               Agregar
             </button>
@@ -426,7 +426,7 @@
         <div class="row mt-2">
           <div class="col md-6 me-4 mb-4" formArrayName="evolucion">
             <div class="input-group mb-1" *ngFor="let evolucion of evolucionArr.controls; let i = index">
-              <input class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly />
+              <!--<input--> <textarea class="form-control" *ngIf="evolucionArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
               <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucion(i)" [disabled]="superAdmin">
                 Borrar
               </button>
