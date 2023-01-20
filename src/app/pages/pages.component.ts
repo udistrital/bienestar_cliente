@@ -122,6 +122,8 @@ export class PagesComponent implements OnInit {
    *  @param menuArray
    */
   mapMenuByObjects(menuArray) {
+    console.log('mapMenuByObjects->')
+    console.log(menuArray)
     menuArray.map(itemMenu => {
 
       const urlNested = this.replaceUrlNested(itemMenu.Url);

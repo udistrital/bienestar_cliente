@@ -84,6 +84,11 @@ const routes: Routes = [
             .then (m => m.CitasModule),
         },
         {
+            path: 'gestion-documental',
+            loadChildren: ( ) => import ('./gestion-documental/gestion-documental.module')
+            .then(m => m.GestionDocumentalModule)
+        },
+        {
             path: '',
             redirectTo: 'home',
             pathMatch: 'full',
