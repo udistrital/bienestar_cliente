@@ -1,0 +1,31 @@
+<nb-card status="warning">
+    <nb-card-header>Tipo de documento a crear</nb-card-header>
+    <nb-card-body center >
+        <div class="text-center">
+            <nb-select placeholder="Placeholder" filled status="warning" >
+                <nb-option value="1">Option 1</nb-option>
+                <nb-option value="2">Option 2</nb-option>
+                <nb-option value="3">Option 3</nb-option>
+                <nb-option value="4">Option 4</nb-option>
+            </nb-select>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>By Wikipedia</nb-card-footer>
+  </nb-card>
+  
+  <nb-card status="warning">
+    <nb-card-header>Nebula</nb-card-header>
+    <nb-card-body>
+        <nb-card>
+            <nb-card-body class="example-items-rows" status="warning">
+            <form (ngSubmit)="cargarFormulario()">
+              
+              <input [(ngModel)]="documento.Id" [ngModelOptions]="{standalone: true} " nbInput type="text" id="id" placeholder="Text field" >
+              <button nbButton status="warning" type="submit" >Cargar</button>
+            </form>
+            </nb-card-body>
+        </nb-card>
+        
+    </nb-card-body>
+    <nb-card-footer>By Wikipedia</nb-card-footer>
+  </nb-card>

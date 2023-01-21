@@ -23,6 +23,8 @@ import { ThemeModule } from '../../@theme/theme.module';
 
 import { GestionDocumentalComponent } from './gestion-documental.component';
 import { GestionDocumentalRoutingModule } from './gestion-documental-routing.module';
+import { CargarComponent } from './cargar/cargar.component';
+import { FormsModule } from '@angular/forms';
 
 // const routes: Routes = [
 //   { path: '', component: GestionDocumentalComponent }
@@ -30,7 +32,8 @@ import { GestionDocumentalRoutingModule } from './gestion-documental-routing.mod
 
 @NgModule({
   declarations: [
-    GestionDocumentalComponent
+    GestionDocumentalComponent,
+    CargarComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +56,7 @@ import { GestionDocumentalRoutingModule } from './gestion-documental-routing.mod
     NgxEchartsModule,
     NgxChartsModule,
     GestionDocumentalRoutingModule,
+    FormsModule,
   ]
 })
 export class GestionDocumentalModule { }

@@ -1,21 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GestionDocumentalComponent } from './gestion-documental.component';
+import { CargarComponent } from './cargar.component';
 
-
-describe('GestionDocumentalComponent', () => {
-  let component: GestionDocumentalComponent;
-  let fixture: ComponentFixture<GestionDocumentalComponent>;
+describe('CargarComponent', () => {
+  let component: CargarComponent;
+  let fixture: ComponentFixture<CargarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GestionDocumentalComponent ]
+      declarations: [ CargarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GestionDocumentalComponent);
+    fixture = TestBed.createComponent(CargarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

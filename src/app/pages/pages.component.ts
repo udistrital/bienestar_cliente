@@ -87,6 +87,19 @@ export class PagesComponent implements OnInit {
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
+    /* @todo
+      eliminar en produccion 
+    */
+    this.object = {
+      title: 'Documentos',
+      icon: 'home-outline',
+      link: `gestion-documental/cargar`,
+      home: false,
+      key: "documentos",
+      children: this.mapMenuChildrenObject(null)
+    };
+    this.menu.push(this.object);
+    
     for(var i = 0; i < this.roles.length; i++){
       this.roles[i] = this.roles[i].replace(/\//g, '-');
     }
@@ -122,8 +135,6 @@ export class PagesComponent implements OnInit {
    *  @param menuArray
    */
   mapMenuByObjects(menuArray) {
-    console.log('mapMenuByObjects->')
-    console.log(menuArray)
     menuArray.map(itemMenu => {
 
       const urlNested = this.replaceUrlNested(itemMenu.Url);
