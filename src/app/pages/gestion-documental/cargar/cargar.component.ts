@@ -7,6 +7,14 @@ import { Documento } from '../../../@core/data/models/documento/documento';
   styleUrls: ['./cargar.component.scss']
 })
 export class CargarComponent implements OnInit {
+
+  // Estos datos se pueden traer de BD, para poder agregar mas
+  tiposDocumento: String [] = [
+    "Acta",
+    "Resolución",
+    "Comunicado",
+    "Contrato"
+  ];
   documento: Documento = new Documento;
   id: String = "123";
   constructor() { }

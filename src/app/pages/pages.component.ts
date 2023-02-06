@@ -87,9 +87,8 @@ export class PagesComponent implements OnInit {
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
-    /* @todo
-      eliminar en produccion 
-    */
+    
+    // TODO: Borrar en producción
     this.object = {
       title: 'Documentos',
       icon: 'home-outline',
