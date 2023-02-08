@@ -15,7 +15,7 @@ import {
   NbRadioModule, 
   NbLayoutModule, 
   NbAccordionModule,
-  NbBadgeModule
+  NbDatepickerModule
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -52,11 +52,12 @@ import { FormsModule } from '@angular/forms';
     NbRadioModule,
     NbLayoutModule,
     NbAccordionModule,
-    NbBadgeModule,
     NgxEchartsModule,
     NgxChartsModule,
     GestionDocumentalRoutingModule,
     FormsModule,
+    NbDatepickerModule.forRoot(),
+    
   ]
 })
 export class GestionDocumentalModule { }
