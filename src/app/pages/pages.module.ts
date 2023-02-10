@@ -15,6 +15,7 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { ListarEventosComponent } from './deportes/listar-eventos/listar-eventos.component';
+import { DeportesComponent } from './deportes/deportes.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { ListarEventosComponent } from './deportes/listar-eventos/listar-eventos
   declarations: [
     PagesComponent,
     ListarEventosComponent,
+    DeportesComponent,
   ],
   providers: [
     ConfiguracionService,
