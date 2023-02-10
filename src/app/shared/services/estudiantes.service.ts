@@ -19,6 +19,7 @@ const oikosUrl = environment.OIKOS_SERVICE;
 const oikosUrl2 = environment.OIKOS_SERVICE_2;
 const soliUrl = environment.SOLICITUD_CRUD_SERVICE;
 const paraUrl = environment.PARAMETROS;
+const sesionUrl = environment.EVENTOS_CRUD_SERVICE;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
@@ -98,6 +99,20 @@ export class EstudiantesService {
             return undefined;
           }
           return res;
+        },
+      ),
+    );
+  }
+  getSesionPorTipo(tipo) {
+    this.rqManager.setPath('EVENTOS_CRUD_SERVICE');
+
+    return this.rqManager.get('sesion/').pipe(
+      map(
+        (res) => {
+          if (res['TipoSesion']['Id'] === 5) {
+            return res;            
+          }
+          return undefined;
         },
       ),
     );

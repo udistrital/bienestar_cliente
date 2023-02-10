@@ -14,6 +14,8 @@ import { AuthGuard } from '../@core/_guards/auth.guard';
 import { RolesConstanst } from '../shared/constants/roles.constants';
 import { ParametriaGuard } from '../@core/_guards/parametria.guard';
 
+//import { DeportesComponent } from './deportes/listar-eventos/listar-eventos.component';
+
 
 const routes: Routes = [
     {
@@ -69,12 +71,25 @@ const routes: Routes = [
                 roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
             }
         },
+        /*{
+            path: 'listar-eventos-estudiante',
+            component: DeportesComponent,
+            canActivate: [AuthGuard, ParametriaGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
+            }
+},        */
         {
             path: 'home',
             component: HomeComponent,
         },
         {
             path: 'apoyo-alimentario',
+            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
+            .then (m => m.ApoyoAlimentarioModule),
+        },  
+        {
+            path: 'deportes',
             loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
             .then (m => m.ApoyoAlimentarioModule),
         },  

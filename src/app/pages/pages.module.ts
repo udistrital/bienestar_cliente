@@ -14,6 +14,7 @@ import { HomeModule } from './home/home.module';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
+import { ListarEventosComponent } from './deportes/listar-eventos/listar-eventos.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
   ],
   declarations: [
     PagesComponent,
+    ListarEventosComponent,
   ],
   providers: [
     ConfiguracionService,
