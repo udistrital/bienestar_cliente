@@ -71,14 +71,6 @@ const routes: Routes = [
                 roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
             }
         },
-        /*{
-            path: 'listar-eventos-estudiante',
-            component: DeportesComponent,
-            canActivate: [AuthGuard, ParametriaGuard],
-            data:{
-                roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
-            }
-},        */
         {
             path: 'home',
             component: HomeComponent,
@@ -87,16 +79,16 @@ const routes: Routes = [
             path: 'apoyo-alimentario',
             loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
             .then (m => m.ApoyoAlimentarioModule),
-        },  
-        {
-            path: 'deportes',
-            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
-            .then (m => m.ApoyoAlimentarioModule),
-        },  
+        },    
         {
             path:'citas', 
             loadChildren: ( ) =>import ('./citas/citas.module')
             .then (m => m.CitasModule),
+        },
+        {
+            path: 'deportes',
+            loadChildren: ( ) =>import ('./deportes/deportes.module')
+            .then (m => m.DeportesModule),
         },
         {
             path: '',

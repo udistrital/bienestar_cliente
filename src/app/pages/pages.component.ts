@@ -88,6 +88,16 @@ export class PagesComponent implements OnInit {
     };
     this.menu.push(this.object);
 
+    this.object = {
+      title: 'Deportes',
+      icon: 'home-outline',
+      link: `deportes`,
+      home: false,
+      key: "Home",
+      children: this.mapMenuChildrenObject(null)
+    };
+    this.menu.push(this.object);
+
     for(var i = 0; i < this.roles.length; i++){
       this.roles[i] = this.roles[i].replace(/\//g, '-');
     }
