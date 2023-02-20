@@ -40,7 +40,6 @@ export class GestionService {
     // Carga el documento a nux
     crearDocumento(documento: DocumentoG){
         const file = documento.Archivo;
-        console.log("creando documento");
         GestionService.nuxeo.connect().
             then(function(client){
                 GestionService.nuxeo.operation('Document.Create')
@@ -48,16 +47,13 @@ export class GestionService {
                         type: 'File',
                         name: 'Documento de prueba',
                         description: documento.Descripcion,
-                        properties: 'dc:title='+documento.Nombre,
-                        tag: documento.TipoDocumento.Nombre
+                        properties: 'dc:title='+documento.Nombre
                         //properties: 'dc:title='+documento.Nombre+' \ndc:description=Documento para probar creacion'
                     })
                     .input('/'+'desarrollo'+'/'+'workspaces'+'/'+'pruebas'+'/'+'GestionDocumental')
                     .execute()
                     .then(function(res) {
                         const blob = new Nuxeo.Blob({ content: file });
-                        console.log('Paso');
-                        console.log(blob);
                         GestionService.nuxeo.batchUpload()
                             .upload(blob)
                             .then(function (response) {
@@ -70,11 +66,8 @@ export class GestionService {
                                 console.log(error);
                                 return error;
                             });
-                            console.log(blob);
                     })
             });
-
-        console.log(GestionService.nuxeo);
     }
 
     crearFolder(){

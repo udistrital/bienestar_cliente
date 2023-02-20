@@ -96,10 +96,10 @@ export class CargarComponent implements OnInit {
     this.documento.SubSerie=this.docForm.get('subSerie').value;
     this.documento.Fecha=this.docForm.get('fecha').value;
     this.documento.Descripcion=this.docForm.get('descripcion').value;
-    this.documento.Archivo=this.docForm.get('archivo').value;
+    //this.documento.Archivo=this.docForm.get('archivo').value;
     console.log("carga realizandose...");
-    /* this.gestionService.crearFolder();
-    this.gestionService.crearDocumento(this.documento); */
+    /* this.gestionService.crearFolder(); */
+    this.gestionService.crearDocumento(this.documento);
     console.log("carga realizada");
 
     this.docForm.reset();
