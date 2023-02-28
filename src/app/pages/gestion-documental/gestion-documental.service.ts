@@ -1,4 +1,5 @@
 import * as Nuxeo from 'nuxeo';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs/Observable';
@@ -6,27 +7,24 @@ import { Subject } from 'rxjs/Subject';
 import { Documento } from '../../shared/models/Salud/documento.model';
 import { NuxeoService } from '../../@core/utils/nuxeo.service';
 import { DocumentoG } from '../../@core/data/models/documento/documento_Gestion';
+import { ApiRestService } from './api-rest.service';
+
 @Injectable({
     providedIn: 'root'
   })
+
+
 export class GestionService {
     static nuxeo: Nuxeo;
 
+    static documentoSubido: DocumentoG;
+    documentos = [];
+
     private documentos$ = new Subject<Documento[]>();
-    private documentos: object;
-
-
     private blob: object;
-
-    private updateDoc$ = new Subject<[object]>();
-    private updateDoc: object
-
+   
     
-
-    constructor() {
-        this.documentos = {};
-        this.updateDoc = {};
-        
+    constructor( private http: HttpClient ) {
         GestionService.nuxeo = new Nuxeo({
             baseURL: environment.NUXEO.PATH,
             auth: {
@@ -36,10 +34,25 @@ export class GestionService {
             },
         });
     }
+    
+    addDocumento(documento: DocumentoG, apiRestService: ApiRestService){
+        const body = {
+            Id: documento.Id,
+            Nombre: documento.Nombre,
+            Tipo: documento.TipoDocumento.Nombre,
+            Serie: documento.Serie,
+            SubSerie: documento.SubSerie,
+            Descripcion: documento.Descripcion,
+            Enlace: documento.Enlace,
+            Fecha: documento.Fecha,
+        }
+        apiRestService.post(body);
+    }
 
     // Carga el documento a nux
-    crearDocumento(documento: DocumentoG){
+    crearDocumento(documento: DocumentoG, gestionService: GestionService, apiRestService: ApiRestService){
         const file = documento.Archivo;
+        const documentoCons = documento;
         GestionService.nuxeo.connect().
             then(function(client){
                 GestionService.nuxeo.operation('Document.Create')
@@ -62,6 +75,9 @@ export class GestionService {
                                     .param('document',res.uid)
                                     .input(response.blob)
                                     .execute();
+                                documentoCons.Enlace=res.path;
+                                documentoCons.Id=res.uid;
+                                gestionService.addDocumento(documentoCons, apiRestService);
                             }).catch(function (error) {
                                 console.log(error);
                                 return error;

@@ -1,15 +1,16 @@
 import { TipoDocumento } from './tipo_documento';
 
 export class DocumentoG {
-    Descripcion: string;
-    Enlace: string;
-    Id: number;
+    Id: string;
+    Tipo: string;
+    Nombre: string;
     Serie: string;
     SubSerie: string;
-    Metadatos: string;
-    Nombre: string;
-    Activo: boolean;
     Fecha: Date;
+    Descripcion: string;
+    Enlace: string;
+    // Metadatos: string;
+    // Activo: boolean;
     Archivo: File;
     TipoDocumento: TipoDocumento;
 }

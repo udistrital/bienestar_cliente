@@ -1,0 +1,33 @@
+<div>
+    <nb-card *ngIf="dataSource.filteredData.length > 0">
+        <div class="mat-elevation-z8">
+            <mat-table [dataSource]="dataSource" matSort>
+                <div *ngFor="let columna of columnas">
+                    <ng-container matColumnDef={{columna}}>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ columna }} </mat-header-cell>
+                        <ng-container *ngIf="columna === 'Ver'">
+                            <mat-cell *matCellDef="let documento">
+                                <button type="button" class="btn btn-warning btn-rounded btn-icon" (click)="visualizar(documento)">
+                                    <mat-icon>file_open</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container> 
+                        <ng-container  *ngIf="columna === 'Editar'">
+                            <mat-cell *matCellDef="let documento"> 
+                                <button nbTooltip="Editar" nbTooltipStatus="danger" type="button" class="btn btn-danger btn-rounded btn-icon" (click)="editar(documento)">
+                                    <mat-icon>edit_square</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container> 
+                        <ng-container  *ngIf="columna !== 'Ver' && columna !== 'Editar' ">
+                            <mat-cell  *matCellDef="let documento"> {{ evaluar(documento,columna) }} </mat-cell> -->
+                            </ng-container> 
+                    </ng-container>
+                </div>
+                <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+    </nb-card>
+</div>

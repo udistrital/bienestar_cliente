@@ -8,11 +8,12 @@ import * as Nuxeo from 'nuxeo';
 import { GestionService } from '../gestion-documental.service';
 import { TipoDocumento } from '../../../@core/data/models/documento/tipo_documento';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiRestService } from '../api-rest.service';
 
 @Component({
   selector: 'ngx-cargar',
   templateUrl: './cargar.component.html',
-  styleUrls: ['./cargar.component.scss']
+  styleUrls: ['./cargar.component.scss'],
 })
 export class CargarComponent implements OnInit {
 
@@ -39,8 +40,8 @@ export class CargarComponent implements OnInit {
   private min: Date;
   private max: Date;
   
-  constructor(protected dateService: NbDateService<Date>, private gestionService: GestionService, private fb: FormBuilder) {
-    gestionService= new GestionService;
+  constructor(protected dateService: NbDateService<Date>, private gestionService: GestionService, private fb: FormBuilder, private apiRestService: ApiRestService) {
+
     this.documento.TipoDocumento = new TipoDocumento;
     this.blobDocument = {};
     this.validado = true;
@@ -53,7 +54,7 @@ export class CargarComponent implements OnInit {
   iniciarFormulario(){
     this.docForm = this.fb.group({
       tipoDocumento: ['', Validators.required],
-      titulo: ['', Validators.required] ,
+      nombre: ['', Validators.required] ,
       serie: ['', Validators.required] ,
       subSerie: ['', Validators.required],
       fecha:['', [Validators.required, this.checkDate(this.min,this.max, this.dateService) ]],
@@ -91,7 +92,7 @@ export class CargarComponent implements OnInit {
       return;
     }
     this.documento.TipoDocumento.Nombre=this.docForm.get('tipoDocumento').value;
-    this.documento.Nombre=this.docForm.get('titulo').value;
+    this.documento.Nombre=this.docForm.get('nombre').value;
     this.documento.Serie=this.docForm.get('serie').value;
     this.documento.SubSerie=this.docForm.get('subSerie').value;
     this.documento.Fecha=this.docForm.get('fecha').value;
@@ -99,9 +100,7 @@ export class CargarComponent implements OnInit {
     //this.documento.Archivo=this.docForm.get('archivo').value;
     console.log("carga realizandose...");
     /* this.gestionService.crearFolder(); */
-    this.gestionService.crearDocumento(this.documento);
-    console.log("carga realizada");
-
+    this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
     this.docForm.reset();
     this.labelImport.nativeElement.innerText = 'Seleccione Archivo';
     this.clickeado=false;

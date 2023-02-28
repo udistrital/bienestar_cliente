@@ -16,9 +16,9 @@
               </div>
 
               <div class="form-group">
-                <label for="titulo">Titulo</label>
-                <input type="text" id="titulo" name="titulo" class="form-control" placeholder="Titulo" formControlName="titulo" required>
-                <small *ngIf=" validateInput('titulo')" class="form-text text-danger">Campo requerido</small>    
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" formControlName="nombre" required>
+                <small *ngIf=" validateInput('nombre')" class="form-text text-danger">Campo requerido</small>    
               </div>
               
               <div class="form-group">
@@ -60,7 +60,7 @@
                   <small *ngIf="validateInput('archivo')" class="form-text text-danger">Campo requerido</small>
                 </div>
               </div>
-              <button type="submit" class="btn btn-warning" (click)="clickeado= true">Subir</button>
+              <button nbButton type="submit" status="warning" (click)="clickeado= true">Subir</button>
               <small *ngIf="!validado && (docForm.invalid && clickeado)" class="form-text text-danger">Complete los campos</small>
             </form>
           </div>

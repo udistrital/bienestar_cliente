@@ -15,7 +15,8 @@ import {
   NbRadioModule, 
   NbLayoutModule, 
   NbAccordionModule,
-  NbDatepickerModule
+  NbDatepickerModule,
+
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -24,8 +25,14 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { GestionDocumentalComponent } from './gestion-documental.component';
 import { GestionDocumentalRoutingModule } from './gestion-documental-routing.module';
 import { CargarComponent } from './cargar/cargar.component';
-import { FormsModule } from '@angular/forms';
+import { ConsultarComponent } from './consultar/consultar.component';
 
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { GestionService } from './gestion-documental.service';
+import { ApiRestService } from './api-rest.service';
+import { ResultadosComponent } from './resultados/resultados.component';
+import { MatSortModule } from '@angular/material/sort';
 // const routes: Routes = [
 //   { path: '', component: GestionDocumentalComponent }
 // ]
@@ -33,9 +40,13 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     GestionDocumentalComponent,
-    CargarComponent
+    CargarComponent,
+    ConsultarComponent,
+    ResultadosComponent
   ],
+  providers: [ApiRestService, GestionService],
   imports: [
+    HttpClientModule,
     CommonModule,
     ThemeModule,
     NbButtonModule,
@@ -57,7 +68,7 @@ import { FormsModule } from '@angular/forms';
     GestionDocumentalRoutingModule,
     FormsModule,
     NbDatepickerModule.forRoot(),
-    
+    MatSortModule
   ]
 })
 export class GestionDocumentalModule { }

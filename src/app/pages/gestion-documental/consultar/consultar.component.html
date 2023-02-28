@@ -1,0 +1,47 @@
+<nb-card status="warning">
+    <nb-card-header>CONSULTAR DOCUMENTO</nb-card-header>
+    <nb-card-body>
+        <div class="row justify-content-center">
+          <div class="col-4">
+            <form [formGroup]="docSearch"  #formDoc="ngForm" (ngSubmit)="buscarDocumento()">
+                <div class="custom-search">
+                    <input type="text" class="custom-search-input" placeholder="Buscar archivo por Titulo">
+                    <button class="custom-search-botton" type="submit" >Buscar</button>  
+                </div>
+                <nb-card class="nb-card">
+                    <nb-card-header class="search-nb-card">
+                        <div class="container">
+                            <div class="row justify-content-md-center">
+                                <button nbButton [status]="activo" type="button" size="small" style="display: block;" (click)="onClick()">Busqueda avanzada</button>
+                            </div>
+                        </div>
+                    </nb-card-header>
+                    <nb-card-body *ngIf='busquedaAvanzada'>
+                            <div class="form-group">
+                                <label for="tiposDocumento" style="display: block;">Tipo de documento</label>
+                                <nb-select id="tipoDocumento" name="tipoDocumento" style="display: block;"
+                                placeholder="Tipo de Documento" filled status="warning" formControlName="tipoDocumento" required>
+                                    <nb-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento" >{{ tipoDocumento }}</nb-option>                            
+                                </nb-select>
+                            </div>
+                            <div class="form-group">
+                                <label for="serie">Serie</label>
+                                <input type="text" id="serie" name="serie" class="form-control" placeholder="Serie" formControlName="serie" required>    
+                            </div>
+                            <div class="form-group">
+                                <label for="subSerie">SubSerie</label>
+                                <input type="text" id="subSerie" name="subSerie" class="form-control" placeholder="SubSerie" formControlName="subSerie" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Fecha">Fecha</label>
+                                <input type="date"  id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
+                                            style="text-align: center; padding: 8px 12px; font-size: 14px;" formControlName="fecha" required>
+                            </div>
+                    </nb-card-body>
+                </nb-card>
+            </form>
+          </div>
+        </div>
+        <ngx-resultados [documentos]="documentos"></ngx-resultados>
+    </nb-card-body>
+</nb-card>

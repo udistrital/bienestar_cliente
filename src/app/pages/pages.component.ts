@@ -90,9 +90,19 @@ export class PagesComponent implements OnInit {
     
     // TODO: Borrar en producción
     this.object = {
-      title: 'Documentos',
+      title: 'Documentos-Cargar',
       icon: 'home-outline',
       link: `gestion-documental/cargar`,
+      home: false,
+      key: "documentos",
+      children: this.mapMenuChildrenObject(null)
+    };
+    this.menu.push(this.object);
+
+    this.object = {
+      title: 'Documentos-Consultar',
+      icon: 'home-outline',
+      link: `gestion-documental/consultar`,
       home: false,
       key: "documentos",
       children: this.mapMenuChildrenObject(null)

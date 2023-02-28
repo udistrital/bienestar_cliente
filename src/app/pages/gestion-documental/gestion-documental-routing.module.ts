@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { GestionDocumentalComponent } from './gestion-documental.component';
 import { CargarComponent } from './cargar/cargar.component';
+import { ConsultarComponent } from './consultar/consultar.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,11 @@ const routes: Routes = [
   {
     path: 'cargar', 
     component: CargarComponent
-    },
+  },
+  {
+    path: 'consultar',
+    component: ConsultarComponent
+  }
 ];
 
 @NgModule({
