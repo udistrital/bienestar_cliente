@@ -1,0 +1,134 @@
+
+
+.form-check-custom {
+    cursor: pointer;
+  }
+  
+  .form-check-custom input {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .form-check-custom span {
+    display: inline-block;
+    position: relative;
+    width: 13px;
+    height: 13px;
+    border: 1px solid var(--gray);
+    border-radius: 50%;
+    background-color: #fff;
+    box-sizing: border-box;
+    transition: border-color 200ms ease;
+  }
+  
+  .form-check-custom.with-icon span,
+  .form-check-custom.with-icon-side span {
+    width: 21px;
+    height: 21px;
+  }
+  
+  /* en caso de querer dejar deshabilitado un boton aqui estan los estilos :) */
+  /* .form-check-custom input:disabled + span {
+    opacity: .35;
+  }
+  
+  .form-check-custom input:checked:disabled + span {
+    opacity: .25;
+  }
+  
+  .form-check-custom input:not(:disabled) + span:hover {
+    border-color: var(--dark-gray);
+  } */
+  
+
+  /* colores para cuando se seleccioenn */
+  .form-check-custom.success input:checked + span {
+    border-color: var(--success);
+  }
+  
+  .form-check-custom.danger input:checked + span {
+    border-color: var(--danger);
+  }
+  .form-check-custom.warning input:checked + span {
+    border-color: var(--warning);
+  }
+  
+  
+  .form-check-custom span:before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 1;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  
+  .form-check-custom.with-icon span:before,
+  .form-check-custom.with-icon-side span:before {
+    top: 1px;
+    left: 1px;
+    width: 17px;
+    height: 17px;
+  }
+  
+  .form-check-custom.success span:before {
+    background-color: var(--success);
+  }
+  
+  .form-check-custom.danger span:before {
+    background-color: var(--danger);
+  }
+  
+  .form-check-custom.warning span:before {
+    background-color: var(--warning);
+  }
+  
+
+
+
+  .form-check-custom input:checked + span:before {
+    opacity: 1;
+  }
+  
+  .form-check-custom.with-icon i,
+  .form-check-custom.with-icon-side i {
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    z-index: 2;
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  
+  .form-check-custom.with-icon-side i {
+    top: 2px;
+    left: 26px;
+    color: var(--primary);
+    font-size: 14px;
+  }
+  
+  .form-check-custom.danger.with-icon-side i {
+    color: var(--danger);
+  }
+  
+  .form-check-custom.success.with-icon-side i {
+    color: var(--success);
+  }
+  
+  .form-check-custom.warning.with-icon-side i {
+    color: var(--warning);
+  }
+  
+  .form-check-custom.with-icon input:checked + span i,
+  .form-check-custom.with-icon-side input:checked + span i {
+    opacity: 1;
+  }
+  

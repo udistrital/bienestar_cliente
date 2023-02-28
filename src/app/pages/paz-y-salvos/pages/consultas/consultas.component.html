@@ -1,0 +1,119 @@
+
+<div class="container-fluid bg-white mh-100 mw-100">
+
+    <div class="d-flex p-2 flex-row">
+        <div class="col-xs-12 col-md-6 col-lg-6">
+            <h1>Paz y Salvos</h1>
+            <br>
+        </div>
+        <div class="col-xs-12 col-md-6  col-lg-6 align-items-end ">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Numero total de Registros:   <span><em>321321321</em></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p>Numero total de Registros:   <span><em>25</em></span></p>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-4">
+            <p><b>Filtrar por:</b></p>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Selecciona opcion del menu</option>
+                <option value="1">Cienias</option>
+                <option value="2">Ingenieria</option>
+                <option value="3">Macarena</option>
+            </select>
+            <div class="input-group mt-2">
+                <span class="input-group-text">Codigo Estudiantil</span>
+                <input type="text" aria-label="First name" class="form-control">
+              </div>
+        </div>
+        <div class="col-xs-12 col-md-6  col-lg-8 align-items-end ">
+
+            <form action="">
+                <!-- <mat-form-field appearance="fill" >
+                    <mat-label>Choose a date</mat-label>
+                    <input style="display: inline; width: 100px;" class="form-control" matInput [matDatepicker]="datepicker"  [(ngModel)]="fecha_inicio" name="fecha_inicio">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle  color="yellow" matIconSuffix [for]="datepicker">
+                     <mat-icon color="yellow"matDatepickerToggleIcon>
+                        calendar_month
+                      </mat-icon> 
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datepicker>
+                      <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="warn" matDatepickerApply>Apply</button>
+                      </mat-datepicker-actions>
+                    </mat-datepicker>
+                  </mat-form-field> -->
+                
+            </form>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-12">
+            <ngx-tabla-pazysalvos></ngx-tabla-pazysalvos>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- <div class="container">
+    <h1>Rango de fechas con datepicker</h1>
+  
+    <div class="row">
+      <div class="col">
+        <div class="input-group">
+          <span class="input-group-text">Fecha de inicio:</span>
+          <input
+            class="form-control"
+            placeholder="dd/mm/yyyy"
+            name="fecha_inicio"
+            [(ngModel)]="fecha_inicio"
+            ngbDatepicker
+            #dp_inicio="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary" (click)="dp_inicio.toggle()">
+            <i class="bi bi-calendar"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <span class="input-group-text">Fecha de fin:</span>
+          <input
+            class="form-control"
+            placeholder="dd/mm/yyyy"
+            name="fecha_fin"
+            [(ngModel)]="fecha_fin"
+            ngbDatepicker
+            #dp_fin="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary" (click)="dp_fin.toggle()">
+            <i class="bi bi-calendar"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mt-3">
+      Fecha de inicio seleccionada: {{ fecha_inicio | date }}
+    </div>
+    <div>
+      Fecha de fin seleccionada: {{ fecha_fin | date }}
+    </div>
+  </div> -->
+  
+
+

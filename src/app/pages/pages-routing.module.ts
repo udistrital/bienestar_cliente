@@ -84,6 +84,11 @@ const routes: Routes = [
             .then (m => m.CitasModule),
         },
         {
+            path:'paz-y-salvos', 
+            loadChildren: ( ) =>import ('./paz-y-salvos/paz-y-salvos.module')
+            .then (m => m.PazYSalvosModule),
+        },
+        {
             path: '',
             redirectTo: 'home',
             pathMatch: 'full',

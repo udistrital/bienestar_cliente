@@ -7,7 +7,6 @@ import { ImplicitAutenticationService } from './../@core/utils/implicit_autentic
 import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2';
 import 'style-loader!angular2-toaster/toaster.css';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { CustomLoginService } from '../shared/services/custom-login.service';
 import { ListService } from '../@core/store/list.service';
 import { RolesConstanst } from '../shared/constants/roles.constants';
@@ -47,11 +46,11 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     if (this.autenticacion.live()) {
-      const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
+      const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role);
       if (temp == undefined) {
         this.listService.getInfoEstudiante().then((resp) => {
           this.roles = resp.role;
-          RolesConstanst.ROLES_EMAIL=this.roles;
+          RolesConstanst.ROLES_EMAIL = this.roles;
           this.loadMenu();
         }).catch((error) => {
           this.roles = [];
@@ -63,7 +62,7 @@ export class PagesComponent implements OnInit {
               this.translate.instant('ROL.menu'),
             confirmButtonText: this.translate.instant('ROL.aceptar'),
           });
-        })
+        });
       } else {
         this.roles = temp.filter((data: any) => (data.indexOf('/') === -1));
         this.loadMenu();
@@ -83,23 +82,39 @@ export class PagesComponent implements OnInit {
       icon: 'home-outline',
       link: `home`,
       home: true,
-      key: "Home",
+      key: 'Home',
       children: this.mapMenuChildrenObject(null)
     };
     this.menu.push(this.object);
-    for(var i = 0; i < this.roles.length; i++){
+
+    //agregamos paz y salvos al nabar temporalmente para maquetar
+    this.object = {
+      title: 'Paz y salvos',
+      icon: 'news',
+      link: `paz-y-salvos`,
+      home: true,
+      key: 'Home',
+      children: this.mapMenuChildrenObject(null)
+    };
+
+    this.menu.push(this.object);
+
+
+
+
+    for (let i = 0; i < this.roles.length; i++) {
       this.roles[i] = this.roles[i].replace(/\//g, '-');
     }
    // this.roles = this.roles.filter((item) => item !== "Internal/everyone");
 
-    //this.roles = this.roles.replace(/\//g, '-');
+    // this.roles = this.roles.replace(/\//g, '-');
     // console.log(this.roles);
 
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
         this.dataMenu = <any>data;
         this.mapMenuByObjects(data);
-        //this.translateMenu();
+        // this.translateMenu();
 
       },
       (error: HttpErrorResponse) => {
