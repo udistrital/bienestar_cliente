@@ -39,15 +39,15 @@ export class OdontologiaComponent implements OnInit {
   tipoOdontogramaVestibular: TipoOdontograma;
   tipoOdontogramaVestabular: TipoOdontograma;
   tipoOdontogramaVestibularInfantil: TipoOdontograma;
-  tipoOdontogramaLingualesInfantil: TipoOdontograma;
+  // tipoOdontogramaLingualesInfantil: TipoOdontograma;
   getOdontogramaVestibular: Odontograma;
   getOdontogramaVestabular: Odontograma;
   getOdontogramaVestibularInfantil: Odontograma;
-  getOdontogramaLingualesInfantil: Odontograma;
+  // getOdontogramaLingualesInfantil: Odontograma;
   odontogramaVestibular: any;
   odontogramaVestabular: any;
   odontogramaVestibularInfantil: any;
-  odontogramaLingualesInfantil: any;
+  // odontogramaLingualesInfantil: any;
   firstOne: any;
   hideHistory: boolean = false;
   especialidad: Especialidad;
@@ -129,7 +129,7 @@ export class OdontologiaComponent implements OnInit {
     observacionesVestibular: [null],
     observacionesVestabular: [null],
     observacionesVestibularInfantil: [null],
-    observacionesLingualesInfantil: [null],
+    // observacionesLingualesInfantil: [null],
     medicamento: [null],
     evolucionOdonto: this.fb.array([]),
   }, { validators: [validateDate] });
@@ -185,7 +185,7 @@ export class OdontologiaComponent implements OnInit {
   estadoOdontogramaVestabular: boolean = false;
   estadoOdontogramaVestibular: boolean = false;
   estadoOdontogramaVestibularInfantil: boolean = false;
-  estadoOdontogramaLingualesInfantil: boolean = false;
+  // estadoOdontogramaLingualesInfantil: boolean = false;
 
   @ViewChild('inputPeriapicalInicio', { static: true }) inputPeriapicalInicio: ElementRef;
   @ViewChild('inputPeriapicalFinal', { static: true }) inputPeriapicalFinal: ElementRef;
@@ -210,9 +210,9 @@ export class OdontologiaComponent implements OnInit {
     this.saludService.getTipoOdontograma(2).subscribe((data: any) => {
       this.tipoOdontogramaVestibular = data['Data'];
     });
-    this.saludService.getTipoOdontograma(3).subscribe((data: any) => {
+    /** this.saludService.getTipoOdontograma(3).subscribe((data: any) => {
       this.tipoOdontogramaLingualesInfantil = data['Data'];
-    });
+    });**/
     this.saludService.getTipoOdontograma(4).subscribe((data: any) => {
       this.tipoOdontogramaVestibularInfantil = data['Data'];
     });
@@ -932,7 +932,7 @@ export class OdontologiaComponent implements OnInit {
           this.estadoOdontogramaVestibularInfantil = false;
           this.toastr.error(error);
         });
-        const odontogramaLingualesInfantil: Odontograma = {
+        /** const odontogramaLingualesInfantil: Odontograma = {
           HistoriaClinicaId: this.Historia.Id,
           IdHojaHistoria: this.HojaHistoria.Id,
           Id: 0,
@@ -951,11 +951,11 @@ export class OdontologiaComponent implements OnInit {
         }, error => {
           this.estadoOdontogramaLingualesInfantil = false;
           this.toastr.error(error);
-        });
+        });**/
       });
     }
     else if (this.estado == "vieja") {
-      ///ACTUALIZACIÓN 
+      ///ACTUALIZACIÓN
       // PUTS
       //Hoja historia clínica
       const hojaHistoria: HojaHistoria = {
@@ -1207,7 +1207,7 @@ export class OdontologiaComponent implements OnInit {
         this.estadoOdontogramaVestibularInfantil = false;
         this.toastr.error(error);
       });
-      const odontogramaLingualesInfantil: Odontograma = {
+      /** const odontogramaLingualesInfantil: Odontograma = {
         HistoriaClinicaId: this.Historia.Id,
         IdHojaHistoria: this.HojaHistoria.Id,
         Id: this.getOdontogramaLingualesInfantil.Id,
@@ -1225,14 +1225,14 @@ export class OdontologiaComponent implements OnInit {
       }, error => {
         this.estadoOdontogramaLingualesInfantil = false;
         this.toastr.error(error);
-      });
+      });**/
 
     }
   }
 
   comprobarHojaHistoria() {
     if (this.estadoHoja && this.estadoAnanmesis && this.estadoDiagnostico && this.estadoExamenDental && this.estadoExamenEstomatologico && this.estadoExamenesComplementarios &&
-      this.estadoOdontogramaVestabular && this.estadoOdontogramaVestibular && this.estadoOdontogramaVestibularInfantil && this.estadoOdontogramaLingualesInfantil) {
+      this.estadoOdontogramaVestabular && this.estadoOdontogramaVestibular && this.estadoOdontogramaVestibularInfantil) { // && this.estadoOdontogramaLingualesInfantil) {
       this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
@@ -1396,10 +1396,10 @@ export class OdontologiaComponent implements OnInit {
         this.getOdontogramaVestibular = data['Data'][0];
         this.odontologiaForm.controls.observacionesVestibular.setValue(this.getOdontogramaVestibular.Observaciones);
       });
-      this.saludService.getOdontograma(this.HojaHistoria.Id, 3).subscribe(data => {
+      /** this.saludService.getOdontograma(this.HojaHistoria.Id, 3).subscribe(data => {
         this.getOdontogramaLingualesInfantil = data['Data'][0];
         this.odontologiaForm.controls.observacionesLingualesInfantil.setValue(this.getOdontogramaLingualesInfantil.Observaciones);
-      });
+      });**/
       this.saludService.getOdontograma(this.HojaHistoria.Id, 4).subscribe(data => {
         this.getOdontogramaVestibularInfantil = data['Data'][0];
         this.odontologiaForm.controls.observacionesVestibularInfantil.setValue(this.getOdontogramaVestibularInfantil.Observaciones);
@@ -1470,11 +1470,11 @@ export class OdontologiaComponent implements OnInit {
       this.odontogramaVestibularInfantil = result;
     }
   }
-  resultOdontogramaLingualesInfantil(result: any) {
+  /** resultOdontogramaLingualesInfantil(result: any) {
     if (result) {
       this.odontogramaLingualesInfantil = result;
     }
-  }
+  }**/
   getOdontogramas() {
     this.saludService.getOdontogramas(this.Historia.Id, 1).subscribe(data => {
       this.getOdontogramaVestabular = data['Data'][0];
@@ -1484,10 +1484,10 @@ export class OdontologiaComponent implements OnInit {
       this.getOdontogramaVestibular = data['Data'][0];
       this.odontologiaForm.controls.observacionesVestibular.setValue(this.getOdontogramaVestibular.Observaciones);
     });
-    this.saludService.getOdontogramas(this.Historia.Id, 3).subscribe(data => {
+    /** this.saludService.getOdontogramas(this.Historia.Id, 3).subscribe(data => {
       this.getOdontogramaLingualesInfantil = data['Data'][0];
       this.odontologiaForm.controls.observacionesLingualesInfantil.setValue(this.getOdontogramaLingualesInfantil.Observaciones);
-    });
+    });**/
     this.saludService.getOdontogramas(this.Historia.Id, 4).subscribe(data => {
       this.getOdontogramaVestibularInfantil = data['Data'][0];
       this.odontologiaForm.controls.observacionesVestibularInfantil.setValue(this.getOdontogramaVestibularInfantil.Observaciones);

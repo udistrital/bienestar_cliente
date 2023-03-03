@@ -68,7 +68,6 @@ export class OdontogramaVestabularComponent implements OnInit {
   convencionesPrimero: any[] = [
     { nombre: 'Placa', color: 'red', estado: 5, borde: 'none' },
   ];
- 
   tipoDiente(est: number) {
     this.color = est;
   }
