@@ -158,6 +158,18 @@
       </mat-radio-group>
     </div>
   </div>
+  
+  <div class="row mt-2">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <mat-form-field class="col-sm-12" appearance="outline">
+			<mat-label>Observaciones</mat-label>
+			<textarea matInput formControlName="otrosOdonto"></textarea>
+		  </mat-form-field>
+      </div>
+    </div>
+  </div>
+  
   <div class="row mt-2">
     <strong>Otros: </strong>
     <div class="row mt-2">
@@ -483,14 +495,6 @@
     <div class="col-md-4">
       <div class="form-floating">
         <mat-form-field class="col-sm-12" appearance="outline">
-          <mat-label>Otros ¿Cuál?</mat-label>
-          <textarea matInput formControlName="otrosOdonto"></textarea>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="form-floating">
-        <mat-form-field class="col-sm-12" appearance="outline">
           <mat-label>Observaciones</mat-label>
           <textarea matInput formControlName="observaciones"></textarea>
         </mat-form-field>
@@ -530,7 +534,7 @@
       <div class="form-floating">
         <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
           placeholder="Observaciones" id="observacionesVestabular"></textarea>
-        <label for="observacionesVestabular">Observaciones</label>
+        <label for="observacionesVestabular">Placa Inicial / Placa Final</label>
       </div>
     </div>
   </div>
