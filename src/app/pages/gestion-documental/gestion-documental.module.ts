@@ -16,6 +16,7 @@ import {
   NbLayoutModule, 
   NbAccordionModule,
   NbDatepickerModule,
+  NbWindowModule,
 
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -42,7 +43,7 @@ import { MatSortModule } from '@angular/material/sort';
     GestionDocumentalComponent,
     CargarComponent,
     ConsultarComponent,
-    ResultadosComponent
+    ResultadosComponent,
   ],
   providers: [ApiRestService, GestionService],
   imports: [
@@ -68,7 +69,8 @@ import { MatSortModule } from '@angular/material/sort';
     GestionDocumentalRoutingModule,
     FormsModule,
     NbDatepickerModule.forRoot(),
-    MatSortModule
+    MatSortModule,
+    NbWindowModule.forRoot(),
   ]
 })
 export class GestionDocumentalModule { }

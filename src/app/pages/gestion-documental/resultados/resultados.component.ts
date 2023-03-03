@@ -1,17 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Pipe, PipeTransform, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NbGlobalLogicalPosition, NbToastrService, NbWindowService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { DocumentoG } from '../../../@core/data/models/documento/documento_Gestion';
+import { GestionService } from '../gestion-documental.service';
 
 @Component({
   selector: 'ngx-resultados',
   templateUrl: './resultados.component.html',
   styleUrls: ['./resultados.component.scss'],
 })
+
 export class ResultadosComponent implements OnInit{
 
   private paginator: MatPaginator;
   private sort: MatSort;
+  private visualizando =false;
+  private urlSafe: SafeResourceUrl;
+  private screenHeight: any;
+  private screenWidth: any;
  
   @Input() documentos: any [] = [];
   // Carga de MatPaginator y MatSort para que no sean undefine al iniciar el modulo
@@ -23,6 +31,14 @@ export class ResultadosComponent implements OnInit{
     this.sort = mp;
     this.setDataSourceAttributes();
   }
+  @ViewChild('disabledEsc',{ static: false }) disabledEscTemplate: TemplateRef<HTMLElement>;
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+     this.screenHeight = window.innerHeight;
+     this.screenWidth = window.innerWidth;
+  }
+
   setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -32,7 +48,13 @@ export class ResultadosComponent implements OnInit{
   // TODO: Este se tomaria del servicio del OAS, validar
   columnas: string[]=[];
 
-  constructor() { }
+
+  constructor(
+    private gestionService: GestionService, 
+    private sanitizer: DomSanitizer,
+    private windowService: NbWindowService) {
+      this.onResize(); 
+    }
 
 
   ngOnInit(): void {
@@ -80,9 +102,41 @@ export class ResultadosComponent implements OnInit{
     return null;
   }
   
-  //boton de visualizar documento en resultados    
-  visualizar(documento){
-    console.log("boton visualizar");
+  // Carga el documento para ser vizualizado    
+  async visualizar(documento){
+
+    let array = Object.entries(documento);
+    let url: any;
+    let id: any;
+    array.forEach(dato=>{
+      if(dato[0]==='Id'){
+        id=dato[1];
+      }
+    });
+
+    url = await this.gestionService.obtenerDocumento(id, this.gestionService);
+    // Volver la url segura para Angular
+    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.visualizando=true;
+    let titulo;
+    array.forEach(dato=>{
+      if(dato[0]==='Nombre'){
+        titulo=dato[1];
+      }
+    });
+    this.windowService.open(
+      this.disabledEscTemplate,
+      { title: titulo, hasBackdrop: true, closeOnEsc: false},
+    );
+  }
+
+  // Actualizar tamaño del iframe segun el tamaño del coponente
+  onload() {
+    var frame = document.getElementById("Iframe");
+    frame.style.height = 
+    (this.screenHeight-this.screenHeight*0.3)+ 'px';
+    frame.style.width  = 
+    (this.screenWidth-this.screenWidth*0.1)+'px';
   }
 
   // boton de editar documento en resultados

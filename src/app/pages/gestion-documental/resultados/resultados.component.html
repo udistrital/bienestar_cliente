@@ -31,3 +31,10 @@
         </div>
     </nb-card>
 </div>
+
+<!-- Template para mostrar el pdf en ventana -->
+<ng-template #disabledEsc #has>
+    <div *ngIf="visualizando" >
+        <iframe [src]="urlSafe" type="application/pdf" (load)="onload()" id="Iframe" ></iframe>  
+    </div>
+</ng-template>

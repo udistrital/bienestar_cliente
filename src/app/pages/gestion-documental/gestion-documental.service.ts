@@ -8,6 +8,7 @@ import { Documento } from '../../shared/models/Salud/documento.model';
 import { NuxeoService } from '../../@core/utils/nuxeo.service';
 import { DocumentoG } from '../../@core/data/models/documento/documento_Gestion';
 import { ApiRestService } from './api-rest.service';
+import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 
 @Injectable({
     providedIn: 'root'
@@ -19,12 +20,9 @@ export class GestionService {
 
     static documentoSubido: DocumentoG;
     documentos = [];
-
     private documentos$ = new Subject<Documento[]>();
-    private blob: object;
-   
     
-    constructor( private http: HttpClient ) {
+    constructor( private http: HttpClient, private toastrService: NbToastrService) {
         GestionService.nuxeo = new Nuxeo({
             baseURL: environment.NUXEO.PATH,
             auth: {
@@ -84,6 +82,38 @@ export class GestionService {
                             });
                     })
             });
+    }
+
+    // Consulta en documeto en Nuxeo y si lo encuentra genera 
+    // una URL para mostrarlo
+    async obtenerDocumento(id, gestionService){
+        let url;
+        GestionService.nuxeo.header('X-NXDocumentProperties', '*');
+        await GestionService.nuxeo.request('/id/'+id)
+        .get()
+        .then(async function(res) {
+            await res.fetchBlob()
+            .then(async function(blob){
+                await blob.blob()
+                .then(function (responseblob) {
+                    url = URL.createObjectURL(responseblob);
+                    //window.open(url);
+                });
+            }).catch(function (error) {
+                gestionService.mostrarAlerta('Error generando el documento: ' + error, 'danger');
+                throw new Error(error);
+            });
+        })
+        .catch(function(error) {
+            gestionService.mostrarAlerta('Documento no encontrado: ' + error, 'warning');
+            throw new Error(error);
+        });
+        return url;
+    }
+
+    // Mostrar alerta emergente
+    mostrarAlerta(error, status: NbComponentStatus){
+        this.toastrService.show(status, `Toast:  ${error}`,  { status } );
     }
 
     crearFolder(){
