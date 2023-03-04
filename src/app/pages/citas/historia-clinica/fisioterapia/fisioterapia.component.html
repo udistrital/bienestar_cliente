@@ -48,7 +48,9 @@
                 <label for="planDeManejoFisio">Plan de Manejo</label>
             </div>
         </div>
-         <h6 class="titulo mt-2">Evolución</h6>
+        
+    </div>
+    <h6 class="titulo mt-2">Evolución</h6>
     <div class="row mt-4 mb-4">
         <div class="col md-6 me-4 mb-4">
             <div class="input-group">
@@ -59,18 +61,6 @@
                 </button>
             </div>
         </div>
-        <h6 class="titulo mt-2">Para Impresión</h6>
-        <div class="col md-12 mb-4 me-4 mt-4">
-            <div class="input-group">
-                <input type="text" class="form-control"
-                    placeholder="Medicamento" formControlName="medicamento" />
-                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
-                    Ver PDF
-                </button>
-            </div>
-        </div>
-    </div>
-   
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionFisio">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionFisioArr.value; let i = index">
@@ -79,6 +69,16 @@
                         Borrar
                     </button>
                 </div>
+            </div>
+        </div>
+        <h6 class="titulo mt-2">Para Imprimir</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                    placeholder=" " formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
             </div>
         </div>
         <h6 class="titulo mt-4">Observaciones</h6>
