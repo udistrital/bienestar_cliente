@@ -1,5 +1,8 @@
 <body>
     <div class="center">
+      <p class="center titulo subtitulo"><b>Vestibular</b></p>
+    </div>
+    <div class="center">
         <div *ngFor="let d of dientesArriba">
             <div class="center">
                 {{d.dienteLabel}}
@@ -69,6 +72,9 @@
             </div>
         </div>
     </div>
+    <div class="center">
+      <p class="center titulo subtitulo"><b>Vestibular</b></p>
+    </div>
     <table class="table table-borderless mt-4">
         <thead>
             <tr>
@@ -82,34 +88,6 @@
                 </button>
             </td>
 
-        </tbody>
-    </table>
-    <table class="table table-borderless mt-2">
-        <thead>
-            <tr>
-                <td *ngFor="let titulo of convencionesSegundo">{{titulo.nombre}}</td>
-            </tr>
-        </thead>
-        <tbody>
-            <td *ngFor="let colores of convencionesSegundo">
-                <button (click)="tipoDiente(colores.estado)" type="button" class="btn color"
-                    [ngStyle]="{'background-color': colores.color,'width':'20px','height':'20px', 'border-color': colores.borde, 'border-width': '1px', 'border-style': 'solid'}">
-                </button>
-            </td>
-        </tbody>
-    </table>
-    <table class="table table-borderless mt-2">
-        <thead>
-            <tr>
-                <td *ngFor="let titulo of convencionesTercero">{{titulo.nombre}}</td>
-            </tr>
-        </thead>
-        <tbody>
-            <td *ngFor="let colores of convencionesTercero">
-                <button (click)="tipoDiente(colores.estado)" type="button" class="btn color"
-                    [ngStyle]="{'background-color': colores.color,'width':'20px','height':'20px', 'border-color': colores.borde, 'border-width': '1px', 'border-style': 'solid'}">
-                </button>
-            </td>
         </tbody>
     </table>
 </body>

@@ -48,23 +48,14 @@
                 <label for="planDeManejoFisio">Plan de Manejo</label>
             </div>
         </div>
-        <h6 class="titulo mt-2">Medicamento o Tratamiento</h6>
-        <div class="col md-12 mb-4 me-4 mt-4">
-            <div class="input-group">
-                <input type="text" class="form-control"
-                    placeholder="Medicamento" formControlName="medicamento" />
-                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
-                    Ver PDF
-                </button>
-            </div>
-        </div>
+        
     </div>
     <h6 class="titulo mt-2">Evolución</h6>
     <div class="row mt-4 mb-4">
         <div class="col md-6 me-4 mb-4">
             <div class="input-group">
-                <input type="text" class="form-control" (keyup.enter)="agregarEvolucionFisio()"
-                    placeholder="Agregar" [formControl]="nuevaEvolucionFisio" [readonly]="superAdmin"/>
+                <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarEvolucionFisio()"
+                    placeholder="Agregar" [formControl]="nuevaEvolucionFisio" [readonly]="superAdmin"></textarea> <!--/>-->
                 <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionFisio()" [disabled]="superAdmin">
                     Agregar
                 </button>
@@ -73,11 +64,21 @@
         <div class="row mt-2">
             <div class="col md-6 me-4 mb-4" formArrayName="evolucionFisio">
                 <div class="input-group mb-1" *ngFor="let evolucion of evolucionFisioArr.value; let i = index">
-                    <input class="form-control" *ngIf="evolucionFisioArr.length > 0" [formControlName]="i" readonly/>
+                    <!--<input--> <textarea class="form-control" *ngIf="evolucionFisioArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
                     <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionFisio(i)" [disabled]="superAdmin">
                         Borrar
                     </button>
                 </div>
+            </div>
+        </div>
+        <h6 class="titulo mt-2">Para Imprimir</h6>
+        <div class="col md-12 mb-4 me-4 mt-4">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                    placeholder=" " formControlName="medicamento" />
+                <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+                    Ver PDF
+                </button>
             </div>
         </div>
         <h6 class="titulo mt-4">Observaciones</h6>
