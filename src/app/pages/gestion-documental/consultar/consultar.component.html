@@ -5,7 +5,7 @@
           <div class="col-4">
             <form [formGroup]="docSearch"  #formDoc="ngForm" (ngSubmit)="buscarDocumento()">
                 <div class="custom-search">
-                    <input type="text" class="custom-search-input" placeholder="Buscar archivo por Titulo">
+                    <input type="text" id="nombre" name="nombre" class="custom-search-input" placeholder="Nombre" formControlName="Nombre">
                     <button class="custom-search-botton" type="submit" >Buscar</button>  
                 </div>
                 <nb-card class="nb-card">
@@ -19,23 +19,23 @@
                     <nb-card-body *ngIf='busquedaAvanzada'>
                             <div class="form-group">
                                 <label for="tiposDocumento" style="display: block;">Tipo de documento</label>
-                                <nb-select id="tipoDocumento" name="tipoDocumento" style="display: block;"
-                                placeholder="Tipo de Documento" filled status="warning" formControlName="tipoDocumento" required>
+                                <nb-select id="tipoDocumento" name="tipoDocumento" class="selector"
+                                placeholder="Tipo de Documento" filled status="warning" formControlName="Tipo" required>
                                     <nb-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento" >{{ tipoDocumento }}</nb-option>                            
                                 </nb-select>
                             </div>
                             <div class="form-group">
                                 <label for="serie">Serie</label>
-                                <input type="text" id="serie" name="serie" class="form-control" placeholder="Serie" formControlName="serie" required>    
+                                <input type="text" id="serie" name="serie" class="form-control" placeholder="Serie" formControlName="Serie" required>    
                             </div>
                             <div class="form-group">
                                 <label for="subSerie">SubSerie</label>
-                                <input type="text" id="subSerie" name="subSerie" class="form-control" placeholder="SubSerie" formControlName="subSerie" required>
+                                <input type="text" id="subSerie" name="subSerie" class="form-control" placeholder="SubSerie" formControlName="SubSerie" required>
                             </div>
                             <div class="form-group">
                                 <label for="Fecha">Fecha</label>
                                 <input type="date"  id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
-                                            style="text-align: center; padding: 8px 12px; font-size: 14px;" formControlName="fecha" required>
+                                            style="text-align: center; padding: 8px 12px; font-size: 14px;" formControlName="Fecha" required>
                             </div>
                     </nb-card-body>
                 </nb-card>

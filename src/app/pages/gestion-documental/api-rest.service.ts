@@ -5,44 +5,65 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class ApiRestService {
-  private url = 'https://sibud-891d.restdb.io/rest/documentos';
-  private apiKey = '63f78ad9478852088da685a6';
+  // private url = 'https://sibud-891d.restdb.io/rest/documentos';
+  private url = 'https://sibud-60bb.restdb.io/rest/documentos'; 
+  private apiKey = '640659e5bc22d22cf7b25c71';
 
-  constructor(private http: HttpClient) { }
+  private headers = new HttpHeaders({
+    'cache-control': 'no-cache',
+    'x-apikey': this.apiKey,
+  });
+  private options = { headers: this.headers };
+  
+  constructor(private http: HttpClient) {   }
+
 
   get():Observable<any> {
-    const headers = new HttpHeaders({
-      'cache-control': 'no-cache',
-      'x-apikey': this.apiKey,
-    });
-    const options = { headers: headers };
 
-    return this.http.get(this.url, options);
-  
-    
-    /* .subscribe((res) => {
-      // alert(JSON.stringify(response));
-      console.log(res);
-      return res;
-    }); */
+    return this.http.get(this.url, this.options);
   }
 
   post(body){
-
-    const headers = new HttpHeaders({
+    this.headers=new HttpHeaders({
       'cache-control': 'no-cache',
       'x-apikey': this.apiKey,
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     });
-    const options = { headers: headers };
-
-    this.http.post(this.url, body, options).subscribe((res) => {
-      // alert(JSON.stringify(response));
+    this.options = { headers: this.headers };
+    this.http.post(this.url, body, this.options).subscribe((res) => {
       console.log('POST correcto: ' + JSON.stringify(res));
-      
     },(error) => {
       console.log('Error en POST: ' + JSON.stringify(error));
     });
   }
-  
+
+  update(body, id){
+    this.headers=new HttpHeaders({
+      'cache-control': 'no-cache',
+      'x-apikey': this.apiKey,
+      'content-type': 'application/json',
+    });
+    this.options = { headers: this.headers };
+    let url=this.url+'/'+id;
+    this.http.put(url, body, this.options).subscribe((res) => {
+      console.log('PUT correcto: ' + JSON.stringify(res));
+    },(error) => {
+      console.log('Error en PUT: ' + JSON.stringify(error));
+    });
+  }
+
+  delete(id){
+    this.headers=new HttpHeaders({
+      'cache-control': 'no-cache',
+      'x-apikey': this.apiKey,
+      'content-type': 'application/json',
+    });
+    this.options = { headers: this.headers };
+    let url=this.url+'/'+id;
+    this.http.delete(url, this.options).subscribe((res) => {
+      console.log('DELETE correcto: ' + JSON.stringify(res));
+    },(error) => {
+      console.log('Error en DELETE: ' + JSON.stringify(error));
+    });
+  }
 }

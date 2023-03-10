@@ -1,70 +1,101 @@
 <nb-card status="warning">
-    <nb-card-header>CARGAR DOCUMENTO</nb-card-header>
+  <nb-card-header *ngIf="!editando">CARGAR DOCUMENTO</nb-card-header>
+  <nb-card-header *ngIf="editando">EDITAR DOCUMENTO</nb-card-header>
     <nb-card-body>
-
-        <div class="row justify-content-center">
-          <div class="col-4">
-
-            <form [formGroup]="docForm"  #formDoc="ngForm" (ngSubmit)="cargarFormulario()">
-              <div class="form-group">
-                    <label for="tiposDocumento" style="display: block;">Tipo de documento</label>
-                    <nb-select id="tipoDocumento" name="tipoDocumento" style="display: block;"
+      <div class="row justify-content-center">
+        <!-- <div class="col-12"> -->
+          <form [formGroup]="docForm"  #formDoc="ngForm" (ngSubmit)="cargarFormulario()">
+            <div class="form-group">
+                  <label for="tiposDocumento" style="display: block;">Tipo de documento</label>
+                  <div class="selector">
+                    <nb-select id="tipoDocumento" name="tipoDocumento" class="selector"
                       placeholder="Tipo de Documento" filled status="warning" formControlName="tipoDocumento" required>
                         <nb-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento" >{{ tipoDocumento }}</nb-option>                            
                     </nb-select>
-                    <small *ngIf="validateInput('tipoDocumento')" class="form-text text-danger">Campo requerido</small>
-              </div>
+                  </div>
+                  <small *ngIf="invalidInput('tipoDocumento')" class="form-text text-danger">Campo requerido</small>
+            </div>
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" formControlName="nombre" required>
+              <small *ngIf=" invalidInput('nombre')" class="form-text text-danger">Campo requerido</small>    
+            </div>
+            
+            <div class="form-group">
+              <label for="serie">Serie</label>
+              <input type="text" id="serie" name="serie" class="form-control" placeholder="Serie" formControlName="serie" required>
+              <small *ngIf="invalidInput('serie')" class="form-text text-danger">Campo requerido</small>    
+            </div>
 
-              <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" formControlName="nombre" required>
-                <small *ngIf=" validateInput('nombre')" class="form-text text-danger">Campo requerido</small>    
-              </div>
+            <div class="form-group">
+              <label for="subSerie">SubSerie</label>
+              <input type="text" id="subSerie" name="subSerie" class="form-control" placeholder="SubSerie" formControlName="subSerie" required>
+              <small *ngIf="invalidInput('subSerie')" class="form-text text-danger">Campo requerido</small>
+            </div>
+
+            <div class="form-group">
               
-              <div class="form-group">
-                <label for="serie">Serie</label>
-                <input type="text" id="serie" name="serie" class="form-control" placeholder="Serie" formControlName="serie" required>
-                <small *ngIf="validateInput('serie')" class="form-text text-danger">Campo requerido</small>    
+              <label for="Fecha">Fecha</label>
+              <!-- Se comenta por que nbDatepicker usa formato mm/dd/aaaa y el <input/> usa dd/mm/aaaa-->
+              <!-- <input nbInput [nbDatepicker]="datepicker" type="date" datetime="dd-MM-yyyy HH:mm:ss" ng-model="myDate" id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
+              (change)="onData()" formControlName="fecha" required>
+              <nb-datepicker #datepicker  [min]="min" [max]="max"></nb-datepicker> -->
+              <input type="date"  id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
+                            style="text-align: center; padding: 8px 12px; font-size: 14px;" formControlName="fecha" required>
+              <small *ngIf="invalidInput('fecha')" class="form-text text-danger">Fecha no válida</small>
+            </div>
+            
+            <div class="form-group">
+              <label for="descripcion">Descripcion</label>
+              <textarea id="Descripcion" name="descripcion" class="form-control" placeholder="Descripcion del documento" formControlName="descripcion" required></textarea>
+              <small *ngIf="invalidInput('descripcion')" class="form-text text-danger">Campo requerido</small>
+            </div>
+            <div class="form-group">
+              <label for="archivo">Archivo</label> 
+              <div>
+                <button *ngIf="editando" nbTooltip="Editar" nbTooltipStatus="danger" nbButton outline type="button" status='danger' shape="round" size="small" class="btn-icon" (click)="verDocumento()">
+                    <mat-icon class="material-symbols-outlined">picture_as_pdf</mat-icon><i> {{ nombreArchivo }} </i>
+                </button>
               </div>
-
-              <div class="form-group">
-                <label for="subSerie">SubSerie</label>
-                <input type="text" id="subSerie" name="subSerie" class="form-control" placeholder="SubSerie" formControlName="subSerie" required>
-                <small *ngIf="validateInput('subSerie')" class="form-text text-danger">Campo requerido</small>
-              </div>
-
-              <div class="form-group">
-                
-                <label for="Fecha">Fecha</label>
-                <!-- Se comenta por que nbDatepicker usa formato mm/dd/aaaa y el <input/> usa dd/mm/aaaa-->
-                <!-- <input nbInput [nbDatepicker]="datepicker" type="date" datetime="dd-MM-yyyy HH:mm:ss" ng-model="myDate" id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
-                (change)="onData()" formControlName="fecha" required>
-                <nb-datepicker #datepicker  [min]="min" [max]="max"></nb-datepicker> -->
-                <input type="date"  id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
-                              style="text-align: center; padding: 8px 12px; font-size: 14px;" formControlName="fecha" required>
-                <small *ngIf="validateInput('fecha')" class="form-text text-danger">Fecha no válida</small>
-              </div>
-              
-              <div class="form-group">
-                <label for="descripcion">Descripcion</label>
-                <textarea id="Descripcion" name="descripcion" class="form-control" placeholder="Descripcion del documento" formControlName="descripcion" required></textarea>
-                <small *ngIf="validateInput('descripcion')" class="form-text text-danger">Campo requerido</small>
-              </div>
-
-              <div class="form-group">
-                <label for="archivo">Archivo</label>
-                <div class="custom-file">
-                  <input class="custom-file-input" multiple type="file" id="archivo" 
-                          (change)="onChange($event.target.files)" formControlName="archivo" required>
-                  <label class="custom-file-label" #labelImport for="archivo"><i class="fas fa-search"></i>Seleccione Archivo</label>
-                  <small *ngIf="validateInput('archivo')" class="form-text text-danger">Campo requerido</small>
+              <div class="custom-file">
+                <div *ngIf="!editando">  
+                  <input class="custom-file-input" type="file" id="archivo" 
+                            (change)="onChange($event.target.files)" formControlName="archivo" required>
+                    <label class="custom-file-label" #labelImport for="archivo"><i class="fas fa-search"></i>Seleccione Archivo</label>
+                </div>
+                <div *ngIf="editando">
+                    <input class="custom-file-input" type="file" id="archivo" 
+                            (change)="onChange($event.target.files)" formControlName="archivo" required>       
+                    <label class="custom-file-label" #labelImport for="archivo">Actualizar documento</label>  
+                  <small *ngIf="invalidInput('archivo')" class="form-text text-danger">Campo requerido</small>
                 </div>
               </div>
-              <button nbButton type="submit" status="warning" (click)="clickeado= true">Subir</button>
-              <small *ngIf="!validado && (docForm.invalid && clickeado)" class="form-text text-danger">Complete los campos</small>
-            </form>
-          </div>
-        </div>
+            </div>
+            <div class="text-center">
+              <button *ngIf="!editando" nbButton type="submit" class="button-cargar" status="warning" (click)="clickeado= true">Subir</button>
+              <button *ngIf="editando" nbButton type="button" class="button-cargar" status="success" (click)="clickeado= true; validarActualizar()">Actualizar</button>
+              <button *ngIf="editando" nbButton type="button" class="button-cargar" status="danger" (click)="validarEliminar()">Eliminar documento</button>
+            </div>
+            <small *ngIf="!validado && (docForm.invalid && clickeado)" class="form-text text-danger">Complete los campos</small>
+          </form>
+        <!-- </div> -->
+      </div>
     </nb-card-body>
     <!-- <nb-card-footer>Pie de pagina</nb-card-footer> -->
 </nb-card>
+
+<!-- Template para mostrar aviso de confirmacion -->
+<ng-template let-data #aviso>
+    <div class="card text-center">
+      <div class="card-header">
+        <h4>¿Desea continuar {{ data.accion }}</h4><h5><span style="color: rgb(206, 44, 44)">{{data.nombre}}</span></h5><h4 style='display:inline;'>?</h4>  
+      </div>
+      <div class="card-body">
+        <button nbButton type="button" status="success" (click)="aceptar(data.accion)">Si<mat-icon>done</mat-icon></button>
+        <button nbButton type="button" status="danger" (click)="denegar()">No<mat-icon>close</mat-icon></button>  
+      </div>
+      <div class="card-footer text-muted">
+        Los cambios realizados no se podrán deshacer.
+      </div>
+    </div>
+</ng-template>

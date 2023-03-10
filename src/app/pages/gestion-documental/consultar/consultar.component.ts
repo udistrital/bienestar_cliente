@@ -1,6 +1,6 @@
 import { Component,TemplateRef, OnInit, ViewChild, ChangeDetectionStrategy, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DocumentoG } from '../../../@core/data/models/documento/documento_Gestion';
+import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
 import { ApiRestService } from '../api-rest.service';
 import { GestionService } from '../gestion-documental.service';
 import { ResultadosComponent } from '../resultados/resultados.component';
@@ -32,11 +32,11 @@ export class ConsultarComponent implements OnInit {
 
   iniciarFormulario(){
     this.docSearch = this.fb.group({
-      tipoDocumento: ['', Validators.required],
-      titulo: ['', Validators.required] ,
-      serie: ['', Validators.required] ,
-      subSerie: ['', Validators.required],
-      fecha:['', Validators.required],
+      Tipo: ['', Validators.required],
+      Nombre: ['', Validators.required] ,
+      Serie: ['', Validators.required] ,
+      SubSerie: ['', Validators.required],
+      Fecha:['', Validators.required],
     });
   }
 
@@ -53,24 +53,47 @@ export class ConsultarComponent implements OnInit {
 
   async buscarDocumento(){
     // Trae los documentos del API Rest
+    this.gestionService.toastrService.mostrarAlerta('Cargando resultados...')
     await this.apiRestService.get().toPromise().then( res =>{
       this.documentos= res;
-      this.resultado = true;
+    }).catch(error =>{
+      this.gestionService.toastrService.mostrarAlerta('Error buscando docmentos '+error);
+      console.log('el error es', error)
     });
+    // Crea un arreglo con los filtros validos en el formulario
+    let filtros: any= [];
+    let documentosFiltrados: any= [];
+    for( let valor in this.docSearch.value){
+      if (this.docSearch.get(valor).valid){
+        filtros[valor] = this.docSearch.value[valor];
+      }
+    }
 
- 
-    //Busqueda en nuxeo, con id y path especificos
-    // GestionService.nuxeo.header('X-NXDocumentProperties', '*');
-    // GestionService.nuxeo.request('/id/'+'d3fa74ba-d2ec-471b-8e96-39f4f92d5be9')
-    // /* '/'+'desarrollo'+'/'+'workspaces'+'/'+'pruebas'+'/'+'GestionDocumental'+'/'+'Documento de prueba.1677189012126' */
-    //   .get()
-    //   .then(function(res) {
-    //     console.log(res);
-    //     // res.uid !== null
-    //     // res.type === 'Domain'
-    // })
-    // .catch(function(error) {
-    //   throw new Error(error);
-    // });
+    // Validar cada documento segun los filtros agregados por el ususrio
+    for (let documento in this.documentos){
+      let valido = true;
+      for(let filtro in filtros){
+        if (valido && !this.documentos[documento][filtro].toUpperCase().includes(filtros[filtro].toUpperCase()) ){
+          valido = false;
+        }
+      }
+      // Si cumple con los filtros se agrega para mostrar
+      if (valido){
+        documentosFiltrados.splice(0,0,this.documentos[documento]);
+      }
+
+    }
+
+    if(filtros){
+      this.documentos=documentosFiltrados;
+    }
+    //se cambian los resultados a un arreglo vacio cuando no hay ningun documento con los criterios de filtros
+    if(this.documentos === undefined){
+      this.documentos=[];
+      this.gestionService.toastrService.mostrarAlerta('No se han encontrado documentos');
+      console.log('No se encontro busqueda con estos criterios.');
+    }
+
+    this.resultado = true;
   }
 }

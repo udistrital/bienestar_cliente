@@ -1,9 +1,9 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Pipe, PipeTransform, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { NbGlobalLogicalPosition, NbToastrService, NbWindowService } from '@nebular/theme';
+import { NbGlobalLogicalPosition, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
 import { Observable } from 'rxjs';
-import { DocumentoG } from '../../../@core/data/models/documento/documento_Gestion';
+import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
 import { GestionService } from '../gestion-documental.service';
 
 @Component({
@@ -14,12 +14,18 @@ import { GestionService } from '../gestion-documental.service';
 
 export class ResultadosComponent implements OnInit{
 
+  // Paginas y organizacion de la tabla de resultados
   private paginator: MatPaginator;
   private sort: MatSort;
+
   private visualizando =false;
+  private editando=false;
   private urlSafe: SafeResourceUrl;
   private screenHeight: any;
   private screenWidth: any;
+  private descripcion: any;
+  private documentoEditar: any;
+  private nombreArchivo: any;
  
   @Input() documentos: any [] = [];
   // Carga de MatPaginator y MatSort para que no sean undefine al iniciar el modulo
@@ -31,8 +37,9 @@ export class ResultadosComponent implements OnInit{
     this.sort = mp;
     this.setDataSourceAttributes();
   }
-  @ViewChild('disabledEsc',{ static: false }) disabledEscTemplate: TemplateRef<HTMLElement>;
-  
+  @ViewChild('visualizarDoc',{ static: false }) vizualizarDocTemplate: TemplateRef<HTMLElement>;
+  @ViewChild('editarDoc',{ static: false }) editarDocTemplate: TemplateRef<HTMLElement>;
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
      this.screenHeight = window.innerHeight;
@@ -48,11 +55,12 @@ export class ResultadosComponent implements OnInit{
   // TODO: Este se tomaria del servicio del OAS, validar
   columnas: string[]=[];
 
+  private windowRef: any;
 
   constructor(
     private gestionService: GestionService, 
     private sanitizer: DomSanitizer,
-    private windowService: NbWindowService) {
+    private windowService: NbWindowService){
       this.onResize(); 
     }
 
@@ -81,14 +89,16 @@ export class ResultadosComponent implements OnInit{
 
   // Se añaden las columnas que se mostraran en la tabla de acuerdo a el primer elemento de los documentos
   obtenerColumnas(){
-    let array = Object.entries(this.documentos[0]);
-    array.forEach( element => {
-      // Elimina las columnas que no son necesarias en la busqueda
-      if(element[0] !== '_id' && element[0]!=='Id' && element[0]!=='Enlace')
-        this.columnas.push(element[0]);
-    });
-    this.columnas.push('Ver');
-    this.columnas.push('Editar');
+    if (this.documentos.length !== 0){
+      let array = Object.entries(this.documentos[0]);
+      array.forEach( element => {
+        // Elimina las columnas que no son necesarias en la busqueda
+        if(element[0] !== '_id' && element[0]!=='Id' && element[0]!=='Enlace')
+          this.columnas.push(element[0]);
+      });
+      this.columnas.push('Ver');
+      this.columnas.push('Editar');
+    }
   }
   
   // Evalua un documento y obtener el valor de una columna para mostrarlo en la tabla
@@ -108,31 +118,55 @@ export class ResultadosComponent implements OnInit{
     let array = Object.entries(documento);
     let url: any;
     let id: any;
+    let titulo;
+    //Obtener id de nuxeo para traer el documento
     array.forEach(dato=>{
       if(dato[0]==='Id'){
         id=dato[1];
       }
+      if(dato[0]==='Nombre'){
+        titulo=dato[1];
+      }
+      if(dato[0]=='Descripcion'){
+        this.descripcion=dato[1];
+      }
     });
-
     url = await this.gestionService.obtenerDocumento(id, this.gestionService);
     // Volver la url segura para Angular
     this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.visualizando=true;
-    let titulo;
-    array.forEach(dato=>{
-      if(dato[0]==='Nombre'){
-        titulo=dato[1];
-      }
-    });
-    this.windowService.open(
-      this.disabledEscTemplate,
+
+    this.windowRef=this.windowService.open(
+      this.vizualizarDocTemplate,
       { title: titulo, hasBackdrop: true, closeOnEsc: false},
     );
   }
 
+  // Recibe el tipo de accion y el documento
+  // Si se esta actualizado, modifica los datos en la tabla de busqueda por los actualizados
+  // Cierra la ventana
+  completarEdicion(mapa){
+    let documento =mapa.get('documento');
+    if(mapa.get('acciones')==='actualizando'){
+      let dato = this.dataSource.filteredData.find(element => element['_id'] === documento.IdApi);
+      for (const[clave, valor] of Object.entries(documento)){
+        // IdApi no se actualiza, es el id asignado por la base de datos
+        if(clave !== 'IdApi')
+          dato[clave] = valor;
+      }
+    }else{
+      this.dataSource.filteredData.splice(
+        this.dataSource.filteredData.findIndex(
+          element => element['_id'] === documento.IdApi
+        ), 1
+      );
+    }
+    this.windowRef.close();
+  }
+
   // Actualizar tamaño del iframe segun el tamaño del coponente
-  onload() {
-    var frame = document.getElementById("Iframe");
+  onload(idElemento) {
+    var frame = document.getElementById(idElemento);
     frame.style.height = 
     (this.screenHeight-this.screenHeight*0.3)+ 'px';
     frame.style.width  = 
@@ -140,7 +174,23 @@ export class ResultadosComponent implements OnInit{
   }
 
   // boton de editar documento en resultados
-  editar(documento){
-    console.log("boton editar");
+  async editar(documento){
+    let array = Object.entries(documento);
+    let titulo, id;
+    array.forEach(dato=>{
+      if(dato[0]==='Nombre'){
+        titulo=dato[1];
+      }
+      if(dato[0]==='Id'){
+        id=dato[1];
+      }
+    });
+    this.nombreArchivo = await this.gestionService.obtenerNombreDocumento(id, this.gestionService);
+    this.editando=true;
+    this.documentoEditar=documento;
+    this.windowRef=this.windowService.open(
+      this.editarDocTemplate,
+      { title: 'Editando '+titulo, hasBackdrop: true, closeOnEsc: false},
+    );
   }
 }

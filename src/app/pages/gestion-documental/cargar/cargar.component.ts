@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DocumentoG } from '../../../@core/data/models/documento/documento_Gestion';
-import { NbDateService } from '@nebular/theme';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
+import { NbDateService, NbDialogService, NbWindowService } from '@nebular/theme';
 import { NuxeoService } from '../../../@core/utils/nuxeo.service';
 import { DocumentoService } from '../../../@core/data/documento.service';
 import { Subject } from 'rxjs/Subject';
@@ -9,6 +9,7 @@ import { GestionService } from '../gestion-documental.service';
 import { TipoDocumento } from '../../../@core/data/models/documento/tipo_documento';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiRestService } from '../api-rest.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'ngx-cargar',
@@ -20,35 +21,45 @@ export class CargarComponent implements OnInit {
   @ViewChild('labelImport',{static: false})
   labelImport: ElementRef;
 
+  @ViewChild('aviso',{ static: true }) avisoTemplate : TemplateRef<any>;
+  
+  // Cuando se esta cargando el formulario para editar
+  @Input() documentoEditar: any;
+  @Input() editando: Boolean;
+  @Input() nombreArchivo: any;
+  @Output() terminarEvent = new EventEmitter<Map<string,any>>();
+
   // Estos datos se pueden traer de BD, para poder agregar mas
   tiposDocumento: String [] = ["Acta", "Resolución", "Comunicado", "Contrato"];
   
 
   // Para cargar a nuxeo
-  documento: DocumentoG = new DocumentoG;
-  private blobDocument$ = new Subject<[object]>();
-  private blobDocument: object;
-  private nuxeo: Nuxeo;
+  documento: DocumentoGestion = new DocumentoGestion(null,null, null, null, null, null, null, null, null, null);
   
   // Para formularios
   private docForm: FormGroup;
   private control: FormControl;
   private validado: Boolean;
   private clickeado: Boolean;
+  private archivoCambiado: Boolean;
   
   //Rango de fechas de la carga
   private min: Date;
   private max: Date;
-  
-  constructor(protected dateService: NbDateService<Date>, private gestionService: GestionService, private fb: FormBuilder, private apiRestService: ApiRestService) {
 
-    this.documento.TipoDocumento = new TipoDocumento;
-    this.blobDocument = {};
+  dialogRef: any;
+  
+  constructor(protected dateService: NbDateService<Date>, private gestionService: GestionService,
+     private fb: FormBuilder, private apiRestService: ApiRestService, private dialog: MatDialog
+     ,private host: ElementRef<HTMLElement>) {
+
+    // this.documento.TipoDocumento = new TipoDocumento;
     this.validado = true;
     this.clickeado= false;
+    this.archivoCambiado=false;
     this.min = this.dateService.addYear(this.dateService.today(), -20);
     this.max = this.dateService.addMonth(this.dateService.today(), 1);
-    this.iniciarFormulario();
+    
   }
 
   iniciarFormulario(){
@@ -57,54 +68,124 @@ export class CargarComponent implements OnInit {
       nombre: ['', Validators.required] ,
       serie: ['', Validators.required] ,
       subSerie: ['', Validators.required],
-      fecha:['', [Validators.required, this.checkDate(this.min,this.max, this.dateService) ]],
+      fecha:['', Validators.required],
       descripcion: ['', Validators.required],
       archivo: ['', Validators.required]
     });
-    //Fecha por defecto
-    //this.docForm.get('fecha').setValue(this.dateService.format(this.dateService.today(),'dd/MM/yyyy'));
-    this.docForm.get('fecha').setValue(this.dateService.today());
+    //Asignar fecha por defecto
+    //this.docForm.get('fecha').setValue(this.dateService.today());
     //this.docForm.get('fecha').valid;
     console.log('valid:' + this.docForm.get('fecha').valid);
     this.docForm.controls.fecha.hasError('onRange');
+    console.log('this.documentoEditar', this.documentoEditar);
+    if(this.editando && this.documentoEditar!==undefined){
+      
+      this.documento=this.gestionService.convertirDocumento(this.documentoEditar);
+      this.docForm.get('nombre').setValue(this.documento.Nombre);
+      this.docForm.get('fecha').setValue(this.documento.Fecha);
+      this.docForm.get('descripcion').setValue(this.documento.Descripcion);
+      this.docForm.get('serie').setValue(this.documento.Serie);
+      this.docForm.get('subSerie').setValue(this.documento.SubSerie);
+      this.docForm.get('tipoDocumento').setValue(this.documento.Tipo);
+      //this.docForm.get('archivo').setValue(documento.Nombre+'.pdf');
+      //this.labelImport.nativeElement.innerText = documento.Nombre+'.pdf';
+      
+      /* this.docForm.get('fecha') */
+    }
     
   }
 
-  checkDate(min: Date, max: Date, date: NbDateService<Date>){
-    // Resta y suma un dia para que la validacion concuerde con el datapicker
-    // min = date.addDay(min, -1);
-    // max = date.addDay(max, 1);
-    console.log(this);
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value !== undefined && !(date.isBetween(new Date(control.value),min, max) )) {
-        return { 'onRange': true };
-      }
-      return null;
-    };
-  }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.iniciarFormulario();
+  }
   
+  // Permite subir/modificar formulario a nuxeo y Api REST
   cargarFormulario(){
     // documento.TipoDocumento.Nombre se debe manejar por sistemas de OAS
-    if( this.docForm.invalid || this.docForm.controls.fecha.invalid){
+    if( this.docForm.invalid || this.docForm.controls.fecha.invalid ){
       this.validado= false;
       return;
     }
-    this.documento.TipoDocumento.Nombre=this.docForm.get('tipoDocumento').value;
+    this.documento.Tipo=this.docForm.get('tipoDocumento').value;
     this.documento.Nombre=this.docForm.get('nombre').value;
     this.documento.Serie=this.docForm.get('serie').value;
     this.documento.SubSerie=this.docForm.get('subSerie').value;
     this.documento.Fecha=this.docForm.get('fecha').value;
     this.documento.Descripcion=this.docForm.get('descripcion').value;
-    //this.documento.Archivo=this.docForm.get('archivo').value;
-    console.log("carga realizandose...");
-    /* this.gestionService.crearFolder(); */
-    this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
-    this.docForm.reset();
-    this.labelImport.nativeElement.innerText = 'Seleccione Archivo';
-    this.clickeado=false;
-    this.validado=true;
+    
+    //Editando documento
+    if(this.editando){
+      if(this.docForm.dirty){
+        this.gestionService.actualizarDocumento(this.documento,this.gestionService,this.apiRestService, this.archivoCambiado);
+      }
+      // Actualizando documento
+    }else{
+      this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
+      this.docForm.reset();
+      this.labelImport.nativeElement.innerText = 'Seleccione Archivo';
+      this.clickeado=false;
+      this.validado=true;
+      this.archivoCambiado=false;
+    }
+  }
+
+  // Ejecuta una ventana de dialogo pra validar si se desea eliminar
+  validarEliminar(){
+    let dato ={
+      accion: 'eliminando',
+      nombre: this.documento.Nombre,
+    }
+    this.dialogRef = this.dialog.open(this.avisoTemplate,
+      { data: dato, hasBackdrop: true, autoFocus: true, disableClose: true});
+  }
+
+  // Ejecuta una ventana de dialogo pra validar si se desea actualizar
+  validarActualizar(){
+    let dato ={
+      accion: 'actualizando',
+      nombre: this.documento.Nombre,
+    }
+    this.dialogRef = this.dialog.open(this.avisoTemplate,
+      { data: dato, hasBackdrop: true, autoFocus: true, disableClose: true});
+  }
+  
+  // Se ejecuta si se desea continuar eliminando/actualizando
+  aceptar(accion){
+    if(accion === 'actualizando'){
+      this.cargarFormulario();
+    }else{
+      this.eliminarDocumento();
+    }
+    this.dialogRef.close();
+    console.log('emiter objeto:',this.terminarEvent);
+    if(this.docForm.dirty){
+      let mapa =new Map;
+      mapa.set('acciones', accion);
+      mapa.set('documento',this.documento);
+      this.terminarEvent.emit(mapa);
+    }else{
+      let mapa =new Map;
+      mapa.set('acciones', accion);
+      mapa.set('documento',this.documento);
+      this.terminarEvent.emit(mapa);
+    }
+  }
+
+  // Se ejecuta si no se continua eliminando/actualizando
+  denegar(){
+    this.dialogRef.close();
+  }
+  //Eliminar registro del documento en nuxeo  api/base de datos
+  eliminarDocumento(){
+    this.gestionService.eliminarDocumento(this.documento, this.gestionService, this.apiRestService)
+  }
+
+  //abrir documento cargado
+  async verDocumento(){
+    let url = await this.gestionService.obtenerDocumento(this.documento.Id,this.gestionService);
+    /* this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url); */
+    window.open(url);
   }
 
   // On file Select change placeholder
@@ -114,17 +195,18 @@ export class CargarComponent implements OnInit {
       .map(f => f.name)
       .join(', ');
     this.documento.Archivo = files.item(0);
+    this.archivoCambiado=true;
   }
 
   //validación de los inputs con caso especial de la fecha implementando validacion checkDate
-  validateInput(input: string){
-    if(input === 'fecha'){
-      return (this.clickeado && this.docForm.controls[input].untouched) ||
-      (this.docForm.controls[input].invalid && this.docForm.controls[input].touched && this.docForm.controls.fecha.hasError('onRange'));
+  invalidInput(input: string){
+    if(input === 'archivo' && this.editando){
+      this.docForm.get(input).clearValidators();
+      this.docForm.get(input).updateValueAndValidity();
+      return false;
     }else if(input === 'tipoDocumento'){
       return (this.clickeado && this.docForm.controls[input].invalid && !this.docForm.controls[input].dirty);
-    }
-    else{
+    }else{
       return (this.clickeado && this.docForm.controls[input].invalid && this.docForm.controls[input].untouched) ||
       (this.docForm.controls[input].invalid && this.docForm.controls[input].touched);
     } 

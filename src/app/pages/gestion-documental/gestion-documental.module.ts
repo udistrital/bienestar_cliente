@@ -17,6 +17,7 @@ import {
   NbAccordionModule,
   NbDatepickerModule,
   NbWindowModule,
+  NbTooltipModule,
 
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -34,6 +35,7 @@ import { GestionService } from './gestion-documental.service';
 import { ApiRestService } from './api-rest.service';
 import { ResultadosComponent } from './resultados/resultados.component';
 import { MatSortModule } from '@angular/material/sort';
+import { AlertToastService } from './alert-toast.service';
 // const routes: Routes = [
 //   { path: '', component: GestionDocumentalComponent }
 // ]
@@ -45,7 +47,7 @@ import { MatSortModule } from '@angular/material/sort';
     ConsultarComponent,
     ResultadosComponent,
   ],
-  providers: [ApiRestService, GestionService],
+  providers: [ApiRestService, GestionService,AlertToastService],
   imports: [
     HttpClientModule,
     CommonModule,

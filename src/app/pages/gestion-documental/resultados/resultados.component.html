@@ -7,20 +7,20 @@
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ columna }} </mat-header-cell>
                         <ng-container *ngIf="columna === 'Ver'">
                             <mat-cell *matCellDef="let documento">
-                                <button type="button" class="btn btn-warning btn-rounded btn-icon" (click)="visualizar(documento)">
+                                <button type="button" nbButton status='info' class="btn btn-warning btn-rounded btn-icon" (click)="visualizar(documento)">
                                     <mat-icon>file_open</mat-icon>
                                 </button>
                             </mat-cell>
                         </ng-container> 
                         <ng-container  *ngIf="columna === 'Editar'">
                             <mat-cell *matCellDef="let documento"> 
-                                <button nbTooltip="Editar" nbTooltipStatus="danger" type="button" class="btn btn-danger btn-rounded btn-icon" (click)="editar(documento)">
+                                <button nbTooltip="Editar" nbButton nbTooltipStatus="danger" status='danger' type="button" class="btn btn-danger btn-rounded btn-icon" (click)="editar(documento)">
                                     <mat-icon>edit_square</mat-icon>
                                 </button>
                             </mat-cell>
                         </ng-container> 
                         <ng-container  *ngIf="columna !== 'Ver' && columna !== 'Editar' ">
-                            <mat-cell  *matCellDef="let documento"> {{ evaluar(documento,columna) }} </mat-cell> -->
+                            <mat-cell  *matCellDef="let documento"> {{ evaluar(documento,columna) }} </mat-cell>
                             </ng-container> 
                     </ng-container>
                 </div>
@@ -33,8 +33,15 @@
 </div>
 
 <!-- Template para mostrar el pdf en ventana -->
-<ng-template #disabledEsc #has>
+<ng-template #visualizarDoc>
     <div *ngIf="visualizando" >
-        <iframe [src]="urlSafe" type="application/pdf" (load)="onload()" id="Iframe" ></iframe>  
+        <p>{{descripcion}}</p>
+        <iframe [src]="urlSafe" type="application/pdf" (load)="onload('iframe')" id="iframe" ></iframe>  
+    </div>
+</ng-template>
+<ng-template #editarDoc id="divEditar" >
+    <div *ngIf="editando" (load)="onload('divEditar')" >
+        <ngx-cargar (terminarEvent)="completarEdicion($event)" [documentoEditar]="documentoEditar" [editando]="true" [nombreArchivo]="nombreArchivo">
+        </ngx-cargar>
     </div>
 </ng-template>
