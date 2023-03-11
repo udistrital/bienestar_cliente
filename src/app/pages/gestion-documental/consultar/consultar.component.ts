@@ -56,6 +56,7 @@ export class ConsultarComponent implements OnInit {
     this.gestionService.toastrService.mostrarAlerta('Cargando resultados...')
     await this.apiRestService.get().toPromise().then( res =>{
       this.documentos= res;
+      this.gestionService.toastrService.mostrarAlerta('Se ha realizado la consulta con exito','success');
     }).catch(error =>{
       this.gestionService.toastrService.mostrarAlerta('Error buscando docmentos '+error);
       console.log('el error es', error)

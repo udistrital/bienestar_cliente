@@ -35,12 +35,12 @@ export class CargarComponent implements OnInit {
 
   // Para cargar a nuxeo
   documento: DocumentoGestion = new DocumentoGestion(null,null, null, null, null, null, null, null, null, null);
-  
+  private documentoMostrar: any;
   // Para formularios
   private docForm: FormGroup;
   private control: FormControl;
-  private validado: Boolean;
-  private clickeado: Boolean;
+  private validado: Boolean;//saber cuando el formulario es validado
+  private clickeado: Boolean;//Saber cuando el boton de subir es oprimido para las validaciones
   private archivoCambiado: Boolean;
   
   //Rango de fechas de la carga
@@ -79,7 +79,6 @@ export class CargarComponent implements OnInit {
     this.docForm.controls.fecha.hasError('onRange');
     console.log('this.documentoEditar', this.documentoEditar);
     if(this.editando && this.documentoEditar!==undefined){
-      
       this.documento=this.gestionService.convertirDocumento(this.documentoEditar);
       this.docForm.get('nombre').setValue(this.documento.Nombre);
       this.docForm.get('fecha').setValue(this.documento.Fecha);
@@ -87,21 +86,15 @@ export class CargarComponent implements OnInit {
       this.docForm.get('serie').setValue(this.documento.Serie);
       this.docForm.get('subSerie').setValue(this.documento.SubSerie);
       this.docForm.get('tipoDocumento').setValue(this.documento.Tipo);
-      //this.docForm.get('archivo').setValue(documento.Nombre+'.pdf');
-      //this.labelImport.nativeElement.innerText = documento.Nombre+'.pdf';
-      
-      /* this.docForm.get('fecha') */
-    }
-    
+    } 
   }
-
 
   ngOnInit() { 
     this.iniciarFormulario();
   }
   
   // Permite subir/modificar formulario a nuxeo y Api REST
-  cargarFormulario(){
+  async cargarFormulario(){
     // documento.TipoDocumento.Nombre se debe manejar por sistemas de OAS
     if( this.docForm.invalid || this.docForm.controls.fecha.invalid ){
       this.validado= false;
@@ -121,9 +114,14 @@ export class CargarComponent implements OnInit {
       }
       // Actualizando documento
     }else{
-      this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
+      let documentoActualizado = await this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
+      console.log(documentoActualizado);
       this.docForm.reset();
       this.labelImport.nativeElement.innerText = 'Seleccione Archivo';
+      this.documentoMostrar= await [this.gestionService.convertirADiccionario(documentoActualizado)];
+      //Se agrega manualmente el id para no agregarel _id (id del API) convertirADiccionario() pues para el PUT agregaria una nueva 
+      this.documentoMostrar[0]['_id'] =  documentoActualizado.IdApi;
+
       this.clickeado=false;
       this.validado=true;
       this.archivoCambiado=false;

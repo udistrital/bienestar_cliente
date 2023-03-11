@@ -12,7 +12,7 @@
                     <nb-card-header class="search-nb-card">
                         <div class="container">
                             <div class="row justify-content-md-center">
-                                <button nbButton [status]="activo" type="button" size="small" style="display: block;" (click)="onClick()">Busqueda avanzada</button>
+                                <button nbButton [status]="activo" type="button" size="small" style="display: block;margin: 1em;" (click)="onClick()">Busqueda avanzada</button>
                             </div>
                         </div>
                     </nb-card-header>
@@ -37,6 +37,7 @@
                                 <input type="date"  id="fecha" name="fecha" class="form-control" placeholder="Fecha" 
                                             style="text-align: center; padding: 8px 12px; font-size: 14px;" formControlName="Fecha" required>
                             </div>
+                            <button nbButton [status]="activo" type="button" size="small" style="display: block;margin: 1em;" (click)="docSearch.reset()">Limpiar filtros</button>
                     </nb-card-body>
                 </nb-card>
             </form>

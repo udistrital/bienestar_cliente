@@ -23,18 +23,20 @@ export class ApiRestService {
     return this.http.get(this.url, this.options);
   }
 
-  post(body){
+   post(body):Observable<any>{
     this.headers=new HttpHeaders({
       'cache-control': 'no-cache',
       'x-apikey': this.apiKey,
       'content-type': 'application/json',
     });
     this.options = { headers: this.headers };
-    this.http.post(this.url, body, this.options).subscribe((res) => {
+    let post= this.http.post(this.url, body, this.options)
+    post.subscribe(  res => {
       console.log('POST correcto: ' + JSON.stringify(res));
     },(error) => {
       console.log('Error en POST: ' + JSON.stringify(error));
     });
+    return post;
   }
 
   update(body, id){

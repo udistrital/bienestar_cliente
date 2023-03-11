@@ -80,6 +80,9 @@
           </form>
         <!-- </div> -->
       </div>
+      <div>
+        <ngx-resultados  [documentos]="documentoMostrar"></ngx-resultados>
+      </div>
     </nb-card-body>
     <!-- <nb-card-footer>Pie de pagina</nb-card-footer> -->
 </nb-card>
@@ -91,8 +94,8 @@
         <h4>¿Desea continuar {{ data.accion }}</h4><h5><span style="color: rgb(206, 44, 44)">{{data.nombre}}</span></h5><h4 style='display:inline;'>?</h4>  
       </div>
       <div class="card-body">
-        <button nbButton type="button" status="success" (click)="aceptar(data.accion)">Si<mat-icon>done</mat-icon></button>
-        <button nbButton type="button" status="danger" (click)="denegar()">No<mat-icon>close</mat-icon></button>  
+        <button nbButton type="button" class="button-cargar" status="success" (click)="aceptar(data.accion)">Si<mat-icon>done</mat-icon></button>
+        <button nbButton type="button" class="button-cargar" status="danger" (click)="denegar()">No<mat-icon>close</mat-icon></button>  
       </div>
       <div class="card-footer text-muted">
         Los cambios realizados no se podrán deshacer.

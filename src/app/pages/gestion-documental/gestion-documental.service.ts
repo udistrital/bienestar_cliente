@@ -36,19 +36,20 @@ export class GestionService {
     
     // Agrega documento al API
     addDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
-        apiRestService.post(this.crearBody(documento));
+        return apiRestService.post(this.convertirADiccionario(documento));
     }
     
     // Modifica documento del API
     editDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
-        apiRestService.update(this.crearBody(documento), documento.IdApi);
+        apiRestService.update(this.convertirADiccionario(documento), documento.IdApi);
     }
     deletDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
         apiRestService.delete(documento.IdApi);
     }
     
     //Generea un json para enviarlo al API
-    crearBody(documento: DocumentoGestion){
+    convertirADiccionario(documento: DocumentoGestion){
+         
         return {
             Id: documento.Id,
             Nombre: documento.Nombre,
@@ -99,12 +100,12 @@ export class GestionService {
     }
 
     // Carga el documento a nux
-    crearDocumento(documento: DocumentoGestion, gestionService: GestionService, apiRestService: ApiRestService){
+    async crearDocumento(documento: DocumentoGestion, gestionService: GestionService, apiRestService: ApiRestService){
         const file = documento.Archivo;
         const documentoCons = documento;
-        GestionService.nuxeo.connect().
-            then(function(client){
-                GestionService.nuxeo.operation('Document.Create')
+        await GestionService.nuxeo.connect().
+            then( async function(client){
+                await GestionService.nuxeo.operation('Document.Create')
                     .params({
                         type: 'File',
                         name: documento.Nombre,
@@ -114,26 +115,31 @@ export class GestionService {
                     })
                     .input('/'+'desarrollo'+'/'+'workspaces'+'/'+'pruebas'+'/'+'GestionDocumental')
                     .execute()
-                    .then(function(res) {
+                    .then(async function(res) {
                         const blob = new Nuxeo.Blob({ content: file });
-                        GestionService.nuxeo.batchUpload()
+                        await GestionService.nuxeo.batchUpload()
                             .upload(blob)
-                            .then(function (response) {
+                            .then( async function (response) { 
                                 GestionService.nuxeo.operation('Blob.AttachOnDocument')
                                     .param('document',res.uid)
                                     .input(response.blob)
                                     .execute();
-                                documentoCons.Enlace=res.path;
-                                documentoCons.Id=res.uid;
-                                gestionService.addDocumento(documentoCons, apiRestService);
-                                gestionService.toastrService.mostrarAlerta('Se ha creado el documento '+documento.Nombre);
+                                documentoCons.Enlace = res.path;
+                                documentoCons.Id = res.uid;
+                                // Se requiere esperar por que se necesita el _id que asigna el API en la respuesta del POST
+                                
+                                await gestionService.addDocumento(documentoCons, apiRestService).toPromise().then( async res=>{
+                                    documentoCons.IdApi= await res['_id'];
+                                });
+                                gestionService.toastrService.mostrarAlerta('Se ha creado el documento '+documento.Nombre,'success');
+                                console.log(documentoCons);
                             }).catch(function (error) {
-                                gestionService.toastrService.mostrarAlerta('Error creando el documento '+documento.Nombre+', error:'+error);
+                                gestionService.toastrService.mostrarAlerta('Error creando el documento '+documento.Nombre+', error:'+error,'danger');
                                 console.log(error);
-                                return error;
                             });
                     })
-            });
+        });
+        return documentoCons;
     }
 
     // Actualizacion del documento en el API y en nuxeo
@@ -163,11 +169,11 @@ export class GestionService {
                             respuesta.blob()
                                 .then(function (responseblob) {
                                     const url = URL.createObjectURL(responseblob);
-                                    gestionService.toastrService.mostrarAlerta('El documento '+documento.Nombre+' ha sido actualizado');
                                 });
+                            gestionService.toastrService.mostrarAlerta('El documento '+documento.Nombre+' ha sido actualizado','success');
                         })
                         .catch(function(error){
-                            gestionService.toastrService.mostrarAlerta('Error actualizando el documento '+documento.Nombre+', error: '+error);
+                            gestionService.toastrService.mostrarAlerta('Error actualizando el documento '+documento.Nombre+', error: '+error,'danger');
                         });
                         
                 });
@@ -186,7 +192,7 @@ export class GestionService {
                 .execute()
                 .then(function (del){
                     gestionService.deletDocumento(documento, apiRestService);
-                    gestionService.toastrService.mostrarAlerta('El documento '+documento.Nombre+' ha sido eliminado');
+                    gestionService.toastrService.mostrarAlerta('El documento '+documento.Nombre+' ha sido eliminado','success');
                 })
                 .catch(function(error) {
                     gestionService.toastrService.mostrarAlerta('Documento no encontrado: ' + error, 'warning');
@@ -212,7 +218,7 @@ export class GestionService {
                 .then(function (responseblob) {
                     url = URL.createObjectURL(responseblob);
                     //window.open(url);
-                    gestionService.toastrService.mostrarAlerta('Se ha obtenido el documento satisfactoriamente');
+                    gestionService.toastrService.mostrarAlerta('Se ha obtenido el documento satisfactoriamente','success');
                 });
             }).catch(function (error) {
                 gestionService.toastrService.mostrarAlerta('Error generando el documento: ' + error, 'danger');

@@ -95,3 +95,10 @@
 .nb-card{
   border: 0;
 }
+
+.selector {
+  // overwrite width of select
+  width: 100% !important;
+  display: block !important;
+  max-width: 100% !important;
+}
