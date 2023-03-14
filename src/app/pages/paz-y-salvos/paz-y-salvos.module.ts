@@ -35,6 +35,7 @@ import { ParametriaPeriodoModule } from '../../shared/components/parametria-peri
 //prueba para pipes
 import { FechaFormatPipe } from './pipes/fecha-format.pipe';
 import { SafePipe } from './pipes/safe.pipe';
+import { SolicitudComponent } from './solicitud/solicitud.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SafePipe } from './pipes/safe.pipe';
   //declaracion de prueba para pipes de apoyo
   FechaFormatPipe,
   SafePipe,
+  SolicitudComponent,
 ],
   imports: [
     CommonModule,

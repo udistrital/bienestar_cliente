@@ -1,0 +1,105 @@
+<nb-card [hidden]="hideForm">
+    <nb-card-header>
+        <h2>Solicitud Paz y Salvos</h2>
+        <hr>
+        <div class="col-md-12">Hola {{estudiante.PrimerNombre}} aquí podras hacer la solicitud de tu Paz y Salvo Estudiantil</div>
+        <div class="col-md-6"> Por favor llene la siguiente información:</div>
+    </nb-card-header>
+    <nb-card-body>
+        <form [formGroup]="solicitarpyz">
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Nombre Completo*</mat-label>
+                <input matInput placeholder="Nombre Completo" [value]="estudiante.NombreCompleto" type="text"  />
+                <mat-hint>Su nombre es</mat-hint>
+                <mat-error >
+                    Campo
+                    obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Correo Institucional</mat-label>
+                <input matInput placeholder="email" [value]="email" type="email"  />
+                <mat-hint>Su correo es</mat-hint>
+                <mat-error >
+                    Campo
+                    obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Codigo Estudiantil</mat-label>
+                <input matInput placeholder="codigo" [value]="estudiante.UsuarioWSO2" type="number" />
+                <mat-hint>Su Codigo es</mat-hint>
+                <mat-error >
+                    Campo
+                    obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Proyecto Academico</mat-label>
+                <input matInput placeholder="Proyecto academico"  [value]="estudiante.proyecto" type="text" />
+                <mat-hint>Su Proyecto es</mat-hint>
+                <mat-error >
+                    Campo
+                    obligatorio</mat-error>
+            </mat-form-field>
+            <br>
+            <hr>
+            <p><b>Datos de la Solicitud</b></p>
+
+            
+          <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Motivo administrativo del servicio*</mat-label>
+                <mat-select formControlName="MotivoAdministrativo">
+                    <mat-option *ngFor="let motivo of MotivoAdministrativo" [value]="motivo">
+                        {{motivo}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el Motivo</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Motivo Personal del servicio*</mat-label>
+                <mat-select formControlName="MotivoPersonal">
+                    <mat-option *ngFor="let motivo of MotivoPersonal" [value]="motivo">
+                        {{motivo}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el Moivo</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+
+            
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Causa Principal del servicio*</mat-label>
+                <mat-select formControlName="CausaPrincipal">
+                    <mat-option *ngFor="let motivo of CausaPrincipal" [value]="motivo">
+                        {{motivo}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el Moivo</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                <mat-label>Teléfono*</mat-label>
+                <input matInput placeholder="Teléfono" type="number" formControlName="telefono" />
+                <mat-hint>Ingrese su número de teléfono</mat-hint>
+                <mat-error *ngIf="!solicitarpyz.controls.telefono.value && solicitarpyz.controls.telefono.touched">
+                    Campo
+                    obligatorio</mat-error>
+                <mat-error
+                    *ngIf="solicitarpyz.controls.telefono.errors?.pattern && solicitarpyz.controls.telefono.dirty">
+                    Solo
+                    números permitidos. Mínimo 7 dígitos. Máximo 10</mat-error>
+            </mat-form-field>
+            <div class="col-lg-12 text-center">
+                <button class="card-button m-2" type="submit" mat-raised-button color="primary"
+                    [disabled]="!solicitarpyz.valid" (click)="guardarSolicitud()">
+                    <mat-icon>send</mat-icon> Enviar solicitud
+                </button>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card> 

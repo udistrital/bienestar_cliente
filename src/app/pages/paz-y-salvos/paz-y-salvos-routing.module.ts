@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { GenerarPazysalvoComponent } from './pages/generar-pazysalvo/generar-pazysalvo.component';
 import { ConsultasComponent } from './pages/consultas/consultas.component';
+import { SolicitudComponent } from './solicitud/solicitud.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,7 @@ const routes: Routes = [
        component: GenerarPazysalvoComponent },
       { path: "consultas",
        component: ConsultasComponent },
-
+      { path: "solicitar", component: SolicitudComponent },
       { path: "", 
       component: HomeComponent },
       { path: "**", redirectTo: "" },
