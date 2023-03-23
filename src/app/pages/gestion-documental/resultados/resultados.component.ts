@@ -21,8 +21,6 @@ export class ResultadosComponent implements OnInit{
   private visualizando =false;
   private editando=false;
   private urlSafe: SafeResourceUrl;
-  private screenHeight: any;
-  private screenWidth: any;
   private descripcion: any;
   private documentoEditar: any;
   private nombreArchivo: any;
@@ -41,9 +39,24 @@ export class ResultadosComponent implements OnInit{
   @ViewChild('editarDoc',{ static: false }) editarDocTemplate: TemplateRef<HTMLElement>;
 
   @HostListener('window:resize', ['$event'])
-  onResize(event?) {
-     this.screenHeight = window.innerHeight;
-     this.screenWidth = window.innerWidth;
+  onResize() {
+    let height = window.innerHeight;
+    let width = window.innerWidth;
+    let frame = document.getElementById('iframe');
+    let hostElement= document.getElementById('containerEditar');
+    // Modifica el alto de el contenedor de comonente cargar (cuando se edita)
+    if(hostElement){  
+      hostElement.style.display='block';
+      hostElement.style.height=(height-height*0.3)+ 'px';
+    }
+
+    // Modifica el alto y ancho del iframe de visualizar
+    if(frame){
+      frame.style.height = 
+      (height-height*0.3)+ 'px';
+      frame.style.width  = 
+      (width-width*0.1)+'px';
+    }
   }
 
   setDataSourceAttributes() {
@@ -60,9 +73,7 @@ export class ResultadosComponent implements OnInit{
   constructor(
     private gestionService: GestionService, 
     private sanitizer: DomSanitizer,
-    private windowService: NbWindowService){
-      this.onResize(); 
-    }
+    private windowService: NbWindowService){}
 
 
   ngOnInit(): void {
@@ -162,15 +173,6 @@ export class ResultadosComponent implements OnInit{
       );
     }
     this.windowRef.close();
-  }
-
-  // Actualizar tamaño del iframe segun el tamaño del coponente
-  onload(idElemento) {
-    var frame = document.getElementById(idElemento);
-    frame.style.height = 
-    (this.screenHeight-this.screenHeight*0.3)+ 'px';
-    frame.style.width  = 
-    (this.screenWidth-this.screenWidth*0.1)+'px';
   }
 
   // boton de editar documento en resultados

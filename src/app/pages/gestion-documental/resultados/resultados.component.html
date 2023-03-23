@@ -36,12 +36,14 @@
 <ng-template #visualizarDoc>
     <div *ngIf="visualizando" >
         <p>{{descripcion}}</p>
-        <iframe [src]="urlSafe" type="application/pdf" (load)="onload('iframe')" id="iframe" ></iframe>  
+        <iframe [src]="urlSafe" type="application/pdf" (load)="onResize()" id="iframe" ></iframe>  
     </div>
 </ng-template>
-<ng-template #editarDoc id="divEditar" >
-    <div *ngIf="editando" (load)="onload('divEditar')" >
-        <ngx-cargar (terminarEvent)="completarEdicion($event)" [documentoEditar]="documentoEditar" [editando]="true" [nombreArchivo]="nombreArchivo">
+<ng-template #editarDoc id="divEditar"  >
+    <div *ngIf="editando "  id="containerEditar" >
+        {{onResize()}}
+        <ngx-cargar (terminarEvent)="completarEdicion($event)" (onload)="onResize()" [documentoEditar]="documentoEditar" [editando]="true" [nombreArchivo]="nombreArchivo">
         </ngx-cargar>
     </div>
 </ng-template>
+
