@@ -1,0 +1,96 @@
+<div>
+    <nb-card status="warning">
+        <nb-card-header>GESTOR DE DOCUMENTOS</nb-card-header>
+        <nb-card-body [nbSpinner]="loading" nbSpinnerMessage="Obteniendo repositorio.." nbSpinnerStatus="info">
+            
+            <div class="container flex-grow-1 light-style container-p-y">
+                <div class="container-m-nx container-m-ny bg-lightest mb-3">
+                    <!-- Ruta de navegación -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb container-p-x py-3 m-0 breadcrumb-custom">
+                            <ng-container *ngFor="let item of rutaActual; let i = index">
+                                <li *ngIf='rutaActual.length > 0 && i+1 < rutaActual.length' class="breadcrumb-item">
+                                    <a href="javascript:void(0)" (click)="backRute(i)">{{ item }}</a>
+                                </li>
+                                <li *ngIf='rutaActual.length > 0 && (rutaActual.length) === i+1' class="breadcrumb-item active">{{ item }}</li>
+                            </ng-container>
+                        </ol>
+                    </nav>
+                    <hr class="m-0" />
+
+                    <!-- Acciones generales -->
+                    <div class="file-manager-actions container-p-x py-2">
+                        <div>
+                            <button type="button" class="btn btn-primary mr-2" (click)="fileInput.click()">
+                                <span>Upload</span>
+                                <input #fileInput type="file" (change)="cargarDocumento($event.target.files)"/>
+                            </button>
+                            <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="mostarInput()"><i class="fa fa-folder"></i></button>
+                            <div class="btn-group mr-2">
+                                <button type="button" class="btn btn-default md-btn-flat dropdown-toggle px-2" (click)="onClick($event)" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <hr class="m-0" />
+                </div>
+            
+                <div class="file-manager-container file-manager-col-view" >
+                    <!-- Volver un nivel  -->
+                    <div class="file-item" *ngIf="rutaActual.length > 1" (dblclick)="backRute(rutaActual.length-2)">
+                        <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
+                        <a href="javascript:void(0)" class="file-item-name">
+                            ..
+                        </a>
+                    </div>
+            
+                    <!-- Para cada documento  -->
+                        <div *ngFor="let documento of documentos" class="file-item" (contextmenu)="onRightClick($event,documento)">
+                            <!-- checkbox -->
+                            <label class="file-item-checkbox custom-control custom-checkbox">
+                                <input aria-label="Select" type="checkbox" class="custom-control-input"/>
+                                <span class="custom-control-label"></span>
+                            </label>
+                            
+                            <!-- Icono y nombre si es folder o file -->
+                            <div *ngIf='documento.type === "File"'>
+                                <div class="file-item-icon far fa-file text-secondary" ></div>
+                                <a href="javascript:void(0)" class="file-item-name">{{ documento.properties['file:content']['name'] }}</a>
+                            </div>
+                            <div *ngIf='documento.type === "Folder"' (dblclick)="forwardRute(documento.title)">
+                                <div class="file-item-icon far fa-folder text-secondary"></div>
+                                <a href="javascript:void(0)"  class="file-item-name">{{ documento.title }}</a>
+                            </div>
+                        </div> 
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>
+<!-- an hidden div is created to set the position of appearance of the menu-->
+<div style="visibility: hidden; position: fixed;"
+[style.left.px]="menuTopLeftPosition.x"
+[style.top.px]="menuTopLeftPosition.y"
+[matMenuTriggerFor]="rightMenu"></div>
+
+<!-- standar material menu -->
+<mat-menu #rightMenu="matMenu">
+    <ng-template matMenuContent let-opciones="opciones" let-item="item">
+        <div *ngFor="let opcion of opciones">
+            <button mat-menu-item >{{opcion}}</button>
+        </div>
+    </ng-template>
+</mat-menu>
+
+<ng-template let-data #input>
+    <div class="card text-center">
+        <div class="card-header">
+            <label for="nombre"style="display: block;" >Ingrese el nombre de la carpeta</label>
+            <input nbInput type="text" id="nombre" name="nombre">
+        </div>
+        <div class="card-body">
+            <button nbButton type="button" class="button-cargar" status="success" (click)="crearFolder()" >Crear carpeta</button>
+            <button nbButton type="button" class="button-cargar" status="danger" (click)="cancelar()">Cancelar</button>  
+        </div>
+    </div>
+</ng-template>

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { GestionDocumentalComponent } from './gestion-documental.component';
 import { CargarComponent } from './cargar/cargar.component';
 import { ConsultarComponent } from './consultar/consultar.component';
+import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'consultar',
     component: ConsultarComponent
+  },
+  {
+    path: 'gestor',
+    component: GestorDocumentosComponent
   }
 ];
 
