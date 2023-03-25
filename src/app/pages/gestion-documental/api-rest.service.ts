@@ -18,25 +18,25 @@ export class ApiRestService {
   constructor(private http: HttpClient) {   }
 
 
-  get():Observable<any> {
-
+  get(){
     return this.http.get(this.url, this.options);
   }
 
-   post(body):Observable<any>{
+   async post(body){
     this.headers=new HttpHeaders({
       'cache-control': 'no-cache',
       'x-apikey': this.apiKey,
       'content-type': 'application/json',
     });
     this.options = { headers: this.headers };
-    let post= this.http.post(this.url, body, this.options)
-    post.subscribe(  res => {
+    let resultado: any;
+    await this.http.post(this.url, body, this.options).subscribe( async res => {
+      resultado=await res;
       console.log('POST correcto: ' + JSON.stringify(res));
     },(error) => {
       console.log('Error en POST: ' + JSON.stringify(error));
     });
-    return post;
+    return resultado;
   }
 
   update(body, id){

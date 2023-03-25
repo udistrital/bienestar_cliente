@@ -18,6 +18,7 @@ import {
   NbDatepickerModule,
   NbWindowModule,
   NbTooltipModule,
+  NbSpinnerModule,
 
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -36,6 +37,7 @@ import { ApiRestService } from './api-rest.service';
 import { ResultadosComponent } from './resultados/resultados.component';
 import { MatSortModule } from '@angular/material/sort';
 import { AlertToastService } from './alert-toast.service';
+import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos.component';
 // const routes: Routes = [
 //   { path: '', component: GestionDocumentalComponent }
 // ]
@@ -46,6 +48,7 @@ import { AlertToastService } from './alert-toast.service';
     CargarComponent,
     ConsultarComponent,
     ResultadosComponent,
+    GestorDocumentosComponent,
   ],
   providers: [ApiRestService, GestionService,AlertToastService],
   imports: [
@@ -73,6 +76,7 @@ import { AlertToastService } from './alert-toast.service';
     NbDatepickerModule.forRoot(),
     MatSortModule,
     NbWindowModule.forRoot(),
+    NbSpinnerModule,
   ]
 })
 export class GestionDocumentalModule { }

@@ -17,6 +17,7 @@ export class ConsultarComponent implements OnInit {
   private activo: String;
   private documentos: any;
   private resultado: boolean;
+  private loading: boolean;
   // Estos datos se pueden traer de BD, para poder agregar mas
   tiposDocumento: String [] = ["Acta", "Resolución", "Comunicado", "Contrato"];
   
@@ -53,14 +54,14 @@ export class ConsultarComponent implements OnInit {
 
   async buscarDocumento(){
     // Trae los documentos del API Rest
-    this.gestionService.toastrService.mostrarAlerta('Cargando resultados...')
+    this.loading=true;
     await this.apiRestService.get().toPromise().then( res =>{
       this.documentos= res;
-      this.gestionService.toastrService.mostrarAlerta('Se ha realizado la consulta con exito','success');
     }).catch(error =>{
       this.gestionService.toastrService.mostrarAlerta('Error buscando docmentos '+error);
       console.log('el error es', error)
     });
+    
     // Crea un arreglo con los filtros validos en el formulario
     let filtros: any= [];
     let documentosFiltrados: any= [];
@@ -94,7 +95,7 @@ export class ConsultarComponent implements OnInit {
       this.gestionService.toastrService.mostrarAlerta('No se han encontrado documentos');
       console.log('No se encontro busqueda con estos criterios.');
     }
-
+    this.loading=false;
     this.resultado = true;
   }
 }

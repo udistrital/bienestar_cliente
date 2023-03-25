@@ -9,7 +9,7 @@
                     <button class="custom-search-botton" type="submit" >Buscar</button>  
                 </div>
                 <nb-card class="nb-card">
-                    <nb-card-header class="search-nb-card">
+                    <nb-card-header class="search-nb-card" [nbSpinner]="loading" nbSpinnerMessage="Cargando resultados" nbSpinnerStatus="info">
                         <div class="container">
                             <div class="row justify-content-md-center">
                                 <button nbButton [status]="activo" type="button" size="small" style="display: block;margin: 1em;" (click)="onClick()">Busqueda avanzada</button>

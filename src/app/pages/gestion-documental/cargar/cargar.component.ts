@@ -42,6 +42,7 @@ export class CargarComponent implements OnInit {
   private validado: Boolean;//saber cuando el formulario es validado
   private clickeado: Boolean;//Saber cuando el boton de subir es oprimido para las validaciones
   private archivoCambiado: Boolean;
+  private loading: Boolean;
   
   //Rango de fechas de la carga
   private min: Date;
@@ -95,9 +96,11 @@ export class CargarComponent implements OnInit {
   
   // Permite subir/modificar formulario a nuxeo y Api REST
   async cargarFormulario(){
+    this.loading=true;
     // documento.TipoDocumento.Nombre se debe manejar por sistemas de OAS
     if( this.docForm.invalid || this.docForm.controls.fecha.invalid ){
       this.validado= false;
+      this.loading=false;
       return;
     }
     this.documento.Tipo=this.docForm.get('tipoDocumento').value;
@@ -125,6 +128,7 @@ export class CargarComponent implements OnInit {
       this.clickeado=false;
       this.validado=true;
       this.archivoCambiado=false;
+      this.loading=false;
     }
   }
 

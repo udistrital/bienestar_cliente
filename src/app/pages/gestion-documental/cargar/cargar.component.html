@@ -1,7 +1,7 @@
 <nb-card status="warning">
   <nb-card-header *ngIf="!editando">CARGAR DOCUMENTO</nb-card-header>
   <nb-card-header *ngIf="editando">EDITAR DOCUMENTO</nb-card-header>
-    <nb-card-body>
+    <nb-card-body [nbSpinner]="loading" nbSpinnerMessage="Cargando documento" nbSpinnerStatus="info">
       <div class="row justify-content-center">
         <!-- <div class="col-12"> -->
           <form [formGroup]="docForm"  #formDoc="ngForm" (ngSubmit)="cargarFormulario()">
