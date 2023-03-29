@@ -1,0 +1,119 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Nueva atención</mat-card-title>
+    <mat-card-subtitle
+      >Ingrese todos los datos de la atención.</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col col-5">
+        <mat-form-field>
+          <input matInput placeholder="Código de estudiante" />
+        </mat-form-field>
+      </div>
+      <div class="col col-7">
+        <button mat-raised-button color="primary">Buscar estudiante</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="picker1"
+            placeholder="Fecha de apertura"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Fecha de finalización"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Código" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Nombre completo" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Correo estudiantil" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <ngx-info-estudiante></ngx-info-estudiante>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Tipo de servicio</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{ food.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Tipo de atención </mat-label>
+          <mat-select>
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{ food.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Tipo de cita</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{ food.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-9">
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Escribe una observación"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col col-3">
+        <button mat-raised-button color="primary">Nueva observación</button>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent">Guardar y salir</button>
+    <button mat-raised-button color="warn">Finalizar atención</button>
+  </mat-card-actions>
+</mat-card>
