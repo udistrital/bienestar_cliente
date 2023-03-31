@@ -3,7 +3,6 @@ import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { SolicitudService } from "../../../@core/data/solicitud.service";
 import { AtencionesService } from "../services/atenciones.service";
 import { TipoSolicitud } from "../../../@core/data/models/solicitud/tipo_solicitud";
-import { filter } from "rxjs/operators";
 import { Estado } from "../../../@core/data/models/solicitud/estado";
 
 @Component({
