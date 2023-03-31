@@ -113,7 +113,7 @@ export class ListaAtencionesComponent implements OnInit {
 
   ngOnInit() {
     // this.findAtenciones();
-    this.atencionesService.createAtencion()
+    // this.atencionesService.createAtencion()
   }
 
   findAtenciones() {

@@ -5,6 +5,7 @@ import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { formatDate } from "@angular/common";
 import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado-tipo-solicitud";
 import { ReferenciaSolicitud } from "../../../@core/data/models/solicitud/referencia-solicitud";
+import { TipoSolicitud } from "../../../@core/data/models/solicitud/tipo_solicitud";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -71,7 +72,29 @@ export class AtencionesService {
         JSON.stringify(solicitud)
       )
       .subscribe((res) => {
-        console.log(res)
+        console.log(res);
       });
+  }
+
+  /**
+   * 
+   * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
+   */
+  getTiposAtenciones(): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/tipo_solicitud?limit=0`,
+      httpOptions
+    );
+  }
+
+  /**
+   * 
+   * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
+   */
+  getEstadosAtenciones(): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado?limit=0`,
+      httpOptions
+    );
   }
 }

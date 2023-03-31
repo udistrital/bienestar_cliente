@@ -83,18 +83,24 @@
         <mat-form-field>
           <mat-label>Tipo de atención </mat-label>
           <mat-select>
-            <mat-option *ngFor="let food of foods" [value]="food.value">
-              {{ food.viewValue }}
+            <mat-option
+              *ngFor="let tipoAtencion of tiposAtenciones"
+              [value]="tipoAtencion"
+            >
+              {{ tipoAtencion.Nombre }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field>
-          <mat-label>Tipo de cita</mat-label>
+          <mat-label>Estado de atención</mat-label>
           <mat-select>
-            <mat-option *ngFor="let food of foods" [value]="food.value">
-              {{ food.viewValue }}
+            <mat-option
+              *ngFor="let estadoAtencion of estadosAtenciones"
+              [value]="estadoAtencion"
+            >
+              {{ estadoAtencion.Nombre }}
             </mat-option>
           </mat-select>
         </mat-form-field>
