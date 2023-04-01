@@ -10,11 +10,11 @@
     <div class="row">
       <div class="col col-5">
         <mat-form-field>
-          <input matInput placeholder="Código de estudiante" />
+          <input matInput placeholder="Código de estudiante" [(ngModel)]="codigo" />
         </mat-form-field>
       </div>
       <div class="col col-7">
-        <button mat-raised-button color="primary">Buscar estudiante</button>
+        <button mat-raised-button color="primary" (click)="getEstudiante()">Buscar estudiante</button>
       </div>
     </div>
 
@@ -51,12 +51,16 @@
     <div class="row">
       <div class="col">
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Código" />
+          <input matInput placeholder="Código" [value]="estudiante.Carnet" />
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Nombre completo" />
+          <input
+            matInput
+            placeholder="Nombre completo"
+            [value]="estudiante.Nombre"
+          />
         </mat-form-field>
       </div>
       <div class="col">

@@ -12,6 +12,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { InfoEstudianteComponent } from "./info-estudiante/info-estudiante.component";
 import { MatSelectModule } from "@angular/material/select";
 import { HttpClientModule } from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HttpClientModule } from "@angular/common/http";
     MatDatepickerModule,
     MatSelectModule,
     HttpClientModule,
+    FormsModule,
   ],
 })
 export class AtencionesModule {}

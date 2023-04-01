@@ -4,6 +4,9 @@ import { SolicitudService } from "../../../@core/data/solicitud.service";
 import { AtencionesService } from "../services/atenciones.service";
 import { TipoSolicitud } from "../../../@core/data/models/solicitud/tipo_solicitud";
 import { Estado } from "../../../@core/data/models/solicitud/estado";
+import { EstudiantesService } from "../../../shared/services/estudiantes.service";
+import { ListService } from "../../../@core/store/list.service";
+import { InfoCompletaEstudiante } from "../../../@core/data/models/info-completa-estudiante/info-completa-estudiante";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -12,18 +15,32 @@ import { Estado } from "../../../@core/data/models/solicitud/estado";
 })
 export class CrearAtencionComponent implements OnInit {
   constructor(
-    private solicitudService: SolicitudService,
-    private atencionesService: AtencionesService
+    private estudiantesService: EstudiantesService,
+    private atencionesService: AtencionesService,
+    private listService: ListService
   ) {}
   value: string = "";
   atenciones: Solicitud[] = [];
   tiposAtenciones: TipoSolicitud[] = [];
   estadosAtenciones: Estado[] = [];
+  estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
+  codigo: string = "";
+
+  // { codigo: "20172020079", estado: "A", pensum: "325", carrera: "20", nombre: "BUITRAGO CAMACHO WILLIAM NICOLAS" }
 
   ngOnInit() {
     this.findAtenciones();
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
+  }
+
+  getEstudiante() {
+    this.estudiantesService.getEstudiante(this.codigo).subscribe((res) => {
+      this.estudiante.Nombre =
+        res.datosEstudianteCollection.datosBasicosEstudiante[0].nombre;
+      this.estudiante.Carnet =
+        res.datosEstudianteCollection.datosBasicosEstudiante[0].codigo;
+    });
   }
 
   getTiposAtenciones() {
