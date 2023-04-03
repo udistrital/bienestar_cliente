@@ -61,12 +61,12 @@
                 <div *ngIf="!editando">  
                   <input class="custom-file-input" type="file" id="archivo" 
                             (change)="onChange($event.target.files)" formControlName="archivo" required>
-                    <label class="custom-file-label" #labelImport for="archivo"><i class="fas fa-search"></i>Seleccione Archivo</label>
+                    <label class="custom-file-label" #labelUpoadFile for="archivo"><i class="fas fa-search"></i>Seleccione Archivo</label>
                 </div>
                 <div *ngIf="editando">
                     <input class="custom-file-input" type="file" id="archivo" 
                             (change)="onChange($event.target.files)" formControlName="archivo" required>       
-                    <label class="custom-file-label" #labelImport for="archivo">Actualizar documento</label>  
+                    <label class="custom-file-label" #labelUpoadFile for="archivo">Actualizar documento</label>  
                   <small *ngIf="invalidInput('archivo')" class="form-text text-danger">Campo requerido</small>
                 </div>
               </div>
@@ -80,7 +80,7 @@
           </form>
         <!-- </div> -->
       </div>
-      <div>
+      <div #resultados>
         <ngx-resultados  [documentos]="documentoMostrar"></ngx-resultados>
       </div>
     </nb-card-body>

@@ -1,4 +1,4 @@
-import { Component,TemplateRef, OnInit, ViewChild, ChangeDetectionStrategy, Input, Output } from '@angular/core';
+import { Component,TemplateRef, OnInit, ViewChild, ChangeDetectionStrategy, Input, Output, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
 import { ApiRestService } from '../api-rest.service';
@@ -11,18 +11,17 @@ import { ResultadosComponent } from '../resultados/resultados.component';
   styleUrls: ['./consultar.component.scss'],
 })
 export class ConsultarComponent implements OnInit {  
+  @ViewChild('resultados', { static: true }) resultadosElement: ElementRef;
 
   private docSearch: FormGroup;
   private busquedaAvanzada: boolean;
   private activo: String;
   private documentos: any;
-  private resultado: boolean;
   private loading: boolean;
   // Estos datos se pueden traer de BD, para poder agregar mas
   tiposDocumento: String [] = ["Acta", "Resolución", "Comunicado", "Contrato"];
   
   constructor(private gestionService: GestionService, private fb: FormBuilder, private apiRestService: ApiRestService) {
-    this.resultado=false;
     this.busquedaAvanzada= false;
     this.iniciarFormulario();
     this.activo = 'warning';
@@ -89,13 +88,13 @@ export class ConsultarComponent implements OnInit {
     if(filtros){
       this.documentos=documentosFiltrados;
     }
-    //se cambian los resultados a un arreglo vacio cuando no hay ningun documento con los criterios de filtros
-    if(this.documentos === undefined){
-      this.documentos=[];
-      this.gestionService.toastrService.mostrarAlerta('No se han encontrado documentos');
-      console.log('No se encontro busqueda con estos criterios.');
-    }
+
+    //se cambian los resultados a un arreglo vacio cuando no hay ningun documento con los criterios de filtros   
     this.loading=false;
-    this.resultado = true;
+    if(this.documentos.length===0){
+      this.gestionService.toastrService.mostrarAlerta('No se han encontrado documentos');
+    }else{
+      this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start',inline: "nearest" });
+    }
   }
 }

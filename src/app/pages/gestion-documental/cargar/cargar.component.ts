@@ -18,10 +18,9 @@ import { MatDialog } from '@angular/material';
 })
 export class CargarComponent implements OnInit {
 
-  @ViewChild('labelImport',{static: false})
-  labelImport: ElementRef;
-
+  @ViewChild('labelUpoadFile',{static: false}) labelUpoadFile: ElementRef;
   @ViewChild('aviso',{ static: true }) avisoTemplate : TemplateRef<any>;
+  @ViewChild('resultados', { static: true }) resultadosElement: ElementRef;
   
   // Cuando se esta cargando el formulario para editar
   @Input() documentoEditar: any;
@@ -120,10 +119,12 @@ export class CargarComponent implements OnInit {
       let documentoActualizado = await this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
       console.log(documentoActualizado);
       this.docForm.reset();
-      this.labelImport.nativeElement.innerText = 'Seleccione Archivo';
+      this.labelUpoadFile.nativeElement.innerText = 'Seleccione Archivo';
       this.documentoMostrar= await [this.gestionService.convertirADiccionario(documentoActualizado)];
       //Se agrega manualmente el id para no agregarel _id (id del API) convertirADiccionario() pues para el PUT agregaria una nueva 
       this.documentoMostrar[0]['_id'] =  documentoActualizado.IdApi;
+      // Moverse automaticamente al resultado
+      this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
 
       this.clickeado=false;
       this.validado=true;
@@ -193,7 +194,7 @@ export class CargarComponent implements OnInit {
   // On file Select change placeholder
   onChange(files: FileList) {
     //this.documento.Archivo = event.target.files[0];
-    this.labelImport.nativeElement.innerText= Array.from(files)
+    this.labelUpoadFile.nativeElement.innerText= Array.from(files)
       .map(f => f.name)
       .join(', ');
     this.documento.Archivo = files.item(0);

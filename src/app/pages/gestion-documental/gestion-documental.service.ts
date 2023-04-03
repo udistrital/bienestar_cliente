@@ -34,6 +34,9 @@ export class GestionService {
         });
     }
     
+/* // API REST
+///////////////////////////////////////////////////////////////////////////////////////////////
+*/
     // Agrega documento al API
     addDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
         return apiRestService.post(this.convertirADiccionario(documento));
@@ -94,50 +97,12 @@ export class GestionService {
             if(dato[0]==='Enlace'){
                 enlace=dato[1];
             }
-          });
-        
-          return new DocumentoGestion (id, idApi, tipo, nombre, serie, subSerie, fecha, descripcion, enlace, archivo);
+        });
+        return new DocumentoGestion (id, idApi, tipo, nombre, serie, subSerie, fecha, descripcion, enlace, archivo);
     }
-
-    /**
-     * Crea un directorio en nuxeo de la ruta indicada para el gestor documental de funcionarios
-     *
-     * @param file Archivos a cargar.
-     * @param path Directorio del.
-     * @param gestionService Objeto de GestionService.
-     *
-     */
-    async crearDocumentoGestor(file: File, path, gestionService: GestionService){
-        await GestionService.nuxeo.connect().
-            then( async function(client){
-                await GestionService.nuxeo.operation('Document.Create')
-                    .params({
-                        type: 'File',
-                        name: file.name,
-                        properties: 'dc:title='+file.name
-                        //properties: 'dc:title='+documento.Nombre+' \ndc:description=Documento para probar creacion'
-                    })
-                    .input(GestionService.path+'/GestorRepositorios/'+path)
-                    .execute()
-                    .then(async function(res) {
-                        const blob = new Nuxeo.Blob({ content: file });
-                        await GestionService.nuxeo.batchUpload()
-                            .upload(blob)
-                            .then( async function (response) { 
-                                await GestionService.nuxeo.operation('Blob.AttachOnDocument')
-                                    .param('document',res.uid)
-                                    .input(response.blob)
-                                    .execute();
-                                gestionService.toastrService.mostrarAlerta('Se ha creado el documento '+file.name,'success');
-                            }).catch(function (error) {
-                                gestionService.toastrService.mostrarAlerta('Error creando el documento '+file.name+', error:'+error,'danger');
-                                console.log(error);
-                            });
-                    })
-            }
-        );
-    }
-    
+/* // Docuemntos con api Rest
+///////////////////////////////////////////////////////////////////////////////////////////////
+*/    
 
     /**
      * Crea un directorio en nuxeo de la ruta indicada para el la carga de documetos de 
@@ -190,9 +155,7 @@ export class GestionService {
     actualizarDocumento(documento: DocumentoGestion, gestionService: GestionService, apiRestService: ApiRestService, actualizarArchivo: Boolean){
         const file = documento.Archivo;
         const documentoCons = documento;
-        
         if(actualizarArchivo){
-            console.log('hace nuxeo')
             this.editDocumento(documento,apiRestService);
             const nuxeoBlob = new Nuxeo.Blob({content: documento.Archivo});
             GestionService.nuxeo.connect();
@@ -291,18 +254,63 @@ export class GestionService {
         return nombre;
     }
 
+    /* // Gestor de documentos
+///////////////////////////////////////////////////////////////////////////////////////////////
+*/
+    /**
+     * Crea un directorio en nuxeo de la ruta indicada para el gestor documental de funcionarios
+     *
+     * @param file Archivos a cargar.
+     * @param path Directorio del.
+     * @param gestionService Objeto de GestionService.
+     *
+     */
+    async crearDocumentoGestor(file: File, id, gestionService: GestionService){
+        console.log('id de crear documento',id);
+        await GestionService.nuxeo.connect().
+            then( async function(client){
+                await GestionService.nuxeo.operation('Document.Create')
+                    .params({
+                        type: 'File',
+                        name: file.name,
+                        properties: 'dc:title='+file.name
+                        //properties: 'dc:title='+documento.Nombre+' \ndc:description=Documento para probar creacion'
+                    })
+                    .input(id)
+                    .execute()
+                    .then(async function(res) {
+                        const blob = new Nuxeo.Blob({ content: file });
+                        await GestionService.nuxeo.batchUpload()
+                            .upload(blob)
+                            .then( async function (response) { 
+                                await GestionService.nuxeo.operation('Blob.AttachOnDocument')
+                                    .param('document',res.uid)
+                                    .input(response.blob)
+                                    .execute();
+                                gestionService.toastrService.mostrarAlerta('Se ha creado el documento '+file.name,'success');
+                            }).catch(function (error) {
+                                gestionService.toastrService.mostrarAlerta('Error creando el documento '+file.name+', error:'+error,'danger');
+                            });
+                    })
+            }
+        );
+    }
     /**
      * Crea un directorio en nuxeo de la ruta indicada
+     * Si se quiere crear en un documento padre se debe enviar tambien el id
      *
      * @param userPath Path a crear.
      * @param gestionService instancia de GestionService.
-     * @param newPath? Path opcional, donde se creara el folder cuando no sea la raiz.
+     * @param idPadre? Ppcional, id del documento padre, donde se creara el folder cuando no sea la raiz.
      *
      */
-    async crearFolder(nombre, gestionService, newPath?){
+    async crearFolder(nombre, gestionService, idPadre?){
         let path=GestionService.path+'/GestorRepositorios';
-        if(newPath){
-            path=path+'/'+newPath;
+        let newId;
+        // Cuando se crea un directorio raiz para un usuario, no se necesita el id donde se creara la carpeta
+        // Se creara en el documento padre
+        if(idPadre){
+            path=idPadre;
         }
         await GestionService.nuxeo.connect()
             .then(async function (client) {
@@ -312,8 +320,10 @@ export class GestionService {
                     name: nombre,
                     properties: 'dc:title='+nombre+'\ndc:description=Folder de funcionario'
                 })
-                .input(path).execute()
+                .input(path)
+                .execute()
                 .then(async function(doc) {
+                    newId=await doc.uid;
                     await gestionService.toastrService.mostrarAlerta('Repositorio creado','success');
                 })
                 .catch(function(error) {
@@ -325,8 +335,56 @@ export class GestionService {
                 gestionService.toastrService.mostrarAlerta('Error en conexión con Nuxeo', 'danger');
             throw error;
             });
+        return newId;
     }
 
+    async obtenerDirectorioByPath(nombre,gestionService,validar?){
+        let retorno =new Map;
+        retorno.set('valores', undefined);
+        retorno.set('id', undefined);
+        let id;
+        await GestionService.nuxeo.repository().fetch(GestionService.path+'/GestorRepositorios/'+nombre)
+            .then(async function (res){
+                id=await res.uid;
+                await retorno.set('id',id);
+                console.log(res);
+                let resultado=await gestionService.obtenerDirectorioByID(id,gestionService);
+                retorno.set('valores',resultado);
+            })
+            .catch(error=>{
+                if(!validar)
+                    gestionService.toastrService.mostrarAlerta('Repositorio no encontrado :', 'danger');
+            });
+        
+        return retorno;
+    }
+    /**
+     * Obtiene el directorio en nuxeo con el id indicado
+     *
+     * @param id id del directorio
+     * @param gestionService Instacion de GestionService.
+     * @param validar? Parametro opcional, si solo se esta verificando qu un directorio exista.
+     *
+     * @return los documentos hijos que contenga, si esta vacion retorna un arreglo vacio. 
+     */
+    async obtenerDirectorioByID(id,gestionService,validar?){
+        console.log('obteniendo directorio con id: ', id);
+        let retorno: any =undefined;
+        const headers = {
+            'X-NXDocumentProperties': '*',
+          };
+        await GestionService.nuxeo.operation('Document.GetChildren')
+        .input(id)
+        .execute({ headers })
+        .then(async function(docs) {
+            retorno=await docs.entries;
+        })
+        .catch( function(error) {
+            if(!validar)
+                gestionService.toastrService.mostrarAlerta('Repositorio no encontrado buscando la ruta: danger');
+        });
+        return retorno;
+    }
     /**
      * Obtiene el directorio en nuxeo de la ruta indicada
      *
@@ -341,6 +399,7 @@ export class GestionService {
         let retorno =new Map;
         retorno.set('existe',false);
         retorno.set('valores', undefined);
+        retorno.set('id', undefined);
         const headers = {
             'X-NXDocumentProperties': '*',
           };
@@ -356,5 +415,63 @@ export class GestionService {
                 gestionService.toastrService.mostrarAlerta('Repositorio no encontrado buscando la ruta:' + userPath, 'danger');
         });
         return retorno;
+    }
+
+    /**
+     * Elimina el documetno con el id recibido
+     *
+     * @param id identificador del archivo a eliminar.
+     * @param gestionService Instacia de GestionService.
+     */
+    async eliminarElementoGestor(id,gestionService: GestionService){
+        await GestionService.nuxeo.operation('Document.Delete')
+        .input(id)
+        .execute()
+        .then(function (del){
+            gestionService.toastrService.mostrarAlerta('El elemento ha sido eliminado','success');
+        })
+        .catch(function(error) {
+            gestionService.toastrService.mostrarAlerta('Elemento no encontrado: ' + error, 'warning');
+        });
+    }
+
+    /**
+     * Actualizacion el nombre de un documento o folder
+     *
+     * @param documento Objeto Document del documetno a eliminar.
+     * @param nuevoNombre Nombre nuevo del documento
+     * @param gestionService Instacia de GestionService.
+     */
+    async actualizarNombre(documento, nuevoNombre, gestionService: GestionService){ 
+        let id= documento.uid;
+        if(!documento.isFolder()){
+            //Cambiar nombre
+            let operation = GestionService.nuxeo.operation('Document.SetBlobName');
+            operation.input(id).params({
+                name: nuevoNombre,
+            });
+            await operation.execute();
+            documento.set({'dc:title': nuevoNombre})
+            await documento.save()
+        }else{
+            await documento.set({
+                'dc:title': nuevoNombre,
+            });
+            await documento.save();
+        }              
+    }
+    async moverDocumento(idPadre, idHijo, gestionService: GestionService){
+        await GestionService.nuxeo.operation('Document.Move')
+            .input(idHijo)
+            .params({
+                target: idPadre
+            })
+            .execute()
+            .then(async function(res){
+                await gestionService.toastrService.mostrarAlerta("Se ha movido el elemento",'success');
+            })
+            .catch(function(error){
+                gestionService.toastrService.mostrarAlerta("Ha ocurrido un error moviendo el elemento, error: "+error,'danger');
+            });
     }
 }

@@ -19,6 +19,7 @@ import {
   NbWindowModule,
   NbTooltipModule,
   NbSpinnerModule,
+  NbBadgeModule,
 
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -77,6 +78,7 @@ import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos
     MatSortModule,
     NbWindowModule.forRoot(),
     NbSpinnerModule,
+    NbBadgeModule
   ]
 })
 export class GestionDocumentalModule { }

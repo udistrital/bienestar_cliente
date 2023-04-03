@@ -10,9 +10,9 @@
                         <ol class="breadcrumb container-p-x py-3 m-0 breadcrumb-custom">
                             <ng-container *ngFor="let item of rutaActual; let i = index">
                                 <li *ngIf='rutaActual.length > 0 && i+1 < rutaActual.length' class="breadcrumb-item">
-                                    <a href="javascript:void(0)" (click)="backRute(i)">{{ item }}</a>
+                                    <a href="javascript:void(0)" class="link-primary" (click)="backRute(i)">{{ item['nombre']}}</a>
                                 </li>
-                                <li *ngIf='rutaActual.length > 0 && (rutaActual.length) === i+1' class="breadcrumb-item active">{{ item }}</li>
+                                <li *ngIf='rutaActual.length > 0 && (rutaActual.length) === i+1' class="breadcrumb-item active">{{ item['nombre']}}</li>
                             </ng-container>
                         </ol>
                     </nav>
@@ -25,43 +25,45 @@
                                 <span>Upload</span>
                                 <input #fileInput type="file" (change)="cargarDocumento($event.target.files)"/>
                             </button>
-                            <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="mostarInput()"><i class="fa fa-folder"></i></button>
+                            <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="mostarInputCrear()"><i class="fa fa-folder"></i></button>
                             <div class="btn-group mr-2">
                                 <button type="button" class="btn btn-default md-btn-flat dropdown-toggle px-2" (click)="onClick($event)" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></button>
                             </div>
+                            <nb-card-body *ngIf="documentosAMover.length>0" style="position: relative; padding: 0rem 0.8rem;" status="info">
+                                <mat-icon style="transform: scale(1);">drive_file_move</mat-icon>
+                                <nb-badge status="info" text="{{documentosAMover.length}}" position="top right" style="font-size: 0.925rem;"></nb-badge>
+                            </nb-card-body>
+                            
                         </div>
                     </div>
-            
                     <hr class="m-0" />
                 </div>
             
-                <div class="file-manager-container file-manager-col-view" >
+                <div class="file-manager-container file-manager-col-view" (contextmenu)="onRightClick($event)" >
                     <!-- Volver un nivel  -->
-                    <div class="file-item" *ngIf="rutaActual.length > 1" (dblclick)="backRute(rutaActual.length-2)">
+                    <div class="file-item" *ngIf="rutaActual.length > 1" (dblclick)="backRute(rutaActual.length-2)" (contextmenu)="desabilitarClicDerecho($event)">
                         <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
                         <a href="javascript:void(0)" class="file-item-name">
                             ..
                         </a>
                     </div>
-            
                     <!-- Para cada documento  -->
-                        <div *ngFor="let documento of documentos" class="file-item" (contextmenu)="onRightClick($event,documento)">
-                            <!-- checkbox -->
-                            <label class="file-item-checkbox custom-control custom-checkbox">
-                                <input aria-label="Select" type="checkbox" class="custom-control-input"/>
-                                <span class="custom-control-label"></span>
-                            </label>
-                            
-                            <!-- Icono y nombre si es folder o file -->
-                            <div *ngIf='documento.type === "File"'>
-                                <div class="file-item-icon far fa-file text-secondary" ></div>
-                                <a href="javascript:void(0)" class="file-item-name">{{ documento.properties['file:content']['name'] }}</a>
-                            </div>
-                            <div *ngIf='documento.type === "Folder"' (dblclick)="forwardRute(documento.title)">
-                                <div class="file-item-icon far fa-folder text-secondary"></div>
-                                <a href="javascript:void(0)"  class="file-item-name">{{ documento.title }}</a>
-                            </div>
-                        </div> 
+                    <div *ngFor="let documento of documentos; let i=index" class="file-item" (contextmenu)="onRightClick($event,documento)">
+                        <!-- checkbox -->
+                        <label class="file-item-checkbox custom-control custom-checkbox">
+                            <input aria-label="Select" type="checkbox" class="custom-control-input" id={{i}}/>
+                            <span class="custom-control-label"></span>
+                        </label>
+                        <!-- Icono y nombre si es folder o file -->
+                        <div *ngIf='documento.type === "File"'>
+                            <div class="file-item-icon far fa-file text-secondary"  (dblclick)="verDocumento(documento)"></div>
+                            <a href="javascript:void(0)" class="file-item-name">{{ documento.properties['file:content']['name'] }}</a>
+                        </div>
+                        <div *ngIf='documento.type === "Folder"' (dblclick)="forwardRute(documento)">
+                            <div class="file-item-icon far fa-folder text-secondary"></div>
+                            <a href="javascript:void(0)"  class="file-item-name">{{ documento.title }}</a>
+                        </div>
+                    </div> 
                 </div>
             </div>
         </nb-card-body>
@@ -77,20 +79,55 @@
 <mat-menu #rightMenu="matMenu">
     <ng-template matMenuContent let-opciones="opciones" let-item="item">
         <div *ngFor="let opcion of opciones">
-            <button mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Eliminar'" (click)="validarEliminar(item)" mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Cambiar Nombre'" (click)="mostarInputCambiar(item)" mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Mover'" (click)="moverGuardar(item)" mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Mover Aqui' && documentosAMover.length>0 && item && item.isFolder() && validarMover(item.uid)" (click)="moverAqui(item)" mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Mover Aqui' && documentosAMover.length>0 && !item" (click)="moverAqui()" mat-menu-item >{{opcion}}</button>
         </div>
     </ng-template>
 </mat-menu>
 
-<ng-template let-data #input>
+<!--Template ventana input para crear folder-->
+<ng-template let-data #inputCrear>
     <div class="card text-center">
         <div class="card-header">
-            <label for="nombre"style="display: block;" >Ingrese el nombre de la carpeta</label>
-            <input nbInput type="text" id="nombre" name="nombre">
+            <label for="nombre"style="display: block;" ><h5>Ingrese el nombre de la nueva carpeta</h5></label>
+            <input nbInput type="text" id="nombreCarpeta" name="nombreCarpeta">
         </div>
         <div class="card-body">
             <button nbButton type="button" class="button-cargar" status="success" (click)="crearFolder()" >Crear carpeta</button>
             <button nbButton type="button" class="button-cargar" status="danger" (click)="cancelar()">Cancelar</button>  
         </div>
+    </div>
+</ng-template>
+
+<!--Template ventana input para cambiar nombre de folde-->
+<ng-template let-data #inputCambiar >
+    <div class="card text-center">
+        <div class="card-header" >
+            <label for="nombreCambiar"style="display: block;" ><h5>Ingrese el nuevo nombre del elemento seleccionado</h5></label>
+            <input nbInput type="text" id="nombreCambiar" name="nombreCambiar">
+        </div>
+        <div class="card-body">
+            <button nbButton type="button" class="button-cargar" status="success" (click)="cambiarNombre(data.item)" >Cambiar nombre</button>
+            <button nbButton type="button" class="button-cargar" status="danger" (click)="cancelar()">Cancelar</button>  
+        </div>
+    </div>
+</ng-template>
+
+<!-- Template para mostrar aviso de confirmacion -->
+<ng-template let-data #aviso>
+    <div class="card text-center">
+      <div class="card-header">
+        <h4>¿Desea continuar eliminando los elementos seleccionados?</h4>  
+      </div>
+      <div class="card-body">
+        <button nbButton type="button" class="button-cargar" status="success" (click)="eliminar(data.item)">Si<mat-icon>done</mat-icon></button>
+        <button nbButton type="button" class="button-cargar" status="danger" (click)="cancelar()">No<mat-icon>close</mat-icon></button>  
+      </div>
+      <div class="card-footer text-muted">
+        Los cambios realizados no se podrán deshacer.
+      </div>
     </div>
 </ng-template>
