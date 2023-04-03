@@ -77,7 +77,7 @@ export class AtencionesService {
   }
 
   /**
-   * 
+   *
    * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
    */
   getTiposAtenciones(): Observable<any> {
@@ -88,7 +88,7 @@ export class AtencionesService {
   }
 
   /**
-   * 
+   *
    * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
    */
   getEstadosAtenciones(): Observable<any> {
@@ -97,4 +97,30 @@ export class AtencionesService {
       httpOptions
     );
   }
+
+  /**
+   *
+   * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
+   */
+  getEstudiante(codigo: string): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/datos_identificacion/?query=Numero:${codigo}`,
+      httpOptions
+    );
+  }
+
+  getTipoEstado(tipoId: number, estadoId: number): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud?query=TipoSolicitud.Id:${tipoId},EstadoId.Id:${estadoId}`,
+      httpOptions
+    );
+  }
+
+  // crearEstadoTipo(estadoTipo: EstadoTipoSolicitud): Observable<any> {
+  //   return this.http.post<any>(
+  //     `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud`,
+  //     estadoTipo,
+  //     httpOptions
+  //   );
+  // }
 }

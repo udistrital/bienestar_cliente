@@ -10,11 +10,17 @@
     <div class="row">
       <div class="col col-5">
         <mat-form-field>
-          <input matInput placeholder="Código de estudiante" [(ngModel)]="codigo" />
+          <input
+            matInput
+            placeholder="Código de estudiante"
+            [(ngModel)]="codigo"
+          />
         </mat-form-field>
       </div>
       <div class="col col-7">
-        <button mat-raised-button color="primary" (click)="getEstudiante()">Buscar estudiante</button>
+        <button mat-raised-button color="primary" (click)="getEstudiante()">
+          Buscar estudiante
+        </button>
       </div>
     </div>
 
@@ -64,8 +70,18 @@
         </mat-form-field>
       </div>
       <div class="col">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Correo estudiantil" />
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="fecha_nacimiento"
+            placeholder="Fecha de nacimiento"
+            [(ngModel)]="estudiante.FechaNacimiento"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="fecha_nacimiento"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #fecha_nacimiento></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
@@ -77,8 +93,11 @@
         <mat-form-field>
           <mat-label>Tipo de servicio</mat-label>
           <mat-select>
-            <mat-option *ngFor="let food of foods" [value]="food.value">
-              {{ food.viewValue }}
+            <mat-option
+              *ngFor="let tipoServicio of tiposServicio"
+              [value]="tipoServicio"
+            >
+              {{ tipoServicio }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -86,7 +105,7 @@
       <div class="col">
         <mat-form-field>
           <mat-label>Tipo de atención </mat-label>
-          <mat-select>
+          <mat-select [(ngModel)]="tipo">
             <mat-option
               *ngFor="let tipoAtencion of tiposAtenciones"
               [value]="tipoAtencion"
@@ -99,7 +118,7 @@
       <div class="col">
         <mat-form-field>
           <mat-label>Estado de atención</mat-label>
-          <mat-select>
+          <mat-select [(ngModel)]="estado">
             <mat-option
               *ngFor="let estadoAtencion of estadosAtenciones"
               [value]="estadoAtencion"
@@ -111,19 +130,30 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngFor="let observacion of observaciones; let i = index">
       <div class="col col-9">
         <mat-form-field class="example-full-width">
           <textarea matInput placeholder="Escribe una observación"></textarea>
         </mat-form-field>
       </div>
       <div class="col col-3">
-        <button mat-raised-button color="primary">Nueva observación</button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="deleteObservacion(i)"
+        >
+          Eliminar
+        </button>
       </div>
     </div>
+    <button mat-raised-button color="primary" (click)="addObservacion()">
+      Nueva observación
+    </button>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="accent">Guardar y salir</button>
+    <button mat-raised-button color="accent" (click)="saveAtencion()">
+      Guardar y salir
+    </button>
     <button mat-raised-button color="warn">Finalizar atención</button>
   </mat-card-actions>
 </mat-card>
