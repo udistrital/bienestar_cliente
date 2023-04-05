@@ -11,6 +11,7 @@ import { Observacion } from "../../../@core/data/models/solicitud/observacion";
 import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado-tipo-solicitud";
 import { Tipo } from "../../../@core/data/models/parametro/tipo";
 import { formatDate } from "@angular/common";
+import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -48,12 +49,23 @@ export class CrearAtencionComponent implements OnInit {
   observaciones: Observacion[] = [];
 
   atencion: Solicitud = new Solicitud();
+  tipoObservacion: TipoObservacion = new TipoObservacion();
 
   ngOnInit() {
+    this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
+      this.tipoObservacion = res["Data"][0];
+    });
+
     this.findAtenciones();
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
     // this.crearRompimiento()
+
+    // let tipoObservacion: TipoObservacion = new TipoObservacion();
+    // this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
+    //   tipoObservacion = res["Data"][0];
+    //   console.log(typeof tipoObservacion);
+    // });
   }
 
   getEstudiante() {
@@ -88,8 +100,8 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   addObservacion() {
-    console.log(this.observaciones);
     this.observaciones.push(new Observacion());
+    console.log(this.observaciones);
   }
 
   deleteObservacion(index: number) {
@@ -97,6 +109,7 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   saveAtencion() {
+    let solicitud: Solicitud = new Solicitud();
     this.atencionesService
       .getTipoEstado(this.tipo.Id, this.estado.Id)
       .subscribe((res) => {
@@ -105,8 +118,27 @@ export class CrearAtencionComponent implements OnInit {
 
         this.solicitudService
           .post("solicitud", this.atencion)
-          .subscribe((res) => console.log(res));
+          .subscribe((res) => {
+            solicitud = res.Data;
+            console.log("Atención guardada", solicitud);
+            this.observaciones.forEach((observacion) => {
+              observacion.SolicitudId = solicitud;
+              // TODO Definir el IdTercero que corresponde
+              // TODO No permitir guardar nada si no se tiene al estudiante identificado
+              observacion.TerceroId = 9759;
+              observacion.Titulo =
+                "Observación de atención realizada por bienestar";
+              observacion.TipoObservacionId = this.tipoObservacion;
+              this.saveObservacion(observacion);
+            });
+          });
       });
+  }
+
+  saveObservacion(observacion: Observacion) {
+    this.listService
+      .crearObservacion(observacion)
+      .then((res) => console.log("Observación guardad", observacion.Valor));
   }
 
   // crearRompimiento() {

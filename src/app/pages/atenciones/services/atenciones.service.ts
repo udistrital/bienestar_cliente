@@ -116,6 +116,16 @@ export class AtencionesService {
     );
   }
 
+  /**
+   * Se trae específicamente este tipo de observación ya que se definió que todas las obeservaciones de las atenciones serán de tipo "Comentario"
+   */
+  getTipoObservacionComentario() {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/tipo_observacion?query=Nombre:Comentario`,
+      httpOptions
+    );
+  }
+
   // crearEstadoTipo(estadoTipo: EstadoTipoSolicitud): Observable<any> {
   //   return this.http.post<any>(
   //     `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud`,
