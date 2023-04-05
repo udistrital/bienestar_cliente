@@ -51,6 +51,7 @@ export class CrearAtencionComponent implements OnInit {
 
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
+  terceroId: number;
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -75,6 +76,7 @@ export class CrearAtencionComponent implements OnInit {
       this.estudiante.Carnet = res[0].Numero;
       this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
       this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
+      this.terceroId = res[0].TerceroId.Id;
     });
   }
 
@@ -129,9 +131,12 @@ export class CrearAtencionComponent implements OnInit {
             console.log("Atención guardada", solicitud);
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
-              // TODO Definir el IdTercero que corresponde
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
-              observacion.TerceroId = 9759;
+              // TODO Guardar solicitante
+              // TODO Avisar al usuario  cuando se guarde una solicitud
+              // TODO Limpiar el formulario cuando se guarda una solicitud
+              // TODO Mostrar solicitudes filtradas en la tabla
+              observacion.TerceroId = this.terceroId;
               observacion.Titulo =
                 "Observación de atención realizada por bienestar";
               observacion.TipoObservacionId = this.tipoObservacion;
