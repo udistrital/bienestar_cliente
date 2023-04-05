@@ -92,7 +92,7 @@
       <div class="col">
         <mat-form-field>
           <mat-label>Tipo de servicio</mat-label>
-          <mat-select>
+          <mat-select [(ngModel)]="tipo_servicio">
             <mat-option
               *ngFor="let tipoServicio of tiposServicio"
               [value]="tipoServicio"
