@@ -110,12 +110,18 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   saveAtencion() {
+    let solicitud: Solicitud = new Solicitud();
+
+    let referencia = {};
+    referencia["tipo_servicio"] = this.tipo_servicio;
+    let json = JSON.stringify(referencia);
+
     this.atencionesService
       .getTipoEstado(this.tipo.Id, this.estado.Id)
       .subscribe((res) => {
         let tipoEstado: EstadoTipoSolicitud = res.Data[0];
         this.atencion.EstadoTipoSolicitudId = tipoEstado;
-        this.atencion.Referencia = json
+        this.atencion.Referencia = json;
         this.solicitudService
           .post("solicitud", this.atencion)
           .subscribe((res) => {
