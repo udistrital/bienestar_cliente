@@ -7,7 +7,7 @@ import { ListService } from '../../../@core/store/list.service';
 import { DateCustomPipePipe } from '../../../shared/pipes/date-custom-pipe.pipe';
 import { EstudiantesService } from '../../../shared/services/estudiantes.service';
 
-//
+
 @Component({
   selector: 'ngx-solicitud',
   templateUrl: './solicitud.component.html',
@@ -62,20 +62,14 @@ export class SolicitudComponent implements OnInit {
 
   obtenerInfoUsuario() {
     this.listService.getInfoEstudiante().then((resp) => {
-      //console.log(resp);
       this.email = resp.email;
       this.est.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
-        //console.log(res);
         this.estudiante = res[0].TerceroId;
         this.estudiante.documento = res[0].Numero;
         this.estudiante.documento_compuesto = res[0].TipoDocumentoId.CodigoAbreviacion + " " + this.estudiante.documento;
         this.est.getVinculacion(this.estudiante.Id).subscribe((res) => {
-          // console.log(res);
           this.est.getDependencia(res[0].DependenciaId).subscribe((res) => {
             this.estudiante.proyecto = res['Nombre'];
-            // console.log(res)
-            // console.log(this.estudiante)
-            // console.log(this.est)
           });
         });
       });
@@ -94,7 +88,6 @@ guardarDatosFormulario() {
   this.referencia.codigo = null;
   this.est.getCodigoTercero(this.estudiante.Id, 14).subscribe((data) => { if (data) { this.referencia.codigo = data[0].Numero; } });
   this.referencia.documento = this.estudiante.documento;
-  //this.referencia.facultad = this.solicitarCita.value.facultad;
   this.referencia.proyecto = this.estudiante.proyecto;
   this.referencia.telefono = null;
   this.est.getInfoComplementaria(this.estudiante.Id, 51).subscribe((data) => {if (data) { this.referencia.telefono = data[0].Dato; }});
@@ -103,8 +96,6 @@ guardarDatosFormulario() {
   this.referencia.telefonoAdicional = this.solicitarpyz.value.telefono;
   this.referencia.MotivoPersonal = this.solicitarpyz.value.MotivoPersonal;
   this.referencia.CausaPrincipal = this.solicitarpyz.value.CausaPrincipal;
-  //this.referencia.observaciones = this.solicitarCita.value.observacion;
-
 }
 
 
@@ -125,9 +116,9 @@ grabarSolicitante(solicitud: any) {
   solicitante.Activo = true;
 
   console.table("solicitante",solicitante);
-  // this.est.grabarSolicitante(solicitante).subscribe((res) => {
-  //   this.grabarEvolucionSolicitud(solicitud);
-  // });
+  this.est.grabarSolicitante(solicitante).subscribe((res) => {
+    //mostrar datos solicitante
+  });
 }
 
   guardarSolicitud() {
@@ -136,7 +127,7 @@ grabarSolicitante(solicitud: any) {
     
     const solicitud: any = {};
     solicitud.Id = null;
-    solicitud.EstadoTipoSolicitudId ={Id: environment.IDS.IDESTADOSOLICITUDESPERA }
+    solicitud.EstadoTipoSolicitudId ={Id: environment.IDS.IDTIPOSOLICITUDPAZYSALVOS }
     solicitud.Referencia = JSON.stringify(this.referencia);
     solicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
     solicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
@@ -147,11 +138,10 @@ grabarSolicitante(solicitud: any) {
     solicitud.Activo = true;
     console.table("solicitud",solicitud);
     
-    // this.est.grabarSolicitud(solicitud).subscribe((res) => {
-    //   const sol = res.Data;
-    //   this.grabarSolicitante(sol);
-    // });
+    this.est.grabarSolicitud(solicitud).subscribe((res) => {
+      const sol = res.Data;
+      this.grabarSolicitante(sol);
+    });
   }
 
 }
-
