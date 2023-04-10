@@ -13,7 +13,7 @@ import {
   NbStepperModule, 
   NbInputModule, 
   NbRadioModule, 
-  NbLayoutModule, 
+  NbLayoutModule,
   NbAccordionModule,
   NbDatepickerModule,
   NbWindowModule,
@@ -39,6 +39,8 @@ import { ResultadosComponent } from './resultados/resultados.component';
 import { MatSortModule } from '@angular/material/sort';
 import { AlertToastService } from './alert-toast.service';
 import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos.component';
+import { EditorTextoComponent } from './editor-texto/editor-texto.component';
+import { CKEditorModule } from 'ng2-ckeditor';
 // const routes: Routes = [
 //   { path: '', component: GestionDocumentalComponent }
 // ]
@@ -50,6 +52,7 @@ import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos
     ConsultarComponent,
     ResultadosComponent,
     GestorDocumentosComponent,
+    EditorTextoComponent,
   ],
   providers: [ApiRestService, GestionService,AlertToastService],
   imports: [
@@ -78,7 +81,9 @@ import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos
     MatSortModule,
     NbWindowModule.forRoot(),
     NbSpinnerModule,
-    NbBadgeModule
+    NbBadgeModule,
+    NbTooltipModule,
+    CKEditorModule,
   ]
 })
 export class GestionDocumentalModule { }

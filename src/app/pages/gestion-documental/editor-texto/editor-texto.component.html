@@ -1,0 +1,33 @@
+<div>
+    <nb-card status="info">
+        <nb-card-header>Editor</nb-card-header>
+        <nb-card-body >
+            <!-- <ngx-ckeditor>
+
+            </ngx-ckeditor -->
+            <script type="text/javascript">
+/*                 var CKEDITOR_BASEPATH = '/ckeditor/';
+                window.CKEDITOR_BASEPATH = '../../../../../node_modules/ckeditor/'; */
+                window['CKEDITOR_BASEPATH'] = '//cdn.ckeditor.com/4.21.0/full-all/';
+            </script>
+                
+                <!-- <script src="../../../../../node_modules/ckeditor/ckeditor.js" type="text/javascript"></script> -->
+        
+            <ckeditor
+                languague="es"
+                [(ngModel)]="mycontent" 
+                #myckeditor="ngModel"
+                name="myckeditor"
+                required
+                [config]="ckeConfig" 
+                debounce="500"
+                (editorChange)="actualizarTexto($event)"
+                contentDom="contentDom"
+                >
+	        </ckeditor>
+            <button nbButton type="button" class="button-cargar" status="success" (click)="onClick('guardar')">Guardar</button>
+            <button nbButton type="button" class="button-cargar" status="basic" (click)="onClick('cancelar')">Cancelar</button>
+            <button nbButton type="button" class="button-cargar" status="danger" (click)="onClick('eliminar')">Eliminar documento</button>
+        </nb-card-body>
+    </nb-card>
+</div>
