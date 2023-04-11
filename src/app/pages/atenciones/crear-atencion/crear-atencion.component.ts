@@ -52,6 +52,7 @@ export class CrearAtencionComponent implements OnInit {
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number;
+  codigo_atencion: string = "";
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -181,4 +182,18 @@ export class CrearAtencionComponent implements OnInit {
   //     });
   //   });
   // }
+
+
+  getAtencion(){
+
+    this.atencionesService.getAtencion(this.codigo_atencion).subscribe((res)=>{
+      console.log(res);
+      this.terceroId = res.TerceroId;
+      
+    });
+    this.atencionesService.getObservacionesxAtencion(this.codigo_atencion).subscribe((res)=>{
+      console.log(res)
+      this.observaciones = res
+    });
+  }
 }

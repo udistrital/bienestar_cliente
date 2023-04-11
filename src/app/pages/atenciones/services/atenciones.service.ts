@@ -17,6 +17,7 @@ const httpOptions = {
   providedIn: "root",
 })
 export class AtencionesService {
+  
   constructor(private http: HttpClient) {}
 
   /**
@@ -116,6 +117,14 @@ export class AtencionesService {
     );
   }
 
+  getAtencion(codigo_atencion:string): Observable<any>{
+    //console.log(codigo_atencion)
+      return this.http.get<any>(
+        `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitud/${codigo_atencion}`,
+        httpOptions
+      );
+  }
+
   /**
    * Se trae específicamente este tipo de observación ya que se definió que todas las obeservaciones de las atenciones serán de tipo "Comentario"
    */
@@ -126,6 +135,18 @@ export class AtencionesService {
     );
   }
 
+
+  /**
+   * Consulta las observaciones hechas en una atención
+   * @returns Observacion[]
+   */
+  getObservacionesxAtencion(id_atencion:string){
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/observacion?query=SolicitudId.id:${id_atencion}`,
+      httpOptions
+    )
+  }
+
   // crearEstadoTipo(estadoTipo: EstadoTipoSolicitud): Observable<any> {
   //   return this.http.post<any>(
   //     `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud`,
@@ -133,4 +154,8 @@ export class AtencionesService {
   //     httpOptions
   //   );
   // }
+
+  /**Trae la información de la atención según el código */
+
+  
 }
