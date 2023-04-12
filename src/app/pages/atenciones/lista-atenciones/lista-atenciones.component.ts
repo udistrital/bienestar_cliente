@@ -1,6 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { AtencionesService } from "../services/atenciones.service";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 
 export interface PeriodicElement {
   idAtencion: number;
@@ -26,7 +29,12 @@ export class ListaAtencionesComponent implements OnInit {
     "estado",
     "acciones",
   ];
+  data: Solicitud[] = [];
   dataSource: Solicitud[] = [];
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   constructor(private atencionesService: AtencionesService) {}
 
   ngOnInit() {
@@ -34,18 +42,27 @@ export class ListaAtencionesComponent implements OnInit {
     this.atencionesService.createAtencion();
   }
 
+  applyFilter(filterValue: string) {
+    // this.dataSource = filterValue.trim().toLowerCase();
+    this.dataSource = this.data.filter(
+      (atencion) =>
+        atencion.EstadoTipoSolicitudId.TipoSolicitud.Id == parseInt(filterValue)
+    );
+  }
+
   findAtenciones() {
     this.atencionesService.findAtenciones().subscribe((response) => {
       // Filtra las atenciones de bienestar
-      this.dataSource = response.filter((atencion) =>
+      this.data = response.filter((atencion) =>
         atencion.EstadoTipoSolicitudId.TipoSolicitud.Nombre.includes(
           "Atención Bienestar"
         )
       );
+      this.dataSource = [...this.data];
       // Ajusta las fechas
-      this.dataSource.forEach(atencion=>{
-        atencion.FechaCreacion=atencion.FechaCreacion.split(" ")[0]
-      })
+      this.dataSource.forEach((atencion) => {
+        atencion.FechaCreacion = atencion.FechaCreacion.split(" ")[0];
+      });
       console.log(this.dataSource);
     });
   }
