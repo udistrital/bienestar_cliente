@@ -12,6 +12,7 @@ import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado
 import { Tipo } from "../../../@core/data/models/parametro/tipo";
 import { formatDate } from "@angular/common";
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
+import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -53,6 +54,9 @@ export class CrearAtencionComponent implements OnInit {
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number;
   codigo_atencion: string = "";
+  fecha_apertura: string = "";
+  fecha_finalizacion: string = "";
+  dateObj:Date = new Date();
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -133,7 +137,9 @@ export class CrearAtencionComponent implements OnInit {
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
-              // TODO Guardar solicitante
+              
+
+              
               // TODO Avisar al usuario  cuando se guarde una solicitud
               // TODO Limpiar el formulario cuando se guarda una solicitud
               // TODO Mostrar solicitudes filtradas en la tabla
@@ -143,6 +149,8 @@ export class CrearAtencionComponent implements OnInit {
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
+            // TODO Guardar solicitante
+            console.log("Voy a registrar solciitante (estudiante) "+solicitud)
           });
       });
   }
@@ -189,7 +197,18 @@ export class CrearAtencionComponent implements OnInit {
     this.atencionesService.getAtencion(this.codigo_atencion).subscribe((res)=>{
       console.log(res);
       this.terceroId = res.TerceroId;
+      //this.fecha_apertura = res.FechaCreacion
+      this.fecha_apertura= new Date(res.FechaCreacion).toISOString().substring(0,10);
+      if (res.fecha_finalizacion != null){
+        this.fecha_finalizacion = new Date(res.fecha_finalizacion).toISOString().substring(0,10);
+      }
+
+
+
       
+      console.log("ID DEL SOLICITANTE "+res.TerceroId)
+
+      //this.fecha_finalizacion = res.fecha_finalizacion
     });
     this.atencionesService.getObservacionesxAtencion(this.codigo_atencion).subscribe((res)=>{
       console.log(res)
