@@ -26,7 +26,7 @@ export class AtencionesService {
    */
   findAtenciones(): Observable<Solicitud[]> {
     return this.http.get<Solicitud[]>(
-      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitud`,
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitud?limit=0`,
       httpOptions
     );
   }
