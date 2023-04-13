@@ -13,6 +13,7 @@ import { Tipo } from "../../../@core/data/models/parametro/tipo";
 import { formatDate } from "@angular/common";
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
+import { Tercero } from "../../../@core/data/models/terceros/tercero";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -47,7 +48,7 @@ export class CrearAtencionComponent implements OnInit {
 
   estadosAtenciones: Estado[] = [];
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-  codigo: string = "";
+  codigo_estudiante: string = "";
   observaciones: Observacion[] = [];
 
   atencion: Solicitud = new Solicitud();
@@ -76,7 +77,7 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   getEstudiante() {
-    this.atencionesService.getEstudiante(this.codigo).subscribe((res) => {
+    this.atencionesService.getEstudiante(this.codigo_estudiante).subscribe((res) => {
       console.log(res[0]);
       this.estudiante.Carnet = res[0].Numero;
       this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
@@ -134,6 +135,21 @@ export class CrearAtencionComponent implements OnInit {
           .subscribe((res) => {
             solicitud = res.Data;
             console.log("Atención guardada", solicitud);
+            // TODO Guardar solicitante
+            let tercero = new Tercero()
+            let solicitante = new Solicitante()
+            this.atencionesService.getEstudiante(this.codigo_estudiante).subscribe((res=>{
+              tercero = res[0].TerceroId;
+              solicitante.TerceroId = tercero.Id;
+              solicitante.SolicitudId = solicitud;
+              console.log("solicitante ", solicitante);
+              this.solicitudService.post("solicitante",solicitante)
+              .subscribe((resSolicitante)=>{
+                console.log("Solicitante de la atencion registrado ",resSolicitante)
+              })
+            }))
+            
+            //Registrar observaciones 
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
@@ -149,8 +165,7 @@ export class CrearAtencionComponent implements OnInit {
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
-            // TODO Guardar solicitante
-            console.log("Voy a registrar solciitante (estudiante) "+solicitud)
+            
           });
       });
   }
