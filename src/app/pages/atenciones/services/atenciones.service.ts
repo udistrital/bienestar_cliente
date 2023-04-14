@@ -22,6 +22,7 @@ const httpOptions = {
 export class AtencionesService {
   
   
+  
   constructor(private http: HttpClient) {}
 
   /**
@@ -191,6 +192,14 @@ export class AtencionesService {
   getObservacionesxAtencion(id_atencion:string){
     return this.http.get<any>(
       `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/observacion?query=SolicitudId.id:${id_atencion}`,
+      httpOptions
+    )
+  }
+
+  getAtencionxSolicitante(codigo_tercero: string) {
+    //console.log("tercero id", cod_tercero)
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitante?query=terceroId:${codigo_tercero}&fields=SolicitudId`,
       httpOptions
     )
   }

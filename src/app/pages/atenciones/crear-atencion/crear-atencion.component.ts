@@ -64,7 +64,7 @@ export class CrearAtencionComponent implements OnInit {
       this.tipoObservacion = res["Data"][0];
     });
 
-    this.findAtenciones();
+    //this.findAtenciones();
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
     // this.crearRompimiento()
@@ -83,8 +83,24 @@ export class CrearAtencionComponent implements OnInit {
       this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
       this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
       this.terceroId = res[0].TerceroId.Id;
+      // TODO Mostrar solicitudes filtradas en la tabla
+      this.getAtencionesxEstudiante(this.codigo_estudiante)
     });
   }
+
+  getAtencionesxEstudiante(codigo_estudiante: string) {
+
+    this.atencionesService.getEstudiante(codigo_estudiante).subscribe((res)=>{
+      this.atencionesService.getAtencionxSolicitante(res[0].TerceroId.Id).subscribe((resAtenciones)=>{
+        console.log("atenciones son ", resAtenciones)
+        this.atenciones = resAtenciones;
+      })
+    })
+    
+  }
+
+  
+  
 
   getTiposAtenciones() {
     this.atencionesService.getTiposAtenciones().subscribe((response) => {
@@ -158,7 +174,7 @@ export class CrearAtencionComponent implements OnInit {
               
               // TODO Avisar al usuario  cuando se guarde una solicitud
               // TODO Limpiar el formulario cuando se guarda una solicitud
-              // TODO Mostrar solicitudes filtradas en la tabla
+              
               observacion.TerceroId = this.terceroId;
               observacion.Titulo =
                 "Observación de atención realizada por bienestar";
