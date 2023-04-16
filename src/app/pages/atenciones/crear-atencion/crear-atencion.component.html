@@ -47,7 +47,7 @@
           <input
             matInput
             placeholder="Código de estudiante"
-            [(ngModel)]="codigo"
+            [(ngModel)]="codigo_estudiante"
           />
         </mat-form-field>
       </div>
@@ -65,6 +65,7 @@
             matInput
             [matDatepicker]="picker1"
             placeholder="Fecha de apertura"
+            [(ngModel)]="fecha_apertura"
           />
           <mat-datepicker-toggle
             matSuffix
@@ -79,6 +80,7 @@
             matInput
             [matDatepicker]="picker"
             placeholder="Fecha de finalización"
+            [(ngModel)]="fecha_finalizacion"
           />
           <mat-datepicker-toggle
             matSuffix
