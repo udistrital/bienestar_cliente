@@ -30,13 +30,22 @@ export class ListaAtencionesComponent implements OnInit {
   constructor(private atencionesService: AtencionesService) {}
 
   ngOnInit() {
-    // this.findAtenciones();
-    // this.atencionesService.createAtencion()
+    this.findAtenciones();
+    this.atencionesService.createAtencion();
   }
 
   findAtenciones() {
     this.atencionesService.findAtenciones().subscribe((response) => {
-      this.dataSource = response;
+      // Filtra las atenciones de bienestar
+      this.dataSource = response.filter((atencion) =>
+        atencion.EstadoTipoSolicitudId.TipoSolicitud.Nombre.includes(
+          "Atención Bienestar"
+        )
+      );
+      // Ajusta las fechas
+      this.dataSource.forEach(atencion=>{
+        atencion.FechaCreacion=atencion.FechaCreacion.split(" ")[0]
+      })
       console.log(this.dataSource);
     });
   }

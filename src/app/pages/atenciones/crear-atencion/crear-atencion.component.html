@@ -1,6 +1,40 @@
 <mat-card class="example-card">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Buscar atención</mat-card-title>
+    <mat-card-subtitle
+      >Ingrese todos los datos de la atención.</mat-card-subtitle
+    >
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="row">
+      <div class="col col-5">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Código de la atención"
+            [(ngModel)]="codigo_atencion"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col col-7">
+        <button mat-raised-button color="primary" (click)="getAtencion()">
+          Consultar atención
+        </button>
+      </div>
+    </div>
+  
+  </mat-card-content>
+
+</mat-card>
+
+
+
+
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>Nueva atención</mat-card-title>
     <mat-card-subtitle
       >Ingrese todos los datos de la atención.</mat-card-subtitle
@@ -13,7 +47,7 @@
           <input
             matInput
             placeholder="Código de estudiante"
-            [(ngModel)]="codigo"
+            [(ngModel)]="codigo_estudiante"
           />
         </mat-form-field>
       </div>
@@ -31,6 +65,7 @@
             matInput
             [matDatepicker]="picker1"
             placeholder="Fecha de apertura"
+            [(ngModel)]="fecha_apertura"
           />
           <mat-datepicker-toggle
             matSuffix
@@ -45,6 +80,7 @@
             matInput
             [matDatepicker]="picker"
             placeholder="Fecha de finalización"
+            [(ngModel)]="fecha_finalizacion"
           />
           <mat-datepicker-toggle
             matSuffix

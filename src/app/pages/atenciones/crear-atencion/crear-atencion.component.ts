@@ -12,6 +12,8 @@ import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado
 import { Tipo } from "../../../@core/data/models/parametro/tipo";
 import { formatDate } from "@angular/common";
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
+import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
+import { Tercero } from "../../../@core/data/models/terceros/tercero";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -46,19 +48,23 @@ export class CrearAtencionComponent implements OnInit {
 
   estadosAtenciones: Estado[] = [];
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
-  codigo: string = "";
+  codigo_estudiante: string = "";
   observaciones: Observacion[] = [];
 
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number;
+  codigo_atencion: string = "";
+  fecha_apertura: string = "";
+  fecha_finalizacion: string = "";
+  dateObj:Date = new Date();
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
     });
 
-    this.findAtenciones();
+    //this.findAtenciones();
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
     // this.crearRompimiento()
@@ -71,14 +77,30 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   getEstudiante() {
-    this.atencionesService.getEstudiante(this.codigo).subscribe((res) => {
+    this.atencionesService.getEstudiante(this.codigo_estudiante).subscribe((res) => {
       console.log(res[0]);
       this.estudiante.Carnet = res[0].Numero;
       this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
       this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
       this.terceroId = res[0].TerceroId.Id;
+      // TODO Mostrar solicitudes filtradas en la tabla
+      this.getAtencionesxEstudiante(this.codigo_estudiante)
     });
   }
+
+  getAtencionesxEstudiante(codigo_estudiante: string) {
+
+    this.atencionesService.getEstudiante(codigo_estudiante).subscribe((res)=>{
+      this.atencionesService.getAtencionxSolicitante(res[0].TerceroId.Id).subscribe((resAtenciones)=>{
+        console.log("atenciones son ", resAtenciones)
+        this.atenciones = resAtenciones;
+      })
+    })
+    
+  }
+
+  
+  
 
   getTiposAtenciones() {
     this.atencionesService.getTiposAtenciones().subscribe((response) => {
@@ -129,19 +151,37 @@ export class CrearAtencionComponent implements OnInit {
           .subscribe((res) => {
             solicitud = res.Data;
             console.log("Atención guardada", solicitud);
+            // TODO Guardar solicitante
+            let tercero = new Tercero()
+            let solicitante = new Solicitante()
+            this.atencionesService.getEstudiante(this.codigo_estudiante).subscribe((res=>{
+              tercero = res[0].TerceroId;
+              solicitante.TerceroId = tercero.Id;
+              solicitante.SolicitudId = solicitud;
+              console.log("solicitante ", solicitante);
+              this.solicitudService.post("solicitante",solicitante)
+              .subscribe((resSolicitante)=>{
+                console.log("Solicitante de la atencion registrado ",resSolicitante)
+              })
+            }))
+            
+            //Registrar observaciones 
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
-              // TODO Guardar solicitante
+              
+
+              
               // TODO Avisar al usuario  cuando se guarde una solicitud
               // TODO Limpiar el formulario cuando se guarda una solicitud
-              // TODO Mostrar solicitudes filtradas en la tabla
+              
               observacion.TerceroId = this.terceroId;
               observacion.Titulo =
                 "Observación de atención realizada por bienestar";
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
+            
           });
       });
   }
@@ -181,4 +221,29 @@ export class CrearAtencionComponent implements OnInit {
   //     });
   //   });
   // }
+
+
+  getAtencion(){
+
+    this.atencionesService.getAtencion(this.codigo_atencion).subscribe((res)=>{
+      console.log(res);
+      this.terceroId = res.TerceroId;
+      //this.fecha_apertura = res.FechaCreacion
+      this.fecha_apertura= new Date(res.FechaCreacion).toISOString().substring(0,10);
+      if (res.fecha_finalizacion != null){
+        this.fecha_finalizacion = new Date(res.fecha_finalizacion).toISOString().substring(0,10);
+      }
+
+
+
+      
+      console.log("ID DEL SOLICITANTE "+res.TerceroId)
+
+      //this.fecha_finalizacion = res.fecha_finalizacion
+    });
+    this.atencionesService.getObservacionesxAtencion(this.codigo_atencion).subscribe((res)=>{
+      console.log(res)
+      this.observaciones = res
+    });
+  }
 }
