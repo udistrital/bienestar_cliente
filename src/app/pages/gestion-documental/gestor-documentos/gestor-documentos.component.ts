@@ -4,10 +4,6 @@ import { MatDialog, MatMenuTrigger } from '@angular/material';
 import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 import { AlertToastService } from '../alert-toast.service';
 import { GestionService } from '../gestion-documental.service';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'ngx-gestor-documentos',
@@ -25,21 +21,36 @@ export class GestorDocumentosComponent implements OnInit {
   private autenticacion = new ImplicitAutenticationService;
   private rutaActual:[{id: any, nombre: any}]=[{id: '', nombre: ''}];
   private documentos: any=[];
+  
+//Variables del spinner
   private loading: boolean;
+  private mensajeSpiner: string;
+  
   private editandoDocumento: boolean;
   private documentosAMover: any[]=[];
   dialogRef: any;
+  private documentoEditor: any=undefined;
 
   // we create an object that contains coordinates
   menuTopLeftPosition =  {x: 0, y: 0}
   
-  constructor(private gestionService: GestionService, public toastrService: AlertToastService,private dialog: MatDialog
-    , private crd: ChangeDetectorRef) { }
+  constructor(private gestionService: GestionService, public toastrService: AlertToastService,private dialog: MatDialog) { }
 
   ngOnInit() {
     // TODO: por ahora se toma el correo, se debe ver si cada usuario tiene algun identificador unico (Cedula, etc..)
     // Y ese sera el nombre de la carpeta en nuxeo
-    let userName:string=this.autenticacion.getPayload().sub.split('@').shift().toLowerCase();
+    let userName:string="";
+    let intentos=0;
+    while(userName==="" && intentos!==3){
+      if(this.autenticacion.getPayload().sub !== null)
+        userName=this.autenticacion.getPayload().sub.split('@').shift().toLowerCase();
+      intentos++;
+      if(intentos===3)
+        this.gestionService.toastrService.mostrarAlerta('Hubo un error, recargue la pagina','warning');
+      setTimeout(() => {
+        // Your code here
+      }, 1000); 
+    }
     this.obtenerRaiz(userName);
     this.editandoDocumento=false;
     /* await new Promise(resolve => setTimeout(resolve, 10000)); */
@@ -99,8 +110,15 @@ export class GestorDocumentosComponent implements OnInit {
       this.menuTopLeftPosition.y = event.clientY;
       if(item){
         // Cuando se selecciona documento. Se agregan las opciones de la data que utilizará el menu
-        this.matMenuTrigger.menuData = {opciones: ['Mover','Mover Aqui','Cambiar Nombre','Eliminar'],item: item};
-        // Se abre el menu de acuerdo a las opciones e items
+        // Cuando tiene extenciión html se agrega la opcion editar
+        let nombreArchivo=!item.isFolder() ? item.properties['file:content']['name']: undefined;
+        if(nombreArchivo != undefined && nombreArchivo.substring(nombreArchivo.lastIndexOf('.'), nombreArchivo.length) === '.html'){
+          this.matMenuTrigger.menuData = {opciones: ['Mover','Mover Aqui','Cambiar Nombre','Eliminar','Editar'],item: item};  
+        }
+        else{
+          this.matMenuTrigger.menuData = {opciones: ['Mover','Mover Aqui','Cambiar Nombre','Eliminar'],item: item};
+        }
+          // Se abre el menu de acuerdo a las opciones e items
         this.matMenuTrigger.openMenu();
         let checks=document.querySelectorAll("input[type=checkbox]") as NodeListOf<HTMLInputElement>;
         checks.forEach(element =>{
@@ -131,9 +149,9 @@ export class GestorDocumentosComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
   }
-  editarBoton(){
+  abrirEditor(){
     this.editandoDocumento=true;
-    this.editarElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    this.editarElement.nativeElement.scrollIntoView({ behavior: 'smooth', block: "end" });
   }
 
   /**
@@ -150,8 +168,9 @@ export class GestorDocumentosComponent implements OnInit {
    * @param id id del repositorio 
    * @param validar? Parametro opcional, si viene solo valida si un folde existe 
    * @return verdadero si existe el directorio y falso si no ex
-   * */
+   */
   async obtenerRepositorio(id, validar?){
+    this.mensajeSpiner='Cargando repositorio..';
     this.loading=true;
     let respuesta= await this.gestionService.obtenerDirectorioByID(id,this.gestionService,validar);
     if(respuesta!==undefined && !validar){
@@ -167,15 +186,42 @@ export class GestorDocumentosComponent implements OnInit {
    * @param input input del documento a cargar
    */
   async cargarDocumento(event, input: HTMLInputElement){
+    this.mensajeSpiner='Creando documento..';
+    this.loading=true;
     // Si input no trae nada termina
     if(input[0]=== undefined)
       return;
+    let nombreOriginal=input[0].name; 
+    let nombreCopia =this.crearNombreCopia(nombreOriginal);
+    
+    // Genera archivo con nuevo nombre si es necesario.
+    let file = (nombreCopia !== nombreOriginal) ? new File([input[0]], nombreCopia, { type: input[0].type }): input[0]
     let id=this.rutaActual[this.rutaActual.length-1]['id'];
-    await this.gestionService.crearDocumentoGestor(input[0], id, this.gestionService);
+    await this.gestionService.crearDocumentoGestor(file, id, this.gestionService);
     await this.obtenerRepositorio(id);
     event.stopPropagation();
+ 
+    // Limpia el target del evento (permite que change funcione cuando se van a cargar varios archivos)
+    event.target.value=null;
+    this.loading=false;
   }
-
+  /**
+   * Genera el nombre del documento, validando si ya existe en el
+   * directorio o no.
+   * @param nombreOriginal nombre original del archivo.
+   * @return nombre del archivo, si ya existe agregara un numero al final del nombre.
+   */
+  crearNombreCopia(nombreOriginal){
+    let nombreCopia=nombreOriginal;
+    let copias=1;
+    //Se cambia el nombre del nuevo archivo, si este ya existe
+    while(this.existeNombre(nombreCopia,'File')){
+      nombreCopia=nombreOriginal.substring(0, nombreOriginal.indexOf('.'))+
+        '('+copias+')'+nombreOriginal.substring(nombreOriginal.lastIndexOf('.'), nombreOriginal.length);
+      copias++;
+    }
+    return nombreCopia;
+  }
   /**
    * Abre el template de nombre de carpeta a crear.
    */
@@ -213,17 +259,32 @@ export class GestorDocumentosComponent implements OnInit {
    */
   async crearFolder(){
     let nombreCarpeta=(document.getElementsByName('nombreCarpeta')[0] as HTMLInputElement).value;
-    let respuesta = await this.gestionService.obtenerDirectorioByPath(this.crearPath()+'/'+nombreCarpeta,this.gestionService,true);
-    if(nombreCarpeta!=='' && respuesta['id']===undefined){
+    if(nombreCarpeta!=='' && !this.existeNombre(nombreCarpeta, 'Folder')){
       let newId=await this.gestionService.crearFolder(nombreCarpeta,this.gestionService,this.rutaActual[this.rutaActual.length-1]['id']);
       this.rutaActual.push({id: newId,nombre: nombreCarpeta});
       this.obtenerRepositorio(newId);
       this.dialogRef.close();
     }else if(nombreCarpeta === ''){
-      this.toastrService.mostrarAlerta('Ingrese un nombre para la carpeta.','warning')
+      this.toastrService.mostrarAlerta('Ingrese un nombre para la carpeta.','warning');
     }else{
-      this.toastrService.mostrarAlerta('Ya existe una carpeta con ese nombre','warning')
+      this.toastrService.mostrarAlerta('Ya existe una carpeta con ese nombre','warning');
     }
+  }
+  /**
+   * Valida si existe un archivo/carpeta con el mismo nombre.
+   * @param nuevoNombre nombre del archivo/carpeta.
+   * @param tipo tipo del archivo/carpeta ('File', 'Folder').
+   * @return verdadero si ya existe, falso si no existe.
+   */
+  existeNombre(nuevoNombre: string, tipo: string){
+    let existe=false;
+    this.documentos.forEach(element => {
+      if(element.type===tipo && element.title===nuevoNombre){
+        console.log('comparando nombres: ', nuevoNombre, element.title);
+        existe=true;
+      }
+    });
+    return existe;
   }
   /**
    * Crea un string concatenado con los nombres de rutaActual
@@ -283,7 +344,8 @@ export class GestorDocumentosComponent implements OnInit {
       });
     }
     this.obtenerRepositorio(this.rutaActual[this.rutaActual.length-1]['id']);
-    this.dialogRef.close();
+    if(this.dialogRef)
+      this.dialogRef.close();
   }
   /**
    * Cambia el nombre del elemento seleccionado por el valor ingresado
@@ -291,6 +353,10 @@ export class GestorDocumentosComponent implements OnInit {
    */
   async cambiarNombre(item){
     let nombre=(document.getElementsByName('nombreCambiar')[0] as HTMLInputElement).value;
+    if(!nombre){
+      this.gestionService.toastrService.mostrarAlerta('Nombre vacio','warning');
+      return;
+    }
     await this.gestionService.actualizarNombre(item, nombre,this.gestionService);
     this.dialogRef.close();
     this.obtenerRepositorio(this.rutaActual[this.rutaActual.length-1]['id']);
@@ -301,7 +367,6 @@ export class GestorDocumentosComponent implements OnInit {
    */
   async verDocumento(documento){
     let url = await this.gestionService.obtenerDocumento(documento.uid,this.gestionService);
-    /* this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url); */
     window.open(url);
   }
   /**
@@ -333,7 +398,6 @@ export class GestorDocumentosComponent implements OnInit {
         }
       });
     }
-    
   }
   /**
    * Valida que el id recibido no se encuentre dentro de los elementos
@@ -351,11 +415,12 @@ export class GestorDocumentosComponent implements OnInit {
   }
 
   /**
-   * MMueve el documeto al directorio seleccionado, si hay un documento almacenado
+   * Mueve el documeto al directorio seleccionado, si hay un documento almacenado
    * para ser movido.
    */
   async moverAqui(documento?){
     let idPadre: any;
+    this.mensajeSpiner='Moviendo elemento/s..';
     this.loading=true;
     if(documento){
       idPadre=documento.uid;
@@ -375,7 +440,6 @@ export class GestorDocumentosComponent implements OnInit {
    * @param nombreArchivo nombre del documento.
    */
   obtenerIcono(nombreArchivo: String){
-    
     let extension = nombreArchivo.substring(nombreArchivo.lastIndexOf('.'), nombreArchivo.length);
     let clase: string = "fas ";
     function comparation(text){
@@ -417,22 +481,18 @@ export class GestorDocumentosComponent implements OnInit {
     }
   }
   /**
-   * Asigna estilo al div del documetno seleccionado
+   * Asigna estilo al div del documento seleccionado
    * @param posicion del documento seleccionado.
    * @param evento Evento del clic
    */
   seleccionDiv(posicion: Number, evento){
-    console.log(evento.target.tagName);
-    console.log('posicion: ' + posicion);
     // Al seleccionar checkbox se puede dar click en el span o en el label
     if((evento.target.tagName === 'SPAN' || evento.target.tagName === 'LABEL') && posicion !== -1){
       let check=document.getElementById(posicion.toString()) as HTMLInputElement;
       let divSelected=document.getElementById("file-item-"+posicion);
       if(check.checked){
         divSelected.classList.remove('file-item-select');
-        // divSelected.classList.add('file-item');
       }else{
-        // divSelected.classList.remove('file-item');
         divSelected.classList.add('file-item-select');
       }
     }else if(evento.target.tagName === 'DIV' && posicion !== -1){
@@ -455,7 +515,6 @@ export class GestorDocumentosComponent implements OnInit {
           selected.classList.remove('file-item-select');
       });
     }
-    // let checks=document.querySelectorAll("[id='"+posicion+"']") as NodeListOf<HTMLInputElement>;
     evento.stopPropagation();
   }
   /**
@@ -469,51 +528,53 @@ export class GestorDocumentosComponent implements OnInit {
     });
     return 'Documentos a mover: '+texto;
   }
-  accionEditor(acciones){
+  /**
+   * Abre el editor desde el menu cargado en un documento editable
+   * @param documento: documento que se cargará en el editor, viene del data del menu
+   */
+  editarDocumento(documento){
+    this.documentoEditor=documento;
+    this.abrirEditor();
+  }
+  /**
+   * Realiza acciones por medio del emit del editor
+   * @param acciones: mapa que contiene la acción, el documento a guardar/eliminar/actualizar y el contenido del documento
+   */
+  async accionEditor(acciones){
     let accion=acciones.get('accion');
-    if(accion==='guardar'){
-      
+    //Si da click en Cancelar
+    if(accion==='cancelar'){
+      this.editandoDocumento=false;
+      return;
+    }else if(this.obtenerRepositorio(acciones.get('documento').uid, true)=== undefined){
+      this.gestionService.toastrService.mostrarAlerta('El documento no existe', 'danger');
+      return;
     }
-    console.log('realizando accion: ', acciones);
-    console.log('documento: ', acciones.get('documento'));
-
-    const docDefinition = {
-      content: [
-        {
-          stack: [
-            { text: 'My Document', style: 'header' },
-            { html: acciones.get('documento') }
-          ]
-        }
-      ],
-      styles: {
-        header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] }
+    this.mensajeSpiner='Modificando documento..';
+    this.loading=true;
+    //Si da click en Guardar
+    if(accion==='guardar'){
+      let blob = new Blob([acciones.get('contenido')],{type: 'text/plain'});
+      // Si existe acciones.get('documento'), se esta editando un documento existente
+      if(acciones.get('documento')){
+        await this.gestionService.actualizarDocumentoGestor(blob,acciones.get('nombre')+'.html',acciones.get('documento'),this.gestionService);
+      }else{
+        let file = new File([blob],this.crearNombreCopia(acciones.get('nombre')+'.html'),{type: 'text/plain'});
+        await this.gestionService.crearDocumentoGestor(file,this.rutaActual[this.rutaActual.length-1]['id'],this.gestionService)
       }
-    };
-    // const docDefinition = { content: [{ html: acciones.get('documento') }] };
-   /*  const pdfDoc = pdfMake.createPdf(docDefinition); */
-   const parser = new DOMParser();
-    const doc = parser.parseFromString(acciones.get('documento'), 'text/html');
-    console.log(doc.documentElement);
-    const textContent = doc.documentElement.textContent;
-   /* const pdfDoc = pdfMake.createPdf({
-      content:  doc.documentElement
-    }); */
-    console.log(doc.documentElement.outerHTML);
-    console.log(doc.documentElement.innerHTML);
-    console.log(doc.documentElement.textContent);
-    const pdfDoc = pdfMake.createPdf( {content: doc.documentElement.outerHTML});
-    // Download the PDF document
-   pdfDoc.download('my-document.pdf'); 
+      this.obtenerRepositorio(this.rutaActual[this.rutaActual.length-1]['id']);
+    }
 
-    // const blob = new Blob([acciones.get('documento')], { type: 'application/pdf' });
-    // const url = window.URL.createObjectURL(blob);
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.download = 'archivo.pdf';
-    // document.body.appendChild(a);
-    // a.click();
-    // document.body.removeChild(a);
-    // window.URL.revokeObjectURL(url);
+    //Si da click en Eliminar
+    if(accion =='eliminar'){
+       this.eliminar(acciones.get('documento'));
+    }
+    this.editandoDocumento=false;
+    this.documentoEditor=undefined;
+
+    this.loading=false;
+    setTimeout(() => {
+      // Your code here
+    }, 2000);
   }
 }

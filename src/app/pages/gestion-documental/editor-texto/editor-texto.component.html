@@ -1,18 +1,15 @@
 <div>
     <nb-card status="info">
         <nb-card-header>Editor</nb-card-header>
-        <nb-card-body >
-            <!-- <ngx-ckeditor>
-
-            </ngx-ckeditor -->
+        <nb-card-body [nbSpinner]="loading" nbSpinnerMessage="Exportando..." nbSpinnerStatus="info">
+            <div class="form-group">
+                <label for="Nombre">Nombre del documento: </label>
+                <input type="text" id="nombreEditando" name="nombre" placeholder="Nombre del documento"  [(ngModel)]='nombreDocumento' required>
+                <small *ngIf="!nombreDocumento" class="form-text text-danger">Campo requerido</small> 
+            </div>
             <script type="text/javascript">
-/*                 var CKEDITOR_BASEPATH = '/ckeditor/';
-                window.CKEDITOR_BASEPATH = '../../../../../node_modules/ckeditor/'; */
                 window['CKEDITOR_BASEPATH'] = '//cdn.ckeditor.com/4.21.0/full-all/';
-            </script>
-                
-                <!-- <script src="../../../../../node_modules/ckeditor/ckeditor.js" type="text/javascript"></script> -->
-        
+            </script>        
             <ckeditor
                 languague="es"
                 [(ngModel)]="mycontent" 
@@ -21,13 +18,15 @@
                 required
                 [config]="ckeConfig" 
                 debounce="500"
-                (editorChange)="actualizarTexto($event)"
                 contentDom="contentDom"
+                [value]="value"
+                (ngModelChange)="cambiarTexto()"
                 >
 	        </ckeditor>
-            <button nbButton type="button" class="button-cargar" status="success" (click)="onClick('guardar')">Guardar</button>
-            <button nbButton type="button" class="button-cargar" status="basic" (click)="onClick('cancelar')">Cancelar</button>
-            <button nbButton type="button" class="button-cargar" status="danger" (click)="onClick('eliminar')">Eliminar documento</button>
+            <button nbButton type="button" class="button-editor" status="success" (click)="guardar()">Guardar</button>
+            <button nbButton type="button" class="button-editor" status="basic" (click)="cancelar()">Cancelar</button>
+            <button nbButton type="button" class="button-editor" status="warning" (click)="exportar()">Exportar a pdf</button>
+            <button nbButton type="button" class="button-editor" status="danger" (click)="eliminar()">Eliminar documento</button>
         </nb-card-body>
     </nb-card>
 </div>

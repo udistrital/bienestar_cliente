@@ -266,7 +266,6 @@ export class GestionService {
      *
      */
     async crearDocumentoGestor(file: File, id, gestionService: GestionService){
-        console.log('id de crear documento',id);
         await GestionService.nuxeo.connect().
             then( async function(client){
                 await GestionService.nuxeo.operation('Document.Create')
@@ -347,7 +346,6 @@ export class GestionService {
             .then(async function (res){
                 id=await res.uid;
                 await retorno.set('id',id);
-                console.log(res);
                 let resultado=await gestionService.obtenerDirectorioByID(id,gestionService);
                 retorno.set('valores',resultado);
             })
@@ -355,7 +353,6 @@ export class GestionService {
                 if(!validar)
                     gestionService.toastrService.mostrarAlerta('Repositorio no encontrado :', 'danger');
             });
-        
         return retorno;
     }
     /**
@@ -368,7 +365,6 @@ export class GestionService {
      * @return los documentos hijos que contenga, si esta vacion retorna un arreglo vacio. 
      */
     async obtenerDirectorioByID(id,gestionService,validar?){
-        console.log('obteniendo directorio con id: ', id);
         let retorno: any =undefined;
         const headers = {
             'X-NXDocumentProperties': '*',
@@ -459,6 +455,41 @@ export class GestionService {
             });
             await documento.save();
         }              
+    }
+    /**
+     * Actualizacion el blob asociado al documento
+     *
+     * @param blob Blob que remplazara al original.
+     * @param nuevoNombre Nombre nuevo del documento
+     * @param documento documento de Nuxeo que se actualizara
+     * @param gestionService Instacia de GestionService.
+     */
+    async actualizarDocumentoGestor(blob,nuevoNombre,documento, gestionService: GestionService){ 
+        var blob = new Nuxeo.Blob({
+            content: blob,
+            name: nuevoNombre
+        });
+        await GestionService.nuxeo
+          .batchUpload()
+          .upload(blob)
+          .then(async function (res) {
+            await documento
+              .set({
+                "file:content": res.blob,
+                'dc:title': nuevoNombre,
+              })
+              .save();
+          });
+        await GestionService.nuxeo.repository()
+        .fetch(documento.uid)
+        .then((doc) => {
+            doc.set('file:content', {
+            content: blob,
+            name: documento.title,
+            mimeType: blob.type,
+            });
+            return doc.save();
+        });
     }
     async moverDocumento(idPadre, idHijo, gestionService: GestionService){
         await GestionService.nuxeo.operation('Document.Move')

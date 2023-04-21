@@ -1,8 +1,7 @@
 <div>
     <nb-card status="warning">
         <nb-card-header>GESTOR DE DOCUMENTOS</nb-card-header>
-        <nb-card-body [nbSpinner]="loading" nbSpinnerMessage="Obteniendo repositorio.." nbSpinnerStatus="info">
-            
+        <nb-card-body [nbSpinner]="loading" nbSpinnerMessage="{{mensajeSpiner}}" nbSpinnerStatus="info">
             <div class="container flex-grow-1 light-style container-p-y" (click)="seleccionDiv(-1,$event)">
                 <div class="container-m-nx container-m-ny bg-lightest mb-3">
                     <!-- Ruta de navegación -->
@@ -36,7 +35,7 @@
                             <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="mostarInputCrear()" nbTooltip="Crear Folder"><i class="fa fa-folder-plus"></i></button>
                             <!-- Cargar editor de texto -->
                             <ng-container *ngIf="!editandoDocumento">
-                                <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="editarBoton()" nbTooltip="Crear Documento"><i class="fa fa-plus"></i></button>
+                                <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="abrirEditor()" nbTooltip="Crear Documento"><i class="fa fa-plus"></i></button>
                             </ng-container>
                             <div class="btn-group mr-2">
                                 <button type="button" class="btn btn-default md-btn-flat dropdown-toggle px-2" (click)="onClick($event)" data-toggle="dropdown" nbTooltip="Acciones"><i class="fa fa-cog" aria-hidden="true"></i></button>
@@ -100,6 +99,7 @@
             <button *ngIf="opcion==='Mover'" (click)="moverGuardar(item)" mat-menu-item >{{opcion}}</button>
             <button *ngIf="opcion==='Mover Aqui' && documentosAMover.length>0 && item && item.isFolder() && validarMover(item.uid)" (click)="moverAqui(item)" mat-menu-item >{{opcion}}</button>
             <button *ngIf="opcion==='Mover Aqui' && documentosAMover.length>0 && !item" (click)="moverAqui()" mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Editar'" (click)="editarDocumento(item)" mat-menu-item >{{opcion}}</button>
         </div>
     </ng-template>
 </mat-menu>
@@ -147,10 +147,11 @@
       </div>
     </div>
 </ng-template>
-<div  #editar>
-    <ng-container *ngIf="editandoDocumento">
-    <ngx-editor-texto (accionEvent)="accionEditor($event)">
 
-    </ngx-editor-texto>
-</ng-container>
+<div #editar [nbSpinner]="loading" nbSpinnerMessage="{{mensajeSpiner}}" nbSpinnerStatus="info">
+    <!-- Editor de texto -->
+    <ng-container *ngIf="editandoDocumento">
+        <ngx-editor-texto [documento]="documentoEditor" (accionEvent)="accionEditor($event)">
+        </ngx-editor-texto>
+    </ng-container>
 </div>

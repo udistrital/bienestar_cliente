@@ -88,36 +88,7 @@ export class PagesComponent implements OnInit {
     };
     this.menu.push(this.object);
     
-    // TODO: Borrar en producción
-    this.object = {
-      title: 'Documentos-Cargar',
-      icon: 'home-outline',
-      link: `gestion-documental/cargar`,
-      home: false,
-      key: "documentos",
-      children: this.mapMenuChildrenObject(null)
-    };
-    this.menu.push(this.object);
-
-    this.object = {
-      title: 'Documentos-Consultar',
-      icon: 'home-outline',
-      link: `gestion-documental/consultar`,
-      home: false,
-      key: "documentos",
-      children: this.mapMenuChildrenObject(null)
-    };
-    this.menu.push(this.object);
-
-    this.object = {
-      title: 'Documentos-Gestor',
-      icon: 'home-outline',
-      link: `gestion-documental/gestor`,
-      home: false,
-      key: "documentos",
-      children: this.mapMenuChildrenObject(null)
-    };
-    this.menu.push(this.object);
+    
 
     for(var i = 0; i < this.roles.length; i++){
       this.roles[i] = this.roles[i].replace(/\//g, '-');
