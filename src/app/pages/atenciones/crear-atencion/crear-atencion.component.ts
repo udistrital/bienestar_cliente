@@ -223,27 +223,5 @@ export class CrearAtencionComponent implements OnInit {
   // }
 
 
-  getAtencion(){
-
-    this.atencionesService.getAtencion(this.codigo_atencion).subscribe((res)=>{
-      console.log(res);
-      this.terceroId = res.TerceroId;
-      //this.fecha_apertura = res.FechaCreacion
-      this.fecha_apertura= new Date(res.FechaCreacion).toISOString().substring(0,10);
-      if (res.fecha_finalizacion != null){
-        this.fecha_finalizacion = new Date(res.fecha_finalizacion).toISOString().substring(0,10);
-      }
-
-
-
-      
-      console.log("ID DEL SOLICITANTE "+res.TerceroId)
-
-      //this.fecha_finalizacion = res.fecha_finalizacion
-    });
-    this.atencionesService.getObservacionesxAtencion(this.codigo_atencion).subscribe((res)=>{
-      console.log(res)
-      this.observaciones = res
-    });
-  }
+ 
 }

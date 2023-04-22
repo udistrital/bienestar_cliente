@@ -13,12 +13,14 @@ import { InfoEstudianteComponent } from "./info-estudiante/info-estudiante.compo
 import { MatSelectModule } from "@angular/material/select";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
+import { ModalAtencionesComponent } from "./modal-atenciones/modal-atenciones.component";
 
 @NgModule({
   declarations: [
     ListaAtencionesComponent,
     CrearAtencionComponent,
     InfoEstudianteComponent,
+    ModalAtencionesComponent,
   ],
   imports: [
     CommonModule,
