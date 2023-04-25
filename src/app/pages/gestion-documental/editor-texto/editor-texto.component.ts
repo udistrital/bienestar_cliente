@@ -50,7 +50,9 @@ export class EditorTextoComponent implements OnInit {
     };
   }
   async cambiarTexto(){
-    if(this.mycontent===""){
+    if(!this.documento)
+      return;
+    if(this.mycontent==="" ){
       let contenidoLeido;
       await this.leerContenido(this.documento).then(async res=>{
         contenidoLeido=await res;

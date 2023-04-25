@@ -90,7 +90,7 @@ export class GestorDocumentosComponent implements OnInit {
         this.menuTopLeftPosition.x = event.clientX;
         this.menuTopLeftPosition.y = event.clientY;
         // Se agregan las opciones de la data que utilizará el menu
-        this.matMenuTrigger.menuData = {opciones: ['Mover','Eliminar'],};
+        this.matMenuTrigger.menuData = {opciones: ['Mover','Eliminar','Descargar'],};
         // we open the menu
         this.matMenuTrigger.openMenu();
     }
@@ -108,16 +108,21 @@ export class GestorDocumentosComponent implements OnInit {
       // Almacena la posicion del mouse
       this.menuTopLeftPosition.x = event.clientX;
       this.menuTopLeftPosition.y = event.clientY;
+      let opcionesMenu = ['Mover','Mover Aqui','Cambiar Nombre','Eliminar','Descargar']
       if(item){
         // Cuando se selecciona documento. Se agregan las opciones de la data que utilizará el menu
         // Cuando tiene extenciión html se agrega la opcion editar
         let nombreArchivo=!item.isFolder() ? item.properties['file:content']['name']: undefined;
         if(nombreArchivo != undefined && nombreArchivo.substring(nombreArchivo.lastIndexOf('.'), nombreArchivo.length) === '.html'){
-          this.matMenuTrigger.menuData = {opciones: ['Mover','Mover Aqui','Cambiar Nombre','Eliminar','Editar'],item: item};  
+          opcionesMenu.push('Editar');
+          let opcionesMenuFiltradas=opcionesMenu;
+          if(this.documentoEditor && item.uid===this.documentoEditor.uid){
+            opcionesMenu.splice(opcionesMenu.indexOf('Eliminar'),1);
+            opcionesMenu.splice(opcionesMenu.indexOf('Editar'),1);
+            opcionesMenu.splice(opcionesMenu.indexOf('Cambiar Nombre'),1);
+          }  
         }
-        else{
-          this.matMenuTrigger.menuData = {opciones: ['Mover','Mover Aqui','Cambiar Nombre','Eliminar'],item: item};
-        }
+        this.matMenuTrigger.menuData = {opciones: opcionesMenu,item: item};
           // Se abre el menu de acuerdo a las opciones e items
         this.matMenuTrigger.openMenu();
         let checks=document.querySelectorAll("input[type=checkbox]") as NodeListOf<HTMLInputElement>;
@@ -305,7 +310,48 @@ export class GestorDocumentosComponent implements OnInit {
   cancelar(){
     this.dialogRef.close();
   }
-
+  /**
+   * Descargar elementos
+   * @param item? documento a descargar si se han seleccionado uno/varios 
+   */
+  async descargar(item?){
+    let seleccionados=[];
+    // Si viene item, se dio clic derecho a un documento
+    if(item){
+      if(!item.isFolder()){  
+        //Descarga el archivo
+        item.fetchBlob().then(async function (blob) {
+          await blob.blob().then(function (responseblob) {
+            let url = URL.createObjectURL(responseblob);
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(responseblob);
+            link.download = item.title;
+            link.click();
+          });
+        });
+      }else{
+        this.gestionService.crearZip([item]);
+      }
+    // Si no viene item, la descarga se realiza sobre algunos documentos seleccionados
+    }else{
+      let checks=document.querySelectorAll("input[type=checkbox]") as NodeListOf<HTMLInputElement>;
+      checks.forEach(element =>{
+        if(element.checked){
+          seleccionados.push(element.id);
+        }
+      });
+      if(seleccionados.length==0){
+        this.gestionService.toastrService.mostrarAlerta('No ha seleccionado ningún elemento');
+        return;
+      }
+      let documentosSeleccionados=[];
+      for(let i=0;i<seleccionados.length;i++){
+        let id=parseInt(seleccionados[i]);
+        documentosSeleccionados.push(this.documentos[id]);
+      }
+      await this.gestionService.crearZip(documentosSeleccionados);
+    }
+  }
   /**
    * Eliminar uno o varios documentos
    * @param item? documento a eliminar si se han seleccionado uno/varios 
@@ -545,8 +591,9 @@ export class GestorDocumentosComponent implements OnInit {
     //Si da click en Cancelar
     if(accion==='cancelar'){
       this.editandoDocumento=false;
+      this.documentoEditor=undefined;
       return;
-    }else if(this.obtenerRepositorio(acciones.get('documento').uid, true)=== undefined){
+    }else if(acciones.get('documento') && this.obtenerRepositorio(acciones.get('documento').uid, true)=== undefined){
       this.gestionService.toastrService.mostrarAlerta('El documento no existe', 'danger');
       return;
     }
@@ -564,10 +611,9 @@ export class GestorDocumentosComponent implements OnInit {
       }
       this.obtenerRepositorio(this.rutaActual[this.rutaActual.length-1]['id']);
     }
-
     //Si da click en Eliminar
     if(accion =='eliminar'){
-       this.eliminar(acciones.get('documento'));
+      this.eliminar(acciones.get('documento'));
     }
     this.editandoDocumento=false;
     this.documentoEditor=undefined;

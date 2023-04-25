@@ -100,6 +100,7 @@
             <button *ngIf="opcion==='Mover Aqui' && documentosAMover.length>0 && item && item.isFolder() && validarMover(item.uid)" (click)="moverAqui(item)" mat-menu-item >{{opcion}}</button>
             <button *ngIf="opcion==='Mover Aqui' && documentosAMover.length>0 && !item" (click)="moverAqui()" mat-menu-item >{{opcion}}</button>
             <button *ngIf="opcion==='Editar'" (click)="editarDocumento(item)" mat-menu-item >{{opcion}}</button>
+            <button *ngIf="opcion==='Descargar'" (click)="descargar(item)" mat-menu-item >{{opcion}}</button>
         </div>
     </ng-template>
 </mat-menu>

@@ -9,6 +9,8 @@ import { DocumentoGestion } from '../../@core/data/models/documento/documento_Ge
 import { ApiRestService } from './api-rest.service';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { AlertToastService } from './alert-toast.service';
+import * as JSZip from 'jszip';
+
 
 @Injectable({
     providedIn: 'root'
@@ -211,6 +213,7 @@ export class GestionService {
                 throw new Error(error);
             });
     }
+
     // Consulta en documeto en Nuxeo y si lo encuentra genera 
     // una URL para mostrarlo
     async obtenerDocumento(id, gestionService){
@@ -362,7 +365,7 @@ export class GestionService {
      * @param gestionService Instacion de GestionService.
      * @param validar? Parametro opcional, si solo se esta verificando qu un directorio exista.
      *
-     * @return los documentos hijos que contenga, si esta vacion retorna un arreglo vacio. 
+     * @return los documentos hijos que contenga, si esta vacio retorna un arreglo vacio. 
      */
     async obtenerDirectorioByID(id,gestionService,validar?){
         let retorno: any =undefined;
@@ -491,6 +494,14 @@ export class GestionService {
             return doc.save();
         });
     }
+
+    /**
+     * Mueve un documento a una ubicacion indicada
+     *
+     * @param idPadre id de la ubicacion donde se enviara el documento.
+     * @param idHijo id del documento a mover
+     * @param gestionService Instacia de GestionService.
+     */
     async moverDocumento(idPadre, idHijo, gestionService: GestionService){
         await GestionService.nuxeo.operation('Document.Move')
             .input(idHijo)
@@ -504,5 +515,70 @@ export class GestionService {
             .catch(function(error){
                 gestionService.toastrService.mostrarAlerta("Ha ocurrido un error moviendo el elemento, error: "+error,'danger');
             });
+    }
+    
+    /**
+     * Recorre el documentno indicado y añade al folder los archivos 
+     * que se encuentran en el para generer un zip con jsZip.
+     *
+     * @param id identificador del documento a comprimir.
+     * @param folder filder JSzip que contendra todos los ahrhicovs del documento a comprimir.
+     */
+    async createFolder(doc, folder: JSZip){
+        // Si el documento es un archivo lo añade al folder y termina la funcion
+        if(!doc.isFolder()){
+            let blob;
+            await doc.fetchBlob().then(async res=>{
+                blob=await res.blob();
+            });
+            folder.file(doc.title,blob);
+            return;
+        }
+        // Si el documento es un folder obtiene los documentos que se encuentran en el y repite el poceso para los hijos
+        let id=doc.uid;
+        let documentos = await this.obtenerDirectorioByID(id,this);
+        for (const documento of documentos) {
+            if(!documento.isFolder()){
+                let blob;
+                await documento.fetchBlob().then(async res=>{
+                    blob=await res.blob()
+                });
+                folder.file(documento.title,blob);
+            }else{
+                let folderHijo=folder.folder(documento.title);
+                await this.createFolder(documento,folderHijo);
+            }
+        };
+    }
+
+    /**
+     * Crea un .zip para descargar de un documento indicado
+     *
+     * @param documentos arreglo de documento/s a descargar.
+     */
+    async crearZip(documentos){
+        let zip = new JSZip();
+        let titulo;
+        let folder; 
+        if(documentos.length>1){
+            folder=zip.folder('GestorGenerate');
+            for(const doc of documentos){
+                await this.createFolder(doc,folder);
+            }
+            titulo='GestorGenerate';
+        }else{
+            folder= zip.folder(documentos[0].title);
+            await this.createFolder(documentos[0],folder);
+            titulo=documentos[0].title;
+        }
+        await zip.generateAsync({type: 'blob'}).then((content) => {
+            const url = window.URL.createObjectURL(content);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = titulo+'.zip';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          });                
     }
 }
