@@ -41,6 +41,7 @@ import { AlertToastService } from './alert-toast.service';
 import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos.component';
 import { EditorTextoComponent } from './editor-texto/editor-texto.component';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { DocumentoService } from '../../@core/data/documento.service';
 // const routes: Routes = [
 //   { path: '', component: GestionDocumentalComponent }
 // ]
@@ -54,7 +55,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
     GestorDocumentosComponent,
     EditorTextoComponent,
   ],
-  providers: [ApiRestService, GestionService,AlertToastService],
+  providers: [ApiRestService, GestionService,AlertToastService,DocumentoService],
   imports: [
     HttpClientModule,
     CommonModule,

@@ -1,15 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
 import { NbDateService, NbDialogService, NbWindowService } from '@nebular/theme';
-import { NuxeoService } from '../../../@core/utils/nuxeo.service';
 import { DocumentoService } from '../../../@core/data/documento.service';
-import { Subject } from 'rxjs/Subject';
-import * as Nuxeo from 'nuxeo';
 import { GestionService } from '../gestion-documental.service';
-import { TipoDocumento } from '../../../@core/data/models/documento/tipo_documento';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiRestService } from '../api-rest.service';
 import { MatDialog } from '@angular/material';
+import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
+import { TipoDocumento } from '../../../@core/data/models/documento/tipo_documento';
 
 @Component({
   selector: 'ngx-cargar',
@@ -28,13 +26,14 @@ export class CargarComponent implements OnInit {
   @Input() nombreArchivo: any;
   @Output() terminarEvent = new EventEmitter<Map<string,any>>();
 
-  // Estos datos se pueden traer de BD, para poder agregar mas
-  tiposDocumento: String [] = ["Acta", "Resolución", "Comunicado", "Contrato"];
-  
+  // Estos datos se traen de BD, para poder agregar mas
+  private tiposDocumento: { [key: string]: Number };
+  private facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación',]
 
   // Para cargar a nuxeo
-  documento: DocumentoGestion = new DocumentoGestion(null,null, null, null, null, null, null, null, null, null);
+  documento: DocumentoGestion = new DocumentoGestion;
   private documentoMostrar: any;
+  private file: File;
   // Para formularios
   private docForm: FormGroup;
   private control: FormControl;
@@ -51,7 +50,7 @@ export class CargarComponent implements OnInit {
   
   constructor(protected dateService: NbDateService<Date>, private gestionService: GestionService,
      private fb: FormBuilder, private apiRestService: ApiRestService, private dialog: MatDialog
-     ,private host: ElementRef<HTMLElement>) {
+     ,private host: ElementRef<HTMLElement>, private documentoService: DocumentoService) {
 
     // this.documento.TipoDocumento = new TipoDocumento;
     this.validado = true;
@@ -59,9 +58,22 @@ export class CargarComponent implements OnInit {
     this.archivoCambiado=false;
     this.min = this.dateService.addYear(this.dateService.today(), -20);
     this.max = this.dateService.addMonth(this.dateService.today(), 1);
-    
   }
 
+  ngOnInit() {
+    this.documento.TipoDocumento=new TipoDocumento;
+    this.obtenerTiposDocumentos();
+    this.iniciarFormulario();
+  }
+
+  async obtenerTiposDocumentos(){
+    this.tiposDocumento = await this.gestionService.consultarTiposDocumento(this.documentoService);
+  }
+
+  /**
+   * Inicia el formulario con las validaciones,
+   * si se esta editando un documento cargara los datos de este 
+   */
   iniciarFormulario(){
     this.docForm = this.fb.group({
       tipoDocumento: ['', Validators.required],
@@ -70,30 +82,28 @@ export class CargarComponent implements OnInit {
       subSerie: ['', Validators.required],
       fecha:['', Validators.required],
       descripcion: ['', Validators.required],
-      archivo: ['', Validators.required]
+      archivo: ['', Validators.required],
+      facultad: ['',Validators.required]
     });
     //Asignar fecha por defecto
     //this.docForm.get('fecha').setValue(this.dateService.today());
     //this.docForm.get('fecha').valid;
-    console.log('valid:' + this.docForm.get('fecha').valid);
     this.docForm.controls.fecha.hasError('onRange');
-    console.log('this.documentoEditar', this.documentoEditar);
     if(this.editando && this.documentoEditar!==undefined){
-      this.documento=this.gestionService.convertirDocumento(this.documentoEditar);
+      //****** pendiente, al editar documento *****/
+      /* this.documento=this.gestionService.convertirDocumento(this.documentoEditar); */
       this.docForm.get('nombre').setValue(this.documento.Nombre);
-      this.docForm.get('fecha').setValue(this.documento.Fecha);
+      this.docForm.get('fecha').setValue(this.documento.FechaCreacion);
       this.docForm.get('descripcion').setValue(this.documento.Descripcion);
-      this.docForm.get('serie').setValue(this.documento.Serie);
+      /* this.docForm.get('serie').setValue(this.documento.Serie);
       this.docForm.get('subSerie').setValue(this.documento.SubSerie);
-      this.docForm.get('tipoDocumento').setValue(this.documento.Tipo);
-    } 
-  }
-
-  ngOnInit() { 
-    this.iniciarFormulario();
+      this.docForm.get('tipoDocumento').setValue(this.documento.Tipo); */
+    }
   }
   
-  // Permite subir/modificar formulario a nuxeo y Api REST
+  /**
+   * Permite subir/modificar formulario a nuxeo y Api Documentos OAS
+   */
   async cargarFormulario(){
     this.loading=true;
     // documento.TipoDocumento.Nombre se debe manejar por sistemas de OAS
@@ -102,12 +112,19 @@ export class CargarComponent implements OnInit {
       this.loading=false;
       return;
     }
-    this.documento.Tipo=this.docForm.get('tipoDocumento').value;
+    this.documento.TipoDocumento.Id=this.docForm.get('tipoDocumento').value;
     this.documento.Nombre=this.docForm.get('nombre').value;
-    this.documento.Serie=this.docForm.get('serie').value;
-    this.documento.SubSerie=this.docForm.get('subSerie').value;
-    this.documento.Fecha=this.docForm.get('fecha').value;
     this.documento.Descripcion=this.docForm.get('descripcion').value;
+    this.documento.Activo=true;
+    let usuario=  new ImplicitAutenticationService;
+    let metadatos = {
+      Uploader: usuario.getPayload().sub,
+      Serie: this.docForm.get('serie').value,
+      SubSerie: this.docForm.get('subSerie').value,
+      Fecha:this.docForm.get('fecha').value,
+      Facultad:this.docForm.get('facultad').value
+    }
+    this.documento.Metadatos=JSON.stringify(metadatos);
     
     //Editando documento
     if(this.editando){
@@ -116,14 +133,9 @@ export class CargarComponent implements OnInit {
       }
       // Actualizando documento
     }else{
-      let documentoActualizado = await this.gestionService.crearDocumento(this.documento,this.gestionService,this.apiRestService);
-      console.log(documentoActualizado);
+      let documentoCreado = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
       this.docForm.reset();
       this.labelUpoadFile.nativeElement.innerText = 'Seleccione Archivo';
-      this.documentoMostrar= await [this.gestionService.convertirADiccionario(documentoActualizado)];
-      //Se agrega manualmente el id para no agregarel _id (id del API) convertirADiccionario() pues para el PUT agregaria una nueva 
-      this.documentoMostrar[0]['_id'] =  documentoActualizado.IdApi;
-      // Moverse automaticamente al resultado
       this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
 
       this.clickeado=false;
@@ -131,6 +143,10 @@ export class CargarComponent implements OnInit {
       this.archivoCambiado=false;
       this.loading=false;
     }
+    /*  this.documentoMostrar= await [this.gestionService.convertirADiccionario(documentoCreado)]; */
+      //Se agrega manualmente el id para no agregarel _id (id del API) convertirADiccionario() pues para el PUT agregaria una nueva 
+     /*  this.documentoMostrar[0]['_id'] =  documentoCreado.IdApi; */
+      // Moverse automaticamente al resultado
   }
 
   // Ejecuta una ventana de dialogo pra validar si se desea eliminar
@@ -197,7 +213,7 @@ export class CargarComponent implements OnInit {
     this.labelUpoadFile.nativeElement.innerText= Array.from(files)
       .map(f => f.name)
       .join(', ');
-    this.documento.Archivo = files.item(0);
+      this.file= files.item(0);
     this.archivoCambiado=true;
   }
 
@@ -207,7 +223,7 @@ export class CargarComponent implements OnInit {
       this.docForm.get(input).clearValidators();
       this.docForm.get(input).updateValueAndValidity();
       return false;
-    }else if(input === 'tipoDocumento'){
+    }else if(input === 'tipoDocumento' || input === 'facultad'){
       return (this.clickeado && this.docForm.controls[input].invalid && !this.docForm.controls[input].dirty);
     }else{
       return (this.clickeado && this.docForm.controls[input].invalid && this.docForm.controls[input].untouched) ||
