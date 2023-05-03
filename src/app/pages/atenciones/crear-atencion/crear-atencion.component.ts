@@ -4,13 +4,10 @@ import { SolicitudService } from "../../../@core/data/solicitud.service";
 import { AtencionesService } from "../services/atenciones.service";
 import { TipoSolicitud } from "../../../@core/data/models/solicitud/tipo_solicitud";
 import { Estado } from "../../../@core/data/models/solicitud/estado";
-import { EstudiantesService } from "../../../shared/services/estudiantes.service";
 import { ListService } from "../../../@core/store/list.service";
 import { InfoCompletaEstudiante } from "../../../@core/data/models/info-completa-estudiante/info-completa-estudiante";
 import { Observacion } from "../../../@core/data/models/solicitud/observacion";
 import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado-tipo-solicitud";
-import { Tipo } from "../../../@core/data/models/parametro/tipo";
-import { formatDate } from "@angular/common";
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
@@ -22,7 +19,6 @@ import { Tercero } from "../../../@core/data/models/terceros/tercero";
 })
 export class CrearAtencionComponent implements OnInit {
   constructor(
-    private estudiantesService: EstudiantesService,
     private atencionesService: AtencionesService,
     private listService: ListService,
     private solicitudService: SolicitudService
@@ -57,50 +53,62 @@ export class CrearAtencionComponent implements OnInit {
   codigo_atencion: string = "";
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
-  dateObj:Date = new Date();
+  dateObj: Date = new Date();
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
     });
 
-    //this.findAtenciones();
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
-    // this.crearRompimiento()
-
-    // let tipoObservacion: TipoObservacion = new TipoObservacion();
-    // this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
-    //   tipoObservacion = res["Data"][0];
-    //   console.log(typeof tipoObservacion);
-    // });
   }
 
   getEstudiante() {
-    this.atencionesService.getEstudiante(this.codigo_estudiante).subscribe((res) => {
-      console.log(res[0]);
-      this.estudiante.Carnet = res[0].Numero;
-      this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
-      this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
-      this.terceroId = res[0].TerceroId.Id;
-      // TODO Mostrar solicitudes filtradas en la tabla
-      this.getAtencionesxEstudiante(this.codigo_estudiante)
-    });
+    this.atencionesService
+      .getEstudianteByCode(this.codigo_estudiante)
+      .subscribe((res) => {
+        console.log(res[0]);
+        this.estudiante.Carnet = res[0].Numero;
+        this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
+        this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
+        this.terceroId = res[0].TerceroId.Id;
+        // TODO Mostrar solicitudes filtradas en la tabla
+        this.getAtencionesxEstudiante(this.codigo_estudiante);
+      });
   }
 
   getAtencionesxEstudiante(codigo_estudiante: string) {
-
-    this.atencionesService.getEstudiante(codigo_estudiante).subscribe((res)=>{
-      this.atencionesService.getAtencionxSolicitante(res[0].TerceroId.Id).subscribe((resAtenciones)=>{
-        console.log("atenciones son ", resAtenciones)
-        this.atenciones = resAtenciones;
-      })
-    })
-    
+    this.atencionesService
+      .getEstudianteByCode(codigo_estudiante)
+      .subscribe((res) => {
+        this.atencionesService
+          .getAtencionxSolicitante(res[0].TerceroId.Id)
+          .subscribe((resAtenciones) => {
+            console.log("atenciones son ", resAtenciones);
+            this.atenciones = resAtenciones;
+          });
+      });
   }
 
-  
-  
+  /**
+   * Retorna el valor de TerceroId del solicitante
+   * @param idSolicitud
+   */
+  getEstudianteBySolicitud(idSolicitud: string) {
+    this.atencionesService
+      .getSolicitanteBySolicitudId(idSolicitud)
+      .subscribe((res) => {
+        this.terceroId = res[0].TerceroId;
+        this.atencionesService
+          .getEstudianteByTerceroId(this.terceroId)
+          .subscribe((res) => {
+            this.estudiante.Carnet = res[0].Numero;
+            this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
+            this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
+          });
+      });
+  }
 
   getTiposAtenciones() {
     this.atencionesService.getTiposAtenciones().subscribe((response) => {
@@ -126,11 +134,54 @@ export class CrearAtencionComponent implements OnInit {
 
   addObservacion() {
     this.observaciones.push(new Observacion());
-    console.log(this.observaciones);
   }
 
   deleteObservacion(index: number) {
     this.observaciones.splice(index, 1);
+  }
+
+  getAtencion() {
+    this.atencionesService
+      .getAtencion(this.codigo_atencion)
+      .subscribe((res) => {
+        this.atencion = res;
+        this.tipo_servicio = JSON.parse(this.atencion.Referencia).tipo_servicio;
+
+        this.getEstudianteBySolicitud(this.codigo_atencion);
+
+        this.atencionesService
+          .getEstadoTipoById(this.atencion.EstadoTipoSolicitudId.Id)
+          .subscribe((res) => {
+            this.atencion.EstadoTipoSolicitudId = res.Data;
+            this.atencionesService
+              .getTipoEstado(
+                this.atencion.EstadoTipoSolicitudId.TipoSolicitud.Id,
+                this.atencion.EstadoTipoSolicitudId.EstadoId.Id
+              )
+              .subscribe((res) => {
+                this.atencion.EstadoTipoSolicitudId = res.Data[0];
+
+                this.tipo = this.tiposAtenciones.find(
+                  (atencion) =>
+                    atencion.Id ==
+                    this.atencion.EstadoTipoSolicitudId.TipoSolicitud.Id
+                );
+
+                this.estado = this.estadosAtenciones.find(
+                  (estado) =>
+                    estado.Id == this.atencion.EstadoTipoSolicitudId.EstadoId.Id
+                );
+                this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0];
+                this.fecha_finalizacion =
+                  this.atencion.FechaModificacion.split(" ")[0];
+              });
+          });
+      });
+    this.atencionesService
+      .getObservacionesxAtencion(this.codigo_atencion)
+      .subscribe((res) => {
+        this.observaciones = res;
+      });
   }
 
   saveAtencion() {
@@ -150,38 +201,39 @@ export class CrearAtencionComponent implements OnInit {
           .post("solicitud", this.atencion)
           .subscribe((res) => {
             solicitud = res.Data;
-            console.log("Atención guardada", solicitud);
             // TODO Guardar solicitante
-            let tercero = new Tercero()
-            let solicitante = new Solicitante()
-            this.atencionesService.getEstudiante(this.codigo_estudiante).subscribe((res=>{
-              tercero = res[0].TerceroId;
-              solicitante.TerceroId = tercero.Id;
-              solicitante.SolicitudId = solicitud;
-              console.log("solicitante ", solicitante);
-              this.solicitudService.post("solicitante",solicitante)
-              .subscribe((resSolicitante)=>{
-                console.log("Solicitante de la atencion registrado ",resSolicitante)
-              })
-            }))
-            
-            //Registrar observaciones 
+            let tercero = new Tercero();
+            let solicitante = new Solicitante();
+            this.atencionesService
+              .getEstudianteByCode(this.codigo_estudiante)
+              .subscribe((res) => {
+                tercero = res[0].TerceroId;
+                solicitante.TerceroId = tercero.Id;
+                solicitante.SolicitudId = solicitud;
+                this.solicitudService
+                  .post("solicitante", solicitante)
+                  .subscribe((resSolicitante) => {
+                    console.log(
+                      "Solicitante de la atencion registrado ",
+                      resSolicitante
+                    );
+                  });
+              });
+
+            //Registrar observaciones
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
-              
 
-              
               // TODO Avisar al usuario  cuando se guarde una solicitud
               // TODO Limpiar el formulario cuando se guarda una solicitud
-              
+
               observacion.TerceroId = this.terceroId;
               observacion.Titulo =
                 "Observación de atención realizada por bienestar";
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
-            
           });
       });
   }
@@ -189,39 +241,6 @@ export class CrearAtencionComponent implements OnInit {
   saveObservacion(observacion: Observacion) {
     this.listService
       .crearObservacion(observacion)
-      .then((res) => console.log("Observación guardad", observacion.Valor));
+      .then((res) => console.log("Observación guardada", observacion.Valor));
   }
-
-  // crearRompimiento() {
-  //   this.tiposAtenciones.forEach((tipo) => {
-  //     this.estadosAtenciones.forEach((estado) => {
-  //       let estadoTipo: EstadoTipoSolicitud = new EstadoTipoSolicitud();
-  //       estadoTipo.Activo = true;
-  //       estadoTipo.DependenciaId = 0;
-  //       estadoTipo.FechaCreacion = formatDate(
-  //         new Date(),
-  //         "yyyy-MM-dd HH:mm:ss",
-  //         "en"
-  //       );
-  //       estadoTipo.FechaModificacion = formatDate(
-  //         new Date(),
-  //         "yyyy-MM-dd HH:mm:ss",
-  //         "en"
-  //       );
-  //       estadoTipo.Id = 0;
-  //       estadoTipo.NumeroDias = 1;
-
-  //       estadoTipo.TipoSolicitud = tipo;
-  //       estadoTipo.EstadoId = estado;
-
-  //       this.atencionesService.crearEstadoTipo(estadoTipo).subscribe((res) => {
-  //         console.log(res);
-  //       });
-  //       console.log(this.atencion);
-  //     });
-  //   });
-  // }
-
-
- 
 }

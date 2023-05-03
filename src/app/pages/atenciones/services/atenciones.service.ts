@@ -20,9 +20,6 @@ const httpOptions = {
   providedIn: "root",
 })
 export class AtencionesService {
-  
-  
-  
   constructor(private http: HttpClient) {}
 
   /**
@@ -78,41 +75,34 @@ export class AtencionesService {
         JSON.stringify(solicitud)
       )
       .subscribe((res) => {
+        // TODO Implementar alerta de atención creada
         console.log(res);
       });
   }
 
-  registrarSolicitantexAtencion(codigo_estudiante: string, Id_atencion: string) {
-
-    //console.log("Voy a registrar solciitante (estudiante)")
-    //console.log(codigo_estudiante)
-    //console.log(Id_atencion)
-    //let estudiante = this.getTerceroxEstudiante(codigo_estudiante)
-    let tercero= new Tercero()
-    let solicitud = new Solicitud()
-    let solicitante = new Solicitante()
-    this.getEstudiante(codigo_estudiante).subscribe((res)=>{
-        tercero = res.Id
-        this.getAtencion(Id_atencion).subscribe((resAtencion)=>{
-          solicitud = resAtencion
-          console.log("flag registrar solciitante x atencion")
-          console.log(tercero)
-          console.log(solicitud)
-        });
+  registrarSolicitantexAtencion(
+    codigo_estudiante: string,
+    Id_atencion: string
+  ) {
+    let tercero = new Tercero();
+    let solicitud = new Solicitud();
+    let solicitante = new Solicitante();
+    this.getEstudianteByCode(codigo_estudiante).subscribe((res) => {
+      tercero = res.Id;
+      this.getAtencion(Id_atencion).subscribe((resAtencion) => {
+        solicitud = resAtencion;
+        // console.log("flag registrar solciitante x atencion");
+        // console.log(tercero);
+        // console.log(solicitud);
+      });
     });
 
     solicitante.SolicitudId = solicitud;
     solicitante.TerceroId = tercero.Id;
     solicitante.FechaCreacion = formatDate(new Date(), "yyyy-MM-dd", "en");
     solicitante.FechaModificacion = formatDate(new Date(), "yyyy-MM-dd", "en");
-    solicitante.Activo=true;
-    //console.log("ESTE ES EL SOLICITANTE Y LA SOLICITUD");
-    //console.log(solicitante);
-
-    
-    
+    solicitante.Activo = true;
   }
-
 
   /**
    *
@@ -140,7 +130,7 @@ export class AtencionesService {
    *
    * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
    */
-  getEstudiante(codigo: string): Observable<any> {
+  getEstudianteByCode(codigo: string): Observable<any> {
     return this.http.get<any>(
       `https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/datos_identificacion/?query=Numero:${codigo}`,
       httpOptions
@@ -149,11 +139,33 @@ export class AtencionesService {
 
   /**
    *
+   * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
+   */
+  getEstudianteByTerceroId(id: number): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/datos_identificacion?query=TerceroId.Id:${id}`,
+      httpOptions
+    );
+  }
+
+  /**
+   *
+   * @returns Este método retorna un Response donde el atributo Data es del tipo TipoSolicitud[]. Se pode de tipo any para que no marque error el TS en los componentes
+   */
+  getSolicitanteBySolicitudId(id: string): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitante?query=SolicitudId.Id:${id}`,
+      httpOptions
+    );
+  }
+
+  /**
+   *
    * @returns Este método retorna el tercero asociado al código estudiantil
    */
-   getTerceroxEstudiante(codigo: string): Observable<any> {
+  getTerceroxEstudiante(codigo: string): Observable<any> {
     return this.http.get<any>(
-    `https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/datos_identificacion?query=Numero:${codigo},TipoDocumentoId:14`,
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/datos_identificacion?query=Numero:${codigo},TipoDocumentoId:14`,
       //`https://autenticacion.portaloas.udistrital.edu.co/apioas/terceros_crud/v1/datos_identificacion/?query=Numero:${codigo}`,
       httpOptions
     );
@@ -166,12 +178,11 @@ export class AtencionesService {
     );
   }
 
-  getAtencion(codigo_atencion:string): Observable<any>{
-    //console.log(codigo_atencion)
-      return this.http.get<any>(
-        `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitud/${codigo_atencion}`,
-        httpOptions
-      );
+  getAtencion(codigo_atencion: string): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitud/${codigo_atencion}`,
+      httpOptions
+    );
   }
 
   /**
@@ -184,24 +195,22 @@ export class AtencionesService {
     );
   }
 
-
   /**
    * Consulta las observaciones hechas en una atención
    * @returns Observacion[]
    */
-  getObservacionesxAtencion(id_atencion:string){
+  getObservacionesxAtencion(id_atencion: string) {
     return this.http.get<any>(
       `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/observacion?query=SolicitudId.id:${id_atencion}`,
       httpOptions
-    )
+    );
   }
 
   getAtencionxSolicitante(codigo_tercero: string) {
-    //console.log("tercero id", cod_tercero)
     return this.http.get<any>(
       `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitante?query=terceroId:${codigo_tercero}&fields=SolicitudId`,
       httpOptions
-    )
+    );
   }
 
   // crearEstadoTipo(estadoTipo: EstadoTipoSolicitud): Observable<any> {
@@ -214,5 +223,10 @@ export class AtencionesService {
 
   /**Trae la información de la atención según el código */
 
-  
+  getEstadoTipoById(id: number): Observable<any> {
+    return this.http.get<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud/${id}`,
+      httpOptions
+    );
+  }
 }

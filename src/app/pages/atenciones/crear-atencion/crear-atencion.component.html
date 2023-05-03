@@ -24,13 +24,8 @@
         </button>
       </div>
     </div>
-  
   </mat-card-content>
-
 </mat-card>
-
-
-
 
 <mat-card class="example-card">
   <mat-card-header>
@@ -58,6 +53,38 @@
       </div>
     </div>
 
+    <!-- Información de estudiante -->
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Código" [value]="estudiante.Carnet" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Nombre completo"
+            [value]="estudiante.Nombre"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="fecha_nacimiento"
+            placeholder="Fecha de nacimiento"
+            [(ngModel)]="estudiante.FechaNacimiento"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="fecha_nacimiento"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #fecha_nacimiento></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
     <div class="row">
       <div class="col">
         <mat-form-field>
@@ -90,39 +117,6 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Código" [value]="estudiante.Carnet" />
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field class="example-full-width">
-          <input
-            matInput
-            placeholder="Nombre completo"
-            [value]="estudiante.Nombre"
-          />
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="fecha_nacimiento"
-            placeholder="Fecha de nacimiento"
-            [(ngModel)]="estudiante.FechaNacimiento"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="fecha_nacimiento"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #fecha_nacimiento></mat-datepicker>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <ngx-info-estudiante></ngx-info-estudiante>
 
     <div class="row">
       <div class="col">

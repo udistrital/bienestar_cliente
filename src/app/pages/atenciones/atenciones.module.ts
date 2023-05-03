@@ -9,18 +9,14 @@ import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { InfoEstudianteComponent } from "./info-estudiante/info-estudiante.component";
 import { MatSelectModule } from "@angular/material/select";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
-import { ModalAtencionesComponent } from "./modal-atenciones/modal-atenciones.component";
 
 @NgModule({
   declarations: [
     ListaAtencionesComponent,
     CrearAtencionComponent,
-    InfoEstudianteComponent,
-    ModalAtencionesComponent,
   ],
   imports: [
     CommonModule,
