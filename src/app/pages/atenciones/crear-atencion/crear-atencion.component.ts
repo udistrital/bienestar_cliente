@@ -34,13 +34,12 @@ export class CrearAtencionComponent implements OnInit {
     "Seguimiento (Virtual)",
   ];
 
-  value: string = "";
   atenciones: Solicitud[] = [];
   tiposAtenciones: TipoSolicitud[] = [];
 
-  tipo_servicio: string;
-  tipo: TipoSolicitud;
-  estado: Estado;
+  tipo_servicio: string = "";
+  tipo: TipoSolicitud = new TipoSolicitud();
+  estado: Estado = new Estado();
 
   estadosAtenciones: Estado[] = [];
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
@@ -49,7 +48,7 @@ export class CrearAtencionComponent implements OnInit {
 
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
-  terceroId: number;
+  terceroId: number = 0;
   codigo_atencion: string = "";
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
@@ -62,6 +61,29 @@ export class CrearAtencionComponent implements OnInit {
 
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
+  }
+
+  limpiarFormulario() {
+    this.atenciones = [];
+    this.tiposAtenciones = [];
+
+    this.tipo_servicio = "";
+    // TODO Cuando se limpia formulario, no se puede volver a ver una vez se busca una nueva atención.
+    this.tipo = new TipoSolicitud();
+    this.estado = new Estado();
+
+    this.estadosAtenciones = [];
+    this.estudiante = new InfoCompletaEstudiante();
+    this.codigo_estudiante = "";
+    this.observaciones = [];
+
+    this.atencion = new Solicitud();
+    this.tipoObservacion = new TipoObservacion();
+    this.terceroId = 0;
+    this.codigo_atencion = "";
+    this.fecha_apertura = "";
+    this.fecha_finalizacion = "";
+    this.dateObj = new Date();
   }
 
   getEstudiante() {
@@ -171,6 +193,7 @@ export class CrearAtencionComponent implements OnInit {
                   (estado) =>
                     estado.Id == this.atencion.EstadoTipoSolicitudId.EstadoId.Id
                 );
+                // TODO Corregir que cuando se muestran las fechas cuando se hace la búsqueda, no se muesta las fechas adecuadas
                 this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0];
                 this.fecha_finalizacion =
                   this.atencion.FechaModificacion.split(" ")[0];
@@ -223,10 +246,12 @@ export class CrearAtencionComponent implements OnInit {
             //Registrar observaciones
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
+              // TODO Mostrar las atenciones en el orden que se agregaron
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
 
               // TODO Avisar al usuario  cuando se guarde una solicitud
               // TODO Limpiar el formulario cuando se guarda una solicitud
+              // TODO Validar cuando el componente de crear solicitud corresponde a una nueva solicitud o a la edición de una existente
 
               observacion.TerceroId = this.terceroId;
               observacion.Titulo =
