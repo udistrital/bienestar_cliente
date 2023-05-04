@@ -112,7 +112,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
   login() {
-    window.location.replace(this.autenticacion.getAuthorizationUrl(true));
+    window.location.replace(this.autenticacion.getAuthorizationUrl(false));
   }
   logout() {
     this.autenticacion.logout();
