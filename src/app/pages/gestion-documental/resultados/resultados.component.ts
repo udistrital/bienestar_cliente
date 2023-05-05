@@ -22,6 +22,7 @@ export class ResultadosComponent implements OnInit{
   private editando=false;
   private urlSafe: SafeResourceUrl;
   private descripcion: any;
+  private facultades: any;
   private documentoEditar: any;
   private nombreArchivo: any;
  
@@ -66,7 +67,8 @@ export class ResultadosComponent implements OnInit{
  
   dataSource: any;
   // TODO: Este se tomaria del servicio del OAS, validar
-  columnas: string[]=[];
+  columnas: string[]=['Nombre','Descripcion','Serie',
+  'SubSerie','Fecha','Facultad','Ver','Editar'];
 
   private windowRef: any;
 
@@ -90,32 +92,20 @@ export class ResultadosComponent implements OnInit{
   ngOnChanges(changes: SimpleChanges) {
     // Actualizar informacion luego de que documentos llegue de la consulta al servicio
     if (changes.documentos.currentValue != undefined){
-      this.columnas=[];
       this.dataSource = new MatTableDataSource<any>(changes.documentos.currentValue);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort= this.sort;
-      this.obtenerColumnas();
     }
   }
 
-  // Se añaden las columnas que se mostraran en la tabla de acuerdo a el primer elemento de los documentos
-  obtenerColumnas(){
-    if (this.documentos.length !== 0){
-      let array = Object.entries(this.documentos[0]);
-      array.forEach( element => {
-        // Elimina las columnas que no son necesarias en la busqueda
-        if(element[0] !== '_id' && element[0]!=='Id' && element[0]!=='Enlace')
-          this.columnas.push(element[0]);
-      });
-      this.columnas.push('Ver');
-      this.columnas.push('Editar');
-    }
-  }
   
   // Evalua un documento y obtener el valor de una columna para mostrarlo en la tabla
   evaluar(documento, columna){
     let array = Object.entries(documento);
     for (let i= 0; i<array.length; i++) {
+      if(array[i][0]==='Metadatos'){
+        return array[i][1][columna];
+      }
       if(array[i][0] === columna ){
         return array[i][1];
       }
@@ -125,31 +115,18 @@ export class ResultadosComponent implements OnInit{
   
   // Carga el documento para ser vizualizado    
   async visualizar(documento){
-
-    let array = Object.entries(documento);
     let url: any;
-    let id: any;
-    let titulo;
+    this.descripcion=documento.Descripcion;
+    this.facultades=documento.Metadatos.Facultad.join(', ');
     //Obtener id de nuxeo para traer el documento
-    array.forEach(dato=>{
-      if(dato[0]==='Id'){
-        id=dato[1];
-      }
-      if(dato[0]==='Nombre'){
-        titulo=dato[1];
-      }
-      if(dato[0]=='Descripcion'){
-        this.descripcion=dato[1];
-      }
-    });
-    url = await this.gestionService.obtenerDocumento(id, this.gestionService);
+    url = await this.gestionService.obtenerDocumento(documento.Enlace, this.gestionService);
     // Volver la url segura para Angular
     this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.visualizando=true;
 
     this.windowRef=this.windowService.open(
       this.vizualizarDocTemplate,
-      { title: titulo, hasBackdrop: true, closeOnEsc: false},
+      { title: documento.Nombre, hasBackdrop: true, closeOnEsc: false},
     );
   }
 

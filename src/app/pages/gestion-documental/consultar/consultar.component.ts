@@ -4,6 +4,7 @@ import { DocumentoGestion } from '../../../@core/data/models/documento/documento
 import { ApiRestService } from '../api-rest.service';
 import { GestionService } from '../gestion-documental.service';
 import { ResultadosComponent } from '../resultados/resultados.component';
+import { DocumentoService } from '../../../@core/data/documento.service';
 
 @Component({
   selector: 'ngx-consultar',
@@ -13,31 +14,50 @@ import { ResultadosComponent } from '../resultados/resultados.component';
 export class ConsultarComponent implements OnInit {  
   @ViewChild('resultados', { static: true }) resultadosElement: ElementRef;
 
+  private fechaInicio: Date;
+  private fechaFin: Date;
   private docSearch: FormGroup;
   private busquedaAvanzada: boolean;
   private activo: String;
   private documentos: any;
   private loading: boolean;
   // Estos datos se pueden traer de BD, para poder agregar mas
-  tiposDocumento: String [] = ["Acta", "Resolución", "Comunicado", "Contrato"];
+  tiposDocumento: { [key: string]: Number };
+  private facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación'];
   
-  constructor(private gestionService: GestionService, private fb: FormBuilder, private apiRestService: ApiRestService) {
+  constructor(private gestionService: GestionService, private fb: FormBuilder,
+     private apiRestService: ApiRestService, private documentoService: DocumentoService) {
     this.busquedaAvanzada= false;
     this.iniciarFormulario();
     this.activo = 'warning';
    }
 
   ngOnInit() {
+    this.obtenerTiposDocumentos();
+    
+  }
+  async obtenerTiposDocumentos(){
+    this.tiposDocumento=await this.gestionService.consultarTiposDocumento(this.documentoService);
   }
 
+  /**
+   * Inicia el formulario de consulta
+   */
   iniciarFormulario(){
     this.docSearch = this.fb.group({
       Tipo: ['', Validators.required],
       Nombre: ['', Validators.required] ,
       Serie: ['', Validators.required] ,
       SubSerie: ['', Validators.required],
-      Fecha:['', Validators.required],
+      FechaInicio:['', Validators.required],
+      FechaFin:['', Validators.required],
+      Facultad:[[], Validators.required],
     });
+    if(this.fechaFin){
+      this.fechaInicio=undefined;
+    }
+    if(this.fechaFin)
+      this.fechaFin=undefined;
   }
 
   onClick(){
@@ -51,18 +71,33 @@ export class ConsultarComponent implements OnInit {
     }
   }
 
+  /**
+   * Actualiza la fecha de uno de los datepicker, al selecionarla fecha 
+   * en el otro
+   */
+  actualizarFecha(){
+    if(this.fechaInicio){
+      if(!this.fechaFin){
+        this.fechaFin=this.fechaInicio;
+      }
+    }else{
+      if(this.fechaFin){
+       this.fechaInicio=this.fechaFin;
+      }
+    }
+  }
+
+  /**
+   * inicia la busqueda de documentos, teniendo en cuenta
+   * los filtros seleccionados
+   */
   async buscarDocumento(){
     // Trae los documentos del API Rest
     this.loading=true;
-    await this.apiRestService.get().toPromise().then( res =>{
-      this.documentos= res;
-    }).catch(error =>{
-      this.gestionService.toastrService.mostrarAlerta('Error buscando docmentos '+error);
-      console.log('el error es', error)
-    });
     
     // Crea un arreglo con los filtros validos en el formulario
-    let filtros: any= [];
+    let filtros: any=[];
+    // Arreglo para almacenar documentos filtrados
     let documentosFiltrados: any= [];
     for( let valor in this.docSearch.value){
       if (this.docSearch.get(valor).valid){
@@ -70,19 +105,63 @@ export class ConsultarComponent implements OnInit {
       }
     }
 
-    // Validar cada documento segun los filtros agregados por el ususrio
+    // Si el filtro es por tipo de documento, se realiza directo en el query al API
+    if (filtros['Tipo']){
+      this.documentos=await this.gestionService.getDocumentos(this.documentoService,this.gestionService,"%2CTipoDocumento.Id%3A"+filtros['Tipo']);
+    }else{
+      this.documentos=await this.gestionService.getDocumentos(this.documentoService,this.gestionService);
+    }
+    // Si no se encontraron resultados los documentos son indefinidos
+    if(this.documentos.length==1){
+      if(Object.entries(this.documentos[0]).length==0)
+        this.documentos = undefined;
+    }
+
+    // Validar cada documento segun los filtros agregados por el usuario
     for (let documento in this.documentos){
-      let valido = true;
+      this.documentos[documento].Metadatos=JSON.parse(this.documentos[documento].Metadatos);
+      let valido = true; //Verificar cuando un documento cumple con los filtros
       for(let filtro in filtros){
-        if (valido && !this.documentos[documento][filtro].toUpperCase().includes(filtros[filtro].toUpperCase()) ){
-          valido = false;
+        // Filtro por tipo se hace en el query directamente
+        if(filtro==='Tipo')
+          continue;
+        if(filtro=='Nombre'){
+          if (valido && !this.documentos[documento][filtro].toUpperCase().includes(filtros[filtro].toUpperCase()) ){
+            valido = false;
+          }
+        }else if(filtro=='Facultad'){
+          // Si las falultades del filtro no estan contenidas en las facultades del documento, el documento no es valido para los filtros
+          if(!filtros[filtro].every(valor =>this.documentos[documento].Metadatos[filtro].includes(valor))){
+            valido=false;
+          }else{
+            continue;
+          }
+        }
+        else{
+          if(filtro==='FechaInicio'){
+            console.log('Documento fecha:',this.documentos[documento].Metadatos['Fecha'],
+            new Date(this.documentos[documento].Metadatos['Fecha']) );
+            console.log('Form fecha:',filtros[filtro],
+            new Date(filtros[filtro]));
+            console.log('Comparación:',new Date(this.documentos[documento].Metadatos['Fecha']).getTime() < new Date(this.fechaInicio).getTime());
+            if( new Date(this.documentos[documento].Metadatos['Fecha']).getTime() < new Date(this.fechaInicio).getTime() ){
+              valido =false;
+            }
+          }
+          else if(filtro==='FechaFin'){
+            console.log('Comparación: ',new Date(this.documentos[documento].Metadatos['Fecha']).getTime() > new Date(this.fechaFin).getTime())
+            if( new Date(this.documentos[documento].Metadatos['Fecha']).getTime() > new Date(this.fechaFin).getTime() ){
+              valido =false;
+            }
+          }else if(valido && !this.documentos[documento].Metadatos[filtro].toUpperCase().includes(filtros[filtro].toUpperCase())){
+            valido =false;
+          } 
         }
       }
       // Si cumple con los filtros se agrega para mostrar
       if (valido){
         documentosFiltrados.splice(0,0,this.documentos[documento]);
       }
-
     }
 
     if(filtros){

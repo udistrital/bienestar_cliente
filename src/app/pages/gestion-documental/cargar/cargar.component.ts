@@ -28,7 +28,7 @@ export class CargarComponent implements OnInit {
 
   // Estos datos se traen de BD, para poder agregar mas
   private tiposDocumento: { [key: string]: Number };
-  private facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación',]
+  private facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación'];
 
   // Para cargar a nuxeo
   documento: DocumentoGestion = new DocumentoGestion;
@@ -75,19 +75,10 @@ export class CargarComponent implements OnInit {
    * si se esta editando un documento cargara los datos de este 
    */
   iniciarFormulario(){
-    this.docForm = this.fb.group({
-      tipoDocumento: ['', Validators.required],
-      nombre: ['', Validators.required] ,
-      serie: ['', Validators.required] ,
-      subSerie: ['', Validators.required],
-      fecha:['', Validators.required],
-      descripcion: ['', Validators.required],
-      archivo: ['', Validators.required],
-      facultad: ['',Validators.required]
-    });
-    //Asignar fecha por defecto
-    //this.docForm.get('fecha').setValue(this.dateService.today());
-    //this.docForm.get('fecha').valid;
+    //Inicializar el formulario
+    this.initForm();
+    this.docForm.get('fecha').setValue(new Date().toISOString().split('T')[0]);
+
     this.docForm.controls.fecha.hasError('onRange');
     if(this.editando && this.documentoEditar!==undefined){
       //****** pendiente, al editar documento *****/
@@ -117,8 +108,16 @@ export class CargarComponent implements OnInit {
     this.documento.Descripcion=this.docForm.get('descripcion').value;
     this.documento.Activo=true;
     let usuario=  new ImplicitAutenticationService;
+    let nomUsuario;
+    let autentificando=true;
+    while(autentificando){
+      if(usuario.getPayload().sub){
+        nomUsuario=usuario.getPayload().sub;
+        autentificando=false;
+      }
+    }
     let metadatos = {
-      Uploader: usuario.getPayload().sub,
+      Uploader: nomUsuario,
       Serie: this.docForm.get('serie').value,
       SubSerie: this.docForm.get('subSerie').value,
       Fecha:this.docForm.get('fecha').value,
@@ -133,16 +132,19 @@ export class CargarComponent implements OnInit {
       }
       // Actualizando documento
     }else{
-      let documentoCreado = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
-      this.docForm.reset();
+      this.initForm();
       this.labelUpoadFile.nativeElement.innerText = 'Seleccione Archivo';
       this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+
+      this.documentoMostrar = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
+      this.documentoMostrar=[this.documentoMostrar];
 
       this.clickeado=false;
       this.validado=true;
       this.archivoCambiado=false;
       this.loading=false;
     }
+    
     /*  this.documentoMostrar= await [this.gestionService.convertirADiccionario(documentoCreado)]; */
       //Se agrega manualmente el id para no agregarel _id (id del API) convertirADiccionario() pues para el PUT agregaria una nueva 
      /*  this.documentoMostrar[0]['_id'] =  documentoCreado.IdApi; */
@@ -158,7 +160,18 @@ export class CargarComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.avisoTemplate,
       { data: dato, hasBackdrop: true, autoFocus: true, disableClose: true});
   }
-
+  initForm(){
+    this.docForm=this.fb.group({
+      tipoDocumento: ['', Validators.required],
+      nombre: ['', Validators.required] ,
+      serie: ['', Validators.required] ,
+      subSerie: ['', Validators.required],
+      fecha:['', Validators.required],
+      descripcion: ['', Validators.required],
+      archivo: ['', Validators.required],
+      facultad: [[],Validators.required]
+    });
+  }
   // Ejecuta una ventana de dialogo pra validar si se desea actualizar
   validarActualizar(){
     let dato ={

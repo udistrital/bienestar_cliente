@@ -48,6 +48,56 @@ export class GestionService {
     return documentoService.post("documento", documento);
   }
 
+  /**
+   * Obtiene los documentos de SIBUD del API Documetos
+   *
+   * @param documentoService Objeto de DocumetoService.
+   * @param gestionService Objeto de GestionService.
+   * @param filtro Query extra para realzar filtros
+   * @return documentos
+   */
+  async getDocumentos(documentoService: DocumentoService,gestionService: GestionService, filtro?) {
+
+    // Si no viene el parametro filtro
+    if(filtro === undefined){
+      filtro=''
+    }
+
+    let query="documento?query=TipoDocumento.Descripcion%3AGestion%20documental%20de%20bienestar%20institucional"+filtro+"&limit=20";
+
+    let consulta = await documentoService.get(query).toPromise().catch(error=>{
+      gestionService.toastrService.mostrarAlerta('Error buscando documentos '+error);
+      console.log('el error es', error);
+    });
+    return consulta;
+  }
+
+  /**
+   * Consulta los tipos de dccumentos creados para el SIBUD en la tabla tipo_documento
+   * del API Documetos
+   *
+   * @param documentoService Objeto de DocumetoService.
+   * @param query query para obtener un tipo especifico de documento
+   * @return Map con los Tipos de documento y su id en la base de datos
+   */
+  async consultarTiposDocumento(documentoService: DocumentoService, query?) {
+    let tipos: { [key: string]: Number }={'':0};
+    delete tipos['']; // Se inicializo y elimino el item para que dejara asignar los valores
+    let parametros = query? query: 'DominioTipoDocumento.Id:7'
+    let consulta = await documentoService.get("tipo_documento?query="+parametros).toPromise();
+    for(let item of consulta) {
+        if (item.Workspace.includes("gestion_documental/documentos")){
+            tipos[item.Nombre] = item.Id;
+        }
+      }
+    if(query){
+      return consulta;
+    }else{
+      return tipos;
+    }
+  }
+
+
   // Modifica documento del API
   /* editDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
         apiRestService.update(this.convertirADiccionario(documento), documento.IdApi);
@@ -56,11 +106,6 @@ export class GestionService {
         apiRestService.delete(documento.IdApi);
     }*/
 
-  getDocumentos(documentoService: DocumentoService) {
-    documentoService.get("documento").subscribe((res) => {
-      console.log(res);
-    });
-  }
   /* // Docuemntos con api Rest
 ///////////////////////////////////////////////////////////////////////////////////////////////
 */
@@ -81,6 +126,7 @@ export class GestionService {
     documentoService: DocumentoService
   ) {
     const documentoCons = documento;
+    let tipo=await this.consultarTiposDocumento(documentoService, 'Id:'+documento.TipoDocumento.Id);
     await GestionService.nuxeo.connect().then(async function (client) {
       await GestionService.nuxeo
         .operation("Document.Create")
@@ -89,9 +135,8 @@ export class GestionService {
           name: documento.Nombre,
           description: documento.Descripcion,
           properties: "dc:title=" + documento.Nombre,
-          //properties: 'dc:title='+documento.Nombre+' \ndc:description=Documento para probar creacion'
         })
-        .input(GestionService.path)
+        .input(tipo[0].Workspace)
         .execute()
         .then(async function (res) {
           const blob = new Nuxeo.Blob({ content: file });
@@ -105,13 +150,10 @@ export class GestionService {
                 .input(response.blob)
                 .execute();
               documentoCons.Enlace = res.uid;
-
               // Se requiere esperar por que se necesita el _id que asigna el API en la respuesta del POST
-              /*  documentoCons.IdApi='-s'; */
               await gestionService
                 .addDocumento(documentoCons, documentoService)
                 .subscribe((doc) => {
-                  console.log(doc);
                 });
               gestionService.toastrService.mostrarAlerta(
                 "Se ha creado el documento " + documento.Nombre,
@@ -129,6 +171,7 @@ export class GestionService {
             });
         });
     });
+    documentoCons.Metadatos=JSON.parse(documentoCons.Metadatos);
     return documentoCons;
   }
 
@@ -211,12 +254,9 @@ export class GestionService {
       .request("/id/" + id)
       .get()
       .then(async function (res) {
-        await res
-          .fetchBlob()
-          .then(async function (blob) {
+        await res.fetchBlob().then(async function (blob) {
             await blob.blob().then(function (responseblob) {
               url = URL.createObjectURL(responseblob);
-              //window.open(url);
               gestionService.toastrService.mostrarAlerta(
                 "Se ha obtenido el documento satisfactoriamente",
                 "success"
@@ -229,7 +269,7 @@ export class GestionService {
               "danger"
             );
             throw new Error(error);
-          });
+          });          
       })
       .catch(function (error) {
         gestionService.toastrService.mostrarAlerta(
@@ -258,25 +298,6 @@ export class GestionService {
         throw new Error(error);
       });
     return nombre;
-  }
-
-  /**
-   * Consulta los tipos de dccumentos creados para el SIBUD en la tabla tipo_documento
-   * del API Documetos
-   *
-   * @param documentoService Objeto de DocumetoService.
-   * @return Map con los Tipos de documento y su id en la base de datos
-   */
-  async consultarTiposDocumento(documentoService: DocumentoService) {
-    let tipos: { [key: string]: Number }={'':0};
-    delete tipos['']; // Se inicializo y elimino el item para que dejara asignar los valores
-    let consulta = await documentoService.get("tipo_documento?query=DominioTipoDocumento.Id:7").toPromise();
-    for(let item of consulta) {
-        if (item.Workspace.includes("gestion_documental/documentos")){
-            tipos[item.Nombre] = item.Id;
-        }
-      }
-    return tipos;
   }
 
   /* // Gestor de documentos

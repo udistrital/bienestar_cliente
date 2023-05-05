@@ -35,7 +35,8 @@
 <!-- Template para mostrar el pdf en ventana -->
 <ng-template #visualizarDoc>
     <div *ngIf="visualizando" >
-        <p>{{descripcion}}</p>
+        <p>Descripción: {{descripcion}}</p>
+        <p>Facultades: {{facultades}}</p>   
         <iframe [src]="urlSafe" type="application/pdf" (load)="onResize()" id="iframe" ></iframe>  
     </div>
 </ng-template>
