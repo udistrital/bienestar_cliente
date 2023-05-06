@@ -310,3 +310,8 @@ export class CrearAtencionComponent implements OnInit {
     }
   }
 }
+// TODO Poner alertas con Sweet alerts cuando:
+/**
+ * 1. cuando se agregan, editan y/o eliminan atenciones
+ * 2. cuando se agregan, editan y/o eliminan observaciones 
+ */
