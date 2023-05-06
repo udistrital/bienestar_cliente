@@ -36,12 +36,12 @@ export class CrearAtencionComponent implements OnInit {
 
   atenciones: Solicitud[] = [];
   tiposAtenciones: TipoSolicitud[] = [];
+  estadosAtenciones: Estado[] = [];
 
   tipo_servicio: string = "";
   tipo: TipoSolicitud = new TipoSolicitud();
   estado: Estado = new Estado();
 
-  estadosAtenciones: Estado[] = [];
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   codigo_estudiante: string = "";
   observaciones: Observacion[] = [];
@@ -49,10 +49,11 @@ export class CrearAtencionComponent implements OnInit {
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number = 0;
-  codigo_atencion: string = "";
+  codigo_atencion: string = "47821";
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
+  nuevaAtencion: boolean = false;
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -61,6 +62,39 @@ export class CrearAtencionComponent implements OnInit {
 
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
+    this.getAtencion();
+  }
+
+  updateAtencion() {
+    // console.log("nuevo tipo", this.tipo);
+    // console.log("nuevo estado", this.estado);
+    this.atencionesService
+      .getTipoEstado(this.tipo.Id, this.estado.Id)
+      .subscribe((res) => {
+        let estadosTipos: EstadoTipoSolicitud = res.Data[0];
+        this.atencion.EstadoTipoSolicitudId = estadosTipos;
+
+        let referencia = {};
+        referencia["tipo_servicio"] = this.tipo_servicio;
+        let json = JSON.stringify(referencia);
+
+        this.atencion.Referencia = json;
+
+        console.log(this.atencion);
+        this.solicitudService
+          .put("solicitud", this.atencion, this.atencion.Id)
+          .subscribe((res) => {
+            console.log("actualización", res);
+          });
+      });
+  }
+
+  handleClickSave() {
+    if (this.nuevaAtencion) {
+      this.saveAtencion();
+    } else {
+      this.updateAtencion();
+    }
   }
 
   limpiarFormulario() {
@@ -90,7 +124,6 @@ export class CrearAtencionComponent implements OnInit {
     this.atencionesService
       .getEstudianteByCode(this.codigo_estudiante)
       .subscribe((res) => {
-        console.log(res[0]);
         this.estudiante.Carnet = res[0].Numero;
         this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
         this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
@@ -107,7 +140,6 @@ export class CrearAtencionComponent implements OnInit {
         this.atencionesService
           .getAtencionxSolicitante(res[0].TerceroId.Id)
           .subscribe((resAtenciones) => {
-            console.log("atenciones son ", resAtenciones);
             this.atenciones = resAtenciones;
           });
       });
@@ -159,7 +191,13 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   deleteObservacion(index: number) {
-    this.observaciones.splice(index, 1);
+    let observacion: Observacion = this.observaciones[index];
+    this.atencionesService
+      .deleteObservacion(observacion.Id)
+      .subscribe((res) => {
+        console.log("respuesta", res);
+        this.observaciones.splice(index, 1);
+      });
   }
 
   getAtencion() {
@@ -235,12 +273,7 @@ export class CrearAtencionComponent implements OnInit {
                 solicitante.SolicitudId = solicitud;
                 this.solicitudService
                   .post("solicitante", solicitante)
-                  .subscribe((resSolicitante) => {
-                    console.log(
-                      "Solicitante de la atencion registrado ",
-                      resSolicitante
-                    );
-                  });
+                  .subscribe((resSolicitante) => {});
               });
 
             //Registrar observaciones
@@ -267,5 +300,13 @@ export class CrearAtencionComponent implements OnInit {
     this.listService
       .crearObservacion(observacion)
       .then((res) => console.log("Observación guardada", observacion.Valor));
+  }
+
+  objectEmpty(obj: any[]) {
+    if (obj.length > 0) {
+      return Object.entries(obj[0]).length === 0;
+    } else {
+      return true;
+    }
   }
 }

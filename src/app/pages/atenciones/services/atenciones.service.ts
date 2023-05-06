@@ -91,9 +91,6 @@ export class AtencionesService {
       tercero = res.Id;
       this.getAtencion(Id_atencion).subscribe((resAtencion) => {
         solicitud = resAtencion;
-        // console.log("flag registrar solciitante x atencion");
-        // console.log(tercero);
-        // console.log(solicitud);
       });
     });
 
@@ -226,6 +223,13 @@ export class AtencionesService {
   getEstadoTipoById(id: number): Observable<any> {
     return this.http.get<any>(
       `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/estado_tipo_solicitud/${id}`,
+      httpOptions
+    );
+  }
+
+  deleteObservacion(id: number): Observable<any> {
+    return this.http.delete<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/observacion/${id}`,
       httpOptions
     );
   }

@@ -3,7 +3,6 @@ import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { AtencionesService } from "../services/atenciones.service";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
 
 export interface PeriodicElement {
   idAtencion: number;
@@ -63,7 +62,6 @@ export class ListaAtencionesComponent implements OnInit {
       this.dataSource.forEach((atencion) => {
         atencion.FechaCreacion = atencion.FechaCreacion.split(" ")[0];
       });
-      console.log(this.dataSource);
     });
   }
 }

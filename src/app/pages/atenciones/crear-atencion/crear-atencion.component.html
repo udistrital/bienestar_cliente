@@ -57,12 +57,18 @@
     <div class="row">
       <div class="col">
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Código" [value]="estudiante.Carnet" />
+          <input
+            readonly="!nuevaAtencion"
+            matInput
+            placeholder="Código"
+            [value]="estudiante.Carnet"
+          />
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field class="example-full-width">
           <input
+            readonly="!nuevaAtencion"
             matInput
             placeholder="Nombre completo"
             [value]="estudiante.Nombre"
@@ -72,6 +78,7 @@
       <div class="col">
         <mat-form-field>
           <input
+            disabled="!nuevaAtencion"
             matInput
             [matDatepicker]="fecha_nacimiento"
             placeholder="Fecha de nacimiento"
@@ -89,6 +96,7 @@
       <div class="col">
         <mat-form-field>
           <input
+            disabled="!nuevaAtencion"
             matInput
             [matDatepicker]="picker1"
             placeholder="Fecha de apertura"
@@ -159,25 +167,26 @@
         </mat-form-field>
       </div>
     </div>
-
-    <div class="row" *ngFor="let observacion of observaciones; let i = index">
-      <div class="col col-9">
-        <mat-form-field class="example-full-width">
-          <textarea
-            matInput
-            placeholder="Escribe una observación"
-            [(ngModel)]="observacion.Valor"
-          ></textarea>
-        </mat-form-field>
-      </div>
-      <div class="col col-3">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="deleteObservacion(i)"
-        >
-          Eliminar
-        </button>
+    <div *ngIf="!objectEmpty(observaciones)">
+      <div class="row" *ngFor="let observacion of observaciones; let i = index">
+        <div class="col col-9">
+          <mat-form-field class="example-full-width">
+            <textarea
+              matInput
+              placeholder="Escribe una observación"
+              [(ngModel)]="observacion.Valor"
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col col-3">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="deleteObservacion(i)"
+          >
+            Eliminar
+          </button>
+        </div>
       </div>
     </div>
     <button mat-raised-button color="primary" (click)="addObservacion()">
@@ -185,7 +194,7 @@
     </button>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="accent" (click)="saveAtencion()">
+    <button mat-raised-button color="accent" (click)="handleClickSave()">
       Guardar y salir
     </button>
     <button mat-raised-button color="warn" (click)="limpiarFormulario()">
