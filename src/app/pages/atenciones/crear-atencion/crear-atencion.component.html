@@ -2,20 +2,14 @@
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>Buscar atención</mat-card-title>
-    <mat-card-subtitle
-      >Ingrese todos los datos de la atención.</mat-card-subtitle
-    >
+    <mat-card-subtitle>Ingrese todos los datos de la atención.</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
     <div class="row">
       <div class="col col-5">
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Código de la atención"
-            [(ngModel)]="codigo_atencion"
-          />
+          <input matInput placeholder="Código de la atención" [(ngModel)]="codigo_atencion" />
         </mat-form-field>
       </div>
       <div class="col col-7">
@@ -24,7 +18,7 @@
         </button>
       </div>
     </div>
-  
+
   </mat-card-content>
 
 </mat-card>
@@ -36,19 +30,13 @@
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>Nueva atención</mat-card-title>
-    <mat-card-subtitle
-      >Ingrese todos los datos de la atención.</mat-card-subtitle
-    >
+    <mat-card-subtitle>Ingrese todos los datos de la atención.</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="row">
       <div class="col col-5">
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Código de estudiante"
-            [(ngModel)]="codigo_estudiante"
-          />
+          <input matInput placeholder="Código de estudiante" [(ngModel)]="codigo_estudiante" />
         </mat-form-field>
       </div>
       <div class="col col-7">
@@ -61,31 +49,16 @@
     <div class="row">
       <div class="col">
         <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="picker1"
-            placeholder="Fecha de apertura"
-            [(ngModel)]="fecha_apertura"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker1"
-          ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="picker1" placeholder="Fecha de apertura" [(ngModel)]="fecha_apertura" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            placeholder="Fecha de finalización"
-            [(ngModel)]="fecha_finalizacion"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="picker" placeholder="Fecha de finalización"
+            [(ngModel)]="fecha_finalizacion" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
@@ -98,25 +71,14 @@
       </div>
       <div class="col">
         <mat-form-field class="example-full-width">
-          <input
-            matInput
-            placeholder="Nombre completo"
-            [value]="estudiante.Nombre"
-          />
+          <input matInput placeholder="Nombre completo" [value]="estudiante.Nombre" />
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="fecha_nacimiento"
-            placeholder="Fecha de nacimiento"
-            [(ngModel)]="estudiante.FechaNacimiento"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="fecha_nacimiento"
-          ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="fecha_nacimiento" placeholder="Fecha de nacimiento"
+            [(ngModel)]="estudiante.FechaNacimiento" />
+          <mat-datepicker-toggle matSuffix [for]="fecha_nacimiento"></mat-datepicker-toggle>
           <mat-datepicker #fecha_nacimiento></mat-datepicker>
         </mat-form-field>
       </div>
@@ -129,10 +91,7 @@
         <mat-form-field>
           <mat-label>Tipo de servicio</mat-label>
           <mat-select [(ngModel)]="tipo_servicio">
-            <mat-option
-              *ngFor="let tipoServicio of tiposServicio"
-              [value]="tipoServicio"
-            >
+            <mat-option *ngFor="let tipoServicio of tiposServicio" [value]="tipoServicio">
               {{ tipoServicio }}
             </mat-option>
           </mat-select>
@@ -142,10 +101,7 @@
         <mat-form-field>
           <mat-label>Tipo de atención </mat-label>
           <mat-select [(ngModel)]="tipo">
-            <mat-option
-              *ngFor="let tipoAtencion of tiposAtenciones"
-              [value]="tipoAtencion"
-            >
+            <mat-option *ngFor="let tipoAtencion of tiposAtenciones" [value]="tipoAtencion">
               {{ tipoAtencion.Nombre }}
             </mat-option>
           </mat-select>
@@ -155,10 +111,7 @@
         <mat-form-field>
           <mat-label>Estado de atención</mat-label>
           <mat-select [(ngModel)]="estado">
-            <mat-option
-              *ngFor="let estadoAtencion of estadosAtenciones"
-              [value]="estadoAtencion"
-            >
+            <mat-option *ngFor="let estadoAtencion of estadosAtenciones" [value]="estadoAtencion">
               {{ estadoAtencion.Nombre }}
             </mat-option>
           </mat-select>
@@ -169,23 +122,36 @@
     <div class="row" *ngFor="let observacion of observaciones; let i = index">
       <div class="col col-9">
         <mat-form-field class="example-full-width">
-          <textarea
-            matInput
-            placeholder="Escribe una observación"
-            [(ngModel)]="observacion.Valor"
-          ></textarea>
+          <textarea matInput placeholder="Escribe una observación" [(ngModel)]="observacion.Valor"></textarea>
         </mat-form-field>
       </div>
       <div class="col col-3">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="deleteObservacion(i)"
-        >
+        <button mat-raised-button color="primary" (click)="deleteObservacion(i)">
           Eliminar
         </button>
       </div>
     </div>
+
+    <!-- The Modal -->
+    <div *ngIf="showModalBox" class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Modal Heading</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Modal body..
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <button mat-raised-button color="primary" (click)="addObservacion()">
       Nueva observación
     </button>

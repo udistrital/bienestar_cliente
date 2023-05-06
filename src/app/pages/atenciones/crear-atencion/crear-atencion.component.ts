@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { SolicitudService } from "../../../@core/data/solicitud.service";
 import { AtencionesService } from "../services/atenciones.service";
@@ -27,6 +27,7 @@ export class CrearAtencionComponent implements OnInit {
     private listService: ListService,
     private solicitudService: SolicitudService
   ) {}
+  
 
   tiposServicio: string[] = [
     "Orientacion virtual (Formulario)",
@@ -58,12 +59,14 @@ export class CrearAtencionComponent implements OnInit {
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj:Date = new Date();
+  showModalBox: boolean = false;
 
-  ngOnInit() {
+  
+  ngOnInit(): void {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
     });
-
+    
     //this.findAtenciones();
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
@@ -172,8 +175,12 @@ export class CrearAtencionComponent implements OnInit {
               
 
               
-              // TODO Avisar al usuario  cuando se guarde una solicitud
-              // TODO Limpiar el formulario cuando se guarda una solicitud
+              // TODO Avisar al usuario  cuando se guarde una solicitud (Miguel)
+              // TODO Limpiar el formulario cuando se guarda una solicitud (Migue)
+              // TODO Visualizar la data de la solicitud cuando se busca (Miguel)
+              // TODO Filtros en la tabla (Nicolás )
+              // TODO Actualizar 
+              // TODO Profesional que crea la solicitud
               
               observacion.TerceroId = this.terceroId;
               observacion.Titulo =
@@ -184,6 +191,18 @@ export class CrearAtencionComponent implements OnInit {
             
           });
       });
+      this.open();
+      this.showModalBox=true ;
+  }
+
+  public open() {
+    if(0){
+      // Dont open the modal
+      this.showModalBox = false;
+    } else {
+       // Open the modal
+       this.showModalBox = true;
+    }
   }
 
   saveObservacion(observacion: Observacion) {
