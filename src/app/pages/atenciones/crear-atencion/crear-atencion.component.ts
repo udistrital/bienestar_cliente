@@ -12,6 +12,7 @@ import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-obser
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -26,7 +27,8 @@ export class CrearAtencionComponent implements OnInit {
     private atencionesService: AtencionesService,
     private listService: ListService,
     private solicitudService: SolicitudService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private datePipe: DatePipe
   ) {}
 
   tiposServicio: string[] = [
@@ -70,11 +72,19 @@ export class CrearAtencionComponent implements OnInit {
     this.getAtencion();
 
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ["", Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      secondCtrl: ["", Validators.required],
     });
+  }
+
+  fullDate(date: string) {
+    const fechaFormateada = this.datePipe.transform(
+      new Date(date.split(" ")[0] + " " + date.split(" ")[1]),
+      "full"
+    );
+    return fechaFormateada;
   }
 
   updateAtencion() {
@@ -273,7 +283,7 @@ export class CrearAtencionComponent implements OnInit {
         this.solicitudService
           .post("solicitud", this.atencion)
           .subscribe((res) => {
-            console.log("Nueva atención",res)
+            console.log("Nueva atención", res);
             solicitud = res.Data;
             // TODO Guardar solicitante
             let tercero = new Tercero();
