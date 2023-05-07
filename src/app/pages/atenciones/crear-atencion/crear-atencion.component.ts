@@ -13,7 +13,19 @@ import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DatePipe } from "@angular/common";
+import Swal from "sweetalert2";
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
 @Component({
   selector: "ngx-crear-atencion",
   templateUrl: "./crear-atencion.component.html",
@@ -60,7 +72,7 @@ export class CrearAtencionComponent implements OnInit {
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
-  nuevaAtencion: boolean = false;
+  nuevaAtencion: boolean = true;
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -107,6 +119,13 @@ export class CrearAtencionComponent implements OnInit {
           .put("solicitud", this.atencion, this.atencion.Id)
           .subscribe((res) => {
             console.log("actualización", res);
+            Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Atención actualizada',
+              showConfirmButton: false,
+              timer: 1500
+            })
           });
       });
   }
@@ -219,6 +238,13 @@ export class CrearAtencionComponent implements OnInit {
       .subscribe((res) => {
         console.log("respuesta", res);
         this.observaciones.splice(index, 1);
+        console.log("actualización", res);
+        
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Observación Eliminada'
+        })
       });
   }
 
@@ -254,9 +280,8 @@ export class CrearAtencionComponent implements OnInit {
                     estado.Id == this.atencion.EstadoTipoSolicitudId.EstadoId.Id
                 );
                 // TODO Corregir que cuando se muestran las fechas cuando se hace la búsqueda, no se muesta las fechas adecuadas
-                this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0];
-                this.fecha_finalizacion =
-                  this.atencion.FechaModificacion.split(" ")[0];
+                this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0]+'T00:00:00';
+                this.fecha_finalizacion =this.atencion.FechaModificacion.split(" ")[0]+'T00:00:00';
               });
           });
       });
@@ -280,6 +305,8 @@ export class CrearAtencionComponent implements OnInit {
         let tipoEstado: EstadoTipoSolicitud = res.Data[0];
         this.atencion.EstadoTipoSolicitudId = tipoEstado;
         this.atencion.Referencia = json;
+        console.log("atencion es ")
+        console.log(this.atencion)
         this.solicitudService
           .post("solicitud", this.atencion)
           .subscribe((res) => {
@@ -291,6 +318,7 @@ export class CrearAtencionComponent implements OnInit {
             this.atencionesService
               .getEstudianteByCode(this.codigo_estudiante)
               .subscribe((res) => {
+                console.log(res)
                 tercero = res[0].TerceroId;
                 solicitante.TerceroId = tercero.Id;
                 solicitante.SolicitudId = solicitud;
@@ -315,8 +343,18 @@ export class CrearAtencionComponent implements OnInit {
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
+            
           });
+          console.log("actualización", res);
+            Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Atención registrada',
+              showConfirmButton: false,
+              timer: 1500
+            })
       });
+      
   }
 
   saveObservacion(observacion: Observacion) {
