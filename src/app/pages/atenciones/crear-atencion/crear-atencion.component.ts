@@ -13,6 +13,17 @@ import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
 import Swal from "sweetalert2";
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
 @Component({
   selector: "ngx-crear-atencion",
   templateUrl: "./crear-atencion.component.html",
@@ -54,7 +65,7 @@ export class CrearAtencionComponent implements OnInit {
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
-  nuevaAtencion: boolean = false;
+  nuevaAtencion: boolean = true;
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -206,13 +217,12 @@ export class CrearAtencionComponent implements OnInit {
         console.log("respuesta", res);
         this.observaciones.splice(index, 1);
         console.log("actualización", res);
-            Swal.fire({
-              position: 'bottom-end',
-              icon: 'success',
-              title: 'Observación eliminada',
-              showConfirmButton: false,
-              timer: 1000
-            })
+        
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Observación Eliminada'
+        })
       });
   }
 
@@ -273,8 +283,6 @@ export class CrearAtencionComponent implements OnInit {
         let tipoEstado: EstadoTipoSolicitud = res.Data[0];
         this.atencion.EstadoTipoSolicitudId = tipoEstado;
         this.atencion.Referencia = json;
-        this.fecha_apertura = this.fecha_apertura.split('+')[0]
-        this.fecha_finalizacion = this.fecha_finalizacion.split('+')[0]
         console.log("atencion es ")
         console.log(this.atencion)
         this.solicitudService
