@@ -78,7 +78,6 @@
       <div class="col">
         <mat-form-field>
           <input
-            disabled="!nuevaAtencion"
             matInput
             [matDatepicker]="fecha_nacimiento"
             placeholder="Fecha de nacimiento"
@@ -96,7 +95,6 @@
       <div class="col">
         <mat-form-field>
           <input
-            disabled="!nuevaAtencion"
             matInput
             [matDatepicker]="picker1"
             placeholder="Fecha de apertura"
@@ -167,7 +165,70 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="!objectEmpty(observaciones)">
+
+    <mat-vertical-stepper
+      [linear]="false"
+      #stepper
+      *ngIf="!objectEmpty(observaciones)"
+    >
+      <mat-step *ngFor="let observacion of observaciones; let i = index">
+        <ng-template matStepLabel>{{ observacion.FechaCreacion }}</ng-template>
+        <div class="row">
+          <div class="col col-9">
+            <mat-form-field class="example-full-width">
+              <textarea
+                matInput
+                placeholder="Escribe una observación"
+                [(ngModel)]="observacion.Valor"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col col-3">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="deleteObservacion(i)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </mat-step>
+
+      <!-- <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Fill out your name</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Fill out your address</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Address" formControlName="secondCtrl" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done.
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step> -->
+    </mat-vertical-stepper>
+
+    <!-- <div *ngIf="!objectEmpty(observaciones)">
       <div class="row" *ngFor="let observacion of observaciones; let i = index">
         <div class="col col-9">
           <mat-form-field class="example-full-width">
@@ -188,7 +249,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
     <button mat-raised-button color="primary" (click)="addObservacion()">
       Nueva observación
     </button>

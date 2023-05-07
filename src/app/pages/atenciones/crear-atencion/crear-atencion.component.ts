@@ -11,6 +11,7 @@ import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -18,10 +19,14 @@ import { Tercero } from "../../../@core/data/models/terceros/tercero";
   styleUrls: ["./crear-atencion.component.scss"],
 })
 export class CrearAtencionComponent implements OnInit {
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
   constructor(
     private atencionesService: AtencionesService,
     private listService: ListService,
-    private solicitudService: SolicitudService
+    private solicitudService: SolicitudService,
+    private _formBuilder: FormBuilder
   ) {}
 
   tiposServicio: string[] = [
@@ -49,7 +54,7 @@ export class CrearAtencionComponent implements OnInit {
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number = 0;
-  codigo_atencion: string = "47821";
+  codigo_atencion: string = "48024";
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
@@ -63,6 +68,13 @@ export class CrearAtencionComponent implements OnInit {
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
     this.getAtencion();
+
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
   updateAtencion() {
@@ -261,6 +273,7 @@ export class CrearAtencionComponent implements OnInit {
         this.solicitudService
           .post("solicitud", this.atencion)
           .subscribe((res) => {
+            console.log("Nueva atención",res)
             solicitud = res.Data;
             // TODO Guardar solicitante
             let tercero = new Tercero();
@@ -313,5 +326,5 @@ export class CrearAtencionComponent implements OnInit {
 // TODO Poner alertas con Sweet alerts cuando:
 /**
  * 1. cuando se agregan, editan y/o eliminan atenciones
- * 2. cuando se agregan, editan y/o eliminan observaciones 
+ * 2. cuando se agregan, editan y/o eliminan observaciones
  */

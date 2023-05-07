@@ -12,12 +12,11 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
+import { MatStepperModule } from "@angular/material/stepper";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [
-    ListaAtencionesComponent,
-    CrearAtencionComponent,
-  ],
+  declarations: [ListaAtencionesComponent, CrearAtencionComponent],
   imports: [
     CommonModule,
     AtencionesRoutingModule,
@@ -30,6 +29,8 @@ import { FormsModule } from "@angular/forms";
     MatSelectModule,
     HttpClientModule,
     FormsModule,
+    MatStepperModule,
+    ReactiveFormsModule,
   ],
 })
 export class AtencionesModule {}
