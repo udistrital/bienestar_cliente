@@ -11,6 +11,7 @@ import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "ngx-crear-atencion",
@@ -85,6 +86,13 @@ export class CrearAtencionComponent implements OnInit {
           .put("solicitud", this.atencion, this.atencion.Id)
           .subscribe((res) => {
             console.log("actualización", res);
+            Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Atención actualizada',
+              showConfirmButton: false,
+              timer: 1500
+            })
           });
       });
   }
@@ -197,6 +205,14 @@ export class CrearAtencionComponent implements OnInit {
       .subscribe((res) => {
         console.log("respuesta", res);
         this.observaciones.splice(index, 1);
+        console.log("actualización", res);
+            Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Observación eliminada',
+              showConfirmButton: false,
+              timer: 1000
+            })
       });
   }
 
@@ -232,9 +248,8 @@ export class CrearAtencionComponent implements OnInit {
                     estado.Id == this.atencion.EstadoTipoSolicitudId.EstadoId.Id
                 );
                 // TODO Corregir que cuando se muestran las fechas cuando se hace la búsqueda, no se muesta las fechas adecuadas
-                this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0];
-                this.fecha_finalizacion =
-                  this.atencion.FechaModificacion.split(" ")[0];
+                this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0]+'T00:00:00';
+                this.fecha_finalizacion =this.atencion.FechaModificacion.split(" ")[0]+'T00:00:00';
               });
           });
       });
@@ -258,9 +273,14 @@ export class CrearAtencionComponent implements OnInit {
         let tipoEstado: EstadoTipoSolicitud = res.Data[0];
         this.atencion.EstadoTipoSolicitudId = tipoEstado;
         this.atencion.Referencia = json;
+        this.fecha_apertura = this.fecha_apertura.split('+')[0]
+        this.fecha_finalizacion = this.fecha_finalizacion.split('+')[0]
+        console.log("atencion es ")
+        console.log(this.atencion)
         this.solicitudService
           .post("solicitud", this.atencion)
           .subscribe((res) => {
+            console.log("res es "+ res)
             solicitud = res.Data;
             // TODO Guardar solicitante
             let tercero = new Tercero();
@@ -268,6 +288,7 @@ export class CrearAtencionComponent implements OnInit {
             this.atencionesService
               .getEstudianteByCode(this.codigo_estudiante)
               .subscribe((res) => {
+                console.log(res)
                 tercero = res[0].TerceroId;
                 solicitante.TerceroId = tercero.Id;
                 solicitante.SolicitudId = solicitud;
@@ -292,8 +313,18 @@ export class CrearAtencionComponent implements OnInit {
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
+            
           });
+          console.log("actualización", res);
+            Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Atención registrada',
+              showConfirmButton: false,
+              timer: 1500
+            })
       });
+      
   }
 
   saveObservacion(observacion: Observacion) {
