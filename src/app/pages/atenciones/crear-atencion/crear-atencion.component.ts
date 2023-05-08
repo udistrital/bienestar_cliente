@@ -11,7 +11,7 @@ import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
 
@@ -32,9 +32,6 @@ const Toast = Swal.mixin({
   styleUrls: ["./crear-atencion.component.scss"],
 })
 export class CrearAtencionComponent implements OnInit {
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
   constructor(
     private atencionesService: AtencionesService,
     private listService: ListService,
@@ -82,13 +79,6 @@ export class CrearAtencionComponent implements OnInit {
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
     this.getAtencion();
-
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ["", Validators.required],
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ["", Validators.required],
-    });
   }
 
   fullDate(date: string) {
@@ -100,8 +90,6 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   updateAtencion() {
-    // console.log("nuevo tipo", this.tipo);
-    // console.log("nuevo estado", this.estado);
     this.atencionesService
       .getTipoEstado(this.tipo.Id, this.estado.Id)
       .subscribe((res) => {
@@ -128,6 +116,19 @@ export class CrearAtencionComponent implements OnInit {
             });
           });
       });
+
+    this.observaciones.forEach((observacion) => {
+      if (observacion.Id == 0) {
+        console.log("es una nueva observación");
+        observacion.SolicitudId = this.atencion;
+        observacion.TerceroId = this.terceroId;
+        observacion.Titulo = "Observación de atención realizada por bienestar";
+        observacion.TipoObservacionId = this.tipoObservacion;
+        this.saveObservacion(observacion);
+      } else {
+        console.log("es la actualización de una observación");
+      }
+    });
   }
 
   handleClickSave() {
@@ -229,6 +230,7 @@ export class CrearAtencionComponent implements OnInit {
 
   addObservacion() {
     this.observaciones.push(new Observacion());
+    console.log(this.observaciones);
   }
 
   deleteObservacion(index: number) {
