@@ -17,15 +17,15 @@ import Swal from "sweetalert2";
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: "top-end",
   showConfirmButton: false,
-  timer: 3000,
+  timer: 4000,
   timerProgressBar: true,
   didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 @Component({
   selector: "ngx-crear-atencion",
   templateUrl: "./crear-atencion.component.html",
@@ -120,12 +120,12 @@ export class CrearAtencionComponent implements OnInit {
           .subscribe((res) => {
             console.log("actualización", res);
             Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Atención actualizada',
-              showConfirmButton: false,
-              timer: 1500
-            })
+              position: "center",
+              icon: "success",
+              title: "Atención actualizada",
+              showConfirmButton: true,
+              timer: 4000,
+            });
           });
       });
   }
@@ -239,12 +239,11 @@ export class CrearAtencionComponent implements OnInit {
         console.log("respuesta", res);
         this.observaciones.splice(index, 1);
         console.log("actualización", res);
-        
-        
+
         Toast.fire({
-          icon: 'success',
-          title: 'Observación Eliminada'
-        })
+          icon: "success",
+          title: "Observación Eliminada",
+        });
       });
   }
 
@@ -280,14 +279,19 @@ export class CrearAtencionComponent implements OnInit {
                     estado.Id == this.atencion.EstadoTipoSolicitudId.EstadoId.Id
                 );
                 // TODO Corregir que cuando se muestran las fechas cuando se hace la búsqueda, no se muesta las fechas adecuadas
-                this.fecha_apertura = this.atencion.FechaCreacion.split(" ")[0]+'T00:00:00';
-                this.fecha_finalizacion =this.atencion.FechaModificacion.split(" ")[0]+'T00:00:00';
+                this.fecha_apertura =
+                  this.atencion.FechaCreacion.split(" ")[0] + "T00:00:00";
+                this.fecha_finalizacion =
+                  this.atencion.FechaModificacion.split(" ")[0] + "T00:00:00";
               });
           });
       });
     this.atencionesService
       .getObservacionesxAtencion(this.codigo_atencion)
       .subscribe((res) => {
+        if (Object.entries(res[0]).length === 0) {
+          res.shift();
+        }
         this.observaciones = res;
       });
   }
@@ -305,8 +309,8 @@ export class CrearAtencionComponent implements OnInit {
         let tipoEstado: EstadoTipoSolicitud = res.Data[0];
         this.atencion.EstadoTipoSolicitudId = tipoEstado;
         this.atencion.Referencia = json;
-        console.log("atencion es ")
-        console.log(this.atencion)
+        console.log("atencion es ");
+        console.log(this.atencion);
         this.solicitudService
           .post("solicitud", this.atencion)
           .subscribe((res) => {
@@ -318,7 +322,7 @@ export class CrearAtencionComponent implements OnInit {
             this.atencionesService
               .getEstudianteByCode(this.codigo_estudiante)
               .subscribe((res) => {
-                console.log(res)
+                console.log(res);
                 tercero = res[0].TerceroId;
                 solicitante.TerceroId = tercero.Id;
                 solicitante.SolicitudId = solicitud;
@@ -343,18 +347,16 @@ export class CrearAtencionComponent implements OnInit {
               observacion.TipoObservacionId = this.tipoObservacion;
               this.saveObservacion(observacion);
             });
-            
           });
-          console.log("actualización", res);
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Atención registrada',
-              showConfirmButton: false,
-              timer: 1500
-            })
+        console.log("actualización", res);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Atención registrada",
+          showConfirmButton: true,
+          timer: 4000,
+        });
       });
-      
   }
 
   saveObservacion(observacion: Observacion) {
@@ -363,12 +365,8 @@ export class CrearAtencionComponent implements OnInit {
       .then((res) => console.log("Observación guardada", observacion.Valor));
   }
 
-  objectEmpty(obj: any[]) {
-    if (obj.length > 0) {
-      return Object.entries(obj[0]).length === 0;
-    } else {
-      return true;
-    }
+  emptyObservaciones(obj: any[]) {
+    return obj.length == 0;
   }
 }
 // TODO Poner alertas con Sweet alerts cuando:

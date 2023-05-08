@@ -169,7 +169,7 @@
     <mat-vertical-stepper
       [linear]="false"
       #stepper
-      *ngIf="!objectEmpty(observaciones)"
+      *ngIf="!emptyObservaciones(observaciones)"
     >
       <mat-step *ngFor="let observacion of observaciones; let i = index">
         <ng-template matStepLabel>{{
