@@ -61,6 +61,7 @@ export class CrearAtencionComponent implements OnInit {
   estudiante: InfoCompletaEstudiante = new InfoCompletaEstudiante();
   codigo_estudiante: string = "";
   observaciones: Observacion[] = [];
+  observacionesBackUp: Observacion[] = [];
 
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
@@ -126,7 +127,21 @@ export class CrearAtencionComponent implements OnInit {
         observacion.TipoObservacionId = this.tipoObservacion;
         this.saveObservacion(observacion);
       } else {
-        console.log("es la actualización de una observación");
+        if (
+          !(
+            observacion.Valor ==
+            this.observacionesBackUp.find(
+              (obBackUp) => obBackUp.Id == observacion.Id
+            ).Valor
+          )
+        ) {
+          // Significa que el valor del backup y la nueva observación son diferentes
+          this.atencionesService
+            .updateObservacion(observacion.Id, observacion)
+            .subscribe((res) => {
+              console.log("observación actualizada", res);
+            });
+        }
       }
     });
   }
@@ -152,6 +167,7 @@ export class CrearAtencionComponent implements OnInit {
     this.estudiante = new InfoCompletaEstudiante();
     this.codigo_estudiante = "";
     this.observaciones = [];
+    this.observacionesBackUp = [];
 
     this.atencion = new Solicitud();
     this.tipoObservacion = new TipoObservacion();
@@ -295,6 +311,7 @@ export class CrearAtencionComponent implements OnInit {
           res.shift();
         }
         this.observaciones = res;
+        this.observacionesBackUp = JSON.parse(JSON.stringify(res)); //Se crea una copia sin referencia del original con el fin de comparar las observaciones que sí se modificaron
       });
   }
 

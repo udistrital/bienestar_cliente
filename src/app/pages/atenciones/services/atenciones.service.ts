@@ -9,6 +9,7 @@ import { TipoSolicitud } from "../../../@core/data/models/solicitud/tipo_solicit
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
+import { Observacion } from "../../../@core/data/models/solicitud/observacion";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -230,6 +231,14 @@ export class AtencionesService {
   deleteObservacion(id: number): Observable<any> {
     return this.http.delete<any>(
       `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/observacion/${id}`,
+      httpOptions
+    );
+  }
+
+  updateObservacion(id: number, observacion: Observacion): Observable<any> {
+    return this.http.put<any>(
+      `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/observacion/${id}`,
+      observacion,
       httpOptions
     );
   }

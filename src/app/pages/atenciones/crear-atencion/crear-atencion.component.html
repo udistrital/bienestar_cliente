@@ -172,13 +172,17 @@
       *ngIf="!emptyObservaciones(observaciones)"
     >
       <mat-step *ngFor="let observacion of observaciones; let i = index">
-        <ng-template matStepLabel>{{
-          fullDate(observacion.FechaCreacion) | titlecase
-        }}</ng-template>
+        <ng-template matStepLabel
+          ><b> Creación:</b>
+          {{ fullDate(observacion.FechaCreacion) | titlecase }} 
+          | 
+          <b>Última modificación:</b>
+          {{ fullDate(observacion.FechaModificacion) | titlecase }}</ng-template
+        >
         <div class="row">
           <div class="col col-9">
             <mat-form-field style="width: 100%">
-              <textarea 
+              <textarea
                 matInput
                 placeholder="Escribe una observación"
                 [(ngModel)]="observacion.Valor"
