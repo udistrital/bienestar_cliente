@@ -72,7 +72,7 @@ export class CrearAtencionComponent implements OnInit {
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
-  nuevaAtencion: boolean = true;
+  nuevaAtencion: boolean = false;
 
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -120,7 +120,7 @@ export class CrearAtencionComponent implements OnInit {
           .subscribe((res) => {
             console.log("actualización", res);
             Swal.fire({
-              position: 'bottom-end',
+              position: 'center',
               icon: 'success',
               title: 'Atención actualizada',
               showConfirmButton: false,
@@ -347,7 +347,7 @@ export class CrearAtencionComponent implements OnInit {
           });
           console.log("actualización", res);
             Swal.fire({
-              position: 'bottom-end',
+              position: 'center',
               icon: 'success',
               title: 'Atención registrada',
               showConfirmButton: false,
