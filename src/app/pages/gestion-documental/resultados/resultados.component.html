@@ -48,3 +48,18 @@
     </div>
 </ng-template>
 
+<ng-template let-data #aviso>
+    <div class="card text-center">
+      <div class="card-header">
+        <h6>No se puede encontrar el documento, ¿desea eliminar el registro?</h6>
+      </div>
+      <div class="card-body">
+        <button nbButton type="button" class="button-cargar" status="success" (click)="aceptar(data)">Si<mat-icon>done</mat-icon></button>
+        <button nbButton type="button" class="button-cargar" status="danger" (click)="this.windowRef.close()">No<mat-icon>close</mat-icon></button>  
+      </div>
+      <div class="card-footer text-muted">
+        Los cambios realizados no se podrán deshacer.
+      </div>
+    </div>
+</ng-template>
+

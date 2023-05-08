@@ -16,7 +16,6 @@
                   </div>
                   <small *ngIf="invalidInput('tipoDocumento')" class="form-text text-danger">Campo requerido</small>
             </div>
-            
             <div class="form-group">
               <label for="nombre">Nombre</label>
               <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" formControlName="nombre" required>
@@ -108,7 +107,7 @@
       </div>
       <div class="card-body">
         <button nbButton type="button" class="button-cargar" status="success" (click)="aceptar(data.accion)">Si<mat-icon>done</mat-icon></button>
-        <button nbButton type="button" class="button-cargar" status="danger" (click)="denegar()">No<mat-icon>close</mat-icon></button>  
+        <button nbButton type="button" class="button-cargar" status="danger" (click)="this.dialogRef.close()">No<mat-icon>close</mat-icon></button>  
       </div>
       <div class="card-footer text-muted">
         Los cambios realizados no se podrán deshacer.

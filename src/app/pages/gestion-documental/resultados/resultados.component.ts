@@ -1,10 +1,11 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Pipe, PipeTransform, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NbGlobalLogicalPosition, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
 import { GestionService } from '../gestion-documental.service';
+import { DocumentoService } from '../../../@core/data/documento.service';
 
 @Component({
   selector: 'ngx-resultados',
@@ -38,6 +39,7 @@ export class ResultadosComponent implements OnInit{
   }
   @ViewChild('visualizarDoc',{ static: false }) vizualizarDocTemplate: TemplateRef<HTMLElement>;
   @ViewChild('editarDoc',{ static: false }) editarDocTemplate: TemplateRef<HTMLElement>;
+  @ViewChild('aviso',{ static: true }) avisoTemplate : TemplateRef<any>;
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -75,7 +77,9 @@ export class ResultadosComponent implements OnInit{
   constructor(
     private gestionService: GestionService, 
     private sanitizer: DomSanitizer,
-    private windowService: NbWindowService){}
+    private windowService: NbWindowService,
+    private dialog: MatDialog,
+    private documentoService: DocumentoService){}
 
 
   ngOnInit(): void {
@@ -94,26 +98,32 @@ export class ResultadosComponent implements OnInit{
     if (changes.documentos.currentValue != undefined){
       this.dataSource = new MatTableDataSource<any>(changes.documentos.currentValue);
       this.dataSource.paginator = this.paginator;
+      // Se sobrescribe la funcion nativa de MatTableDataSource para las columnas de los datos
+      // que esta en Metadatos se puedan ordenar
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        if(property==='Nombre' || property==='Descripcion'){ 
+          return item[property];
+        }else{
+          return item.Metadatos[property];
+        }
+      };
       this.dataSource.sort= this.sort;
     }
   }
 
-  
   // Evalua un documento y obtener el valor de una columna para mostrarlo en la tabla
   evaluar(documento, columna){
-    let array = Object.entries(documento);
-    for (let i= 0; i<array.length; i++) {
-      if(array[i][0]==='Metadatos'){
-        return array[i][1][columna];
-      }
-      if(array[i][0] === columna ){
-        return array[i][1];
-      }
-    };
-    return null;
+    if(columna!='Nombre'&& columna!='Descripcion'){
+      return documento.Metadatos[columna];
+    }else{
+      return documento[columna];
+    }
   }
-  
-  // Carga el documento para ser vizualizado    
+   
+  /**
+   * Carga el documento para ser vizualizado
+   * @param documento Documento a visualizar
+   */    
   async visualizar(documento){
     let url: any;
     this.descripcion=documento.Descripcion;
@@ -130,46 +140,64 @@ export class ResultadosComponent implements OnInit{
     );
   }
 
-  // Recibe el tipo de accion y el documento
-  // Si se esta actualizado, modifica los datos en la tabla de busqueda por los actualizados
-  // Cierra la ventana
+  
+  /**
+   * Recibe el tipo de accion y el documento
+   * Si se esta actualizado, modifica los datos en la tabla de busqueda por los actualizados
+   * Cierra la ventana
+   * @param mapa 
+   */
   completarEdicion(mapa){
     let documento =mapa.get('documento');
     if(mapa.get('acciones')==='actualizando'){
-      let dato = this.dataSource.filteredData.find(element => element['_id'] === documento.IdApi);
-      for (const[clave, valor] of Object.entries(documento)){
-        // IdApi no se actualiza, es el id asignado por la base de datos
-        if(clave !== 'IdApi')
-          dato[clave] = valor;
-      }
+      let dato = this.dataSource.filteredData.find(element => element['Id'] === documento.Id);
+      dato=documento;
     }else{
       this.dataSource.filteredData.splice(
         this.dataSource.filteredData.findIndex(
-          element => element['_id'] === documento.IdApi
+          element => element['Id'] === documento.Id
         ), 1
       );
     }
     this.windowRef.close();
   }
-
-  // boton de editar documento en resultados
+  
+  /**
+   * Boton de editar documento en resultados
+   * @param documento 
+   */
   async editar(documento){
-    let array = Object.entries(documento);
-    let titulo, id;
-    array.forEach(dato=>{
-      if(dato[0]==='Nombre'){
-        titulo=dato[1];
+    try{
+      this.nombreArchivo=undefined;
+      let titulo=documento.Nombre;
+      this.nombreArchivo = await this.gestionService.obtenerNombreDocumento(documento.Enlace, this.gestionService);
+      this.editando=true;
+      this.documentoEditar=documento;
+      this.windowRef=this.windowService.open(
+        this.editarDocTemplate,
+        { title: 'Editando '+titulo, hasBackdrop: true, closeOnEsc: false},
+      );
+    }catch (error){
+      if(!this.nombreArchivo){
+        this.windowRef = this.dialog.open(this.avisoTemplate,
+          {data: documento,hasBackdrop: true, autoFocus: true, disableClose: true});
       }
-      if(dato[0]==='Id'){
-        id=dato[1];
-      }
-    });
-    this.nombreArchivo = await this.gestionService.obtenerNombreDocumento(id, this.gestionService);
-    this.editando=true;
-    this.documentoEditar=documento;
-    this.windowRef=this.windowService.open(
-      this.editarDocTemplate,
-      { title: 'Editando '+titulo, hasBackdrop: true, closeOnEsc: false},
+    }
+  }
+
+  /**
+   * Al dar si en el cuadro de dialogo (No se encontto docuemnto en nuxeo)
+   * se continua con la eliminacion de el registro en API OAS
+   * @param documento 
+   */
+  aceptar(documento){
+    console.log(documento);
+    this.gestionService.deletDocumento(documento,this.documentoService);
+    this.dataSource.filteredData.splice(
+      this.dataSource.filteredData.findIndex(
+        element => element['Id'] === documento.Id
+      ), 1
     );
+    this.windowRef.close()
   }
 }

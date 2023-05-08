@@ -62,33 +62,35 @@ export class CargarComponent implements OnInit {
 
   ngOnInit() {
     this.documento.TipoDocumento=new TipoDocumento;
-    this.obtenerTiposDocumentos();
     this.iniciarFormulario();
   }
 
-  async obtenerTiposDocumentos(){
-    this.tiposDocumento = await this.gestionService.consultarTiposDocumento(this.documentoService);
-  }
 
   /**
    * Inicia el formulario con las validaciones,
    * si se esta editando un documento cargara los datos de este 
    */
-  iniciarFormulario(){
+  async iniciarFormulario(){
     //Inicializar el formulario
     this.initForm();
-    this.docForm.get('fecha').setValue(new Date().toISOString().split('T')[0]);
-
+    this.tiposDocumento = await this.gestionService.consultarTiposDocumento(this.documentoService);
     this.docForm.controls.fecha.hasError('onRange');
+    //Si se esta editando un documento se carga la informacion que este tenga en el formulario
     if(this.editando && this.documentoEditar!==undefined){
-      //****** pendiente, al editar documento *****/
-      /* this.documento=this.gestionService.convertirDocumento(this.documentoEditar); */
-      this.docForm.get('nombre').setValue(this.documento.Nombre);
-      this.docForm.get('fecha').setValue(this.documento.FechaCreacion);
-      this.docForm.get('descripcion').setValue(this.documento.Descripcion);
-      /* this.docForm.get('serie').setValue(this.documento.Serie);
-      this.docForm.get('subSerie').setValue(this.documento.SubSerie);
-      this.docForm.get('tipoDocumento').setValue(this.documento.Tipo); */
+      // Un bug causa que el nb-select no se actualice, por lo que se usa setTimeout para que funcione
+      setTimeout(() => {
+        this.docForm.get('tipoDocumento').setValue(this.documentoEditar.TipoDocumento.Id);
+      }, 0);
+      this.docForm.get('nombre').setValue(this.documentoEditar.Nombre);
+      this.docForm.get('fecha').setValue(this.documentoEditar.Metadatos.Fecha);
+      this.docForm.get('descripcion').setValue(this.documentoEditar.Descripcion);
+      this.docForm.get('serie').setValue(this.documentoEditar.Metadatos.Serie);
+      this.docForm.get('subSerie').setValue(this.documentoEditar.Metadatos.SubSerie);
+      this.docForm.get('facultad').setValue(this.documentoEditar.Metadatos.Facultad)
+    }
+    else{
+      // Asigna la fecha actual si se esta cargando un nuevo documento
+      this.docForm.get('fecha').setValue(new Date().toISOString().split('T')[0]);
     }
   }
   
@@ -103,10 +105,39 @@ export class CargarComponent implements OnInit {
       this.loading=false;
       return;
     }
-    this.documento.TipoDocumento.Id=this.docForm.get('tipoDocumento').value;
-    this.documento.Nombre=this.docForm.get('nombre').value;
-    this.documento.Descripcion=this.docForm.get('descripcion').value;
-    this.documento.Activo=true;
+    
+    //Editando documento
+    if(this.editando){
+      if(this.docForm.dirty){
+        this.prepararDocumento(this.documentoEditar);
+        this.gestionService.actualizarDocumento(this.documentoEditar,this.file,
+          this.gestionService,this.documentoService, this.archivoCambiado);
+      }
+      // Actualizando documento
+    }else{
+      this.prepararDocumento(this.documento);
+      this.initForm();
+      this.labelUpoadFile.nativeElement.innerText = 'Seleccione Archivo';
+      this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+
+      this.documentoMostrar = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
+      this.documentoMostrar=[this.documentoMostrar];
+
+      this.clickeado=false;
+      this.validado=true;
+      this.archivoCambiado=false;
+      this.loading=false;
+    }
+  }
+  
+  /**
+   * Prepara el documento para ser editado.
+   */
+  prepararDocumento(doc){
+    doc.TipoDocumento.Id=this.docForm.get('tipoDocumento').value;
+    doc.Nombre=this.docForm.get('nombre').value;
+    doc.Descripcion=this.docForm.get('descripcion').value;
+    doc.Activo=true;
     let usuario=  new ImplicitAutenticationService;
     let nomUsuario;
     let autentificando=true;
@@ -123,35 +154,12 @@ export class CargarComponent implements OnInit {
       Fecha:this.docForm.get('fecha').value,
       Facultad:this.docForm.get('facultad').value
     }
-    this.documento.Metadatos=JSON.stringify(metadatos);
-    
-    //Editando documento
-    if(this.editando){
-      if(this.docForm.dirty){
-        this.gestionService.actualizarDocumento(this.documento,this.gestionService,this.apiRestService, this.archivoCambiado);
-      }
-      // Actualizando documento
-    }else{
-      this.initForm();
-      this.labelUpoadFile.nativeElement.innerText = 'Seleccione Archivo';
-      this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-
-      this.documentoMostrar = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
-      this.documentoMostrar=[this.documentoMostrar];
-
-      this.clickeado=false;
-      this.validado=true;
-      this.archivoCambiado=false;
-      this.loading=false;
-    }
-    
-    /*  this.documentoMostrar= await [this.gestionService.convertirADiccionario(documentoCreado)]; */
-      //Se agrega manualmente el id para no agregarel _id (id del API) convertirADiccionario() pues para el PUT agregaria una nueva 
-     /*  this.documentoMostrar[0]['_id'] =  documentoCreado.IdApi; */
-      // Moverse automaticamente al resultado
+    doc.Metadatos=JSON.stringify(metadatos);
   }
 
-  // Ejecuta una ventana de dialogo pra validar si se desea eliminar
+   /**
+   * Ejecuta una ventana de dialogo pra validar si se desea eliminar
+   */ 
   validarEliminar(){
     let dato ={
       accion: 'eliminando',
@@ -172,7 +180,10 @@ export class CargarComponent implements OnInit {
       facultad: [[],Validators.required]
     });
   }
-  // Ejecuta una ventana de dialogo pra validar si se desea actualizar
+
+  /**
+   * Ejecuta una ventana de dialogo pra validar si se desea actualizar
+   */  
   validarActualizar(){
     let dato ={
       accion: 'actualizando',
@@ -182,40 +193,35 @@ export class CargarComponent implements OnInit {
       { data: dato, hasBackdrop: true, autoFocus: true, disableClose: true});
   }
   
-  // Se ejecuta si se desea continuar eliminando/actualizando
+  /** 
+   * Si se da "Si" en la ventana de dialogo se continuar eliminando/actualizando
+  */
   aceptar(accion){
     if(accion === 'actualizando'){
       this.cargarFormulario();
+      this.documentoEditar.Metadatos=JSON.parse(this.documentoEditar.Metadatos);
     }else{
       this.eliminarDocumento();
     }
     this.dialogRef.close();
-    console.log('emiter objeto:',this.terminarEvent);
+    let mapa =new Map;
+    mapa.set('acciones', accion);
+    mapa.set('documento',this.documentoEditar);
     if(this.docForm.dirty){
-      let mapa =new Map;
-      mapa.set('acciones', accion);
-      mapa.set('documento',this.documento);
       this.terminarEvent.emit(mapa);
     }else{
-      let mapa =new Map;
-      mapa.set('acciones', accion);
-      mapa.set('documento',this.documento);
       this.terminarEvent.emit(mapa);
     }
   }
 
-  // Se ejecuta si no se continua eliminando/actualizando
-  denegar(){
-    this.dialogRef.close();
-  }
   //Eliminar registro del documento en nuxeo  api/base de datos
   eliminarDocumento(){
-    this.gestionService.eliminarDocumento(this.documento, this.gestionService, this.apiRestService)
+    this.gestionService.eliminarDocumento(this.documentoEditar, this.gestionService, this.documentoService)
   }
 
   //abrir documento cargado
   async verDocumento(){
-    let url = await this.gestionService.obtenerDocumento(this.documento.Id,this.gestionService);
+    let url = await this.gestionService.obtenerDocumento(this.documentoEditar.Enlace,this.gestionService);
     /* this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url); */
     window.open(url);
   }

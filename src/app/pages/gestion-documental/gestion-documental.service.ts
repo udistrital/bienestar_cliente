@@ -37,9 +37,7 @@ export class GestionService {
     });
   }
 
-  /* // API REST
-///////////////////////////////////////////////////////////////////////////////////////////////
-*/
+  /* SOLO API REST DOCUMENTOS */
   // Agrega documento al API
   addDocumento(
     documento: DocumentoGestion,
@@ -57,14 +55,12 @@ export class GestionService {
    * @return documentos
    */
   async getDocumentos(documentoService: DocumentoService,gestionService: GestionService, filtro?) {
-
     // Si no viene el parametro filtro
     if(filtro === undefined){
       filtro=''
     }
 
     let query="documento?query=TipoDocumento.Descripcion%3AGestion%20documental%20de%20bienestar%20institucional"+filtro+"&limit=20";
-
     let consulta = await documentoService.get(query).toPromise().catch(error=>{
       gestionService.toastrService.mostrarAlerta('Error buscando documentos '+error);
       console.log('el error es', error);
@@ -97,18 +93,28 @@ export class GestionService {
     }
   }
 
+  /**
+   * Modifica documento en el API de documentos
+   *
+   * @param documento Documento a editar
+   * @param documentoService Objeto de DocumetoService.
+   */
+  editDocumento(documento: DocumentoGestion, documentoService: DocumentoService){
+      documentoService.put('documento', documento,documento.Id).toPromise();
+    }
+    
+    /**
+     * Elimina documentos en el API de documentos
+     *
+     * @param documento Documento a borrar
+     * @param documentoService Objeto de DocumetoService.
+     *      *
+     */
+    deletDocumento(documento: DocumentoGestion, documentoService: DocumentoService){
+      documentoService.delete('documento',documento).toPromise();
+    }
 
-  // Modifica documento del API
-  /* editDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
-        apiRestService.update(this.convertirADiccionario(documento), documento.IdApi);
-    } 
-    deletDocumento(documento: DocumentoGestion, apiRestService: ApiRestService){
-        apiRestService.delete(documento.IdApi);
-    }*/
-
-  /* // Docuemntos con api Rest
-///////////////////////////////////////////////////////////////////////////////////////////////
-*/
+  /** API REST DOCUMENTOS Y NUXEO */
 
   /**
    * Crea un directorio en nuxeo de la ruta indicada para el la carga de documetos de
@@ -175,18 +181,26 @@ export class GestionService {
     return documentoCons;
   }
 
-  // Actualizacion del documento en el API y en nuxeo
+  /**
+   * Actualizacion del documento en el API Documentos y en nuxeo
+   *
+   * @param documento documento a actualizar
+   * @param file Archivos a cargar.
+   * @param gestionService Objeto de GestionService.
+   * @param documentoService Servicio del API Documentos
+   * @param actualizarArchivo: Si se esta actualizando el archivo (Puede solo actualizarce la informacion)
+   */
   actualizarDocumento(
     documento: DocumentoGestion,
+    file: File,
     gestionService: GestionService,
-    apiRestService: ApiRestService,
+    documentoService: DocumentoService,
     actualizarArchivo: Boolean
   ) {
-    /*const file = documento.Archivo; 
         const documentoCons = documento;
         if(actualizarArchivo){
-             this.editDocumento(documento,apiRestService); 
-            const nuxeoBlob = new Nuxeo.Blob({content: documento.Archivo});
+             this.editDocumento(documento,documentoService); 
+            const nuxeoBlob = new Nuxeo.Blob({content: file});
             GestionService.nuxeo.connect();
             GestionService.nuxeo.batchUpload()
                 .upload(nuxeoBlob)
@@ -202,10 +216,6 @@ export class GestionService {
                         .input(response.blob)
                         .execute()
                         .then(function (respuesta) {
-                            respuesta.blob()
-                                .then(function (responseblob) {
-                                    const url = URL.createObjectURL(responseblob);
-                                });
                             gestionService.toastrService.mostrarAlerta('El documento '+documento.Nombre+' ha sido actualizado','success');
                         })
                         .catch(function(error){
@@ -214,24 +224,31 @@ export class GestionService {
                         
                 });
         }else{
-            this.editDocumento(documento,apiRestService);
-        } */
+            this.editDocumento(documento,documentoService);
+        }
   }
 
+  /**
+   * Borrar documento en el API OAS y en nuxeo
+   *
+   * @param documento documento a Borrar
+   * @param gestionService Objeto de GestionService.
+   * @param documentoService: Objeto de DocumentoService
+   */
   eliminarDocumento(
     documento: DocumentoGestion,
     gestionService: GestionService,
-    apiRestService: ApiRestService
+    documentoService: DocumentoService
   ) {
-    /* GestionService.nuxeo.header('X-NXDocumentProperties', '*');
-        GestionService.nuxeo.request('/id/'+documento.Id)
+    GestionService.nuxeo.header('X-NXDocumentProperties', '*');
+        GestionService.nuxeo.request('/id/'+documento.Enlace)
             .get()
             .then(function(res){
                 GestionService.nuxeo.operation('Document.Delete')
                 .input(res)
                 .execute()
                 .then(function (del){
-                    gestionService.deletDocumento(documento, apiRestService);
+                    gestionService.deletDocumento(documento, documentoService);
                     gestionService.toastrService.mostrarAlerta('El documento '+documento.Nombre+' ha sido eliminado','success');
                 })
                 .catch(function(error) {
@@ -242,10 +259,10 @@ export class GestionService {
             .catch(function(error) {
                 gestionService.toastrService.mostrarAlerta('Documento no encontrado: ' + error, 'warning');
                 throw new Error(error);
-            }); */
+            });
   }
 
-  // Consulta en documeto en Nuxeo y si lo encuentra genera
+  // Consulta un documento en Nuxeo y si lo encuentra genera
   // una URL para mostrarlo
   async obtenerDocumento(id, gestionService) {
     let url;
@@ -280,12 +297,13 @@ export class GestionService {
       });
     return url;
   }
-  //funcion para encontar el nombre de n documento por medio de la id
-  async obtenerNombreDocumento(id, gestionService) {
+
+  //funcion para encontar el nombre de un documento por medio del uid
+  async obtenerNombreDocumento(uid, gestionService) {
     let nombre;
     GestionService.nuxeo.header("X-NXDocumentProperties", "*");
     await GestionService.nuxeo
-      .request("/id/" + id)
+      .request("/id/" + uid)
       .get()
       .then(async function (res) {
         nombre = await res.get("file:content").name;
@@ -300,9 +318,7 @@ export class GestionService {
     return nombre;
   }
 
-  /* // Gestor de documentos
-///////////////////////////////////////////////////////////////////////////////////////////////
-*/
+  /* GESTO DE DOCUMENTOS  */
   /**
    * Crea un directorio en nuxeo de la ruta indicada para el gestor documental de funcionarios
    *
