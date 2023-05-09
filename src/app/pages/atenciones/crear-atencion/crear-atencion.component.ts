@@ -19,7 +19,7 @@ const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
   showConfirmButton: false,
-  timer: 4000,
+  timer: 5000,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -66,20 +66,20 @@ export class CrearAtencionComponent implements OnInit {
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number = 0;
-  codigo_atencion: string = "48024";
+  codigo_atencion: string = "48173";
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
   nuevaAtencion: boolean = false;
 
   ngOnInit() {
+    this.getAtencion();
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
     });
 
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
-    this.getAtencion();
   }
 
   fullDate(date: string) {
@@ -113,7 +113,7 @@ export class CrearAtencionComponent implements OnInit {
               icon: "success",
               title: "Atención actualizada",
               showConfirmButton: true,
-              timer: 4000,
+              timer: 5000,
             });
           });
       });
@@ -250,19 +250,29 @@ export class CrearAtencionComponent implements OnInit {
   }
 
   deleteObservacion(index: number) {
-    let observacion: Observacion = this.observaciones[index];
-    this.atencionesService
-      .deleteObservacion(observacion.Id)
-      .subscribe((res) => {
-        console.log("respuesta", res);
-        this.observaciones.splice(index, 1);
-        console.log("actualización", res);
-
-        Toast.fire({
-          icon: "success",
-          title: "Observación Eliminada",
-        });
-      });
+    Swal.fire({
+      text: "¿Está seguro que desea eliminar la observación?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6", //TODO Establecer colores correspondiente
+      cancelButtonColor: "#d33", //TODO Establecer colores correspondiente
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Sí, eliminar observación"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let observacion: Observacion = this.observaciones[index];
+        this.atencionesService
+          .deleteObservacion(observacion.Id)
+          .subscribe((res) => {
+            //TODO Validar que sí se haya eliminado la observación
+            this.observaciones.splice(index, 1);
+            Toast.fire({
+              icon: "success",
+              title: "Observación Eliminada",
+            });
+          });
+      }
+    });
   }
 
   getAtencion() {
@@ -335,7 +345,6 @@ export class CrearAtencionComponent implements OnInit {
           .subscribe((res) => {
             console.log("Nueva atención", res);
             solicitud = res.Data;
-            // TODO Guardar solicitante
             let tercero = new Tercero();
             let solicitante = new Solicitante();
             this.atencionesService
@@ -356,7 +365,6 @@ export class CrearAtencionComponent implements OnInit {
               // TODO Mostrar las atenciones en el orden que se agregaron
               // TODO No permitir guardar nada si no se tiene al estudiante identificado
 
-              // TODO Avisar al usuario  cuando se guarde una solicitud
               // TODO Limpiar el formulario cuando se guarda una solicitud
               // TODO Validar cuando el componente de crear solicitud corresponde a una nueva solicitud o a la edición de una existente
 
@@ -373,7 +381,7 @@ export class CrearAtencionComponent implements OnInit {
           icon: "success",
           title: "Atención registrada",
           showConfirmButton: true,
-          timer: 4000,
+          timer: 5000,
         });
       });
   }
@@ -390,6 +398,5 @@ export class CrearAtencionComponent implements OnInit {
 }
 // TODO Poner alertas con Sweet alerts cuando:
 /**
- * 1. cuando se agregan, editan y/o eliminan atenciones
- * 2. cuando se agregan, editan y/o eliminan observaciones
+ * 1. cuando se eliminan atenciones
  */
