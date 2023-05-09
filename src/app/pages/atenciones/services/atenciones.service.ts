@@ -34,53 +34,6 @@ export class AtencionesService {
     );
   }
 
-  createAtencion() {
-    const solicitud: Solicitud = new Solicitud();
-    solicitud.EstadoTipoSolicitudId = null;
-    solicitud.FechaRadicacion = formatDate(new Date(), "yyyy-MM-dd", "en");
-
-    const estadoTipoSol: EstadoTipoSolicitud = {
-      Id: 1,
-      TipoSolicitud: {
-        Id: 1,
-        Nombre: "Producción docentes oficina docencia",
-        Descripcion: "",
-        CodigoAbreviacion: "proddocen",
-        NumeroOrden: 1,
-        FechaCreacion: "2020-11-28 09:57:40.331276 +0000 +0000",
-        FechaModificacion: "2020-11-28 09:57:40.331276 +0000 +0000",
-        Activo: true,
-      },
-      EstadoId: {
-        Id: 1,
-        Nombre: "Radicada",
-        Descripcion: "",
-        CodigoAbreviacion: "RAD",
-        NumeroOrden: 1,
-        FechaCreacion: "2020-11-28 09:57:40.286495 +0000 +0000",
-        FechaModificacion: "2020-11-28 09:57:40.286495 +0000 +0000",
-        Activo: true,
-      },
-      DependenciaId: 46,
-      NumeroDias: 14,
-      FechaCreacion: "2020-11-28 09:57:40.341062 +0000 +0000",
-      FechaModificacion: "2020-11-28 09:57:40.341062 +0000 +0000",
-      Activo: true,
-    };
-    solicitud.EstadoTipoSolicitudId = estadoTipoSol;
-    solicitud.setReferencia(new ReferenciaSolicitud());
-
-    this.http
-      .post(
-        `https://autenticacion.portaloas.udistrital.edu.co/apioas/solicitudes_crud/v1/solicitud`,
-        JSON.stringify(solicitud)
-      )
-      .subscribe((res) => {
-        // TODO Implementar alerta de atención creada
-        console.log(res);
-      });
-  }
-
   registrarSolicitantexAtencion(
     codigo_estudiante: string,
     Id_atencion: string

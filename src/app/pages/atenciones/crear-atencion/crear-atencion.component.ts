@@ -400,3 +400,13 @@ export class CrearAtencionComponent implements OnInit {
 /**
  * 1. cuando se eliminan atenciones
  */
+// TODO Eliminar atenciones
+// TODO Cuando se actualice una atención que se refresque la info de la página (llamado desde la función)
+// TODO Cuando se agregue una atención que se refresque la info de la página (llamado desde la función)
+// TODO Ajustar layout
+/**
+ * Una página donde se ven todas las atenciones.
+ * Que en esa página haya un botón de crear atenciones donde se despligue el componente.
+ * Cuando se de click en la tabla a una atención, que lo lleve a otra paágina con el componente y la atención
+ */
+// TODO Implementar acción para finalizar una atención. Cuando esté finalizada, bloquear todo y solo dejar opción para reabrir
