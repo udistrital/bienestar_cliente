@@ -11,7 +11,6 @@ import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado
 import { TipoObservacion } from "../../../@core/data/models/solicitud/tipo-observacion";
 import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
-import { FormBuilder } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
 
@@ -36,7 +35,6 @@ export class CrearAtencionComponent implements OnInit {
     private atencionesService: AtencionesService,
     private listService: ListService,
     private solicitudService: SolicitudService,
-    private _formBuilder: FormBuilder,
     private datePipe: DatePipe
   ) {}
 
@@ -66,14 +64,14 @@ export class CrearAtencionComponent implements OnInit {
   atencion: Solicitud = new Solicitud();
   tipoObservacion: TipoObservacion = new TipoObservacion();
   terceroId: number = 0;
-  codigo_atencion: string = "48173";
+  codigo_atencion: string = "";
   fecha_apertura: string = "";
   fecha_finalizacion: string = "";
   dateObj: Date = new Date();
   nuevaAtencion: boolean = false;
 
   ngOnInit() {
-    this.getAtencion();
+    // this.getAtencion();
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
     });
@@ -154,40 +152,29 @@ export class CrearAtencionComponent implements OnInit {
     }
   }
 
-  limpiarFormulario() {
-    this.atenciones = [];
-    this.tiposAtenciones = [];
-
-    this.tipo_servicio = "";
-    // TODO Cuando se limpia formulario, no se puede volver a ver una vez se busca una nueva atención.
-    this.tipo = new TipoSolicitud();
-    this.estado = new Estado();
-
-    this.estadosAtenciones = [];
-    this.estudiante = new InfoCompletaEstudiante();
-    this.codigo_estudiante = "";
-    this.observaciones = [];
-    this.observacionesBackUp = [];
-
-    this.atencion = new Solicitud();
-    this.tipoObservacion = new TipoObservacion();
-    this.terceroId = 0;
-    this.codigo_atencion = "";
-    this.fecha_apertura = "";
-    this.fecha_finalizacion = "";
-    this.dateObj = new Date();
-  }
-
   getEstudiante() {
     this.atencionesService
       .getEstudianteByCode(this.codigo_estudiante)
       .subscribe((res) => {
-        this.estudiante.Carnet = res[0].Numero;
-        this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
-        this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
-        this.terceroId = res[0].TerceroId.Id;
-        // TODO Mostrar solicitudes filtradas en la tabla
-        this.getAtencionesxEstudiante(this.codigo_estudiante);
+        const estudianteNoEncontrado = Object.entries(res[0]).length === 0;
+        if (!estudianteNoEncontrado) {
+          this.estudiante.Carnet = res[0].Numero;
+          this.estudiante.Nombre = res[0].TerceroId.NombreCompleto;
+          this.estudiante.FechaNacimiento = res[0].TerceroId.FechaNacimiento;
+          this.terceroId = res[0].TerceroId.Id;
+          // TODO Mostrar solicitudes filtradas en la tabla
+          this.getAtencionesxEstudiante(this.codigo_estudiante);
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Estudiante no encontrado",
+            showConfirmButton: true,
+            timer: 5000,
+          });
+          this.codigo_estudiante = "";
+          this.estudiante = new InfoCompletaEstudiante();
+        }
       });
   }
 
@@ -254,22 +241,28 @@ export class CrearAtencionComponent implements OnInit {
       text: "¿Está seguro que desea eliminar la observación?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6", //TODO Establecer colores correspondiente
-      cancelButtonColor: "#d33", //TODO Establecer colores correspondiente
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
       cancelButtonText: "Cancelar",
-      confirmButtonText: "Sí, eliminar observación"
+      confirmButtonText: "Sí, eliminar observación",
     }).then((result) => {
       if (result.isConfirmed) {
         let observacion: Observacion = this.observaciones[index];
         this.atencionesService
           .deleteObservacion(observacion.Id)
           .subscribe((res) => {
-            //TODO Validar que sí se haya eliminado la observación
-            this.observaciones.splice(index, 1);
-            Toast.fire({
-              icon: "success",
-              title: "Observación Eliminada",
-            });
+            if (res.Message === "Delete successful") {
+              this.observaciones.splice(index, 1);
+              Toast.fire({
+                icon: "success",
+                title: "Observación Eliminada",
+              });
+            } else {
+              Toast.fire({
+                icon: "error",
+                title: "No se pudo eliminar la observación.",
+              });
+            }
           });
       }
     });
@@ -362,12 +355,6 @@ export class CrearAtencionComponent implements OnInit {
             //Registrar observaciones
             this.observaciones.forEach((observacion) => {
               observacion.SolicitudId = solicitud;
-              // TODO Mostrar las atenciones en el orden que se agregaron
-              // TODO No permitir guardar nada si no se tiene al estudiante identificado
-
-              // TODO Limpiar el formulario cuando se guarda una solicitud
-              // TODO Validar cuando el componente de crear solicitud corresponde a una nueva solicitud o a la edición de una existente
-
               observacion.TerceroId = this.terceroId;
               observacion.Titulo =
                 "Observación de atención realizada por bienestar";
@@ -392,16 +379,12 @@ export class CrearAtencionComponent implements OnInit {
       .then((res) => console.log("Observación guardada", observacion.Valor));
   }
 
-  emptyObservaciones(obj: any[]) {
+  empty(obj: any[]) {
     return obj.length == 0;
   }
 }
-// TODO Poner alertas con Sweet alerts cuando:
-/**
- * 1. cuando se eliminan atenciones
- */
-// TODO Eliminar atenciones
-// TODO Cuando se actualice una atención que se refresque la info de la página (llamado desde la función)
+
+// TODO Eliminar atenciones y poner SWAL
 // TODO Cuando se agregue una atención que se refresque la info de la página (llamado desde la función)
 // TODO Ajustar layout
 /**
@@ -410,3 +393,6 @@ export class CrearAtencionComponent implements OnInit {
  * Cuando se de click en la tabla a una atención, que lo lleve a otra paágina con el componente y la atención
  */
 // TODO Implementar acción para finalizar una atención. Cuando esté finalizada, bloquear todo y solo dejar opción para reabrir
+// TODO Mostrar las atenciones en el orden que se agregaron
+// TODO Validar cuando el componente de crear solicitud corresponde a una nueva solicitud o a la edición de una existente
+// TODO Validar campos cuando se click en el botón guardar, antes de enviar las peticiones
