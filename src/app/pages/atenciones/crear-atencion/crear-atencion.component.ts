@@ -387,7 +387,6 @@ export class CrearAtencionComponent implements OnInit {
 
 // TODO Eliminar atenciones y poner SWAL
 // TODO Cuando se agregue una atención que se refresque la info de la página (llamado desde la función)
-// TODO Ajustar layout
 /**
  * Una página donde se ven todas las atenciones.
  * Que en esa página haya un botón de crear atenciones donde se despligue el componente.
