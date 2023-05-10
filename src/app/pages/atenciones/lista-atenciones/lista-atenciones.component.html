@@ -1,4 +1,6 @@
 <ngx-crear-atencion></ngx-crear-atencion>
+
+<div id="pdfTable" #pdfTable>
 <mat-card class="example-card">
   <mat-card-content>
     <mat-form-field>
@@ -79,3 +81,6 @@
     <button mat-raised-button color="primary">Nueva atención</button>
   </mat-card-actions>
 </mat-card>
+<button class="btn btn-primary" (click)="downloadAsPDF()">Export To PDF</button>
+</div>
+

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component,  OnInit } from "@angular/core";
 import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { SolicitudService } from "../../../@core/data/solicitud.service";
 import { AtencionesService } from "../services/atenciones.service";
@@ -14,6 +14,7 @@ import { Tercero } from "../../../@core/data/models/terceros/tercero";
 import { FormBuilder } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
+
 
 const Toast = Swal.mixin({
   toast: true,
@@ -72,6 +73,7 @@ export class CrearAtencionComponent implements OnInit {
   dateObj: Date = new Date();
   nuevaAtencion: boolean = false;
 
+  
   ngOnInit() {
     this.getAtencion();
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
@@ -395,7 +397,11 @@ export class CrearAtencionComponent implements OnInit {
   emptyObservaciones(obj: any[]) {
     return obj.length == 0;
   }
+
+  
 }
+
+
 // TODO Poner alertas con Sweet alerts cuando:
 /**
  * 1. cuando se eliminan atenciones
