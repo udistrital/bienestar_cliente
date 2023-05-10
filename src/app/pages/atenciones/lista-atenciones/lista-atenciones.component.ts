@@ -30,14 +30,20 @@ export class ListaAtencionesComponent implements OnInit {
   ];
   data: Solicitud[] = [];
   dataSource: Solicitud[] = [];
+  mostrarAtenciones: boolean = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private atencionesService: AtencionesService) {}
 
-  ngOnInit() {
-    this.findAtenciones();
+  ngOnInit() {}
+
+  showAtenciones() {
+    this.mostrarAtenciones = !this.mostrarAtenciones;
+    if (this.mostrarAtenciones) {
+      this.findAtenciones();
+    }
   }
 
   applyFilter(filterValue: string) {

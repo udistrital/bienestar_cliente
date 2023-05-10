@@ -78,6 +78,7 @@ export class CrearAtencionComponent implements OnInit {
 
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
+    console.log("estudiante",this.estudiante)
   }
 
   fullDate(date: string) {
@@ -394,5 +395,4 @@ export class CrearAtencionComponent implements OnInit {
  */
 // TODO Implementar acción para finalizar una atención. Cuando esté finalizada, bloquear todo y solo dejar opción para reabrir
 // TODO Mostrar las atenciones en el orden que se agregaron
-// TODO Validar cuando el componente de crear solicitud corresponde a una nueva solicitud o a la edición de una existente
 // TODO Validar campos cuando se click en el botón guardar, antes de enviar las peticiones

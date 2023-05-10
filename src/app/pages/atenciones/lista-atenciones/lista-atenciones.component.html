@@ -1,6 +1,13 @@
 <ngx-crear-atencion></ngx-crear-atencion>
-<mat-card class="example-card">
-  <mat-card-content>
+
+<mat-card class="my-5">
+  <mat-card-header>
+    <button mat-raised-button color="primary" (click)="showAtenciones()">
+      {{ mostrarAtenciones ? "Ocultar atenciones" : "Mostrar atenciones" }}
+    </button>
+  </mat-card-header>
+  <hr />
+  <mat-card-content *ngIf="mostrarAtenciones">
     <mat-form-field>
       <input
         matInput
@@ -75,7 +82,4 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary">Nueva atención</button>
-  </mat-card-actions>
 </mat-card>
