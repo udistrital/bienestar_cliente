@@ -23,6 +23,7 @@ export class ResultadosComponent implements OnInit{
   private editando=false;
   private urlSafe: SafeResourceUrl;
   private descripcion: any;
+  private loading=false;
   private facultades: any;
   private documentoEditar: any;
   private nombreArchivo: any;
@@ -37,7 +38,7 @@ export class ResultadosComponent implements OnInit{
     this.sort = mp;
     this.setDataSourceAttributes();
   }
-  @ViewChild('visualizarDoc',{ static: false }) vizualizarDocTemplate: TemplateRef<HTMLElement>;
+  @ViewChild('visualizarDoc',{ static: false }) vizualizarDocTemplate: TemplateRef<any>;
   @ViewChild('editarDoc',{ static: false }) editarDocTemplate: TemplateRef<HTMLElement>;
   @ViewChild('aviso',{ static: true }) avisoTemplate : TemplateRef<any>;
 
@@ -56,9 +57,9 @@ export class ResultadosComponent implements OnInit{
     // Modifica el alto y ancho del iframe de visualizar
     if(frame){
       frame.style.height = 
-      (height-height*0.3)+ 'px';
+      (height-height*0.4)+ 'px';
       frame.style.width  = 
-      (width-width*0.1)+'px';
+      100+'%';
     }
   }
 
@@ -125,18 +126,23 @@ export class ResultadosComponent implements OnInit{
    * @param documento Documento a visualizar
    */    
   async visualizar(documento){
+    this.loading=true;
     let url: any;
-    this.descripcion=documento.Descripcion;
-    this.facultades=documento.Metadatos.Facultad.join(', ');
     //Obtener id de nuxeo para traer el documento
     url = await this.gestionService.obtenerDocumento(documento.Enlace, this.gestionService);
     // Volver la url segura para Angular
     this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.visualizando=true;
-
-    this.windowRef=this.windowService.open(
+    this.loading=false;
+    this.windowRef=this.dialog.open(
       this.vizualizarDocTemplate,
-      { title: documento.Nombre, hasBackdrop: true, closeOnEsc: false},
+      { data: documento, 
+        hasBackdrop: true, 
+        autoFocus: true, 
+        disableClose: false, 
+        width:'90%',
+        height:'100%',
+        panelClass: 'my-dialog',}
     );
   }
 
@@ -149,7 +155,14 @@ export class ResultadosComponent implements OnInit{
    */
   completarEdicion(mapa){
     let documento =mapa.get('documento');
-    if(mapa.get('acciones')==='actualizando'){
+    const accion=mapa.get('acciones')
+    if(accion==='cancelar'){
+      this.windowRef.close();
+      return;
+    }
+    if(accion==='actualizando'){
+      /* if(typeof documento.Metadatos ===  JSON) */
+      documento.Metadatos=JSON.parse(documento.Metadatos);
       let dato = this.dataSource.filteredData.find(element => element['Id'] === documento.Id);
       dato=documento;
     }else{

@@ -8,6 +8,7 @@ import { ApiRestService } from '../api-rest.service';
 import { MatDialog } from '@angular/material';
 import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 import { TipoDocumento } from '../../../@core/data/models/documento/tipo_documento';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'ngx-cargar',
@@ -36,7 +37,7 @@ export class CargarComponent implements OnInit {
   private file: File;
   // Para formularios
   private docForm: FormGroup;
-  private control: FormControl;
+  private formReferencia:any;
   private validado: Boolean;//saber cuando el formulario es validado
   private clickeado: Boolean;//Saber cuando el boton de subir es oprimido para las validaciones
   private archivoCambiado: Boolean;
@@ -78,15 +79,16 @@ export class CargarComponent implements OnInit {
     //Si se esta editando un documento se carga la informacion que este tenga en el formulario
     if(this.editando && this.documentoEditar!==undefined){
       // Un bug causa que el nb-select no se actualice, por lo que se usa setTimeout para que funcione
-      setTimeout(() => {
-        this.docForm.get('tipoDocumento').setValue(this.documentoEditar.TipoDocumento.Id);
-      }, 0);
       this.docForm.get('nombre').setValue(this.documentoEditar.Nombre);
       this.docForm.get('fecha').setValue(this.documentoEditar.Metadatos.Fecha);
       this.docForm.get('descripcion').setValue(this.documentoEditar.Descripcion);
       this.docForm.get('serie').setValue(this.documentoEditar.Metadatos.Serie);
       this.docForm.get('subSerie').setValue(this.documentoEditar.Metadatos.SubSerie);
-      this.docForm.get('facultad').setValue(this.documentoEditar.Metadatos.Facultad)
+      this.docForm.get('facultad').setValue(this.documentoEditar.Metadatos.Facultad);
+      setTimeout(() => {
+        this.docForm.get('tipoDocumento').setValue(this.documentoEditar.TipoDocumento.Id);
+        this.formReferencia = cloneDeep(this.docForm);
+      }, 0);
     }
     else{
       // Asigna la fecha actual si se esta cargando un nuevo documento
@@ -147,12 +149,41 @@ export class CargarComponent implements OnInit {
         autentificando=false;
       }
     }
+    let registro:any={};
+    let info='';
+    if(this.editando){
+      //Recorre los cambios realizados por medio del form control
+      Object.keys(this.docForm.controls).forEach(key => {
+        if(this.docForm.controls[key].dirty){
+          // Si se realiza un cambio en un campo se añade un log del cambio
+          if(this.docForm.controls[key].value!==this.formReferencia.controls[key].value){
+            if(key==='tipoDocumento'){
+              const valorDespues=Object.keys(this.tiposDocumento).find(valor => this.tiposDocumento[valor]===this.docForm.controls[key].value);
+              const valorAntes=Object.keys(this.tiposDocumento).find(valor => this.tiposDocumento[valor]===this.formReferencia.controls[key].value)
+              info=info+key+'('+valorAntes + ' por '+
+              valorDespues+'), ';
+            }else if(key==='archivo'){
+              info=info+' Se actualizo el archivo,';
+            }else{
+              info=info+key+'('+this.docForm.controls[key].value + ' por '+
+              this.formReferencia.controls[key].value+'), ';
+            }
+          }
+        }
+      });
+      registro=doc.Metadatos.Registros;
+      //Se crea el registro utilizando la fecha como llave
+      registro[new Date().toString()]=nomUsuario +' ha actualizado el documento en los campos: '+info;
+    }else{
+      registro[new Date().toString()]=nomUsuario +' ha creado el documento';
+    }
     let metadatos = {
       Uploader: nomUsuario,
       Serie: this.docForm.get('serie').value,
       SubSerie: this.docForm.get('subSerie').value,
       Fecha:this.docForm.get('fecha').value,
-      Facultad:this.docForm.get('facultad').value
+      Facultad:this.docForm.get('facultad').value,
+      Registros: registro
     }
     doc.Metadatos=JSON.stringify(metadatos);
   }
@@ -199,19 +230,18 @@ export class CargarComponent implements OnInit {
   aceptar(accion){
     if(accion === 'actualizando'){
       this.cargarFormulario();
-      this.documentoEditar.Metadatos=JSON.parse(this.documentoEditar.Metadatos);
     }else{
       this.eliminarDocumento();
     }
     this.dialogRef.close();
     let mapa =new Map;
-    mapa.set('acciones', accion);
-    mapa.set('documento',this.documentoEditar);
-    if(this.docForm.dirty){
-      this.terminarEvent.emit(mapa);
+    if(!this.docForm.dirty){
+      mapa.set('acciones', 'cancelar');
     }else{
-      this.terminarEvent.emit(mapa);
+      mapa.set('acciones', accion);
     }
+    mapa.set('documento',this.documentoEditar);
+    this.terminarEvent.emit(mapa);
   }
 
   //Eliminar registro del documento en nuxeo  api/base de datos

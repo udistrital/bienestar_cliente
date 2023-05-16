@@ -42,9 +42,7 @@ import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos
 import { EditorTextoComponent } from './editor-texto/editor-texto.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { DocumentoService } from '../../@core/data/documento.service';
-// const routes: Routes = [
-//   { path: '', component: GestionDocumentalComponent }
-// ]
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -85,6 +83,7 @@ import { DocumentoService } from '../../@core/data/documento.service';
     NbBadgeModule,
     NbTooltipModule,
     CKEditorModule,
+    MatChipsModule
   ]
 })
 export class GestionDocumentalModule { }

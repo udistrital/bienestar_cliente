@@ -1,5 +1,5 @@
 <div>
-    <nb-card *ngIf="dataSource.filteredData.length > 0">
+    <nb-card *ngIf="dataSource.filteredData.length > 0" [nbSpinner]="loading" nbSpinnerMessage="Cargando documento" nbSpinnerStatus="info">
         <div class="mat-elevation-z8">
             <mat-table [dataSource]="dataSource" matSort>
                 <div *ngFor="let columna of columnas">
@@ -33,11 +33,71 @@
 </div>
 
 <!-- Template para mostrar el pdf en ventana -->
-<ng-template #visualizarDoc>
+<ng-template let-data #visualizarDoc>
     <div *ngIf="visualizando" >
-        <p>Descripción: {{descripcion}}</p>
-        <p>Facultades: {{facultades}}</p>   
-        <iframe [src]="urlSafe" type="application/pdf" (load)="onResize()" id="iframe" ></iframe>  
+        <button mat-icon-button class="close-button" (click)="this.windowRef.close()">
+            <mat-icon class="close-icon">close</mat-icon>
+        </button>
+        <h3 mat-dialog-title>
+            {{data.Nombre}}
+        </h3>
+        <div mat-dialog-content>
+            <iframe [src]="urlSafe" type="application/pdf" (load)="onResize()" id="iframe" ></iframe>
+        </div>
+        <div mat-dialog-content>
+            <nb-accordion>
+                <nb-accordion-item>
+                    <nb-accordion-item-header>Detalles</nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Descripción:</th>
+                                    <td>{{data.Descripcion}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Facultades:</th>
+                                    <td>
+                                        <span *ngFor="let facultad of data.Metadatos.Facultad" class="badge badge-pill badge-primary">{{facultad}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Serie:</th>
+                                    <td>{{data.Metadatos.Serie}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">SubSerie:</th>
+                                    <td>{{data.Metadatos.SubSerie}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Fecha del documento:</th>
+                                    <td>{{data.Metadatos.Fecha}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+                <nb-accordion-item>
+                    <nb-accordion-item-header>Registro</nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                  <th scope="col">Fecha</th>
+                                  <th scope="col">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let registro of data.Metadatos.Registros | keyvalue">
+                                    <th scope="row">{{registro.key}}:</th>
+                                    <td>{{registro.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+        </div>
     </div>
 </ng-template>
 <ng-template #editarDoc id="divEditar"  >
