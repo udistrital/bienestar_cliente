@@ -71,7 +71,6 @@ export class CrearAtencionComponent implements OnInit {
   nuevaAtencion: boolean = false;
 
   ngOnInit() {
-    // this.getAtencion();
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
     });
@@ -160,6 +159,8 @@ export class CrearAtencionComponent implements OnInit {
     this.fecha_apertura = "";
     this.fecha_finalizacion = "";
     this.observaciones = [];
+    this.observacionesBackUp = [];
+    this.atencion = new Solicitud();
   }
 
   getEstudiante() {
@@ -349,6 +350,12 @@ export class CrearAtencionComponent implements OnInit {
           .subscribe((res) => {
             console.log("Nueva atención", res);
             solicitud = res.Data;
+            this.codigo_atencion = solicitud.Id.toString();
+            202102020524;
+            this.nuevaAtencion = false;
+            setTimeout(() => {
+              this.getAtencion();
+            }, 3000);//Espera 3 segundos para hacer el llamado a la nueva atención
             let tercero = new Tercero();
             let solicitante = new Solicitante();
             this.atencionesService
