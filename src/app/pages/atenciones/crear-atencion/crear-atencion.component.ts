@@ -78,7 +78,7 @@ export class CrearAtencionComponent implements OnInit {
 
     this.getTiposAtenciones();
     this.getEstadosAtenciones();
-    console.log("estudiante",this.estudiante)
+    console.log("estudiante", this.estudiante);
   }
 
   fullDate(date: string) {
@@ -153,6 +153,15 @@ export class CrearAtencionComponent implements OnInit {
     }
   }
 
+  limpiarInfoAtencion() {
+    this.tipo_servicio = "";
+    this.tipo = new TipoSolicitud();
+    this.estado = new Estado();
+    this.fecha_apertura = "";
+    this.fecha_finalizacion = "";
+    this.observaciones = [];
+  }
+
   getEstudiante() {
     this.atencionesService
       .getEstudianteByCode(this.codigo_estudiante)
@@ -165,6 +174,7 @@ export class CrearAtencionComponent implements OnInit {
           this.terceroId = res[0].TerceroId.Id;
           // TODO Mostrar solicitudes filtradas en la tabla
           this.getAtencionesxEstudiante(this.codigo_estudiante);
+          this.limpiarInfoAtencion();
         } else {
           Swal.fire({
             position: "center",
@@ -385,7 +395,6 @@ export class CrearAtencionComponent implements OnInit {
   }
 }
 
-// TODO Eliminar atenciones y poner SWAL
 // TODO Cuando se agregue una atención que se refresque la info de la página (llamado desde la función)
 /**
  * Una página donde se ven todas las atenciones.
@@ -393,5 +402,4 @@ export class CrearAtencionComponent implements OnInit {
  * Cuando se de click en la tabla a una atención, que lo lleve a otra paágina con el componente y la atención
  */
 // TODO Implementar acción para finalizar una atención. Cuando esté finalizada, bloquear todo y solo dejar opción para reabrir
-// TODO Mostrar las atenciones en el orden que se agregaron
 // TODO Validar campos cuando se click en el botón guardar, antes de enviar las peticiones
