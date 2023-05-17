@@ -1,8 +1,13 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { AtencionesService } from "../services/atenciones.service";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
+import jsPDF from "jspdf";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from "html-to-pdfmake";
 
 export interface PeriodicElement {
   idAtencion: number;
@@ -68,5 +73,16 @@ export class ListaAtencionesComponent implements OnInit {
         atencion.FechaCreacion = atencion.FechaCreacion.split(" ")[0];
       });
     });
+  }
+  @ViewChild("pdfTable", { static: false }) pdfTable: ElementRef;
+  public downloadAsPDF() {
+    const doc = new jsPDF();
+
+    const pdfTable = this.pdfTable.nativeElement;
+
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).open();
   }
 }
