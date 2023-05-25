@@ -93,18 +93,34 @@ export class ListaAtencionesComponent implements OnInit {
         )
       
       );
-      this.data = this.data.filter((atencion)=>
-          atencion.FechaCreacion > this.fecha_min 
+
+      this.data = this.data.filter((atencion) =>
+        atencion.EstadoTipoSolicitudId.TipoSolicitud = this.tipo_atencion_reporte
+      
       );
+
+      
+      
+      
       this.data = this.data.filter((atencion)=>
-          atencion.FechaCreacion < this.fecha_max 
+         // atencion.FechaCreacion > this.fecha_min 
+         new Date(atencion.FechaCreacion) > new Date( this.fecha_min)
       );
+      
+
+      
+      this.data = this.data.filter((atencion)=>
+      new Date(atencion.FechaCreacion) < new Date( this.fecha_max)
+      );
+
+      
       
       this.dataSource = [...this.data];
       // Ajusta las fechas
       this.dataSource.forEach((atencion) => {
         atencion.FechaCreacion = atencion.FechaCreacion.split(" ")[0];
       });
+
     });
   }
 
@@ -112,6 +128,7 @@ export class ListaAtencionesComponent implements OnInit {
     console.log(this.fecha_min)
     console.log(this.fecha_max)
     console.log(this.tipo_atencion_reporte)
+    this.findAtenciones()
   }
 
   @ViewChild("pdfTable", { static: false }) pdfTable: ElementRef;
