@@ -9,7 +9,6 @@ import { environment } from '../../../../../environments/environment';
 import { UtilService } from '../../../../shared/services/utilService'
 import { EstadoTipoSolicitud } from '../../../../@core/data/models/solicitud/estado-tipo-solicitud';
 import { Estado } from '../../../../@core/data/models/solicitud/estado';
-import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { Solicitante } from '../../../../@core/data/models/solicitud_docente/solicitante';
 import { Tercero } from '../../../../@core/data/models/terceros/tercero';
@@ -71,6 +70,10 @@ export class ConsultasComponent implements OnInit {
   itemOffSet: number = 0;
   itemTipoSol: string = "activa";
   paginacion: number = 10;
+  NtotalRegistros = 0;
+  facultades: string[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
+  "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
+  facultad : string = ""
   //prueba para sacar datos del solicitante
   solicitante: Solicitante = null;
   terceros: Tercero[] = [];
@@ -85,36 +88,39 @@ export class ConsultasComponent implements OnInit {
   }
 
   loadEstadoTipoSolicitud() {
-    this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)
-      .subscribe((result: any[]) => {
-        if (result['Data'].length > 0) {
-          let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
-          for (let estadoTipo of estadosTiposolicitud) {
-            this.estadosTipoSolicitud.push(estadoTipo);
-            this.estados.push(estadoTipo.EstadoId);
-          }
-        }
-      },
-        error => {
-          console.error(error);
-        }
-      );
+    // this.listService.findEstadoTipoSolicitud(86)
+    // // this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUDPAZYSALVOS)
+    //   .subscribe((result: any[]) => {
+    //     if (result['Data'].length > 0) {
+    //       let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
+    //       for (let estadoTipo of estadosTiposolicitud) {
+    //         console.log( this.estadosTipoSolicitud.push(estadoTipo));
+            
+    //         this.estadosTipoSolicitud.push(estadoTipo);
+    //         this.estados.push(estadoTipo.EstadoId);
+    //       }
+    //     }
+    //   },
+    //     error => {
+    //       console.error(error);
+    //     }
+    //   );
   }
 
   private loadPeriodo() {
-    this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, null)
-      .then((result) => {
-        if (result != []) {
-          for (let params of result) {
-            this.periodos.push(params.PeriodoId);
-          }
-          if (this.periodos.length > 0) {
-            this.periodo = 0;
-          }
-        } else {
-          this.utilService.showSwAlertError("Parametros no encontrados", "No se encontraron periodos con solicitudes");
-        }
-      }).catch((err) => { this.utilService.showSwAlertError("Parametros no encontrados", err) });
+    // this.listService.findParametrosByPeriodoTipoEstado(null, environment.IDS.IDINSCRIPCIONES, null)
+    //   .then((result) => {
+    //     if (result != []) {
+    //       for (let params of result) {
+    //         this.periodos.push(params.PeriodoId);
+    //       }
+    //       if (this.periodos.length > 0) {
+    //         this.periodo = 0;
+    //       }
+    //     } else {
+    //       this.utilService.showSwAlertError("Parametros no encontrados", "No se encontraron periodos con solicitudes");
+    //     }
+    //   }).catch((err) => { this.utilService.showSwAlertError("Parametros no encontrados", err) });
   }
 
   ngOnInit() {
@@ -137,15 +143,20 @@ export class ConsultasComponent implements OnInit {
     if(this.itemTipoSol!="null"){
       finalizada = this.itemTipoSol=="finalizada" ? true : false;
     }
-    this.listService.findSolicitudes(this.estadoTipo, this.itemSelect,this.itemOffSet,finalizada).then((result) => {
+    this.listService.findSolicitudes(environment.IDS.IDTIPOSOLICITUDPAZYSALVOS, this.itemSelect,this.itemOffSet,finalizada).then((result) => {
+    
       if (result != []) {
         this.solicitudesExt = [];
+          console.log(result.length);
+          this.NtotalRegistros =result.length
+        
         for (let solicitud of result) {
           const solext:any = new SolicitudExt(solicitud);
           if (this.periodo == null || this.periodos[this.periodo].Nombre == solext.Periodo) {
             //cargar datos de terceros de las solicitudes
             this.idSolicitud=solicitud.Id
-
+            console.log(this.facultad);//prueba para ver si el selected funciona
+            
             this.listService.loadSolicitanteBySolicitud(this.idSolicitud).then((respSolicitante) => {
               this.solicitante = respSolicitante;
               if (this.solicitante != undefined) {

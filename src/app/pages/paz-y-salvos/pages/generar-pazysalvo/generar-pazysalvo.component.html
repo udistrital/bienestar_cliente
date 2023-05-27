@@ -1,192 +1,259 @@
-<div class=" container-fluid bg-white mh-100 mw-100 ">
-    <h1 p-2>Generar Paz y Salvo del estudiante :  <em> lolita paola</em> </h1> 
+<div   class=" container-fluid bg-white mh-100 mw-100 ">
+    <h1  >Generar Paz y Salvo del estudiante :  <em *ngIf="tercero!=null"> {{tercero.NombreCompleto || "cargando ..."}}</em> </h1> 
     <br>
     <hr>
-    <!-- card para  generar  datos del estudiante  la cual se puede generar en un compoente aparte-->
-    <div class="row">
-        <div class="col-12">
-            <div  class="card card-content  p-3 mx-auto">
-                <div  class="card-body">
-                    <h1 class="card-title text-primary">Datos del Estudiante</h1>
-                    <div class="card-body ">
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Nombre :</b></P>
-                                <label >Andres sanana</label>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Apellido :</b></P>
-                                <label>pepito perez</label>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Codigo :</b></P>
-                                <label>2121216546</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Proyecto :</b></P>
-                                <label >Ingenieria social</label>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Numero :</b></P>
-                                <label>5555555555</label>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>correo :</b></P>
-                                <label>preubea@corre.udistrital.edu.co</label>
-                            </div>
-                        </div>
-    
-                    </div> 
-                </div>
-            </div>
-        </div>
 
-    </div>
+    <button class="btn back-button btn-block" routerLink="../paz-y-salvos/consultas"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar </button>
+    <!-- card para  generar  datos del estudiante  la cual se puede generar en un compoente aparte-->
+            
+    <nb-accordion *ngIf="tercero!=null">
+        <!-- Informacion solicitante -->
+        <nb-accordion-item expanded>
+            <nb-accordion-item-header>
+                <h4 class="non-selectable">Datos del Estudiante</h4>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body *ngIf="tercero!=null">
+                <div *ngIf="tercero!=null"  class="card card-content  p-3 mx-auto">
+                    <div  class="card-body">
+    
+                        <div class="card-body ">
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 col-lg-4">
+                                    <P><b>Nombre :</b></P>
+                                    <label >{{tercero.PrimerNombre +" "+ tercero.SegundoNombre}}</label>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-4">
+                                    <P><b>Apellido :</b></P>
+                                    <label>{{tercero.PrimerApellido +" "+ tercero.SegundoApellido}}</label>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-4">
+                                    <P><b>Codigo :</b></P>
+                                    <label >{{tercero.UsuarioWSO2 }}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 col-lg-4">
+                                    <P><b>Proyecto :</b></P>
+                                    <label *ngIf="ref!=null" >{{ref.proyecto }}</label>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-4">
+                                    <P><b>Numero :</b></P>
+                                    <label>{{ref.telefonoAdicional}}</label>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-4">
+                                    <P><b>correo :</b></P>
+                                    <label>{{ref.correo}}</label>
+                                </div>
+                            </div>
+        
+                        </div> 
+                    </div>
+                </div>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+
+<!-- item para mirar datos de la solicitud -->
+        <nb-accordion-item >
+            <nb-accordion-item-header>
+                <h4 class="non-selectable">Datos de la  Solicitud</h4>
+            </nb-accordion-item-header>
+
+            <nb-accordion-item-body *ngIf="ref!=null">
+
+
+
+                
+
+                <form [formGroup]="DatosSolicitud">
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <P><b>Motivo administrativo :</b></P>
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                            <mat-label>Motivo administrativo del servicio*</mat-label>
+                            <mat-select   [disabled]="selectorBloqueado"  formControlName="MotivoAdministrativo">
+                                <mat-option *ngFor="let motivo of MotivoAdministrativo" [value]="motivo">
+                                    {{motivo}}
+                                </mat-option> 
+                            </mat-select>
+                            <mat-hint>Seleccione el Motivo</mat-hint>
+                            <mat-error>Campo obligatorio</mat-error>
+                        </mat-form-field>
+            
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <P><b>Motivo Personal :</b></P>
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                            <mat-label>Motivo Personal del servicio*</mat-label>
+                            <mat-select  [value]="ref.MotivoPersonal" [disabled]="selectorBloqueado" formControlName="MotivoPersonal" >
+                                <mat-option *ngFor="let motivo of MotivoPersonal" [value]="motivo">
+                                    {{motivo}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-hint>Seleccione el Moivo</mat-hint>
+                            <mat-error>Campo obligatorio</mat-error>
+                        </mat-form-field>
+
+
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <P><b>Causa Principal :</b></P>
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                            <mat-label>Causa Principal del servicio*</mat-label>
+                            <mat-select  [value]="ref.CausaPrincipal" [disabled]="selectorBloqueado" formControlName="CausaPrincipal">
+                                <mat-option *ngFor="let motivo of CausaPrincipal" [value]="motivo">
+                                    {{motivo}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-hint>Seleccione el Moivo</mat-hint>
+                            <mat-error>Campo obligatorio</mat-error>
+                        </mat-form-field>
+            
+
+                    </div>
+                </div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="observaciones">pruebas</textarea>
+                  </mat-form-field>
+    
+            </form>
+
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-xs-12 col-md-12 col-lg-8">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th>Programa</th>
+                                    <th>si</th>
+                                    <th>No</th>
+                                    <th>No Aplica</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <th>Apoyo Alimentario</th>
+                                    <td>
+                                        <label class="form-check-custom success">
+                                        <input type="radio" id= "radio11"name="ApoyoAlimentario" value="si"  [(ngModel)]="tabla.apoyo" >
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom danger">
+                                        <input type="radio" id= "radio12" name="ApoyoAlimentario" value="no" [(ngModel)]="tabla.apoyo" >
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom warning">
+                                            <input type="radio" id= "radio13" name="ApoyoAlimentario" value="NA" [(ngModel)]="tabla.apoyo">
+                                            <span></span>
+                                            </label>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <th>Convocatoria Equipos y Conectividad</th>
+                                    <td>
+                                        <label class="form-check-custom success">
+                                        <input type="radio" name="ConvocatoriaEquipos" id= "radio21" value="si"  [(ngModel)]="tabla.equipos" >
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom danger">
+                                        <input type="radio" name="ConvocatoriaEquipos"  id= "radio22" value="no"  [(ngModel)]="tabla.equipos" >
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom warning">
+                                            <input type="radio" name="ConvocatoriaEquipos"  id= "radio23" value="NA"  [(ngModel)]="tabla.equipos">
+                                            <span></span>
+                                            </label>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <th>Deportes</th>
+                                    <td>
+                                        <label class="form-check-custom success">
+                                        <input type="radio" name="Deportes"  id= "radio31" value="si"  [(ngModel)]="tabla.deportes" >
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom danger">
+                                        <input type="radio" name="Deportes"  id= "radio32" value="no"  [(ngModel)]="tabla.deportes">
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom warning">
+                                            <input type="radio" name="Deportes"  id= "radio33" value="NA"  [(ngModel)]="tabla.deportes" >
+                                            <span></span>
+                                            </label>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <th>Otros</th>
+                                    <td>
+                                        <label class="form-check-custom success">
+                                        <input type="radio" name="otros"  id= "radio41" value="si"  [(ngModel)]="tabla.otros" >
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom danger">
+                                        <input type="radio" name="otros" id= "radio42" value="no"  [(ngModel)]="tabla.otros">
+                                        <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-custom warning">
+                                            <input type="radio" name="otros" id= "radio43" value="NA"  [(ngModel)]="tabla.otros" >
+                                            <span></span>
+                                            </label>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+
+                </div>
+                <button class="card-button m-2" type="submit" mat-raised-button color="primary"
+                (click)="printer()">
+                <mat-icon>send</mat-icon> prueba
+                </button>
+
+                <button class="card-button m-2" type="submit" mat-raised-button color="primary" (click)="toggleBloqueoSelector()">{{ selectorBloqueado ? 'Desbloquear' : 'Bloquear' }}</button>
+
+
+            </nb-accordion-item-body>
+
+
+
+
+        </nb-accordion-item>
+
+
+<!-- item para ver el pdf cuando este generado -->
+        <nb-accordion-item >
+            <nb-accordion-item-header>
+                <h4 class="non-selectable">Ver PDF Paz y Salvo</h4>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body *ngIf="ref!=null">
+                <h1>prueba</h1>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+
+    </nb-accordion>
+
 
     <!--  card para  generar  datos de solicitud la cual se puede generar en un compoente aparte-->
     <div class="row mt-3">
         <div class="col-12">
-            <div  class="card card-content p-3 mx-auto">
-                <div  class="card-body  ">
-                    <h1 class="card-title ">Datos de la  Solicitud</h1>
-                    <div class="card-body ">
-                        <br>
-                        <div class="row">
-    
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Tipo de Soliciutd :</b></P>
-                                <label >Cancelacion</label>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Motivo :</b></P>
-                                <label>Socioeconomico</label>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-4">
-                                <P><b>Causa Principal :</b></P>
-                                <label>Economica</label>
-                            </div>
-    
-                        </div>
-                        <div class="row">
-    
-                          <div class="col-xs-12 col-md-6 col-lg-4">
-                            <P><b>Otras Causas :</b></P>
-                            <label >No aplica</label>
-                          </div>
-                          <div class="col-xs-12 col-md-6 col-lg-4">
-                              <P><b>Dirigida a :</b></P>
-                              <label >Quien interese</label>
-                          </div>
-      
-                        </div>
-                        <div class="row mt-4 justify-content-center">
-                            <div class="col-xs-12 col-md-12 col-lg-8">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                            <th>Programa</th>
-                                            <th>si</th>
-                                            <th>No</th>
-                                            <th>No Aplica</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                            <th>Apoyo Alimentario</th>
-                                            <td>
-                                                <label class="form-check-custom success">
-                                                <input type="radio" name="radio-21" >
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom danger">
-                                                <input type="radio" name="radio-21"  >
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom warning">
-                                                    <input type="radio" name="radio-21" >
-                                                    <span></span>
-                                                    </label>
-                                            </td>
-                                            </tr>
-                                            <tr>
-                                            <th>Convocatoria Equipos y Conectividad</th>
-                                            <td>
-                                                <label class="form-check-custom success">
-                                                <input type="radio" name="radio-22" >
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom danger">
-                                                <input type="radio" name="radio-22"  >
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom warning">
-                                                    <input type="radio" name="radio-22" >
-                                                    <span></span>
-                                                    </label>
-                                            </td>
-                                            </tr>
-                                            <tr>
-                                            <th>Deportes</th>
-                                            <td>
-                                                <label class="form-check-custom success">
-                                                <input type="radio" name="radio-23">
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom danger">
-                                                <input type="radio" name="radio-23" >
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom warning">
-                                                    <input type="radio" name="radio-23" >
-                                                    <span></span>
-                                                    </label>
-                                            </td>
-                                            </tr>
-                                            <tr>
-                                            <th>Otros</th>
-                                            <td>
-                                                <label class="form-check-custom success">
-                                                <input type="radio" name="radio-24" >
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom danger">
-                                                <input type="radio" name="radio-24">
-                                                <span></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-custom warning">
-                                                    <input type="radio" name="radio-24" >
-                                                    <span></span>
-                                                    </label>
-                                            </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-    
-                        </div>
-    
-                    </div> 
-                </div>
-            </div>
+
 
 
         </div>

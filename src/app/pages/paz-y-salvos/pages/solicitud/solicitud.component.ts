@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../../environments/environment';
-import { ReferenciaSolicitudPazySalvo } from '../../../@core/data/models/solicitud/referencia-solicitud-pazysalvos';
-import { ListService } from '../../../@core/store/list.service';
-import { DateCustomPipePipe } from '../../../shared/pipes/date-custom-pipe.pipe';
-import { EstudiantesService } from '../../../shared/services/estudiantes.service';
+import { environment } from '../../../../../environments/environment';
+import { ReferenciaSolicitudPazySalvo } from '../../../../@core/data/models/solicitud/referencia-solicitud-pazysalvos';
+import { ListService } from '../../../../@core/store/list.service';
+import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pipe';
+import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 
 
 @Component({
@@ -124,6 +124,7 @@ grabarSolicitante(solicitud: any) {
   guardarSolicitud() {
     this.guardarDatosFormulario();
     console.log(this.referencia);
+    
     
     const solicitud: any = {};
     solicitud.Id = null;
