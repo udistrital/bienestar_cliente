@@ -169,7 +169,10 @@ export class GenerarPazysalvoComponent implements OnInit {
   }
     printer(){
       console.log(this.tabla);
+      console.log([this.ref.MotivoAdministrativo, this.ref.MotivoPersonal, this.ref.CausaPrincipal ] );
     }
+
+
   toggleBloqueoSelector() {
     this.selectorBloqueado = !this.selectorBloqueado;
 
@@ -178,7 +181,7 @@ export class GenerarPazysalvoComponent implements OnInit {
     this.ref.MotivoPersonal = this.DatosSolicitud.value.MotivoPersonal;
     this.ref.CausaPrincipal = this.DatosSolicitud.value.CausaPrincipal;
 
-    console.log(this.DatosSolicitud.value.observaciones  );
+   
     
   }
     loadDocumentos() {

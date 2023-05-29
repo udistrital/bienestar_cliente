@@ -228,7 +228,7 @@
 
                 <button class="card-button m-2" type="submit" mat-raised-button color="primary" (click)="toggleBloqueoSelector()">{{ selectorBloqueado ? 'Desbloquear' : 'Bloquear' }}</button>
 
-
+                
             </nb-accordion-item-body>
 
 
@@ -243,7 +243,7 @@
                 <h4 class="non-selectable">Ver PDF Paz y Salvo</h4>
             </nb-accordion-item-header>
             <nb-accordion-item-body *ngIf="ref!=null">
-                <h1>prueba</h1>
+                <ngx-pdfMaker [referencia] ="ref"></ngx-pdfMaker>
             </nb-accordion-item-body>
         </nb-accordion-item>
 

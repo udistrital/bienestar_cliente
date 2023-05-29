@@ -36,6 +36,7 @@ import { ParametriaPeriodoModule } from '../../shared/components/parametria-peri
 import { FechaFormatPipe } from './pipes/fecha-format.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { SolicitudComponent } from './pages/solicitud/solicitud.component';
+import { PdfMakerComponent } from './components/pdfmaker/pdfMaker/pdfMaker.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SolicitudComponent } from './pages/solicitud/solicitud.component';
   GenerarPazysalvoComponent,
   TablaPazysalvosComponent,
   ConsultasComponent,
+  PdfMakerComponent,
 
   //declaracion de prueba para pipes de apoyo
   FechaFormatPipe,
