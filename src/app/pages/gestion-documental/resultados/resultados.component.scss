@@ -38,3 +38,10 @@ table {
   ::ng-deep .icon-outside .mat-dialog-container {
    overflow: unset
   }
+  ::ng-deep .mat-cell{
+    word-break: break-word;
+    margin: 5px;
+    display: inline-grid;
+  }
+  
+  

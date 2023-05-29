@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-gestion-documental',
@@ -7,10 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GestionDocumentalComponent implements OnInit {
 
-  constructor() {  }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    console.log('prueba')
+  }
+  navigateCargar(){
+    this.router.navigate(['/pages/gestion-documental/cargar']);
+    //this.router.navigateByUrl('registro/inscritos');
+    return false;
+  }
+
+  navigateConsultar(){
+    this.router.navigate(['/pages/gestion-documental/consultar']);
+    return false;
+  }
+
+  /* Inscripciones */
+  navigateGestor(){
+    this.router.navigate(['/pages/gestion-documental/gestor']);
+    return false;
   }
 
 }

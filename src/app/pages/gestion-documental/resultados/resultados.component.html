@@ -19,7 +19,14 @@
                                 </button>
                             </mat-cell>
                         </ng-container> 
-                        <ng-container  *ngIf="columna !== 'Ver' && columna !== 'Editar' ">
+                        <ng-container  *ngIf="columna === 'Facultad'">
+                            <mat-cell *matCellDef="let documento"> 
+                                <div *ngFor="let facultad of documento.Metadatos.Facultad">
+                                    <span  class="badge badge-pill badge-primary">{{facultad}}</span><br/>
+                                </div>
+                            </mat-cell>
+                        </ng-container> 
+                        <ng-container  *ngIf="columna !== 'Ver' && columna !== 'Editar' && columna !== 'Facultad' ">
                             <mat-cell  *matCellDef="let documento"> {{ evaluar(documento,columna) }} </mat-cell>
                             </ng-container> 
                     </ng-container>
@@ -51,6 +58,10 @@
                     <nb-accordion-item-body>
                         <table class="table">
                             <tbody>
+                                <tr>
+                                    <th scope="row">Tipo de documento:</th>
+                                    <td>{{data.TipoDocumento.Nombre}}</td>
+                                </tr>
                                 <tr>
                                     <th scope="row">Descripción:</th>
                                     <td>{{data.Descripcion}}</td>

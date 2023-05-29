@@ -70,7 +70,7 @@ export class ResultadosComponent implements OnInit{
  
   dataSource: any;
   // TODO: Este se tomaria del servicio del OAS, validar
-  columnas: string[]=['Nombre','Descripcion','Serie',
+  columnas: string[]=['Nombre', 'Tipo de Documento','Descripcion','Serie',
   'SubSerie','Fecha','Facultad','Ver','Editar'];
 
   private windowRef: any;
@@ -102,10 +102,14 @@ export class ResultadosComponent implements OnInit{
       // Se sobrescribe la funcion nativa de MatTableDataSource para las columnas de los datos
       // que esta en Metadatos se puedan ordenar
       this.dataSource.sortingDataAccessor = (item, property) => {
-        if(property==='Nombre' || property==='Descripcion'){ 
-          return item[property];
+        if(property==='Nombre' || property==='Descripcion'){
+            return item[property];
         }else{
-          return item.Metadatos[property];
+          if(property==='Tipo de Documento'){
+            return item.TipoDocumento.Nombre;
+          }else{
+            return item.Metadatos[property];
+          }
         }
       };
       this.dataSource.sort= this.sort;
@@ -115,7 +119,11 @@ export class ResultadosComponent implements OnInit{
   // Evalua un documento y obtener el valor de una columna para mostrarlo en la tabla
   evaluar(documento, columna){
     if(columna!='Nombre'&& columna!='Descripcion'){
-      return documento.Metadatos[columna];
+      if(columna==='Tipo de Documento'){
+        return documento.TipoDocumento.Nombre;
+      }else{
+        return documento.Metadatos[columna];
+      }
     }else{
       return documento[columna];
     }
