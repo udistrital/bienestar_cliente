@@ -7,7 +7,7 @@ import { TablaPazysalvosComponent } from './components/tabla-pazysalvos/tabla-pa
 import { ConsultasComponent } from './pages/consultas/consultas.component';
 import { ThemeModule } from '../../@theme/theme.module';
 
-
+import { FormsModule } from '@angular/forms';
 import {
   NbButtonModule,
   NbCardModule,
@@ -37,6 +37,7 @@ import { FechaFormatPipe } from './pipes/fecha-format.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { SolicitudComponent } from './pages/solicitud/solicitud.component';
 import { PdfMakerComponent } from './components/pdfmaker/pdfMaker/pdfMaker.component';
+import { Base64imagesComponent } from './components/base64/base64images/base64images.component';
 
 @NgModule({
   declarations: [
@@ -45,13 +46,14 @@ import { PdfMakerComponent } from './components/pdfmaker/pdfMaker/pdfMaker.compo
   TablaPazysalvosComponent,
   ConsultasComponent,
   PdfMakerComponent,
+  Base64imagesComponent,
 
   //declaracion de prueba para pipes de apoyo
   FechaFormatPipe,
   SafePipe,
   SolicitudComponent,
 ],
-  imports: [
+  imports: [FormsModule ,
     CommonModule,
     //import para routing
     PazYSalvosRoutingModule,
@@ -60,7 +62,6 @@ import { PdfMakerComponent } from './components/pdfmaker/pdfMaker/pdfMaker.compo
     MatPaginatorModule,
 
     //imports de pruebs
-    
     ThemeModule,
     NbCardModule,
     NbUserModule,

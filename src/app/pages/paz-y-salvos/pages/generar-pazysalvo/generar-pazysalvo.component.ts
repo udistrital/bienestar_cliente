@@ -36,6 +36,7 @@ import { referencia } from '../../interfaces';
 
 
 export class GenerarPazysalvoComponent implements OnInit {
+
   nueva = false;
   periodo: Periodo = null;
   idSolicitud = 0;
@@ -79,6 +80,9 @@ export class GenerarPazysalvoComponent implements OnInit {
     otros:"NA",
   };
   
+  revisor:any={}
+  firmas:any = {     }
+
   
   referencia = [];
 
@@ -117,6 +121,8 @@ export class GenerarPazysalvoComponent implements OnInit {
         }
 
     }
+
+
 
   loadSolicitud() {
     // cargar la info de la solicitud
@@ -175,13 +181,14 @@ export class GenerarPazysalvoComponent implements OnInit {
 
   toggleBloqueoSelector() {
     this.selectorBloqueado = !this.selectorBloqueado;
-
-
     this.ref.MotivoAdministrativo= this.DatosSolicitud.value.MotivoAdministrativo;
     this.ref.MotivoPersonal = this.DatosSolicitud.value.MotivoPersonal;
     this.ref.CausaPrincipal = this.DatosSolicitud.value.CausaPrincipal;
+  }
 
-   
+  onNewRevisor(revisor){
+    console.log("este es el revisor prueba", revisor);
+    this.revisor= revisor
     
   }
     loadDocumentos() {

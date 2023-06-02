@@ -237,13 +237,24 @@
         </nb-accordion-item>
 
 
+        <!-- item de datos del administrativo -->
+
+
+        <nb-accordion-item >
+            <nb-accordion-item-header>
+                <h4 class="non-selectable">Datos Administrativos</h4>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body *ngIf="ref!=null">
+                <ngx-base64images (onNewRevisor) = "onNewRevisor($event)" ></ngx-base64images>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
 <!-- item para ver el pdf cuando este generado -->
         <nb-accordion-item >
             <nb-accordion-item-header>
                 <h4 class="non-selectable">Ver PDF Paz y Salvo</h4>
             </nb-accordion-item-header>
             <nb-accordion-item-body *ngIf="ref!=null">
-                <ngx-pdfMaker [referencia] ="ref"></ngx-pdfMaker>
+                <ngx-pdfMaker [referencia] ="ref" [tabla]="tabla" [revisor]="revisor"></ngx-pdfMaker>
             </nb-accordion-item-body>
         </nb-accordion-item>
 
