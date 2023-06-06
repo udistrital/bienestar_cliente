@@ -222,11 +222,11 @@
 
                 </div>
                 <button class="card-button m-2" type="submit" mat-raised-button color="primary"
-                (click)="printer()">
-                <mat-icon>send</mat-icon> prueba
+                (click)="actualizarDatosSol()">
+                <mat-icon>send</mat-icon> Actualizar Datos Solicitud
                 </button>
 
-                <button class="card-button m-2" type="submit" mat-raised-button color="primary" (click)="toggleBloqueoSelector()">{{ selectorBloqueado ? 'Desbloquear' : 'Bloquear' }}</button>
+                <button class="card-button m-2" type="submit" mat-raised-button color="primary" (click)="toggleBloqueoSelector()">{{ selectorBloqueado ? 'Desbloquear Campos' : 'Bloquear Campos' }}</button>
 
                 
             </nb-accordion-item-body>
@@ -257,6 +257,122 @@
                 <ngx-pdfMaker [referencia] ="ref" [tabla]="tabla" [revisor]="revisor"></ngx-pdfMaker>
             </nb-accordion-item-body>
         </nb-accordion-item>
+
+
+
+                    <!-- Observaciones -->
+                    <nb-accordion-item *ngIf="!nueva">
+                        <nb-accordion-item-header>
+                            <h4 class="non-selectable">Observaciones</h4>
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body>
+                            <div *ngIf="observaciones.length>0" class="timeline">
+                                <div *ngFor="let obs of observaciones" class="timeline__group">
+                                    <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
+                                    </span>
+                                    <div class="timeline__cards">
+                                        <div class="timeline__card card">
+                                            <header class="card__header">
+                                                <b>{{obs.Titulo}}</b>
+                                            </header>
+                                            <div class="card__content">
+                                                <p>{{obs.Valor.split('//')[0]}}</p>
+                                                <small class="text-muted" *ngIf="obs.Valor.split('//')[1]">
+                                                    Creador: {{obs.Valor.split('//')[1]}}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="observaciones.length==0">
+                                <h6 style="text-align: center; color: #d33;"> No existe ninguna observación</h6>
+                            </div>
+        
+                            <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Agregar observacion
+                            </button>
+        
+                        </nb-accordion-item-body>
+                    </nb-accordion-item>
+        
+                    <!-- Estado de la solicitud -->
+                    <nb-accordion-item *ngIf="solicitud!=null && !nueva">
+                        <nb-accordion-item-header>
+                            <h4 class="non-selectable">Estado solicitud</h4>
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body>
+                            <div class="menu-list">
+                                <div class="item ">
+                                    <!-- form-group  -->
+                                    <label class="sub-item label-color-ud">
+                                        Estado actual :
+                                    </label>
+                                    <label ng-readonly="!nueva" class="sub-item field-color-ud">
+                                        {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
+                                    </label>
+                                    <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="item">
+                                    <hr>
+                                    <h6>Cambiar estado</h6>
+                                    <br>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <div class="item row justify-content-center">
+                                        <div class="col-md-10">
+                                            <label class="label-color-ud">
+                                                Nuevo estado :
+                                            </label>
+                                            <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
+                                                <option [ngValue]="null">Selecciona el siguiente estado</option>
+                                                <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
+                                                    {{estadoTipo.EstadoId.Nombre }}</option>
+                                            </select>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="nuevoEstado!=null" class="item row justify-content-center mt-3">
+                                        <div class="col-md-10">
+                                            <label class="label-color-ud">
+                                                Observacion cambio de estado:
+                                            </label>
+                                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="form-group" *ngIf="tercero!=null && !nueva">
+                                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
+                                    <i class="fas fa-save mr-1"></i>
+                                    Guardar cambios
+                                </button>
+                            </div>
+        
+                            <hr>
+        
+                            <button *ngIf="!this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
+                                Finalizar solicitud
+                                <i class="fas fa-toggle-off ml-1"></i>
+                            </button>
+        
+                            <button *ngIf="this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="success" (click)="cambiarSolicitudFinalizada(false)" class="submit-button">
+                                Activar solicitud
+                                <i class="fas fa-toggle-on ml-1"></i>
+                            </button>
+        
+        
+                        </nb-accordion-item-body>
+                        <hr>
+                    </nb-accordion-item>
+
+
+
 
     </nb-accordion>
 

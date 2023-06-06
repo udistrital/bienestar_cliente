@@ -12,5 +12,6 @@ export interface referencia{
     telefono: null | number,
     telefonoAdicional: null | number,
     tercero: any
+    tabla:{}
 
 }

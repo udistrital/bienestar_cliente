@@ -50,7 +50,7 @@ export class GenerarPazysalvoComponent implements OnInit {
   evolucionesEstado: SolicitudEvolucionEstado[] = [];
   documentosHTML = new Array();
   selectDoc = [];
-  ref : referencia={
+  ref ={
     CausaPrincipal: "",
     MotivoAdministrativo: "",
     MotivoPersonal: "",
@@ -62,7 +62,8 @@ export class GenerarPazysalvoComponent implements OnInit {
     proyecto: "",
     telefono: null,
     telefonoAdicional: null,
-    tercero: null};
+    tercero: null,
+    tabla:null};
   loading: boolean = true;
   loadForm: boolean = true;
   loadDocs: boolean = true;
@@ -74,12 +75,13 @@ export class GenerarPazysalvoComponent implements OnInit {
   DatosSolicitud: FormGroup;
 
   tabla: any = {
-    apoyo:"NA",
-    equipos:"si",
-    deportes:"no",
-    otros:"NA",
+    apoyo:"",
+    equipos:"",
+    deportes:"",
+    otros:"",
   };
   
+  pazysalvo=null;
   revisor:any={}
   firmas:any = {     }
 
@@ -143,39 +145,46 @@ export class GenerarPazysalvoComponent implements OnInit {
 
       });
       
+      this.tabla = this.ref.tabla
       // this.referencia.push(ref.Periodo);
       // this.referencia.push(ref.Puntaje);
-
       if (this.solicitud != undefined) {
-        // this.loadDocumentos();
+        this.loadDocumentos();
         this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {
-          this.solicitante = respSolicitante;
-          console.log(["esta es el solicitante ",this.solicitante]);
-          if (this.solicitante != undefined) {
-
-              this.listService.loadTercero(this.solicitante.TerceroId).then((respTerc) => {
-                  this.tercero = respTerc;
-                  console.log(["esta es el tercero ",this.tercero]);
-              }).catch((errT) => this.utilsService.showSwAlertError("Estudiante(tercero) no encontrado", errT));
-          } 
-          else {
-            this.utilsService.showSwAlertError("Solicitante no encontrado", "No se encontro un solicitante para la solicitud");
-          }
+            this.solicitante = respSolicitante;
+            if (this.solicitante != undefined) {
+                this.listService.loadTercero(this.solicitante.TerceroId).then((respTerc) => {
+                    this.tercero = respTerc;
+                }).catch((errT) => this.utilsService.showSwAlertError("Estudiante(tercero) no encontrado", errT));
+            } else {
+                this.utilsService.showSwAlertError("Solicitante no encontrado", "No se encontro un solicitante para la solicitud");
+            }
         }).catch((err) => this.utilsService.showSwAlertError("Solicitante no encontrado", err));
-        
-              this.listService.findEvolucionEstado(this.solicitud.Id).then((respEvol) => {
-                  this.evolucionesEstado = respEvol;
-                  console.log(["esta son las evoluciones de estado ",this.evolucionesEstado]);
-              })
-              .catch((errEvol) => this.utilsService.showSwAlertError("Historico de estados no encontrado", errEvol));
-      } else {
-              this.utilsService.showSwAlertError("Solicitud no encontrada", "No se encontro la solicitud para el periodo actual");
-          }
-      }).catch((error) => this.utilsService.showSwAlertError("Solicitud no encontrada", error));
-  }
-    printer(){
+        this.listService.findObservacion(this.solicitud.Id, 1).then((respObs) => {
+            this.observaciones = respObs;
+        }).catch((errObs) => this.utilsService.showSwAlertError("Observación no encontrada", errObs));
+        this.listService.findEvolucionEstado(this.solicitud.Id).then((respEvol) => {
+            this.evolucionesEstado = respEvol;
+        }).catch((errEvol) => this.utilsService.showSwAlertError("Historico de estados no encontrado", errEvol));
+    } else {
+        this.utilsService.showSwAlertError("Solicitud no encontrada", "No se encontro la solicitud para el periodo actual");
+    }
+}).catch((error) => this.utilsService.showSwAlertError("Solicitud no encontrada", error));
+}
+      
+
+
+    actualizarDatosSol(){
+
+      this.listService.actualizarSolicitud(this.solicitud).then((resp) => {
+        console.log("no se que es esto ",resp);
+      
+      }).catch((err) => {
+        this.utilsService.showSwAlertError("No se puedo actualizar la observacion", err)
+    });
       console.log(this.tabla);
-      console.log([this.ref.MotivoAdministrativo, this.ref.MotivoPersonal, this.ref.CausaPrincipal ] );
+      console.log([this.ref.MotivoAdministrativo, this.ref.MotivoPersonal, this.ref.CausaPrincipal ,this.ref.tabla] );
+      this.loadDocumentos()
     }
 
 
@@ -184,6 +193,8 @@ export class GenerarPazysalvoComponent implements OnInit {
     this.ref.MotivoAdministrativo= this.DatosSolicitud.value.MotivoAdministrativo;
     this.ref.MotivoPersonal = this.DatosSolicitud.value.MotivoPersonal;
     this.ref.CausaPrincipal = this.DatosSolicitud.value.CausaPrincipal;
+    this.ref.tabla=this.tabla
+    this.solicitud.Referencia = JSON.stringify(this.ref)
   }
 
   onNewRevisor(revisor){
@@ -192,6 +203,12 @@ export class GenerarPazysalvoComponent implements OnInit {
     
   }
     loadDocumentos() {
+      const docsAdd =this.formApoyo.documentosAdjuntos;
+      this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+        console.log("MIRALOS EL PAQUETESOLICITUD",paqSol);
+        
+
+      })
         // let contDocs = 0;
         // this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol) => {
         //     if (paqSol != undefined) {
@@ -224,23 +241,27 @@ export class GenerarPazysalvoComponent implements OnInit {
         // }).catch((err) => {
         //     this.showError('No se encontraron documentos', err);
         //     this.loadDocs = false;
-        // });
+     //   });
     }
 
     loadEstadoTipoSolicitud() {
-        // this.listService.findEstadoTipoSolicitud(environment.IDS.IDTIPOSOLICITUD)
-        //     .subscribe((result: any[]) => {
-        //         if (result['Data'].length > 0) {
-        //             let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
-        //             for (let estadoTipo of estadosTiposolicitud) {
-        //                 this.estadosTipoSolicitud.push(estadoTipo);
-        //             }
-        //         }
-        //     },
-        //         error => {
-        //             console.error(error);
-        //         }
-        //     );
+        this.listService.findEstadoTipoSolicitud(environment.IDS.IDPAZYSALVOS)
+            .subscribe((result: any[]) => {
+              console.log("estado tipo solicitud",this.estadosTipoSolicitud);
+              
+                if (result['Data'].length > 0) {
+                    let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
+                    for (let estadoTipo of estadosTiposolicitud) {
+                        this.estadosTipoSolicitud.push(estadoTipo);
+                    }
+                }
+            },
+                error => {
+                    console.error(error);
+                }
+            );
+            
+            
     }
 
     cargarSolicitante(documento: string) {
@@ -290,133 +311,135 @@ export class GenerarPazysalvoComponent implements OnInit {
     }
 
     save() {
-        // if (this.nuevoEstado == null) {
-        //     this.utilsService.showSwAlertError("Nuevo estado vacio", "El nuevo estado es obligatorio");
-        //     return;
-        // }
-        // const nuevoEstadoTipo = this.estadosTipoSolicitud[this.nuevoEstado];
-        // if (nuevoEstadoTipo.Id == this.solicitud.EstadoTipoSolicitudId.Id) {
-        //     this.utilsService.showSwAlertError("Cambio de Estado", "El nuevo estado no puede ser igual al actual");
-        //     return;
-        // }
-        // if (this.obseravacionText == null) {
-        //     this.utilsService.showSwAlertError("Observación Vacia", "Agregar una observacion es obligatorio");
-        //     return;
-        // }
+        if (this.nuevoEstado == null) {
+            this.utilsService.showSwAlertError("Nuevo estado vacio", "El nuevo estado es obligatorio");
+            return;
+        }
+        const nuevoEstadoTipo = this.estadosTipoSolicitud[this.nuevoEstado];
+        if (nuevoEstadoTipo.Id == this.solicitud.EstadoTipoSolicitudId.Id) {
+            this.utilsService.showSwAlertError("Cambio de Estado", "El nuevo estado no puede ser igual al actual");
+            return;
+        }
+        if (this.obseravacionText == null) {
+            this.utilsService.showSwAlertError("Observación Vacia", "Agregar una observacion es obligatorio");
+            return;
+        }
 
-        // let tituloObservacion = `Cambio estado ${this.solicitud.EstadoTipoSolicitudId.EstadoId.Nombre} a ` +
-        //     `${nuevoEstadoTipo.EstadoId.Nombre}`;
+        let tituloObservacion = `Cambio estado ${this.solicitud.EstadoTipoSolicitudId.EstadoId.Nombre} a ` +
+            `${nuevoEstadoTipo.EstadoId.Nombre}`;
 
-        // let obseracionCompleta = `${this.obseravacionText} // ${this.utilsService.getUsuarioWSO2()}`;
+        let obseracionCompleta = `${this.obseravacionText} // ${this.utilsService.getUsuarioWSO2()}`;
 
-        // this.utilsService.showSwAlertQuery('¿Cambiar estado?', `<p>Su nuevo estado sera <strong>${nuevoEstadoTipo.EstadoId.Nombre}</strong></p>` +
-        //     `<p> <strong> Observacion:</strong>${obseracionCompleta}</p>`, 'Cambiar estado')
-        //     .then((result) => {
-        //         if (result) {
-        //             this.listService.cambiarEstadoSolicitud(this.solicitud, nuevoEstadoTipo, this.tercero.Id).then((resp) => {
-        //                 this.solicitud.EstadoTipoSolicitudId = resp;
-        //                 //Swal.fire("Cambio de estado", "Se cambio el estado de forma correcta", "success");
-        //                 this.utilsService.showSwAlertSuccess("Cambio de estado", "Se cambio el estado de forma correcta", "success");
-        //                 this.listService.loadTiposObservacion(1).then((resp) => {
-        //                     /*  Agregar observacion*/
-        //                     let observacionObj = new Observacion();
-        //                     observacionObj.SolicitudId = this.solicitud;
-        //                     observacionObj.TerceroId = this.tercero.Id;
-        //                     observacionObj.Titulo = tituloObservacion;
-        //                     observacionObj.Valor = obseracionCompleta;
-        //                     observacionObj.TipoObservacionId = resp['Data'][0];
-        //                     this.listService.crearObservacion(observacionObj).then((respObs) => {
-        //                         respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
-        //                         this.observaciones.push(respObs);
-        //                         this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-        //                         //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-        //                     }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
-        //                 }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
+        this.utilsService.showSwAlertQuery('¿Cambiar estado?', `<p>Su nuevo estado sera <strong>${nuevoEstadoTipo.EstadoId.Nombre}</strong></p>` +
+            `<p> <strong> Observacion:</strong>${obseracionCompleta}</p>`, 'Cambiar estado')
+            .then((result) => {
+                if (result) {
+                    this.listService.cambiarEstadoSolicitud(this.solicitud, nuevoEstadoTipo, this.tercero.Id).then((resp) => {
+                        this.solicitud.EstadoTipoSolicitudId = resp;
+                        //Swal.fire("Cambio de estado", "Se cambio el estado de forma correcta", "success");
+                        this.utilsService.showSwAlertSuccess("Cambio de estado", "Se cambio el estado de forma correcta", "success");
+                        this.listService.loadTiposObservacion(1).then((resp) => {
+                            /*  Agregar observacion*/
+                            let observacionObj = new Observacion();
+                            observacionObj.SolicitudId = this.solicitud;
+                            observacionObj.TerceroId = this.tercero.Id;
+                            observacionObj.Titulo = tituloObservacion;
+                            observacionObj.Valor = obseracionCompleta;
+                            observacionObj.TipoObservacionId = resp['Data'][0];
+                            this.listService.crearObservacion(observacionObj).then((respObs) => {
+                                respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
+                                this.observaciones.push(respObs);
+                                this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                            }).catch((error) => this.utilsService.showSwAlertError("No se creo la Observación", error));
+                        }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
 
-        //             }).catch((err) => {
-        //                 this.utilsService.showSwAlertError("Cambio de estado de la solicitud", err);
-        //             })
-        //         } else {
-        //         }
+                    }).catch((err) => {
+                        this.utilsService.showSwAlertError("Cambio de estado de la solicitud", err);
+                    })
+                } else {
+                }
 
-        //     });
+            });
     }
 
     agregarObservacion() {
-        // Swal.mixin({
-        //     input: 'textarea',
-        //     confirmButtonText: 'Next &rarr;',
-        //     showCancelButton: true,
-        //     progressSteps: ['1', '2']
-        // }).queue([
-        //     {
-        //         title: 'Titulo observacion',
-        //         text: 'Coloca el titulo de la observacion'
-        //     }, {
-        //         title: 'Contenido de la observacion',
-        //         text: 'Coloca toda la infromacion necesaria para dejar un registro'
-        //     }
-        // ]).then((result) => {
-        //     if (result['value'][0] != "" && result['value'][1] != "") {
-        //         this.utilsService.showSwAlertQuery("¿Agregar observacion?",
-        //             `<b>${result['value'][0]}</b> ${result['value'][1]}`, "Agregar").then((respq) => {
-        //                 if (respq) {
-        //                     this.listService.loadTiposObservacion(1).then((resp) => {
-        //                         /*  Agregar observacion*/
-        //                         let observacionObj = new Observacion();
-        //                         observacionObj.SolicitudId = this.solicitud;
-        //                         observacionObj.TerceroId = this.tercero.Id;
-        //                         observacionObj.Titulo = result['value'][0];
-        //                         observacionObj.Valor = result['value'][1] + " // " + this.utilsService.getUsuarioWSO2();
-        //                         observacionObj.TipoObservacionId = resp['Data'][0];
-        //                         this.listService.crearObservacion(observacionObj).then((respObs) => {
-        //                             respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
-        //                             this.observaciones.push(respObs);
-        //                             this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-        //                             //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-        //                         }).catch((errOb) => this.utilsService.showSwAlertError("No se pudo crear la observacion", errOb));
-        //                     }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
-        //                 }
-        //             });
-        //     } else {
-        //         this.utilsService.showSwAlertError("Campos Incompletos", "Todos los campos de la observacion deben ir llenos");
-        //     }
-        // })
+        Swal.mixin({
+            input: 'textarea',
+            confirmButtonText: 'Next &rarr;',
+            showCancelButton: true,
+            progressSteps: ['1', '2']
+        }).queue([
+            {
+                title: 'Titulo observacion',
+                text: 'Coloca el titulo de la observacion'
+            }, {
+                title: 'Contenido de la observacion',
+                text: 'Coloca toda la infromacion necesaria para dejar un registro'
+            }
+        ]).then((result) => {
+            if (result['value'][0] != "" && result['value'][1] != "") {
+                this.utilsService.showSwAlertQuery("¿Agregar observacion?",
+                    `<b>${result['value'][0]}</b> ${result['value'][1]}`, "Agregar").then((respq) => {
+                        if (respq) {
+                            this.listService.loadTiposObservacion(1).then((resp) => {
+                                /*  Agregar observacion*/
+                                let observacionObj = new Observacion();
+                                observacionObj.SolicitudId = this.solicitud;
+                                observacionObj.TerceroId = this.tercero.Id;
+                                observacionObj.Titulo = result['value'][0];
+                                observacionObj.Valor = result['value'][1] + " // " + this.utilsService.getUsuarioWSO2();
+                                observacionObj.TipoObservacionId = resp['Data'][0];
+                                this.listService.crearObservacion(observacionObj).then((respObs) => {
+                                    respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
+                                    this.observaciones.push(respObs);
+                                    this.utilsService.showSwAlertSuccess("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                    //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                                }).catch((errOb) => this.utilsService.showSwAlertError("No se pudo crear la observacion", errOb));
+                            }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
+                        }
+                    });
+            } else {
+                this.utilsService.showSwAlertError("Campos Incompletos", "Todos los campos de la observacion deben ir llenos");
+            }
+        })
 
     }
 
     cambiarSolicitudFinalizada(estado: boolean) {
-        // if (this.solicitud.SolicitudFinalizada == estado) {
-        //     return;
-        // }
-        // let tituloObs = estado ? 'Finalizar' : 'Activar'
-        // this.utilsService.showSwAlertQuery(`¿Desea ${tituloObs} la solicitud?`,
-        //     `Vas a <b>${tituloObs}</b> la solicitud #${this.solicitud.Id}`, tituloObs).then((respq) => {
-        //         if (respq) {
-        //             let solicitudN = this.solicitud
-        //             solicitudN.SolicitudFinalizada = estado
-        //             this.listService.actualizarSolicitud(solicitudN).then((resp) => {
-        //                 this.solicitud.SolicitudFinalizada = estado;
-        //                 this.listService.loadTiposObservacion(1).then((resp) => {
-        //                     /*  Agregar observacion*/
-        //                     let observacionObj = new Observacion();
-        //                     observacionObj.SolicitudId = this.solicitud;
-        //                     observacionObj.TerceroId = this.tercero.Id;
-        //                     observacionObj.Titulo = tituloObs+" solicitud";
-        //                     observacionObj.Valor = tituloObs+" solicitud" + " // " + this.utilsService.getUsuarioWSO2();
-        //                     observacionObj.TipoObservacionId = resp['Data'][0];
-        //                     this.listService.crearObservacion(observacionObj).then((respObs) => {
-        //                         respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
-        //                         this.observaciones.push(respObs);
-        //                         this.utilsService.showSwAlertSuccess("Solicitud " + estado ? 'finalizada' : 'activada', "Se cambio el estado de la solicitud de forma correcta", "success");
-        //                         //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
-        //                     }).catch((errOb) => this.utilsService.showSwAlertError("No se pudo crear la observacion", errOb));
-        //                 }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
-        //             }).catch((err) => {
-        //                 this.utilsService.showSwAlertError("No se puedo actualizar la observacion", err)
-        //             });
-        //         }
-        //     });
+        if (this.solicitud.SolicitudFinalizada == estado) {
+            return;
+        }
+        let tituloObs = estado ? 'Finalizar' : 'Activar'
+        this.utilsService.showSwAlertQuery(`¿Desea ${tituloObs} la solicitud?`,
+            `Vas a <b>${tituloObs}</b> la solicitud #${this.solicitud.Id}`, tituloObs).then((respq) => {
+                if (respq) {
+                    let solicitudN = this.solicitud
+                    solicitudN.SolicitudFinalizada = estado
+                    this.listService.actualizarSolicitud(solicitudN).then((resp) => {
+                      console.log("o se que es esto ",resp);
+                      
+                       this.solicitud.SolicitudFinalizada = estado;
+                        this.listService.loadTiposObservacion(1).then((resp) => {
+                            /*  Agregar observacion*/
+                            let observacionObj = new Observacion();
+                            observacionObj.SolicitudId = this.solicitud;
+                            observacionObj.TerceroId = this.tercero.Id;
+                            observacionObj.Titulo = tituloObs+" solicitud";
+                            observacionObj.Valor = tituloObs+" solicitud" + " // " + this.utilsService.getUsuarioWSO2();
+                            observacionObj.TipoObservacionId = resp['Data'][0];
+                            this.listService.crearObservacion(observacionObj).then((respObs) => {
+                                respObs.FechaCreacion = respObs.FechaCreacion.split('.')[0] + '.000000 +0000 +0000';
+                                this.observaciones.push(respObs);
+                                this.utilsService.showSwAlertSuccess("Solicitud " + estado ? 'finalizada' : 'activada', "Se cambio el estado de la solicitud de forma correcta", "success");
+                                //Swal.fire("Nueva observacion", "Se agrego la observacion de forma correcta", "success");
+                            }).catch((errOb) => this.utilsService.showSwAlertError("No se pudo crear la observacion", errOb));
+                        }).catch((err) => this.utilsService.showSwAlertError("Observaciones no encontradas", err));
+                    }).catch((err) => {
+                        this.utilsService.showSwAlertError("No se puedo actualizar la observacion", err)
+                    });
+                }
+            });
     }
 
 

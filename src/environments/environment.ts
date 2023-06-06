@@ -61,6 +61,7 @@ export const environment = {
         IDRADICADOPAZYSALVOS: 1,
         IDENESPERAPAZYSALVOS: 10,
         IDSOLICITADOPAZYSALVOS: 15,
+        IDPAZYSALVOS:27,
       
         IDTIPOSOLICITUDPAZYSALVOS: 86, // el id del estado "solicitado"
     },
