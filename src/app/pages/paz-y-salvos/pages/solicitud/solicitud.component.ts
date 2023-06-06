@@ -6,6 +6,7 @@ import { ReferenciaSolicitudPazySalvo } from '../../../../@core/data/models/soli
 import { ListService } from '../../../../@core/store/list.service';
 import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pipe';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class SolicitudComponent implements OnInit {
     private est: EstudiantesService,
     private route: ActivatedRoute,
     private listService: ListService,
+    private toastr: ToastrService ,
     private dateCustomPipe: DateCustomPipePipe,) { 
     this.solicitarpyz = this.fb.group({
       telefono: ['', Validators.compose([
@@ -117,6 +119,7 @@ grabarSolicitante(solicitud: any) {
 
   console.table("solicitante",solicitante);
   this.est.grabarSolicitante(solicitante).subscribe((res) => {
+    this.grabarEvolucionSolicitud(solicitud);
     //mostrar datos solicitante
   });
 }
@@ -142,6 +145,30 @@ grabarSolicitante(solicitud: any) {
     this.est.grabarSolicitud(solicitud).subscribe((res) => {
       const sol = res.Data;
       this.grabarSolicitante(sol);
+    });
+  }
+
+  grabarEvolucionSolicitud(solicitud: any) {
+    const evolucionSolicitud: any = {};
+    evolucionSolicitud.Id = null;
+    evolucionSolicitud.TerceroId = this.estudiante.Id;
+    evolucionSolicitud.SolicitudId = {
+      Id: solicitud.Id
+    }
+    evolucionSolicitud.EstadoTipoSolicitudIdAnterior = null;
+    evolucionSolicitud.EstadoTipoSolicitudId = {
+      Id: solicitud.EstadoTipoSolicitudId.Id
+    }
+    evolucionSolicitud.FechaLimite = this.dateCustomPipe.transform(new Date());
+    evolucionSolicitud.FechaCreacion = this.dateCustomPipe.transform(new Date());
+    evolucionSolicitud.FechaModificacion = this.dateCustomPipe.transform(new Date());
+    evolucionSolicitud.Activo = true;
+    this.est.grabarSolicitudEvolucion(evolucionSolicitud).subscribe((res) => {
+      this.toastr.success("Solicitud hecha satisfactoriamente");
+      setTimeout(() => {
+        window.location.reload();
+      },
+        800);
     });
   }
 

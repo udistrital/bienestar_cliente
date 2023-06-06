@@ -13,8 +13,13 @@ export class ReferenciaSolicitudPazySalvo {
     MotivoAdministrativo: string;
     MotivoPersonal: string;
     CausaPrincipal: string;
-    observaciones?: string;
-    apoyoAlimentario?: string;
-    equiposConectividad?: string;
-    deportes?: string;
+    observaciones: string="";
+  //talas de areas en paz y salvo
+    tabla: any = {
+        apoyo:"",
+        equipos:"",
+        deportes:"",
+        otros:"",
+      };
+      
 }

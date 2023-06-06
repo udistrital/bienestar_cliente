@@ -86,6 +86,7 @@ imprimir(){
   console.log(this.revisores);
   
   this.onNewRevisor.emit(this.revisores)
+  // aa
 
 }
 
