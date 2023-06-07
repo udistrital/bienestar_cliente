@@ -203,12 +203,14 @@ export class GenerarPazysalvoComponent implements OnInit {
     
   }
     loadDocumentos() {
-      const docsAdd =this.formApoyo.documentosAdjuntos;
-      this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
-        console.log("MIRALOS EL PAQUETESOLICITUD",paqSol);
+        console.log("log");
+        
+    //   const docsAdd =this.formApoyo.documentosAdjuntos;
+    //   this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+    //     console.log("MIRALOS EL PAQUETESOLICITUD",paqSol);
         
 
-      })
+    //  })
         // let contDocs = 0;
         // this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol) => {
         //     if (paqSol != undefined) {

@@ -18,29 +18,17 @@ import { Tercero } from '../../../../@core/data/models/terceros/tercero';
 
 class SolicitudExt {
   Solicitud: Solicitud;
-  Periodo: string;
-  Puntaje: number;
   constructor(sol: Solicitud) {
     this.Solicitud = sol;
     const refSol: ReferenciaSolicitud = JSON.parse(sol.Referencia);
     this.Periodo = refSol.Periodo;
-    this.Puntaje = refSol.Puntaje;
+    //this.Puntaje = refSol.Puntaje;
   };
   terceros: Tercero[] = [];
 
 }
 
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-];
 
 
 @Component({

@@ -89,6 +89,11 @@ const routes: Routes = [
             .then (m => m.PazYSalvosModule),
         },
         {
+            path:'acreditaciones-reportes', 
+            loadChildren: ( ) =>import ('./acreditaciones-reportes/acreditaciones-reportes.module')
+            .then (m => m.AcreditacionesReportesModule),
+        },
+        {
             path: '',
             redirectTo: 'home',
             pathMatch: 'full',

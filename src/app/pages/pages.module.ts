@@ -15,6 +15,7 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { PazYSalvosModule } from './paz-y-salvos/paz-y-salvos.module';
+import { AcreditacionesReportesModule } from './acreditaciones-reportes/acreditaciones-reportes.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { PazYSalvosModule } from './paz-y-salvos/paz-y-salvos.module';
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
-    PazYSalvosModule
+    PazYSalvosModule,
+    AcreditacionesReportesModule,
   ],
   declarations: [
     PagesComponent,
