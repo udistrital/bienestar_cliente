@@ -74,7 +74,7 @@ export class GestorDocumentosComponent implements OnInit {
   /**
    * Abre el menu al presionar clic para las obciones adicionales 
    * del gestor
-   * @param event: MouseEvent evento del mouse
+   * @param event: MouseEvent evento del mouseF
    */
   onClick(event: MouseEvent){
     let seleccion: boolean=false;
@@ -230,7 +230,7 @@ export class GestorDocumentosComponent implements OnInit {
   /**
    * Abre el template de nombre de carpeta a crear.
    */
-  mostarInputCrear(){
+  mostrarInputCrear(){
     this.dialogRef = this.dialog.open(this.inputCrearCarpeta,
       { hasBackdrop: true, autoFocus: true, disableClose: true});
   }

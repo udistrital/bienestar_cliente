@@ -290,10 +290,9 @@ export class GestionService {
       })
       .catch(function (error) {
         gestionService.toastrService.mostrarAlerta(
-          "Documento no encontrado: " + error,
+          "Documento no encontrado: ",
           "warning"
         );
-        throw new Error(error);
       });
     return url;
   }
@@ -397,7 +396,7 @@ export class GestionService {
           .then(async function (doc) {
             newId = await doc.uid;
             await gestionService.toastrService.mostrarAlerta(
-              "Repositorio creado",
+              "Carpeta creada",
               "success"
             );
           })

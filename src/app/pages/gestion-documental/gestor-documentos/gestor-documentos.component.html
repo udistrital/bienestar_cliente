@@ -32,7 +32,7 @@
                                 <span>Upload</span>
                                 <input #fileInput type="file" (change)="cargarDocumento($event,$event.target.files)"/>
                             </button>
-                            <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="mostarInputCrear()" nbTooltip="Crear Folder"><i class="fa fa-folder-plus"></i></button>
+                            <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="mostrarInputCrear()" nbTooltip="Crear Folder"><i class="fa fa-folder-plus"></i></button>
                             <!-- Cargar editor de texto -->
                             <ng-container *ngIf="!editandoDocumento">
                                 <button type="button" class="btn btn-secondary icon-btn mr-2" (click)="abrirEditor()" nbTooltip="Crear Documento"><i class="fa fa-plus"></i></button>

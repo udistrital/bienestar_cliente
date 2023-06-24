@@ -135,13 +135,17 @@ export class ResultadosComponent implements OnInit{
    */    
   async visualizar(documento){
     this.loading=true;
-    let url: any;
+    let url: any=undefined;
     //Obtener id de nuxeo para traer el documento
     url = await this.gestionService.obtenerDocumento(documento.Enlace, this.gestionService);
+    if(!url){
+      url='';
+      this.gestionService.toastrService.mostrarAlerta('Documento no encontrado, Nuxeo','danger');
+    }
     // Volver la url segura para Angular
     this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.visualizando=true;
-    this.loading=false;
+    this.loading=false; 
     this.windowRef=this.dialog.open(
       this.vizualizarDocTemplate,
       { data: documento, 

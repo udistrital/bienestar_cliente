@@ -123,8 +123,9 @@ export class CargarComponent implements OnInit {
       this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
 
       this.documentoMostrar = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
+      this.documentoMostrar.TipoDocumento.Nombre=Object.keys(this.tiposDocumento).
+        find(valor => this.tiposDocumento[valor]===this.documentoMostrar.TipoDocumento.Id);
       this.documentoMostrar=[this.documentoMostrar];
-
       this.clickeado=false;
       this.validado=true;
       this.archivoCambiado=false;
