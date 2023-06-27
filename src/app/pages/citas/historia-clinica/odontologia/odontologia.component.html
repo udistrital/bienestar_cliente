@@ -522,7 +522,7 @@
     </div>
   </div>
   <hr>
-  <h6 class="titulo mt-2">Control de Placa</h6>
+  <h6 class="titulo mt-2">Control de Placa Inicial</h6>
   <hr>
   <!--<p class="titulo subtitulo">Vestibular</p>-->
   <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
@@ -538,7 +538,7 @@
     </div>
   </div>
   <hr>
-  <h6 class="titulo mt-2">Odontograma</h6>
+  <h6 class="titulo mt-2">Control de Placa Final</h6>
   <hr>
   <!--<p class="titulo subtitulo">Vestibular</p>-->
   <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
@@ -553,25 +553,10 @@
       </div>
     </div>
   </div>
+  
   <hr>
-  <h6 class="titulo mt-2">Odontograma Final</h6>
-  <hr>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
-  </ngx-odontograma-vestibular>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
-          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
-        <label for="observacionesVestibularInfantil"> Observaciones</label>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <!--<h6 class="titulo mt-2">Control de Placa</h6>
-  <p class="titulo subtitulo">Vestibular infantil</p>
+  h6 class="titulo mt-2">Odontograma</h6>
+  <p class="titulo subtitulo">Vestibular</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
   <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
@@ -587,11 +572,12 @@
   </div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa</h6>
-  <p class="titulo subtitulo">Linguales infantil</p>
+  <p class="titulo subtitulo">Linguales</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
   <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil>
   </ngx-odontograma-linguales>
+  <p class="titulo subtitulo">Vestibular</p>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
       <div class="form-floating">
@@ -601,7 +587,7 @@
       </div>
     </div>
   </div>
-  <hr>-->
+  <hr>
   <h6 class="titulo mt-2">Exámenes Complementarios (formato PDF)</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
   <p class="subtitulo">Periapical</p>
