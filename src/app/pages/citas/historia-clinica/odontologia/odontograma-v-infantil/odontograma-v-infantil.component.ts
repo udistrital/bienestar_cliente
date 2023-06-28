@@ -61,31 +61,9 @@ export class OdontogramaVInfantilComponent implements OnInit {
   defaultAbajo = this.dientesAbajo;
   convencionesPrimero: any[] = [
     { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
-    { nombre: 'Sano (✓)', color: '#709f51', estado: 16, borde: 'none' },
-    { nombre: 'Implante (│)', color: '#CC66CC', estado: 2, borde: 'none' },
-    { nombre: 'Ausente (▬)', color: 'black', estado: 3, borde: 'none' },
-    { nombre: 'Resina', color: '#709f51', estado: 4, borde: 'none' },
-    { nombre: 'Resina Desadaptada', color: '#709f51', estado: 6, borde: 'red' },
-    { nombre: 'Caries', color: 'red', estado: 5, borde: 'none' },
+    { nombre: 'Sano (✓)', color: '#709f51', estado: 16, borde: 'none' },,
   ];
-  convencionesSegundo: any[] = [
-    { nombre: 'Corona Existente (O)', color: '#5b9bd5', estado: 7, borde: 'none' },
-    { nombre: 'Corona Desadaptada (O)', color: '#5b9bd5', estado: 19, borde: 'red' },
-    { nombre: 'Corona Indicada (■)', color: 'white', estado: 15, borde: 'red' },
-    { nombre: 'Retenido (\\)', color: 'black', estado: 8, borde: 'none' },
-    { nombre: 'Fracturado (⚡)', color: 'black', estado: 9, borde: 'none' },
-    { nombre: 'Rotado (↳)', color: 'black', estado: 10, borde: 'none' },
-    { nombre: 'Endodoncia Existente (Δ)', color: 'black', estado: 11, borde: 'none' },
-  ];
-  convencionesTercero: any[] = [
-    { nombre: 'Endodoncia Indicada (Δ)', color: 'red', estado: 18, borde: 'none' },
-    { nombre: 'Amalgama', color: '#555e7a', estado: 12, borde: 'none' },
-    { nombre: 'Amalgama Desadaptada', color: '#555e7a', estado: 17, borde: 'red' },
-    { nombre: 'Erupcionado (🠉)', color: 'black', estado: 13, borde: 'none' },
-    { nombre: 'Exodoncia Indicada (X)', color: 'red', estado: 20, borde: 'none' },
-    { nombre: 'Sellante (S)', color: '#5b9bd5', estado: 21, borde: 'none' },
-    { nombre: 'Sellante Desadaptado (S)', color: 'red', estado: 14, borde: 'none' },
-  ];
+
 
   tipoDiente(est: number) {
     this.color = est;
@@ -1205,5 +1183,3 @@ export class OdontogramaVInfantilComponent implements OnInit {
   }
 
 }
-
-
