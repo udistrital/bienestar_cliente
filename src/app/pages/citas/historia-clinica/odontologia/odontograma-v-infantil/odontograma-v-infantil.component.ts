@@ -61,7 +61,7 @@ export class OdontogramaVInfantilComponent implements OnInit {
   defaultAbajo = this.dientesAbajo;
   convencionesPrimero: any[] = [
     { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
-    { nombre: 'Sano (✓)', color: '#709f51', estado: 16, borde: 'none' },,
+    { nombre: 'Sano (✓)', color: '#709f51', estado: 16, borde: 'none' }
   ];
 
 
