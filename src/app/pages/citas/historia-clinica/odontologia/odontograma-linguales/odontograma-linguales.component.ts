@@ -2130,6 +2130,8 @@ export class OdontogramaLingualesComponent implements OnInit {
   }
   guardarOdontograma() {
     let json: {} = {};
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
     json['dientesArriba1'] = this.dientesArriba1;
     json['dientesAbajo1'] = this.dientesAbajo1;
     let jsonOdontograma = JSON.stringify(json);
