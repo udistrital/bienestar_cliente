@@ -1593,6 +1593,7 @@ export class OdontogramaLingualesComponent implements OnInit {
     let jsonOdontograma = JSON.stringify(json);
     this.odontogramaOutput.emit(jsonOdontograma);
   }
+  
   cambiarColorArriba1(diente: number, posicion: String) {
     if (posicion === "Arriba") {
       if (this.color == 1) {
