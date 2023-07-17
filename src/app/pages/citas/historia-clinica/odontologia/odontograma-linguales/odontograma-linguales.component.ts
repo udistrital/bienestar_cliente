@@ -577,6 +577,8 @@ export class OdontogramaLingualesComponent implements OnInit {
     let json: {} = {};
     json['dientesArriba'] = this.dientesArriba;
     json['dientesAbajo'] = this.dientesAbajo;
+    json['dientesArriba1'] = this.dientesArriba1;
+    json['dientesAbajo1'] = this.dientesAbajo1;
     let jsonOdontograma = JSON.stringify(json);
     this.odontogramaOutput.emit(jsonOdontograma);
   }
@@ -1034,6 +1036,8 @@ export class OdontogramaLingualesComponent implements OnInit {
     let json: {} = {};
     json['dientesArriba'] = this.dientesArriba;
     json['dientesAbajo'] = this.dientesAbajo;
+    json['dientesArriba1'] = this.dientesArriba1;
+    json['dientesAbajo1'] = this.dientesAbajo1;
     let jsonOdontograma = JSON.stringify(json);
     this.odontogramaOutput.emit(jsonOdontograma);
   }
@@ -1590,6 +1594,8 @@ export class OdontogramaLingualesComponent implements OnInit {
     let json: {} = {};
     json['dientesArriba1'] = this.dientesArriba1;
     json['dientesAbajo1'] = this.dientesAbajo1;
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
     let jsonOdontograma = JSON.stringify(json);
     this.odontogramaOutput.emit(jsonOdontograma);
   }
@@ -2048,6 +2054,8 @@ export class OdontogramaLingualesComponent implements OnInit {
     let json: {} = {};
     json['dientesArriba1'] = this.dientesArriba1;
     json['dientesAbajo1'] = this.dientesAbajo1;
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
     let jsonOdontograma = JSON.stringify(json);
     this.odontogramaOutput.emit(jsonOdontograma);
   }
@@ -2187,8 +2195,8 @@ export class OdontogramaLingualesComponent implements OnInit {
       // console.log(this.odontograma);
       if (this.odontograma) {
         let json = JSON.parse(this.odontograma.Diagrama);
-        this.dientesArriba = json.dientesArriba1;
-        this.dientesAbajo = json.dientesAbajo1;
+        this.dientesArriba = json.dientesArriba;
+        this.dientesAbajo = json.dientesAbajo;
         this.dientesArriba1 = json.dientesArriba1;
         this.dientesAbajo1 = json.dientesAbajo1;
         
@@ -2227,12 +2235,14 @@ export class OdontogramaLingualesComponent implements OnInit {
               let json = JSON.parse(this.odontograma.Diagrama);
               this.dientesArriba1 = json.dientesArriba1;
               this.dientesAbajo1 = json.dientesAbajo1;
+              this.dientesArriba = json.dientesArriba;
+              this.dientesAbajo = json.dientesAbajo;
             }
             let json: {} = {};
+            json['dientesArriba'] = this.dientesArriba;
+            json['dientesAbajo'] = this.dientesAbajo;
             json['dientesArriba1'] = this.dientesArriba1;
             json['dientesAbajo1'] = this.dientesAbajo1;
-            json['dientesArriba'] = this.dientesArriba1;
-            json['dientesAbajo'] = this.dientesAbajo1;
             let jsonOdontograma = JSON.stringify(json);
             this.odontogramaOutput.emit(jsonOdontograma);
           });
@@ -2241,13 +2251,15 @@ export class OdontogramaLingualesComponent implements OnInit {
     });
   }
   limpiarOdontograma(){
-    this.dientesArriba1 = this.defaultArriba;
-    this.dientesAbajo1 = this.defaultAbajo;
+    this.dientesArriba1 = this.defaultArriba1;
+    this.dientesAbajo1 = this.defaultAbajo1;
+    this.dientesArriba = this.defaultArriba;
+    this.dientesAbajo = this.defaultAbajo;
     let json: {} = {};
     json['dientesArriba1'] = this.dientesArriba1;
     json['dientesAbajo1'] = this.dientesAbajo1;
-    json['dientesArriba'] = this.dientesArriba1;
-    json['dientesAbajo'] = this.dientesAbajo1;
+    json['dientesArriba'] = this.dientesArriba;
+    json['dientesAbajo'] = this.dientesAbajo;
     let jsonOdontograma = JSON.stringify(json);
     this.odontogramaOutput.emit(jsonOdontograma);
   }
