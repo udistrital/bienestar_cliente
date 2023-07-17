@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Índice de Placa</title>
+</head>
+<body>
+    <h1>Calculadora de Índice de Placa</h1>
+
+    <form id="plaqueIndexForm">
+        <label for="dientesAusentes">Número de dientes ausentes:</label>
+        <input type="number" id="dientesAusentes" name="dientesAusentes" min="0" required><br><br>
+
+        <label for="carasPlaca">Número de caras con placa:</label>
+        <input type="number" id="carasPlaca" name="carasPlaca" min="0" required><br><br>
+
+        <input type="submit" value="Calcular Índice de Placa">
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById("plaqueIndexForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Obtener los valores ingresados por el usuario
+            var dientesAusentes = parseInt(document.getElementById("dientesAusentes").value);
+            var carasPlaca = parseInt(document.getElementById("carasPlaca").value);
+
+            // Calcular el índice de placa
+            var indicePlaca = (carasPlaca / ((32 - dientesAusentes) * 4)) * 100;
+
+            // Mostrar el resultado
+            document.getElementById("resultado").innerHTML = "El índice de placa es: " + indicePlaca.toFixed(2);
+        });
+    </script>
+</body>
+</html>
