@@ -3,8 +3,8 @@
   <hr />
   <div class="text-right" [hidden]="hideHistory">
     <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
-      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()"
-      (click)="vestibularInfantil.limpiarOdontograma()"> <!--(click)="lingualesInfantil.limpiarOdontograma()">-->
+      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()">
+      <!--(click)="vestibularInfantil.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()"-->
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -12,8 +12,8 @@
       <mat-select (selectionChange)="cambiarHoja($event.value)"
         (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
         (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
-        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
-        <!--(selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"-->
+        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" 
+        (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"[(value)]="firstOne">
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
           {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
         </mat-option>
@@ -521,6 +521,16 @@
       </div>
     </div>
   </div>
+  <h6 class="titulo mt-2">Estado Periodontal</h6>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil"> Observaciones</label>
+      </div>
+    </div>
+  </div>
   <hr>
   <h6 class="titulo mt-2">Control de Placa Inicial</h6>
   <hr>
@@ -528,6 +538,12 @@
   <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
   </ngx-odontograma-vestabular>
   <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <!--<div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+    <h6>Redirección a la Calculadora de Control de Placa</h6>
+    <button (click)="abrirCalculadora()">Ir a la Calculadora de Control de Placa</button>
+    </div>
+  </div>-->
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
       <div class="form-floating">
@@ -544,37 +560,11 @@
   <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
   </ngx-odontograma-vestibular>
   <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
-          placeholder="Observaciones" id="observacionesVestibular"></textarea>
-        <label for="observacionesVestibular"> Observaciones</label>
-      </div>
-    </div>
-  </div>
-  
-  <hr>
-  h6 class="titulo mt-2">Odontograma</h6>
-  <p class="titulo subtitulo">Vestibular</p>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
-  </ngx-odontograma-v-infantil>
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
-          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
-        <label for="observacionesVestibularInfantil"> Observaciones</label>
-      </div>
-    </div>
-  </div>
-  <hr>
   <hr>
   <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil>
   </ngx-odontograma-linguales>
-  <p class="titulo subtitulo">Vestibular</p>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
       <div class="form-floating">
@@ -585,6 +575,21 @@
     </div>
   </div>
   <hr>
+  <h6 class="titulo mt-2">Odontograma Final</h6>
+  <hr>
+  <ngx-odontograma-v-infantil (odontograma)="resultOdontograma-v-infantil($event)" #vestibularInfantil>
+  </ngx-odontograma-v-infantil>
+  
+  <hr>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
+          placeholder="Observaciones" id="observacionesVestibular"></textarea>
+        <label for="observacionesVestibular">  </label>
+      </div>
+    </div>
+  </div>
   <h6 class="titulo mt-2">Exámenes Complementarios (formato PDF)</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
   <p class="subtitulo">Periapical</p>

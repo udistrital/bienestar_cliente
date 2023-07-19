@@ -67,7 +67,10 @@ export class OdontogramaVestabularComponent implements OnInit {
   defaultAbajo = this.dientesAbajo;
   convencionesPrimero: any[] = [
     { nombre: 'Placa', color: 'red', estado: 5, borde: 'none' },
+    { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
+    { nombre: 'Ausente (▬)', color: 'black', estado: 3, borde: 'none' },
   ];
+
   tipoDiente(est: number) {
     this.color = est;
   }
