@@ -33,10 +33,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   templateUrl: './odontologia.component.html',
   styleUrls: ['../historia-clinica.component.css']
 })
-@Component({
-  selector: 'app-calculadora-control-placa',
-  templateUrl: './Calculo-Placa.html',
-})
+
 export class OdontologiaComponent implements OnInit {
   crear: boolean = false;
   superAdmin: boolean = false;
