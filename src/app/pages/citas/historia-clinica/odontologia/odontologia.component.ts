@@ -23,6 +23,7 @@ import { ExamenesComplementarios } from '../../../../shared/models/Salud/examene
 import { ListService } from '../../../../@core/store/list.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Documento } from '../../../../shared/models/Salud/documento.model';
+
 import * as FileSaver from 'file-saver';
 import { sample } from 'rxjs-compat/operator/sample';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -32,6 +33,10 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   templateUrl: './odontologia.component.html',
   styleUrls: ['../historia-clinica.component.css']
 })
+@Component({
+  selector: 'app-calculadora-control-placa',
+  templateUrl: './Calculo-Placa.html',
+})
 export class OdontologiaComponent implements OnInit {
   crear: boolean = false;
   superAdmin: boolean = false;
@@ -39,15 +44,15 @@ export class OdontologiaComponent implements OnInit {
   tipoOdontogramaVestibular: TipoOdontograma;
   tipoOdontogramaVestabular: TipoOdontograma;
   tipoOdontogramaVestibularInfantil: TipoOdontograma;
-  // tipoOdontogramaLingualesInfantil: TipoOdontograma;
+  tipoOdontogramaLingualesInfantil: TipoOdontograma;
   getOdontogramaVestibular: Odontograma;
   getOdontogramaVestabular: Odontograma;
   getOdontogramaVestibularInfantil: Odontograma;
-  // getOdontogramaLingualesInfantil: Odontograma;
+  getOdontogramaLingualesInfantil: Odontograma;
   odontogramaVestibular: any;
   odontogramaVestabular: any;
   odontogramaVestibularInfantil: any;
-  // odontogramaLingualesInfantil: any;
+  odontogramaLingualesInfantil: any;
   firstOne: any;
   hideHistory: boolean = false;
   especialidad: Especialidad;
@@ -129,7 +134,7 @@ export class OdontologiaComponent implements OnInit {
     observacionesVestibular: [null],
     observacionesVestabular: [null],
     observacionesVestibularInfantil: [null],
-    // observacionesLingualesInfantil: [null],
+    observacionesLingualesInfantil: [null],
     medicamento: [null],
     evolucionOdonto: this.fb.array([]),
   }, { validators: [validateDate] });
@@ -185,7 +190,7 @@ export class OdontologiaComponent implements OnInit {
   estadoOdontogramaVestabular: boolean = false;
   estadoOdontogramaVestibular: boolean = false;
   estadoOdontogramaVestibularInfantil: boolean = false;
-  // estadoOdontogramaLingualesInfantil: boolean = false;
+  estadoOdontogramaLingualesInfantil: boolean = false;
 
   @ViewChild('inputPeriapicalInicio', { static: true }) inputPeriapicalInicio: ElementRef;
   @ViewChild('inputPeriapicalFinal', { static: true }) inputPeriapicalFinal: ElementRef;
@@ -210,9 +215,9 @@ export class OdontologiaComponent implements OnInit {
     this.saludService.getTipoOdontograma(2).subscribe((data: any) => {
       this.tipoOdontogramaVestibular = data['Data'];
     });
-    /** this.saludService.getTipoOdontograma(3).subscribe((data: any) => {
+    this.saludService.getTipoOdontograma(3).subscribe((data: any) => {
       this.tipoOdontogramaLingualesInfantil = data['Data'];
-    });**/
+    });
     this.saludService.getTipoOdontograma(4).subscribe((data: any) => {
       this.tipoOdontogramaVestibularInfantil = data['Data'];
     });
@@ -932,7 +937,7 @@ export class OdontologiaComponent implements OnInit {
           this.estadoOdontogramaVestibularInfantil = false;
           this.toastr.error(error);
         });
-        /** const odontogramaLingualesInfantil: Odontograma = {
+        const odontogramaLingualesInfantil: Odontograma = {
           HistoriaClinicaId: this.Historia.Id,
           IdHojaHistoria: this.HojaHistoria.Id,
           Id: 0,
@@ -951,9 +956,10 @@ export class OdontologiaComponent implements OnInit {
         }, error => {
           this.estadoOdontogramaLingualesInfantil = false;
           this.toastr.error(error);
-        });**/
+        });
       });
     }
+    
     else if (this.estado == "vieja") {
       ///ACTUALIZACIÓN
       // PUTS
@@ -1207,7 +1213,7 @@ export class OdontologiaComponent implements OnInit {
         this.estadoOdontogramaVestibularInfantil = false;
         this.toastr.error(error);
       });
-      /** const odontogramaLingualesInfantil: Odontograma = {
+      const odontogramaLingualesInfantil: Odontograma = {
         HistoriaClinicaId: this.Historia.Id,
         IdHojaHistoria: this.HojaHistoria.Id,
         Id: this.getOdontogramaLingualesInfantil.Id,
@@ -1225,7 +1231,7 @@ export class OdontologiaComponent implements OnInit {
       }, error => {
         this.estadoOdontogramaLingualesInfantil = false;
         this.toastr.error(error);
-      });**/
+      });
 
     }
   }
@@ -1396,10 +1402,10 @@ export class OdontologiaComponent implements OnInit {
         this.getOdontogramaVestibular = data['Data'][0];
         this.odontologiaForm.controls.observacionesVestibular.setValue(this.getOdontogramaVestibular.Observaciones);
       });
-      /** this.saludService.getOdontograma(this.HojaHistoria.Id, 3).subscribe(data => {
+      this.saludService.getOdontograma(this.HojaHistoria.Id, 3).subscribe(data => {
         this.getOdontogramaLingualesInfantil = data['Data'][0];
         this.odontologiaForm.controls.observacionesLingualesInfantil.setValue(this.getOdontogramaLingualesInfantil.Observaciones);
-      });**/
+      });
       this.saludService.getOdontograma(this.HojaHistoria.Id, 4).subscribe(data => {
         this.getOdontogramaVestibularInfantil = data['Data'][0];
         this.odontologiaForm.controls.observacionesVestibularInfantil.setValue(this.getOdontogramaVestibularInfantil.Observaciones);
@@ -1470,11 +1476,11 @@ export class OdontologiaComponent implements OnInit {
       this.odontogramaVestibularInfantil = result;
     }
   }
-  /** resultOdontogramaLingualesInfantil(result: any) {
+  resultOdontogramaLingualesInfantil(result: any) {
     if (result) {
       this.odontogramaLingualesInfantil = result;
     }
-  }**/
+  }
   getOdontogramas() {
     this.saludService.getOdontogramas(this.Historia.Id, 1).subscribe(data => {
       this.getOdontogramaVestabular = data['Data'][0];
@@ -1484,10 +1490,10 @@ export class OdontologiaComponent implements OnInit {
       this.getOdontogramaVestibular = data['Data'][0];
       this.odontologiaForm.controls.observacionesVestibular.setValue(this.getOdontogramaVestibular.Observaciones);
     });
-    /** this.saludService.getOdontogramas(this.Historia.Id, 3).subscribe(data => {
+    this.saludService.getOdontogramas(this.Historia.Id, 3).subscribe(data => {
       this.getOdontogramaLingualesInfantil = data['Data'][0];
       this.odontologiaForm.controls.observacionesLingualesInfantil.setValue(this.getOdontogramaLingualesInfantil.Observaciones);
-    });**/
+    });
     this.saludService.getOdontogramas(this.Historia.Id, 4).subscribe(data => {
       this.getOdontogramaVestibularInfantil = data['Data'][0];
       this.odontologiaForm.controls.observacionesVestibularInfantil.setValue(this.getOdontogramaVestibularInfantil.Observaciones);
@@ -1736,4 +1742,9 @@ export class OdontologiaComponent implements OnInit {
 function validateDate(c: AbstractControl) {
   let date = new Date();
   return 0;
+}
+export class CalculadoraControlPlacaComponent {
+  abrirCalculadora() {
+    window.open("D:/Users/Jorge/Documents/REPO_BIENESTAR/Jorge-3/bienestar_cliente/src/app/pages/citas/historia-clinica/odontologia/Calculo-Placa.html", "_blank", "width=400,height=400");
+  }
 }
