@@ -70,7 +70,16 @@ export class OdontogramaVestibularComponent implements OnInit {
     { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
     { nombre: 'Ausente (▬)', color: 'black', estado: 3, borde: 'none' },
   ];
-  
+  convencionesSegundo: any[] = [
+    { nombre: 'Placa', color: 'red', estado: 5, borde: 'none' },
+    { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
+    { nombre: 'Ausente (▬)', color: 'black', estado: 3, borde: 'none' },
+  ];
+  convencionesTercero: any[] = [
+    { nombre: 'Placa', color: 'red', estado: 5, borde: 'none' },
+    { nombre: 'Sin Clasificar', color: 'Lavender', estado: 1, borde: 'none' },
+    { nombre: 'Ausente (▬)', color: 'black', estado: 3, borde: 'none' },
+  ];
   tipoDiente(est: number) {
     this.color = est;
   }

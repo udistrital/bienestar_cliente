@@ -33,10 +33,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   templateUrl: './odontologia.component.html',
   styleUrls: ['../historia-clinica.component.css']
 })
-@Component({
-  selector: 'app-calculadora-control-placa',
-  templateUrl: './Calculo-Placa.html',
-})
+
 export class OdontologiaComponent implements OnInit {
   crear: boolean = false;
   superAdmin: boolean = false;
@@ -53,12 +50,15 @@ export class OdontologiaComponent implements OnInit {
   odontogramaVestabular: any;
   odontogramaVestibularInfantil: any;
   odontogramaLingualesInfantil: any;
+  v:any;
+  infantil:any;
   firstOne: any;
   hideHistory: boolean = false;
   especialidad: Especialidad;
   listaHojas: any = [];
   estado: string;
   terceroId: any;
+  resultOdontograma: any;
   paciente: string;
   anamnesis: Anamnesis;
   examenDental: ExamenDental;

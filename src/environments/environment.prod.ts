@@ -8,8 +8,8 @@ export const environment = {
   NUXEO: {
     PATH: 'https://documental.portaloas.udistrital.edu.co/nuxeo/',
     CREDENTIALS: {
-      USERNAME: 'desarrollooas',
-      PASS: 'desarrollooas2019',
+      USERNAME: 'bienestar',
+      PASS: 'bienestarud',
     },
   },
   CLIENTE_APOYO: 'apoyo-alimentario',
