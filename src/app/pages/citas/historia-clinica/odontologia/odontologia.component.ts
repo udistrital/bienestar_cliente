@@ -50,12 +50,15 @@ export class OdontologiaComponent implements OnInit {
   odontogramaVestabular: any;
   odontogramaVestibularInfantil: any;
   odontogramaLingualesInfantil: any;
+  v:any;
+  infantil:any;
   firstOne: any;
   hideHistory: boolean = false;
   especialidad: Especialidad;
   listaHojas: any = [];
   estado: string;
   terceroId: any;
+  resultOdontograma: any;
   paciente: string;
   anamnesis: Anamnesis;
   examenDental: ExamenDental;
