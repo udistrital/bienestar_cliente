@@ -5,6 +5,8 @@ import { GestionDocumentalComponent } from './gestion-documental.component';
 import { CargarComponent } from './cargar/cargar.component';
 import { ConsultarComponent } from './consultar/consultar.component';
 import { GestorDocumentosComponent } from './gestor-documentos/gestor-documentos.component';
+import { AuthGuard } from '../../@core/_guards/auth.guard';
+import { RolesConstanst } from '../../shared/constants/roles.constants';
 
 const routes: Routes = [
   {
@@ -13,7 +15,12 @@ const routes: Routes = [
   },
   {
     path: 'cargar', 
-    component: CargarComponent
+    component: CargarComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: [RolesConstanst.ROLES_SISTEMA.SUPERADMIN_DOCUMENTAL, 
+        RolesConstanst.ROLES_SISTEMA.ADMINISTRADOR_DOCUMENTAL]
+    }
   },
   {
     path: 'consultar',
@@ -21,7 +28,12 @@ const routes: Routes = [
   },
   {
     path: 'gestor',
-    component: GestorDocumentosComponent
+    component: GestorDocumentosComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: [RolesConstanst.ROLES_SISTEMA.SUPERADMIN_DOCUMENTAL, 
+        RolesConstanst.ROLES_SISTEMA.FUNCIONARIO_DOCUMENTAL]
+    }
   }
 ];
 

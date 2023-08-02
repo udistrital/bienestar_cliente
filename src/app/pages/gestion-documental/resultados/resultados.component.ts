@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { DocumentoGestion } from '../../../@core/data/models/documento/documento_Gestion';
 import { GestionService } from '../gestion-documental.service';
 import { DocumentoService } from '../../../@core/data/documento.service';
+import { ListService } from '../../../@core/store/list.service';
 
 @Component({
   selector: 'ngx-resultados',
@@ -71,22 +72,32 @@ export class ResultadosComponent implements OnInit{
   dataSource: any;
   // TODO: Este se tomaria del servicio del OAS, validar
   columnas: string[]=['Nombre', 'Tipo de Documento','Descripcion','Serie',
-  'SubSerie','Fecha','Facultad','Ver','Editar'];
+  'SubSerie','Fecha','Facultad','Ver'];
 
   private windowRef: any;
+  private roles:any[]=[];
 
   constructor(
     private gestionService: GestionService, 
     private sanitizer: DomSanitizer,
     private windowService: NbWindowService,
     private dialog: MatDialog,
-    private documentoService: DocumentoService){}
+    private documentoService: DocumentoService,
+    private listService: ListService){}
 
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.documentos = []
     // inicializar dataSource para la tabla vació (evitar que sea undefine)
     this.dataSource = new MatTableDataSource<any>(this.documentos);
+    
+    await this.listService.getInfoEstudiante().then().then((resp) => {
+      this.roles = resp.role;
+    });
+    
+    if(this.roles.includes('SUPERADMIN_DOCUMENTAL') || this.roles.includes('ADMINISTRADOR_DOCUMENTAL')){
+      this.columnas.push('Editar');
+    }
   }
 
   ngAfterViewInit(){

@@ -4,6 +4,7 @@ import { MatDialog, MatMenuTrigger } from '@angular/material';
 import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 import { AlertToastService } from '../alert-toast.service';
 import { GestionService } from '../gestion-documental.service';
+import { ListService } from '../../../@core/store/list.service';
 
 @Component({
   selector: 'ngx-gestor-documentos',
@@ -34,24 +35,29 @@ export class GestorDocumentosComponent implements OnInit {
   // we create an object that contains coordinates
   menuTopLeftPosition =  {x: 0, y: 0}
   
-  constructor(private gestionService: GestionService, public toastrService: AlertToastService,private dialog: MatDialog) { }
+  constructor(private gestionService: GestionService, public toastrService: AlertToastService,
+    private dialog: MatDialog, private listService: ListService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     // TODO: por ahora se toma el correo, se debe ver si cada usuario tiene algun identificador unico (Cedula, etc..)
     // Y ese sera el nombre de la carpeta en nuxeo
     let userName:string="";
     let intentos=0;
-    while(userName==="" && intentos!==3){
-      if(this.autenticacion.getPayload().sub !== null)
-        userName=this.autenticacion.getPayload().sub.split('@').shift().toLowerCase();
-      intentos++;
-      if(intentos===3)
-        this.gestionService.toastrService.mostrarAlerta('Hubo un error, recargue la pagina','warning');
-      setTimeout(() => {
-        // Your code here
-      }, 1000); 
+
+    let roles: any[]=[]
+    
+    await this.listService.getInfoEstudiante().then().then((resp) => {
+      userName=resp.email;
+      roles = resp.role;
+    });
+    
+    if(roles.includes('FUNCIONARIO_DOCUMENTAL')){
+        await this.obtenerRaiz(userName);
     }
-    this.obtenerRaiz(userName);
+    if(roles.includes('SUPERADMIN_DOCUMENTAL') ){
+      this.rutaActual.pop();
+      this.obtenerRaiz('');
+    }
     this.editandoDocumento=false;
     /* await new Promise(resolve => setTimeout(resolve, 10000)); */
   }
@@ -285,7 +291,6 @@ export class GestorDocumentosComponent implements OnInit {
     let existe=false;
     this.documentos.forEach(element => {
       if(element.type===tipo && element.title===nuevoNombre){
-        console.log('comparando nombres: ', nuevoNombre, element.title);
         existe=true;
       }
     });

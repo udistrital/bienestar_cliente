@@ -88,7 +88,7 @@
                         </table>
                     </nb-accordion-item-body>
                 </nb-accordion-item>
-                <nb-accordion-item>
+                <nb-accordion-item [hidden]="!this.roles.includes('SUPERADMIN_DOCUMENTAL') && !this.roles.includes('ADMINISTRADOR_DOCUMENTAL')">
                     <nb-accordion-item-header>Registro</nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <table class="table">
