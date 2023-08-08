@@ -43,6 +43,7 @@ import { EditorTextoComponent } from './editor-texto/editor-texto.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { DocumentoService } from '../../@core/data/documento.service';
 import { MatChipsModule } from '@angular/material/chips';
+import { GestorDocumentoMidService } from '../../@core/data/gestor-documental-mid.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { MatChipsModule } from '@angular/material/chips';
     GestorDocumentosComponent,
     EditorTextoComponent,
   ],
-  providers: [ApiRestService, GestionService,AlertToastService,DocumentoService],
+  providers: [ApiRestService, GestionService,AlertToastService,DocumentoService, GestorDocumentoMidService],
   imports: [
     HttpClientModule,
     CommonModule,

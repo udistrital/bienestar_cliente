@@ -34,7 +34,6 @@ export class ConsultarComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerTiposDocumentos();
-    
   }
   async obtenerTiposDocumentos(){
     this.tiposDocumento=await this.gestionService.consultarTiposDocumento(this.documentoService);
@@ -139,17 +138,11 @@ export class ConsultarComponent implements OnInit {
         }
         else{
           if(filtro==='FechaInicio'){
-            console.log('Documento fecha:',this.documentos[documento].Metadatos['Fecha'],
-            new Date(this.documentos[documento].Metadatos['Fecha']) );
-            console.log('Form fecha:',filtros[filtro],
-            new Date(filtros[filtro]));
-            console.log('Comparación:',new Date(this.documentos[documento].Metadatos['Fecha']).getTime() < new Date(this.fechaInicio).getTime());
             if( new Date(this.documentos[documento].Metadatos['Fecha']).getTime() < new Date(this.fechaInicio).getTime() ){
               valido =false;
             }
           }
           else if(filtro==='FechaFin'){
-            console.log('Comparación: ',new Date(this.documentos[documento].Metadatos['Fecha']).getTime() > new Date(this.fechaFin).getTime())
             if( new Date(this.documentos[documento].Metadatos['Fecha']).getTime() > new Date(this.fechaFin).getTime() ){
               valido =false;
             }

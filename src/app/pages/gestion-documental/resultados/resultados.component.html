@@ -21,7 +21,7 @@
                         </ng-container> 
                         <ng-container  *ngIf="columna === 'Facultad'">
                             <mat-cell *matCellDef="let documento"> 
-                                <div *ngFor="let facultad of documento.Metadatos.Facultad">
+                                <div *ngFor="let facultad of documento.Metadatos.Facultad.split(',')">
                                     <span  class="badge badge-pill badge-primary">{{facultad}}</span><br/>
                                 </div>
                             </mat-cell>
@@ -69,7 +69,7 @@
                                 <tr>
                                     <th scope="row">Facultades:</th>
                                     <td>
-                                        <span *ngFor="let facultad of data.Metadatos.Facultad" class="badge badge-pill badge-primary">{{facultad}}</span>
+                                        <span *ngFor="let facultad of data.Metadatos.Facultad.split(',')" class="badge badge-pill badge-primary">{{facultad}}</span>
                                     </td>
                                 </tr>
                                 <tr>

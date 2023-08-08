@@ -70,13 +70,13 @@
                 </button>
               </div>
               <div class="custom-file">
-                <div *ngIf="!editando">  
-                  <input class="custom-file-input" type="file" id="archivo" 
-                            (change)="onChange($event.target.files)" formControlName="archivo" required>
+                <div *ngIf="!editando">
+                  <input class="custom-file-input" type="file" id="archivo" accept="application/pdf"
+                          (change)="onChange($event.target.files)" formControlName="archivo" required>
                     <label class="custom-file-label" #labelUpoadFile for="archivo"><i class="fas fa-search"></i>Seleccione Archivo</label>
                 </div>
                 <div *ngIf="editando">
-                    <input class="custom-file-input" type="file" id="archivo" 
+                    <input class="custom-file-input" type="file" id="archivo" accept="application/pdf"
                             (change)="onChange($event.target.files)" formControlName="archivo" required>       
                     <label class="custom-file-label" #labelUpoadFile for="archivo">Actualizar documento</label>  
                   <small *ngIf="invalidInput('archivo')" class="form-text text-danger">Campo requerido</small>

@@ -7,6 +7,7 @@ import { DocumentoGestion } from '../../../@core/data/models/documento/documento
 import { GestionService } from '../gestion-documental.service';
 import { DocumentoService } from '../../../@core/data/documento.service';
 import { ListService } from '../../../@core/store/list.service';
+import { GestorDocumentoMidService } from '../../../@core/data/gestor-documental-mid.service';
 
 @Component({
   selector: 'ngx-resultados',
@@ -83,7 +84,8 @@ export class ResultadosComponent implements OnInit{
     private windowService: NbWindowService,
     private dialog: MatDialog,
     private documentoService: DocumentoService,
-    private listService: ListService){}
+    private listService: ListService,
+    private gestorMidService: GestorDocumentoMidService){}
 
 
   async ngOnInit() {
@@ -184,11 +186,10 @@ export class ResultadosComponent implements OnInit{
       return;
     }
     if(accion==='actualizando'){
-      /* if(typeof documento.Metadatos ===  JSON) */
-      documento.Metadatos=JSON.parse(documento.Metadatos);
+      //Actualizar
       let dato = this.dataSource.filteredData.find(element => element['Id'] === documento.Id);
       dato=documento;
-    }else{
+    }else{//Eliminar
       this.dataSource.filteredData.splice(
         this.dataSource.filteredData.findIndex(
           element => element['Id'] === documento.Id

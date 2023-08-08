@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material';
 import { ImplicitAutenticationService } from '../../../@core/utils/implicit_autentication.service';
 import { TipoDocumento } from '../../../@core/data/models/documento/tipo_documento';
 import { cloneDeep } from 'lodash';
+import { ListService } from '../../../@core/store/list.service';
+import { GestorDocumentoMidService } from '../../../@core/data/gestor-documental-mid.service';
 
 @Component({
   selector: 'ngx-cargar',
@@ -51,7 +53,9 @@ export class CargarComponent implements OnInit {
   
   constructor(protected dateService: NbDateService<Date>, private gestionService: GestionService,
      private fb: FormBuilder, private apiRestService: ApiRestService, private dialog: MatDialog
-     ,private host: ElementRef<HTMLElement>, private documentoService: DocumentoService) {
+     ,private host: ElementRef<HTMLElement>, private documentoService: DocumentoService,
+     private gestorMidService: GestorDocumentoMidService,
+     private listService: ListService) {
 
     // this.documento.TipoDocumento = new TipoDocumento;
     this.validado = true;
@@ -84,7 +88,7 @@ export class CargarComponent implements OnInit {
       this.docForm.get('descripcion').setValue(this.documentoEditar.Descripcion);
       this.docForm.get('serie').setValue(this.documentoEditar.Metadatos.Serie);
       this.docForm.get('subSerie').setValue(this.documentoEditar.Metadatos.SubSerie);
-      this.docForm.get('facultad').setValue(this.documentoEditar.Metadatos.Facultad);
+      this.docForm.get('facultad').setValue(this.documentoEditar.Metadatos.Facultad.split(','));
       setTimeout(() => {
         this.docForm.get('tipoDocumento').setValue(this.documentoEditar.TipoDocumento.Id);
         this.formReferencia = cloneDeep(this.docForm);
@@ -112,6 +116,7 @@ export class CargarComponent implements OnInit {
     if(this.editando){
       if(this.docForm.dirty){
         this.prepararDocumento(this.documentoEditar);
+        this.documentoEditar.Metadatos=this.documentoEditar.Metadatos;
         this.gestionService.actualizarDocumento(this.documentoEditar,this.file,
           this.gestionService,this.documentoService, this.archivoCambiado);
       }
@@ -122,9 +127,11 @@ export class CargarComponent implements OnInit {
       this.labelUpoadFile.nativeElement.innerText = 'Seleccione Archivo';
       this.resultadosElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
 
-      this.documentoMostrar = await this.gestionService.crearDocumento(this.file,this.documento,this.gestionService,this.documentoService);
+      this.documentoMostrar = await this.gestionService.crearDocumento(this.file,this.documento,
+        this.gestionService,this.documentoService,this.gestorMidService);
       this.documentoMostrar.TipoDocumento.Nombre=Object.keys(this.tiposDocumento).
         find(valor => this.tiposDocumento[valor]===this.documentoMostrar.TipoDocumento.Id);
+      this.documentoMostrar.Metadatos=JSON.parse(this.documentoMostrar.Metadatos);
       this.documentoMostrar=[this.documentoMostrar];
       this.clickeado=false;
       this.validado=true;
@@ -138,12 +145,15 @@ export class CargarComponent implements OnInit {
    */
   prepararDocumento(doc){
     doc.TipoDocumento.Id=this.docForm.get('tipoDocumento').value;
+    doc.TipoDocumento.Nombre=Object.keys(this.tiposDocumento).
+      find(valor => this.tiposDocumento[valor]===doc.TipoDocumento.Id);
     doc.Nombre=this.docForm.get('nombre').value;
     doc.Descripcion=this.docForm.get('descripcion').value;
     doc.Activo=true;
     let usuario=  new ImplicitAutenticationService;
     let nomUsuario;
     let autentificando=true;
+    //TODO: Pendiente al cambio agregar getInfoEstudiante si hay un problema
     while(autentificando){
       if(usuario.getPayload().sub){
         nomUsuario=usuario.getPayload().sub;
@@ -178,15 +188,16 @@ export class CargarComponent implements OnInit {
     }else{
       registro[new Date().toString()]=nomUsuario +' ha creado el documento';
     }
+    const dictionary = this.docForm.get('facultad').value.toString();
     let metadatos = {
-      Uploader: nomUsuario,
+      Uploader: nomUsuario.toString(),
       Serie: this.docForm.get('serie').value,
       SubSerie: this.docForm.get('subSerie').value,
       Fecha:this.docForm.get('fecha').value,
-      Facultad:this.docForm.get('facultad').value,
+      Facultad:dictionary,
       Registros: registro
     }
-    doc.Metadatos=JSON.stringify(metadatos);
+    doc.Metadatos=metadatos;
   }
 
    /**
@@ -231,13 +242,18 @@ export class CargarComponent implements OnInit {
   aceptar(accion){
     if(accion === 'actualizando'){
       this.cargarFormulario();
+      this.documentoEditar.Metadatos=JSON.parse(this.documentoEditar.Metadatos);
     }else{
       this.eliminarDocumento();
     }
     this.dialogRef.close();
     let mapa =new Map;
     if(!this.docForm.dirty){
-      mapa.set('acciones', 'cancelar');
+      if(accion==='eliminando'){
+        mapa.set('acciones', accion);
+      }else{
+        mapa.set('acciones', 'cancelar');
+      }
     }else{
       mapa.set('acciones', accion);
     }
@@ -260,11 +276,13 @@ export class CargarComponent implements OnInit {
   // On file Select change placeholder
   onChange(files: FileList) {
     //this.documento.Archivo = event.target.files[0];
-    this.labelUpoadFile.nativeElement.innerText= Array.from(files)
-      .map(f => f.name)
-      .join(', ');
-      this.file= files.item(0);
-    this.archivoCambiado=true;
+     if(files[0].type==='application/pdf'){
+      this.labelUpoadFile.nativeElement.innerText= Array.from(files)
+        .map(f => f.name)
+        .join(', ');
+        this.file= files.item(0);
+      this.archivoCambiado=true;
+    }
   }
 
   //validación de los inputs con caso especial de la fecha implementando validacion checkDate

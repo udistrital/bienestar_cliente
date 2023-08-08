@@ -11,7 +11,7 @@ import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { AlertToastService } from './alert-toast.service';
 import * as JSZip from 'jszip';
 import { DocumentoService } from '../../@core/data/documento.service';
-
+import { GestorDocumentoMidService } from '../../@core/data/gestor-documental-mid.service';
 
 @Injectable({
   providedIn: "root",
@@ -129,55 +129,22 @@ export class GestionService {
     file,
     documento: DocumentoGestion,
     gestionService: GestionService,
-    documentoService: DocumentoService
+    documentoService: DocumentoService,
+    gestorMidService: GestorDocumentoMidService
   ) {
-    const documentoCons = documento;
-    let tipo=await this.consultarTiposDocumento(documentoService, 'Id:'+documento.TipoDocumento.Id);
-    await GestionService.nuxeo.connect().then(async function (client) {
-      await GestionService.nuxeo
-        .operation("Document.Create")
-        .params({
-          type: "File",
-          name: documento.Nombre,
-          description: documento.Descripcion,
-          properties: "dc:title=" + documento.Nombre,
-        })
-        .input(tipo[0].Workspace)
-        .execute()
-        .then(async function (res) {
-          const blob = new Nuxeo.Blob({ content: file });
-          await GestionService.nuxeo
-            .batchUpload()
-            .upload(blob)
-            .then(async function (response) {
-              GestionService.nuxeo
-                .operation("Blob.AttachOnDocument")
-                .param("document", res.uid)
-                .input(response.blob)
-                .execute();
-              documentoCons.Enlace = res.uid;
-              // Se requiere esperar por que se necesita el _id que asigna el API en la respuesta del POST
-              await gestionService
-                .addDocumento(documentoCons, documentoService)
-                .subscribe((doc) => {
-                });
-              gestionService.toastrService.mostrarAlerta(
-                "Se ha creado el documento " + documento.Nombre,
-                "success"
-              );
-            })
-            .catch(function (error) {
-              gestionService.toastrService.mostrarAlerta(
-                "Error creando el documento " +
-                  documento.Nombre +
-                  ", error:" +
-                  error,
-                "danger"
-              );
-            });
-        });
-    });
-    documentoCons.Metadatos=JSON.parse(documentoCons.Metadatos);
+    let documentoCons = documento;
+    let file64;
+    await this.convertir64(file).then(res=>{file64=res});
+    let documentoSubir =[{
+      "IdTipoDocumento": documento.TipoDocumento.Id,
+      "nombre": documento.Nombre,
+      "metadatos": documento.Metadatos,
+      "descripcion": documento.Descripcion,
+      "file": file64
+    }];
+    let res;
+    res=await gestorMidService.post("document/upload",documentoSubir).toPromise().catch(error=>{})
+    documentoCons=res.res;
     return documentoCons;
   }
 
@@ -197,7 +164,7 @@ export class GestionService {
     documentoService: DocumentoService,
     actualizarArchivo: Boolean
   ) {
-        const documentoCons = documento;
+        documento.Metadatos=JSON.stringify(documento.Metadatos);
         if(actualizarArchivo){
              this.editDocumento(documento,documentoService); 
             const nuxeoBlob = new Nuxeo.Blob({content: file});
@@ -696,6 +663,24 @@ export class GestionService {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    });
+  }
+  /**
+   * Codifica pdf a base 64
+   *
+   * @param file arreglo de documento/s a descargar.
+   */
+  async convertir64(file: File) :Promise<string>{
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        resolve(base64String.split(',')[1]); // Eliminamos el prefijo 'data:application/pdf;base64,' para obtener solo el contenido base64
+      };
+      reader.onerror = () => {
+        reject('Error al leer el archivo.');
+      };
+      reader.readAsDataURL(file);
     });
   }
 }
