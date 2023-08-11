@@ -1,49 +1,68 @@
 import { Component, OnInit } from '@angular/core';
+import { Atenciones } from '../../interfaces/atenciones';
+import { AtencionesService } from '../../services/atenciones.service';
+
+
 
 @Component({
   selector: 'ngx-acreditaciones-reportes',
   templateUrl: './acreditaciones-reportes.component.html',
   styleUrls: ['./acreditaciones-reportes.component.scss']
 })
+
+
+
 export class AcreditacionesReportesComponent implements OnInit {
 
-  single: any[];
-  view: any[] = [700, 400];
-
-  // options
-  gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
-  isDoughnut: boolean = false;
-
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
 
 
 
-  onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
+  //comenzamos por aqui 
+  atenciones: Atenciones[] = [
+    { nombre:"Atención Bienestar Permanencia",id:57},
 
-  onActivate(data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
+    {nombre:"Atención Bienestar Derechos humanos ",id:59},
+    
+    {nombre:"Atención Bienestar ICETEX",id:65},
 
-  onDeactivate(data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
+    {nombre:"Atención Bienestar Jóvenes En Acción",id:62},
+
+    {nombre:"Atención Bienestar Excusas",id:70},
+
+    {nombre:"Atención Bienestar Psicología",id:72},
+
+    {nombre:"Atención Bienestar Trabajo Social ",id:75}
+  ];
 
 
-  constructor() { 
-  //  Object.assign(this, { single });
-  }
+  atencion =null
+
+
+
+  solicitudesExt: string [] = [];
+
+ // single: any[]=[];
+
+
+
+ constructor(private AtencionesService:AtencionesService) { 
+  
+}
+
 
   ngOnInit() {
   }
 
-  print(){
-    console.log("hola mundo");
-    
+
+  // funciones
+  buscarSolicitudes(){
+ this.solicitudesExt=["",""]
+ console.log(this.atencion);
+
+ this.AtencionesService.setTipoAtencion(this.atencion)
+ this.AtencionesService.buscarSolicitudes();
+ 
+
+ 
   }
 }

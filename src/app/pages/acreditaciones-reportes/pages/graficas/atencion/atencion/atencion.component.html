@@ -1,0 +1,35 @@
+<div class="contain">
+  <mat-form-field class="periodo">
+      <mat-label>Facultades</mat-label>
+      <select matNativeControl [(ngModel)]="facultad">
+          <option *ngFor="let option of facultades;let i = index;" [ngValue]="i">
+              {{option}}</option>
+          <option [ngValue]="null">Todos las facultades</option>
+      </select>
+      <br>
+  </mat-form-field>
+
+  <mat-form-field class="periodo">
+
+    <mat-label>Periodo</mat-label>
+    <select matNativeControl [(ngModel)]="periodo">
+        <option *ngFor="let option of periodo;let i = index;" [ngValue]="i">
+            {{option }}</option>
+        <option [ngValue]="null">Todos los periodos </option>
+    </select>
+
+    <br>
+</mat-form-field>
+
+    <!--  pie chart -->
+    <ngx-pie></ngx-pie>
+
+    <ngx-verticalBar></ngx-verticalBar>
+
+    <ngx-horizontalBar></ngx-horizontalBar>
+
+
+
+
+
+</div>

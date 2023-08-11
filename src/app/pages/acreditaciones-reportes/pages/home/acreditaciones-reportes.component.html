@@ -1,80 +1,86 @@
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
+<div class="container-fluid bg-white mh-100 mw-100">
 
-<!-- //grey-bg  para el container de abajo en caso de ser encesario -->
-<div class="container-fluid bg-white mh-100 mw-100 "> 
-    <h1 class="mt-2 p-2" >Paz y Salvos</h1>
-    <hr>
-
-  <p class="m-25">En la siguiente seccion encontrara un apartado donde podra realizar la gestion de paz y salvos</p>
-<div class="row">
-    <div class="col-12 mt-3 mb-1">
-
-      <p>seleccione una opcion </p>
-    </div>
+  <div class="d-flex p-2 flex-row">
+      <div class="col-xs-12 col-md-6 col-lg-6">
+          <h1>Atenciones y Servicios de la univeridad Distrital</h1>
+          <br>
+      </div>
   </div>
-  <div class="row justify-content-center align-items-center">
-    <!-- card para ver -->
+  <div class="row">
 
-    <div class="p-2 col-sm-5 col-12"> 
-      <div (click)="print()"  class="card card-content">
-          <div  class="card-body media d-flex">
-              <div class="align-self-center">
-                <i class="icon-drawer warning font-large-2 float-left"></i>
+      <!-- esta es la parte donde estoy haciendo los filtros -->
+
+    <div class=" col-md-12   align-items-end ">
+
+        <button *ngIf="solicitudesExt.length>0" class="btn back-button btn-block" (click)="solicitudesExt=[]">
+          <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+          Regresar
+      </button>
+      <nb-card>
+          <nb-card-header>
+              <div class="text-center pt-2">
+                  <div class="menu-header">
+                      <h1>
+                          Gaficas de {{atencion}}
+                      </h1>
+                  </div>
+                  <small>
+                      Las solicitudes se cargan de la más reciente a la más antigua.
+                  </small>
               </div>
-              <div class="media-body text-right">
-                <h3 rout>Ver paz y salvos</h3>
-                <span>ver la lista de paz y salvos estudiantiles</span>
-                <br>
+          </nb-card-header>
+          <hr>
+          <nb-card-body *ngIf="solicitudesExt.length==0">
+              <div class="contain">
+          
+                <mat-form-field class="finalizada">
+                    <mat-label>Tipo de Atencion</mat-label>
+                    <select matNativeControl [(ngModel)]="atencion">
+                      <option *ngFor="let atencion of atenciones;" [ngValue]="atencion.id">
+                        {{atencion.nombre }}
+                      </option>
+                      <option [ngValue]="null">Todos los periodos</option>
+                    </select>
+                </mat-form-field>
+      
+                  <!-- <button class="btn btn-success" routerLink="./0">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      Agregar solicitud
+                  </button> -->
+              </div>
+              <p class="line"></p>
+              <button nbButton fullWidth hero shape="semi-round" status="warning" type="submit" class="submit-button" (click)="buscarSolicitudes()">
+                  <i class="fa fa-search mr-1" aria-hidden="true"></i>
+                  Buscar solicitudes
+              </button>
+          </nb-card-body>
 
-                <!-- <button  routerLink="region">
-                    
-                    <i class="icon-arrow-right  font-small-1 "></i>
-                    ver más
-                    </button> -->
+        <nb-card-body class="fijo" *ngIf="solicitudesExt.length>0">
+          <!-- <ngx-base64images (onNewRevisor) = "onNewRevisor($event)" ></ngx-base64images> -->
 
-              </div> 
-        </div>
-      </div>
-    </div>
-<!--  card para  generar -->
-<div class="p-2   col-sm-5 col-12"> 
-    <div  (click)="print()"  class="card card-content">
-        <div class="card-body media d-flex">
-            <div class="align-self-center">
-              <i class="icon-pencil danger font-large-2 float-left"></i>
-            </div>
-            <div class="media-body text-right">
-              <h3>Generar paz y salvo</h3>
-              <span>genera un nuevo paz y salvo estudiantil</span>
-              <a routerLink="generar"><span>listado </span></a>
-            </div> 
-      </div>
+          <ngx-atencion [atencion] = "atencion"></ngx-atencion>
+
+        </nb-card-body>
+
+      
+      </nb-card>
+      
+      
+      <nb-card *ngIf="periodos==[]">
+          <div class="alert alert-warning text-center mt-3">
+              <h3 class="alert-heading">No hay ningun periodo para consultar</h3>
+              <p>
+                  <i class="fa fa-exclamation fa-2x    "></i>
+              </p>
+          </div>
+      </nb-card>
+
     </div>
   </div>
-    </div>
-    <div>
-      <iframe  width="1000" height="900"src="https://lookerstudio.google.com/embed/reporting/5ac6a5ff-2676-4e7e-b21e-2e2bc9e21359/page/p_52197df73c" frameborder="0" ></iframe>
-    </div>
-    <div>
-      <!-- <ngx-charts-advanced-pie-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="single"
-      [gradient]="gradient"
-      (select)="onSelect($event)"
-      (activate)="onActivate($event)"
-      (deactivate)="onDeactivate($event)"
-  >
-</ngx-charts-advanced-pie-chart> -->
-    </div>
-  
+
+  <hr>
+
+
+
 </div>
-
-<!-- <router-outlet></router-outlet> -->
-

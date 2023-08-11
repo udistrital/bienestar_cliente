@@ -35,7 +35,7 @@ export class Base64imagesComponent implements OnInit {
   }
 
   @Output()
-  onNewRevisor: EventEmitter<T> = new EventEmitter();
+   onNewRevisor: EventEmitter<T> = new EventEmitter();
 
    onFileSelected(event: any, person: string) {
 

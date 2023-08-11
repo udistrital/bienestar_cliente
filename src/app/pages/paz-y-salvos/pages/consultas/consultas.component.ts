@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 
 import { ListService } from '../../../../@core/store/list.service';
-import { Periodo } from '../../../../@core/data/models/parametro/periodo'
 import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 import { ReferenciaSolicitud } from '../../../../@core/data/models/solicitud/referencia-solicitud';
 import { environment } from '../../../../../environments/environment';
@@ -21,7 +20,7 @@ class SolicitudExt {
   constructor(sol: Solicitud) {
     this.Solicitud = sol;
     const refSol: ReferenciaSolicitud = JSON.parse(sol.Referencia);
-    this.Periodo = refSol.Periodo;
+    //this.Periodo = refSol.Periodo;
     //this.Puntaje = refSol.Puntaje;
   };
   terceros: Tercero[] = [];
