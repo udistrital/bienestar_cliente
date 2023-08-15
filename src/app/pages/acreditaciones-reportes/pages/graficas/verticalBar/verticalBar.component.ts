@@ -12,7 +12,7 @@ export class VerticalBarComponent implements OnInit {
 
   multi: any[];
 
-  view: any[] = [700, 400];
+  view = "[containerRef.offsetWidth, 400]"
 
   // options
   showXAxis = true;
@@ -32,7 +32,8 @@ export class VerticalBarComponent implements OnInit {
   constructor(private AtencionesService:AtencionesService) { }
   
   get single(){
-    return this.AtencionesService.atencionesData;
+    //if(this.AtencionesService.atencionesAxF.length <0)
+    return this.AtencionesService.atencionesDataAxF
   }
     
   ngOnInit() {

@@ -11,15 +11,15 @@ export class PieComponent implements OnInit {
   // single: any[]=[];
 view: [number,number] = [700, 700];
 
-// options
-gradient: boolean = true;
-showLegend: boolean = true;
-showLabels: boolean = true;
-isDoughnut: boolean = false;
+  // options
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+  isDoughnut: boolean = true;
 
-colorScheme = {
-  domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-};
+// colorScheme = {
+//   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+// };
 
 
 

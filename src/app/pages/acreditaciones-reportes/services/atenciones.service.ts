@@ -7,6 +7,8 @@ import { Solicitud } from '../../../@core/data/models/solicitud/solicitud';
 import { ReferenciaSolicitud } from '../../../@core/data/models/solicitud/referencia-solicitud';
 import { Periodo } from '../../../@core/data/models/parametro/periodo'
 import { referencia } from '../../paz-y-salvos/interfaces/index';
+import { Solicitante } from '../../../@core/data/models/solicitud/solicitante';
+
 
 
 interface atencion{
@@ -23,51 +25,21 @@ interface atencion{
 export class AtencionesService{
 
  //arreglos para realiza conteos
+ atenciones = []
+ solicitantes = []
+
+ //solicitantes = []
  //arreglo para vecces que se repite el servicio
  conteoServicio={}
+ conteoFacultades=[]
+
  dataAxS:atencion[] = []//data atencion poir tipo de servicio
+ dataAxF:atencion[] = []// data de atenciones por facultad
 
 
-
-
-
-
-
-
-
-
-  
-
-  solicitudesExt: SolicitudExt[] = [];
-  // solicitudes: Solicitud[] = [];
-  // filSols: Solicitud[] = [];
-  // periodos: Periodo[] = [];
-  // estadosTipoSolicitud: EstadoTipoSolicitud[] = [];
-  // estados: Estado[] = [];
-  // solicitante: Solicitante = null;
-  // terceros: Tercero[] = [];
-  
-
-  estadoNum: number = null;
-  periodo: number = null;
-  estadoTipo: number = null;
-  busqueda: string;
-  pagActual: number = 1;
-  contPag: number = 0;
-  itemsPag: number[] = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
-  itemSelect: number = 10;
-  itemOffSet: number = 0;
-  itemTipoSol: string = "activa";
-  paginacion: number = 10;
-  NtotalRegistros = 0;
-  facultades: string[] = ["Facultad de Ingeniería", "Sede Bosa", "Facultad del Medio Ambiente y Recursos Naturales (Vivero)",
-  "Facultad Tecnológica", "Facultad de Ciencias y Educación (Macarena)", "Facultad de Artes - ASAB"];
-  facultad : string = ""
-  //prueba para sacar datos del solicitante
-
-  idSolicitud = 0;
-
-  tipoAtencion: number = null;
+ itemSelect: number = 10;
+ itemOffSet: number = 0;
+ tipoAtencion: number = null;
   
 
   constructor(
@@ -75,9 +47,6 @@ export class AtencionesService{
     private utilService: UtilService,
   ) {
 
-    
-    this.loadPeriodo();
-    this.loadEstadoTipoSolicitud();
     //this.buscarSolicitudes();
 
   }
@@ -85,40 +54,75 @@ export class AtencionesService{
     this.tipoAtencion = id;
   }
 
-  loadEstadoTipoSolicitud() {
-
-  }
-
-  private loadPeriodo() {
-
-  }
-
-
-
-
-   buscarSolicitudes() {
+  buscarSolicitudes() {
     this.cargarSol();
-      
     }
+
+  cargarSolicitantes(solicitudes){
+    this.solicitantes=[]
+    for (let solicitud of solicitudes) {
+      this.listService.loadSolicitanteBySolicitud(solicitud.Id).then((solicitante) => {
+        this.solicitantes=this.solicitantes.concat(solicitante);
+       if(this.solicitantes.length == this.atenciones.length){ this.cargarFacultades(this.solicitantes)}  })
+    }
+  }
+
+  cargarFacultades(solicitante){
+    let aux =[]
+    let facultad =""
+    this.dataAxF=[]
+    let data=[]
+    this.conteoFacultades=[]
+    const  ids= [9885,9886]
+    for (let solicitud of solicitante) {   //descoemntar pa entregar
+      console.log("id del estudiante",solicitud);// para msotrar datos del estudiante de aqui se saca el id
+     this.listService.loadFacultadProyectoTercero(9885).then((facultades) => { //cambiar el # por soliciante.terceroId
+      facultad = facultades[0]
+      aux = aux.concat(facultades[0])
+      //console.log("esta es la facultad", facultad)
+      if(this.conteoFacultades[facultad]){
+         this.conteoFacultades[facultad]++;
+        }else{
+          this.conteoFacultades[facultad]=1;
+          //console.log(this.conteoFacultades);
+        }  
+      if(aux.length == solicitante.length){
+       // console.log("ta esta iual",this.conteoFacultades);
+        for (const servicio in this.conteoFacultades) {
+          data.push({ "name": servicio, "value": this.conteoFacultades[servicio] });
+        }
+        
+        //return this.dataAxF
+        this.dataAxF=data
+        console.log("esta es  la data de las facultades ",this.dataAxF);
+      }
+
+    }).catch((errT) => this.utilService.showSwAlertError("Error en las busqueda de faultades", errT));
+
+    }       
+  }
 
   cargarSol(){
     
-    Swal.fire({
-      title: "Por favor espere",
-      html: `Se estan cargando las solicitudes`,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-    });
-    Swal.showLoading();
+    // Swal.fire({
+    //   title: "Por favor espere",
+    //   html: `Se estan cargando las solicitudes`,
+    //   allowOutsideClick: false,
+    //   showConfirmButton: false,
+    // });
+    // Swal.showLoading();
     
     
     this.listService.findSolicitudes(this.tipoAtencion, this.itemSelect,this.itemOffSet).then((result) => {
       console.log(result);
+      this.atenciones = result;
       this.dataAxS=[]
       this.conteoServicio=[]
+
+      // for para sacar data de tipo de servicio 
         for (let solicitud of result) {
           let referencia = null;
-          
+          //console.log(solicitud["Id"]);
           referencia = JSON.parse(solicitud.Referencia);
 
           //contar # que se repite el servicio
@@ -129,15 +133,43 @@ export class AtencionesService{
             this.conteoServicio[referencia["tipo_servicio"]]=1;
           }
          
-         }
+        }
+        
+        //console.log("conteo servico,",this.conteoServicio);
           //guardar numero de atenciones por tipo de servicio
-          for (const servicio in this.conteoServicio) {
-            this.dataAxS.push({ "name": servicio, "value": this.conteoServicio[servicio] });
-          }
-  console.log("esta es  la data",this.dataAxS);
+        for (const servicio in this.conteoServicio) {
+          this.dataAxS.push({ "name": servicio, "value": this.conteoServicio[servicio] });
+        }
+        console.log("esta es  la data de servicios ",this.dataAxS);
+        
+        console.log(this.dataAxS.length);
+        
   
+
+   /// for para tratar de encontrar solicitante 
+      const facultades =  this.cargarSolicitantes(this.atenciones)
+      
+    
        
+        
+        // for (const facultad in this.conteoFacultades) {
+        //   console.log("i",facultad);
           
+        //   this.dataAxF.push({ "name": facultad, "value": this.conteoFacultades[facultad] });
+        // }
+        
+
+
+            // this.listService.loadTercero(this.solicitante.TerceroId).then((respTerc) => {
+            //     this.terceros.push(respTerc);
+            //     //console.log("esta es la info del tercero:",respTerc);
+            //     this.solicitudesExt.push({...solext,...respTerc});
+            // }).catch((errT) => this.utilService.showSwAlertError("Estudiante(tercero) no encontrado", errT));
+
+          
+
+   //}
+
           //this.dataAxS=({ name: Object.keys(this.conteoServicio),value:  Object.keys(this.conteoServicio);})
     
       // if (result != []) {
@@ -179,14 +211,15 @@ export class AtencionesService{
       //     this.utilService.showSwAlertError('Solicitudes no encontradas',
       //     'No se encontro ninguna solicitud con los parametros seleccionados <br> <b> (Puede probar dejando el punto de partida en 0 para comprobar si existen solicitudes).</b>');
       //   }else{
-          Swal.close();
+
       //   }
         
       // } else {
       //   this.utilService.showSwAlertError("Solicitudes no encontrados", "No se encontraron solicitudes para ningun periodo");
       // }
-    })
-   .catch((err) => this.utilService.showSwAlertError("Error", err));
+    }).catch((err) => this.utilService.showSwAlertError("Error", err));
+ 
+   
   }
 
 
@@ -194,7 +227,7 @@ export class AtencionesService{
 
 
 
-  private data:atencion[] = [
+  private data2:atencion[] = [
     {
       name: "Enfermeria",
       value: 8940000
@@ -214,10 +247,11 @@ export class AtencionesService{
   ];
 
 
-get atencionesData(){
-  return this.data;
-}
+
 get atencionesDataAxS(){
   return this.dataAxS;
+}
+get atencionesDataAxF(){
+  return this.dataAxF;
 }
 }
