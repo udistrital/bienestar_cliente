@@ -1,12 +1,6 @@
 
 <div class="container-fluid bg-white mh-100 mw-100">
 
-  <div class="d-flex p-2 flex-row">
-      <div class="col-xs-12 col-md-6 col-lg-6">
-          <h1>Atenciones y Servicios de la univeridad Distrital</h1>
-          <br>
-      </div>
-  </div>
   <div class="row">
 
       <!-- esta es la parte donde estoy haciendo los filtros -->
@@ -22,7 +16,7 @@
               <div class="text-center pt-2">
                   <div class="menu-header">
                       <h1>
-                          Gaficas de {{atencion}}
+                          Gaficas de Atenciones {{selectorAtencion!=null ? "de "+selectorAtencion.nombre : ''}} 
                       </h1>
                   </div>
                   <small>
@@ -36,8 +30,8 @@
           
                 <mat-form-field class="finalizada">
                     <mat-label>Tipo de Atencion</mat-label>
-                    <select matNativeControl [(ngModel)]="atencion">
-                      <option *ngFor="let atencion of atenciones;" [ngValue]="atencion.id">
+                    <select matNativeControl [(ngModel)]="selectorAtencion">
+                      <option *ngFor="let atencion of atenciones;" [ngValue]="atencion">
                         {{atencion.nombre }}
                       </option>
                       <option [ngValue]="null">Todos los periodos</option>

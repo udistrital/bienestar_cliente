@@ -2,24 +2,43 @@
   <mat-form-field class="periodo">
       <mat-label>Facultades</mat-label>
       <select matNativeControl [(ngModel)]="facultad">
-          <option *ngFor="let option of facultades;let i = index;" [ngValue]="i">
+          <option *ngFor="let option of facultades;let i = index;" [ngValue]="option">
               {{option}}</option>
           <option [ngValue]="null">Todos las facultades</option>
       </select>
       <br>
   </mat-form-field>
 
-  <mat-form-field class="periodo">
 
-    <mat-label>Periodo</mat-label>
-    <select matNativeControl [(ngModel)]="periodo">
-        <option *ngFor="let option of periodo;let i = index;" [ngValue]="i">
-            {{option }}</option>
-        <option [ngValue]="null">Todos los periodos </option>
-    </select>
 
-    <br>
-</mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-label>  Fecha Inicio</mat-label>
+    <input matInput [matDatepicker]="fechaI" [(ngModel)]="fechaInicio">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker #fechaI></mat-datepicker>
+  </mat-form-field>
+  <button mat-button color="warn" (click)="fechaI.open()">
+    <mat-icon>event</mat-icon>
+  </button>
+
+  <mat-form-field class="example-full-width" >
+    <mat-label>  Fecha Final</mat-label>
+    <input matInput [matDatepicker]="fechaF" [(ngModel)]="fechaFinal">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker #fechaF></mat-datepicker>
+  </mat-form-field>
+  <button mat-button (click)="fechaF.open()">
+    <mat-icon>event</mat-icon>
+  </button>
+  
+
+  <button class="card-button m-2" type="submit" mat-raised-button color="accent"
+  (click)="BuscarSolicitud()">
+  <!-- [disabled]="!solicitarpyz.valid" esto va adentro de lo de arriba para activar y desactivar el boton -->
+  <mat-icon>query_stats</mat-icon>  Buscar
+</button>
 
 
 <div class="container">
@@ -27,7 +46,7 @@
       <div class="col-xl-6 col-md-12">
         <div class="card bg-light mb-4">
           <div class="card-body">
-            <h5 class="card-title">Atenciones de Desarrollo Humano por Facultad</h5>
+            <h5 class="card-title">Atenciones  por Facultad</h5>
             <ngx-verticalBar></ngx-verticalBar>
            
           </div>
@@ -36,7 +55,7 @@
       <div class="col-xl-6 col-md-12">
         <div class="card bg-light mb-4">
           <div class="card-body">
-            <h5 class="card-title">Atenciones de Desarrollo Humano por tipo de Servicio</h5>
+            <h5 class="card-title">Atenciones  por tipo de Servicio</h5>
             <ngx-horizontalBar></ngx-horizontalBar>
           </div>
         </div>
@@ -52,7 +71,7 @@
       <div class="col-xl-6 col-md-12">
         <div class="card bg-light mb-4">
           <div class="card-body">
-            <h5 class="card-title">Atenciones Desarrollo Huamano por Periodo y Tipo De Servicio</h5>
+            <h5 class="card-title">Atenciones  por Periodo y Tipo De Servicio</h5>
             <canvas id="chart4" class="chart"></canvas>
           </div>
         </div>

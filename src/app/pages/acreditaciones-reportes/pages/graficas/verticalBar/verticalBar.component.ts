@@ -18,11 +18,11 @@ export class VerticalBarComponent implements OnInit {
   showXAxis = true;
   showYAxis = true;
   gradient = false;
-  showLegend = true;
+  showLegend = false;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'Facultades';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  yAxisLabel = 'Numero de Servicios';
 
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -30,10 +30,14 @@ export class VerticalBarComponent implements OnInit {
 
 
   constructor(private AtencionesService:AtencionesService) { }
+
+  
   
   get single(){
     //if(this.AtencionesService.atencionesAxF.length <0)
     return this.AtencionesService.atencionesDataAxF
+   
+    
   }
     
   ngOnInit() {

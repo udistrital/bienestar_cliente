@@ -14,7 +14,7 @@ export class HorizontalBarComponent implements OnInit {
   showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = false;
-  showLegend: boolean = true;
+  showLegend: boolean = false;
   showXAxisLabel: boolean = true;
   yAxisLabel: string = 'Tipo de Servicio';
   showYAxisLabel: boolean = true;
