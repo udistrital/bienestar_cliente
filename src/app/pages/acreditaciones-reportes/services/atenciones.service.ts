@@ -26,6 +26,7 @@ export class AtencionesService{
 
  //arreglos para realiza conteos
  atenciones = []
+ atencionesaux =[]
  
  
  solicitantes = []
@@ -74,9 +75,39 @@ export class AtencionesService{
     this.actualizarFiltros()
   }
 
-  loadFecha(result){
-    console.log(result);
+  loadFecha(atenciones){
+    const fechaInicio = new Date(this.fechaInicio);
+    const fechaFinal = new Date(this.fechaFinal);
+    let fechaAtencion 
+
+    console.log("atenciones en bruto",atenciones);
+    const newData = atenciones.filter((atencion)=>{
+      console.log("fecha de la atencion ",atencion.FechaCreacion);
+      
+      fechaAtencion = new Date(atencion.FechaCreacion)
     
+
+      if (fechaAtencion > fechaInicio &&  fechaAtencion <= fechaFinal ) {
+        return atencion
+       }
+       
+    })
+    console.log("atenciones filradas ´pr fecha", newData);
+    
+    this.atencionesaux = newData;
+    this.dataAxS=[]
+  
+      
+      this.dataAxSpreRendered=this.contarAtenciones(newData)
+      console.log("prerender",this.dataAxSpreRendered);
+      
+
+      this.dataAxF=[]
+ /// for para tratar de encontrar solicitante 
+    const facultades =  this.cargarSolicitantes(this.atencionesaux)
+    
+    
+  
   }
 
   actualizarFiltros(){
@@ -87,6 +118,8 @@ export class AtencionesService{
     let facultadSelected =null
     let facultadSelectedxService = null
     if(this.filtroFacultad != null){
+      console.log("data",this.data);
+      
     facultadSelected = this.data.filter((atenciones)=>{
      // console.log(atenciones.name === this.filtroFacultad); 
       return atenciones.name === this.filtroFacultad
@@ -212,13 +245,9 @@ export class AtencionesService{
      
      // console.log(result);
       this.atenciones = result;
+      this.atencionesaux = result;
       this.dataAxS=[]
-      
-
-
-        //console.log("esta es  la data de servicios ",this.dataAxS);
-        
-        //console.log(this.dataAxS.length);
+    
         
         this.dataAxSpreRendered=this.contarAtenciones(result)
         console.log("prerender",this.dataAxSpreRendered);

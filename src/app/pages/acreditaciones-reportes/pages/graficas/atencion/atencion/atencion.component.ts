@@ -34,8 +34,8 @@ ngOnInit() {
 
   //pasar tipo de atencion al servicio
   BuscarSolicitud(){
-    let fechaI = this.dateCustomPipe.transform(this.fechaInicio)
-    let fechaF = this.dateCustomPipe.transform(this.fechaFinal)
+    let fechaI = this.fechaInicio ? this.dateCustomPipe.transform(this.fechaInicio) : ""
+    let fechaF = this.fechaInicio ? this.dateCustomPipe.transform(this.fechaFinal) : ""
     
    // this.fecha =this.dateCustomPipe.transform(this.fecha)
     console.log("fecha inicio",this.fechaInicio);
