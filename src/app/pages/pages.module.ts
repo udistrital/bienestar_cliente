@@ -14,6 +14,8 @@ import { HomeModule } from './home/home.module';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
+import { CulturaModule } from './cultura/cultura.module';
+
 
 @NgModule({
   imports: [
@@ -29,9 +31,14 @@ import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
+    CulturaModule
+    
+   
   ],
   declarations: [
     PagesComponent,
+    
+    
   ],
   providers: [
     ConfiguracionService,

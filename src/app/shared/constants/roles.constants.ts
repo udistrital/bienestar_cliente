@@ -8,6 +8,7 @@ export class RolesConstanst{
         ADMIN_BIENESTAR: "ADMIN_BIENESTAR",
         ADMINISTRADOR_APOYO: "ADMINISTRADOR_APOYO",
         COORDINADOR_APOYO : "COORDINADOR_APOYO",
+        ADMIN_CULTURA: "ADMIN_CULTURA",
         ESTUDIANTE: "ESTUDIANTE",
     }
     public static ROLES_EMAIL = []

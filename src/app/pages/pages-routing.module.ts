@@ -9,10 +9,12 @@ import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 import { InscritosComponent } from './apoyo-alimentario/registro/inscritos/inscritos.component';
+import { CulturaModule} from './cultura/cultura.module';
 
 import { AuthGuard } from '../@core/_guards/auth.guard';
 import { RolesConstanst } from '../shared/constants/roles.constants';
 import { ParametriaGuard } from '../@core/_guards/parametria.guard';
+import { CulturaComponent } from './cultura/cultura.component';
 
 
 const routes: Routes = [
@@ -26,6 +28,27 @@ const routes: Routes = [
             redirectTo: 'revision-estudiante',
             pathMatch: 'full',
         }, */
+        {
+            path: '',
+            redirectTo: 'home',
+            pathMatch: 'full',
+        },
+        {
+            path: 'home',
+            component: HomeComponent,
+        },
+        {
+            path:'cultura', 
+            loadChildren: ( ) =>import ('./cultura/cultura.module')
+            .then (m => m.CulturaModule),
+            /**component: CulturaComponent,
+            canActivate: [AuthGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
+                //,RolesConstanst.ROLES_SISTEMA.ESTUDIANTE       
+            }    **/           
+        },
+
         {
             path: 'inscripcion',
             component: InscripcionEstComponent,
@@ -69,25 +92,22 @@ const routes: Routes = [
                 roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
             }
         },
-        {
-            path: 'home',
-            component: HomeComponent,
-        },
+        
         {
             path: 'apoyo-alimentario',
-            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
-            .then (m => m.ApoyoAlimentarioModule),
+            component: ApoyoAlimentarioComponent,
+            canActivate: [AuthGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
+            }
         },  
         {
             path:'citas', 
             loadChildren: ( ) =>import ('./citas/citas.module')
             .then (m => m.CitasModule),
         },
-        {
-            path: '',
-            redirectTo: 'home',
-            pathMatch: 'full',
-        },
+        
+        
         {
             path: '**',
             component: NotFoundComponent,
