@@ -25,6 +25,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { referencia } from '../../interfaces';
+import { PaqueteSolicitud } from '../../../../@core/data/models/solicitud/paquete-solicitud';
+import { Paquete } from '../../../../@core/data/models/solicitud/paquete';
 
 @Component({
   selector: 'ngx-generar-pazysalvo',
@@ -75,14 +77,31 @@ export class GenerarPazysalvoComponent implements OnInit {
   DatosSolicitud: FormGroup;
 
   tabla: any = {
-    apoyo:"",
-    equipos:"",
-    deportes:"",
-    otros:"",
+    apoyo:null,
+    equipos:null,
+    deportes:null,
+    otros:null,
   };
   
   pazysalvo=null;
-  revisor:any={}
+
+revisor = {
+  persona1: {
+    nombre: null,
+    programa: null,
+    firma:null
+  },
+  persona2: {
+    nombre: null,
+    programa: null,
+    firma: null
+  }
+}
+
+
+
+
+
   firmas:any = {     }
 
   
@@ -91,13 +110,17 @@ export class GenerarPazysalvoComponent implements OnInit {
   listInfoComplementaria = [];
   documentosSolicitud: SoportePaquete;
 
+  formApoyo: any = {
+    documentosCargados: {}
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private listService: ListService,
     private utilsService: UtilService,
     private nuxeoService: NuxeoService,
-    private documentosService: DocumentoService,
+    private documentoService: DocumentoService,
     private sanitizer: DomSanitizer,
     private formBuilder: FormBuilder,
   ) {
@@ -149,7 +172,6 @@ export class GenerarPazysalvoComponent implements OnInit {
       // this.referencia.push(ref.Periodo);
       // this.referencia.push(ref.Puntaje);
       if (this.solicitud != undefined) {
-        this.loadDocumentos();
         this.listService.loadSolicitanteBySolicitud(this.solicitud.Id).then((respSolicitante) => {
             this.solicitante = respSolicitante;
             if (this.solicitante != undefined) {
@@ -182,9 +204,7 @@ export class GenerarPazysalvoComponent implements OnInit {
       }).catch((err) => {
         this.utilsService.showSwAlertError("No se puedo actualizar la observacion", err)
     });
-      console.log(this.tabla);
-      console.log([this.ref.MotivoAdministrativo, this.ref.MotivoPersonal, this.ref.CausaPrincipal ,this.ref.tabla] );
-      this.loadDocumentos()
+
     }
 
 
@@ -198,54 +218,10 @@ export class GenerarPazysalvoComponent implements OnInit {
   }
 
   onNewRevisor(revisor){
-    console.log("este es el revisor prueba", revisor);
-    this.revisor= revisor
-    
+    this.revisor= revisor 
   }
-    loadDocumentos() {
-        console.log("log");
-        
-    //   const docsAdd =this.formApoyo.documentosAdjuntos;
-    //   this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
-    //     console.log("MIRALOS EL PAQUETESOLICITUD",paqSol);
-        
-
-    //  })
-        // let contDocs = 0;
-        // this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol) => {
-        //     if (paqSol != undefined) {
-        //         this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes) => {
-        //             this.documentosSolicitud = soportes;
-        //             let terminoDescargar = false;
-
-        //             for (let i = 0; i < Object.keys(soportes).length; i++) {
-        //                 const element = Object.values(soportes)[i];
-        //                 this.documentosHTML[i] = new Array();
-        //                 this.documentosHTML[i][0] = element.Descripcion;
-        //             }
-        //             this.nuxeoService.getDocumentoById$(soportes, this.documentosService).subscribe((res: Object) => {
-        //                 for (let i = 0; i < this.documentosHTML.length; i++) {
-        //                     if (res['undefined'].documento == this.documentosHTML[i][0]) {
-        //                         this.documentosHTML[i][1] = res['undefined'].url;
-        //                     }
-        //                 }
-        //                 contDocs++;
-        //                 if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
-        //                     this.selectDoc = this.documentosHTML[0];
-        //                     this.loading = false;
-        //                     Swal.close();
-        //                     terminoDescargar = true;
-        //                 }
-
-        //             });
-        //         })
-        //     }
-        // }).catch((err) => {
-        //     this.showError('No se encontraron documentos', err);
-        //     this.loadDocs = false;
-     //   });
-    }
-
+   
+    
     loadEstadoTipoSolicitud() {
         this.listService.findEstadoTipoSolicitud(environment.IDS.IDPAZYSALVOS)
             .subscribe((result: any[]) => {
@@ -443,8 +419,6 @@ export class GenerarPazysalvoComponent implements OnInit {
                 }
             });
     }
-
-
 
 }
 

@@ -255,6 +255,10 @@
             </nb-accordion-item-header>
             <nb-accordion-item-body *ngIf="ref!=null">
                 <ngx-pdfMaker [referencia] ="ref" [tabla]="tabla" [revisor]="revisor"></ngx-pdfMaker>
+                <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="loadDocumentos()" class="submit-button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    pruba nuxeo
+                </button>
             </nb-accordion-item-body>
         </nb-accordion-item>
 
@@ -306,6 +310,7 @@
                         <nb-accordion-item-body>
                             <div class="menu-list">
                                 <div class="item ">
+
                                     <!-- form-group  -->
                                     <label class="sub-item label-color-ud">
                                         Estado actual :

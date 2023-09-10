@@ -49,9 +49,11 @@ export class ConsultasComponent implements OnInit {
   buscarSolicitudes() {
  // this.cargarSol();
 
+    
  this.AtencionesService.setFiltros(this.facultad,this.itemTipoSol,this.estadoTipo).then(()=>{
   this.AtencionesService.actualizarFiltros()
   this.solicitudesExt = this.AtencionesService.Solicitudes
+  console.log(this.solicitudesExt);
 })
   
 

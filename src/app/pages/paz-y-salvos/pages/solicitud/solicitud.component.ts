@@ -7,6 +7,7 @@ import { ListService } from '../../../../@core/store/list.service';
 import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pipe';
 import { EstudiantesService } from '../../../../shared/services/estudiantes.service';
 import { ToastrService } from 'ngx-toastr';
+import { Solicitud } from '../../../../@core/data/models/solicitud/solicitud';
 
 
 
@@ -90,8 +91,9 @@ guardarDatosFormulario() {
   this.referencia.Nombrecompleto = this.estudiante.NombreCompleto;
   this.referencia.estamento = '';
   this.referencia.tercero = this.estudiante.Id;
-  this.referencia.codigo = null;
-  this.est.getCodigoTercero(this.estudiante.Id, 14).subscribe((data) => { if (data) { this.referencia.codigo = data[0].Numero; } });
+  this.referencia.codigo = this.estudiante.UsuarioWSO2;
+  this.est.getCodigoTercero(this.estudiante.Id, 14).subscribe((data) => {
+  if (data) { this.referencia.codigo = data[0].Numero; } });
   this.referencia.documento = this.estudiante.documento;
   this.referencia.proyecto = this.estudiante.proyecto;
   this.referencia.facultad = this.estudiante.facultad;
@@ -130,7 +132,7 @@ grabarSolicitante(solicitud: any) {
 
   guardarSolicitud() {
     this.guardarDatosFormulario();
-    console.log(this.referencia);
+    
     
     
     const solicitud: any = {};
@@ -144,8 +146,6 @@ grabarSolicitante(solicitud: any) {
     solicitud.SolicitudFinalizada = false;
     solicitud.SolicitudPadreId = null;
     solicitud.Activo = true;
-    console.table("solicitud",solicitud);
-    
     this.est.grabarSolicitud(solicitud).subscribe((res) => {
       const sol = res.Data;
       this.grabarSolicitante(sol);

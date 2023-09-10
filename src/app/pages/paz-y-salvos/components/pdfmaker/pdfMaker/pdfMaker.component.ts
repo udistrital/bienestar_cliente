@@ -2,6 +2,9 @@ import { Component, OnInit ,Input} from '@angular/core';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { referencia } from '../../../interfaces/index';
+
+import Swal from "sweetalert2";
+import { UtilService } from '../../../../../shared/services/utilService';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -11,7 +14,9 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class PdfMakerComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private utilsService: UtilService,
+  ) { }
 
   ngOnInit() {
     let fecha = new Date();
@@ -34,29 +39,39 @@ public referencia: any={
 }
 @Input()
 public tabla: any = {
-  apoyo:"",
-  equipos:"",
-  deportes:"",
-  otros:"",
+  apoyo:null,
+  equipos:null,
+  deportes:null,
+  otros:null,
 }
 @Input()
 revisor = {
   persona1: {
-    nombre: "",
-    programa: "",
+    nombre: null,
+    programa: null,
     firma:null
   },
   persona2: {
-    nombre: "",
-    programa: "",
+    nombre: null,
+    programa: null,
     firma: null
   }
 }
-  generarPDF(){
-      console.log("hola mundo");
-      
-  }
 
+   obtenerFechaEnFormato() {
+    const meses = [
+      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+    ];
+  
+    const fecha = new Date(); // Obtener la fecha actual
+    const dia = fecha.getDate(); // Obtener el día del mes
+    const mes = meses[fecha.getMonth()]; // Obtener el nombre del mes
+    const año = fecha.getFullYear(); // Obtener el año
+  
+    const fechaEnFormato = `${dia} de ${mes} de ${año}`;
+    return fechaEnFormato;
+  }
 
    tables = {
     body: [
@@ -101,9 +116,11 @@ revisor = {
     ]
   };
   createPdf(){
-
-    console.log(this.tabla);
+    console.log(this.referencia);
     console.log(this.revisor);
+
+    if(this.validarObjeto(this.revisor) && this.validarObjeto(this.tabla) ){
+      const fechaFormateada = this.obtenerFechaEnFormato(); 
 
     const pdfDefinition : any = {
       content: [
@@ -119,10 +136,10 @@ revisor = {
 
 
 
-
+        
         //body de la carta
 
-        {text:`\n Bogotá D.C., 2 de diciembre de 2022 \n
+        {text:`\n Bogotá D.C.,${fechaFormateada} \n
          Señores`, style: 'defaultStyle'},
 
         { text: 'A QUIEN INTERESE', style: ['defaultStyle','header'] },
@@ -233,11 +250,33 @@ revisor = {
         }
       }
     }
-   const pdf  =  pdfMake.createPdf(pdfDefinition);
-   console.log(pdf);
-   
-   pdf.open();
+    const pdf  =  pdfMake.createPdf(pdfDefinition);
+    console.log(pdf);
+    pdf.open();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Asegurate de Diligenciar todos los campos',
+        footer: 'Revisa la tabla y los datos administrativos'
+      })
+    }
+
   }
 
+  
+  validarObjeto(objeto) {
+    for (let propiedad in objeto) {
+      if (objeto.hasOwnProperty(propiedad)) {
+        if (!objeto[propiedad]) {
+          return false;
+        }
+        if (typeof objeto[propiedad] === 'object' && !this.validarObjeto(objeto[propiedad])) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
 }
