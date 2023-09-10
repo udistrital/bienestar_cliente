@@ -16,7 +16,7 @@ export class Base64imagesComponent implements OnInit {
   revisores = {
     persona1: {
       nombre: "",
-      programa: "Psicologo(a)",
+      programa: null,
       firma:null
     },
     persona2: {
@@ -35,7 +35,7 @@ export class Base64imagesComponent implements OnInit {
   }
 
   @Output()
-   onNewRevisor: EventEmitter<T> = new EventEmitter();
+   onNewRevisor: EventEmitter<any> = new EventEmitter();
 
    onFileSelected(event: any, person: string) {
 

@@ -4,7 +4,7 @@ export class ReferenciaSolicitudPazySalvo {
     tercero: number;//id del estudiante
     codigo: number;
     documento: Number;
-    //facultad: string;
+    facultad: string;
     proyecto: string;
     telefono: number;
     telefonoAdicional: number;

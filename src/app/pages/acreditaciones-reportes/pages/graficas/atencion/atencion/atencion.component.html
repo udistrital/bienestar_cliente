@@ -1,13 +1,17 @@
 <div class="contain">
-  <mat-form-field class="periodo">
+
+    <mat-form-field class="facultad">
       <mat-label>Facultades</mat-label>
-      <select matNativeControl [(ngModel)]="facultad">
-          <option *ngFor="let option of facultades;let i = index;" [ngValue]="option">
+      <select matNativeControl [(ngModel)] ="facultad">
+          <option *ngFor="let option of facultades;" [ngValue]="option">
               {{option}}</option>
           <option [ngValue]="null">Todos las facultades</option>
       </select>
       <br>
   </mat-form-field>
+
+
+
 
 
 

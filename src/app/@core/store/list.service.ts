@@ -672,6 +672,49 @@ export class ListService {
     });
   }
 
+  /**
+   *Busca solicitudes relacionadas a PAZ Y SALVOS
+   *
+   * @memberof ListService
+   */
+
+  findSolicitudesPYZ(idEstadoTipo, limite, offSet?, finalizada?: boolean): Promise<Solicitud[]> {
+    return new Promise((resolve, reject) => {
+      let url = "solicitud"
+      if (idEstadoTipo != null) {
+        url += "?query=EstadoTipoSolicitudId.Id:" + idEstadoTipo
+      } else {
+        url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDPAZYSALVOS
+      }
+      if (finalizada != null) {
+        url += ',SolicitudFinalizada:';
+        url += finalizada ? 'true' : 'false';
+      }
+      url += "&sortby=Id&order=desc"
+      if (limite > 0 || limite == -1) {
+        url += "&limit=" + limite;
+      }
+
+
+      if (offSet != null && offSet > 0) {
+        url += "&offset=" + offSet;
+      }
+      this.solicitudService.get(url)
+        .subscribe(
+          (result: any[]) => {
+            if (Object.keys(result[0]).length > 0) {
+              resolve(result);
+            } else {
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+  }
+
   findSolicitudesbyEstado(): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)

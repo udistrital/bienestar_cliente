@@ -9,7 +9,7 @@ import { ThemeModule } from '../../@theme/theme.module';
 
 
 import { NgxEchartsModule } from 'ngx-echarts';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CustomPaginatorModule } from '../../shared/components/custom-paginator/custom-paginator.module';
@@ -44,13 +44,10 @@ import { HorizontalBarComponent } from './pages/graficas/horizontalBar/horizonta
     //PruebaComponent,
     AcreditacionesReportesRoutingModule,
     CommonModule,
-    NgxChartsModule,
-
-
     //componentes
 
  //imports del material
-      ThemeModule,
+    
      //imports de pruebs
      ThemeModule,
      NbCardModule,

@@ -134,8 +134,8 @@ revisor = {
         { text: 'Ref.: PAZ Y SALVO CENTRO DE BIENESTAR INSTITUCIONAL', style: ['defaultStyle','header'] },
         {text:`Respetados Señores:
           
-        Me permito comunicarle que revisada la información que reposa en las bases de datos administradas por el Centro de Bienestar Institucional de (El) (La) estudiante ${this.referencia.Nombrecompleto} identificado(a) con Cédula de ciudadanía No. ${this.referencia.documento} y con el Código Estudiantil ${this.referencia.Nombrecompleto}, Proyecto Curricular de Pregrado, ${this.referencia.proyecto}.
-        Se encuentra a paz y salvo en los siguientes programas:`,style: ['defaultStyle','body'] },
+        Me permito comunicarle que revisada la información que reposa en las bases de datos administradas por el Centro de Bienestar Institucional de (El) (La) estudiante ${this.referencia.Nombrecompleto} identificado(a) con Cédula de ciudadanía No. ${this.referencia.documento} y con el Código Estudiantil ${this.referencia.codigo}, Proyecto Curricular de Pregrado, ${this.referencia.proyecto}.
+        Se encuentra a paz y salvo en los siguientes conceptos:`,style: ['defaultStyle','body'] },
 
 
  //   TABLA QUE MUESTRA LOS RPOGRAMAS EN PAZ Y SALVO
@@ -148,7 +148,7 @@ revisor = {
            widths: [ '*', 'auto', 'auto', 'auto' ],
    
            body: [
-             [ { text: 'PROGRAMA', style: 'Theader' }, { text: 'SI', style: 'Theader' }, { text: 'NO', style: 'Theader' }, { text: 'NO APLICA', style: 'Theader' } ],
+             [ { text: 'CONCEPTO', style: 'Theader' }, { text: 'SI', style: 'Theader' }, { text: 'NO', style: 'Theader' }, { text: 'NO APLICA', style: 'Theader' } ],
              [ 'Apoyo Alimentario', `${this.tabla.apoyo === 'si'? 'x':"" }`, `${this.tabla.apoyo === 'no'? 'x':"" }`, `${this.tabla.apoyo === 'NA'? 'x':"" }` ],
              [ 'Convocatoria Equipos y Conectividad', `${this.tabla.equipos === 'si'? 'x':"" }`, `${this.tabla.equipos === 'no'? 'x':"" }`, `${this.tabla.equipos === 'NA'? 'x':"" }` ],
              ['Deportes', `${this.tabla.deportes === 'si'? 'x':"" }`, `${this.tabla.deportes === 'no'? 'x':"" }`, `${this.tabla.deportes === 'NA'? 'x':"" }` ],

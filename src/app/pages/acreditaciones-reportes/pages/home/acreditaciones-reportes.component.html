@@ -28,7 +28,7 @@
           <nb-card-body *ngIf="solicitudesExt.length==0">
               <div class="contain">
           
-                <mat-form-field class="finalizada">
+                <mat-form-field class="atencion">
                     <mat-label>Tipo de Atencion</mat-label>
                     <select matNativeControl [(ngModel)]="selectorAtencion">
                       <option *ngFor="let atencion of atenciones;" [ngValue]="atencion">

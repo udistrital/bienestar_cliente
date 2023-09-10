@@ -9,60 +9,14 @@
         <div class="col-xs-12 col-md-6  col-lg-6 align-items-end ">
             <div class="row">
                 <div class="col-md-6">
-                    <p>Numero total de Registros:   <span><em>{{NtotalRegistros}}</em></span></p>
-                </div>
-                <div class="col-md-6">
-                    <p>Numero total de Registros:   <span><em>25</em></span></p>
+                    <p>Numero total de Registros:   <span><em>{{solicitudesExt.length}}</em></span></p>
                 </div>
               </div>
         </div>
     </div>
     <div class="row">
 
-        <!-- esta es la parte donde estoy haciendo los filtros -->
-        <!-- <div class="col-xs-12 col-md-6 col-lg-4">
-            <p><b>Filtrar por:</b></p>
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Selecciona opcion del menu</option>
-                <option value="1">Cienias</option>
-                <option value="2">Ingenieria</option>
-                <option value="3">Macarena</option>
-            </select>
-            <div class="input-group mt-2">
-                <span class="input-group-text">Codigo Estudiantil</span>
-                <input type="text" aria-label="First name" class="form-control">
-              </div>
-        </div>
-
-
-        <div class="col-12">
-          <button class="btn btn-success" (click)="loadSolicitud()" >Listar informacion</button>
-
-        </div> -->
-
-
         <div class=" col-md-12   align-items-end ">
-
-            <form action="">
-                <!-- <mat-form-field appearance="fill" >
-                    <mat-label>Choose a date</mat-label>
-                    <input style="display: inline; width: 100px;" class="form-control" matInput [matDatepicker]="datepicker"  [(ngModel)]="fecha_inicio" name="fecha_inicio">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle  color="yellow" matIconSuffix [for]="datepicker">
-                     <mat-icon color="yellow"matDatepickerToggleIcon>
-                        calendar_month
-                      </mat-icon> 
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #datepicker>
-                      <mat-datepicker-actions>
-                        <button mat-button matDatepickerCancel>Cancel</button>
-                        <button mat-raised-button color="warn" matDatepickerApply>Apply</button>
-                      </mat-datepicker-actions>
-                    </mat-datepicker>
-                  </mat-form-field> -->
-                
-            </form>
-
             <button *ngIf="solicitudesExt.length>0" class="btn back-button btn-block" (click)="solicitudesExt=[]">
               <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
               Regresar
@@ -72,7 +26,7 @@
                   <div class="text-center pt-2">
                       <div class="menu-header">
                           <h1>
-                              Listado de solicitudes por facultad {{estadoNum!=null ? estados[estadoNum].Nombre : ''}} {{periodo==null ? "todos los periodos" : periodos[periodo]?.Nombre}}
+                              Listado de solicitudes  {{facultad!=null ? "de " + facultad : 'por facultad'}}
                           </h1>
                       </div>
                       <small>
@@ -87,22 +41,22 @@
           
                           <mat-label>Facultades</mat-label>
                           <select matNativeControl [(ngModel)]="facultad">
-                              <option *ngFor="let option of facultades;let i = index;" [ngValue]="i">
+                              <option *ngFor="let option of facultades;let i = index;" [ngValue]="option">
                                   {{option}}</option>
-                              <option [ngValue]="null">Todos los periodos</option>
+                              <option [ngValue]="null">Todas las Facultades</option>
                           </select>
           
                           <br>
                       </mat-form-field>
           
-                      <!-- <mat-form-field class="estado">
+                      <mat-form-field class="estado">
                           <mat-label>Estado Solicitud</mat-label>
                           <select matNativeControl [(ngModel)]="estadoTipo">
                               <option [ngValue]="null" (click)="estadoNum=null;">Todos los estados</option>
                               <option *ngFor="let estadoTipo of estadosTipoSolicitud; let i=index;" [ngValue]="estadoTipo.Id" (click)="estadoNum=i;">
                                   {{estadoTipo.EstadoId.Nombre }}</option>
                           </select>
-                      </mat-form-field> -->
+                      </mat-form-field>
               
                       <mat-form-field class="finalizada">
                           <mat-label>Tipo de Solicitud</mat-label>
@@ -143,23 +97,22 @@
                               <th scope="col">Estado</th>
                               <th scope="col">Fecha radicacion</th>
                               <th scope="col">nombre</th>
-                              <th scope="col">Periodo</th>
-                              <th scope="col"></th>
+                              <th scope="col">proceso</th>
                               <th scope="col">Opciones</th>
                           </tr>
                       </thead>
                       <tbody class="bg-ud-table-cell">
-                          <tr *ngFor="let item of solicitudesExt ; let i = index">
+                          <!-- <tr *ngFor="let item of solicitudesExt ; let i = index"> -->
+                            <tr *ngFor="let item of solicitudesExt | paginate: {itemsPerPage: paginacion, currentPage: pagActual} ; let i = index">
                               <!-- (pagina -1)*tamPag :  ((pagina)*tamPag) -->
                               <th scope="row">{{ (i+1) + (pagActual -1)*paginacion }}</th>
-                              <td>{{ item.Solicitud.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
-                              <td>{{ item.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
-                              <td>{{ item.Solicitud.FechaRadicacion | fechaFormat }}</td>
-                              <td>{{ item.NombreCompleto }}</td>
-                              <td>{{ item.Periodo }}</td>
+                              <td>{{ item.EstadoTipoSolicitudId.TipoSolicitud.Nombre }}</td>
+                              <td>{{ item.EstadoTipoSolicitudId.EstadoId.Nombre }}</td>
+                              <td>{{ item.FechaRadicacion | fechaFormat }}</td>
+                              <td>{{ item.Referencia.Nombrecompleto }}</td>
                               <td>
-                                  <span *ngIf="item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
-                                  <span *ngIf="!item.Solicitud.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
+                                  <span *ngIf="item.SolicitudFinalizada" class="badge rounded-pill bg-danger">Finalizada</span>
+                                  <span *ngIf="!item.SolicitudFinalizada" class="badge rounded-pill bg-success">Activa</span>
                               </td>
                               <!-- | date: 'dd/MM/yyyy' -->
                               <td>
@@ -167,7 +120,7 @@
                                       <i class="fa fa-user" aria-hidden="true"></i>
                                       Evaluar solicitud
                                   </button> -->
-                                  <button class="btn init-icon " routerLink="../generar/{{item.Solicitud.Id}}" title="Ver solicitante">
+                                  <button class="btn init-icon " routerLink="../generar/{{item.Id}}" title="Ver solicitante">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     Evaluar solicitud
                                 </button>
@@ -177,8 +130,8 @@
                       </tbody>
                   </table>
                   <div class="center-block">
-                      <!-- <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
-                      </pagination-controls> -->
+                      <pagination-controls class="pag" responsive="true" autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pagActual = $event">
+                      </pagination-controls>
                   </div>
                   <div class="download">
                       <button (click)="exportarCsv()" class="btn btn-primary btn-block">

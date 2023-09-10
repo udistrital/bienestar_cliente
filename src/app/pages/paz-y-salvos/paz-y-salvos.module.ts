@@ -6,7 +6,7 @@ import { GenerarPazysalvoComponent } from './pages/generar-pazysalvo/generar-paz
 import { TablaPazysalvosComponent } from './components/tabla-pazysalvos/tabla-pazysalvos.component';
 import { ConsultasComponent } from './pages/consultas/consultas.component';
 import { ThemeModule } from '../../@theme/theme.module';
-
+import { NgxPaginationModule} from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import {
   NbButtonModule,
@@ -55,6 +55,7 @@ import { Base64imagesComponent } from './components/base64/base64images/base64im
 ],
   imports: [FormsModule ,
     CommonModule,
+    NgxPaginationModule,
     //import para routing
     PazYSalvosRoutingModule,
 

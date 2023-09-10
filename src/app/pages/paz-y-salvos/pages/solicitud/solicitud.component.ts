@@ -9,6 +9,7 @@ import { EstudiantesService } from '../../../../shared/services/estudiantes.serv
 import { ToastrService } from 'ngx-toastr';
 
 
+
 @Component({
   selector: 'ngx-solicitud',
   templateUrl: './solicitud.component.html',
@@ -64,19 +65,21 @@ export class SolicitudComponent implements OnInit {
 
   obtenerInfoUsuario() {
     this.listService.getInfoEstudiante().then((resp) => {
+
       this.email = resp.email;
       this.est.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+
         this.estudiante = res[0].TerceroId;
         this.estudiante.documento = res[0].Numero;
         this.estudiante.documento_compuesto = res[0].TipoDocumentoId.CodigoAbreviacion + " " + this.estudiante.documento;
-        this.est.getVinculacion(this.estudiante.Id).subscribe((res) => {
-          this.est.getDependencia(res[0].DependenciaId).subscribe((res) => {
-            this.estudiante.proyecto = res['Nombre'];
-          });
-        });
+
+        this.listService.loadFacultadProyectoTercero(this.estudiante.Id).then((facultad) => { //cambiar el # por soliciante.terceroId
+          this.estudiante.proyecto = facultad[1];
+          this.estudiante.facultad = facultad[0];          
+        })
+
       });
     });
- 
   }
 ///------------------------------MANEJO DEL FORMULARIO---------------------------------------------
 
@@ -91,6 +94,7 @@ guardarDatosFormulario() {
   this.est.getCodigoTercero(this.estudiante.Id, 14).subscribe((data) => { if (data) { this.referencia.codigo = data[0].Numero; } });
   this.referencia.documento = this.estudiante.documento;
   this.referencia.proyecto = this.estudiante.proyecto;
+  this.referencia.facultad = this.estudiante.facultad;
   this.referencia.telefono = null;
   this.est.getInfoComplementaria(this.estudiante.Id, 51).subscribe((data) => {if (data) { this.referencia.telefono = data[0].Dato; }});
   this.referencia.correo = this.email;
