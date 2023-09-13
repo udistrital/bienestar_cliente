@@ -14,7 +14,7 @@ export class ConsultasComponent implements OnInit {
   contPag: number = 0;
   itemsPag: number[] = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
   paginacion: number = 10;
-  itemTipoSol = null;
+  itemTipoSol = "null";
   //desplegables
 
   estados = this.AtencionesService.estado;
@@ -39,8 +39,8 @@ export class ConsultasComponent implements OnInit {
 
   buscarSolicitudes() {
     // this.cargarSol();
-
-    this.AtencionesService.setFiltros(
+ 
+      this.AtencionesService.setFiltros(
       this.facultad,
       this.itemTipoSol,
       this.estadoTipo

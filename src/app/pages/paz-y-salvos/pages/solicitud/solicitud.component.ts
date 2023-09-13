@@ -171,7 +171,6 @@ export class SolicitudComponent implements OnInit {
     solicitud.SolicitudFinalizada = false;
     solicitud.SolicitudPadreId = null;
     solicitud.Activo = true;
-    console.log("solicitud",solicitud);
     
     this.est.grabarSolicitud(solicitud).subscribe((res) => {
       const sol = res.Data;
@@ -198,14 +197,13 @@ export class SolicitudComponent implements OnInit {
       new Date()
     );
     evolucionSolicitud.Activo = true;
-    console.log("evolucion",evolucionSolicitud);
     this.est.grabarSolicitudEvolucion(evolucionSolicitud).subscribe((res) => {
       this.toastr.success("Solicitud hecha satisfactoriamente");
-      console.log("res",res);
+
       
-      // setTimeout(() => {
-      //   this.router.navigate(["/pages/paz-y-salvos/Mis_Paz_y_Salvos"]);
-      // }, 4000);
+      setTimeout(() => {
+        this.router.navigate(["/pages/paz-y-salvos/Mis_Paz_y_Salvos"]);
+      }, 4000);
     });
   }
 }

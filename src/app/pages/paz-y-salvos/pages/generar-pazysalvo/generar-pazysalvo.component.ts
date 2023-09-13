@@ -408,6 +408,110 @@ APP_CONSTANTS = ApiConstanst;
                     //Actualiza documentos de una solicitud          
                     let newSupps=[];  //Documentos no existentes
                     let updateSupps=[]; // Documentos a actualizar
+                    this.cargarDocs(paqSol).then((result)=>{
+                        let contSubmitDocs=0;
+                        const docs=result;
+                        
+                        /** Se validan  si existian documentos subidos */
+                        if(Object.keys(docs).length>0){
+                          // Revisa todos los documentos que subio el usuario 
+                          if(docsAdd!=undefined){
+                            for(let i = 0; i < Object.keys(docsAdd).length; i++){
+                              // Revisa todos los documentos ya existentes de una solicitud para actualizar. 
+                              docs.some(doc => {
+                                // Compara si ya existia un documento del mismo tipo.                 
+                                if(docsAdd[i].IdDocumento==doc.TipoDocumento.Id){
+                                  return docsAdd[i].documento=doc.Id;
+                                }  
+                              });
+                              // Separa los que se crean y los que se actualizan.
+                              if(docsAdd[i].documento==undefined){
+                                  newSupps.push(docsAdd[i]);
+                              }else{
+                                  updateSupps.push(docsAdd[i]);
+                              }
+                            } 
+                          }
+            
+                          // El documento queda con el mismo ID para no cambiar el soporte.
+                          // Es decir solo se cambia el File (archivo) de ese documento.
+                          if(updateSupps.length>0){
+                            this.actualizarDocs(updateSupps,docs).then((res)=>{
+                              this.nuxeoService.updateDocument$(updateSupps, this.documentoService).subscribe((res) => { 
+                                
+                                if(updateSupps.length==Object.keys(res).length){
+                                  contSubmitDocs+=1;
+                                  if(contSubmitDocs==2){
+                                    Swal.close();
+                                    window.location.reload();
+                                    return true;
+                                  }
+                                }            
+                              });
+                            },(err)=> console.log(err))
+                            
+                          }else{
+                            /** Si no hay archivos nuevos no se actualiza */              
+                            contSubmitDocs+=1;
+                            if(contSubmitDocs==2){
+                              Swal.close();
+                              window.location.reload();
+                              return true;
+                            }  
+                          }
+                          // Agrega los nuevos documentos que no existian o no tenian soporte.
+                          if(newSupps.length>0){
+                            this.nuxeoService.getDocumentos$(newSupps, this.documentoService).subscribe((res) => {
+                              if(newSupps.length==Object.keys(res).length){
+                                let contnewSupps=0;
+                                // Crea los soportes de los nuevos documentos.
+                                for (let i = 0; i < Object.keys(res).length; i++) {
+                                  let docCreate=Object.values(res)[i];
+                                  let soporteCreate: SoportePaquete= new SoportePaquete();
+            
+                                  soporteCreate.Descripcion=docCreate.TipoDocumento.Nombre;
+                                  soporteCreate.PaqueteId=paqSol.PaqueteId;
+                                  soporteCreate.DocumentoId=docCreate.Id;
+            
+                                  this.listService.crearSoportePaquete(soporteCreate).then((resSopPaq)=>{
+                                    /** Respuesta de la creación del nuevo soporte */
+                                    contnewSupps+=1;
+                                    if(contnewSupps==Object.keys(res).length){
+                                      contSubmitDocs+=1;                     
+                                      if(contSubmitDocs==2){
+                                        Swal.close();
+                                        window.location.reload();
+                                        return true;
+                                      }
+                                    }
+                                  }).catch((err)=>{
+                                    console.error(err);
+                                    Swal.close();
+                                    window.location.reload();
+                                    return true;
+                                  }); 
+                                }
+                              }
+                            },(err)=> console.log(err)
+                            );
+                          }else{
+                            contSubmitDocs+=1;
+                            if(contSubmitDocs==2){
+                              Swal.close();
+                              window.location.reload();
+                              return true;
+                            }
+                          }       
+            
+                        }else{
+                          Swal.close();
+                          return false;
+                        }
+                      }).catch((err)=>{
+                        Swal.close();
+                        this.utilsService.showSwAlertError('No se pudieron cargar los documentos',err);
+                        return false;
+                      }); 
 
                 }else{
                     this.nuxeoService.getDocumentos$(docsAdd, this.documentoService).subscribe((res) => {
@@ -474,6 +578,50 @@ APP_CONSTANTS = ApiConstanst;
             return false;
         }   
     }
+    actualizarDocs(updateDocs,docs): Promise<any> {
+        return new Promise((resolve) => {
+          for (let i = 0; i < updateDocs.length; i++) {
+            const element = updateDocs[i];
+            docs.some(doc => {
+              // Compara si ya existia un documento del mismo tipo.   
+              if(element.IdDocumento==doc.TipoDocumento.Id){
+                  doc.Nombre=element.nombre;
+                  this.documentoService.put('documento',doc,doc.Id).subscribe((res) => {
+                    if (res !== null) {
+                    }
+                  });
+              } 
+            });
+          }
+          resolve(true);
+        });
+      }
+      
+    cargarDocs(paqSol): Promise<any> {
+        return new Promise((resolve) => {
+          /*Busca soportes de la solicitud existente*/
+          this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes)=>{
+            let ids=[];
+            let docs=[];
+            //obtiene ids de los documentos de los soportes
+            for (let i = 0; i < Object.keys(soportes).length; i++) {
+              let element = soportes[i];
+              ids.push(element.DocumentoId);
+            }
+            /*Obtiene el objeto (documento) de esos soportes para hacer la comparación.*/
+            ids.forEach(element => {
+              this.listService.findDocumentoBySoporte(element).then((res)=>{
+                docs.push(res);
+                if(docs.length==ids.length){              
+                  resolve(docs);
+                }
+              });
+              
+            });
+          });
+          
+        }); 
+      }
 
     loadDocumentos() {
         let contDocs = 0;

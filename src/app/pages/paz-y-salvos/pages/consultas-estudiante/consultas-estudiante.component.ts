@@ -80,13 +80,11 @@ export class ConsultasEstudianteComponent implements OnInit {
           " " +
           this.estudiante.documento;
           if (this.tercero !== undefined) {
-            console.log("prueba",this.estudiante.Id);
+
             this.listService
               .loadSolicitanteByIdTerceroPYZ(this.estudiante.Id, null, null, null)
               .then((resp) => {
-                console.log("prueba",resp);
-          
-                console.log("prueba",resp.length === 0);
+
                 if(resp.length === 0){ 
                   Swal.fire({
                     title: "Sin solicitudes :(",

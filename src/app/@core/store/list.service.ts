@@ -687,6 +687,7 @@ export class ListService {
         url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDPAZYSALVOS
       }
       if (finalizada != null) {
+        
         url += ',SolicitudFinalizada:';
         url += finalizada ? 'true' : 'false';
       }
@@ -863,10 +864,9 @@ export class ListService {
   loadSolicitanteByIdTerceroPYZ(IdTercero: number, tipoSolicitud: number, nomPeriodo: String, estado: boolean): Promise<Solicitante[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService
-        .get(`solicitante?query=TerceroId:${IdTercero}`)
+        .get(`solicitante?query=TerceroId:${IdTercero}&limit=-1`)
         .subscribe(
           (result: any[]) => {
-  
             let solicitante: Solicitante;
             if (Object.keys(result[0]).length > 0) {
               /* Consultamos las solicitudes de un solicitante */
@@ -874,7 +874,7 @@ export class ListService {
               for (solicitante of result) {
                 
                 const sol: Solicitud = solicitante.SolicitudId;
-                console.log(sol);
+                
                 if (sol.EstadoTipoSolicitudId.TipoSolicitud.Id == environment.IDS.IDPAZYSALVOS) {
   
             
