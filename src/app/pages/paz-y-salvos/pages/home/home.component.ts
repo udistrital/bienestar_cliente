@@ -15,14 +15,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
-  navigateGenerar() {
+  navigateSolicitar() {
     // window.open('/pages/paz-y-salvos/generar','_blank');
-    this.route.navigate(['/pages/paz-y-salvos/generar']);
+    this.route.navigate(['/pages/paz-y-salvos/solicitar']);
     //return false;
   }
   navigateConsultas() {
     // window.open('/pages/paz-y-salvos/generar','_blank');
-    this.route.navigate(['/pages/paz-y-salvos/consultas']);
+    this.route.navigate(['/pages/paz-y-salvos/Mis_Paz_y_Salvos']);
     //return false;
   }
 }

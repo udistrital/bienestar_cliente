@@ -1,67 +1,79 @@
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+  rel="stylesheet"
+/>
 
 <!-- //grey-bg  para el container de abajo en caso de ser encesario -->
-<div class="container-fluid bg-white mh-100 mw-100 "> 
-    <h1 class="mt-2 p-2" >Paz y Salvos</h1>
-    <hr>
+<div class="container-fluid bg-white mh-100 mw-100">
+  <h1 class="mt-2 p-2">Paz y Salvos</h1>
+  <hr />
 
-  <p class="m-25">En la siguiente seccion encontrara un apartado donde podra realizar la gestion de paz y salvos</p>
-<div class="row">
+  <p class="m-25">
+    En la siguiente seccion encontrara un apartado donde podra realizar la
+    gestion de paz y salvos
+  </p>
+  <div class="row">
     <div class="col-12 mt-3 mb-1">
-
-      <p>seleccione una opcion </p>
+      <p>seleccione una opcion</p>
     </div>
   </div>
   <div class="row justify-content-center align-items-center">
     <!-- card para ver -->
 
-    <div class="p-2 col-sm-5 col-12"> 
-      <div (click)="navigateConsultas()"  class="card card-content">
-          <div  class="card-body media d-flex">
-              <div class="align-self-center">
-                <i class="icon-drawer warning font-large-2 float-left"></i>
-              </div>
-              <div class="media-body text-right">
-                <h3 rout>Ver paz y salvos</h3>
-                <span>ver la lista de paz y salvos estudiantiles</span>
-                <br>
-
-                <!-- <button  routerLink="region">
-                    
-                    <i class="icon-arrow-right  font-small-1 "></i>
-                    ver más
-                    </button> -->
-
-              </div> 
+    <div class="p-2 col-sm-5 col-12">
+      <div (click)="navigateConsultas()" class="card card-content">
+        <div class="card-body media d-flex">
+          <div class="align-self-center">
+            <i class="icon-drawer warning font-large-2 float-left"></i>
+          </div>
+          <div class="media-body text-right">
+            <h3 rout>Ver paz y salvos</h3>
+            <span>ver la lista de paz y salvos estudiantiles</span>
+            <br />
+          </div>
         </div>
       </div>
     </div>
-<!--  card para  generar -->
-<div class="p-2   col-sm-5 col-12"> 
-    <div  (click)="navigateGenerar()"  class="card card-content">
+    <!--  card para  generar -->
+    <div class="p-2 col-sm-5 col-12">
+      <div (click)="navigateSolicitar()" class="card card-content">
         <div class="card-body media d-flex">
-            <div class="align-self-center">
-              <i class="icon-pencil danger font-large-2 float-left"></i>
-            </div>
-            <div class="media-body text-right">
-              <h3>Generar paz y salvo</h3>
-              <span>genera un nuevo paz y salvo estudiantil</span>
-              <a routerLink="generar"><span>listado </span></a>
-            </div> 
+          <div class="align-self-center">
+            <i class="icon-pencil danger font-large-2 float-left"></i>
+          </div>
+          <div class="media-body text-right">
+            <h3>Solicitar paz y salvo</h3>
+            <span>Solicita un nuevo paz y salvo estudiantil</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-    </div>
-
-  
 </div>
 
 <!-- <router-outlet></router-outlet> -->
-
-

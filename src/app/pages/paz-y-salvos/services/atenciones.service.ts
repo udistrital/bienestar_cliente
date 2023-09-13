@@ -1,27 +1,22 @@
-import { Injectable, Input } from '@angular/core';
-import Swal from 'sweetalert2';
-import { ListService } from '../../../@core/store/list.service';
-import { UtilService } from '../../../shared/services/utilService'
-import { environment } from '../../../../environments/environment';
-import { referencia } from '../interfaces/index';
-import { EstadoTipoSolicitud } from '../../../@core/data/models/solicitud/estado-tipo-solicitud';
-import { Estado } from '../../../@core/data/models/solicitud/estado';
-
-
-
+import { Injectable, Input } from "@angular/core";
+import Swal from "sweetalert2";
+import { ListService } from "../../../@core/store/list.service";
+import { UtilService } from "../../../shared/services/utilService";
+import { environment } from "../../../../environments/environment";
+import { EstadoTipoSolicitud } from "../../../@core/data/models/solicitud/estado-tipo-solicitud";
+import { Estado } from "../../../@core/data/models/solicitud/estado";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AtencionesService {
   private itemOffSet: number = 0;
   private itemSelect: number = -1;
   private itemTipoSol: string = "activa";
-  private solicitudesExt:any =[]
-  private filtroFacultad=""
-  private estadoSolicitud = ""
-  private data:any=[]
-
+  private solicitudesExt: any = [];
+  private filtroFacultad = "";
+  private estadoSolicitud = "";
+  private data: any = [];
 
   private estados: Estado[] = [];
   private estadoTipo: number = null;
@@ -29,73 +24,76 @@ export class AtencionesService {
 
   constructor(
     private listService: ListService,
-    private utilService: UtilService,
+    private utilService: UtilService
   ) {
-    this.loadEstadoTipoSolicitud()
-    
- 
+    this.loadEstadoTipoSolicitud();
   }
 
-   setFiltros(facultad: string,estadoSolicitud:string,estadoTipo:number ){
+  setFiltros(facultad: string, estadoSolicitud: string, estadoTipo: number) {
     this.filtroFacultad = facultad;
     this.estadoSolicitud = estadoSolicitud;
-    this.estadoTipo = estadoTipo
-    return new Promise(resolve =>{
-        resolve(this.cargarSol())
-    }) 
+    this.estadoTipo = estadoTipo;
+    return new Promise((resolve) => {
+      resolve(this.cargarSol());
+    });
   }
 
+  actualizarFiltros() {
+    let endSelected;
+    let finalizada: boolean = null;
 
-  actualizarFiltros(){
-
-    let endSelected
-    let finalizada:boolean=null;
-
-    if(this.estadoSolicitud!="null"){
-      finalizada = this.estadoSolicitud=="finalizada" ? true : false;
-      endSelected = this.data.filter((solicitudes)=>{  
-       return solicitudes.SolicitudFinalizada=== finalizada 
+    if (this.estadoSolicitud != "null") {
+      finalizada = this.estadoSolicitud == "finalizada" ? true : false;
+      endSelected = this.data.filter((solicitudes) => {
+        return solicitudes.SolicitudFinalizada === finalizada;
       });
-      this.data = endSelected
+      this.data = endSelected;
     }
-    
-    let facultadSelected =null
-    if(this.filtroFacultad != null){
-      facultadSelected = this.data.filter((solicitudes)=>{
-        return solicitudes.Referencia.facultad === this.filtroFacultad 
+
+    let facultadSelected = null;
+    if (this.filtroFacultad != null) {
+      facultadSelected = this.data.filter((solicitudes) => {
+        return solicitudes.Referencia.facultad === this.filtroFacultad;
       });
-      this.data = facultadSelected
+      this.data = facultadSelected;
     }
-    (this.data.length<=0) && this.utilService.showSwAlertError("Solicitudes no encontrados", "No se encontraron solicitudes para los parametros seleccionados");
+    this.data.length <= 0 &&
+      this.utilService.showSwAlertError(
+        "Solicitudes no encontrados",
+        "No se encontraron solicitudes para los parametros seleccionados"
+      );
   }
 
   loadEstadoTipoSolicitud() {
-    this.listService.findEstadoTipoSolicitud(environment.IDS.IDPAZYSALVOS)
-      .subscribe((result: any[]) => {
-        if (result['Data'].length > 0) {
-          let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
-          for (let estadoTipo of estadosTiposolicitud) {
-            this.estadosTipoSolicitud.push(estadoTipo);
-            this.estados.push(estadoTipo.EstadoId);
+    this.listService
+      .findEstadoTipoSolicitud(environment.IDS.IDPAZYSALVOS)
+      .subscribe(
+        (result: any[]) => {
+          if (result["Data"].length > 0) {
+            let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>(
+              result["Data"]
+            );
+            for (let estadoTipo of estadosTiposolicitud) {
+              this.estadosTipoSolicitud.push(estadoTipo);
+              this.estados.push(estadoTipo.EstadoId);
+            }
           }
-        }
-      },
-        error => {
+        },
+        (error) => {
           console.error(error);
         }
       );
   }
 
-  get estadosTipoSolicitu(){
-    return this.estadosTipoSolicitud
+  get estadosTipoSolicitu() {
+    return this.estadosTipoSolicitud;
   }
-  get estado(){
-    return this.estados
+  get estado() {
+    return this.estados;
   }
 
-   cargarSol(){
-
-    this.solicitudesExt=[]
+  cargarSol() {
+    this.solicitudesExt = [];
     Swal.fire({
       title: "Por favor espere",
       html: `Se estan cargando las solicitudes`,
@@ -103,37 +101,37 @@ export class AtencionesService {
       showConfirmButton: false,
     });
     Swal.showLoading();
-    let finalizada:boolean=null;
-    if(this.itemTipoSol!="null"){
-      finalizada = this.itemTipoSol=="finalizada" ? true : false;
+    let finalizada: boolean = null;
+    if (this.itemTipoSol != "null") {
+      finalizada = this.itemTipoSol == "finalizada" ? true : false;
     }
 
-    
-   return  this.listService.findSolicitudesPYZ(this.estadoTipo, this.itemSelect,this.itemOffSet).then((result) => {
-      const solicitudes = result
-      if (result.length) {
-        for (let solicitud of solicitudes) {
-          solicitud.Referencia = JSON.parse(solicitud.Referencia);
-          this.solicitudesExt.push({...solicitud,"IdTercero":solicitud.Referencia['tercero']});
+    return this.listService
+      .findSolicitudesPYZ(this.estadoTipo, this.itemSelect, this.itemOffSet)
+      .then((result) => {
+        const solicitudes = result;
+        if (result.length) {
+          for (let solicitud of solicitudes) {
+            solicitud.Referencia = JSON.parse(solicitud.Referencia);
+            this.solicitudesExt.push({
+              ...solicitud,
+              IdTercero: solicitud.Referencia["tercero"],
+            });
+          }
+          Swal.close();
+          return (this.data = this.solicitudesExt);
+        } else {
+          this.utilService.showSwAlertError(
+            "Solicitudes no encontrados",
+            "No se encontraron solicitudes para los parametros seleccionados"
+          );
+          return (this.data = []);
         }
-        Swal.close();
-        return  this.data = this.solicitudesExt
-        
-    
-      } 
-      else {
-        this.utilService.showSwAlertError("Solicitudes no encontrados", "No se encontraron solicitudes para los parametros seleccionados");
-        return this.data = []
-        
-      }
-    })
-    .catch((err) => this.utilService.showSwAlertError("Error", err));
-    
+      })
+      .catch((err) => this.utilService.showSwAlertError("Error", err));
   }
 
-
-
-  get Solicitudes(){
+  get Solicitudes() {
     return this.data;
   }
 }

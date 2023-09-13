@@ -27,6 +27,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { referencia } from '../../interfaces';
 import { PaqueteSolicitud } from '../../../../@core/data/models/solicitud/paquete-solicitud';
 import { Paquete } from '../../../../@core/data/models/solicitud/paquete';
+import { NuxeoApiHelper } from '../../../../@core/helpers/reliquidacion/nuxeoApiHelper';
+import { ApiConstanst } from '../../../../shared/constants/api.constans';
+import { ReliquidacionHelper } from '../../../../@core/helpers/reliquidacion/reliquidacionHelper';
+import { DateCustomPipePipe } from '../../../../shared/pipes/date-custom-pipe.pipe';
+import { NbGlobalLogicalPosition } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-generar-pazysalvo',
@@ -75,6 +80,8 @@ export class GenerarPazysalvoComponent implements OnInit {
   MotivoPersonal: string[] = ["Socioeconomico", "Psicológico", "Salud", "Grado", "Otras"];
   CausaPrincipal: string[] = ["Laboral", "Familiar", "Personal", "Cambio de Proyecto Académico", "Cambio de institucion", "Cambio de Ciudad/País","Cuestión Económica","Grado","Otras"];
   DatosSolicitud: FormGroup;
+  formulario : FormGroup;
+
 
   tabla: any = {
     apoyo:null,
@@ -110,20 +117,26 @@ revisor = {
   listInfoComplementaria = [];
   documentosSolicitud: SoportePaquete;
 
-  formApoyo: any = {
+  formularioPYZ: any = {
     documentosCargados: {}
-  };
+};
+deshabilitar: any = {};
+APP_CONSTANTS = ApiConstanst;
 
   constructor(
-    private router: Router,
+
     private route: ActivatedRoute,
     private listService: ListService,
     private utilsService: UtilService,
+    public reliquidacionHelper: ReliquidacionHelper,
+    private dateCustomPipe: DateCustomPipePipe,
+    public nuxeoHelper: NuxeoApiHelper,
     private nuxeoService: NuxeoService,
-    private documentoService: DocumentoService,
-    private sanitizer: DomSanitizer,
     private formBuilder: FormBuilder,
+    private documentoService: DocumentoService,
+    
   ) {
+     this.formulario = new FormGroup({})
       this.idSolicitud = parseInt(this.route.snapshot.paramMap.get('idSolicitud'));
         
         if (this.idSolicitud != 0) {
@@ -144,7 +157,7 @@ revisor = {
                 }
             ).catch((error) => this.utilsService.showSwAlertError("Parametos no encontrados", error));
         }
-
+      
     }
 
 
@@ -155,11 +168,6 @@ revisor = {
       this.solicitud = respSolicitud;
 
       this.ref = JSON.parse(this.solicitud.Referencia);
-      console.log(["esta es la solicitud ",this.solicitud]);
-      console.log(["esta es la referancia ",this.ref]);
-      console.log(this.tabla);
- console.log(this.ref.MotivoAdministrativo);
- 
       this.DatosSolicitud = this.formBuilder.group({
         MotivoAdministrativo: [this.ref.MotivoAdministrativo],
         MotivoPersonal: [this.ref.MotivoPersonal],
@@ -199,7 +207,6 @@ revisor = {
     actualizarDatosSol(){
 
       this.listService.actualizarSolicitud(this.solicitud).then((resp) => {
-        console.log("no se que es esto ",resp);
       
       }).catch((err) => {
         this.utilsService.showSwAlertError("No se puedo actualizar la observacion", err)
@@ -225,7 +232,6 @@ revisor = {
     loadEstadoTipoSolicitud() {
         this.listService.findEstadoTipoSolicitud(environment.IDS.IDPAZYSALVOS)
             .subscribe((result: any[]) => {
-              console.log("estado tipo solicitud",this.estadosTipoSolicitud);
               
                 if (result['Data'].length > 0) {
                     let estadosTiposolicitud = <Array<EstadoTipoSolicitud>>result['Data'];
@@ -383,7 +389,181 @@ revisor = {
         })
 
     }
+    
 
+    guardarDoc():boolean{
+        /* Variable que almacena los documentos agregados al formulario*/
+        const docsAdd =this.formularioPYZ.documentosAdjuntos;
+        const prueba = 1;
+        if(prueba){
+            Swal.fire({
+                title: "Ya casi! Por favor espere",
+                html: `Cargando los documentos ingresados`,
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+            Swal.showLoading();
+            this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol)=>{
+                if(paqSol.PaqueteId!=undefined){
+                    //Actualiza documentos de una solicitud          
+                    let newSupps=[];  //Documentos no existentes
+                    let updateSupps=[]; // Documentos a actualizar
+
+                }else{
+                    this.nuxeoService.getDocumentos$(docsAdd, this.documentoService).subscribe((res) => {
+                        /** Se crearon y guardaron los nuevos documentos en nuxeo */
+                        if(docsAdd.length==Object.keys(res).length){        
+                         this.formularioPYZ.documentosCargados = res;
+                         let paquete: Paquete = new Paquete();
+                         paquete.Nombre = "Documento Paz y salvos Bienestar"
+                         /** Se crea nuevo paquete */
+                            this.listService.crearPaquete(paquete).then((idPaq) => {
+                                paquete.Id = idPaq;
+                                let paqueteSolicitud: PaqueteSolicitud = new PaqueteSolicitud();
+                                paqueteSolicitud.SolicitudId = this.solicitud;
+                                paqueteSolicitud.EstadoTipoSolicitudId = this.solicitud.EstadoTipoSolicitudId;
+                                paqueteSolicitud.PaqueteId = paquete;
+                                /** Se crea relacion de nuevo paquete y solicitud*/
+                                this.listService.crearPaqueteSolicitud(paqueteSolicitud).then((respPaqSol) => {
+                                    let contSupp=0;
+                                    /** Se crean soportes de los documentos del paquete*/
+                                    for (let i = 0; i < Object.keys(res).length; i++) {
+                                        let documento=Object.values(res)[i];
+                                        let soporte: SoportePaquete= new SoportePaquete();
+
+                                        // soporte.Descripcion=documento.TipoDocumento.Nombre;
+                                        soporte.Descripcion="Paquete Paz y salvos Bienestar";
+                                        
+                                        soporte.PaqueteId=paquete;
+                                        soporte.DocumentoId=documento.Id;
+                                        this.listService.crearSoportePaquete(soporte).then((resSopPaq)=>{
+                                            contSupp+=1;
+                                            if(contSupp==Object.keys(res).length){
+                                                Swal.close();
+                                                window.location.reload();
+                                                return true;
+                                            }
+                                        }).catch((err)=>{
+                                            this.utilsService.showSwAlertError("Crear Soporte Paquete",err);
+                                            Swal.close();
+                                            return false;
+                                        });
+                                    }
+                                }).catch((err) =>{
+                                    this.utilsService.showSwAlertError("Crear Paquete Solicitud",err);
+                                    Swal.close();
+                                    return false;
+                                });
+                                
+                            }).catch((err) => {
+                                this.utilsService.showSwAlertError("Crear Paquete",err);
+                                Swal.close();
+                                return false;
+                            }); 
+                
+                        }
+                    });
+                }    
+            }).catch((err)=>{
+                Swal.close();
+                this.utilsService.showSwAlertError('No se encontraron documentos',err); 
+                return false;
+            });
+        }else{
+            Swal.close();
+            return false;
+        }   
+    }
+
+    loadDocumentos() {
+        let contDocs = 0;
+        this.listService.findPaqueteSolicitudBySolicitud(this.solicitud.Id).then((paqSol) => {
+      
+            
+            if (paqSol != undefined) {
+                this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes) => {
+                    this.documentosSolicitud = soportes;
+                    let terminoDescargar = false;
+
+                    for (let i = 0; i < Object.keys(soportes).length; i++) {
+                        const element = Object.values(soportes)[i];
+                        this.documentosHTML[i] = new Array();
+                        this.documentosHTML[i][0] = element.Descripcion;
+                    }
+                    this.nuxeoService.getDocumentoById$(soportes, this.documentoService).subscribe((res: Object) => {
+                        for (let i = 0; i < this.documentosHTML.length; i++) {
+                            if (res['undefined'].documento == this.documentosHTML[i][0]) {
+                                this.documentosHTML[i][1] = res['undefined'].url;
+                            }
+                        }
+                        contDocs++;
+                        if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
+                            this.selectDoc = this.documentosHTML[0];
+                            this.loading = false;
+                            Swal.close();
+                            terminoDescargar = true;
+                        }
+
+                    });
+                })
+            }
+        }).catch((err) => {
+            this.showError('No se encontraron documentos', err);
+            this.loadDocs = false;
+        });
+    }
+
+
+
+
+
+
+
+
+
+        grabarDocumentos() {
+
+
+            // const documentos = this.formularioPYZ.documentosAdjuntos
+            // let paquete: Paquete = new Paquete();
+            // paquete.Nombre = "Documentos apoyo alimentario"
+            // this.reliquidacionHelper.grabarPaquete(paquete).subscribe((res) => {
+            //     console.log("que es esta res0",res);
+                
+            //     for (const doc of documentos) {
+            //         paquete.Id = idPaq;
+            //         let paqueteSolicitud: PaqueteSolicitud = new PaqueteSolicitud();
+            //         paqueteSolicitud.SolicitudId = this.solicitud;
+            //         paqueteSolicitud.EstadoTipoSolicitudId = this.solicitud.EstadoTipoSolicitudId;
+            //         paqueteSolicitud.PaqueteId = paquete;
+            //         const soporte: any = {};
+            //         soporte.Activo = true;
+            //         soporte.Descripcion = 'Paquete Paz y salvos';
+            //         // soporte.DocumentoId = doc.DocumentoId;
+            //         soporte.DocumentoId = 38;
+            //         soporte.FechaCreacion = this.dateCustomPipe.transform(new Date());
+            //         soporte.FechaModificacion = this.dateCustomPipe.transform(new Date());
+            //         soporte.Id = null;
+            //         soporte.PaqueteId = res.Data;
+            //         this.reliquidacionHelper.grabarSoportePaquete(soporte).subscribe((res2) => {
+            //             console.log(res2);
+            //         });
+            //     }
+            //     const solicitudPaquete: any = {};
+            //     solicitudPaquete.EstadoTipoSolicitudId = environment.IDS.IDPAZYSALVOS;
+            //     solicitudPaquete.SolicitudId = this.solicitud.Id;
+            //     solicitudPaquete.Activo = true;
+            //     solicitudPaquete.FechaCreacion = this.dateCustomPipe.transform(new Date());
+            //     solicitudPaquete.FechaModificacion = this.dateCustomPipe.transform(new Date());
+            //     this.reliquidacionHelper.grabarPaqueteSolicitud(solicitudPaquete).subscribe((paqueteSol) => {
+            //         console.log(paqueteSol);
+            //     });
+            // })
+        }
+       
+        
+        
+    
     cambiarSolicitudFinalizada(estado: boolean) {
         if (this.solicitud.SolicitudFinalizada == estado) {
             return;
@@ -395,7 +575,6 @@ revisor = {
                     let solicitudN = this.solicitud
                     solicitudN.SolicitudFinalizada = estado
                     this.listService.actualizarSolicitud(solicitudN).then((resp) => {
-                      console.log("o se que es esto ",resp);
                       
                        this.solicitud.SolicitudFinalizada = estado;
                         this.listService.loadTiposObservacion(1).then((resp) => {

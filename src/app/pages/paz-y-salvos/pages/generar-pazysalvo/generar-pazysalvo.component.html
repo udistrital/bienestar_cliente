@@ -1,400 +1,623 @@
-<div   class=" container-fluid bg-white mh-100 mw-100 ">
-    <h1  >Generar Paz y Salvo del estudiante :  <em *ngIf="tercero!=null"> {{tercero.NombreCompleto || "cargando ..."}}</em> </h1> 
-    <br>
-    <hr>
+<div class="container-fluid bg-white mh-100 mw-100">
+  <h1>
+    Generar Paz y Salvo del estudiante :
+    <em *ngIf="tercero != null">
+      {{ tercero.NombreCompleto || "cargando ..." }}</em
+    >
+  </h1>
+  <br />
+  <hr />
 
-    <button class="btn back-button btn-block" routerLink="../paz-y-salvos/consultas"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar </button>
-    <!-- card para  generar  datos del estudiante  la cual se puede generar en un compoente aparte-->
-            
-    <nb-accordion *ngIf="tercero!=null">
-        <!-- Informacion solicitante -->
-        <nb-accordion-item expanded>
-            <nb-accordion-item-header>
-                <h4 class="non-selectable">Datos del Estudiante</h4>
-            </nb-accordion-item-header>
-            <nb-accordion-item-body *ngIf="tercero!=null">
-                <div *ngIf="tercero!=null"  class="card card-content  p-3 mx-auto">
-                    <div  class="card-body">
-    
-                        <div class="card-body ">
-                            <br>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6 col-lg-4">
-                                    <P><b>Nombre :</b></P>
-                                    <label >{{tercero.PrimerNombre +" "+ tercero.SegundoNombre}}</label>
-                                </div>
-                                <div class="col-xs-12 col-md-6 col-lg-4">
-                                    <P><b>Apellido :</b></P>
-                                    <label>{{tercero.PrimerApellido +" "+ tercero.SegundoApellido}}</label>
-                                </div>
-                                <div class="col-xs-12 col-md-6 col-lg-4">
-                                    <P><b>Codigo :</b></P>
-                                    <label >{{tercero.UsuarioWSO2 }}</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6 col-lg-4">
-                                    <P><b>Proyecto :</b></P>
-                                    <label *ngIf="ref!=null" >{{ref.proyecto }}</label>
-                                </div>
-                                <div class="col-xs-12 col-md-6 col-lg-4">
-                                    <P><b>Numero :</b></P>
-                                    <label>{{ref.telefonoAdicional}}</label>
-                                </div>
-                                <div class="col-xs-12 col-md-6 col-lg-4">
-                                    <P><b>correo :</b></P>
-                                    <label>{{ref.correo}}</label>
-                                </div>
-                            </div>
-        
-                        </div> 
-                    </div>
+  <button
+    class="btn back-button btn-block"
+    routerLink="../paz-y-salvos/consultas"
+  >
+    <i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
+  </button>
+  <!-- card para  generar  datos del estudiante  la cual se puede generar en un compoente aparte-->
+
+  <nb-accordion *ngIf="tercero != null">
+    <!-- Informacion solicitante -->
+    <nb-accordion-item expanded>
+      <nb-accordion-item-header>
+        <h4 class="non-selectable">Datos del Estudiante</h4>
+      </nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="tercero != null">
+        <div *ngIf="tercero != null" class="card card-content p-3 mx-auto">
+          <div class="card-body">
+            <div class="card-body">
+              <br />
+              <div class="row">
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <P><b>Nombre :</b></P>
+                  <label>{{
+                    tercero.PrimerNombre + " " + tercero.SegundoNombre
+                  }}</label>
                 </div>
-            </nb-accordion-item-body>
-        </nb-accordion-item>
-
-<!-- item para mirar datos de la solicitud -->
-        <nb-accordion-item >
-            <nb-accordion-item-header>
-                <h4 class="non-selectable">Datos de la  Solicitud</h4>
-            </nb-accordion-item-header>
-
-            <nb-accordion-item-body *ngIf="ref!=null">
-
-
-
-                
-
-                <form [formGroup]="DatosSolicitud">
-                <div class="row">
-
-                    <div class="col-xs-12 col-md-6 col-lg-4">
-                        <P><b>Motivo administrativo :</b></P>
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
-                            <mat-label>Motivo administrativo del servicio*</mat-label>
-                            <mat-select   [disabled]="selectorBloqueado"  formControlName="MotivoAdministrativo">
-                                <mat-option *ngFor="let motivo of MotivoAdministrativo" [value]="motivo">
-                                    {{motivo}}
-                                </mat-option> 
-                            </mat-select>
-                            <mat-hint>Seleccione el Motivo</mat-hint>
-                            <mat-error>Campo obligatorio</mat-error>
-                        </mat-form-field>
-            
-                    </div>
-                    <div class="col-xs-12 col-md-6 col-lg-4">
-                        <P><b>Motivo Personal :</b></P>
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
-                            <mat-label>Motivo Personal del servicio*</mat-label>
-                            <mat-select  [value]="ref.MotivoPersonal" [disabled]="selectorBloqueado" formControlName="MotivoPersonal" >
-                                <mat-option *ngFor="let motivo of MotivoPersonal" [value]="motivo">
-                                    {{motivo}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint>Seleccione el Moivo</mat-hint>
-                            <mat-error>Campo obligatorio</mat-error>
-                        </mat-form-field>
-
-
-                    </div>
-                    <div class="col-xs-12 col-md-6 col-lg-4">
-                        <P><b>Causa Principal :</b></P>
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
-                            <mat-label>Causa Principal del servicio*</mat-label>
-                            <mat-select  [value]="ref.CausaPrincipal" [disabled]="selectorBloqueado" formControlName="CausaPrincipal">
-                                <mat-option *ngFor="let motivo of CausaPrincipal" [value]="motivo">
-                                    {{motivo}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint>Seleccione el Moivo</mat-hint>
-                            <mat-error>Campo obligatorio</mat-error>
-                        </mat-form-field>
-            
-
-                    </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <P><b>Apellido :</b></P>
+                  <label>{{
+                    tercero.PrimerApellido + " " + tercero.SegundoApellido
+                  }}</label>
                 </div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Observaciones</mat-label>
-                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="observaciones">pruebas</textarea>
-                  </mat-form-field>
-    
-            </form>
-
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-xs-12 col-md-12 col-lg-8">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th>Programa</th>
-                                    <th>si</th>
-                                    <th>No</th>
-                                    <th>No Aplica</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th>Apoyo Alimentario</th>
-                                    <td>
-                                        <label class="form-check-custom success">
-                                        <input type="radio" id= "radio11"name="ApoyoAlimentario" value="si"  [(ngModel)]="tabla.apoyo" >
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom danger">
-                                        <input type="radio" id= "radio12" name="ApoyoAlimentario" value="no" [(ngModel)]="tabla.apoyo" >
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom warning">
-                                            <input type="radio" id= "radio13" name="ApoyoAlimentario" value="NA" [(ngModel)]="tabla.apoyo">
-                                            <span></span>
-                                            </label>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th>Convocatoria Equipos y Conectividad</th>
-                                    <td>
-                                        <label class="form-check-custom success">
-                                        <input type="radio" name="ConvocatoriaEquipos" id= "radio21" value="si"  [(ngModel)]="tabla.equipos" >
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom danger">
-                                        <input type="radio" name="ConvocatoriaEquipos"  id= "radio22" value="no"  [(ngModel)]="tabla.equipos" >
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom warning">
-                                            <input type="radio" name="ConvocatoriaEquipos"  id= "radio23" value="NA"  [(ngModel)]="tabla.equipos">
-                                            <span></span>
-                                            </label>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th>Deportes</th>
-                                    <td>
-                                        <label class="form-check-custom success">
-                                        <input type="radio" name="Deportes"  id= "radio31" value="si"  [(ngModel)]="tabla.deportes" >
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom danger">
-                                        <input type="radio" name="Deportes"  id= "radio32" value="no"  [(ngModel)]="tabla.deportes">
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom warning">
-                                            <input type="radio" name="Deportes"  id= "radio33" value="NA"  [(ngModel)]="tabla.deportes" >
-                                            <span></span>
-                                            </label>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th>Otros</th>
-                                    <td>
-                                        <label class="form-check-custom success">
-                                        <input type="radio" name="otros"  id= "radio41" value="si"  [(ngModel)]="tabla.otros" >
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom danger">
-                                        <input type="radio" name="otros" id= "radio42" value="no"  [(ngModel)]="tabla.otros">
-                                        <span></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-custom warning">
-                                            <input type="radio" name="otros" id= "radio43" value="NA"  [(ngModel)]="tabla.otros" >
-                                            <span></span>
-                                            </label>
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <P><b>Codigo :</b></P>
+                  <label>{{ tercero.UsuarioWSO2 }}</label>
                 </div>
-                <button class="card-button m-2" type="submit" mat-raised-button color="primary"
-                (click)="actualizarDatosSol()">
-                <mat-icon>send</mat-icon> Actualizar Datos Solicitud
-                </button>
-
-                <button class="card-button m-2" type="submit" mat-raised-button color="primary" (click)="toggleBloqueoSelector()">{{ selectorBloqueado ? 'Desbloquear Campos' : 'Bloquear Campos' }}</button>
-
-                
-            </nb-accordion-item-body>
-
-
-
-
-        </nb-accordion-item>
-
-
-        <!-- item de datos del administrativo -->
-
-
-        <nb-accordion-item >
-            <nb-accordion-item-header>
-                <h4 class="non-selectable">Datos Administrativos</h4>
-            </nb-accordion-item-header>
-            <nb-accordion-item-body *ngIf="ref!=null">
-                <ngx-base64images (onNewRevisor) = "onNewRevisor($event)" ></ngx-base64images>
-            </nb-accordion-item-body>
-        </nb-accordion-item>
-<!-- item para ver el pdf cuando este generado -->
-        <nb-accordion-item >
-            <nb-accordion-item-header>
-                <h4 class="non-selectable">Ver PDF Paz y Salvo</h4>
-            </nb-accordion-item-header>
-            <nb-accordion-item-body *ngIf="ref!=null">
-                <ngx-pdfMaker [referencia] ="ref" [tabla]="tabla" [revisor]="revisor"></ngx-pdfMaker>
-                <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="loadDocumentos()" class="submit-button">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    pruba nuxeo
-                </button>
-            </nb-accordion-item-body>
-        </nb-accordion-item>
-
-
-
-                    <!-- Observaciones -->
-                    <nb-accordion-item *ngIf="!nueva">
-                        <nb-accordion-item-header>
-                            <h4 class="non-selectable">Observaciones</h4>
-                        </nb-accordion-item-header>
-                        <nb-accordion-item-body>
-                            <div *ngIf="observaciones.length>0" class="timeline">
-                                <div *ngFor="let obs of observaciones" class="timeline__group">
-                                    <span class="timeline__year time" aria-hidden="true">{{ obs.FechaCreacion | fechaFormat:'medium' }}<!-- | date:'medium' -->
-                                    </span>
-                                    <div class="timeline__cards">
-                                        <div class="timeline__card card">
-                                            <header class="card__header">
-                                                <b>{{obs.Titulo}}</b>
-                                            </header>
-                                            <div class="card__content">
-                                                <p>{{obs.Valor.split('//')[0]}}</p>
-                                                <small class="text-muted" *ngIf="obs.Valor.split('//')[1]">
-                                                    Creador: {{obs.Valor.split('//')[1]}}
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div *ngIf="observaciones.length==0">
-                                <h6 style="text-align: center; color: #d33;"> No existe ninguna observación</h6>
-                            </div>
-        
-                            <button nbButton fullWidth hero shape="semi-round" status="success" class="btn btn-success btn-block" (click)="agregarObservacion()" class="submit-button">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                Agregar observacion
-                            </button>
-        
-                        </nb-accordion-item-body>
-                    </nb-accordion-item>
-        
-                    <!-- Estado de la solicitud -->
-                    <nb-accordion-item *ngIf="solicitud!=null && !nueva">
-                        <nb-accordion-item-header>
-                            <h4 class="non-selectable">Estado solicitud</h4>
-                        </nb-accordion-item-header>
-                        <nb-accordion-item-body>
-                            <div class="menu-list">
-                                <div class="item ">
-
-                                    <!-- form-group  -->
-                                    <label class="sub-item label-color-ud">
-                                        Estado actual :
-                                    </label>
-                                    <label ng-readonly="!nueva" class="sub-item field-color-ud">
-                                        {{solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre}}
-                                    </label>
-                                    <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <div class="item">
-                                    <hr>
-                                    <h6>Cambiar estado</h6>
-                                    <br>
-                                </div>
-                                <div class="text-center mb-3">
-                                    <div class="item row justify-content-center">
-                                        <div class="col-md-10">
-                                            <label class="label-color-ud">
-                                                Nuevo estado :
-                                            </label>
-                                            <select class="browser-default custom-select" [(ngModel)]="nuevoEstado">
-                                                <option [ngValue]="null">Selecciona el siguiente estado</option>
-                                                <option *ngFor="let estadoTipo of estadosTipoSolicitud;let i = index;" [ngValue]="i">
-                                                    {{estadoTipo.EstadoId.Nombre }}</option>
-                                            </select>
-                                            <br>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="nuevoEstado!=null" class="item row justify-content-center mt-3">
-                                        <div class="col-md-10">
-                                            <label class="label-color-ud">
-                                                Observacion cambio de estado:
-                                            </label>
-                                            <textarea [(ngModel)]="obseravacionText" nbinput="" fullwidth="" placeholder="Observacion" class="input-full-width size-medium status-basic shape-rectangle nb-transition" style="margin-top: 0px; margin-bottom: 0px; height: 100px;"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="form-group" *ngIf="tercero!=null && !nueva">
-                                <button nbButton fullWidth hero shape="semi-round" status="warning" (click)="save()" class="submit-button">
-                                    <i class="fas fa-save mr-1"></i>
-                                    Guardar cambios
-                                </button>
-                            </div>
-        
-                            <hr>
-        
-                            <button *ngIf="!this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="danger" (click)="cambiarSolicitudFinalizada(true)" class="submit-button">
-                                Finalizar solicitud
-                                <i class="fas fa-toggle-off ml-1"></i>
-                            </button>
-        
-                            <button *ngIf="this.solicitud.SolicitudFinalizada" nbButton hero fullWidth shape="semi-round" status="success" (click)="cambiarSolicitudFinalizada(false)" class="submit-button">
-                                Activar solicitud
-                                <i class="fas fa-toggle-on ml-1"></i>
-                            </button>
-        
-        
-                        </nb-accordion-item-body>
-                        <hr>
-                    </nb-accordion-item>
-
-
-
-
-    </nb-accordion>
-
-
-    <!--  card para  generar  datos de solicitud la cual se puede generar en un compoente aparte-->
-    <div class="row mt-3">
-        <div class="col-12">
-
-
-
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <P><b>Proyecto :</b></P>
+                  <label *ngIf="ref != null">{{ ref.proyecto }}</label>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <P><b>Numero :</b></P>
+                  <label>{{ ref.telefonoAdicional }}</label>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                  <P><b>correo :</b></P>
+                  <label>{{ ref.correo }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
 
-    
-      
+    <!-- item para mirar datos de la solicitud -->
+    <nb-accordion-item>
+      <nb-accordion-item-header>
+        <h4 class="non-selectable">Datos de la Solicitud</h4>
+      </nb-accordion-item-header>
+
+      <nb-accordion-item-body *ngIf="ref != null">
+        <form [formGroup]="DatosSolicitud">
+          <div class="row">
+            <div class="col-xs-12 col-md-6 col-lg-4">
+              <P><b>Motivo administrativo :</b></P>
+              <mat-form-field
+                appearance="outline"
+                class="select-group"
+                class="col-md-6"
+              >
+                <mat-label>Motivo administrativo del servicio*</mat-label>
+                <mat-select
+                  [disabled]="selectorBloqueado"
+                  formControlName="MotivoAdministrativo"
+                >
+                  <mat-option
+                    *ngFor="let motivo of MotivoAdministrativo"
+                    [value]="motivo"
+                  >
+                    {{ motivo }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el Motivo</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4">
+              <P><b>Motivo Personal :</b></P>
+              <mat-form-field
+                appearance="outline"
+                class="select-group"
+                class="col-md-6"
+              >
+                <mat-label>Motivo Personal del servicio*</mat-label>
+                <mat-select
+                  [value]="ref.MotivoPersonal"
+                  [disabled]="selectorBloqueado"
+                  formControlName="MotivoPersonal"
+                >
+                  <mat-option
+                    *ngFor="let motivo of MotivoPersonal"
+                    [value]="motivo"
+                  >
+                    {{ motivo }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el Moivo</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4">
+              <P><b>Causa Principal :</b></P>
+              <mat-form-field
+                appearance="outline"
+                class="select-group"
+                class="col-md-6"
+              >
+                <mat-label>Causa Principal del servicio*</mat-label>
+                <mat-select
+                  [value]="ref.CausaPrincipal"
+                  [disabled]="selectorBloqueado"
+                  formControlName="CausaPrincipal"
+                >
+                  <mat-option
+                    *ngFor="let motivo of CausaPrincipal"
+                    [value]="motivo"
+                  >
+                    {{ motivo }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint>Seleccione el Moivo</mat-hint>
+                <mat-error>Campo obligatorio</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Observaciones</mat-label>
+            <textarea
+              matInput
+              placeholder="Ex. It makes me feel..."
+              formControlName="observaciones"
+            >
+pruebas</textarea
+            >
+          </mat-form-field>
+        </form>
+
+        <div class="row mt-4 justify-content-center">
+          <div class="col-xs-12 col-md-12 col-lg-8">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Programa</th>
+                  <th>si</th>
+                  <th>No</th>
+                  <th>No Aplica</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Apoyo Alimentario</th>
+                  <td>
+                    <label class="form-check-custom success">
+                      <input
+                        type="radio"
+                        id="radio11"
+                        name="ApoyoAlimentario"
+                        value="si"
+                        [(ngModel)]="tabla.apoyo"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom danger">
+                      <input
+                        type="radio"
+                        id="radio12"
+                        name="ApoyoAlimentario"
+                        value="no"
+                        [(ngModel)]="tabla.apoyo"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom warning">
+                      <input
+                        type="radio"
+                        id="radio13"
+                        name="ApoyoAlimentario"
+                        value="NA"
+                        [(ngModel)]="tabla.apoyo"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Convocatoria Equipos y Conectividad</th>
+                  <td>
+                    <label class="form-check-custom success">
+                      <input
+                        type="radio"
+                        name="ConvocatoriaEquipos"
+                        id="radio21"
+                        value="si"
+                        [(ngModel)]="tabla.equipos"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom danger">
+                      <input
+                        type="radio"
+                        name="ConvocatoriaEquipos"
+                        id="radio22"
+                        value="no"
+                        [(ngModel)]="tabla.equipos"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom warning">
+                      <input
+                        type="radio"
+                        name="ConvocatoriaEquipos"
+                        id="radio23"
+                        value="NA"
+                        [(ngModel)]="tabla.equipos"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Deportes</th>
+                  <td>
+                    <label class="form-check-custom success">
+                      <input
+                        type="radio"
+                        name="Deportes"
+                        id="radio31"
+                        value="si"
+                        [(ngModel)]="tabla.deportes"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom danger">
+                      <input
+                        type="radio"
+                        name="Deportes"
+                        id="radio32"
+                        value="no"
+                        [(ngModel)]="tabla.deportes"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom warning">
+                      <input
+                        type="radio"
+                        name="Deportes"
+                        id="radio33"
+                        value="NA"
+                        [(ngModel)]="tabla.deportes"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Otros</th>
+                  <td>
+                    <label class="form-check-custom success">
+                      <input
+                        type="radio"
+                        name="otros"
+                        id="radio41"
+                        value="si"
+                        [(ngModel)]="tabla.otros"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom danger">
+                      <input
+                        type="radio"
+                        name="otros"
+                        id="radio42"
+                        value="no"
+                        [(ngModel)]="tabla.otros"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="form-check-custom warning">
+                      <input
+                        type="radio"
+                        name="otros"
+                        id="radio43"
+                        value="NA"
+                        [(ngModel)]="tabla.otros"
+                      />
+                      <span></span>
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <button
+          class="card-button m-2"
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="actualizarDatosSol()"
+        >
+          <mat-icon>send</mat-icon> Actualizar Datos Solicitud
+        </button>
+
+        <button
+          class="card-button m-2"
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="toggleBloqueoSelector()"
+        >
+          {{ selectorBloqueado ? "Desbloquear Campos" : "Bloquear Campos" }}
+        </button>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+
+    <!-- item de datos del administrativo -->
+
+    <nb-accordion-item>
+      <nb-accordion-item-header>
+        <h4 class="non-selectable">Datos Administrativos</h4>
+      </nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="ref != null">
+        <ngx-base64images
+          (onNewRevisor)="onNewRevisor($event)"
+        ></ngx-base64images>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+    <!-- item para ver el pdf cuando este generado -->
+    <nb-accordion-item>
+      <nb-accordion-item-header>
+        <h4 class="non-selectable">Ver PDF Paz y Salvo</h4>
+      </nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="ref != null">
+        <p>
+          En este apartado puede generar una vista previa del Paz y salvo para
+          ver que todas las configuraciones estén bien, luego de ello puedes
+          descargar el archivo, una vez tengas todos los cambios realizados,
+          adjúntalo en el apartado "ADJUNTAR PAZ Y SALVO" y dale enviar paz y
+          salvo para que pueda ser visualizado por el estudiante y se almacene
+          en la base de datos de la universidad
+        </p>
+        <ngx-pdfMaker
+          [referencia]="ref"
+          [tabla]="tabla"
+          [revisor]="revisor"
+        ></ngx-pdfMaker>
+        <div class="row item-list">
+          <ngx-archivos-generico
+            nombreInput="archivoOtrosDoc"
+            [grupo]="formulario"
+            class="col-12"
+            etiqueta="ADJUNTAR PAZ Y SALVO "
+            [servicio]="nuxeoHelper"
+            metodo="guardarBatch"
+            [(documentos)]="formularioPYZ.documentosAdjuntos"
+            [codigoDocumento]="
+              APP_CONSTANTS.TIPO_DOCUMENTO.CERTIFICADO_OTROS_DOCUMENTOS
+            "
+            [documentosCargados]="formularioPYZ.documentosCargados"
+            [deshabilitarUpload]="deshabilitar.esRevision"
+          >
+          </ngx-archivos-generico>
+        </div>
+        <button
+          nbButton
+          fullWidth
+          hero
+          shape="semi-round"
+          status="danger"
+          (click)="guardarDoc()"
+          class="submit-button"
+        >
+          <mat-icon>send</mat-icon> Enviar Paz y Salvo
+        </button>
+
+        <!-- en caso de querer ver el documento aqui mismo  -->
+        <!-- <div *ngIf="loadDocs">
+                        <div class="text-center">
+                            <div class="item">
+                                <h6 class="sub-item label-color-ud">{{selectDoc[0]}}</h6>
+                                <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
+                            </div>
+                            <div class="item iframe-container" *ngIf="!loading">
+                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            </div>
+                            <div class="item">
+                                <hr>
+                                <h6>Cambiar documento</h6>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mt-2">
+                                    <label class="sub-item label-color-ud">
+                                        Ver documento :
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
+                                        <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
+                                            {{ doc[0] }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+        <div *ngIf="!loadDocs">
+          <h6 style="text-align: center; color: #d33">
+            No se pudo cargar los documentos
+          </h6>
+        </div>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+
+    <!-- Observaciones -->
+    <nb-accordion-item *ngIf="!nueva">
+      <nb-accordion-item-header>
+        <h4 class="non-selectable">Observaciones</h4>
+      </nb-accordion-item-header>
+      <nb-accordion-item-body>
+        <div *ngIf="observaciones.length > 0" class="timeline">
+          <div *ngFor="let obs of observaciones" class="timeline__group">
+            <span class="timeline__year time" aria-hidden="true"
+              >{{ obs.FechaCreacion | fechaFormat : "medium"
+              }}<!-- | date:'medium' -->
+            </span>
+            <div class="timeline__cards">
+              <div class="timeline__card card">
+                <header class="card__header">
+                  <b>{{ obs.Titulo }}</b>
+                </header>
+                <div class="card__content">
+                  <p>{{ obs.Valor.split("//")[0] }}</p>
+                  <small class="text-muted" *ngIf="obs.Valor.split('//')[1]">
+                    Creador: {{ obs.Valor.split("//")[1] }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="observaciones.length == 0">
+          <h6 style="text-align: center; color: #d33">
+            No existe ninguna observación
+          </h6>
+        </div>
+
+        <button
+          nbButton
+          fullWidth
+          hero
+          shape="semi-round"
+          status="success"
+          class="btn btn-success btn-block"
+          (click)="agregarObservacion()"
+          class="submit-button"
+        >
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          Agregar observacion
+        </button>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+
+    <!-- Estado de la solicitud -->
+    <nb-accordion-item *ngIf="solicitud != null && !nueva">
+      <nb-accordion-item-header>
+        <h4 class="non-selectable">Estado solicitud</h4>
+      </nb-accordion-item-header>
+      <nb-accordion-item-body>
+        <div class="menu-list">
+          <div class="item">
+            <!-- form-group  -->
+            <label class="sub-item label-color-ud"> Estado actual : </label>
+            <label ng-readonly="!nueva" class="sub-item field-color-ud">
+              {{ solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre }}
+            </label>
+            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="item">
+            <hr />
+            <h6>Cambiar estado</h6>
+            <br />
+          </div>
+          <div class="text-center mb-3">
+            <div class="item row justify-content-center">
+              <div class="col-md-10">
+                <label class="label-color-ud"> Nuevo estado : </label>
+                <select
+                  class="browser-default custom-select"
+                  [(ngModel)]="nuevoEstado"
+                >
+                  <option [ngValue]="null">
+                    Selecciona el siguiente estado
+                  </option>
+                  <option
+                    *ngFor="
+                      let estadoTipo of estadosTipoSolicitud;
+                      let i = index
+                    "
+                    [ngValue]="i"
+                  >
+                    {{ estadoTipo.EstadoId.Nombre }}
+                  </option>
+                </select>
+                <br />
+              </div>
+            </div>
+            <div
+              *ngIf="nuevoEstado != null"
+              class="item row justify-content-center mt-3"
+            >
+              <div class="col-md-10">
+                <label class="label-color-ud">
+                  Observacion cambio de estado:
+                </label>
+                <textarea
+                  [(ngModel)]="obseravacionText"
+                  nbinput=""
+                  fullwidth=""
+                  placeholder="Observacion"
+                  class="input-full-width size-medium status-basic shape-rectangle nb-transition"
+                  style="margin-top: 0px; margin-bottom: 0px; height: 100px"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="tercero != null && !nueva">
+          <button
+            nbButton
+            fullWidth
+            hero
+            shape="semi-round"
+            status="warning"
+            (click)="save()"
+            class="submit-button"
+          >
+            <i class="fas fa-save mr-1"></i>
+            Guardar cambios
+          </button>
+        </div>
+
+        <hr />
+
+        <button
+          *ngIf="!this.solicitud.SolicitudFinalizada"
+          nbButton
+          hero
+          fullWidth
+          shape="semi-round"
+          status="danger"
+          (click)="cambiarSolicitudFinalizada(true)"
+          class="submit-button"
+        >
+          Finalizar solicitud
+          <i class="fas fa-toggle-off ml-1"></i>
+        </button>
+
+        <button
+          *ngIf="this.solicitud.SolicitudFinalizada"
+          nbButton
+          hero
+          fullWidth
+          shape="semi-round"
+          status="success"
+          (click)="cambiarSolicitudFinalizada(false)"
+          class="submit-button"
+        >
+          Activar solicitud
+          <i class="fas fa-toggle-on ml-1"></i>
+        </button>
+      </nb-accordion-item-body>
+      <hr />
+    </nb-accordion-item>
+  </nb-accordion>
+
+  <!--  card para  generar  datos de solicitud la cual se puede generar en un compoente aparte-->
+  <div class="row mt-3">
+    <div class="col-12"></div>
+  </div>
 </div>
-
- 
-
-

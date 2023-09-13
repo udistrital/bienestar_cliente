@@ -8,6 +8,17 @@ import { ConsultasComponent } from './pages/consultas/consultas.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+
+
+
+
+
+import { RadioSelectGenericoModule } from '../../shared/components/radio-select-generico/radio-select-generico.module';
+import { ArchivosGenericoModule } from '../../shared/components/archivos-generico/archivos-generico.module';
+
+import { DateCustomPipePipe } from '../../shared/pipes/date-custom-pipe.pipe';
+import { DateCustomPipeModule } from '../../shared/pipes/date-custom-pipe.module';
+
 import {
   NbButtonModule,
   NbCardModule,
@@ -38,6 +49,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { SolicitudComponent } from './pages/solicitud/solicitud.component';
 import { PdfMakerComponent } from './components/pdfmaker/pdfMaker/pdfMaker.component';
 import { Base64imagesComponent } from './components/base64/base64images/base64images.component';
+import { ConsultasEstudianteComponent } from './pages/consultas-estudiante/consultas-estudiante.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +57,7 @@ import { Base64imagesComponent } from './components/base64/base64images/base64im
   GenerarPazysalvoComponent,
   TablaPazysalvosComponent,
   ConsultasComponent,
+  ConsultasEstudianteComponent,
   PdfMakerComponent,
   Base64imagesComponent,
 
@@ -84,6 +97,10 @@ import { Base64imagesComponent } from './components/base64/base64images/base64im
     ComboGenericoModule,
     InputGenericoModule,
     ParametriaPeriodoModule,
+
+    RadioSelectGenericoModule,
+    ArchivosGenericoModule,
+    DateCustomPipeModule,
 
     //imports del material
     ThemeModule
