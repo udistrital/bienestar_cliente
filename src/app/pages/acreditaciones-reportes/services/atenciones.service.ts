@@ -280,35 +280,5 @@ get atencionesDataAxF(){
   return this.dataAxF;
 }
 
-exportarCsv() {
-  const headers = {
-    id: "id",
-    tipo: "tipo_solicitud",
-    activo: "activo",
-    estado: "estado_soolicitud",
-    fechaCreacion: "fecha_creacion",
-    periodo: "periodo",
-    puntaje: "puntaje",
-    solicitudFinalizada: "Finalizada"
-  };
-  const data = [];
-  for (const s of this.solicitudesExt) {
-    data.push({
-      id: s.Solicitud.Id,
-      tipo: s.Solicitud.EstadoTipoSolicitudId.TipoSolicitud.Nombre,
-      activo: s.Solicitud.Activo ? 'SI' : 'NO',
-      estado: s.Solicitud.EstadoTipoSolicitudId.EstadoId.Nombre,
-      fechaCreacion: s.Solicitud.FechaCreacion,
-      periodo: s.Periodo,
-      puntaje: s.Puntaje,
-      solicitudFinalizada: s.Solicitud.SolicitudFinalizada ? 'SI' : 'NO'
-    });
-  }
-  let nombre="solicitudes"
-  // let nombre = "solicitudes " +
-  //   (this.estadoNum != null ? this.estadosTipoSolicitud[this.estadoNum].EstadoId.Nombre + " " : "") +
-  //   (this.periodos[this.periodo] != null ? this.periodos[this.periodo].Nombre : "historico") +
-  //   " "+(new Date()).toISOString();
-  this.utilService.exportCSVFile(headers, data, nombre);
-}
+
 }
