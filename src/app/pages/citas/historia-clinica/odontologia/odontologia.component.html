@@ -511,16 +511,7 @@
       </div>
     </div>
   </div>
-  <div class="row mt-2">
-    <h6 class="titulo">Evaluación del estado final</h6>
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="evaluacionEstadoFinal" placeholder="Observaciones"
-          id="evaluacionEstadoFinal"></textarea>
-        <label for="evaluacionEstadoFinal"> Observaciones</label>
-      </div>
-    </div>
-  </div>
+ 
   <h6 class="titulo mt-2">Estado Periodontal</h6>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
@@ -560,6 +551,16 @@
   <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
   </ngx-odontograma-vestibular>
   <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <div class="row mt-2">
+    <h6 class="titulo">Evaluación del estado final</h6>
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="evaluacionEstadoFinal" placeholder="Observaciones"
+          id="evaluacionEstadoFinal"></textarea>
+        <label for="evaluacionEstadoFinal"> Observaciones</label>
+      </div>
+    </div>
+  </div>
   <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
   <hr>
@@ -577,16 +578,15 @@
   <hr>
   <h6 class="titulo mt-2">Odontograma Final</h6>
   <hr>
-  <ngx-odontograma-v-infantil (odontograma)="resultOdontograma-v-infantil($event)" #vestibularInfantil>
+  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
   </ngx-odontograma-v-infantil>
-  
   <hr>
   <div class="row">
     <div class="col  mt-2 me-4 mb-2">
       <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
-          placeholder="Observaciones" id="observacionesVestibular"></textarea>
-        <label for="observacionesVestibular">  </label>
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil">  </label>
       </div>
     </div>
   </div>
@@ -689,9 +689,9 @@
       <mat-label>Diagnóstico</mat-label>
       <textarea matInput formControlName="diagnosticoOdonto"></textarea>
     </mat-form-field>
-    <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a><a
-      href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
-      target="_blank"> Manual CIE-10</a>
+    <a href="https://udistritaleduco-my.sharepoint.com/:b:/g/personal/jdcardosom_udistrital_edu_co/Ea9tSD0UTHNGiNXZPwa8jq8BtCqPqiDsPO5jtrdTezCcyA?e=N4e9Q3" target="_blank">Buscador CIE-10</a>
+    <!--<a href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
+      target="_blank"> Manual CIE-10</a> --> 
   </div><br>
   <div class="row">
     <mat-form-field class="col-sm-12" appearance="outline">
@@ -716,8 +716,8 @@
     <div class="col md-6 me-4 mb-4">
       <div class="input-group">
         <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarEvolucionOdonto()" formControlName="nuevaEvolucionOdonto" name="nuevaEvolucionOdonto"
-          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="!crear || superAdmin"></textarea> <!--/>-->
-        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="!crear || superAdmin">
+          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="superAdmin"></textarea> <!--/>-->
+        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="superAdmin">
           Agregar
         </button>
       </div>
@@ -725,8 +725,8 @@
     <div class="row mt-2">
       <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
         <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
-          <!--<input--> <textarea class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
-          <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="!crear || superAdmin">
+          <!--<input--> <textarea class="form-control"*ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
+          <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="superAdmin">
             Borrar
           </button>
         </div>
