@@ -1,50 +1,29 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+
 import { CulturaComponent } from '../cultura/cultura.component';
 import { AuthGuard } from '../../@core/_guards/auth.guard';
 import { RolesConstanst } from '../../shared/constants/roles.constants';
 import { ActividadCulturalComponent }from './actividad-cultural/actividad-cultural.component';
 import { GrupoCulturalComponent }from './grupo-cultural/grupo-cultural.component';
+import {FormActCultComponent}from './actividad-cultural/form_act_cult/form_act_cult.component'
+import { CalendarioActividadComponent } from './actividad-cultural/calendario-actividad/calendario-actividad.component';
 
-
-const routes: Routes = [
-    {
-        path: '',
-        component: CulturaComponent,
+const routes: Routes = [{
+        path: '',        
         children: [
-            {
-                path: 'actividad-cultural',
-                canActivate: [AuthGuard],
-                data: {
-                    roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR, RolesConstanst.ROLES_SISTEMA.ADMIN_CULTURA]
-                },
-                component: ActividadCulturalComponent
-            },
+            {path: 'actividad-cultural',component: ActividadCulturalComponent },
+            {path: 'actividad-cultural/calendario-actividad',component: CalendarioActividadComponent },
+            {path: 'actividad-cultural/form_act_cult',component: FormActCultComponent },
+            {path: 'grupo-cultural',component: GrupoCulturalComponent},
             
-            {
-                path: 'grupo-cultural',
-                canActivate: [AuthGuard],
-                data: {
-                    roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR, RolesConstanst.ROLES_SISTEMA.ADMIN_CULTURA]
-                },
-                component: GrupoCulturalComponent
-            },
-        ],
-    
-    },  
-
-    {
-        path: '**',
-        redirectTo: "" 
-    }
-]   
+            { path: '**', redirectTo: '' },
+        ],    
+    },]   
 
 @NgModule({
-    imports: [
-      RouterModule.forChild(routes),
-      //RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })
-    ],
-    exports: [RouterModule],
-  })
+    imports:[RouterModule.forChild(routes)],
+    exports: [RouterModule]
+    })
 export class CulturaRoutingModule{
 }

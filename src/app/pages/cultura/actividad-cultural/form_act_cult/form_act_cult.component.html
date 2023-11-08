@@ -1,0 +1,91 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-7 col-md-7 offset-lg-3"> 
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>
+                       Crear Actividad Cultural
+                    </h3>
+                    <form [formGroup]="crearActividadCultural" (ngSubmit)="agregarActividad()">
+                        <mat-form-field appearance="outline" class="select-group col-sm-12">
+                            <mat-label>Nombre Actividad</mat-label>
+                            <input matInput type="text" formControlName="'nombre actividad'">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+                            <mat-label>Tipo de actividad</mat-label> 
+                            <mat-select formControlName="'tipo de actividad'">
+                                <mat-option value ="Evento ">
+                                  Evento cultural
+                                </mat-option>   
+                                <mat-option value ="Ensayo">
+                                    Ensayo
+                                </mat-option>
+                            </mat-select> 
+                            <mat-hint>Seleccione el tipo de actividad</mat-hint>
+                            <mat-error>Campo obligatorio</mat-error>  
+
+                        </mat-form-field >
+
+                        <mat-form-field appearance="outline" class="select-group col-sm-12">
+                            <mat-label>Descripciòn</mat-label>
+                            <input matInput #input maxlength="258" formControlName="'descripciòn actividad'"rows="10" cols="40">
+                        </mat-form-field>
+        
+
+                        <mat-form-field appearance="outline" class="col-sm-6">
+                            <mat-label>Fecha de la actividad</mat-label>
+                            <input matInput formControlName="'fecha actividad'" [matDatepicker]="picker" [min]="fechaActual"> 
+                            <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="disableDate"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-hint>Ingrese la fecha de la actividad</mat-hint>
+                            <mat-error>La fecha es obligatoria</mat-error>  
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col-sm-6">
+                            <mat-label>Hora de la actividad</mat-label> 
+                            <input id="timePicker" matInput [ngxTimepicker]="hora" 
+                                format="24" formControlName="hora" [min]="horarioInicial"
+                            [max]="horarioFinal" [disableClick]="false">
+                            
+                            <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
+                            <ngx-material-timepicker #hora [editableHintTmpl]="hint" [hidden]="disableHour">
+                            </ngx-material-timepicker>
+                            <mat-hint>Ingrese la hora de la cita</mat-hint>
+                            <ng-template #hint>
+                            <span class="time-hint">Ingrese la hora en formato 24 horas</span>
+                            </ng-template>
+                            <mat-error>La hora es obligatoria</mat-error>
+                               
+                        </mat-form-field>
+                       
+                        
+                        <!-- <mat-form-field appearance="outline" class="col-sm-6"> 
+                            <mat-checkbox>Check me!</mat-checkbox>
+
+                             <input type="radio" name="inscripcion" id="inscripcion"
+                            value="" checked>
+                            <label form="inscripcion">
+                                Si
+                            </label> 
+                        </mat-form-field> -->
+
+                        <mat-form-field appearance="outline" class="col-sm-6"> 
+                            <!-- <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>                   -->
+                            <mat-label>Choose an option</mat-label>                           
+                            <mat-select >
+                            <mat-option value="option1">Option 1</mat-option>
+                            <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
+                            <mat-option value="option3">Option 3</mat-option>
+                        </mat-select>
+                            
+                        </mat-form-field>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div> 
+    </div>
+</div>

@@ -35,6 +35,7 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
+  
 } from '@nebular/theme';
 // Material
 import {
@@ -165,6 +166,7 @@ export class MaterialModule { }
     // FullCalendarModule,
     NbEvaIconsModule,
     ThemeModule.forRoot(),
+    
 
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),

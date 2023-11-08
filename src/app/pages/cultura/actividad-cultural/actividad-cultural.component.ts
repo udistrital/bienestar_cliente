@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { ActividadCultural } from '../../../@core/data/models/cultura/actividad_cultural';
 @Component({
   selector: 'ngx-actividad-cultural',
   templateUrl: './actividad-cultural.component.html',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActividadCulturalComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private router: Router,) { }
+  // actividades: ActividadCultural[]
   ngOnInit() {
   }
 
+  
 }

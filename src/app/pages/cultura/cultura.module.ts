@@ -14,7 +14,9 @@ import {
     NbRadioModule, 
     NbLayoutModule, 
     NbAccordionModule,
-    NbBadgeModule
+    NbBadgeModule,
+    
+   
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -24,9 +26,21 @@ import {CulturaRoutingModule} from './cultura-routing.module'
 import { CulturaComponent } from './cultura.component';
 import { ActividadCulturalComponent } from './actividad-cultural/actividad-cultural.component';
 import { GrupoCulturalComponent } from './grupo-cultural/grupo-cultural.component';
+import { FormActCultComponent} from './actividad-cultural/form_act_cult/form_act_cult.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import { CalendarioActividadComponent } from './actividad-cultural/calendario-actividad/calendario-actividad.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
-
-
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+  listPlugin,
+]);
 
 @NgModule({
     imports: [
@@ -49,8 +63,12 @@ import { GrupoCulturalComponent } from './grupo-cultural/grupo-cultural.componen
     NgxEchartsModule,
     NgxChartsModule, 
     LeafletModule, 
-    CulturaRoutingModule
-
+    CulturaRoutingModule,
+    FullCalendarModule,
+    NgxMaterialTimepickerModule,
+    
+    
+    
     
         
     ],
@@ -58,7 +76,8 @@ import { GrupoCulturalComponent } from './grupo-cultural/grupo-cultural.componen
         CulturaComponent,
         ActividadCulturalComponent,
         GrupoCulturalComponent,
-        
+        FormActCultComponent,
+        CalendarioActividadComponent,
         
         
     ],
