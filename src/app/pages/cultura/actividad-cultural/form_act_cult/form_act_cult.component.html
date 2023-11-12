@@ -9,17 +9,15 @@
                     <form [formGroup]="crearActividadCultural" (ngSubmit)="agregarActividad()">
                         <mat-form-field appearance="outline" class="select-group col-sm-12">
                             <mat-label>Nombre Actividad</mat-label>
-                            <input matInput type="text" formControlName="'nombre actividad'">
+                            <input matInput type="text" formControlName="Nombre">
                         </mat-form-field>
-
+                        <!-- Se debe desde cargar el listado de tipo de evntos desde la API de parametros CRUD -->
+                
                         <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
                             <mat-label>Tipo de actividad</mat-label> 
-                            <mat-select formControlName="'tipo de actividad'">
-                                <mat-option value ="Evento ">
-                                  Evento cultural
-                                </mat-option>   
-                                <mat-option value ="Ensayo">
-                                    Ensayo
+                            <mat-select formControlName="TipoActividad">
+                                <mat-option *ngFor="let tipo of tiposActividad" [value]="tipo">
+                                    {{tipo}}
                                 </mat-option>
                             </mat-select> 
                             <mat-hint>Seleccione el tipo de actividad</mat-hint>
@@ -28,60 +26,82 @@
                         </mat-form-field >
 
                         <mat-form-field appearance="outline" class="select-group col-sm-12">
-                            <mat-label>Descripciòn</mat-label>
-                            <input matInput #input maxlength="258" formControlName="'descripciòn actividad'"rows="10" cols="40">
+                            <mat-label>Descripción</mat-label>
+                            <textarea matInput #input maxlength="258" formControlName="Descripcion"rows="10" cols="40"></textarea>
                         </mat-form-field>
         
 
                         <mat-form-field appearance="outline" class="col-sm-6">
-                            <mat-label>Fecha de la actividad</mat-label>
-                            <input matInput formControlName="'fecha actividad'" [matDatepicker]="picker" [min]="fechaActual"> 
-                            <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="disableDate"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-label>Fecha de inicio de la actividad</mat-label>
+                            <input matInput formControlName="FechaInicio" [matDatepicker]="pickerInicio"> 
+                            <mat-datepicker-toggle matSuffix [for]="pickerInicio" [disabled]="disableDate"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerInicio></mat-datepicker>
                             <mat-hint>Ingrese la fecha de la actividad</mat-hint>
                             <mat-error>La fecha es obligatoria</mat-error>  
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col-sm-6">
-                            <mat-label>Hora de la actividad</mat-label> 
-                            <input id="timePicker" matInput [ngxTimepicker]="hora" 
-                                format="24" formControlName="hora" [min]="horarioInicial"
-                            [max]="horarioFinal" [disableClick]="false">
+                            <mat-label>Hora de inicio de la actividad</mat-label> 
+                            <input id="timePickerInicio" matInput [ngxTimepicker]="HoraInicio" 
+                                format="24" formControlName="HoraInicio" [disableClick]="false">
                             
-                            <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
-                            <ngx-material-timepicker #hora [editableHintTmpl]="hint" [hidden]="disableHour">
+                            <mat-icon class="toggle-picker" matSuffix (click)="HoraInicio.open()">schedule</mat-icon>
+                            <ngx-material-timepicker #HoraInicio [editableHintTmpl]="hintInicio" [hidden]="disableHour">
                             </ngx-material-timepicker>
                             <mat-hint>Ingrese la hora de la cita</mat-hint>
-                            <ng-template #hint>
+                            <ng-template #hintInicio>
                             <span class="time-hint">Ingrese la hora en formato 24 horas</span>
                             </ng-template>
                             <mat-error>La hora es obligatoria</mat-error>
                                
                         </mat-form-field>
-                       
+
+                        <mat-form-field appearance="outline" class="col-sm-6">
+                            <mat-label>Fecha fin de la actividad</mat-label>
+                            <input matInput formControlName="FechaFin" [min]="crearActividadCultural.controls.FechaInicio.value"[matDatepicker]="pickerFin"> 
+                            <mat-datepicker-toggle matSuffix [for]="pickerFin" [disabled]="disableDate"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerFin></mat-datepicker>
+                            <mat-hint>Ingrese la fecha de la actividad</mat-hint>
+                            <mat-error>La fecha es obligatoria</mat-error>  
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col-sm-6">
+                            <mat-label>Hora fin de la actividad</mat-label> 
+                            <input id="timePickerFin" matInput [ngxTimepicker]="HoraFin" 
+                                format="24" formControlName="HoraFin" [disableClick]="false">
+                            
+                            <mat-icon class="toggle-picker" matSuffix (click)="HoraFin.open()">schedule</mat-icon>
+                            <ngx-material-timepicker #HoraFin [editableHintTmpl]="hintFin" [hidden]="disableHour">
+                            </ngx-material-timepicker>
+                            <mat-hint>Ingrese la hora de la cita</mat-hint>
+                            <ng-template #hintFin>
+                            <span class="time-hint">Ingrese la hora en formato 24 horas</span>
+                            </ng-template>
+                            <mat-error>La hora es obligatoria</mat-error>
+                               
+                        </mat-form-field>                      
                         
-                        <!-- <mat-form-field appearance="outline" class="col-sm-6"> 
-                            <mat-checkbox>Check me!</mat-checkbox>
-
-                             <input type="radio" name="inscripcion" id="inscripcion"
-                            value="" checked>
-                            <label form="inscripcion">
-                                Si
-                            </label> 
-                        </mat-form-field> -->
-
-                        <mat-form-field appearance="outline" class="col-sm-6"> 
-                            <!-- <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>                   -->
+                   
+                        <mat-checkbox>¿Tiene enlace de inscripció?</mat-checkbox>
+                        
+                        <mat-form-field appearance="outline" class="col-sm-12"> 
+                                              
+                            <mat-label>Pegue aqui el enlace</mat-label>
+                            <input matInput type="text" >
+                            
+                        </mat-form-field>
+                        <mat-checkbox>¿Tiene enlace para mayor información?</mat-checkbox>
+                        
+                        <mat-form-field appearance="outline" class="col-sm-12"> 
+                                              
                             <mat-label>Choose an option</mat-label>                           
-                            <mat-select >
-                            <mat-option value="option1">Option 1</mat-option>
-                            <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
-                            <mat-option value="option3">Option 3</mat-option>
-                        </mat-select>
+                             <mat-label>Pegue aqui el enlace</mat-label>
+                            <input matInput type="text">
                             
                         </mat-form-field>
 
                     </form>
+                     
                 </div>
 
             </div>

@@ -9,5 +9,5 @@ export class GrupoCultural{
     EnlaceInscripcion: String;
     FechaInicioInscr: Date ;
     FechaFinInscr: Date ;  
-    VersionRecord: number;
+    
 }

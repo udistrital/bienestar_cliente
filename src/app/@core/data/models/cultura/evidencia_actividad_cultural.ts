@@ -5,5 +5,5 @@ export class EvidenciaActividadCultural{
     IdActividad:ActividadCultural;
     CategoriaEvidencia:number;
     ContenidoEvidencia:String;
-    VersionRecord: number;
+    
 }

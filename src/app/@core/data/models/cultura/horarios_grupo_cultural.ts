@@ -5,5 +5,5 @@ export class HorarioGrupoCultural {
     IdGrupoCultural:GrupoCultural;
     FechaReunion: Date ; 
     LugarReunion: String;
-    VersionRecord: number;
+    
 }
