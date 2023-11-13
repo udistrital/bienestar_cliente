@@ -1,69 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { Atenciones } from '../../interfaces/atenciones';
-import { AtencionesService } from '../../services/atenciones.service';
-
-
+import { Component, OnInit } from "@angular/core";
+import { Atenciones } from "../../interfaces/atenciones";
+import { AtencionesService } from "../../services/atenciones.service";
 
 @Component({
-  selector: 'ngx-acreditaciones-reportes',
-  templateUrl: './acreditaciones-reportes.component.html',
-  styleUrls: ['./acreditaciones-reportes.component.scss']
+  selector: "ngx-acreditaciones-reportes",
+  templateUrl: "./acreditaciones-reportes.component.html",
+  styleUrls: ["./acreditaciones-reportes.component.scss"],
 })
-
-
-
 export class AcreditacionesReportesComponent implements OnInit {
-
-
-
-
-  //comenzamos por aqui 
+  //comenzamos por aqui
   atenciones: Atenciones[] = [
-    { nombre:"Bienestar Permanencia",id:57},
+    { nombre: "Bienestar Permanencia", id: 57 },
 
-    {nombre:"Bienestar Derechos humanos ",id:59},
-    
-    {nombre:"Bienestar ICETEX",id:65},
+    { nombre: "Bienestar Derechos humanos ", id: 59 },
 
-    {nombre:"Bienestar Jóvenes En Acción",id:62},
+    { nombre: "Bienestar ICETEX", id: 65 },
 
-    {nombre:"Bienestar Excusas",id:70},
+    { nombre: "Bienestar Jóvenes En Acción", id: 62 },
 
-    {nombre:"Bienestar Psicología",id:72},
+    { nombre: "Bienestar Excusas", id: 70 },
 
-    {nombre:"Bienestar Trabajo Social ",id:75}
+    { nombre: "Bienestar Psicología", id: 72 },
+
+    { nombre: "Bienestar Trabajo Social ", id: 75 },
   ];
 
+  selectorAtencion = null;
 
-  selectorAtencion =null
+  solicitudesExt: string[] = [];
 
+  // single: any[]=[];
 
+  constructor(private AtencionesService: AtencionesService) {}
 
-  solicitudesExt: string [] = [];
-
- // single: any[]=[];
-
-
-
- constructor(private AtencionesService:AtencionesService) { 
-  
-}
-
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 
   // funciones
-  buscarSolicitudes(){
-    let atencion = this.selectorAtencion.id
- this.solicitudesExt=["",""]
- console.log(atencion);
-
- this.AtencionesService.setTipoAtencion(atencion)
- this.AtencionesService.buscarSolicitudes();
- 
-
- 
+  buscarSolicitudes() {
+    let atencion = this.selectorAtencion.id;
+    this.solicitudesExt = ["", ""];
+    this.AtencionesService.setTipoAtencion(atencion);
+    this.AtencionesService.buscarSolicitudes();
   }
 }

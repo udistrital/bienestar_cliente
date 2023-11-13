@@ -31,8 +31,6 @@ export class AtencionesService {
   setFiltros(facultad: string, estadoSolicitud: string, estadoTipo: number) {
     this.filtroFacultad = facultad;
     this.estadoSolicitud = estadoSolicitud;
-    console.log("ESTADO",this.estadoSolicitud);
-    
     this.estadoTipo = estadoTipo;
     return new Promise((resolve) => {
       resolve(this.cargarSol());
@@ -103,19 +101,20 @@ export class AtencionesService {
     });
     Swal.showLoading();
     let finalizada = null;
-    
+
     if (this.estadoSolicitud != "null") {
       finalizada = this.estadoSolicitud == "finalizada" ? true : false;
     }
-    console.log("filtros2",this.estadoSolicitud,finalizada);
     return this.listService
-      .findSolicitudesPYZ(this.estadoTipo, this.itemSelect, this.itemOffSet,finalizada)
+      .findSolicitudesPYZ(
+        this.estadoTipo,
+        this.itemSelect,
+        this.itemOffSet,
+        finalizada
+      )
       .then((result) => {
-        console.log("solicitudes",result);
-        
         const solicitudes = result;
-        console.log("sesdsad",solicitudes.length);
-        
+
         if (solicitudes.length > 0) {
           for (let solicitud of solicitudes) {
             solicitud.Referencia = JSON.parse(solicitud.Referencia);
