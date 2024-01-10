@@ -38,18 +38,17 @@ export class ConsultasEstudianteComponent implements OnInit {
   loading: boolean = true;
   puedeCrear: boolean = false;
 
-//  Para gestionar la descarga del paz y salv0
+  //  Para gestionar la descarga del paz y salv0
   documentosHTML = new Array();
   documentosSolicitud: SoportePaquete;
   selectDoc = [];
-
 
   constructor(
     private utilService: UtilService,
     private est: EstudiantesService,
     private listService: ListService,
     private nuxeoService: NuxeoService,
-    private documentoService: DocumentoService,
+    private documentoService: DocumentoService
   ) {
     this.obtenerInfoUsuario();
   }
@@ -60,7 +59,6 @@ export class ConsultasEstudianteComponent implements OnInit {
     Swal.close();
     this.utilService.showSwAlertError(titulo, msj);
   }
- 
 
   obtenerInfoUsuario() {
     Swal.fire({
@@ -72,51 +70,49 @@ export class ConsultasEstudianteComponent implements OnInit {
     Swal.showLoading();
     this.listService.getInfoEstudiante().then((resp) => {
       this.est.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
-        
         this.estudiante = res[0].TerceroId;
         this.estudiante.documento = res[0].Numero;
         this.estudiante.documento_compuesto =
           res[0].TipoDocumentoId.CodigoAbreviacion +
           " " +
           this.estudiante.documento;
-          if (this.tercero !== undefined) {
-
-            this.listService
-              .loadSolicitanteByIdTerceroPYZ(this.estudiante.Id, null, null, null)
-              .then((resp) => {
-
-                if(resp.length === 0){ 
-                  Swal.fire({
-                    title: "Sin solicitudes :(",
-                    text: "...upsss no encontramos ninguna solicitud de paz y salvos asociada a este usuario ",
-                    confirmButtonText: "Aceptar",
-                });;
-                }     
-                  else{
-                  for (const solicitante of resp) {
-                    this.listService.loadSolicitud(solicitante.SolicitudId.Id).then((solicitud)=>{
-                        this.loadDocumentos(solicitud.Id).then((pazysalvo)=>{
-                          this.solicitudesExt.push({...solicitud,'documento':pazysalvo});
-                        })                     
-  
-                  })
-                  }
-                  Swal.close();
+        if (this.tercero !== undefined) {
+          this.listService
+            .loadSolicitanteByIdTerceroPYZ(this.estudiante.Id, null, null, null)
+            .then((resp) => {
+              if (resp.length === 0) {
+                Swal.fire({
+                  title: "Sin solicitudes :(",
+                  text: "...upsss no encontramos ninguna solicitud de paz y salvos asociada a este usuario ",
+                  confirmButtonText: "Aceptar",
+                });
+              } else {
+                for (const solicitante of resp) {
+                  this.listService
+                    .loadSolicitud(solicitante.SolicitudId.Id)
+                    .then((solicitud) => {
+                      this.loadDocumentos(solicitud.Id).then((pazysalvo) => {
+                        this.solicitudesExt.push({
+                          ...solicitud,
+                          documento: pazysalvo,
+                        });
+                      });
+                    });
                 }
- 
-
-              })
-              .catch((error) => console.error(error));
-          } else {
-            this.showError(
-              "Estudiante no encontrado",
-              "No se encuentra el tercero"
-            );
-          }
-          Swal.close()
+                Swal.close();
+              }
+            })
+            .catch((error) => console.error(error));
+        } else {
+          this.showError(
+            "Estudiante no encontrado",
+            "No se encuentra el tercero"
+          );
+        }
+        Swal.close();
       });
-
     });
+    Swal.close();
   }
 
   loadDocumentos(solicitudId) {
@@ -124,45 +120,55 @@ export class ConsultasEstudianteComponent implements OnInit {
       let contDocs = 0;
       let terminoDescargar = false;
       let pazysalvo = null; // Variable para almacenar el resultado
-  
-      this.listService.findPaqueteSolicitudBySolicitud(solicitudId).then((paqSol) => {
-        if ( Object.keys(paqSol).length !== 0) {
-         
-          this.listService.findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id).then((soportes) => {
-            this.documentosSolicitud = soportes;
-            const documentosHTML = [];
-  
-            for (let i = 0; i < Object.keys(soportes).length; i++) {
-              const element = Object.values(soportes)[i];
-              this.documentosHTML[i] = new Array();
-              this.documentosHTML[i][0] = element.Descripcion;
-            }
-  
-            this.nuxeoService.getDocumentoById$(soportes, this.documentoService).subscribe((res: Object) => {
-              for (let i = 0; i < this.documentosHTML.length; i++) {
-                if (res['undefined'].documento == this.documentosHTML[i][0]) {
-                  this.documentosHTML[i][1] = res['undefined'].url;
+
+      this.listService
+        .findPaqueteSolicitudBySolicitud(solicitudId)
+        .then((paqSol) => {
+          if (Object.keys(paqSol).length !== 0) {
+            this.listService
+              .findSoportePaqueteByIdPaquete(paqSol.PaqueteId.Id)
+              .then((soportes) => {
+                this.documentosSolicitud = soportes;
+                const documentosHTML = [];
+
+                for (let i = 0; i < Object.keys(soportes).length; i++) {
+                  const element = Object.values(soportes)[i];
+                  this.documentosHTML[i] = new Array();
+                  this.documentosHTML[i][0] = element.Descripcion;
                 }
-              }
-              contDocs++;
-              if (contDocs === Object.keys(soportes).length && !terminoDescargar) {
-                pazysalvo = this.documentosHTML[0];
-                this.selectDoc = this.selectDoc.concat(pazysalvo[1]);
-                this.loading = false;
-                Swal.close();
-                terminoDescargar = true;
-                resolve(pazysalvo[1]); // Resolvemos la Promesa con pazysalvo
-              }
-            });
-          });
-        }else{
-          resolve("")
-        }
-      }).catch((err) => {
-        this.showError('No se encontraron documentos', err);
-        rejected(err); // Rechazamos la Promesa si ocurre un error
-      });
+
+                this.nuxeoService
+                  .getDocumentoById$(soportes, this.documentoService)
+                  .subscribe((res: Object) => {
+                    for (let i = 0; i < this.documentosHTML.length; i++) {
+                      if (
+                        res["undefined"].documento == this.documentosHTML[i][0]
+                      ) {
+                        this.documentosHTML[i][1] = res["undefined"].url;
+                      }
+                    }
+                    contDocs++;
+                    if (
+                      contDocs === Object.keys(soportes).length &&
+                      !terminoDescargar
+                    ) {
+                      pazysalvo = this.documentosHTML[0];
+                      this.selectDoc = this.selectDoc.concat(pazysalvo[1]);
+                      this.loading = false;
+                      Swal.close();
+                      terminoDescargar = true;
+                      resolve(pazysalvo[1]); // Resolvemos la Promesa con pazysalvo
+                    }
+                  });
+              });
+          } else {
+            resolve("");
+          }
+        })
+        .catch((err) => {
+          this.showError("No se encontraron documentos", err);
+          rejected(err); // Rechazamos la Promesa si ocurre un error
+        });
     });
   }
- 
 }

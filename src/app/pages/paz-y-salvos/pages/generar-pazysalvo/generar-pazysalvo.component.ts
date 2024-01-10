@@ -92,7 +92,6 @@ export class GenerarPazysalvoComponent implements OnInit {
   ];
   DatosSolicitud: FormGroup;
   formulario: FormGroup;
-
   tabla: any = {
     apoyo: null,
     equipos: null,
@@ -116,7 +115,10 @@ export class GenerarPazysalvoComponent implements OnInit {
   };
 
   firmas: any = {};
-
+  logos = {
+    ud: null,
+    sigud: null,
+  };
   referencia = [];
 
   listInfoComplementaria = [];
@@ -276,6 +278,9 @@ export class GenerarPazysalvoComponent implements OnInit {
 
   onNewRevisor(revisor) {
     this.revisor = revisor;
+  }
+  onNewHeaders(logos) {
+    this.logos = logos;
   }
 
   loadEstadoTipoSolicitud() {
@@ -488,9 +493,9 @@ export class GenerarPazysalvoComponent implements OnInit {
       });
   }
 
-  guardarDoc(): boolean {
+  guardarDoc() {
     /* Variable que almacena los documentos agregados al formulario*/
-    const docsAdd = this.formularioPYZ.documentosAdjuntos;
+    const docsAdd = this.formularioPYZ.documentosAdjuntos.length;
     const prueba = 1;
     if (prueba) {
       Swal.fire({

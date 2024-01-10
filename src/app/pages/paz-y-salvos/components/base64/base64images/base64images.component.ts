@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
+import { sigud, logo } from "../../pdfmaker/imagesB64/";
 @Component({
   selector: "ngx-base64images",
   templateUrl: "./base64images.component.html",
@@ -23,13 +22,23 @@ export class Base64imagesComponent implements OnInit {
       firma: null,
     },
   };
+  logos = {
+    ud: null,
+    sigud: null,
+  };
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.logos.sigud = sigud[0];
+    this.logos.ud = logo[0];
+  }
 
   @Output()
   onNewRevisor: EventEmitter<any> = new EventEmitter();
+
+  @Output()
+  onNewHeaders: EventEmitter<any> = new EventEmitter();
 
   onFileSelected(event: any, person: string) {
     const file: File = event.target.files[0];
@@ -41,34 +50,11 @@ export class Base64imagesComponent implements OnInit {
     } else {
       console.warn("no es una imagen");
     }
-    // this.files.push(file)
-    //  this.firmas[person]=file;
-
-    this.uploadSignature(person);
-    // const imagen = event.target.files[0];
-    //  console.log(imagen.type);
-    // if ((imagen.type).includes('image')) {
-
-    //   this.blobFile(imagen).then((res: any) => {
-    //     this.imagenPrevia = res.base;
-    //   })
-    // } else {
-    //   console.warn("no es una imagen")
-
-    // }
-    // this.files.push(imagen)
-  }
-
-  uploadSignature(person: string) {
-    // const file: File = this.firmas[person];
-    // this.revisores[person].firma =this.firmas[person]
-    // Aquí puedes agregar la lógica para subir el archivo a tu servidor
-    // Puedes usar una biblioteca como 'axios' o 'HttpClient' para hacer la solicitud HTTP al servidor.
   }
 
   imprimir() {
     this.onNewRevisor.emit(this.revisores);
-    // aa
+    this.onNewHeaders.emit(this.logos);
   }
 
   blobFile = async ($event: any) =>
@@ -80,8 +66,6 @@ export class Base64imagesComponent implements OnInit {
         reader.readAsDataURL($event);
         reader.onload = () => {
           resolve({
-            // blob: $event,
-            // image,
             base: reader.result,
           });
         };

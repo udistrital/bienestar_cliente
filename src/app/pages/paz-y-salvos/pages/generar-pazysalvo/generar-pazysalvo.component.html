@@ -351,6 +351,7 @@
       <nb-accordion-item-body *ngIf="ref != null">
         <ngx-base64images
           (onNewRevisor)="onNewRevisor($event)"
+          (onNewHeaders)="onNewHeaders($event)"
         ></ngx-base64images>
       </nb-accordion-item-body>
     </nb-accordion-item>
@@ -372,6 +373,7 @@
           [referencia]="ref"
           [tabla]="tabla"
           [revisor]="revisor"
+          [logos]="logos"
         ></ngx-pdfMaker>
         <div class="row item-list">
           <ngx-archivos-generico
@@ -398,40 +400,11 @@
           status="danger"
           (click)="guardarDoc()"
           class="submit-button"
+          [disabled]="this.formularioPYZ.documentosAdjuntos ? false : true"
         >
           <mat-icon>send</mat-icon> Enviar Paz y Salvo
         </button>
 
-        <!-- en caso de querer ver el documento aqui mismo  -->
-        <!-- <div *ngIf="loadDocs">
-                        <div class="text-center">
-                            <div class="item">
-                                <h6 class="sub-item label-color-ud">{{selectDoc[0]}}</h6>
-                                <p class="pb-2"> Para abrir el documento en una nueva pestaña, <a class="e2e-trusted-url" [href]="selectDoc[1] | safe:'resourceUrl'" target="_blank">presione aqui</a> . (Ctrl + Click)</p>
-                            </div>
-                            <div class="item iframe-container" *ngIf="!loading">
-                                <iframe class="e2e-iframe-trusted-src" [src]="selectDoc[1]  | safe:'resourceUrl'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            </div>
-                            <div class="item">
-                                <hr>
-                                <h6>Cambiar documento</h6>
-                                <br>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 mt-2">
-                                    <label class="sub-item label-color-ud">
-                                        Ver documento :
-                                    </label>
-                                </div>
-                                <div class="col-md-9">
-                                    <select class="browser-default custom-select" aria-placeholder="Selecciona un documento" [(ngModel)]="selectDoc">
-                                        <option *ngFor="let doc of documentosHTML;let i = index;" [ngValue]="doc">
-                                            {{ doc[0] }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
         <div *ngIf="!loadDocs">
           <h6 style="text-align: center; color: #d33">
             No se pudo cargar los documentos
@@ -503,7 +476,6 @@
             <label ng-readonly="!nueva" class="sub-item field-color-ud">
               {{ solicitud?.EstadoTipoSolicitudId.EstadoId.Nombre }}
             </label>
-            <!-- <input ng-readonly="!nueva" fullWidth nbInput value={{solicitud?.Id}}> -->
           </div>
         </div>
         <div class="text-center">
