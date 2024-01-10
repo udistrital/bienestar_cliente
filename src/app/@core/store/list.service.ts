@@ -672,6 +672,50 @@ export class ListService {
     });
   }
 
+  /**
+   *Busca solicitudes relacionadas a PAZ Y SALVOS
+   *
+   * @memberof ListService
+   */
+
+  findSolicitudesPYZ(idEstadoTipo, limite, offSet?, finalizada?: boolean): Promise<Solicitud[]> {
+    return new Promise((resolve, reject) => {
+      let url = "solicitud"
+      if (idEstadoTipo != null) {
+        url += "?query=EstadoTipoSolicitudId.Id:" + idEstadoTipo
+      } else {
+        url += "?query=EstadoTipoSolicitudId.TipoSolicitud.Id:" + environment.IDS.IDPAZYSALVOS
+      }
+      if (finalizada != null) {
+        
+        url += ',SolicitudFinalizada:';
+        url += finalizada ? 'true' : 'false';
+      }
+      url += "&sortby=Id&order=desc"
+      if (limite > 0 || limite == -1) {
+        url += "&limit=" + limite;
+      }
+
+
+      if (offSet != null && offSet > 0) {
+        url += "&offset=" + offSet;
+      }
+      this.solicitudService.get(url)
+        .subscribe(
+          (result: any[]) => {
+            if (Object.keys(result[0]).length > 0) {
+              resolve(result);
+            } else {
+              resolve([]);
+            }
+          },
+          error => {
+            reject(error);
+          },
+        );
+    });
+  }
+
   findSolicitudesbyEstado(): Promise<Solicitud[]> {
     return new Promise((resolve, reject) => {
       this.solicitudService.get(`solicitud?query=EstadoTipoSolicitudId.TipoSolicitud.Id:${environment.IDS.IDTIPOSOLICITUD}`)
@@ -815,6 +859,62 @@ export class ListService {
         );
     });
   }
+
+
+  loadSolicitanteByIdTerceroPYZ(IdTercero: number, tipoSolicitud: number, nomPeriodo: String, estado: boolean): Promise<Solicitante[]> {
+    return new Promise((resolve, reject) => {
+      this.solicitudService
+        .get(`solicitante?query=TerceroId:${IdTercero}&limit=-1`)
+        .subscribe(
+          (result: any[]) => {
+            let solicitante: Solicitante;
+            if (Object.keys(result[0]).length > 0) {
+              /* Consultamos las solicitudes de un solicitante */
+              let listSolicitantes = [];
+              for (solicitante of result) {
+                
+                const sol: Solicitud = solicitante.SolicitudId;
+                
+                if (sol.EstadoTipoSolicitudId.TipoSolicitud.Id == environment.IDS.IDPAZYSALVOS) {
+  
+            
+                  /* Se busca una solicitud radicada */
+                  if (tipoSolicitud == null ||
+                    sol.EstadoTipoSolicitudId.Id ==
+                    tipoSolicitud
+                  ) {
+                    /* Se busca una referencia correspondiente al periodo actual */
+                    let refSol: ReferenciaSolicitud;
+                    try {
+                      refSol = JSON.parse(sol.Referencia);
+                      if (refSol != null) {
+  
+                          if (estado == null || sol.Activo == estado) {
+                            listSolicitantes.push(solicitante);
+                          }
+                        
+                      }
+                    } catch (error) {
+                      console.error(error);
+                    }
+                  }
+                }
+              }
+              if (listSolicitantes.length > 0) {
+                resolve(listSolicitantes);
+              }
+              resolve([]);
+            } else {
+              resolve([]);
+            }
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  }
+
 
 
   /**
