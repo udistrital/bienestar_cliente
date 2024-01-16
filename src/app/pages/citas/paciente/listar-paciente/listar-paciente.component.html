@@ -1,12 +1,20 @@
 <div class="card text-center">
   <span class="h3">Consultar paciente</span>
-  <div>
+
+  <div class="text-center">
+    <mat-radio-group [(ngModel)]="tipoPersona">
+      <mat-radio-button value="Estudiante">Estudiante</mat-radio-button>&nbsp;
+      <mat-radio-button value="Trabajador">Trabajador</mat-radio-button>
+    </mat-radio-group>
+  </div>
+ 
+  <div *ngIf="tipoPersona === 'Estudiante'">
     <button class="m-auto" mat-button routerLink="../../home">
       <mat-icon>keyboard_backspace</mat-icon> Volver
     </button>
     <form [formGroup]="miFormulario">
       <mat-form-field>
-        <mat-label>Código</mat-label>
+        <mat-label>Código Estudiante</mat-label>
         <input matInput placeholder="Código estudiante" type="text" formControlName="codigo" />
       </mat-form-field>
       <button mat-icon-button color="primary" (click)="buscarPaciente()">
@@ -14,7 +22,22 @@
       </button>
     </form>
   </div>
-</div>
+
+  <div *ngIf="tipoPersona === 'Trabajador'">
+    <button class="m-auto" id="searchBar" mat-button routerLink="../../home">
+      <mat-icon>keyboard_backspace</mat-icon> Volver
+    </button>
+    <form [formGroup]="miFormulario">
+      <mat-form-field>
+        <mat-label>Cedula Trabajador</mat-label>
+        <input matInput placeholder="Cedula trabajador" type="text" formControlName="codigo" />
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="buscarPaciente()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
+  </div>
+  
 <hr />
 <div class="card">
   <div class="container">
