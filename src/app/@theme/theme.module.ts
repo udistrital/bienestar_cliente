@@ -54,7 +54,6 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
-  MatFormFieldModule,
   MatBottomSheetModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -171,7 +170,6 @@ const MAT_MODULES = [
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
-  MatFormFieldModule
 ];
 
 const NB_THEME_PROVIDERS = [

@@ -14,9 +14,6 @@ import { HomeModule } from './home/home.module';
 import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario.component';
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
-import { PazYSalvosModule } from './paz-y-salvos/paz-y-salvos.module';
-import { AcreditacionesReportesModule } from './acreditaciones-reportes/acreditaciones-reportes.module';
-
 
 @NgModule({
   imports: [
@@ -32,8 +29,6 @@ import { AcreditacionesReportesModule } from './acreditaciones-reportes/acredita
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
-    PazYSalvosModule,
-    AcreditacionesReportesModule,
   ],
   declarations: [
     PagesComponent,
