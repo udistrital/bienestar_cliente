@@ -15,6 +15,7 @@ import {
     NbLayoutModule, 
     NbAccordionModule,
     NbBadgeModule,
+    NbCalendarRangeYearCellComponent,
     
    
 } from '@nebular/theme';
@@ -34,6 +35,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { CalendarioActividadComponent } from './actividad-cultural/calendario-actividad/calendario-actividad.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { CargarEvidenciasComponent } from './actividad-cultural/cargar-evidencias/cargar-evidencias.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -78,6 +80,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         GrupoCulturalComponent,
         FormActCultComponent,
         CalendarioActividadComponent,
+        CargarEvidenciasComponent,
         
         
     ],

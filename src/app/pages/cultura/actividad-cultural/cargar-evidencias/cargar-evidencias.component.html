@@ -1,0 +1,47 @@
+<p>Cargar evidencias works!</p>
+<div class="card text-center">
+    <span class="h3">Cargar evidencias</span>
+</div>
+<div class="container pt-4">
+    
+        
+            <div class="card text-center">
+                <div class="card-body">
+                    <form [formGroup]="cargarEvidencias" (ngSubmit)="cargarEvidencias()">
+                        
+
+                        <mat-form-field appearance="outline" class="select-group" class="col-sm-12">
+                            <mat-label>Tipo de evidencia que va a subir</mat-label> 
+                            <mat-select formControlName="TipoEvidencia">
+                                <mat-option *ngFor="let tipo of tiposEvidencia" [value]="tipo">
+                                    {{tipo}}
+                                </mat-option>
+                            </mat-select> 
+                            <mat-hint>Seleccione el tipo de evidencia</mat-hint>
+                            <mat-error>Campo obligatorio</mat-error>  
+
+                            
+                        </mat-form-field>
+                        
+                            <mat-radio-group (change)="tipoEvidenciaRadio($event.value)">
+                                <mat-radio-button value="Imagen">Imagen</mat-radio-button>&nbsp;
+                                <mat-radio-button value="Video">Enlace a video</mat-radio-button>
+                                <mat-radio-button value="Asistencia">Lista de asistencia</mat-radio-button>
+                            </mat-radio-group>
+
+                            <!-- <mat-checkbox-group>
+                                <mat-checkbox>Imagen</mat-checkbox>
+                                <mat-checkbox>Enlace a video</mat-checkbox>
+                                <mat-checkbox>LIsta de asistencia</mat-checkbox>
+
+                            </mat-checkbox-group>
+                             -->
+                        
+
+                    </form>
+                </div>
+            </div>
+        
+    
+
+</div>
