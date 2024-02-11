@@ -18,33 +18,25 @@
    
 </nb-card>
 <div class="card text-center">
-  <div class="card-body" *ngIf="actividades">
-    <mat-table [dataSource]="datasource" #sort="matSort" matSort class="mat-elevation-z8">
-      <ng-container matColumnDef="documento">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Documento</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.documento}}</mat-cell>
-      </ng-container>
+  <div class="card-body" *ngIf="obtenerActividades">
+    <mat-table [dataSource]="actividades_culturales" #sort="matSort" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="nombre">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.Nombrecompleto}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre actividad</mat-header-cell>
+        <mat-cell  *matCellDef="let ac">{{ac.nombre}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="telefono">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.telefonoAdicional}}</mat-cell>
+      <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+        <mat-cell *matCellDef="let ac">{{ac.estado}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="facultad">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Facultad</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.facultad}}</mat-cell>
+      <ng-container matColumnDef="lugar">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar</mat-header-cell>
+        <mat-cell *matCellDef="let ac">{{ac.lugar}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="plataforma">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Plataforma</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.plataforma}}</mat-cell>
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+        <mat-cell *matCellDef="let ac">{{ac.estado}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="servicio">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</mat-header-cell>
-        <mat-cell *matCellDef="let cita">{{cita.nombreEspecialidad}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="acciones">
+      <!--ng-container matColumnDef="acciones">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
         <mat-cell *matCellDef="let cita"><button class="btn" matTooltip="Ver más información" data-toggle="modal"
             data-target="#modalAditional" (click)="mostrarDialogo(cita.servicio)">
@@ -54,15 +46,15 @@
             <mat-icon color="warn">add_circle</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>
+      </ng-container-->
 
       <!-- elementos necesarios para el mat-table de angular material-->
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
     </mat-table>
     <mat-paginator #paginator="matPaginator" [pageSize]="20" showFirstLastButtons></mat-paginator>
   </div>
-  <div class="card-body" *ngIf="!solicitudes">
+  <div class="card-body" *ngIf="!obtenerActividades">
     <h5>No hay actividades creadas por el momento</h5>
   </div>
 </div> 

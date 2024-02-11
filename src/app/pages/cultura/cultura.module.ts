@@ -36,6 +36,7 @@ import listPlugin from '@fullcalendar/list';
 import { CalendarioActividadComponent } from './actividad-cultural/calendario-actividad/calendario-actividad.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CargarEvidenciasComponent } from './actividad-cultural/cargar-evidencias/cargar-evidencias.component';
+import { FormGrupCultComponent } from './grupo-cultural/form-grup-cult/form-grup-cult.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -81,6 +82,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         FormActCultComponent,
         CalendarioActividadComponent,
         CargarEvidenciasComponent,
+        FormGrupCultComponent,
         
         
     ],

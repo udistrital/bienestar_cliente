@@ -6,7 +6,8 @@ import { AuthGuard } from '../../@core/_guards/auth.guard';
 import { RolesConstanst } from '../../shared/constants/roles.constants';
 import { ActividadCulturalComponent }from './actividad-cultural/actividad-cultural.component';
 import { GrupoCulturalComponent }from './grupo-cultural/grupo-cultural.component';
-import {FormActCultComponent}from './actividad-cultural/form_act_cult/form_act_cult.component'
+import {FormActCultComponent}from './actividad-cultural/form_act_cult/form_act_cult.component';
+import {FormGrupCultComponent}from './grupo-cultural/form-grup-cult/form-grup-cult.component';
 import { CalendarioActividadComponent } from './actividad-cultural/calendario-actividad/calendario-actividad.component';
 import { CargarEvidenciasComponent } from './actividad-cultural/cargar-evidencias/cargar-evidencias.component';
 
@@ -18,7 +19,7 @@ const routes: Routes = [{
             {path: 'actividad-cultural/form_act_cult',component: FormActCultComponent },
             {path: 'actividad-cultural/cargar-evidencias',component: CargarEvidenciasComponent },
             {path: 'grupo-cultural',component: GrupoCulturalComponent},
-            
+            {path: 'grupo-cultural/form_grup_cult',component: FormGrupCultComponent},
             { path: '**', redirectTo: '' },
         ],    
     },]   
