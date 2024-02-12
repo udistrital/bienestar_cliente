@@ -15,6 +15,7 @@ import {
     NbLayoutModule, 
     NbAccordionModule,
     NbBadgeModule,
+  
     NbCalendarRangeYearCellComponent,
     
    
@@ -28,6 +29,7 @@ import { CulturaComponent } from './cultura.component';
 import { ActividadCulturalComponent } from './actividad-cultural/actividad-cultural.component';
 import { GrupoCulturalComponent } from './grupo-cultural/grupo-cultural.component';
 import { FormActCultComponent} from './actividad-cultural/form_act_cult/form_act_cult.component';
+import { PrevActividadCulturalComponent} from './actividad-cultural/prev-actividad/prev-actividad-cult.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -81,7 +83,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         FormActCultComponent,
         CalendarioActividadComponent,
         CargarEvidenciasComponent,
-        
+        PrevActividadCulturalComponent,
         
     ],
     providers: [
