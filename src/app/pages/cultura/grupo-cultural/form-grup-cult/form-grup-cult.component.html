@@ -78,6 +78,16 @@
                             <mat-hint>Ingrese la fecha de cierre de convocatoria</mat-hint>
                             <mat-error>La fecha es obligatoria</mat-error>  
                         </mat-form-field>
+
+                        <mat-card-actions class="form-action mt-4" fxLayoutAlign="center" fxLayout.lt-sm="column">
+                            <button class="card-button m-2" type="button" mat-raised-button routerLink="../../../cultura/grupo-cultural">
+                              <mat-icon>arrow_back</mat-icon>Regresar
+                            </button>
+                            <button class="card-button m-2" type="submit" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                              <mat-icon>save</mat-icon> Guardar
+                            </button>
+                            <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
+                          </mat-card-actions>
                     </form>
                      
                 </div>

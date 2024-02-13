@@ -10,6 +10,7 @@ import {FormActCultComponent}from './actividad-cultural/form_act_cult/form_act_c
 import {FormGrupCultComponent}from './grupo-cultural/form-grup-cult/form-grup-cult.component';
 import { CalendarioActividadComponent } from './actividad-cultural/calendario-actividad/calendario-actividad.component';
 import { CargarEvidenciasComponent } from './actividad-cultural/cargar-evidencias/cargar-evidencias.component';
+import { PrevActividadCulturalComponent } from './actividad-cultural/prev-actividad/prev-actividad-cult.component';
 
 const routes: Routes = [{
         path: '',        
@@ -20,6 +21,7 @@ const routes: Routes = [{
             {path: 'actividad-cultural/cargar-evidencias',component: CargarEvidenciasComponent },
             {path: 'grupo-cultural',component: GrupoCulturalComponent},
             {path: 'grupo-cultural/form_grup_cult',component: FormGrupCultComponent},
+            {path: 'actividad-cultural/prev-actividad',component: PrevActividadCulturalComponent },
             { path: '**', redirectTo: '' },
         ],    
     },]   

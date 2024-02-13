@@ -13,25 +13,25 @@
 <div class="card text-center">
     <div class="card-body" *ngIf="grupos">
       <mat-table [dataSource]="grupos_culturales" #sort="matSort" matSort class="mat-elevation-z8">
+
         <ng-container matColumnDef="nombre">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Grupo</mat-header-cell>
           <mat-cell  *matCellDef="let gr">{{gr.nombre}}</mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="estado">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
           <mat-cell *matCellDef="let gr">{{gr.estado}}</mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="descripcion">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</mat-header-cell>
           <mat-cell *matCellDef="let gr">{{gr.descripcion}}</mat-cell>
         </ng-container>
-        <!--ng-container matColumnDef="Consultar">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Consultar</mat-header-cell>
-          <mat-cell *matCellDef="let grupos_culturales">{{cita.facultad}}</mat-cell>
-        </ng-container-->
-        <!-- elementos necesarios para el mat-table de angular material-->
+
         <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+
       </mat-table>
       <mat-paginator #paginator="matPaginator" [pageSize]="20" showFirstLastButtons></mat-paginator>
     </div>
@@ -39,4 +39,5 @@
       <h5>No hay grupos creados por el momento</h5>
     </div>
   </div> 
+  
   
