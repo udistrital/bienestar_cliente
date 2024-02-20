@@ -39,6 +39,9 @@ export class EstudiantesService {
   getEstudiante(codigo) {
     return this.http.get(estudianteUrl + 'datos_basicos_estudiante/' + codigo, headers);
   }
+  getTercero(codigo) {
+    return this.http.get(estudianteUrl + 'tercero_documento/' + codigo, headers);
+  }
   getSolicitudCompleta(codigo) {
     return this.http.get(soliUrl + 'solicitud?query=Id:' + codigo);
   }

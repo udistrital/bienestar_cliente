@@ -50,16 +50,15 @@ export class ListarPacienteComponent implements OnInit {
   }
   buscarPaciente2() {
     this.estudianteService
-      .getEstudiantePorDocumento(this.miFormulario.value.documento) 
+
+      .getTercero(this.miFormulario.value.documento) 
       .subscribe((data: any) => {
-        var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+        var paciente = data.datosTerceroCollection.datosBasicosTercero[0];
         this.nombre = paciente.nombre;
         this.codigo = paciente.codigo;
         this.estado = paciente.estado;
-        this.estudianteService
-          .getProyecto(paciente.carrera)
-          .subscribe((data: any) => {
-            this.carrera = data.carrerasCollection.carrera[0].nombre;
+        this.carrera = paciente.carrera;
+
             // console.log(data);
           });
 
