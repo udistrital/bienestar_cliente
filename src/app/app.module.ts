@@ -22,6 +22,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ImplicitAutenticationService } from './@core/utils/implicit_autentication.service';
 import { ListService } from './@core/store/list.service';
 import { ToastrModule } from 'ngx-toastr';
+import { MatDialogModule } from '@angular/material';
 // import { FullCalendarModule } from '@fullcalendar/angular';
 // import dayGridPlugin from '@fullcalendar/daygrid';
 // import interactionPlugin from '@fullcalendar/interaction';
@@ -49,7 +50,6 @@ import {
   MatCheckboxModule,
   MatChipsModule,
   MatDatepickerModule,
-  MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,

@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Component, OnInit,  } from '@angular/core';
 import { CulturaService } from '../../../shared/services/cultura.service';
+import { MatDialog,  } from '@angular/material/dialog';
+import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/dialogo-grupos-culturales.component';
 
 @Component({
   selector: 'ngx-grupo-cultural',
@@ -10,18 +11,11 @@ import { CulturaService } from '../../../shared/services/cultura.service';
 })
 export class GrupoCulturalComponent implements OnInit {
 
-  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
-  @ViewChild('sort', { static: true }) sort: MatSort;
-  constructor(private ListCultura: CulturaService) { }
+  constructor(private ListCultura: CulturaService, private dialog: MatDialog) { }
 
   grupos: boolean;
   grupos_culturales: any[] = [];
-  /*grupos_culturales = [{id: 1, nombre: 'La Tuna UD', estado: 'Activo', descripcion: 'Grupo universitario musical'},
-                        {id: 2, nombre: 'Grupo Danzas UD', estado: 'Inactivo', descripcion: 'Grupo universitario de danzas'},
-                        {id: 3, nombre: 'Parranda Vallenata', estado: 'Pendiente', descripcion: 'Grupo universitario musical'} ];
-  */
-  
-  columnas = ['nombre', 'estado', 'descripcion'];
+  columnas = ['nombre', 'estado', 'descripcion', 'acciones'];
 
   ngOnInit() {
 
@@ -43,6 +37,13 @@ export class GrupoCulturalComponent implements OnInit {
         }
       
     });
+  }
+
+  mostrarDialogo(){
+    let message = {nombre: 'Tuna UD', estado: 'Activo'};
+    this.dialog.open( DialogoGruposCulturalesComponent, {width: '400px', data: {
+      mensaje: message
+    }});
   }
 
   /*

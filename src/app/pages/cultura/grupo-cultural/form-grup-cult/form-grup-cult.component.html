@@ -6,84 +6,83 @@
                     <h3>
                        Crear Grupo Cultural
                     </h3>
-                    <form [formGroup]="crearActividadCultural" (ngSubmit)="agregarActividad()">
-                        <mat-form-field appearance="outline" class="select-group col-sm-12">
+                    <form [formGroup]="crearGrupo" (ngSubmit)="agregarGrupo()">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
                             <mat-label>Nombre Grupo Cultural</mat-label>
-                            <input matInput type="text" formControlName="Nombre">
+                            <input matInput type="text" formControlName="nombre">
                         </mat-form-field>
                         
-                        <mat-form-field appearance="outline" class="select-group col-sm-12">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
                             <mat-label>Correo del grupo</mat-label>
-                            <input matInput type="text" formControlName="Nombre">
+                            <input matInput type="text" formControlName="correo">
                         </mat-form-field>
                         
+                        <mat-form-field appearance="outline" class="form-control" class="col-md-12">
+                            <mat-label>Descripcion</mat-label>
+                            <textarea matInput type="text" formControlName="descripcion" rows="3"></textarea>
+                        </mat-form-field>
+
+
+                        <div formArrayName="reuniones">
+
+                            <div *ngFor="let reunion of reuniones.controls; let i = index" [formGroupName]="i">
+                                <mat-form-field appearance="outline" class="select-group" class="col-md-3">
+                                    <mat-label>Dia</mat-label>
+                                    <input matInput type="text" formControlName="dia">
+                                </mat-form-field>
+    
+                                <mat-form-field appearance="outline" class="select-group" class="col-md-3">
+                                    <mat-label>Hora</mat-label>
+                                    <input matInput type="text" formControlName="hora">
+                                </mat-form-field>
+    
+                                <mat-form-field appearance="outline" class="select-group" class="col-md-4">
+                                    <mat-label>Lugar</mat-label>
+                                    <input matInput type="text" formControlName="lugar">
+                                </mat-form-field>
+    
+                                <button mat-raised-button color="primary" (click)="agregarFila()">+</button>
+                                <button mat-raised-button color="warn" (click)="quitarFila(i)">-</button>
+                            </div>
+
+                        </div>
+
+                        <mat-checkbox class="example-margin" [checked]="optInscripcion" (change)="onChange($event.checked)">
+                            ¿Necesita inscripción?</mat-checkbox>
+
                         <mat-form-field appearance="outline" class="select-group col-sm-12">
-                            <mat-label>Descripción</mat-label>
-                            <textarea matInput #input maxlength="258" formControlName="Descripcion"rows="10" cols="40"></textarea>
-                        </mat-form-field>
-        
-                        <mat-form-field appearance="outline" class="col-sm-6">
-                            <mat-label>Fecha de reuniones</mat-label>
-                            <input matInput formControlName="FechaReunion" [matDatepicker]="pickerReunion"> 
-                            <mat-datepicker-toggle matSuffix [for]="pickerReunion" [disabled]="disableDate"></mat-datepicker-toggle>
-                            <mat-datepicker #pickerReunion></mat-datepicker>
-                            <mat-hint>Ingrese la fecha de reunion</mat-hint>
-                            <mat-error>La fecha es obligatoria</mat-error>  
+                            <mat-label>Enlace de inscripción</mat-label>
+                            <input matInput type="text" formControlName="enlaceInscripcion">
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col-sm-6">
-                            <mat-label>Hora de reunion</mat-label> 
-                            <input id="timePickerInicio" matInput [ngxTimepicker]="HoraReunion" 
-                                format="24" formControlName="HoraReunion" [disableClick]="false">
-                            
-                            <mat-icon class="toggle-picker" matSuffix (click)="HoraReunion.open()">schedule</mat-icon>
-                            <ngx-material-timepicker #HoraReunion [editableHintTmpl]="hintReunion" [hidden]="disableHour">
-                            </ngx-material-timepicker>
-                            <mat-hint>Ingrese la hora de la creunion</mat-hint>
-                            <ng-template #hintInicio>
-                            <span class="time-hint">Ingrese la hora en formato 24 horas</span>
-                            </ng-template>
-                            <mat-error>La hora es obligatoria</mat-error>
-                               
+                            <mat-label>Fecha de inicio de inscripción</mat-label>
+                            <input matInput formControlName="fechaIniInscripcion" [matDatepicker]="picker1" [min]="fechaActual">
+                            <mat-datepicker-toggle matSuffix [for]="picker1" [disabled]="!disableDateIni"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                            <mat-hint>Ingrese la fecha de inicio de inscripción</mat-hint>
+                            <mat-error>La fecha es obligatoria</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" class="select-group col-sm-12">
-                            <mat-label>Lugar de reunion</mat-label>
-                            <input matInput type="text" formControlName="LugarReunion">
-                        </mat-form-field>
-                   
-                        <mat-checkbox>¿Necesita inscripción?</mat-checkbox>
-                        
-                        <mat-form-field appearance="outline" class="col-sm-12"> 
-                                              
-                            <mat-label>Ingrese el link del formulario</mat-label>
-                            <input matInput type="text" >
-                            
-                        </mat-form-field>
-
-                        <mat-checkbox>Habilitar enlace de inscripción</mat-checkbox>
-                        
-                        <mat-form-field appearance="outline" class="col-sm-12"> 
-                                              
-                            <mat-label>Ingrese el link del formulario</mat-label>
-                            <input matInput type="text" >
-                            
-                        </mat-form-field>
-                        
                         <mat-form-field appearance="outline" class="col-sm-6">
-                            <mat-label>Fecha de cierre de convocatoria</mat-label>
-                            <input matInput formControlName="FechaCierreConvocatoria" [matDatepicker]="pickerCierre"> 
-                            <mat-datepicker-toggle matSuffix [for]="pickerCierre" [disabled]="disableDate"></mat-datepicker-toggle>
-                            <mat-datepicker #pickerCierre></mat-datepicker>
-                            <mat-hint>Ingrese la fecha de cierre de convocatoria</mat-hint>
-                            <mat-error>La fecha es obligatoria</mat-error>  
+                            <mat-label>Fecha de finalización de inscripción</mat-label>
+                            <input matInput formControlName="fechaFinInscripcion" [matDatepicker]="picker2" [min]="fechaActual">
+                            <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="!disableDateFin"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-hint>Ingrese la fecha de finalización de inscripción</mat-hint>
+                            <mat-error>La fecha es obligatoria</mat-error>
                         </mat-form-field>
 
-                        <mat-card-actions class="form-action mt-4" fxLayoutAlign="center" fxLayout.lt-sm="column">
-                            <button class="card-button m-2" type="button" mat-raised-button routerLink="../../../cultura/grupo-cultural">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-8">
+                            <mat-label>Imagen</mat-label>
+                            <input matInput type="text" formControlName="imagen">
+                        </mat-form-field>
+
+                        <mat-card-actions class="form-action" fxLayoutAlign="center" fxLayout.lt-sm="column">
+                            <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../cultura/grupo-cultural">
                               <mat-icon>arrow_back</mat-icon>Regresar
                             </button>
-                            <button class="card-button m-2" type="submit" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                            <button class="card-button" class="col-md-2" type="submit" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
                               <mat-icon>save</mat-icon> Guardar
                             </button>
                             <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->

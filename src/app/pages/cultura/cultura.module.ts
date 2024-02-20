@@ -38,6 +38,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CargarEvidenciasComponent } from './actividad-cultural/cargar-evidencias/cargar-evidencias.component';
 import { FormGrupCultComponent } from './grupo-cultural/form-grup-cult/form-grup-cult.component';
 import { PrevActividadCulturalComponent } from './actividad-cultural/prev-actividad/prev-actividad-cult.component';
+import { DialogoGruposCulturalesComponent } from './grupo-cultural/dialogo-grupos-culturales/dialogo-grupos-culturales.component';
+import { DialogoEliminacionReunionesComponent } from './grupo-cultural/form-grup-cult/dialogo-eliminacion-reuniones/dialogo-eliminacion-reuniones.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -86,11 +88,17 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         FormGrupCultComponent,
         CargarEvidenciasComponent,
         PrevActividadCulturalComponent,
+        DialogoGruposCulturalesComponent,
+        DialogoEliminacionReunionesComponent,
         
     ],
     providers: [
 
     ],
+    entryComponents: [
+        DialogoGruposCulturalesComponent,
+        DialogoEliminacionReunionesComponent
+    ]
 })
 
 export class CulturaModule {  }

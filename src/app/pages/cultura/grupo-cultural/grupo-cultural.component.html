@@ -29,6 +29,18 @@
           <mat-cell *matCellDef="let gr">{{gr.descripcion}}</mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let gr"><button class="btn" matTooltip="Ver más información" data-toggle="modal"
+              data-target="#modalAditional" (click)="mostrarDialogo()">
+              <mat-icon color="primary">remove_red_eye</mat-icon>
+            </button>
+            <button class="btn" [routerLink]="['../grupo-cultural/form_grup_cult']" matTooltip="Crear">
+              <mat-icon color="warn">add_circle</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
 
