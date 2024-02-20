@@ -61,9 +61,6 @@ export class ListarPacienteComponent implements OnInit {
 
             // console.log(data);
           });
-
-      });
-   
   }
   ngOnInit() {
   }
