@@ -50,6 +50,7 @@ export class ListarPacienteComponent implements OnInit {
   }
   buscarPaciente2() {
     this.estudianteService
+
       .getTercero(this.miFormulario.value.documento) 
       .subscribe((data: any) => {
         var paciente = data.datosTerceroCollection.datosBasicosTercero[0];
@@ -57,6 +58,7 @@ export class ListarPacienteComponent implements OnInit {
         this.codigo = paciente.codigo;
         this.estado = paciente.estado;
         this.carrera = paciente.carrera;
+
             // console.log(data);
           });
 
