@@ -14,12 +14,11 @@ export class CalendarioActividadComponent implements OnInit {
     constructor() { }
 
     eventos = [{
-        title: 'prueba',
-        start: '2023-10-29T00:00:00-00:00',
-        end: '2023-10-29T00:00:00-00:00',
-        description:'prueba'
+        title: 'Actividad Cultural',
+        start: '2024-02-28T00:00:00-00:00',
+        end: '2024-02-29T00:00:00-00:00',
+        description:'Esta actividad cultural permite al estudiante'
     } ] 
-
     ngOnInit() {
         this.calendarOptions = {
             headerToolbar: {

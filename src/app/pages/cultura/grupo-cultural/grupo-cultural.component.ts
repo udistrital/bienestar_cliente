@@ -6,6 +6,7 @@ import { CulturaService } from '../../../shared/services/cultura.service';
   selector: 'ngx-grupo-cultural',
   templateUrl: './grupo-cultural.component.html',
   styleUrls: ['./grupo-cultural.component.scss']
+  
 })
 export class GrupoCulturalComponent implements OnInit {
 

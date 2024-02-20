@@ -1,1 +1,14 @@
 
+.fc table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1em;
+    background: white;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    
+    border: 1px solid #101426;
+      border-right-width: 1px;
+      border-bottom-width: 1px;
+}
