@@ -64,6 +64,15 @@ export class ListarPacienteComponent implements OnInit {
 
             // console.log(data);
           });
+    this.estudianteService.getInfoTercero(this.miFormulario.value.documento).subscribe((data) => {
+      this.saludService.terceroId = data[0].TerceroId.Id || null;
+      this.terceroId = data[0].TerceroId.Id || null;
+      this.estudianteService.getInfoComplementaria(this.saludService.terceroId, 51).subscribe((data) => {
+        let telefono2 = data[0].Dato;
+        let telefonoCorregido = telefono2.replace(/{"/g, '').replace(/"}/g, '').replace(/telefono/g, '').replace(/"/g, '').replace(/:/g, '');
+        this.telefono = telefonoCorregido;
+      });
+    });
   }
   ngOnInit() {
   }

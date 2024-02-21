@@ -21,6 +21,7 @@ const soliUrl = environment.SOLICITUD_CRUD_SERVICE;
 const paraUrl = environment.PARAMETROS;
 const consultaFacultades = 'dependencia_tipo_dependencia?query=TipoDependenciaId.Id:2'
 const consultaInfo = 'datos_identificacion/?query=TipoDocumentoId:14,Numero:';
+const consultaInfoTercero = 'datos_identificacion/?query=Numero:';
 const consultaIdentificacion = 'datos_identificacion/?query=TerceroId.Id:';
 const consultaEspecialistas = 'vinculacion?query=CargoId:';
 const consultaVinculacion = 'vinculacion?query=TerceroPrincipalId.Id:';
@@ -71,6 +72,9 @@ export class EstudiantesService {
   }
   getInfoPorCodigo(codigo) {
     return this.http.get(infoUrl + consultaInfo + codigo, headers);
+  }
+  getInfoTercero(codigo) {
+    return this.http.get(infoUrl + consultaInfoTercero + codigo, headers);
   }
   getInfoGrupoComplementaria(terceroId, Id) {
     return this.http.get(infoUrl + info + terceroId + grupoComplementaria + Id, headers);
