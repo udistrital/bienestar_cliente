@@ -18,6 +18,7 @@ export class ListarPacienteComponent implements OnInit {
   codigo = "";
   estado = "";
   telefono = "";
+  tipoPersona ="";
   constructor(private estudianteService: EstudiantesService, private saludService: SaludService) { }
   miFormulario = new FormGroup({
     codigo: new FormControl(null, Validators.required),
