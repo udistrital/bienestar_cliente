@@ -22,7 +22,9 @@ export class ListarPacienteComponent implements OnInit {
   constructor(private estudianteService: EstudiantesService, private saludService: SaludService) { }
   miFormulario = new FormGroup({
     codigo: new FormControl(null, Validators.required),
+    documento: new FormControl(null, Validators.required),
   });
+  
   buscarPaciente() {
     this.estudianteService
       .getEstudiante(this.miFormulario.value.codigo)
