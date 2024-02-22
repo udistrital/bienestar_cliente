@@ -22,7 +22,6 @@ export class ListarPacienteComponent implements OnInit {
   constructor(private estudianteService: EstudiantesService, private saludService: SaludService) { }
   miFormulario = new FormGroup({
     codigo: new FormControl(null, Validators.required),
-    documento: new FormControl(null, Validators.required),
   });
   
   buscarPaciente() {
@@ -54,7 +53,7 @@ export class ListarPacienteComponent implements OnInit {
   buscarPaciente2() {
     this.estudianteService
 
-      .getTercero(this.miFormulario.value.documento) 
+      .getTercero(this.miFormulario.value.codigo) 
       .subscribe((data: any) => {
         var paciente = data.datosTerceroCollection.datosBasicosTercero[0];
         this.nombre = paciente.nombre;
