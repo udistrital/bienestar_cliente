@@ -4,7 +4,7 @@
 <nb-card>
     <nb-card-header>
         <div class="d-flex justify-content-between">     
-          <button nbButton status="success" class="mx-2" type="button" routerLink='../grupo-cultural/form_grup_cult'>Crear Grupo Cultural</button>
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../grupo-cultural/crear_grup_cult'>Crear Grupo Cultural</button>
         </div>
     </nb-card-header> 
    
@@ -35,8 +35,8 @@
               data-target="#modalAditional" (click)="mostrarDialogo()">
               <mat-icon color="primary">remove_red_eye</mat-icon>
             </button>
-            <button class="btn" [routerLink]="['../grupo-cultural/form_grup_cult']" matTooltip="Crear">
-              <mat-icon color="warn">add_circle</mat-icon>
+            <button class="btn" [routerLink]="['../grupo-cultural/editar_grup_cult', gr.id]" matTooltip="Crear">
+              <mat-icon color="warn">update</mat-icon>
             </button>
           </mat-cell>
         </ng-container>

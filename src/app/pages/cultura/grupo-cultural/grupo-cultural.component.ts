@@ -1,4 +1,6 @@
 import { Component, OnInit,  } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { CulturaService } from '../../../shared/services/cultura.service';
 import { MatDialog,  } from '@angular/material/dialog';
 import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/dialogo-grupos-culturales.component';
@@ -11,9 +13,10 @@ import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/di
 })
 export class GrupoCulturalComponent implements OnInit {
 
-  constructor(private ListCultura: CulturaService, private dialog: MatDialog) { }
+  constructor(private ListCultura: CulturaService, private dialog: MatDialog, private router: Router) { }
 
   grupos: boolean;
+
   grupos_culturales: any[] = [];
   columnas = ['nombre', 'estado', 'descripcion', 'acciones'];
 
@@ -28,8 +31,14 @@ export class GrupoCulturalComponent implements OnInit {
         if (JSON.stringify(data['Data'][0]) != '{}') {
           this.grupos = true;
           for (let i in data['Data']){
+            let estado = '';
+            if (data['Data'][i].Estado == 1){
+              estado = 'Activo';
+            } else {
+              estado = 'Inactivo';
+            }
             this.grupos_culturales = [...this.grupos_culturales, {id: data['Data'][i].Id, nombre: data['Data'][i].Nombre, 
-                                    estado: data['Data'][i].Estado, descripcion: data['Data'][i].Descripcion}];
+                                    estado: estado, descripcion: data['Data'][i].Descripcion}];
           }
         }
         else {

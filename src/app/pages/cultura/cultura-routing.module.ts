@@ -18,9 +18,11 @@ const routes: Routes = [{
             {path: 'actividad-cultural',component: ActividadCulturalComponent },
             {path: 'actividad-cultural/calendario-actividad',component: CalendarioActividadComponent },
             {path: 'actividad-cultural/form_act_cult',component: FormActCultComponent },
+            //{path: 'actividad-cultural/form_act_cult/:id',component: FormActCultComponent },
             {path: 'actividad-cultural/cargar-evidencias',component: CargarEvidenciasComponent },
             {path: 'grupo-cultural',component: GrupoCulturalComponent},
-            {path: 'grupo-cultural/form_grup_cult',component: FormGrupCultComponent},
+            {path: 'grupo-cultural/crear_grup_cult',component: FormGrupCultComponent},
+            {path: 'grupo-cultural/editar_grup_cult/:id',component: FormGrupCultComponent},
             {path: 'actividad-cultural/prev-actividad',component: PrevActividadCulturalComponent },
             { path: '**', redirectTo: '' },
         ],    
@@ -29,6 +31,7 @@ const routes: Routes = [{
 @NgModule({
     imports:[RouterModule.forChild(routes)],
     exports: [RouterModule]
+    
     })
 export class CulturaRoutingModule{
 }

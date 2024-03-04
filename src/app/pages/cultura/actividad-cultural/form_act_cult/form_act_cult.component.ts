@@ -57,10 +57,16 @@ export class FormActCultComponent implements OnInit {
       IdTipoActividad: 666,
       Descripcion: this.crearActividadCultural.controls.Descripcion.value,
       Estado: 1,
+      /*
       FechaCreacion: new Date(),
       FechaInicio: this.unirFecha(this.crearActividadCultural.controls.FechaInicio.value, this.crearActividadCultural.controls.HoraInicio.value),
       FechaFin: this.unirFecha(this.crearActividadCultural.controls.FechaFin.value, this.crearActividadCultural.controls.HoraFin.value),
       FechaModificacion: new Date(),
+      */
+      FechaCreacion: '',
+      FechaInicio: '',
+      FechaFin: '',
+      FechaModificacion: '',
       LugarActividad: this.crearActividadCultural.controls.LugarActividad.value,
       NecesitaInscripcion: 0,
       MayorInf: 0,

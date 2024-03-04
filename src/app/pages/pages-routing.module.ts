@@ -41,12 +41,12 @@ const routes: Routes = [
             path:'cultura', 
             loadChildren: ( ) =>import ('./cultura/cultura.module')
             .then (m => m.CulturaModule),
-            /**component: CulturaComponent,
+            /*component: CulturaComponent,
             canActivate: [AuthGuard],
             data:{
                 roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
                 //,RolesConstanst.ROLES_SISTEMA.ESTUDIANTE       
-            }    **/           
+            }  */          
         },
 
         {

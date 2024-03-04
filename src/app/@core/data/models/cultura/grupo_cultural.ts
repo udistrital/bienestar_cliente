@@ -1,13 +1,12 @@
 export class GrupoCultural{
     Id: number; 
-    Nombre:String;
+    Nombre:string;
     Estado:number;
-    Descripcion: String;
-    Email:String;
-    Imagen: String;
+    Descripcion: string;
+    Email:string;
+    Imagen: string;
     NecesitaInscripcion:number;
-    EnlaceInscripcion: String;
-    FechaInicioInscr: Date ;
-    FechaFinInscr: Date ;  
-    
+    EnlaceInscripcion: string;
+    FechaInicioInscripcion: string;
+    FechaFinInscripcion: string;  
 }
