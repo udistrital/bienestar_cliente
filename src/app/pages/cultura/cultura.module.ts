@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
+    
     NbButtonModule,
     NbCardModule,
     NbProgressBarModule,
@@ -40,7 +41,10 @@ import { FormGrupCultComponent } from './grupo-cultural/form-grup-cult/form-grup
 import { PrevActividadCulturalComponent } from './actividad-cultural/prev-actividad/prev-actividad-cult.component';
 import { DialogoGruposCulturalesComponent } from './grupo-cultural/dialogo-grupos-culturales/dialogo-grupos-culturales.component';
 import { DialogoEliminacionReunionesComponent } from './grupo-cultural/form-grup-cult/dialogo-eliminacion-reuniones/dialogo-eliminacion-reuniones.component';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -72,7 +76,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CulturaRoutingModule,
     FullCalendarModule,
     NgxMaterialTimepickerModule,
-    
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
     
     
     

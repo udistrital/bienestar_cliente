@@ -35,8 +35,12 @@
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 1em;
-  background: white !important;
+  background: #fefefe !important;
   
+}
+.fc th {
+  background-color: #f0f0f0; /* Color de fondo de las celdas de encabezado */
+  color: #333; /* Color del texto en las celdas de encabezado */
 }
 
 .fc-theme-standard .fc-scrollgrid {

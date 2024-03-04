@@ -15,12 +15,15 @@ export class CargarEvidenciasComponent implements OnInit {
   hideFormImagen = false;
   hideFormVIdeo = false;
   hideFormAsistencia = false;
+  selectedFile: File | null = null;
+
   constructor(private fb: FormBuilder) {
     this.cargarEvidencias = this.fb.group({
       
       TipoEvidencia: ['', Validators.required]
 
     })
+
     
   }
 
@@ -39,6 +42,18 @@ export class CargarEvidenciasComponent implements OnInit {
     } 
     
   }
+  //onFileSelected(event: any): void {
+   // this.selectedFile = event.target.files[0] as File;
+  //}
+  //uploadFile(): void {
+    //if (this.selectedFile) {
+      // Aquí puedes implementar la lógica para subir el archivo al servidor
+     // console.log('Archivo seleccionado:', this.selectedFile);
+      // Puedes utilizar servicios como HttpClient para enviar el archivo al servidor
+    //} else {
+     // console.log('No se ha seleccionado ningún archivo');
+    //}
+  //}
   
 
 }

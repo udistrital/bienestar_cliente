@@ -79,7 +79,17 @@
                             </ng-template>
                             <mat-error>La hora es obligatoria</mat-error>
                                
-                        </mat-form-field>                      
+                        </mat-form-field> 
+                        
+                        <mat-checkbox [(ngModel)]="tieneEnlaceInscripcion">¿Tiene enlace de inscripción?</mat-checkbox>
+
+                        <mat-form-field appearance="outline" class="col-sm-12">
+                        <mat-label>Pegue aquí el enlace</mat-label>
+                        <input matInput type="text" [(ngModel)]="enlaceInscripcion" [disabled]="!tieneEnlaceInscripcion">
+                        
+                        </mat-form-field>
+
+
                         
                    
                         <mat-checkbox>¿Tiene enlace de inscripció?</mat-checkbox>
@@ -107,6 +117,13 @@
                         <button nbButton status="success" class="mx-2" type="button" >
                             <mat-icon>save</mat-icon> Guardar
                         </button>
+
+                        
+                        <button nbButton status="success" class="mx-2"  (click)="openFileInput()">
+                            <i class="material-icons left">photo_camera</i>
+                             Seleccionar Imagen</button>
+                        <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;">
+
 
                     </form>
                      

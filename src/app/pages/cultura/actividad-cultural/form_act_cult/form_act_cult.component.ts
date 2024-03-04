@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
 import { ActividadCultural } from '../../../../@core/data/models/cultura/actividad_cultural';
 import { Parametro } from '../../../../@core/data/models/parametro/parametro';
 //import {NbThemeModule,NbLayoutModule} from '@nebular/theme';
@@ -13,10 +13,14 @@ import { Parametro } from '../../../../@core/data/models/parametro/parametro';
   styleUrls: ['./form_act_cult.component.scss']
 })
 export class FormActCultComponent implements OnInit {
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  
   crearActividadCultural: FormGroup;
   actividadCultural: ActividadCultural;
   tipoActividad: Parametro;
   tiposActividad: String[] = ['Evento', 'Ensayo'];
+  tieneEnlaceInscripcion = false;
+  enlaceInscripcion: string = '';
 
   constructor(private fb: FormBuilder,) {
     this.crearActividadCultural = this.fb.group({
@@ -33,8 +37,13 @@ export class FormActCultComponent implements OnInit {
 
     })
   }
+   
 
   ngOnInit() {
+    this.crearActividadCultural = new FormGroup({
+      tieneEnlaceInscripcion: new FormControl(false),
+      enlaceInscripcion: new FormControl({ value: '', disabled: true }),
+    });
   }
 
   unirFecha(fecha: Date, hora: String) {
@@ -59,6 +68,19 @@ export class FormActCultComponent implements OnInit {
       
     }
     console.log(this.actividadCultural)
+  }
+
+  // Función que se ejecuta al seleccionar una imagen
+  onFileSelected(event: any): void {
+    const fileInput = event.target;
+    if (fileInput.files && fileInput.files[0]) {
+      // Aquí puedes realizar cualquier lógica con el archivo seleccionado
+      console.log('Archivo seleccionado:', fileInput.files[0].name);
+    }
+  }
+
+  openFileInput(): void {
+    this.fileInput.nativeElement.click();
   }
 
 }
