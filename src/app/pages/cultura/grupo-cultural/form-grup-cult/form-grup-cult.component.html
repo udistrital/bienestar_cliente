@@ -3,24 +3,30 @@
         <div class="col-lg-7 col-md-7 offset-lg-3"> 
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>
+                    <h3 *ngIf="ifCrearEditar">
                        Crear Grupo Cultural
                     </h3>
+                    <h3 *ngIf="!ifCrearEditar">
+                      Editar Grupo Cultural
+                   </h3>
                     <!--form [formGroup]="crearGrupo" (ngSubmit)="agregarGrupo()"-->
                     <form [formGroup]="crearGrupo">
                         <mat-form-field appearance="outline" class="select-group" class="col-md-6">
                             <mat-label>Nombre Grupo Cultural</mat-label>
                             <input matInput type="text" formControlName="nombre">
+                            <mat-error>Campo obligatorio y con longitud menor a 50 caracteres</mat-error>
                         </mat-form-field>
                         
                         <mat-form-field appearance="outline" class="select-group" class="col-md-6">
                             <mat-label>Correo del grupo</mat-label>
                             <input matInput type="text" formControlName="correo">
+                            <mat-error>Campo obligatorio, con longitud menor de 50 caracteres y debe contener un correo electronico</mat-error>
                         </mat-form-field>
                         
                         <mat-form-field appearance="outline" class="form-control" class="col-md-12">
                             <mat-label>Descripcion</mat-label>
                             <textarea matInput type="text" formControlName="descripcion" rows="3"></textarea>
+                            <mat-error>Campo obligatorio y con longitud menor de 300 caracteres </mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="select-group" class="col-sm-12" *ngIf="!ifCrearEditar">
@@ -60,12 +66,14 @@
                                     <ng-template #hint>
                                       <span class="time-hint">Ingrese la hora en formato 24 horas</span>
                                     </ng-template>
-                                    <mat-error>La hora es obligatoria</mat-error>
+                                    <mat-error>Campo obligatorio</mat-error>
                                   </mat-form-field>
 
                                 <mat-form-field appearance="outline" class="select-group" class="col-md-4">
                                     <mat-label>Lugar</mat-label>
                                     <input matInput type="text" formControlName="lugar">
+                                    <mat-hint>Seleccione el lugar de la reunion</mat-hint>
+                                    <mat-error>Campo obligatorio con longitud menor de 50 caracteres</mat-error>
                                 </mat-form-field>
     
                                 <button mat-raised-button color="primary" (click)="agregarFila()">+</button>
@@ -81,46 +89,58 @@
 
                         <mat-form-field appearance="outline" class="select-group col-sm-12">
                             <mat-label>Enlace de inscripción</mat-label>
-                            <input matInput type="text" formControlName="enlaceInscripcion">
+                            <input matInput type="text" formControlName="enlaceInscripcion" (ngModelChange)="formatearEnlaceInscripcion($event)">
+                            <mat-hint>Ingrese el enlace de inscripcion</mat-hint>
+                            <mat-error>Campo con longitud menor de 300 caracteres</mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col-sm-6">
                             <mat-label>Fecha de inicio de inscripción</mat-label>
                             <input matInput formControlName="fechaIniInscripcion" [matDatepicker]="pickerIni" [min]="fechaActual"
                             (ngModelChange)="formatearFechaIni($event)" readonly>
+                            <mat-icon matDatepickerToggleIcon (click)="clearFechaInicio($event)">clear</mat-icon>
                             <mat-datepicker-toggle matSuffix [for]="pickerIni"></mat-datepicker-toggle>
                             <mat-datepicker #pickerIni></mat-datepicker>
                             <mat-hint>Ingrese la fecha de inicio de inscripción</mat-hint>
-                            <mat-error>La fecha es obligatoria</mat-error>
+                            <mat-error>Campo obligatoria</mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col-sm-6">
                             <mat-label>Fecha de finalización de inscripción</mat-label>
-                            <input matInput formControlName="fechaFinInscripcion" [matDatepicker]="pickerFin" [min]="fechaActual"
-                            (ngModelChange)="formatearFechaFin($event)" readonly>
+                            <input #datepickerInput class="mat-datepicker-input" matInput formControlName="fechaFinInscripcion" [matDatepicker]="pickerFin" [min]="fechaActual"
+                            (ngModelChange)="formatearFechaFin($event)" (paste)="onPaste($event)" (keydown)="onKeyDown($event)" readonly>
+                            <mat-icon matDatepickerToggleIcon (click)="clearFechaFin($event)">clear</mat-icon>
                             <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
                             <mat-datepicker #pickerFin></mat-datepicker>
                             <mat-hint>Ingrese la fecha de finalización de inscripción</mat-hint>
-                            <mat-error>La fecha es obligatoria</mat-error>
+                            <mat-error>Campo obligatoria</mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="select-group" class="col-md-8">
                             <mat-label>Imagen</mat-label>
                             <input matInput type="text" formControlName="imagen">
+                            <mat-error>Campo obligatoria</mat-error>
                         </mat-form-field>
 
-                        <mat-card-actions class="form-action" fxLayoutAlign="center" fxLayout.lt-sm="column">
-                            <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../../cultura/grupo-cultural">
+                        <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="ifCrearEditar" fxLayout.lt-sm="column">
+                            <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../cultura/grupo-cultural">
                               <mat-icon>arrow_back</mat-icon>Regresar
                             </button>
-                            <button class="card-button" class="col-md-2" type="submit" *ngIf="ifCrearEditar" (click)="agregarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                            <button class="card-button" class="col-md-2" type="button" [disabled]="!validarFormularios()" (click)="agregarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
                               <mat-icon>save</mat-icon> Guardar
                             </button>
-                            <button class="card-button" class="col-md-2" type="submit" *ngIf="!ifCrearEditar" (click)="editarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
-                                <mat-icon>save</mat-icon> Editar
-                              </button>
                             <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
-                          </mat-card-actions>
+                        </mat-card-actions>
+
+                        <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="!ifCrearEditar" fxLayout.lt-sm="column">
+                          <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../../cultura/grupo-cultural">
+                            <mat-icon>arrow_back</mat-icon>Regresar
+                          </button>
+                          <button class="card-button" class="col-md-2" type="button" [disabled]="!validarFormularios()" (click)="editarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                              <mat-icon>save</mat-icon> Editar
+                            </button>
+                          <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
+                      </mat-card-actions>
                     </form>
                      
                 </div>

@@ -15,8 +15,8 @@ export class CalendarioActividadComponent implements OnInit {
 
     eventos = [{
         title: 'Actividad Cultural',
-        start: '2024-02-28T00:00:00-00:00',
-        end: '2024-02-29T00:00:00-00:00',
+        start: '2024-02-28T00:00:00-10:00',
+        end: '2024-02-29T00:08:00-10:00',
         description:'Esta actividad cultural permite al estudiante'
     } ] 
     ngOnInit() {

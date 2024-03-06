@@ -26,16 +26,16 @@
 
         <ng-container matColumnDef="descripcion">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</mat-header-cell>
-          <mat-cell *matCellDef="let gr">{{gr.descripcion}}</mat-cell>
+          <mat-cell *matCellDef="let gr">{{truncarContenido(gr.descripcion, 50)}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
           <mat-cell *matCellDef="let gr"><button class="btn" matTooltip="Ver más información" data-toggle="modal"
-              data-target="#modalAditional" (click)="mostrarDialogo()">
+              data-target="#modalAditional" (click)="mostrarDialogo(gr.id)">
               <mat-icon color="primary">remove_red_eye</mat-icon>
             </button>
-            <button class="btn" [routerLink]="['../grupo-cultural/editar_grup_cult', gr.id]" matTooltip="Crear">
+            <button class="btn" [routerLink]="['../grupo-cultural/editar_grup_cult', gr.id]" matTooltip="Editar">
               <mat-icon color="warn">update</mat-icon>
             </button>
           </mat-cell>

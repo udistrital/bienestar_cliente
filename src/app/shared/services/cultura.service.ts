@@ -30,7 +30,7 @@ export class CulturaService {
     }
 
     getGruposCulturales(){
-        return this.http.get(url+"grupo_cultural?limit=100&sortby=Id&order=asc");
+        return this.http.get(url+"grupo_cultural?limit=100&sortby=Nombre&order=asc");
     }
 
     postGrupoCultural(grupoCultural: GrupoCultural): Observable<GrupoCultural>{
@@ -50,7 +50,10 @@ export class CulturaService {
         return this.http.post<HorarioGrupoCultural>(url+'horarios_grupo_cultural', horarioGrupoCultural);
     }
 
-    putHorarioGrupoCultural(horarioGrupoCultural: HorarioGrupoCultural, id: number): Observable<HorarioGrupoCultural>{
+    putHorarioGrupoCultural(horarioGrupoCultural: HorarioGrupoCultural, id: number){
         return this.http.post<HorarioGrupoCultural>(url+'horarios_grupo_cultural/'+id, horarioGrupoCultural);
+    }
+    deleteHorarioGrupoCultural(id: number){
+        return this.http.delete(url+'horarios_grupo_cultural/'+id);
     }
 }

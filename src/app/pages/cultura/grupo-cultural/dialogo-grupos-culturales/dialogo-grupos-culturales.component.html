@@ -1,9 +1,49 @@
-<h5 mat-dialog-title>{{mensaje.nombre}}</h5>
-<div mat-dialog-content align="center">
-    <h6>Nombre </h6>{{mensaje.nombre}}<br><br>
-    <h6>estado </h6>{{mensaje.estado}}<br><br>
-</div>
-<div mat-dialog-actions align="center">
+<div align="top" align="center">
+
+    <h1>{{grupo_cultural.Nombre}}</h1>{{grupo_cultural.Imagen}}<br><br>
+
+    <h6>Nombre</h6>{{grupo_cultural.Nombre}}<br><br>
+
+    <h6>Estado</h6>{{formatearEstado(grupo_cultural.Estado)}}<br><br>
+
+    <h6>Descripcion</h6>{{grupo_cultural.Descripcion}}<br><br>
+
+    <h6>Correo</h6>{{grupo_cultural.EMail}}<br><br>
+
+    <h6>¿Necesita inscripción?</h6> {{formatearNecesitaInscripcion(grupo_cultural.NecesitaInscripcion)}}<br><br>
+
+    <h6>Enlace de inscripción</h6>  <a href="enlaceInscripcion" *ngIf="valInscripcion" target="_blank">{{enlaceInscripcion}}</a> 
+
+    <h5 *ngIf="!valInscripcion">{{enlaceInscripcion}}</h5> <br><br>
+
+    <h6>Fecha de inicio de inscripción</h6>{{obtenerFechaInicio()}}<br><br>
+
+    <h6>Fecha de finalización de inscripción</h6>{{obtenerFechaFin()}}<br><br>
+
+    <h6>Horarios de reunion</h6><br>
+
+    <table class="grid-table">
+
+        <thead>
+          <tr>
+            <th>Dia</th>
+            <th>Hora</th>
+            <th>Lugar</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of horarios_gr">
+            <td>{{ item.dia }}</td>
+            <td>{{ item.hora }}</td>
+            <td>{{ item.lugar }}</td>
+          </tr>
+        </tbody>
+
+    </table>
+    
+    <br><br>
+
     <button class="btn btn-primary card-button m-2" mat-raised-button (click)="close()">Cerrar
     </button>
 </div>

@@ -48,9 +48,17 @@ export class GrupoCulturalComponent implements OnInit {
     });
   }
 
-  mostrarDialogo(){
-    let message = {nombre: 'Tuna UD', estado: 'Activo'};
-    this.dialog.open( DialogoGruposCulturalesComponent, {width: '400px', data: {
+  truncarContenido(texto: string, longitudMaxima: number): string {
+    if (texto.length > longitudMaxima) {
+      return texto.substring(0, longitudMaxima) + '...'; // Agrega elipsis (...) si el texto se truncó
+    } else {
+      return texto;
+    }
+  }
+
+  mostrarDialogo(id: number){
+    let message = {idGrupo: id};
+    this.dialog.open( DialogoGruposCulturalesComponent, {height: '1100px' ,width: '500px', data: {
       mensaje: message
     }});
   }
