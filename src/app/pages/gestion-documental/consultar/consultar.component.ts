@@ -16,14 +16,14 @@ export class ConsultarComponent implements OnInit {
 
   private fechaInicio: Date;
   private fechaFin: Date;
-  private docSearch: FormGroup;
-  private busquedaAvanzada: boolean;
-  private activo: String;
-  private documentos: any;
-  private loading: boolean;
+  public docSearch: FormGroup;
+  public busquedaAvanzada: boolean;
+  public activo: String;
+  public documentos: any;
+  public loading: boolean;
   // Estos datos se pueden traer de BD, para poder agregar mas
   tiposDocumento: { [key: string]: Number };
-  private facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación'];
+  public facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación'];
   
   constructor(private gestionService: GestionService, private fb: FormBuilder,
      private apiRestService: ApiRestService, private documentoService: DocumentoService) {
