@@ -20,15 +20,15 @@ export class GestorDocumentosComponent implements OnInit {
   @ViewChild('inputCambiar',{ static: true }) inputCambiarNombre : TemplateRef<any>;
   @ViewChild('editar', { static: true }) editarElement: ElementRef;
   private autenticacion = new ImplicitAutenticationService;
-  private rutaActual:[{id: any, nombre: any}]=[{id: '', nombre: ''}];
-  private documentos: any=[];
+  public rutaActual:[{id: any, nombre: any}]=[{id: '', nombre: ''}];
+  public documentos: any=[];
   
 //Variables del spinner
-  private loading: boolean;
-  private mensajeSpiner: string;
+  public loading: boolean;
+  public mensajeSpiner: string;
   
-  private editandoDocumento: boolean;
-  private documentosAMover: any[]=[];
+  public editandoDocumento: boolean;
+  public documentosAMover: any[]=[];
   dialogRef: any;
   private documentoEditor: any=undefined;
 
