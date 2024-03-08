@@ -30,20 +30,20 @@ export class CargarComponent implements OnInit {
   @Output() terminarEvent = new EventEmitter<Map<string,any>>();
 
   // Estos datos se traen de BD, para poder agregar mas
-  private tiposDocumento: { [key: string]: Number };
-  private facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación'];
+  public tiposDocumento: { [key: string]: Number };
+  public facultades=['ASAB','Ingeníera','Medioambiente y recursos naturales', 'Tecnológica','Ciencias y educación'];
 
   // Para cargar a nuxeo
   documento: DocumentoGestion = new DocumentoGestion;
-  private documentoMostrar: any;
+  public documentoMostrar: any;
   private file: File;
   // Para formularios
-  private docForm: FormGroup;
+  public docForm: FormGroup;
   private formReferencia:any;
-  private validado: Boolean;//saber cuando el formulario es validado
-  private clickeado: Boolean;//Saber cuando el boton de subir es oprimido para las validaciones
+  public validado: Boolean;//saber cuando el formulario es validado
+  public clickeado: Boolean;//Saber cuando el boton de subir es oprimido para las validaciones
   private archivoCambiado: Boolean;
-  private loading: Boolean;
+  public loading: Boolean;
   
   //Rango de fechas de la carga
   private min: Date;
