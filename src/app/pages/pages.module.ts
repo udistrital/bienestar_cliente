@@ -16,6 +16,8 @@ import { ApoyoAlimentarioModule } from "./apoyo-alimentario/apoyo-alimentario.mo
 import { NotFoundComponent } from "./miscellaneous/not-found/not-found.component";
 import { AtencionesModule } from "./atenciones/atenciones.module";
 import { FormsModule } from "@angular/forms";
+import { GestionDocumentalModule } from './gestion-documental/gestion-documental.module';
+
 
 @NgModule({
   imports: [
@@ -32,7 +34,8 @@ import { FormsModule } from "@angular/forms";
     MiscellaneousModule,
     NbSpinnerModule,
     AtencionesModule,
-    FormsModule,
+    GestionDocumentalModule,
+
   ],
   declarations: [PagesComponent],
   providers: [ConfiguracionService, MenuService],

@@ -3,8 +3,8 @@
   <hr />
   <div class="text-right" [hidden]="hideHistory">
     <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
-      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()"
-      (click)="vestibularInfantil.limpiarOdontograma()"> <!--(click)="lingualesInfantil.limpiarOdontograma()">-->
+      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()">
+      <!--(click)="vestibularInfantil.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()"-->
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
     <mat-form-field appearance="outline" class="select-group">
@@ -12,8 +12,8 @@
       <mat-select (selectionChange)="cambiarHoja($event.value)"
         (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
         (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
-        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" [(value)]="firstOne">
-        <!--(selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"-->
+        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" 
+        (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"[(value)]="firstOne">
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
           {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
         </mat-option>
@@ -33,7 +33,7 @@
   </div>
   <div class="row mt-2">
     <div class="col me-4 border-right ">
-      <label class="me-2">Tratamiento médico: </label>
+      <label class="me-2">1. Tratamiento médico: </label>
       <mat-radio-group formControlName="tratamientoMedico" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -41,7 +41,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4 ">
-      <label class="me-2">Ingestión de medicamentos: </label>
+      <label class="me-2">8. Ingestión de medicamentos: </label>
       <mat-radio-group formControlName="ingestionMedicamentos" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -51,7 +51,7 @@
   </div>
   <div class="row">
     <div class="col me-4 border-right ">
-      <label class="me-2">Reacciones alérgicas: </label>
+      <label class="me-2">2. Reacciones alérgicas: </label>
       <mat-radio-group formControlName="reaccionesAlergicas" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -59,7 +59,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4">
-      <label class="me-2">Hemorragias: </label>
+      <label class="me-2">9. Hemorragias: </label>
       <mat-radio-group formControlName="hemorragias" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -69,7 +69,7 @@
   </div>
   <div class="row">
     <div class="col me-4 border-right">
-      <label class="me-2">Irradiaciones: </label>
+      <label class="me-2">3. Irradiaciones: </label>
       <mat-radio-group formControlName="irradiaciones" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -77,7 +77,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4">
-      <label class="me-2">Sinusitis: </label>
+      <label class="me-2">10. Sinusitis: </label>
       <mat-radio-group formControlName="sinusitis" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -87,7 +87,7 @@
   </div>
   <div class="row">
     <div class="col me-4 border-right">
-      <label class="me-2">Enfermedades Respiratorias: </label>
+      <label class="me-2">4. Enfermedades Respiratorias: </label>
       <mat-radio-group formControlName="enfermedadesRespiratorias" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -95,7 +95,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4">
-      <label class="me-2">Cardiopatías: </label>
+      <label class="me-2">11. Cardiopatías: </label>
       <mat-radio-group formControlName="cardiopatias" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -105,7 +105,7 @@
   </div>
   <div class="row">
     <div class="col me-4 border-right">
-      <label class="me-2">Diabetes: </label>
+      <label class="me-2">5. Diabetes: </label>
       <mat-radio-group formControlName="diabetes" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -113,7 +113,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4">
-      <label class="me-2">Fiebre Reumática: </label>
+      <label class="me-2">12. Fiebre Reumática: </label>
       <mat-radio-group formControlName="fiebreReumatica" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -123,7 +123,7 @@
   </div>
   <div class="row">
     <div class="col me-4 border-right">
-      <label class="me-2">Hepatitis: </label>
+      <label class="me-2">6. Hepatitis: </label>
       <mat-radio-group formControlName="hepatitis" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -131,7 +131,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4">
-      <label class="me-2">Hipertensión Arterial: </label>
+      <label class="me-2">13. Hipertensión Arterial: </label>
       <mat-radio-group formControlName="hipertensionArterial" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -141,7 +141,7 @@
   </div>
   <div class="row">
     <div class="col me-4 border-right">
-      <label class="me-2">Otras enfermedades: </label>
+      <label class="me-2">7. Otras enfermedades: </label>
       <mat-radio-group formControlName="otrasEnfermedades" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -149,7 +149,7 @@
       </mat-radio-group>
     </div>
     <div class="col me-4">
-      <label class="me-2">Antecedentes familiares: </label>
+      <label class="me-2">14. Antecedentes familiares: </label>
       <mat-radio-group formControlName="antecedentesFamiliares" class="float-end">
         <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
         <mat-radio-button value="No">No</mat-radio-button>&nbsp;
@@ -157,6 +157,18 @@
       </mat-radio-group>
     </div>
   </div>
+  
+  <div class="row mt-2">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <mat-form-field class="col-sm-12" appearance="outline">
+			<mat-label>Observaciones</mat-label>
+			<textarea matInput formControlName="otrosOdonto"></textarea>
+		  </mat-form-field>
+      </div>
+    </div>
+  </div>
+  
   <div class="row mt-2">
     <strong>Otros: </strong>
     <div class="row mt-2">
@@ -482,14 +494,6 @@
     <div class="col-md-4">
       <div class="form-floating">
         <mat-form-field class="col-sm-12" appearance="outline">
-          <mat-label>Otros ¿Cuál?</mat-label>
-          <textarea matInput formControlName="otrosOdonto"></textarea>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="form-floating">
-        <mat-form-field class="col-sm-12" appearance="outline">
           <mat-label>Observaciones</mat-label>
           <textarea matInput formControlName="observaciones"></textarea>
         </mat-form-field>
@@ -507,6 +511,46 @@
       </div>
     </div>
   </div>
+ 
+  <h6 class="titulo mt-2">Estado Periodontal</h6>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil"> Observaciones</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h6 class="titulo mt-2">Control de Placa Inicial</h6>
+  <hr>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
+  </ngx-odontograma-vestabular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <!--<div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+    <h6>Redirección a la Calculadora de Control de Placa</h6>
+    <button (click)="abrirCalculadora()">Ir a la Calculadora de Control de Placa</button>
+    </div>
+  </div>-->
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
+          placeholder="Observaciones" id="observacionesVestabular"></textarea>
+        <label for="observacionesVestabular">Placa Inicial / Placa Final</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h6 class="titulo mt-2">Control de Placa Final</h6>
+  <hr>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
+  </ngx-odontograma-vestibular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
   <div class="row mt-2">
     <h6 class="titulo">Evaluación del estado final</h6>
     <div class="col  mt-2 me-4 mb-2">
@@ -518,74 +562,8 @@
     </div>
   </div>
   <hr>
-  <h6 class="titulo mt-2">Control de Placa</h6>
-  <hr>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
-  </ngx-odontograma-vestabular>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
-          placeholder="Observaciones" id="observacionesVestabular"></textarea>
-        <label for="observacionesVestabular">Observaciones</label>
-      </div>
-    </div>
-  </div>
-  <hr>
   <h6 class="titulo mt-2">Odontograma</h6>
   <hr>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
-  </ngx-odontograma-vestibular>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibular"
-          placeholder="Observaciones" id="observacionesVestibular"></textarea>
-        <label for="observacionesVestibular"> Observaciones</label>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <h6 class="titulo mt-2">Odontograma Final</h6>
-  <hr>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
-  </ngx-odontograma-vestibular>
-  <!--<p class="titulo subtitulo">Vestibular</p>-->
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
-          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
-        <label for="observacionesVestibularInfantil"> Observaciones</label>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <!--<h6 class="titulo mt-2">Control de Placa</h6>
-  <p class="titulo subtitulo">Vestibular infantil</p>
-  <hr>
-  <h6 class="titulo mt-2">Odontograma</h6>
-  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
-  </ngx-odontograma-v-infantil>
-  <div class="row">
-    <div class="col  mt-2 me-4 mb-2">
-      <div class="form-floating">
-        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
-          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
-        <label for="observacionesVestibularInfantil"> Observaciones</label>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <h6 class="titulo mt-2">Control de Placa</h6>
-  <p class="titulo subtitulo">Linguales infantil</p>
-  <hr>
-  <h6 class="titulo mt-2">Odontograma</h6>
   <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil>
   </ngx-odontograma-linguales>
   <div class="row">
@@ -597,7 +575,21 @@
       </div>
     </div>
   </div>
-  <hr>-->
+  <hr>
+  <h6 class="titulo mt-2">Odontograma Final</h6>
+  <hr>
+  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
+  </ngx-odontograma-v-infantil>
+  <hr>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil">  </label>
+      </div>
+    </div>
+  </div>
   <h6 class="titulo mt-2">Exámenes Complementarios (formato PDF)</h6>
   <p class="titulo subtitulo">Examen Radiográfico</p>
   <p class="subtitulo">Periapical</p>
@@ -697,9 +689,9 @@
       <mat-label>Diagnóstico</mat-label>
       <textarea matInput formControlName="diagnosticoOdonto"></textarea>
     </mat-form-field>
-    <a href="https://eciemaps.mscbs.gob.es/ecieMaps/browser/index_10_mc.html" target="_blank">Buscador CIE-10</a><a
-      href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
-      target="_blank"> Manual CIE-10</a>
+    <a href="https://udistritaleduco-my.sharepoint.com/:b:/g/personal/jdcardosom_udistrital_edu_co/EacRWOwaJF9JrDqNnV4cEk4BanvvLUG0ykQDBy07QUWKzg?e=VbOWn5" target="_blank">Buscador CIE-10</a>
+    <!--<a href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
+      target="_blank"> Manual CIE-10</a> --> 
   </div><br>
   <div class="row">
     <mat-form-field class="col-sm-12" appearance="outline">
@@ -724,8 +716,8 @@
     <div class="col md-6 me-4 mb-4">
       <div class="input-group">
         <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarEvolucionOdonto()" formControlName="nuevaEvolucionOdonto" name="nuevaEvolucionOdonto"
-          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="!crear || superAdmin"></textarea> <!--/>-->
-        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="!crear || superAdmin">
+          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="superAdmin"></textarea> <!--/>-->
+        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="superAdmin">
           Agregar
         </button>
       </div>
@@ -733,8 +725,8 @@
     <div class="row mt-2">
       <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
         <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
-          <!--<input--> <textarea class="form-control" *ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
-          <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="!crear || superAdmin">
+          <!--<input--> <textarea class="form-control"*ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
+          <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="superAdmin">
             Borrar
           </button>
         </div>
@@ -755,7 +747,7 @@
     <div class="col titulo">
       <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
       <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
-        [disabled]="!odontologiaForm.valid || superAdmin || !crear">
+        [disabled]="!odontologiaForm.valid || superAdmin">
         <mat-icon>save</mat-icon> Guardar
       </button>
     </div>

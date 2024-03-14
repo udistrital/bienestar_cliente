@@ -32,6 +32,7 @@ cd bienestar_cliente
 ```
 Iniciar el servidor en local
 ```bash
+nvm use v12.22.10 
 # install dependency
 npx npm install
 or
