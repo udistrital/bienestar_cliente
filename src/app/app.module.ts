@@ -23,6 +23,8 @@ import { ImplicitAutenticationService } from './@core/utils/implicit_autenticati
 import { ListService } from './@core/store/list.service';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 // import { FullCalendarModule } from '@fullcalendar/angular';
 // import dayGridPlugin from '@fullcalendar/daygrid';
 // import interactionPlugin from '@fullcalendar/interaction';
@@ -68,9 +70,7 @@ import {
   MatSidenavModule,
   MatSliderModule,
   MatSlideToggleModule,
-  MatSortModule,
   MatStepperModule,
-  MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
@@ -142,7 +142,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSliderModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatSortModule,
     MatStepperModule,
     MatTableModule,
     MatTabsModule,
@@ -166,8 +165,8 @@ export class MaterialModule { }
     // FullCalendarModule,
     NbEvaIconsModule,
     ThemeModule.forRoot(),
-    
-
+    MatTableModule,
+    MatSortModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

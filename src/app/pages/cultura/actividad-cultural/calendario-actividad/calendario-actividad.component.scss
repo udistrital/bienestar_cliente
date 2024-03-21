@@ -1,14 +1,8 @@
-
-.fc table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    font-size: 1em;
-    background: white;
+.fc-day {
+    background-color: #c42828; /* Cambia esto al color que desees */
 }
 
-.fc-theme-standard .fc-scrollgrid {
-    
-    border: 1px solid #101426;
-      border-right-width: 1px;
-      border-bottom-width: 1px;
+/* Cambia el color de las líneas de separación */
+.fc-divider {
+    background-color: #ff0000; /* Cambia esto al color que desees */
 }

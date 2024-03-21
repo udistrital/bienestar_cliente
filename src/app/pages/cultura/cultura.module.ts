@@ -16,7 +16,6 @@ import {
     NbLayoutModule, 
     NbAccordionModule,
     NbBadgeModule,
-    NbCalendarRangeYearCellComponent,
     
    
 } from '@nebular/theme';
@@ -45,6 +44,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DialogoEliminacionGruposCulturalesComponent } from './actividad-cultural/form_act_cult/dialogo-eliminacion-grupos-culturales/dialogo-eliminacion-grupos-culturales.component';
+import { DialogoActividadesCulturalesComponent } from './actividad-cultural/dialogo-actividades-culturales/dialogo-actividades-culturales.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -97,14 +98,18 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         PrevActividadCulturalComponent,
         DialogoGruposCulturalesComponent,
         DialogoEliminacionReunionesComponent,
+        DialogoEliminacionGruposCulturalesComponent,
+        DialogoActividadesCulturalesComponent,
         
     ],
     providers: [
 
     ],
     entryComponents: [
+        DialogoActividadesCulturalesComponent,
         DialogoGruposCulturalesComponent,
-        DialogoEliminacionReunionesComponent
+        DialogoEliminacionReunionesComponent,
+        DialogoEliminacionGruposCulturalesComponent
     ]
 })
 

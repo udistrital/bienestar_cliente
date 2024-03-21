@@ -1,9 +1,12 @@
-import { Component, OnInit,  } from '@angular/core';
+import { Component, OnInit, ViewChild,  } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CulturaService } from '../../../shared/services/cultura.service';
 import { MatDialog,  } from '@angular/material/dialog';
+import { GrupoCultural } from '../../../@core/data/models/cultura/grupo_cultural';
 import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/dialogo-grupos-culturales.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort'; 
 
 @Component({
   selector: 'ngx-grupo-cultural',
@@ -13,16 +16,21 @@ import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/di
 })
 export class GrupoCulturalComponent implements OnInit {
 
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
   constructor(private ListCultura: CulturaService, private dialog: MatDialog, private router: Router) { }
 
   grupos: boolean;
 
-  grupos_culturales: any[] = [];
-  columnas = ['nombre', 'estado', 'descripcion', 'acciones'];
+  gruposCulturales: any[] = [];
+  dataSource = new MatTableDataSource();
+  columnas = ['Nombre', 'Estado', 'Descripcion', 'Acciones'];
 
   ngOnInit() {
 
     this.obtenerGruposCulturales();
+    this.dataSource.data = this.gruposCulturales;
+    this.dataSource.sort = this.sort;
   }
 
   obtenerGruposCulturales(){
@@ -37,9 +45,18 @@ export class GrupoCulturalComponent implements OnInit {
             } else {
               estado = 'Inactivo';
             }
-            this.grupos_culturales = [...this.grupos_culturales, {id: data['Data'][i].Id, nombre: data['Data'][i].Nombre, 
-                                    estado: estado, descripcion: data['Data'][i].Descripcion}];
+
+            let grupoCultural: GrupoCultural = new GrupoCultural();
+            grupoCultural.Id = data['Data'][i].Id;
+            grupoCultural.Nombre = data['Data'][i].Nombre;
+            grupoCultural.Estado = data['Data'][i].Estado;
+            grupoCultural.Descripcion = data['Data'][i].Descripcion;
+
+            this.gruposCulturales.push(grupoCultural);
           }
+
+          console.log(this.gruposCulturales);
+
         }
         else {
           this.grupos = false 
@@ -50,9 +67,17 @@ export class GrupoCulturalComponent implements OnInit {
 
   truncarContenido(texto: string, longitudMaxima: number): string {
     if (texto.length > longitudMaxima) {
-      return texto.substring(0, longitudMaxima) + '...'; // Agrega elipsis (...) si el texto se truncó
+      return texto.substring(0, longitudMaxima) + '...'; 
     } else {
       return texto;
+    }
+  }
+
+  convertirNumEstado(estado: number){
+    if (estado == 1) {
+      return 'Activo';
+    } else {
+      return 'Inactivo';
     }
   }
 
@@ -63,22 +88,4 @@ export class GrupoCulturalComponent implements OnInit {
     }});
   }
 
-  /*
-  mostrarDialogo(id:any){
-    for (let i in this.grupos_cultural){
-      if (this.datasource.data[i].servicio==id){
-        let message = {
-          nombre: this.datasource.data[i].Nombrecompleto,
-          correo: this.datasource.data[i].correo,
-          proyecto: this.datasource.data[i].proyecto,
-          especialista: this.datasource.data[i].profesional,
-          motivo: this.datasource.data[i].observaciones
-        }
-        this.dialogo
-      .open(DialogoSolicitudesComponent, {
-        data: message
-      });
-      }
-    }
-  }*/
 }

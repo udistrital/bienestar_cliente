@@ -10,6 +10,7 @@
                       Editar Grupo Cultural
                    </h3>
                     <!--form [formGroup]="crearGrupo" (ngSubmit)="agregarGrupo()"-->
+
                     <form [formGroup]="crearGrupo">
                         <mat-form-field appearance="outline" class="select-group" class="col-md-6">
                             <mat-label>Nombre Grupo Cultural</mat-label>
@@ -53,7 +54,7 @@
                                     </mat-select>
                                     <mat-hint>Seleccione el dia de la reunion</mat-hint>
                                     <mat-error>Campo obligatorio</mat-error>
-                                  </mat-form-field>
+                                </mat-form-field>
                                 
                                 <mat-form-field appearance="outline" class="col-sm-3">
                                     <mat-label>Hora</mat-label>
@@ -108,7 +109,7 @@
                         <mat-form-field appearance="outline" class="col-sm-6">
                             <mat-label>Fecha de finalización de inscripción</mat-label>
                             <input #datepickerInput class="mat-datepicker-input" matInput formControlName="fechaFinInscripcion" [matDatepicker]="pickerFin" [min]="fechaActual"
-                            (ngModelChange)="formatearFechaFin($event)" (paste)="onPaste($event)" (keydown)="onKeyDown($event)" readonly>
+                            (ngModelChange)="formatearFechaFin($event)" readonly>
                             <mat-icon matDatepickerToggleIcon (click)="clearFechaFin($event)">clear</mat-icon>
                             <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
                             <mat-datepicker #pickerFin></mat-datepicker>

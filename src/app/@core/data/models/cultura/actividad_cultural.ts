@@ -1,18 +1,21 @@
 
 /**import {Calendario}from "../evento/calendario_evento";**/
 export class ActividadCultural{
-    IdActividadCultural: number; 
+    Id: number; 
     Nombre:string;
-    IdTipoActividad:number;
     Descripcion: string;
     Estado:number;
-    FechaCreacion: string;//verificar si la api funciona con Strings las fechas
+    TipoActividad:number;
     FechaInicio: string;
     FechaFin: string;
-    FechaModificacion: string;//porque text
-    LugarActividad: string;
-    NecesitaInscripcion: number;//Debe ser el campo para almacenar el enlace de inscripciòn 
-    MayorInf: number;//Debe ser el campo para almacenar el enlace de mayor informaciòn
-    UsuarioCreador: string;    
+    Lugar: string;
+    NecesitaInscripcion: number;
+    EnlaceInscripcion:string;
+    PoseeMayorInfo:number;
+    EnlaceMayorInfo:string;
+    Imagen:string;
+    FechaCreacion: string;
+    FechaModificacion: string;
+    UsuarioRegistra: string;    
     
 }

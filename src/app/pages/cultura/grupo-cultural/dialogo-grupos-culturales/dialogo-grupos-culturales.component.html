@@ -12,7 +12,7 @@
 
     <h6>¿Necesita inscripción?</h6> {{formatearNecesitaInscripcion(grupo_cultural.NecesitaInscripcion)}}<br><br>
 
-    <h6>Enlace de inscripción</h6>  <a href="enlaceInscripcion" *ngIf="valInscripcion" target="_blank">{{enlaceInscripcion}}</a> 
+    <h6>Enlace de inscripción</h6>  <a href="{{enlaceInscripcion}}" *ngIf="valInscripcion" target="_blank">{{enlaceInscripcion}}</a> 
 
     <h5 *ngIf="!valInscripcion">{{enlaceInscripcion}}</h5> <br><br>
 

@@ -17,7 +17,6 @@ import { HorarioGrupoCultural } from '../../../../@core/data/models/cultura/hora
 })
 export class FormGrupCultComponent implements OnInit {
 
-  
   fechaFormateadaIni: string;
   fechaFormateadaFin: string;
   auxEnlace: string;
@@ -138,6 +137,8 @@ export class FormGrupCultComponent implements OnInit {
       this.horarioGrupoCultural.DiaReunion = registro['dia'];
       this.horarioGrupoCultural.HoraReunion = registro['hora'];
       this.horarioGrupoCultural.LugarReunion = registro['lugar'];
+
+      console.log(this.horarioGrupoCultural);
 
       this.ListCultura.postHorarioGrupoCultural(this.horarioGrupoCultural).subscribe((data) => {
         console.log('Horario creado ');
@@ -384,17 +385,7 @@ export class FormGrupCultComponent implements OnInit {
       this.crearGrupo.controls['fechaFinInscripcion'].disable();
       this.necesitaInscripcion = 0;
     }
-  }
-
-  onKeyDown(event: KeyboardEvent) {
-    // Evita que se ingrese texto manualmente
-    event.preventDefault();
-  }
-
-  onPaste(event: ClipboardEvent) {
-    // Evita que se pegue texto manualmente
-    event.preventDefault();
-  }
+  }0
 
   clearFechaInicio(event) {
     event.stopPropagation();

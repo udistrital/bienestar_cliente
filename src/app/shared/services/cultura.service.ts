@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { RequestManager } from '../../@core/managers/requestManager';
-import { PopUpManager } from '../../@core/managers/popUpManager';
-import { map } from 'rxjs/operators';
 import { GrupoCultural } from '../../@core/data/models/cultura/grupo_cultural';
 import { HorarioGrupoCultural } from '../../@core/data/models/cultura/horarios_grupo_cultural';
+import { ActividadCultural } from '../../@core/data/models/cultura/actividad_cultural';
+import { ActividadGrupoCultural } from '../../@core/data/models/cultura/actividad_grupo_cultural';
 
 const headers = {
     headers: new HttpHeaders({
@@ -24,13 +23,35 @@ export class CulturaService {
     
     constructor(private http: HttpClient) { }
 
+    //Metodos HTTP para actividades culturales
+    getActividadesCulturales(){
+        return this.http.get(url + 'actividad_cultural?limit=100&sortby=Estado&order=asc');
+    }
+    
+    getActividadCultural(id:number){
+        return this.http.get(url + 'actividad_cultural/' + id);
+    }
+
+    postActividadCultural(actividadCultural: ActividadCultural): Observable<ActividadCultural>{
+        return this.http.post<ActividadCultural>(url + 'actividad_cultural', actividadCultural);
+    }
+
+    //Metodos HTTP para los grupos culturales participantes en una actividad cultural
+    postActividadGrupoCultural(actividadGrupoCultural: ActividadGrupoCultural): Observable<ActividadGrupoCultural>{
+        return this.http.post<ActividadGrupoCultural>(url + "actividad_grupo_cultural", actividadGrupoCultural);
+    }
+
     //Metodos HTTP para grupos culturales
     getGrupoCultural(id:number){
-        return this.http.get(url+"grupo_cultural/"+id);
+        return this.http.get(url+"grupo_cultural/" + id);
     }
 
     getGruposCulturales(){
         return this.http.get(url+"grupo_cultural?limit=100&sortby=Nombre&order=asc");
+    }
+
+    getGruposCulturalesParticipantes(idActividad: number){
+        return this.http.get(url+"actividad_grupo_cultural?query=IdActividadCultural.Id:"+idActividad);
     }
 
     postGrupoCultural(grupoCultural: GrupoCultural): Observable<GrupoCultural>{
@@ -56,4 +77,5 @@ export class CulturaService {
     deleteHorarioGrupoCultural(id: number){
         return this.http.delete(url+'horarios_grupo_cultural/'+id);
     }
+    
 }

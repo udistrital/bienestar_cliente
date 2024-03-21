@@ -36,6 +36,11 @@ export class CalendarioActividadComponent implements OnInit {
             selectable: true,
             selectMirror: true,
             dayMaxEvents: true,
+            eventBorderColor :'#000000',
+            eventBackgroundColor: '#ff0000',
+            eventTextColor: '#0a0404',
+            eventColor: '#ffffff',
+            
             
             eventClick: this.handleEventClick.bind(this),
             //eventsSet: this.handleEvents.bind(this),
@@ -50,6 +55,8 @@ export class CalendarioActividadComponent implements OnInit {
     
         calendarApi.unselect(); // clear date selection
     
+        
+
         if (title) {
           calendarApi.addEvent({
             //id: createEventId(),
@@ -58,6 +65,8 @@ export class CalendarioActividadComponent implements OnInit {
             end: selectInfo.endStr,
             allDay: selectInfo.allDay
           });
+          
+          
         }
         }
     

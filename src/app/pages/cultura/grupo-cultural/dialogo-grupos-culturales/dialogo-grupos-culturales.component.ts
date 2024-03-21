@@ -67,7 +67,6 @@ export class DialogoGruposCulturalesComponent implements OnInit {
       
       }
 
-      console.log(this.horarios_gr);
     });
 
   }
