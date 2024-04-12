@@ -11,7 +11,8 @@
 </nb-card>
 
 <div class="card text-center">
-    <div class="card-body" *ngIf="grupos">
+
+    <div class="card-body" [ngClass]="grupos ? 'show' : 'hidden'">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
         <ng-container matColumnDef="Nombre">
@@ -21,7 +22,7 @@
 
         <ng-container matColumnDef="Estado">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-          <td mat-cell *matCellDef="let gr">{{gr.Estado}}</td>
+          <td mat-cell *matCellDef="let gr">{{castearEstado(gr.Estado)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Descripcion">
@@ -31,21 +32,26 @@
 
         <ng-container matColumnDef="Acciones">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
-          <td mat-cell *matCellDef="let gr"><button class="btn" matTooltip="Ver más información" data-toggle="modal"
+          <td mat-cell *matCellDef="let gr">
+
+            <button class="btn" matTooltip="Ver más información" data-toggle="modal"
               data-target="#modalAditional" (click)="mostrarDialogo(gr.Id)">
               <mat-icon color="primary">remove_red_eye</mat-icon>
             </button>
+
             <button class="btn" [routerLink]="['../grupo-cultural/editar_grup_cult', gr.Id]" matTooltip="Editar">
               <mat-icon color="warn">update</mat-icon>
             </button>
+
           <td>
+
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-      <!--mat-paginator #paginator="matPaginator" [pageSize]="20" showFirstLastButtons></mat-paginator-->
+      <mat-paginator #paginator="matPaginator" [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons></mat-paginator>
     </div>
     <div class="card-body" *ngIf="!grupos">
       <h5>No hay grupos creados por el momento</h5>

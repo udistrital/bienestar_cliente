@@ -23,8 +23,6 @@ import { ImplicitAutenticationService } from './@core/utils/implicit_autenticati
 import { ListService } from './@core/store/list.service';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from '@angular/material';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
 // import { FullCalendarModule } from '@fullcalendar/angular';
 // import dayGridPlugin from '@fullcalendar/daygrid';
 // import interactionPlugin from '@fullcalendar/interaction';
@@ -75,6 +73,8 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  MatTableModule,
+  MatSortModule,
 } from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 import { BidiModule } from '@angular/cdk/bidi';

@@ -7,6 +7,7 @@ import { GrupoCultural } from '../../../@core/data/models/cultura/grupo_cultural
 import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/dialogo-grupos-culturales.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort'; 
+import { MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'ngx-grupo-cultural',
@@ -16,24 +17,30 @@ import { MatSort } from '@angular/material/sort';
 })
 export class GrupoCulturalComponent implements OnInit {
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private ListCultura: CulturaService, private dialog: MatDialog, private router: Router) { }
 
-  grupos: boolean;
+  grupos: boolean = true;
 
-  gruposCulturales: any[] = [];
+  gruposCulturales: GrupoCultural[] = [];
+
   dataSource = new MatTableDataSource();
-  columnas = ['Nombre', 'Estado', 'Descripcion', 'Acciones'];
+  displayedColumns = ['Nombre', 'Estado', 'Descripcion', 'Acciones'];
+
 
   ngOnInit() {
 
     this.obtenerGruposCulturales();
-    this.dataSource.data = this.gruposCulturales;
-    this.dataSource.sort = this.sort;
+
   }
 
   obtenerGruposCulturales(){
+    this.ListCultura.getDocumento('6c6999c4-eeda-4f3e-8bdf-cdbe747ed1e3').subscribe((data) => {
+      console.log(data);
+    });
+
     this.ListCultura.getGruposCulturales().subscribe((data) => {
 
         if (JSON.stringify(data['Data'][0]) != '{}') {
@@ -46,7 +53,7 @@ export class GrupoCulturalComponent implements OnInit {
               estado = 'Inactivo';
             }
 
-            let grupoCultural: GrupoCultural = new GrupoCultural();
+            const grupoCultural: GrupoCultural = new GrupoCultural();
             grupoCultural.Id = data['Data'][i].Id;
             grupoCultural.Nombre = data['Data'][i].Nombre;
             grupoCultural.Estado = data['Data'][i].Estado;
@@ -55,8 +62,9 @@ export class GrupoCulturalComponent implements OnInit {
             this.gruposCulturales.push(grupoCultural);
           }
 
-          console.log(this.gruposCulturales);
-
+          this.dataSource.data = this.gruposCulturales;
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         }
         else {
           this.grupos = false 
@@ -73,7 +81,7 @@ export class GrupoCulturalComponent implements OnInit {
     }
   }
 
-  convertirNumEstado(estado: number){
+  castearEstado(estado: number){
     if (estado == 1) {
       return 'Activo';
     } else {

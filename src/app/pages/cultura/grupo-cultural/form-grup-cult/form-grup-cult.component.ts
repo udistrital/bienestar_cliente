@@ -69,6 +69,7 @@ export class FormGrupCultComponent implements OnInit {
       enlaceInscripcion: [{value: '', disabled: true}, [Validators.maxLength(300)]],
       fechaIniInscripcion: [{value: '', disabled: true}],
       fechaFinInscripcion: [{value: '', disabled: true}],
+      liderGrupo: ['', [Validators.required, Validators.maxLength(50)]],
       reuniones: this.fb.array([])
     });
 
@@ -104,6 +105,7 @@ export class FormGrupCultComponent implements OnInit {
         this.grupoCultural.EnlaceInscripcion = this.crearGrupo.value.enlaceInscripcion;
         this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni;
         this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin; 
+        this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
     
         this.ListCultura.postGrupoCultural(this.grupoCultural).subscribe((data: any) => {
     
@@ -197,6 +199,7 @@ export class FormGrupCultComponent implements OnInit {
               enlaceInscripcion: [{value: this.auxEnlace, disabled: true}, Validators.required],
               fechaIniInscripcion: [{value: auxFechaIni, disabled: false}, Validators.required],
               fechaFinInscripcion: [{value: auxFechaFin, disabled: false}, Validators.required],
+              liderGrupo: [data['Data'].LiderGrupo, Validators.required],
               reuniones: this.fb.array([])
             });
 
@@ -224,11 +227,6 @@ export class FormGrupCultComponent implements OnInit {
 
   editarGrupo(){
 
-    console.log(this.necesitaInscripcion);
-    
-    console.log(this.crearGrupo.value.fechaIniInscripcion);
-    console.log(this.crearGrupo.value.fechaFinInscripcion);
-
     if(this.necesitaInscripcion == 1 &&
       (this.auxEnlace == '' || this.auxEnlace == null ||
       this.crearGrupo.value.fechaIniInscripcion == '' || this.crearGrupo.value.fechaIniInscripcion == null ||
@@ -249,7 +247,6 @@ export class FormGrupCultComponent implements OnInit {
         } else {
           auxEstado = 0;
         }
-        console.log(this.auxEnlace);
         
         this.eliminarInfoNoInscripcion(this.necesitaInscripcion);
 
@@ -262,6 +259,7 @@ export class FormGrupCultComponent implements OnInit {
         this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
         this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni;
         this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin; 
+        this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
     
         this.ListCultura.putGrupoCultural(this.grupoCultural, this.id).subscribe((data) => {
     

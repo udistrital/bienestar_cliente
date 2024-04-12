@@ -6,53 +6,59 @@
 
     <h6>Nombre</h6>
     <p>{{actividadCultural.Nombre}}</p>
-    <br><br>
+    <br>
+
+    <h6>Descripcion</h6>
+    <p>{{actividadCultural.Descripcion}}</p>
+    <br>
 
     <h6>Estado</h6>
     <p>{{convertirEstado(actividadCultural.Estado)}}</p>
-    <br><br>
+    <br>
 
     <h6>Tipo Actividad</h6>
     <p>{{convertirTipoActividad(actividadCultural.TipoActividad)}}</p>
-    <br><br>
+    <br>
 
-    <h6 *ngIf="!isRegistrado">Fecha Inicio</h6>
-    <p>{{fechaInicio}}</p>
-    <br *ngIf="!isRegistrado">
+    <div *ngIf="!isRegistrado">
 
-    <h6 *ngIf="!isRegistrado">Fecha Fin</h6>
-    <p>{{fechaFin}}</p>
-    <br *ngIf="!isRegistrado">
+      <h6>Fecha Inicio</h6>
+      <p>{{fechaInicio}}</p>
+      <br >
 
-    <h6 *ngIf="!isRegistrado">Lugar</h6>
-    <p *ngIf="!isRegistrado">{{actividadCultural.Lugar}}</p>
-    <br *ngIf="!isRegistrado">
-    <h6 *ngIf="!isRegistrado">¿Necesita Inscripcion?</h6>
-    <p *ngIf="!isRegistrado">{{formatearNecesitaInscripcionMayorInfo(actividadCultural.NecesitaInscripcion)}}</p>
-    <br *ngIf="!isRegistrado">
+      <h6>Fecha Fin</h6>
+      <p>{{fechaFin}}</p>
+      <br>
 
-    <h6 *ngIf="!isRegistrado">Enlace Inscripcion</h6> 
-    <h6 *ngIf="!isRegistrado">Correo Contacto</h6> 
-    <a href="{{enlaceInscripcion}}" *ngIf="!isRegistrado" target="_blank">
-      {{enlaceInscripcion}}
-    </a> 
-    <p *ngIf="!isRegistrado">{{enlaceInscripcion}}</p>
+      <h6>Lugar</h6>
+      <p>{{actividadCultural.Lugar}}</p>
+      <br>
+      <h6>¿Necesita Inscripcion?</h6>
+      <p>{{formatearNecesitaInscripcionMayorInfo(actividadCultural.NecesitaInscripcion)}}</p>
+      <br>
 
-    <h6 *ngIf="!isRegistrado">¿Posee enlace de mayor información?</h6>
-    <p *ngIf="!isRegistrado">{{formatearNecesitaInscripcionMayorInfo(actividadCultural.PoseeMayorInfo)}}</p>
-    <br *ngIf="!isRegistrado">
+      <h6>Enlace Inscripcion</h6> 
+      <h6>Correo Contacto</h6> 
+      <a href="{{enlaceInscripcion}}" target="_blank">
+        {{enlaceInscripcion}}
+      </a> 
+      <p>{{enlaceInscripcion}}</p>
 
-    <h6 *ngIf="!isRegistrado">Enlace Mayor Información</h6> 
-    <a href="{{enlaceMayorInfo}}" *ngIf="!isRegistrado" target="_blank">
-      {{enlaceMayorInfo}}
-    </a>
-    <p *ngIf="!isRegistrado">No hay enlace para mayor información</p>
-    <br *ngIf="!isRegistrado">
+      <h6>¿Posee enlace de mayor información?</h6>
+      <p>{{formatearNecesitaInscripcionMayorInfo(actividadCultural.PoseeMayorInfo)}}</p>
+      <br>
 
-    <h6 *ngIf="!isRegistrado">Grupos Culturales Participantes</h6>
-    <br *ngIf="!isRegistrado">
+      <h6>Enlace Mayor Información</h6> 
+      <a href="{{enlaceMayorInfo}}" target="_blank">
+        {{enlaceMayorInfo}}
+      </a>
+      <p>No hay enlace para mayor información</p>
+      <br>
 
-    <table *ngIf="!isRegistrado" class="grid-table">
+      <h6>Grupos Culturales Participantes</h6>
+      <br>
+
+      <table class="grid-table">
 
         <thead>
           <tr>
@@ -62,17 +68,19 @@
 
         <tbody>
           <tr *ngFor="let item of gruposCulturalesParticipantes">
-            <td>{{ item.Nombre }}</td>
+            <td>{{item.Nombre }}</td>
           </tr>
         </tbody>
 
     </table>
     <br><br>
-
-    <h6 *ngIf="!isRegistrado">Usuario registra</h6>
-    <p *ngIf="!isRegistrado">{{actividadCultural.UsuarioRegistra}}</p>
-    <br *ngIf="!isRegistrado">
+   
+    <h6>Usuario registra</h6>
+    <p>{{actividadCultural.UsuarioRegistra}}</p>
+    <br>
     
+  </div>
+
     <button class="btn btn-primary card-button m-2" mat-raised-button (click)="close()">Cerrar
     </button>
 </div>

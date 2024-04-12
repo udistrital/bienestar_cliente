@@ -15,16 +15,24 @@ import { DialogoActividadesCulturalesComponent } from './dialogo-actividades-cul
 })
 export class ActividadCulturalComponent implements OnInit {
 
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  constructor(private ListCultura: CulturaService, private dialog: MatDialog, private router: Router) { }
+
   actividades: boolean;
 
   actividadesCulturales: any[] = [];
+
+  dataSource = new MatTableDataSource();
   displayedColumns: string[] = ['Nombre', 'Descripcion', 'Estado',  'FechaInicio', 'FechaFin', 'UsuarioRegistra', 'Acciones'];
 
-  constructor(private ListCultura: CulturaService, 
-    private dialog: MatDialog, private router: Router) { }
+  
 
   ngOnInit() {
+
     this.obtenerActividadesCulturales();
+  
   }
 
   obtenerActividadesCulturales(){
@@ -34,19 +42,21 @@ export class ActividadCulturalComponent implements OnInit {
         this.actividades = true;
         for (let i in data['Data']){
 
-          let estado = this.obtenerEstado(data['Data'][i].Estado);
-          let fechaInicio = this.castearFecha(data['Data'][i].FechaInicio);
-          let fechaFin = this.castearFecha(data['Data'][i].FechaFin);
-          this.actividadesCulturales = [...this.actividadesCulturales, 
-                                      {Id: data['Data'][i].Id, 
-                                      Nombre: data['Data'][i].Nombre, 
-                                      Descripcion: data['Data'][i].Descripcion,
-                                      Estado: estado,
-                                      FechaInicio: fechaInicio,
-                                      FechaFin: fechaFin,
-                                      UsuarioRegistra: data['Data'][i].UsuarioRegistra, 
-                                      }];
+          const actividadCultural: ActividadCultural = new ActividadCultural();
+          actividadCultural.Id = data['Data'][i].Id;
+          actividadCultural.Nombre = data['Data'][i].Nombre;
+          actividadCultural.Descripcion = data['Data'][i].Descripcion;
+          actividadCultural.Estado = data['Data'][i].Estado;
+          actividadCultural.FechaInicio = this.castearFecha(data['Data'][i].FechaInicio);
+          actividadCultural.FechaFin = this.castearFecha(data['Data'][i].FechaFin);
+          actividadCultural.UsuarioRegistra = data['Data'][i].UsuarioRegistra;
+
+          this.actividadesCulturales.push(actividadCultural);
         }
+
+        this.dataSource.data = this.actividadesCulturales;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       }
       else {
         this.actividades = false;
@@ -97,11 +107,11 @@ export class ActividadCulturalComponent implements OnInit {
     console.log(estado);
     let message = {idActividad: id};
     if(estado == 'Registrado'){
-      this.dialog.open( DialogoActividadesCulturalesComponent, {height: '700px' ,width: '500px', data: {
+      this.dialog.open( DialogoActividadesCulturalesComponent, {height: '1100px' ,width: '500px', data: {
         mensaje: message
       }});
     } else {
-      this.dialog.open( DialogoActividadesCulturalesComponent, {height: '1100px' ,width: '500px', data: {
+      this.dialog.open( DialogoActividadesCulturalesComponent, {height: '600px' ,width: '500px', data: {
         mensaje: message
       }});
     }

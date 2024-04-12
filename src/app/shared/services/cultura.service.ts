@@ -36,6 +36,11 @@ export class CulturaService {
         return this.http.post<ActividadCultural>(url + 'actividad_cultural', actividadCultural);
     }
 
+    //Metodos HTTP para actividad grupo cultural
+    getGruposCulturalesParticipantes(IdActividadCultural){
+        return this.http.get(url + 'actividad_grupo_cultural?query=IdActividadCultural.Id:'+IdActividadCultural);
+    }
+
     //Metodos HTTP para los grupos culturales participantes en una actividad cultural
     postActividadGrupoCultural(actividadGrupoCultural: ActividadGrupoCultural): Observable<ActividadGrupoCultural>{
         return this.http.post<ActividadGrupoCultural>(url + "actividad_grupo_cultural", actividadGrupoCultural);
@@ -48,10 +53,6 @@ export class CulturaService {
 
     getGruposCulturales(){
         return this.http.get(url+"grupo_cultural?limit=100&sortby=Nombre&order=asc");
-    }
-
-    getGruposCulturalesParticipantes(idActividad: number){
-        return this.http.get(url+"actividad_grupo_cultural?query=IdActividadCultural.Id:"+idActividad);
     }
 
     postGrupoCultural(grupoCultural: GrupoCultural): Observable<GrupoCultural>{
@@ -76,6 +77,19 @@ export class CulturaService {
     }
     deleteHorarioGrupoCultural(id: number){
         return this.http.delete(url+'horarios_grupo_cultural/'+id);
+    }
+
+    //Metodos HTTP para gestionar documentos
+    postDocumento(documento: any) {
+        return this.http.post(urlDocumentos + 'document/upload', documento);
+    }
+
+    getDocumento(idDocumento: string) {
+        return this.http.get(urlDocumentos + 'document/' + idDocumento);
+    }
+
+    deleteDocumento(idDocumento: string){
+        return this.http.delete(urlDocumentos + 'document/' + idDocumento);
     }
     
 }
