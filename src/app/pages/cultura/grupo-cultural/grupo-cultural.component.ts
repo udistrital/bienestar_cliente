@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild,  } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CulturaService } from '../../../shared/services/cultura.service';
 import { MatDialog,  } from '@angular/material/dialog';
 import { GrupoCultural } from '../../../@core/data/models/cultura/grupo_cultural';
@@ -8,6 +8,8 @@ import { DialogoGruposCulturalesComponent } from './dialogo-grupos-culturales/di
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort'; 
 import { MatPaginator } from '@angular/material';
+import { RolesConstanst } from '../../../shared/constants/roles.constants';
+import { ListService } from '../../../@core/store/list.service';
 
 @Component({
   selector: 'ngx-grupo-cultural',
@@ -20,7 +22,11 @@ export class GrupoCulturalComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private ListCultura: CulturaService, private dialog: MatDialog, private router: Router) { }
+  constructor(private ListCultura: CulturaService,
+              private dialog: MatDialog, 
+              private router: Router,
+              private route: ActivatedRoute,
+              private test: ListService) { }
 
   grupos: boolean = true;
 
@@ -29,17 +35,35 @@ export class GrupoCulturalComponent implements OnInit {
   dataSource = new MatTableDataSource();
   displayedColumns = ['Nombre', 'Estado', 'Descripcion', 'Acciones'];
 
+  ROLES_CONSTANTS = RolesConstanst;
+  rolesActivos: any = {};
 
   ngOnInit() {
 
+    /*
+    this.test.getInfoEstudiante().then((resp) => {
+      console.log(resp);}
+    )
+
+    this.test.loadTerceroByWSO2('jgcastellanos').then((data) => {
+      console.log(data);
+    });
+
+    if (this.route.snapshot.data['roles']) {
+      for (const rol of this.route.snapshot.data['roles']) {
+          this.rolesActivos[rol] = true;
+      }
+    }
+    */
     this.obtenerGruposCulturales();
 
   }
 
   obtenerGruposCulturales(){
-    this.ListCultura.getDocumento('6c6999c4-eeda-4f3e-8bdf-cdbe747ed1e3').subscribe((data) => {
-      console.log(data);
-    });
+
+    console.log('Hola');
+    console.log(this.route.snapshot);
+    console.log(this.rolesActivos);
 
     this.ListCultura.getGruposCulturales().subscribe((data) => {
 

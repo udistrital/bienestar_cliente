@@ -36,6 +36,10 @@ export class CulturaService {
         return this.http.post<ActividadCultural>(url + 'actividad_cultural', actividadCultural);
     }
 
+    putActividadCultural(actividaCultural: ActividadCultural, id: number): Observable<ActividadCultural>{
+        return this.http.put<ActividadCultural>(url+'actividad_cultural/'+id, actividaCultural);
+    }
+
     //Metodos HTTP para actividad grupo cultural
     getGruposCulturalesParticipantes(IdActividadCultural){
         return this.http.get(url + 'actividad_grupo_cultural?query=IdActividadCultural.Id:'+IdActividadCultural);

@@ -15,6 +15,8 @@ import { AuthGuard } from '../@core/_guards/auth.guard';
 import { RolesConstanst } from '../shared/constants/roles.constants';
 import { ParametriaGuard } from '../@core/_guards/parametria.guard';
 import { CulturaComponent } from './cultura/cultura.component';
+import { GrupoCulturalComponent } from './cultura/grupo-cultural/grupo-cultural.component';
+import { ActividadCulturalComponent } from './cultura/actividad-cultural/actividad-cultural.component';
 
 
 const routes: Routes = [
@@ -48,7 +50,25 @@ const routes: Routes = [
                 //,RolesConstanst.ROLES_SISTEMA.ESTUDIANTE       
             }  */          
         },
+        
+        {
+            path:'cultura/grupo-cultural',
+            component: GrupoCulturalComponent,
+            canActivate: [AuthGuard, ParametriaGuard],
+            /*data: {
+                roles:[RolesConstanst.ROLES_SISTEMA.lIDER_CULTURA, RolesConstanst.ROLES_SISTEMA.ADMIN_CULTURA]
+            }
+            */
+        },
+        {
+            path:'cultura/actividad-cultural',
+            component: ActividadCulturalComponent,
+            canActivate: [AuthGuard, ParametriaGuard],
+            data: {
+                roles:[RolesConstanst.ROLES_SISTEMA.CULTURA]
+            }
 
+        },
         {
             path: 'inscripcion',
             component: InscripcionEstComponent,

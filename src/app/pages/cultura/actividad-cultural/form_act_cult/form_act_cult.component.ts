@@ -163,6 +163,15 @@ export class FormActCultComponent implements OnInit {
             this.disableEnlaceInscripcion = false;
           }
 
+          this.onChangeInscripcion(this.disableEnlaceInscripcion);
+          
+          if(data['Data'].PoseeMayorInfo == 1){
+            this.disableEnlaceMayorInfo = true;
+          } else {
+            this.disableEnlaceMayorInfo = false;
+          }
+
+          this.onChangeMayorInfo(this.disableEnlaceMayorInfo);
 
           if(data['Data'].Estado == 1) {
 
@@ -179,9 +188,12 @@ export class FormActCultComponent implements OnInit {
             FechaFin: [auxFechaFin, Validators.required],
             HoraFin: [auxHoraFin, Validators.required],
             Lugar: [data['Data'].Lugar, [Validators.required, Validators.maxLength(50)]],
+            NecesitaInscripcion: data['Data'].NecesitaInscripcion,
             EnlaceInscripcion: [data['Data'].EnlaceInscripcion, [Validators.required, Validators.maxLength(300)]],
+            PoseeMayorInfo: data['Data'].PoseeMayorInfo,
             EnlaceMayorInfo: [{value: data['Data'].EnlaceMayorInfo, disabled: true}],
             Imagen: [data['Data'].Imagen, Validators.required],
+            FechaCreacion: [data['Data'].FechaCreacion],
             GruposCulturales: this.fb.array([])
             });
 
@@ -202,6 +214,38 @@ export class FormActCultComponent implements OnInit {
   agregarGruposCulturalesParticipantes(){
 
   }
+
+  actualizarActividadCultural(){
+
+    this.convertirTipoActividadANumero(this.crearActividad.value.TipoActividad);
+
+    this.actividadCultural.Nombre = this.crearActividad.value.Nombre;
+    this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
+    this.actividadCultural.Estado = 1;
+    this.actividadCultural.TipoActividad = this.idTipoActividad;
+    //this.actividadCultural.FechaInicio 
+    //this.actividadCultural.FechaFin
+    this.actividadCultural.Lugar = this.crearActividad.value.Lugar;
+    this.actividadCultural.NecesitaInscripcion = this.necesitaInscripcion;
+    this.actividadCultural.EnlaceInscripcion = this.crearActividad.value.EnlaceInscripcion;
+    this.actividadCultural.PoseeMayorInfo = this.mayorInfo;
+    this.actividadCultural.EnlaceMayorInfo = this.crearActividad.value.EnlaceMayorInfo;
+    this.actividadCultural.Imagen = this.crearActividad.value.Imagen;
+    this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
+    this.actividadCultural.FechaModificacion = formatDate(this.fechaActual , 'yyyy-MM-ddThh:mm:ss-05:00', 'en');
+    this.actividadCultural.UsuarioRegistra = this.usuario;
+
+    this.ListCultura.putActividadCultural(this.actividadCultural, this.id).subscribe((data) => {
+
+      this.toastr.success('El actividad cultural '+ data['Data'].Nombre +' fue editada con exito');
+
+      this.router.navigate(['/pages/cultura/actividad-cultural']);
+
+    });
+
+  }
+
+  
 
   guardarGruposCulturalesParticipantes(idActividad: number){
 

@@ -115,13 +115,13 @@
                             ¿Necesita inscripción?
                         </mat-checkbox>
 
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-12" *ngIf="!ifCrear">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-12" *ngIf="disableEnlaceInscripcion">
                             <mat-label>Enlace Inscripcion</mat-label>
                             <input matInput type="text" formControlName="EnlaceInscripcion">
                             <mat-error>Campo obligatorio y con longitud menor a 100 caracteres</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-12" *ngIf="!ifCrear">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-12" *ngIf="!disableEnlaceInscripcion">
                             <mat-label>Correo de contacto</mat-label>
                             <input matInput type="text" formControlName="EnlaceInscripcion">
                             <mat-error>Campo obligatorio y con longitud menor a 100 caracteres</mat-error>
@@ -156,7 +156,7 @@
                             <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../../cultura/actividad-cultural">
                               <mat-icon>arrow_back</mat-icon>Regresar
                             </button>
-                            <button class="card-button" class="col-md-2" type="button" (click)="crearActividadCultural()" mat-raised-button> 
+                            <button class="card-button" class="col-md-2" type="button" (click)="actualizarActividadCultural()" mat-raised-button> 
                                 <mat-icon>save</mat-icon> Editar
                               </button>
                         </mat-card-actions>
