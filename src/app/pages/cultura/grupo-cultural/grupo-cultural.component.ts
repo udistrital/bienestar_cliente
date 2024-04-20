@@ -100,7 +100,7 @@ export class GrupoCulturalComponent implements OnInit {
 
   mostrarDialogo(id: number){
     let message = {idGrupo: id};
-    this.dialog.open( DialogoGruposCulturalesComponent, {height: '1100px' ,width: '500px', data: {
+    this.dialog.open( DialogoGruposCulturalesComponent, {height: '1100px' ,width: '700px', data: {
       mensaje: message
     }});
   }

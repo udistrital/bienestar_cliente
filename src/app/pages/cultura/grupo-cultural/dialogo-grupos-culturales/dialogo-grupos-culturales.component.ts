@@ -4,6 +4,7 @@ import { CulturaService } from '../../../../shared/services/cultura.service';
 import { GrupoCultural } from '../../../../@core/data/models/cultura/grupo_cultural';
 import { DatePipe,formatDate } from '@angular/common';
 import { HorarioGrupoCultural } from '../../../../@core/data/models/cultura/horarios_grupo_cultural';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ngx-dialogo-grupos-culturales',
@@ -22,10 +23,13 @@ export class DialogoGruposCulturalesComponent implements OnInit {
   fechaFormatCreacion: Date;
   enlaceInscripcion: string;
   valInscripcion: boolean = false;
+  base64String: string;
+  imageSrc: any;
+  umbralAncho = 650;
 
   constructor(public dialogRef: MatDialogRef<DialogoGruposCulturalesComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any, private ListCultura: CulturaService,
-    private datePipe: DatePipe) 
+    private datePipe: DatePipe, private sanitizer:DomSanitizer) 
   { 
     this.id = data.mensaje['idGrupo']; 
     this.fechaActual.setDate(this.fechaActual.getDate());
@@ -42,6 +46,7 @@ export class DialogoGruposCulturalesComponent implements OnInit {
 
       this.grupo_cultural = data['Data'];
 
+      this.obtenerImagen(data['Data'].Imagen);
       this.enlaceInscripcion = this.grupo_cultural.EnlaceInscripcion;
       this.formatearFechaInicio();
       this.formatearFechaFin();
@@ -71,6 +76,39 @@ export class DialogoGruposCulturalesComponent implements OnInit {
 
     });
 
+  }
+
+  obtenerImagen(enlace: string){
+    this.ListCultura.getDocumento(enlace).subscribe((data2)=>{
+      this.base64String = data2['file'];
+      this.imageSrc = this.convertBase64ToImageSrc(this.base64String);
+    })
+  }
+
+
+  convertBase64ToImageSrc(base64String: string): any {
+    // Convertir la cadena base64 a una URL de objeto
+    const imageBlob = this.base64ToBlob(base64String, 'image/png');
+    const imageUrl = URL.createObjectURL(imageBlob);
+    // Sanitizar la URL para prevenir problemas de seguridad
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+
+  base64ToBlob(base64String: string, type: string): Blob {
+    // Obtener el contenido binario de la cadena base64
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    // Crear un objeto Blob a partir de los byteArrays
+    return new Blob(byteArrays, { type: type });
   }
 
   formatearEstado(estado: number): string{

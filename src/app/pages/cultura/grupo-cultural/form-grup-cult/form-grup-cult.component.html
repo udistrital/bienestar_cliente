@@ -37,7 +37,6 @@
                                 {{e}}
                               </mat-option>
                             </mat-select>
-                            <mat-hint>Seleccione el estado del grupo</mat-hint>
                             <mat-error>Campo obligatorio</mat-error>
                         </mat-form-field>
 
@@ -52,7 +51,6 @@
                                         {{d}}
                                       </mat-option>
                                     </mat-select>
-                                    <mat-hint>Seleccione el dia de la reunion</mat-hint>
                                     <mat-error>Campo obligatorio</mat-error>
                                 </mat-form-field>
                                 
@@ -63,7 +61,6 @@
                                     <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
                                     <ngx-material-timepicker #hora [editableHintTmpl]="hint" #with5Gap [minutesGap]="10">
                                     </ngx-material-timepicker>
-                                    <mat-hint>Ingrese la hora de la reunion</mat-hint>
                                     <ng-template #hint>
                                       <span class="time-hint">Ingrese la hora en formato 24 horas</span>
                                     </ng-template>
@@ -73,7 +70,6 @@
                                 <mat-form-field appearance="outline" class="select-group" class="col-md-4">
                                     <mat-label>Lugar</mat-label>
                                     <input matInput type="text" formControlName="lugar">
-                                    <mat-hint>Seleccione el lugar de la reunion</mat-hint>
                                     <mat-error>Campo obligatorio con longitud menor de 50 caracteres</mat-error>
                                 </mat-form-field>
     
@@ -91,7 +87,6 @@
                         <mat-form-field appearance="outline" class="select-group col-sm-12">
                             <mat-label>Enlace de inscripción</mat-label>
                             <input matInput type="text" formControlName="enlaceInscripcion" (ngModelChange)="formatearEnlaceInscripcion($event)">
-                            <mat-hint>Ingrese el enlace de inscripcion</mat-hint>
                             <mat-error>Campo con longitud menor de 300 caracteres</mat-error>
                         </mat-form-field>
 
@@ -102,7 +97,6 @@
                             <mat-icon matDatepickerToggleIcon (click)="clearFechaInicio($event)">clear</mat-icon>
                             <mat-datepicker-toggle matSuffix [for]="pickerIni"></mat-datepicker-toggle>
                             <mat-datepicker #pickerIni></mat-datepicker>
-                            <mat-hint>Ingrese la fecha de inicio de inscripción</mat-hint>
                             <mat-error>Campo obligatoria</mat-error>
                         </mat-form-field>
 
@@ -113,23 +107,21 @@
                             <mat-icon matDatepickerToggleIcon (click)="clearFechaFin($event)">clear</mat-icon>
                             <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
                             <mat-datepicker #pickerFin></mat-datepicker>
-                            <mat-hint>Ingrese la fecha de finalización de inscripción</mat-hint>
                             <mat-error>Campo obligatoria</mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="select-group" class="col-md-12">
-                          <mat-label>Lider Grupo</mat-label>
+                          <mat-label>Correo Lider Grupo</mat-label>
                           <input matInput type="text" formControlName="liderGrupo">
-                          <mat-error>Campo obligatorio y con longitud menor a 50 caracteres</mat-error>
+                          <mat-error>Campo obligatorio, con longitud menor de 50 caracteres y debe contener un correo electronico</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-8">
-                            <mat-label>Imagen</mat-label>
-                            <input matInput type="text" formControlName="imagen">
-                            <mat-error>Campo obligatoria</mat-error>
-                        </mat-form-field>
+                        <div appearance="outline" *ngIf="ifCrearEditar">
 
-                        <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="ifCrearEditar" fxLayout.lt-sm="column">
+                          <label class="col-sm-8" class="boton-personalizado" for="archivoInput">{{nombreArchivo}}</label>
+                          <input type="file" id="archivoInput" style="display: none;" (change)="capturarFile($event)">
+
+                          <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="ifCrearEditar" fxLayout.lt-sm="column">
                             <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../cultura/grupo-cultural">
                               <mat-icon>arrow_back</mat-icon>Regresar
                             </button>
@@ -137,17 +129,26 @@
                               <mat-icon>save</mat-icon> Guardar
                             </button>
                             <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
-                        </mat-card-actions>
+                          </mat-card-actions>
+                        </div>
 
-                        <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="!ifCrearEditar" fxLayout.lt-sm="column">
-                          <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../../cultura/grupo-cultural">
-                            <mat-icon>arrow_back</mat-icon>Regresar
-                          </button>
-                          <button class="card-button" class="col-md-2" type="button" [disabled]="!validarFormularios()" (click)="editarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
-                              <mat-icon>save</mat-icon> Editar
+                        <div appearance="outline" *ngIf="!ifCrearEditar">
+                          <label class="col-sm-8" class="boton-personalizado" for="archivoInput">{{nombreArchivo}}</label>
+                          <input type="file" id="archivoInput" style="display: none;" (change)="capturarFile($event)">
+
+                          <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="!ifCrearEditar" fxLayout.lt-sm="column">
+                            <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../../cultura/grupo-cultural">
+                              <mat-icon>arrow_back</mat-icon>Regresar
                             </button>
-                          <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
-                      </mat-card-actions>
+                            <button class="card-button" class="col-md-2" type="button" [disabled]="!validarFormularios()" (click)="editarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                                <mat-icon>save</mat-icon> Editar
+                              </button>
+                            <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
+                          </mat-card-actions>
+
+                        </div> 
+
+                        
                     </form>
                      
                 </div>
