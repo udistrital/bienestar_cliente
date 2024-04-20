@@ -19,6 +19,7 @@ export class DialogoGruposCulturalesComponent implements OnInit {
   fechaActual = new Date();
   fechaFormatIni: Date;
   fechaFormatFin: Date;
+  fechaFormatCreacion: Date;
   enlaceInscripcion: string;
   valInscripcion: boolean = false;
 
@@ -42,8 +43,9 @@ export class DialogoGruposCulturalesComponent implements OnInit {
       this.grupo_cultural = data['Data'];
 
       this.enlaceInscripcion = this.grupo_cultural.EnlaceInscripcion;
-      this.formatearFechaInicio(this.grupo_cultural.FechaInicioInscripcion);
-      this.formatearFechaFin(this.grupo_cultural.FechaFinInscripcion);
+      this.formatearFechaInicio();
+      this.formatearFechaFin();
+      this.formatearFechaCreacion();
 
       this.cargarHorariosGrupoCultural(this.grupo_cultural.Id);
       this.obtenerEnlaceInscripcion();
@@ -99,7 +101,7 @@ export class DialogoGruposCulturalesComponent implements OnInit {
     }
   }
 
-  formatearFechaInicio(fechaInicio: string){
+  formatearFechaInicio(){
     this.fechaFormatIni = new Date(formatDate(this.grupo_cultural.FechaInicioInscripcion, 'yyyy-MM-dd', 'en'));
   }
 
@@ -112,7 +114,7 @@ export class DialogoGruposCulturalesComponent implements OnInit {
     
   }
 
-  formatearFechaFin(fechaInicio: string){
+  formatearFechaFin(){
     this.fechaFormatFin = new Date(formatDate(this.grupo_cultural.FechaFinInscripcion, 'yyyy-MM-dd', 'en'));
   }
 
@@ -122,6 +124,14 @@ export class DialogoGruposCulturalesComponent implements OnInit {
     } else {
       return 'No hay fecha de finalizaciòn de inscripcion registrada'
     }
+  }
+
+  formatearFechaCreacion(){
+    this.fechaFormatCreacion = new Date(formatDate(this.grupo_cultural.FechaCreacion, 'yyyy-MM-dd HH:mm', 'en'));
+  }
+
+  obtenerFechaCreacion(){
+    return this.datePipe.transform(this.fechaFormatCreacion, 'yyyy-MM-dd HH:mm');
   }
 
   close(): void {

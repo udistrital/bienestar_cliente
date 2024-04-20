@@ -5,5 +5,7 @@ export class EvidenciaActividadCultural{
     IdActividad: ActividadCultural;
     CategoriaEvidencia: number;
     ContenidoEvidencia: string;
-    
+    Activo: string;
+    FechaCreacion: string;
+    FechaModificacion: string;
 }

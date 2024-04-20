@@ -121,7 +121,7 @@
                             <mat-error>Campo obligatorio y con longitud menor a 100 caracteres</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" class="select-group" class="col-md-12" *ngIf="!disableEnlaceInscripcion">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-12" *ngIf="disableCorreoContacto">
                             <mat-label>Correo de contacto</mat-label>
                             <input matInput type="text" formControlName="EnlaceInscripcion">
                             <mat-error>Campo obligatorio y con longitud menor a 100 caracteres</mat-error>

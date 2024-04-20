@@ -40,21 +40,6 @@ export class GrupoCulturalComponent implements OnInit {
 
   ngOnInit() {
 
-    /*
-    this.test.getInfoEstudiante().then((resp) => {
-      console.log(resp);}
-    )
-
-    this.test.loadTerceroByWSO2('jgcastellanos').then((data) => {
-      console.log(data);
-    });
-
-    if (this.route.snapshot.data['roles']) {
-      for (const rol of this.route.snapshot.data['roles']) {
-          this.rolesActivos[rol] = true;
-      }
-    }
-    */
     this.obtenerGruposCulturales();
 
   }

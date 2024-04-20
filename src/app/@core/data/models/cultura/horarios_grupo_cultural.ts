@@ -6,5 +6,7 @@ export class HorarioGrupoCultural {
     DiaReunion: string;
     HoraReunion: string; 
     LugarReunion: string;
-    
+    Activo: string;
+    FechaCreacion: string;
+    FechaModificacion: string;
 }

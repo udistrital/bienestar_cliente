@@ -10,4 +10,7 @@ export class GrupoCultural{
     FechaInicioInscripcion: string;
     FechaFinInscripcion: string;  
     LiderGrupo: string;
+    Activo: string;
+    FechaCreacion: string;
+    FechaModificacion: string;
 }

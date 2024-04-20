@@ -1,4 +1,4 @@
-import { Component, OnInit,  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -26,10 +26,12 @@ export class FormActCultComponent implements OnInit {
 
   //Variables correspondientes a la fecha de inicio de la actividad en formato yyyy-MM-ddThh:mm:ss-05:00
   fechaInicio: string;
+  horaInicio: string;
   fechaCompletaInicio: string;
 
   //Variables correspondientes a la fecha de finalizacion de la actividad en formato yyyy-MM-ddThh:mm:ss-05:00
   fechaFin: string;
+  horaFin: string;
   fechaCompletaFin: string;
 
   //Variables correspondientes a los parametros de la tabla actividad_cultural de la base de datos
@@ -39,6 +41,7 @@ export class FormActCultComponent implements OnInit {
   //Variables booleanas para habilitar y deshabilitar campos
   ifCrear: boolean = true;
   disableEnlaceInscripcion: boolean = false;
+  disableCorreoContacto: boolean = false;
   disableEnlaceMayorInfo: boolean = false;
 
   //Formulario utilizado para recibir informacion de la pagina html
@@ -51,7 +54,7 @@ export class FormActCultComponent implements OnInit {
   //Arreglo con los tipos de actividades implementadas
   tipoActividad: any[] = ["Evento", "Ensayo", "Taller", "Conversatorio"];
   idTipoActividad: number;
-
+s
   //Variable para almacenar el usuario activo
   usuario: string;
 
@@ -143,24 +146,30 @@ export class FormActCultComponent implements OnInit {
 
           if(data['Data'].FechaInicio == '0001-01-01T00:00:00Z'){
             auxFechaInicio = '';
+            auxHoraInicio = '';
           } else {
             auxFechaInicio = new Date(data['Data'].FechaInicio);
             auxHoraInicio = formatDate(auxFechaInicio, 'HH:mm' , 'en');
+            console.log(auxHoraInicio);
             this.formatearFechaInicio(auxFechaInicio);
           }
 
           if(data['Data'].FechaFin == '0001-01-01T00:00:00Z'){
             auxFechaFin = '';
+            auxHoraInicio = '';
           } else {
             auxFechaFin = new Date(data['Data'].FechaFin);
             auxHoraFin = formatDate(auxFechaFin, 'HH:mm' , 'en');
+            console.log(auxHoraFin);
             this.formatearFechaFin(auxFechaFin);
           }
 
           if(data['Data'].NecesitaInscripcion == 1){
             this.disableEnlaceInscripcion = true;
+            this.disableCorreoContacto = false;
           } else {
             this.disableEnlaceInscripcion = false;
+            this.disableCorreoContacto = true;
           }
 
           this.onChangeInscripcion(this.disableEnlaceInscripcion);
@@ -174,9 +183,6 @@ export class FormActCultComponent implements OnInit {
           this.onChangeMayorInfo(this.disableEnlaceMayorInfo);
 
           if(data['Data'].Estado == 1) {
-
-            console.log(data);
-            console.log(res);
 
             this.crearActividad = this.fb.group({
             Nombre: [data['Data'].Nombre, [Validators.required, Validators.maxLength(50)] ],
@@ -218,13 +224,15 @@ export class FormActCultComponent implements OnInit {
   actualizarActividadCultural(){
 
     this.convertirTipoActividadANumero(this.crearActividad.value.TipoActividad);
+    this.concatenarFechaInicio(this.crearActividad.value.HoraInicio);
+    this.concatenarFechaFin(this.crearActividad.value.HoraFin);
 
     this.actividadCultural.Nombre = this.crearActividad.value.Nombre;
     this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
     this.actividadCultural.Estado = 1;
     this.actividadCultural.TipoActividad = this.idTipoActividad;
-    //this.actividadCultural.FechaInicio 
-    //this.actividadCultural.FechaFin
+    this.actividadCultural.FechaInicio = this.fechaCompletaInicio; 
+    this.actividadCultural.FechaFin = this.fechaCompletaFin;
     this.actividadCultural.Lugar = this.crearActividad.value.Lugar;
     this.actividadCultural.NecesitaInscripcion = this.necesitaInscripcion;
     this.actividadCultural.EnlaceInscripcion = this.crearActividad.value.EnlaceInscripcion;
@@ -232,8 +240,9 @@ export class FormActCultComponent implements OnInit {
     this.actividadCultural.EnlaceMayorInfo = this.crearActividad.value.EnlaceMayorInfo;
     this.actividadCultural.Imagen = this.crearActividad.value.Imagen;
     this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
-    this.actividadCultural.FechaModificacion = formatDate(this.fechaActual , 'yyyy-MM-ddThh:mm:ss-05:00', 'en');
+    this.actividadCultural.FechaModificacion = formatDate(this.fechaActual , 'yyyy-MM-ddTHH:mm:ss-05:00', 'en');
     this.actividadCultural.UsuarioRegistra = this.usuario;
+
 
     this.ListCultura.putActividadCultural(this.actividadCultural, this.id).subscribe((data) => {
 
@@ -245,7 +254,7 @@ export class FormActCultComponent implements OnInit {
 
   }
 
-  
+
 
   guardarGruposCulturalesParticipantes(idActividad: number){
 
@@ -317,8 +326,17 @@ export class FormActCultComponent implements OnInit {
     this.dialog.open( DialogoEliminacionGruposCulturalesComponent, {width: '400px'});
   }
 
+  concatenarFechaInicio(hora: string){
+    this.fechaCompletaInicio = this.fechaInicio + 'T' + hora +':00+05:00';
+  }
+
+  concatenarFechaFin(hora: string){
+    this.fechaCompletaFin = this.fechaFin + 'T' + hora +':00+05:00';
+  }
+
   onChangeInscripcion(cambio: boolean){
     this.disableEnlaceInscripcion = cambio;
+    this.disableCorreoContacto = !cambio;
     if (this.disableEnlaceInscripcion == true){
       this.necesitaInscripcion = 1;
     } else {
@@ -335,13 +353,13 @@ export class FormActCultComponent implements OnInit {
       this.crearActividad.controls['EnlaceMayorInfo'].disable();
       this.mayorInfo = 0;
     }
-  }
-  
 
+  }
 
   formatearFechaInicio(data: any){
     this.fechaInicio = formatDate(data, 'yyyy-MM-dd', 'en');
   }
+
 
   formatearFechaFin(data: any){
     this.fechaFin = formatDate(data, 'yyyy-MM-dd', 'en');

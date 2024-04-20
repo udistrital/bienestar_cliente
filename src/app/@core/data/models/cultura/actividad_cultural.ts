@@ -14,8 +14,8 @@ export class ActividadCultural{
     PoseeMayorInfo:number;
     EnlaceMayorInfo:string;
     Imagen:string;
+    UsuarioRegistra: string;    
+    Activo: string;
     FechaCreacion: string;
     FechaModificacion: string;
-    UsuarioRegistra: string;    
-    
 }

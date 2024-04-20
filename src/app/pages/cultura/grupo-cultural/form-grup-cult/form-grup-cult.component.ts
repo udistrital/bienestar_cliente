@@ -17,8 +17,8 @@ import { HorarioGrupoCultural } from '../../../../@core/data/models/cultura/hora
 })
 export class FormGrupCultComponent implements OnInit {
 
-  fechaFormateadaIni: string;
-  fechaFormateadaFin: string;
+  fechaFormateadaIni: Date;
+  fechaFormateadaFin: Date;
   auxEnlace: string;
   id: number;
 
@@ -62,14 +62,17 @@ export class FormGrupCultComponent implements OnInit {
   inicializarFormulario(){
     this.crearGrupo = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
-      correo: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-      descripcion: ['', [Validators.required, Validators.maxLength(250)]],
       estado: [1],
+      descripcion: ['', [Validators.required, Validators.maxLength(250)]],
+      correo: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       imagen: ['', [Validators.required, Validators.maxLength(300)]],
       enlaceInscripcion: [{value: '', disabled: true}, [Validators.maxLength(300)]],
       fechaIniInscripcion: [{value: '', disabled: true}],
       fechaFinInscripcion: [{value: '', disabled: true}],
       liderGrupo: ['', [Validators.required, Validators.maxLength(50)]],
+      activo: [true],
+      fechaCreacion: [this.fechaActual],
+      fechaModificacion: [this.fechaActual],
       reuniones: this.fb.array([])
     });
 
@@ -103,9 +106,12 @@ export class FormGrupCultComponent implements OnInit {
         this.grupoCultural.Imagen = this.crearGrupo.value.imagen;
         this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
         this.grupoCultural.EnlaceInscripcion = this.crearGrupo.value.enlaceInscripcion;
-        this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni;
-        this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin; 
+        this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
+        this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
         this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
+        this.grupoCultural.Activo = this.crearGrupo.value.activo;
+        this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
+        this.grupoCultural.FechaModificacion = this.crearGrupo.value.fechaModificacion;
     
         this.ListCultura.postGrupoCultural(this.grupoCultural).subscribe((data: any) => {
     
@@ -130,6 +136,7 @@ export class FormGrupCultComponent implements OnInit {
   guardarReunionesGrupo(idGrupo: number){
 
     const registros = this.reuniones.value;
+    console.log(registros);
     const auxGrupoCultural: GrupoCultural = new GrupoCultural();
     auxGrupoCultural.Id = idGrupo;
 
@@ -139,6 +146,9 @@ export class FormGrupCultComponent implements OnInit {
       this.horarioGrupoCultural.DiaReunion = registro['dia'];
       this.horarioGrupoCultural.HoraReunion = registro['hora'];
       this.horarioGrupoCultural.LugarReunion = registro['lugar'];
+      this.horarioGrupoCultural.Activo = registro['activo'];
+      this.horarioGrupoCultural.FechaCreacion = registro['fechaCreacion'];
+      this.horarioGrupoCultural.FechaModificacion = registro['fechaModificacion'];
 
       console.log(this.horarioGrupoCultural);
 
@@ -184,6 +194,7 @@ export class FormGrupCultComponent implements OnInit {
               this.disableEnlaceInscripcion = false;
             }
 
+            console.log(data['Data'].FechaFinInscripcion);
             
             this.onChange(this.disableEnlaceInscripcion);
             console.log(data['Data'].EnlaceInscripcion);
@@ -200,6 +211,9 @@ export class FormGrupCultComponent implements OnInit {
               fechaIniInscripcion: [{value: auxFechaIni, disabled: false}, Validators.required],
               fechaFinInscripcion: [{value: auxFechaFin, disabled: false}, Validators.required],
               liderGrupo: [data['Data'].LiderGrupo, Validators.required],
+              activo: [data['Data'].Activo],
+              fechaCreacion: [data['Data'].FechaCreacion],
+              fechaModificacion: [this.fechaActual],
               reuniones: this.fb.array([])
             });
 
@@ -209,6 +223,9 @@ export class FormGrupCultComponent implements OnInit {
                   dia: [res['Data'][i].DiaReunion, Validators.required],
                   hora: [res['Data'][i].HoraReunion, Validators.required],
                   lugar: [res['Data'][i].LugarReunion, Validators.required],
+                  activo: [res['Data'][i].Activo],
+                  fechaCreacion: [res['Data'][i].FechaCreacion],
+                  fechaModificacion: [this.fechaActual],
                 });
                 this.reuniones.push(nuevaFila);
               
@@ -257,9 +274,12 @@ export class FormGrupCultComponent implements OnInit {
         this.grupoCultural.Imagen = this.crearGrupo.value.imagen;
         this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
         this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
-        this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni;
-        this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin; 
+        this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
+        this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
         this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
+        this.grupoCultural.Activo = this.crearGrupo.value.activo;
+        this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
+        this.grupoCultural.FechaModificacion = this.crearGrupo.value.fechaModificacion;
     
         this.ListCultura.putGrupoCultural(this.grupoCultural, this.id).subscribe((data) => {
     
@@ -334,6 +354,9 @@ export class FormGrupCultComponent implements OnInit {
       dia: ['', Validators.required],
       hora: ['', Validators.required],
       lugar: ['', Validators.required],
+      activo: [true],
+      fechaCreacion: [this.fechaActual],
+      fechaModificacion: [this.fechaActual]
     });
     this.reuniones.push(nuevaFila);
   }
@@ -355,13 +378,13 @@ export class FormGrupCultComponent implements OnInit {
 
   formatearFechaIni(data: any) {
 
-    this.fechaFormateadaIni = formatDate(data, 'yyyy-MM-ddT12:00:00-05:00', 'en');
+    this.fechaFormateadaIni = new Date(data);
     
   }
 
   formatearFechaFin(data: any) {
 
-    this.fechaFormateadaFin = formatDate(data, 'yyyy-MM-ddT12:00:00-05:00', 'en');
+    this.fechaFormateadaFin = new Date(data);
 
   }
 
