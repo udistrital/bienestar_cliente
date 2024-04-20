@@ -7,18 +7,31 @@
         <div class="card-body">
             <form [formGroup]="cargarEvidencias">
 
-             <div>
-                <input type="file" (change)="capturarFile($event)">
-             </div> 
-             <div *ngIf="previsualizacion">
-                <img [src]="previsualizacion" alt="">
+                <div>
+                    <input type="file" (change)="capturarFile($event)">
+                </div> 
                 
-             </div> 
-                      
-             <button class="card-button" type="button" (click)="cargarEvidencia()" mat-raised-button>
-                Editar
-            </button>  
+                        
+                <button class="card-button" type="button" (click)="cargarEvidencia()" mat-raised-button>
+                    Editar
+                </button>  
+                <button class="card-button" type="button" (click)="obtenerFile()" mat-raised-button>
+                    Visualizar
+                </button> 
 
+                <!--<div >
+                    <img [src]="imageSrc" alt="Imagen">            
+                </div> -->
+                <div>
+                    <button (click)="printPdf()">Show PDF </button>
+                </div>
+
+                <!-- <div>
+                    <object [data]="pdfUrl" type="application/pdf" width="100%" height="600px">
+                        <p>El navegador no puede mostrar este archivo PDF.</p>
+                    </object>
+                </div>-->
+                
             </form>
         </div>
     </div>
