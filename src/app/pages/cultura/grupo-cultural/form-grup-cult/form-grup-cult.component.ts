@@ -91,8 +91,7 @@ export class FormGrupCultComponent implements OnInit {
   }
 
   guardarDatosGrupo(){
-    console.log(this.crearGrupo.value.correo.split("@")[1]);
-    if(this.crearGrupo.value.correo.split("@")[1] == 'udistrital.edu.co'){
+    if(this.crearGrupo.value.liderGrupo.split("@")[1] == 'udistrital.edu.co'){
       if(this.necesitaInscripcion == 1 &&
         (this.crearGrupo.value.enlaceInscripcion == '' || this.crearGrupo.value.enlaceInscripcion == null ||
         this.crearGrupo.value.fechaIniInscripcion == '' || this.crearGrupo.value.fechaIniInscripcion == null ||
@@ -274,116 +273,115 @@ export class FormGrupCultComponent implements OnInit {
   }
 
   editarGrupo(){
-
-    if(this.necesitaInscripcion == 1 &&
-      (this.auxEnlace == '' || this.auxEnlace == null ||
-      this.crearGrupo.value.fechaIniInscripcion == '' || this.crearGrupo.value.fechaIniInscripcion == null ||
-      this.crearGrupo.value.fechaFinInscripcion == '' || this.crearGrupo.value.fechaFinInscripcion == null)){
-
-        this.toastr.error('Si el grupo cultural necesita inscripcion debe llevar enlace, fecha de inicio y de finalizaciòn para la inscripciòn');
-
-    } else {
-
-      if((this.necesitaInscripcion == 0 ) || 
-      ( this.necesitaInscripcion == 1 && (formatDate(this.fechaFormateadaIni, 'yyyy-MM-dd', 'en') < formatDate(this.fechaFormateadaFin, 'yyyy-MM-dd', 'en') || 
-        formatDate(this.fechaFormateadaIni, 'yyyy-MM-dd', 'en') == formatDate(this.fechaFormateadaFin, 'yyyy-MM-dd', 'en'))) ){
-          
-        let auxEstado;
-
-        if(this.crearGrupo.value.estado == 'Activo'){
-          auxEstado = 1;
-        } else {
-          auxEstado = 0;
-        }
-
-        this.eliminarInfoNoInscripcion(this.necesitaInscripcion);
-
-
-        if(this.ifImagen = true && this.base64 != null){
-
-          this.ListCultura.deleteDocumento(this.crearGrupo.value.imagen).subscribe((data) => {
-
-            const documento :Documento ={
-              IdTipoDocumento : 83,
-              nombre : this.crearGrupo.value.nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
-              metadatos :{},
-              descripcion:"Imagen reppresentativa del grupo: " + this.crearGrupo.value.nombre,
-              file : this.base64      
-            }
-    
-            let array = [documento];
-
-            console.log('Archivo eliminado');
-
-            this.ListCultura.postDocumento(array).subscribe((res: any) => {
-              this.enlace = res['res'].Enlace;
-
-              this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
-              this.grupoCultural.Estado = auxEstado;
-              this.grupoCultural.Descripcion = this.crearGrupo.value.descripcion;
-              this.grupoCultural.Email = this.crearGrupo.value.correo;
-              this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
-              this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
-              this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
-              this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
-              this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
-              this.grupoCultural.Imagen = this.enlace;
-              this.grupoCultural.Activo = this.crearGrupo.value.activo;
-              this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
-              this.grupoCultural.FechaModificacion = this.crearGrupo.value.fechaModificacion;
-          
-              this.ListCultura.putGrupoCultural(this.grupoCultural, this.id).subscribe((data) => {
-          
-                this.toastr.success('Grupo '+ data['Data'].Nombre +' actualizado con exito');
-          
-                this.actualizarHorarios(data['Data'].Id);
-
-              });
-
-            });
-
-          });
-    
-          this.router.navigate(['/pages/cultura/grupo-cultural']);
-
-        } else {
-
-          this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
-          this.grupoCultural.Estado = auxEstado;
-          this.grupoCultural.Descripcion = this.crearGrupo.value.descripcion;
-          this.grupoCultural.Email = this.crearGrupo.value.correo;
-          this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
-          this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
-          this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
-          this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
-          this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
-          this.grupoCultural.Imagen = this.crearGrupo.value.imagen;
-          this.grupoCultural.Activo = this.crearGrupo.value.activo;
-          this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
-          this.grupoCultural.FechaModificacion = this.crearGrupo.value.fechaModificacion;
-        
-          this.ListCultura.putGrupoCultural(this.grupoCultural, this.id).subscribe((data) => {
-        
-            this.toastr.success('Grupo '+ data['Data'].Nombre +' actualizado con exito');
-        
-            this.actualizarHorarios(data['Data'].Id);
-
-            this.router.navigate(['/pages/cultura/grupo-cultural']);
-          });
-
-        }
-        
-          
-
-        
+    if(this.crearGrupo.value.liderGrupo.split("@")[1] == 'udistrital.edu.co'){
+      if(this.necesitaInscripcion == 1 &&
+        (this.auxEnlace == '' || this.auxEnlace == null ||
+        this.crearGrupo.value.fechaIniInscripcion == '' || this.crearGrupo.value.fechaIniInscripcion == null ||
+        this.crearGrupo.value.fechaFinInscripcion == '' || this.crearGrupo.value.fechaFinInscripcion == null)){
+  
+          this.toastr.error('Si el grupo cultural necesita inscripcion debe llevar enlace, fecha de inicio y de finalizaciòn para la inscripciòn');
+  
       } else {
-
-        this.toastr.error('Fecha de inicio de inscripciones no puede ser mayor a la fecha de finalizacion de inscripciones');
-
+  
+        if((this.necesitaInscripcion == 0 ) || 
+        ( this.necesitaInscripcion == 1 && (formatDate(this.fechaFormateadaIni, 'yyyy-MM-dd', 'en') < formatDate(this.fechaFormateadaFin, 'yyyy-MM-dd', 'en') || 
+          formatDate(this.fechaFormateadaIni, 'yyyy-MM-dd', 'en') == formatDate(this.fechaFormateadaFin, 'yyyy-MM-dd', 'en'))) ){
+            
+          let auxEstado;
+  
+          if(this.crearGrupo.value.estado == 'Activo'){
+            auxEstado = 1;
+          } else {
+            auxEstado = 0;
+          }
+  
+          this.eliminarInfoNoInscripcion(this.necesitaInscripcion);
+  
+  
+          if(this.ifImagen = true && this.base64 != null){
+  
+            this.ListCultura.deleteDocumento(this.crearGrupo.value.imagen).subscribe((data) => {
+  
+              const documento :Documento ={
+                IdTipoDocumento : 83,
+                nombre : this.crearGrupo.value.nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
+                metadatos :{},
+                descripcion:"Imagen reppresentativa del grupo: " + this.crearGrupo.value.nombre,
+                file : this.base64      
+              }
+      
+              let array = [documento];
+  
+              console.log('Archivo eliminado');
+  
+              this.ListCultura.postDocumento(array).subscribe((res: any) => {
+                this.enlace = res['res'].Enlace;
+  
+                this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
+                this.grupoCultural.Estado = auxEstado;
+                this.grupoCultural.Descripcion = this.crearGrupo.value.descripcion;
+                this.grupoCultural.Email = this.crearGrupo.value.correo;
+                this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
+                this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
+                this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
+                this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
+                this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
+                this.grupoCultural.Imagen = this.enlace;
+                this.grupoCultural.Activo = this.crearGrupo.value.activo;
+                this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
+                this.grupoCultural.FechaModificacion = this.crearGrupo.value.fechaModificacion;
+            
+                this.ListCultura.putGrupoCultural(this.grupoCultural, this.id).subscribe((data) => {
+            
+                  this.toastr.success('Grupo '+ data['Data'].Nombre +' actualizado con exito');
+            
+                  this.actualizarHorarios(data['Data'].Id);
+  
+                });
+  
+              });
+  
+            });
+      
+            this.router.navigate(['/pages/cultura/grupo-cultural']);
+  
+          } else {
+  
+            this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
+            this.grupoCultural.Estado = auxEstado;
+            this.grupoCultural.Descripcion = this.crearGrupo.value.descripcion;
+            this.grupoCultural.Email = this.crearGrupo.value.correo;
+            this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
+            this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
+            this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
+            this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
+            this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
+            this.grupoCultural.Imagen = this.crearGrupo.value.imagen;
+            this.grupoCultural.Activo = this.crearGrupo.value.activo;
+            this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
+            this.grupoCultural.FechaModificacion = this.crearGrupo.value.fechaModificacion;
+          
+            this.ListCultura.putGrupoCultural(this.grupoCultural, this.id).subscribe((data) => {
+          
+              this.toastr.success('Grupo '+ data['Data'].Nombre +' actualizado con exito');
+          
+              this.actualizarHorarios(data['Data'].Id);
+  
+              this.router.navigate(['/pages/cultura/grupo-cultural']);
+            });
+  
+          }
+          
+        } else {
+  
+          this.toastr.error('Fecha de inicio de inscripciones no puede ser mayor a la fecha de finalizacion de inscripciones');
+  
+        }
       }
-    }
+    } else {
+      this.toastr.error('Correo no valido. Debe ingresarse correo institucional en este campo');
+    } 
 
-    
   }
 
   actualizarHorarios(idGrupo: number){
