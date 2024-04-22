@@ -25,7 +25,6 @@ export class DialogoGruposCulturalesComponent implements OnInit {
   valInscripcion: boolean = false;
   base64String: string;
   imageSrc: any;
-  umbralAncho = 650;
 
   constructor(public dialogRef: MatDialogRef<DialogoGruposCulturalesComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any, private ListCultura: CulturaService,

@@ -45,9 +45,12 @@ export class CulturaService {
         return this.http.get(url + 'actividad_grupo_cultural?query=IdActividadCultural.Id:'+IdActividadCultural);
     }
 
-    //Metodos HTTP para los grupos culturales participantes en una actividad cultural
     postActividadGrupoCultural(actividadGrupoCultural: ActividadGrupoCultural): Observable<ActividadGrupoCultural>{
         return this.http.post<ActividadGrupoCultural>(url + "actividad_grupo_cultural", actividadGrupoCultural);
+    }
+
+    deleteActividadGrupoCultural(id: number){
+        return this.http.delete(url+'actividad_grupo_cultural/'+id);
     }
 
     //Metodos HTTP para grupos culturales
@@ -56,7 +59,7 @@ export class CulturaService {
     }
 
     getGruposCulturales(){
-        return this.http.get(url+"grupo_cultural?limit=100&sortby=Nombre&order=asc");
+        return this.http.get(url+"grupo_cultural?limit=100&sortby=Id&order=asc");
     }
 
     postGrupoCultural(grupoCultural: GrupoCultural): Observable<GrupoCultural>{

@@ -108,9 +108,9 @@ export class FormGrupCultComponent implements OnInit {
   
           const documento :Documento ={
             IdTipoDocumento : 83,
-            nombre : this.crearGrupo.value.nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
+            nombre : 'logo_' + this.crearGrupo.value.nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
             metadatos :{},
-            descripcion:"Imagen reppresentativa del grupo: " + this.crearGrupo.value.nombre,
+            descripcion:"Imagen representativa del grupo: " + this.crearGrupo.value.nombre,
             file : this.base64      
           }
   
@@ -160,7 +160,6 @@ export class FormGrupCultComponent implements OnInit {
   guardarReunionesGrupo(idGrupo: number){
 
     const registros = this.reuniones.value;
-    console.log(registros);
     const auxGrupoCultural: GrupoCultural = new GrupoCultural();
     auxGrupoCultural.Id = idGrupo;
 
@@ -257,6 +256,7 @@ export class FormGrupCultComponent implements OnInit {
                   fechaCreacion: [res['Data'][i].FechaCreacion],
                   fechaModificacion: [this.fechaActual],
                 });
+                console.log(nuevaFila);
                 this.reuniones.push(nuevaFila);
               
             }
@@ -304,9 +304,9 @@ export class FormGrupCultComponent implements OnInit {
   
               const documento :Documento ={
                 IdTipoDocumento : 83,
-                nombre : this.crearGrupo.value.nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
+                nombre : 'logo_' + this.crearGrupo.value.nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
                 metadatos :{},
-                descripcion:"Imagen reppresentativa del grupo: " + this.crearGrupo.value.nombre,
+                descripcion:"Imagen representativa del grupo: " + this.crearGrupo.value.nombre,
                 file : this.base64      
               }
       
@@ -518,7 +518,7 @@ export class FormGrupCultComponent implements OnInit {
       this.crearGrupo.controls['fechaFinInscripcion'].disable();
       this.necesitaInscripcion = 0;
     }
-  }0
+  }
 
   clearFechaInicio(event) {
     event.stopPropagation();

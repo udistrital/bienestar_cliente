@@ -40,7 +40,7 @@
                             <mat-error>Campo obligatorio</mat-error>
                         </mat-form-field>
 
-                        <div formArrayName="reuniones">
+                        <div class="contenedor" formArrayName="reuniones">
 
                             <div *ngFor="let reunion of reuniones.controls; let i = index" [formGroupName]="i">
 
@@ -54,7 +54,7 @@
                                     <mat-error>Campo obligatorio</mat-error>
                                 </mat-form-field>
                                 
-                                <mat-form-field appearance="outline" class="col-sm-3">
+                                <mat-form-field appearance="outline" class="col-sm-2">
                                     <mat-label>Hora</mat-label>
                                     <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora"  
                                     [disableClick]="false" readonly/>
@@ -67,7 +67,7 @@
                                     <mat-error>Campo obligatorio</mat-error>
                                   </mat-form-field>
 
-                                <mat-form-field appearance="outline" class="select-group" class="col-md-4">
+                                <mat-form-field appearance="outline" class="select-group" class="col-md-3">
                                     <mat-label>Lugar</mat-label>
                                     <input matInput type="text" formControlName="lugar">
                                     <mat-error>Campo obligatorio con longitud menor de 50 caracteres</mat-error>

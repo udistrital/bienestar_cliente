@@ -5,7 +5,7 @@ export class ActividadGrupoCultural{
     IdActividadGrupo: number;
     IdActividadCultural: ActividadCultural;
     IdGrupoCultural: GrupoCultural;
-    Activo: string;
+    Activo: any;
     FechaCreacion: string;
     FechaModificacion: string;
 }
