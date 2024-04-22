@@ -103,19 +103,13 @@ export class ActividadCulturalComponent implements OnInit {
     }
   }
 
-  mostrarDialogo(id: number, estado: string){
-    console.log(estado);
+  mostrarDialogo(id: number){
+
     let message = {idActividad: id};
-    if(estado == 'Registrado'){
       this.dialog.open( DialogoActividadesCulturalesComponent, {height: '1100px' ,width: '500px', data: {
         mensaje: message
-      }});
-    } else {
-      this.dialog.open( DialogoActividadesCulturalesComponent, {height: '600px' ,width: '500px', data: {
-        mensaje: message
-      }});
-    }
-    
+      }});  
+        
   }
   
 }

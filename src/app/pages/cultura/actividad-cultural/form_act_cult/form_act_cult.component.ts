@@ -10,6 +10,8 @@ import { CulturaService } from '../../../../shared/services/cultura.service';
 import { GrupoCultural } from '../../../../@core/data/models/cultura/grupo_cultural';
 import { ActividadGrupoCultural } from '../../../../@core/data/models/cultura/actividad_grupo_cultural';
 import { UtilService } from '../../../../shared/services/utilService';
+import { Documento } from '../../../../shared/models/Salud/documento.model';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'ngx-form_act_cult',
@@ -23,6 +25,10 @@ export class FormActCultComponent implements OnInit {
 
   //Fecha actual
   fechaActual = new Date();
+  FechaDiaMas = new Date();
+
+  fechaFormateadaIni: Date = null;
+  fechaFormateadaFin: Date = null;
 
   //Variables correspondientes a la fecha de inicio de la actividad en formato yyyy-MM-ddThh:mm:ss-05:00
   fechaInicio: string;
@@ -37,12 +43,14 @@ export class FormActCultComponent implements OnInit {
   //Variables correspondientes a los parametros de la tabla actividad_cultural de la base de datos
   necesitaInscripcion: number = 0;
   mayorInfo: number = 0;
+  estadoNuevo: number;
 
   //Variables booleanas para habilitar y deshabilitar campos
   ifCrear: boolean = true;
   disableEnlaceInscripcion: boolean = false;
   disableCorreoContacto: boolean = false;
   disableEnlaceMayorInfo: boolean = false;
+  disableImagen: boolean = false;
 
   //Formulario utilizado para recibir informacion de la pagina html
   crearActividad: FormGroup;
@@ -54,13 +62,20 @@ export class FormActCultComponent implements OnInit {
   //Arreglo con los tipos de actividades implementadas
   tipoActividad: any[] = ["Evento", "Ensayo", "Taller", "Conversatorio"];
   idTipoActividad: number;
-s
+
   //Variable para almacenar el usuario activo
   usuario: string;
 
   //Arreglos correcpondientes a los grupos participantes de una actividad cultural para creacion o eliminacion
   gruposCulturalesActivos: any[] = [];
   idGruposCulturalesParticipantes: any[] = [];
+
+  //Variables utilizadas para los archivos
+  base64:any = null;
+  enlace : string;
+  nombreArchivo = 'Seleccione la imagen del grupo';
+  extension: string;
+  ifImagen: boolean;
 
   constructor(private fb: FormBuilder, private router: Router,
     private toastr: ToastrService, private route: ActivatedRoute,
@@ -73,6 +88,7 @@ s
     this.usuario = this.utilService.getUsuarioWSO2();
 
     this.fechaActual.setDate(this.fechaActual.getDate());
+    this.FechaDiaMas.setDate(this.FechaDiaMas.getDate()+1);
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -93,11 +109,12 @@ s
 
   //Metodos para crear actividades culturales
   inicializarFormularioCreacion(){
+
     this.crearActividad = this.fb.group({
       Nombre: ['', [Validators.required, Validators.maxLength(50)] ],
       Descripcion: ['', [Validators.required, Validators.maxLength(300)]],
       Estado: [1],
-      TipoActividad: [''],
+      TipoActividad: ['', Validators.required],
       FechaInicio: [''],
       HoraInicio: [''],
       FechaFin: [''],
@@ -105,11 +122,12 @@ s
       Lugar: [''],
       EnlaceInscripcion: [''],
       EnlaceMayorInfo: [''],
-      Imagen: [],
+      UsuarioRegistra: [this.usuario],
+      Activo: [true],
+      FechaCreacion: [this.fechaActual],
+      FechaModificacion: [this.fechaActual],
       GruposCulturales: this.fb.array([])
     });
-
-    this.agregarFila();
 
   }
 
@@ -121,9 +139,10 @@ s
     this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
     this.actividadCultural.Estado = this.crearActividad.value.Estado;
     this.actividadCultural.TipoActividad = this.idTipoActividad;
-    this.actividadCultural.FechaCreacion = formatDate(this.fechaActual , 'yyyy-MM-ddThh:mm:ss-05:00', 'en');
-
-    this.actividadCultural.UsuarioRegistra = this.usuario;
+    this.actividadCultural.UsuarioRegistra = this.crearActividad.value.UsuarioRegistra;
+    this.actividadCultural.Activo = this.crearActividad.value.Activo;
+    this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
+    this.actividadCultural.FechaModificacion = this.crearActividad.value.FechaModificacion;
 
     this.ListCultura.postActividadCultural(this.actividadCultural).subscribe((data) => {
 
@@ -141,17 +160,16 @@ s
       this.ListCultura.getActividadCultural(idActividad).subscribe((data) => {
         this.ListCultura.getGruposCulturalesParticipantes(idActividad).subscribe((res) => {
 
+          //console.log(res['Data']);
+
           let auxFechaInicio, auxHoraInicio, auxFechaFin, auxHoraFin;
           
-
           if(data['Data'].FechaInicio == '0001-01-01T00:00:00Z'){
             auxFechaInicio = '';
             auxHoraInicio = '';
           } else {
             auxFechaInicio = new Date(data['Data'].FechaInicio);
             auxHoraInicio = formatDate(auxFechaInicio, 'HH:mm' , 'en');
-            console.log(auxHoraInicio);
-            this.formatearFechaInicio(auxFechaInicio);
           }
 
           if(data['Data'].FechaFin == '0001-01-01T00:00:00Z'){
@@ -160,8 +178,6 @@ s
           } else {
             auxFechaFin = new Date(data['Data'].FechaFin);
             auxHoraFin = formatDate(auxFechaFin, 'HH:mm' , 'en');
-            console.log(auxHoraFin);
-            this.formatearFechaFin(auxFechaFin);
           }
 
           if(data['Data'].NecesitaInscripcion == 1){
@@ -182,33 +198,61 @@ s
 
           this.onChangeMayorInfo(this.disableEnlaceMayorInfo);
 
-          if(data['Data'].Estado == 1) {
+          this.disableImagen = true;
+
+          if(data['Data'].Imagen){
+
+            this.ListCultura.getDocumento(data['Data'].Imagen).subscribe((aux) => {
+              this.nombreArchivo = aux['dc:title'];
+            });
+          } else {
+            this.ifImagen = true;
+          }
+          
+          
+
+          if(data['Data'].Estado == 1 || data['Data'].Estado == 2) {
+
+            this.ifImagen = true;
 
             this.crearActividad = this.fb.group({
             Nombre: [data['Data'].Nombre, [Validators.required, Validators.maxLength(50)] ],
             Descripcion: [data['Data'].Descripcion, [Validators.required, Validators.maxLength(300)]],
             Estado: [data['Data'].Estado],
             TipoActividad: [this.convertirNumeroATipoActividad(data['Data'].TipoActividad), Validators.required],
-            FechaInicio: [auxFechaInicio, Validators.required],
-            HoraInicio: [auxHoraInicio, Validators.required],
-            FechaFin: [auxFechaFin, Validators.required],
-            HoraFin: [auxHoraFin, Validators.required],
-            Lugar: [data['Data'].Lugar, [Validators.required, Validators.maxLength(50)]],
+            FechaInicio: [auxFechaInicio],
+            HoraInicio: [auxHoraInicio],
+            FechaFin: [auxFechaFin],
+            HoraFin: [auxHoraFin],
+            Lugar: [data['Data'].Lugar, Validators.maxLength(50)],
             NecesitaInscripcion: data['Data'].NecesitaInscripcion,
-            EnlaceInscripcion: [data['Data'].EnlaceInscripcion, [Validators.required, Validators.maxLength(300)]],
+            EnlaceInscripcion: [data['Data'].EnlaceInscripcion, Validators.maxLength(300)],
             PoseeMayorInfo: data['Data'].PoseeMayorInfo,
-            EnlaceMayorInfo: [{value: data['Data'].EnlaceMayorInfo, disabled: true}],
-            Imagen: [data['Data'].Imagen, Validators.required],
+            EnlaceMayorInfo: [data['Data'].EnlaceMayorInfo],
+            Imagen: [data['Data'].Imagen],
             FechaCreacion: [data['Data'].FechaCreacion],
+            Activo: [data['Data'].Activo],
+            FechaModificacion: [this.fechaActual],
             GruposCulturales: this.fb.array([])
             });
 
             if(JSON.stringify(res['Data'][0]) == '{}'){
+
               this.agregarFila();
+
             } else {
-              this.agregarGruposCulturalesParticipantes();
+
+              for(let i in res['Data']){
+
+                const nuevaFila = this.fb.group({
+                  NombreGrupo: [res['Data'][i].IdGrupoCultural.Id + '. '+ res['Data'][i].IdGrupoCultural.Nombre]
+                });
+
+                this.GruposCulturales.push(nuevaFila);
+                
+              }
+              
             }
-            
           } 
         })
         
@@ -216,74 +260,266 @@ s
       
     }
   }
-
-  agregarGruposCulturalesParticipantes(){
-
-  }
-
+  
   actualizarActividadCultural(){
 
-    this.convertirTipoActividadANumero(this.crearActividad.value.TipoActividad);
-    this.concatenarFechaInicio(this.crearActividad.value.HoraInicio);
-    this.concatenarFechaFin(this.crearActividad.value.HoraFin);
+    if((this.crearActividad.value.FechaInicio && !this.crearActividad.value.HoraInicio) || 
+      (!this.crearActividad.value.FechaInicio && this.crearActividad.value.HoraInicio)){
 
-    this.actividadCultural.Nombre = this.crearActividad.value.Nombre;
-    this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
-    this.actividadCultural.Estado = 1;
-    this.actividadCultural.TipoActividad = this.idTipoActividad;
-    this.actividadCultural.FechaInicio = this.fechaCompletaInicio; 
-    this.actividadCultural.FechaFin = this.fechaCompletaFin;
-    this.actividadCultural.Lugar = this.crearActividad.value.Lugar;
-    this.actividadCultural.NecesitaInscripcion = this.necesitaInscripcion;
-    this.actividadCultural.EnlaceInscripcion = this.crearActividad.value.EnlaceInscripcion;
-    this.actividadCultural.PoseeMayorInfo = this.mayorInfo;
-    this.actividadCultural.EnlaceMayorInfo = this.crearActividad.value.EnlaceMayorInfo;
-    this.actividadCultural.Imagen = this.crearActividad.value.Imagen;
-    this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
-    this.actividadCultural.FechaModificacion = formatDate(this.fechaActual , 'yyyy-MM-ddTHH:mm:ss-05:00', 'en');
-    this.actividadCultural.UsuarioRegistra = this.usuario;
+      this.toastr.error('Si ingresa la fecha de inicio tambien debe agregar la hora de inicio y viceversa');
 
+    } else if ((this.crearActividad.value.FechaFin && !this.crearActividad.value.HoraFin) || 
+      (!this.crearActividad.value.FechaFin && this.crearActividad.value.HoraFin)){
 
-    this.ListCultura.putActividadCultural(this.actividadCultural, this.id).subscribe((data) => {
+      this.toastr.error('Si ingresa la fecha de finalización tambien debe agregar la hora de inicio y viceversa');
 
-      this.toastr.success('El actividad cultural '+ data['Data'].Nombre +' fue editada con exito');
+    } else {
 
-      this.router.navigate(['/pages/cultura/actividad-cultural']);
+    this.concatenarFechaInicio(this.crearActividad.value.FechaInicio ,this.crearActividad.value.HoraInicio);
+    this.concatenarFechaFin(this.crearActividad.value.FechaFin, this.crearActividad.value.HoraFin);
 
-    });
+    if((this.fechaFormateadaIni < this.fechaFormateadaFin) || (this.fechaFormateadaIni == null) || (this.fechaFormateadaFin == null) ){
+
+        if(this.mayorInfo == 1 && (this.crearActividad.value.EnlaceMayorInfo == '' || this.crearActividad.value.EnlaceMayorInfo == null)){
+
+          this.toastr.error('Si la actividad cultural posee enlace para mayor información, debe ingresar dicho enlace.');
+
+        } else {
+
+          if(this.fechaFormateadaIni && this.fechaFormateadaFin){
+            this.estadoNuevo = 2;
+          } else {
+            this.estadoNuevo = 1;
+          }
+
+          if(this.ifImagen = true && this.base64 != null){
+
+            const documento :Documento ={
+              IdTipoDocumento : 84,
+              nombre : 'banner_' + this.crearActividad.value.Nombre.replace(/\s/g, "") +'.'+ this.extension.split("/")[1],
+              metadatos :{},
+              descripcion:"Imagen representativa de la actividad: " + this.crearActividad.value.Nombre,
+              file : this.base64      
+            }
+            
+            let array = [documento];
+            if(this.crearActividad.value.Imagen == '' || this.crearActividad.value.Imagen == null){
+              this.ListCultura.postDocumento(array).subscribe((res) => {
+  
+                let auxFechaInicio : any;
+                if(this.fechaFormateadaIni == null){
+                  auxFechaInicio = this.fechaFormateadaIni;
+                } else {
+                  auxFechaInicio = this.fechaFormateadaIni.toISOString(); 
+                }
+  
+                let auxFechaFin : any;
+                if(this.fechaFormateadaFin == null){
+                  auxFechaFin = this.fechaFormateadaIni;
+                } else {
+                  auxFechaFin = this.fechaFormateadaFin.toISOString(); 
+                }
+  
+                this.enlace = res['res'].Enlace;
+                this.convertirTipoActividadANumero(this.crearActividad.value.TipoActividad);
+                        
+                this.actividadCultural.Nombre = this.crearActividad.value.Nombre;
+                this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
+                this.actividadCultural.Estado = this.estadoNuevo;
+                this.actividadCultural.TipoActividad = this.idTipoActividad;
+                this.actividadCultural.FechaInicio = auxFechaInicio; 
+                this.actividadCultural.FechaFin = auxFechaFin;
+                this.actividadCultural.Lugar = this.crearActividad.value.Lugar;
+                this.actividadCultural.NecesitaInscripcion = this.necesitaInscripcion;
+                this.actividadCultural.EnlaceInscripcion = this.crearActividad.value.EnlaceInscripcion;
+                this.actividadCultural.PoseeMayorInfo = this.mayorInfo;
+                this.actividadCultural.EnlaceMayorInfo = this.crearActividad.value.EnlaceMayorInfo;
+                this.actividadCultural.Imagen = this.enlace;
+                this.actividadCultural.UsuarioRegistra = this.usuario;
+                this.actividadCultural.Activo = this.crearActividad.value.Activo;
+                this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
+                this.actividadCultural.FechaModificacion = this.crearActividad.value.FechaModificacion;
+                
+                
+                this.ListCultura.putActividadCultural(this.actividadCultural, this.id).subscribe((data) => {
+                
+                  this.toastr.success('El actividad cultural '+ data['Data'].Nombre +' fue editada con exito');
+                  
+                  if(this.GruposCulturales.length > 0){
+                    this.guardarGruposCulturalesParticipantes(data['Data'].Id);
+                  }
+                  
+                  this.router.navigate(['/pages/cultura/actividad-cultural']);
+                
+                });
+                  
+              });
+            } else {
+  
+              this.ListCultura.deleteDocumento(this.crearActividad.value.Imagen).subscribe((data) => {
+  
+                this.ListCultura.postDocumento(array).subscribe((res) => {
+  
+                  let auxFechaInicio : any;
+                  if(this.fechaFormateadaIni == null){
+                    auxFechaInicio = this.fechaFormateadaIni;
+                  } else {
+                    auxFechaInicio = this.fechaFormateadaIni.toISOString(); 
+                  }
+  
+                  let auxFechaFin : any;
+                  if(this.fechaFormateadaFin == null){
+                    auxFechaFin = this.fechaFormateadaIni;
+                  } else {
+                    auxFechaFin = this.fechaFormateadaFin.toISOString(); 
+                  }
+  
+                  this.enlace = res['res'].Enlace;
+                  this.convertirTipoActividadANumero(this.crearActividad.value.TipoActividad);
+                          
+                  this.actividadCultural.Nombre = this.crearActividad.value.Nombre;
+                  this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
+                  this.actividadCultural.Estado = 1;
+                  this.actividadCultural.TipoActividad = this.idTipoActividad;
+                  this.actividadCultural.FechaInicio = auxFechaInicio; 
+                  this.actividadCultural.FechaFin = auxFechaFin;
+                  this.actividadCultural.Lugar = this.crearActividad.value.Lugar;
+                  this.actividadCultural.NecesitaInscripcion = this.necesitaInscripcion;
+                  this.actividadCultural.EnlaceInscripcion = this.crearActividad.value.EnlaceInscripcion;
+                  this.actividadCultural.PoseeMayorInfo = this.mayorInfo;
+                  this.actividadCultural.EnlaceMayorInfo = this.crearActividad.value.EnlaceMayorInfo;
+                  this.actividadCultural.Imagen = this.enlace;
+                  this.actividadCultural.UsuarioRegistra = this.usuario;
+                  this.actividadCultural.Activo = this.crearActividad.value.Activo;
+                  this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
+                  this.actividadCultural.FechaModificacion = this.crearActividad.value.FechaModificacion;
+                  
+                  
+                  this.ListCultura.putActividadCultural(this.actividadCultural, this.id).subscribe((data) => {
+                  
+                    this.toastr.success('El actividad cultural '+ data['Data'].Nombre +' fue editada con exito');
+                    
+                    if(this.GruposCulturales.length > 0){
+                      this.guardarGruposCulturalesParticipantes(data['Data'].Id);
+                    }
+      
+                    this.router.navigate(['/pages/cultura/actividad-cultural']);
+                  
+                  });
+                    
+                });
+              });
+            }
+            
+          } else {
+            let auxFechaInicio : any;
+                if(this.fechaFormateadaIni == null){
+                  auxFechaInicio = this.fechaFormateadaIni;
+                } else {
+                  auxFechaInicio = this.fechaFormateadaIni.toISOString(); 
+                }
+  
+                let auxFechaFin : any;
+                if(this.fechaFormateadaFin == null){
+                  auxFechaFin = this.fechaFormateadaIni;
+                } else {
+                  auxFechaFin = this.fechaFormateadaFin.toISOString(); 
+                }
+  
+                this.convertirTipoActividadANumero(this.crearActividad.value.TipoActividad);
+                        
+                this.actividadCultural.Nombre = this.crearActividad.value.Nombre;
+                this.actividadCultural.Descripcion = this.crearActividad.value.Descripcion;
+                this.actividadCultural.Estado = this.estadoNuevo;
+                this.actividadCultural.TipoActividad = this.idTipoActividad;
+                this.actividadCultural.FechaInicio = auxFechaInicio; 
+                this.actividadCultural.FechaFin = auxFechaFin;
+                this.actividadCultural.Lugar = this.crearActividad.value.Lugar;
+                this.actividadCultural.NecesitaInscripcion = this.necesitaInscripcion;
+                this.actividadCultural.EnlaceInscripcion = this.crearActividad.value.EnlaceInscripcion;
+                this.actividadCultural.PoseeMayorInfo = this.mayorInfo;
+                this.actividadCultural.EnlaceMayorInfo = this.crearActividad.value.EnlaceMayorInfo;
+                this.actividadCultural.Imagen = this.crearActividad.value.Imagen;
+                this.actividadCultural.UsuarioRegistra = this.usuario;
+                this.actividadCultural.Activo = this.crearActividad.value.Activo;
+                this.actividadCultural.FechaCreacion = this.crearActividad.value.FechaCreacion;
+                this.actividadCultural.FechaModificacion = this.crearActividad.value.FechaModificacion;
+                
+                
+                this.ListCultura.putActividadCultural(this.actividadCultural, this.id).subscribe((data) => {
+                
+                  this.toastr.success('El actividad cultural '+ data['Data'].Nombre +' fue editada con exito');
+                  
+                  if(this.GruposCulturales.length > 0){
+                    this.guardarGruposCulturalesParticipantes(data['Data'].Id);
+                  }
+                  
+                  this.router.navigate(['/pages/cultura/actividad-cultural']);
+                
+                });
+          }
+        }
+        
+      } else {
+        console.log(this.fechaFormateadaIni);
+        this.toastr.error('La fecha de inicio de la actividad debe ser menor que la fecha de finalizacion');
+      }
+      
+    } 
 
   }
-
-
 
   guardarGruposCulturalesParticipantes(idActividad: number){
 
-    const grParticipantes = this.GruposCulturales.value;
+    //const registros = this.GruposCulturales.value;
+    const registros = this.eliminarRepetidosGruposCulturalesParticipantes(this.GruposCulturales.value, 'NombreGrupo');
     const auxActividadCultural: ActividadCultural = new ActividadCultural();
-    const auxGrupoCultural: GrupoCultural = new GrupoCultural();
     auxActividadCultural.Id = idActividad;
 
-    grParticipantes.forEach((gr) => {
-      this.idGruposCulturalesParticipantes.push(gr['GrupoParticipante'].IdGrupoParticipante);
+    this.ListCultura.getGruposCulturalesParticipantes(idActividad).subscribe((data) => {
+      if(JSON.stringify(data['Data'][0]) == '{}'){
+        registros.forEach((registro) => {
+      
+          const auxGrupoCultural: GrupoCultural = new GrupoCultural();
+          auxGrupoCultural.Id = parseInt(registro['NombreGrupo'].split(".")[0]);
+
+          this.actividadGrupoCultural.IdActividadCultural = auxActividadCultural;
+          this.actividadGrupoCultural.IdGrupoCultural = auxGrupoCultural;
+          this.actividadGrupoCultural.Activo = true;
+          this.actividadGrupoCultural.FechaCreacion = this.fechaActual.toISOString();
+          this.actividadGrupoCultural.FechaModificacion = this.fechaActual.toISOString();
+          
+          this.ListCultura.postActividadGrupoCultural(this.actividadGrupoCultural).subscribe((aux) => {
+            console.log('Grupo cultural relacionado a la actividad');
+          });
+
+        });
+      } else {
+
+        for(let i in data['Data']){
+          this.ListCultura.deleteActividadGrupoCultural(data['Data'][i].Id).subscribe((res) => {});
+        }
+
+          registros.forEach((registro) => {
+        
+            const auxGrupoCultural: GrupoCultural = new GrupoCultural();
+            auxGrupoCultural.Id = parseInt(registro['NombreGrupo'].split(".")[0]);
+  
+            this.actividadGrupoCultural.IdActividadCultural = auxActividadCultural;
+            this.actividadGrupoCultural.IdGrupoCultural = auxGrupoCultural;
+            this.actividadGrupoCultural.Activo = true;
+            this.actividadGrupoCultural.FechaCreacion = this.fechaActual.toISOString();
+            this.actividadGrupoCultural.FechaModificacion = this.fechaActual.toISOString();
+            
+            this.ListCultura.postActividadGrupoCultural(this.actividadGrupoCultural).subscribe((aux) => {
+              console.log('Grupo cultural relacionado a la actividad');
+            });
+  
+          });
+      }
+      
     });
 
-    this.idGruposCulturalesParticipantes = this.eliminarRepetidosGruposCulturalesParticipantes(this.idGruposCulturalesParticipantes);
-
-    const grParticipantesNoRepetidos = this.idGruposCulturalesParticipantes;
-
-   
-    grParticipantesNoRepetidos.forEach((gr) => {
-
-      auxGrupoCultural.Id = gr;
-
-      this.actividadGrupoCultural.IdActividadCultural = auxActividadCultural;
-      this.actividadGrupoCultural.IdGrupoCultural = auxGrupoCultural;
-
-      this.ListCultura.postActividadGrupoCultural(this.actividadGrupoCultural).subscribe((data) => {
-        console.log('Grupo asociado a la actividad cultural');
-      });
-    });
-    
   }
 
   get GruposCulturales() {
@@ -292,7 +528,7 @@ s
 
   agregarFila(){
     const nuevaFila = this.fb.group({
-      GrupoParticipante: ['', Validators.required]
+      NombreGrupo: ['']
     });
     this.GruposCulturales.push(nuevaFila);
   }
@@ -313,10 +549,11 @@ s
       if (JSON.stringify(data['Data'][0]) != '{}') {
         for (let i in data['Data']){
           if (data['Data'][i].Estado == 1){
-            this.gruposCulturalesActivos = [...this.gruposCulturalesActivos, 
-              {IdGrupoParticipante: data['Data'][i].Id, GrupoParticipante: data['Data'][i].Nombre}];
+            this.gruposCulturalesActivos.push(data['Data'][i].Id + '. ' + data['Data'][i].Nombre);
+            this.idGruposCulturalesParticipantes.push({IdGrupoParticipante: data['Data'][i].Id});
           }           
         }
+
       }
       
     });
@@ -326,12 +563,33 @@ s
     this.dialog.open( DialogoEliminacionGruposCulturalesComponent, {width: '400px'});
   }
 
-  concatenarFechaInicio(hora: string){
-    this.fechaCompletaInicio = this.fechaInicio + 'T' + hora +':00+05:00';
+  concatenarFechaInicio(fecha: string, hora: string){
+
+    if(typeof fecha === 'object'){
+      this.fechaCompletaInicio = formatDate(fecha, 'yyyy-MM-dd', 'en') + 'T' + hora +':00';
+      this.formatearFechaInicio(this.fechaCompletaInicio);
+    }
+    
   }
 
-  concatenarFechaFin(hora: string){
-    this.fechaCompletaFin = this.fechaFin + 'T' + hora +':00+05:00';
+  concatenarFechaFin(fecha: string, hora: string){
+
+    if(typeof fecha === 'object'){
+      this.fechaCompletaFin = formatDate(fecha, 'yyyy-MM-dd', 'en') + 'T' + hora +':00';
+      this.formatearFechaFin(this.fechaCompletaFin);
+    }
+  }
+
+  formatearFechaInicio(data: any) {
+
+    this.fechaFormateadaIni = new Date(data);
+    
+  }
+
+  formatearFechaFin(data: any) {
+
+    this.fechaFormateadaFin = new Date(data);
+
   }
 
   onChangeInscripcion(cambio: boolean){
@@ -354,16 +612,7 @@ s
       this.mayorInfo = 0;
     }
 
-  }
-
-  formatearFechaInicio(data: any){
-    this.fechaInicio = formatDate(data, 'yyyy-MM-dd', 'en');
-  }
-
-
-  formatearFechaFin(data: any){
-    this.fechaFin = formatDate(data, 'yyyy-MM-dd', 'en');
-  }
+  }  
 
   convertirNumeroATipoActividad(actividad: number){
     if(actividad == 1){
@@ -389,9 +638,12 @@ s
     }
   }
 
-  
-  eliminarRepetidosGruposCulturalesParticipantes(array: any[]): any[] {
-    return [...new Set(array)];
+  eliminarRepetidosGruposCulturalesParticipantes(array: any[], parametro: string): any[] {
+    return array.filter((obj, index, self) =>
+      index === self.findIndex((t) => (
+        t[parametro] === obj[parametro]
+      ))
+    );
   }
   
   mostrarComponentesCreacion(){
@@ -402,5 +654,41 @@ s
     }
   }
 
+  capturarFile(event):any{
+    this.extension = event.target.files[0].type;
+    if (event.target.files.length > 0) {
+      if (event.target.files[0].type == "image/jpeg" || event.target.files[0].type == "image/png") {
+        this.convertFile(event.target.files[0]).subscribe(base64 => {
+          this.nombreArchivo = 'Imagen seleccionada: ' + event.target.files[0].name;
+          this.base64= base64;
+          this.ifImagen = true;
+        });
+      } else {
+        this.base64 = null;
+        this.nombreArchivo = 'Ingrese nuevamente';
+        this.toastr.error('Solo se reciben imagenes de tipo png o jpg.');
+      }
+    }
+    else {
+      this.base64 = null;
+    }
+    
+  }
+
+  convertFile(file: File): Observable<string> {
+    const result = new ReplaySubject<string>(1);
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (event) => result.next(btoa(event.target["result"].toString()));
+    return result;
+  }
+
+  validarFormularios(){
+    if(this.crearActividad.valid && (!this.id || this.ifImagen)){
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 

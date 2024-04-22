@@ -1,8 +1,18 @@
-.fc-day {
-    background-color: #c42828; /* Cambia esto al color que desees */
-}
+  #calendar {
+    background-color: whitesmoke !important;
+  }
 
-/* Cambia el color de las líneas de separación */
-.fc-divider {
-    background-color: #ff0000; /* Cambia esto al color que desees */
-}
+  ::ng-deep.fc-daygrid-day-number {
+    color: #1a252f !important;
+  }
+  ::ng-deep.fc .fc-col-header-cell-cushion {
+    color: #1a252f !important;
+  }
+
+  ::ng-deep.fc-daygrid-day.fc-day.fc-day-today {
+    background-color: rgba(3, 155, 229, 0.2) !important;
+    color: white !important;
+  }
+  ::ng-deep.fc-daygrid-event.fc-event.fc-event-draggable.fc-event-resizable.fc-event-start.fc-event-end.fc-event-future {
+    background-color: rgba(3, 155, 229, 0.2);
+  }
