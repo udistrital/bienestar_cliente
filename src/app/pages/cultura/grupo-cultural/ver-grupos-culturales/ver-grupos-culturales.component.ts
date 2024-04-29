@@ -32,6 +32,7 @@ export class VerGruposCulturalesComponent implements OnInit {
     this.ListCultura.getGruposCulturales().subscribe((data)=>{      
       console.log(data);  
       const gruposActivos = data['Data'].filter((grupo: any) => grupo.Estado === 1); 
+      
 
       const peticiones = gruposActivos.map((grupo: any) => {
         return this.ListCultura.getDocumento(grupo.Imagen);
