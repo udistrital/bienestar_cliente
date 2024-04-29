@@ -45,18 +45,21 @@ export class VerGruposCulturalesComponent implements OnInit {
       */
         for (let i in data['Data']){
 
-          let grupoCultural: GrupoCultural = new GrupoCultural();
+          //let grupoCultural: GrupoCultural = new GrupoCultural();
 
-          grupoCultural.Id = data['Data'][i].Id;
-          grupoCultural.Nombre = data['Data'][i].Nombre;
-
-          this.gruposCulturales.push(grupoCultural);
+          //grupoCultural.Id = data['Data'][i].Id;
+          //grupoCultural.Nombre = data['Data'][i].Nombre;
 
           this.ListCultura.getDocumento(data['Data'][i].Imagen).subscribe((data2) => {
+            
             this.base64String = data2['file'];
             this.imageSrc = this.convertBase64ToImageSrc(this.base64String);
-            this.imagesSrc.push(this.imageSrc);
+            let grupoCultural= {Id: data['Data'][i].Id, Nombre: data['Data'][i].Nombre, imagen:this.imageSrc}
+            this.gruposCulturales.push(grupoCultural);
+            //this.imagesSrc.push(this.imageSrc);
           });
+
+          
 
         }
       
