@@ -15,6 +15,7 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { CulturaModule } from './cultura/cultura.module';
+import { AtencionesModule } from './atenciones/atenciones.module';
 
 
 @NgModule({
@@ -31,8 +32,8 @@ import { CulturaModule } from './cultura/cultura.module';
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
-    CulturaModule
-    
+    CulturaModule,
+    AtencionesModule
    
   ],
   declarations: [
@@ -44,6 +45,7 @@ import { CulturaModule } from './cultura/cultura.module';
     ConfiguracionService,
     MenuService,
   ],
+  
 })
-export class PagesModule {
-}
+export class PagesModule {}
+
