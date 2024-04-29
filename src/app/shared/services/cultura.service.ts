@@ -62,6 +62,11 @@ export class CulturaService {
         return this.http.get(url+"grupo_cultural?limit=100&sortby=Id&order=asc");
     }
 
+    getGruposCulturalesActivos(){
+        return this.http.get(url+"grupo_cultural?query=Estado:1&limit=100&sortby=Id&order=asc");
+    }
+
+
     postGrupoCultural(grupoCultural: GrupoCultural): Observable<GrupoCultural>{
         return this.http.post<GrupoCultural>(url + 'grupo_cultural', grupoCultural);
     } 

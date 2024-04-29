@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CulturaService } from '../../../../shared/services/cultura.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin } from 'rxjs';
-
+import { GrupoCultural } from '../../../../@core/data/models/cultura/grupo_cultural';
 
 
 @Component({
@@ -16,8 +16,10 @@ export class VerGruposCulturalesComponent implements OnInit {
   gruposCulturales: any[] = [];
   nombreArchivo = '';
   nombreGrupo ='';
-  archivo :any;
-  
+  base64String: string;
+
+  imagesSrc: any[] = [];
+  imageSrc: any;
 
   constructor(private ListCultura: CulturaService,
               private sanitizer:DomSanitizer ) { }
@@ -29,11 +31,8 @@ export class VerGruposCulturalesComponent implements OnInit {
   }
 
   listarGruposActivos(){
-    this.ListCultura.getGruposCulturales().subscribe((data)=>{      
-      console.log(data);  
-      const gruposActivos = data['Data'].filter((grupo: any) => grupo.Estado === 1); 
-      
-
+    this.ListCultura.getGruposCulturalesActivos().subscribe((data)=>{      
+      /*
       const peticiones = gruposActivos.map((grupo: any) => {
         return this.ListCultura.getDocumento(grupo.Imagen);
       });
@@ -43,22 +42,40 @@ export class VerGruposCulturalesComponent implements OnInit {
         respuestas.forEach((respuesta, index) => {
           gruposActivos[index].File = respuesta['dc:File'];
       });
-        
-      this.gruposCulturales = gruposActivos;
-      console.log(this.gruposCulturales);
-    });   
+      */
+        for (let i in data['Data']){
 
-  });
+          let grupoCultural: GrupoCultural = new GrupoCultural();
+
+          grupoCultural.Id = data['Data'][i].Id;
+          grupoCultural.Nombre = data['Data'][i].Nombre;
+
+          this.gruposCulturales.push(grupoCultural);
+
+          this.ListCultura.getDocumento(data['Data'][i].Imagen).subscribe((data2) => {
+            this.base64String = data2['file'];
+            this.imageSrc = this.convertBase64ToImageSrc(this.base64String);
+            this.imagesSrc.push(this.imageSrc);
+          });
+
+        }
+      
+    }); 
+
+    
+
 }
 
   convertBase64ToImageSrc(base64String: string): any {
-    console.log("Base64 String:", base64String); // Agregar este console.log
+
     // Convertir la cadena base64 a una URL de objeto
     const imageBlob = this.base64ToBlob(base64String, 'image/png');
     const imageUrl = URL.createObjectURL(imageBlob);
     // Sanitizar la URL para prevenir problemas de seguridad
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+    
   }
+
   base64ToBlob(base64String: string, type: string): Blob {
     // Obtener el contenido binario de la cadena base64
     const byteCharacters = atob(base64String);
