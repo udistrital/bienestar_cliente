@@ -21,6 +21,8 @@ export class FormGrupCultComponent implements OnInit {
 
   fechaFormateadaIni: Date;
   fechaFormateadaFin: Date;
+  fechaFormateadaIni2: string;
+  fechaFormateadaFin2: string;
   auxEnlace: string;
   id: number;
 
@@ -117,6 +119,9 @@ export class FormGrupCultComponent implements OnInit {
           let array = [documento];
           this.ListCultura.postDocumento(array).subscribe((data)=>{
   
+            this.convertirFechaInicioString(this.fechaFormateadaIni);
+            this.convertirFechafinString(this.fechaFormateadaFin);
+
             this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
             this.grupoCultural.Estado = this.crearGrupo.value.estado;
             this.grupoCultural.Descripcion = this.crearGrupo.value.descripcion;
@@ -124,8 +129,8 @@ export class FormGrupCultComponent implements OnInit {
             this.grupoCultural.Imagen = data['res'].Enlace;
             this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
             this.grupoCultural.EnlaceInscripcion = this.crearGrupo.value.enlaceInscripcion;
-            this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
-            this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
+            this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni2;
+            this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin2 
             this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
             this.grupoCultural.Activo = this.crearGrupo.value.activo;
             this.grupoCultural.FechaCreacion = this.crearGrupo.value.fechaCreacion;
@@ -173,8 +178,6 @@ export class FormGrupCultComponent implements OnInit {
       this.horarioGrupoCultural.FechaCreacion = registro['fechaCreacion'];
       this.horarioGrupoCultural.FechaModificacion = registro['fechaModificacion'];
 
-      console.log(this.horarioGrupoCultural);
-
       this.ListCultura.postHorarioGrupoCultural(this.horarioGrupoCultural).subscribe((data) => {
         console.log('Horario creado ');
       });
@@ -216,11 +219,8 @@ export class FormGrupCultComponent implements OnInit {
             } else {
               this.disableEnlaceInscripcion = false;
             }
-
-            console.log(data['Data'].FechaFinInscripcion);
             
             this.onChange(this.disableEnlaceInscripcion);
-            console.log(data['Data'].EnlaceInscripcion);
             this.auxEnlace = data['Data'].EnlaceInscripcion;
 
             this.ListCultura.getDocumento(data['Data'].Imagen).subscribe((res) => {
@@ -237,8 +237,8 @@ export class FormGrupCultComponent implements OnInit {
               imagen: [data['Data'].Imagen, Validators.required],
               necesitaInscripcion: [data['Data'].NecesitaInscripcion, Validators.required],
               enlaceInscripcion: [{value: this.auxEnlace, disabled: true}, Validators.required],
-              fechaIniInscripcion: [{value: auxFechaIni, disabled: false}, Validators.required],
-              fechaFinInscripcion: [{value: auxFechaFin, disabled: false}, Validators.required],
+              fechaIniInscripcion: [{value: auxFechaIni, disabled: false}],
+              fechaFinInscripcion: [{value: auxFechaFin, disabled: false}],
               liderGrupo: [data['Data'].LiderGrupo, [Validators.required, Validators.email, Validators.maxLength(50)]],
               activo: [data['Data'].Activo],
               fechaCreacion: [data['Data'].FechaCreacion],
@@ -256,7 +256,6 @@ export class FormGrupCultComponent implements OnInit {
                   fechaCreacion: [res['Data'][i].FechaCreacion],
                   fechaModificacion: [this.fechaActual],
                 });
-                console.log(nuevaFila);
                 this.reuniones.push(nuevaFila);
               
             }
@@ -296,8 +295,7 @@ export class FormGrupCultComponent implements OnInit {
           }
   
           this.eliminarInfoNoInscripcion(this.necesitaInscripcion);
-  
-  
+
           if(this.ifImagen = true && this.base64 != null){
   
             this.ListCultura.deleteDocumento(this.crearGrupo.value.imagen).subscribe((data) => {
@@ -312,10 +310,11 @@ export class FormGrupCultComponent implements OnInit {
       
               let array = [documento];
   
-              console.log('Archivo eliminado');
-  
               this.ListCultura.postDocumento(array).subscribe((res: any) => {
                 this.enlace = res['res'].Enlace;
+
+                this.convertirFechaInicioString(this.fechaFormateadaIni);
+                this.convertirFechafinString(this.fechaFormateadaFin);
   
                 this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
                 this.grupoCultural.Estado = auxEstado;
@@ -323,8 +322,8 @@ export class FormGrupCultComponent implements OnInit {
                 this.grupoCultural.Email = this.crearGrupo.value.correo;
                 this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
                 this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
-                this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
-                this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
+                this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni2;
+                this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin2; 
                 this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
                 this.grupoCultural.Imagen = this.enlace;
                 this.grupoCultural.Activo = this.crearGrupo.value.activo;
@@ -347,14 +346,17 @@ export class FormGrupCultComponent implements OnInit {
   
           } else {
   
+            this.convertirFechaInicioString(this.fechaFormateadaIni);
+            this.convertirFechafinString(this.fechaFormateadaFin);
+
             this.grupoCultural.Nombre = this.crearGrupo.value.nombre;
             this.grupoCultural.Estado = auxEstado;
             this.grupoCultural.Descripcion = this.crearGrupo.value.descripcion;
             this.grupoCultural.Email = this.crearGrupo.value.correo;
             this.grupoCultural.NecesitaInscripcion = this.necesitaInscripcion;
             this.grupoCultural.EnlaceInscripcion = this.auxEnlace;
-            this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni.toISOString();
-            this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin.toISOString(); 
+            this.grupoCultural.FechaInicioInscripcion = this.fechaFormateadaIni2;
+            this.grupoCultural.FechaFinInscripcion = this.fechaFormateadaFin2; 
             this.grupoCultural.LiderGrupo = this.crearGrupo.value.liderGrupo;
             this.grupoCultural.Imagen = this.crearGrupo.value.imagen;
             this.grupoCultural.Activo = this.crearGrupo.value.activo;
@@ -489,15 +491,31 @@ export class FormGrupCultComponent implements OnInit {
   }
 
   formatearFechaIni(data: any) {
-
+    
     this.fechaFormateadaIni = new Date(data);
     
+  }
+
+  convertirFechaInicioString(fecha: Date){
+    if(fecha != null){
+      this.fechaFormateadaIni2 = fecha.toISOString();
+    } else {
+      this.fechaFormateadaIni2 = null;
+    }
   }
 
   formatearFechaFin(data: any) {
 
     this.fechaFormateadaFin = new Date(data);
 
+  }
+
+  convertirFechafinString(fecha: Date){
+    if(fecha != null){
+      this.fechaFormateadaFin2 = fecha.toISOString();
+    } else {
+      this.fechaFormateadaFin2 = null;
+    }
   }
 
   mostrarDialogo(){
