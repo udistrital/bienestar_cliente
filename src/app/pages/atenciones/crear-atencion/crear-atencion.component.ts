@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component,  OnInit } from "@angular/core";
 import { Solicitud } from "../../../@core/data/models/solicitud/solicitud";
 import { SolicitudService } from "../../../@core/data/solicitud.service";
 import { AtencionesService } from "../services/atenciones.service";
@@ -13,6 +13,7 @@ import { Solicitante } from "../../../@core/data/models/solicitud/solicitante";
 import { Tercero } from "../../../@core/data/models/terceros/tercero";
 import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
+
 
 const Toast = Swal.mixin({
   toast: true,
@@ -70,6 +71,7 @@ export class CrearAtencionComponent implements OnInit {
   dateObj: Date = new Date();
   nuevaAtencion: boolean = false;
 
+  
   ngOnInit() {
     this.atencionesService.getTipoObservacionComentario().subscribe((res) => {
       this.tipoObservacion = res["Data"][0];
@@ -400,6 +402,8 @@ export class CrearAtencionComponent implements OnInit {
   empty(obj: any[]) {
     return obj.length == 0;
   }
+
+  
 }
 
 // TODO Cuando se agregue una atención que se refresque la info de la página (llamado desde la función)

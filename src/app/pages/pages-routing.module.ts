@@ -49,6 +49,7 @@ const routes: Routes = [
           roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
           esRevisionEstudiante: true,
         },
+
       },
       {
         path: "revision-estudiante",
@@ -57,6 +58,7 @@ const routes: Routes = [
         data: {
           roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
           esRevisionEstudiante: true,
+
         },
       },
       {
@@ -83,6 +85,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./citas/citas.module").then((m) => m.CitasModule),
       },
+       {
+            path: "gestion-documental",
+            loadChildren: ( ) => import ('./gestion-documental/gestion-documental.module')
+            .then(m => m.GestionDocumentalModule)
+        },
       {
         path: "atenciones",
         loadChildren: () =>
