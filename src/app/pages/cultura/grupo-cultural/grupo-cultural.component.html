@@ -1,0 +1,63 @@
+<div class="card text-center">
+    <span class="h3">Grupos Culturales</span>
+</div>
+<nb-card>
+    <nb-card-header>
+        <div class="d-flex justify-content-between">     
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../grupo-cultural/crear_grup_cult'>Crear Grupo Cultural</button>
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../grupo-cultural/ver-grupos-culturales'>Ver Grupos Culturales</button>
+        </div>
+        
+    </nb-card-header> 
+   
+</nb-card>
+
+<div class="card text-center">
+
+    <div class="card-body" [ngClass]="grupos ? 'show' : 'hidden'">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Grupo</th>
+          <td mat-cell  *matCellDef="let gr">{{gr.Nombre}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+          <td mat-cell *matCellDef="let gr">{{castearEstado(gr.Estado)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Descripcion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
+          <td mat-cell *matCellDef="let gr">{{gr.Descripcion}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Acciones">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+          <td mat-cell *matCellDef="let gr">
+
+            <button class="btn" matTooltip="Ver más información" data-toggle="modal"
+              data-target="#modalAditional" (click)="mostrarDialogo(gr.Id)">
+              <mat-icon color="primary">remove_red_eye</mat-icon>
+            </button>
+
+            <button class="btn" [routerLink]="['../grupo-cultural/editar_grup_cult', gr.Id]" matTooltip="Editar">
+              <mat-icon color="warn">update</mat-icon>
+            </button>
+
+          <td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+      <mat-paginator #paginator="matPaginator" [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    </div>
+    <div class="card-body" *ngIf="!grupos">
+      <h5>No hay grupos creados por el momento</h5>
+    </div>
+  </div> 
+  
+  

@@ -22,6 +22,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ImplicitAutenticationService } from './@core/utils/implicit_autentication.service';
 import { ListService } from './@core/store/list.service';
 import { ToastrModule } from 'ngx-toastr';
+import { MatDialogModule } from '@angular/material';
 // import { FullCalendarModule } from '@fullcalendar/angular';
 // import dayGridPlugin from '@fullcalendar/daygrid';
 // import interactionPlugin from '@fullcalendar/interaction';
@@ -35,6 +36,7 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
+  
 } from '@nebular/theme';
 // Material
 import {
@@ -48,7 +50,6 @@ import {
   MatCheckboxModule,
   MatChipsModule,
   MatDatepickerModule,
-  MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,
@@ -67,13 +68,13 @@ import {
   MatSidenavModule,
   MatSliderModule,
   MatSlideToggleModule,
-  MatSortModule,
   MatStepperModule,
-  MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  MatTableModule,
+  MatSortModule,
 } from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 import { BidiModule } from '@angular/cdk/bidi';
@@ -141,7 +142,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSliderModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatSortModule,
     MatStepperModule,
     MatTableModule,
     MatTabsModule,
@@ -165,7 +165,8 @@ export class MaterialModule { }
     // FullCalendarModule,
     NbEvaIconsModule,
     ThemeModule.forRoot(),
-
+    MatTableModule,
+    MatSortModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

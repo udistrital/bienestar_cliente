@@ -1,0 +1,42 @@
+
+<div class="card text-center">
+    <span class="h3">Cargar evidencias</span>
+</div>
+<div class="container pt-4">        
+    <div class="card text-center">
+        <div class="card-body">
+            <form [formGroup]="cargarEvidencias">
+
+                <div>
+                    <input type="file" (change)="capturarFile($event)">
+                </div> 
+                
+                        
+                <button class="card-button" type="button" (click)="cargarEvidencia()" mat-raised-button>
+                    Editar
+                </button>  
+                <button class="card-button" type="button" (click)="obtenerFile()" mat-raised-button>
+                    Visualizar
+                </button> 
+
+                <!--<div >
+                    <img [src]="imageSrc" alt="Imagen">            
+                </div> -->
+                <div>
+                    <button (click)="printPdf()">Show PDF </button>
+                </div>
+
+                <!-- <div>
+                    <object [data]="pdfUrl" type="application/pdf" width="100%" height="600px">
+                        <p>El navegador no puede mostrar este archivo PDF.</p>
+                    </object>
+                </div>-->
+                
+            </form>
+        </div>
+    </div>
+        
+    
+
+</div>
+

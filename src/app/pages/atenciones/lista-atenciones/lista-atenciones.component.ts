@@ -81,6 +81,7 @@ export class ListaAtencionesComponent implements OnInit {
     const documentDefinition = { content: html };
     pdfMake.createPdf(documentDefinition).open(); 
      
+
   }
 
 }

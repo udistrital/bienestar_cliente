@@ -1,0 +1,86 @@
+<div align="top" align="center">
+
+    <h1>{{actividadCultural.Nombre}}</h1>
+    <img [src]="imageSrc" alt="Imagen" style="width: 50%; height: auto;">
+    <br>
+    <br>
+
+    <h6>Nombre</h6>
+    <p>{{actividadCultural.Nombre}}</p>
+    <br>
+
+    <h6>Descripcion</h6>
+    <p>{{actividadCultural.Descripcion}}</p>
+    <br>
+
+    <h6>Estado</h6>
+    <p>{{convertirEstado(actividadCultural.Estado)}}</p>
+    <br>
+
+    <h6>Tipo Actividad</h6>
+    <p>{{convertirTipoActividad(actividadCultural.TipoActividad)}}</p>
+    <br>
+
+    <h6>Fecha Inicio</h6>
+    <p>{{fechaInicio}}</p>
+    <br >
+
+    <h6>Fecha Fin</h6>
+    <p>{{fechaFin}}</p>
+    <br>
+
+    <h6>Lugar</h6>
+    <p>{{actividadCultural.Lugar}}</p>
+    <br>
+    <h6>¿Necesita Inscripcion?</h6>
+    <p>{{formatearNecesitaInscripcionMayorInfo(actividadCultural.NecesitaInscripcion)}}</p>
+    <br>
+
+    <h6 *ngIf="isEnlaceInscripcion">Enlace Inscripcion</h6> 
+    <h6 *ngIf="!isEnlaceInscripcion">Correo Contacto</h6> 
+    <a href="{{enlaceInscripcion}}" target="_blank">
+      {{enlaceInscripcion}}
+    </a> 
+    <br>
+    <br>
+
+    <h6>¿Posee enlace de mayor información?</h6>
+    <p>{{formatearNecesitaInscripcionMayorInfo(actividadCultural.PoseeMayorInfo)}}</p>
+    <br>
+
+    <h6>Enlace Mayor Información</h6> 
+    <a *ngIf="isEnlaceMayorInfo" href="{{enlaceMayorInfo}}" target="_blank">
+      {{enlaceMayorInfo}}
+    </a>
+    <p *ngIf="!isEnlaceMayorInfo">No hay enlace para mayor información</p>
+    <br>
+    <br>
+
+    <h6>Grupos Culturales Participantes</h6>
+    <br>
+
+    <table class="grid-table">
+
+      <thead>
+        <tr>
+          <th>Nombre</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of gruposCulturalesParticipantes">
+          <td>{{item.Nombre }}</td>
+        </tr>
+      </tbody>
+
+    </table>
+    <br><br>
+   
+    <h6>Usuario registra</h6>
+    <p>{{actividadCultural.UsuarioRegistra}}</p>
+    <br>
+
+    <button class="btn btn-primary card-button m-2" mat-raised-button (click)="close()">
+      Cerrar
+    </button>
+</div>
