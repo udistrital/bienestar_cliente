@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\@core",
+    "\\src\\app\\@core\\store",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\citas",
+    "\\src\\app\\pages\\citas\\especialista",
+    "\\src\\app\\pages\\citas\\especialista\\horarios",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\services"
+  ],
+  "PreviewInSolutionExplorer": false
+}

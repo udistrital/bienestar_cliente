@@ -57,12 +57,13 @@ export class DatosBasicosComponent implements OnInit {
 
   }
   cargarDatos() {
-    this.estudianteService.getInfoPorCodigo(this.codigo).subscribe((data) => {
+    this.estudianteService.getInfoTercero(this.codigo).subscribe((data) => {
       this.fechaNacimiento = data[0].TerceroId.FechaNacimiento || '';
       this.edad = this.calcularEdad(this.fechaNacimiento);
       this.nombre = data[0].TerceroId.NombreCompleto;
       this.lugarNacimiento = data[0].TerceroId.LugarOrigen;
       this.terceroId = data[0].TerceroId.Id;
+
       this.estudianteService.getInfoGrupoComplementaria(this.terceroId, 6).subscribe((data) => {
         this.genero = data[0].InfoComplementariaId.Nombre;
       });
