@@ -11,6 +11,18 @@
     "\\src\\app\\pages\\cultura\\grupo-cultural\\form-grup-cult",
     "\\src\\app\\pages\\cultura\\grupo-cultural\\ver-grupos-culturales"
   ],
-  "SelectedNode": "\\src\\app\\pages\\cultura\\cultura.module.ts",
+  
+  
+  "SelectedNode": ["\\src\\app\\pages\\atenciones\\crear-atencion\\crear-atencion.component.ts",
+    "\\src\\app\\@core",
+    "\\src\\app\\@core\\store",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\citas",
+    "\\src\\app\\pages\\citas\\especialista",
+    "\\src\\app\\pages\\citas\\especialista\\horarios",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\services",
+    "\\src\\app\\pages\\cultura\\cultura.module.ts"
+  ],
   "PreviewInSolutionExplorer": false
 }

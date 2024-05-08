@@ -37,7 +37,6 @@ export const environment = {
   CULTURA:'https://autenticacion.portaloas.udistrital.edu.co/apioas/cultura_crud/v1/',
 
 
-
   IDS: {
     IDTIPOPARAMETRO: 21,
     IDTIPOSOLICITUD: 9,

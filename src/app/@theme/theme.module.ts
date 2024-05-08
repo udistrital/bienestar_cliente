@@ -38,8 +38,6 @@ import {
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
-  
-  
 } from './pipes';
 import {
   OneColumnLayoutComponent,
@@ -131,9 +129,7 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
-  SafeurlPipe,
- 
-  
+  SafeurlPipe
 ];
 
 const MAT_MODULES = [

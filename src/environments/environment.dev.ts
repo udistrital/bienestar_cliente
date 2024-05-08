@@ -34,10 +34,13 @@ export const environment = {
   DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
   PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/',
   GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
+<<<<<<< HEAD
   CULTURA:'http://localhost:8080/v1/',
   
   
 
+=======
+>>>>>>> 17aa9f0e (CPS y DOCENTES)
   IDS: {
     IDTIPOPARAMETRO: 21,
     IDTIPOSOLICITUD: 9,

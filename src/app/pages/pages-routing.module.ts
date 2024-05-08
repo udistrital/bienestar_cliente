@@ -21,12 +21,7 @@ const routes: Routes = [
   {
     path: "",
     component: PagesComponent,
-    children: [
-      /* {
-            path: '',
-            redirectTo: 'revision-estudiante',
-            pathMatch: 'full',
-        }, */
+    children: [      
         {
             path: '',
             redirectTo: 'home',
@@ -74,34 +69,33 @@ const routes: Routes = [
                 roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
             }
         },
-      
-      {
-        path: "revision/:id",
-        component: InscripcionEstComponent,
-        canActivate: [AuthGuard],
-        data: {
-          roles: [RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR],
-          esRevision: true,
+        {
+            path: 'revision/:id',
+            component: InscripcionEstComponent,
+            canActivate: [AuthGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR],
+                esRevision: true,
+            }
         },
-      },
-      {
-        path: "revision-estudiante/:id",
-        component: InscripcionEstComponent,
-        canActivate: [AuthGuard, ParametriaGuard],
-        data: {
-          roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
-          esRevisionEstudiante: true,
+        {
+            path: 'revision-estudiante/:id',
+            component: InscripcionEstComponent,
+            canActivate: [AuthGuard, ParametriaGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
+                esRevisionEstudiante: true,
+            }
         },
-      },
-      {
-        path: "revision-estudiante",
-        component: RevisionInscComponent,
-        canActivate: [AuthGuard, ParametriaGuard],
-        data: {
-          roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
-          esRevisionEstudiante: true,
-        }
-      },
+        {
+            path: 'revision-estudiante',
+            component: RevisionInscComponent,
+            canActivate: [AuthGuard, ParametriaGuard],
+            data:{
+                roles:[RolesConstanst.ROLES_SISTEMA.ESTUDIANTE],
+                esRevisionEstudiante: true,
+            }
+        },
         {
             path: 'revision',
             component: RevisionInscComponent,
@@ -110,32 +104,32 @@ const routes: Routes = [
                 roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
             }
         },
-        
+       
         {
             path: 'apoyo-alimentario',
-            component: ApoyoAlimentarioComponent,
-            canActivate: [AuthGuard],
-            data:{
-                roles:[RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
-            }
+            loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
+            .then (m => m.ApoyoAlimentarioModule),
         },  
         {
             path:'citas', 
             loadChildren: ( ) =>import ('./citas/citas.module')
             .then (m => m.CitasModule),
         },
-        
-        
+        {
+            path: '',
+            redirectTo: 'home',
+            pathMatch: 'full',
+        },
         {
             path: '**',
             component: NotFoundComponent,
-        }
-    ]
-  }
-];
+        },
+    ],
+}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule {
+}
