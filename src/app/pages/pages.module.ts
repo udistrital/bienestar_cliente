@@ -15,6 +15,8 @@ import { ApoyoAlimentarioComponent } from './apoyo-alimentario/apoyo-alimentario
 import { ApoyoAlimentarioModule } from './apoyo-alimentario/apoyo-alimentario.module';
 import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import { CulturaModule } from './cultura/cultura.module';
+import { FormsModule } from "@angular/forms";
+import { GestionDocumentalModule } from './gestion-documental/gestion-documental.module';
 import { AtencionesModule } from './atenciones/atenciones.module';
 
 
@@ -32,20 +34,12 @@ import { AtencionesModule } from './atenciones/atenciones.module';
     RevisionInscModule,
     MiscellaneousModule,
     NbSpinnerModule,
+    AtencionesModule,
+    GestionDocumentalModule,
     CulturaModule,
-    AtencionesModule
-   
+
   ],
-  declarations: [
-    PagesComponent,
-    
-    
-  ],
-  providers: [
-    ConfiguracionService,
-    MenuService,
-  ],
-  
+  declarations: [PagesComponent],
+  providers: [ConfiguracionService, MenuService],
 })
 export class PagesModule {}
-

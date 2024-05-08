@@ -1,1 +1,87 @@
-<p>lista-atenciones works!</p>
+<ngx-crear-atencion></ngx-crear-atencion>
+
+<div id="pdfTable" #pdfTable>
+<mat-card class="example-card">
+  <mat-card-content>
+    <mat-form-field>
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Filter"
+      />
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+      <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="idAtencion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>idAtencion</th>
+        <td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="codigo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>codigo</th>
+        <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="fechaCreacion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaCreacion</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.FechaCreacion }}
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="fechaFinalizacion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          fechaFinalizacion
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.fechaFinalizacion | date : longDate }}
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>estado</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.EstadoTipoSolicitudId.EstadoId.Nombre }}
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="!element.SolicitudFinalizada"
+          >
+            Editar
+          </button>
+          <button mat-raised-button color="accent">Eliminar</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">Nueva atención</button>
+  </mat-card-actions>
+</mat-card>
+<button class="btn btn-primary" (click)="downloadAsPDF()">Export To PDF</button>
+</div>
+
+

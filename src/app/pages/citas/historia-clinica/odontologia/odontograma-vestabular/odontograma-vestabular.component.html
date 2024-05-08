@@ -32,8 +32,8 @@
                     (click)="cambiarColorArriba(d.diente,'Abajo')" />
                 <polygon points="10,50 20,40 20,20 10,10" [ngClass]="d.classIzquierda"
                     (click)="cambiarColorArriba(d.diente,'Izquierda')" />
-                <polygon points="20,20 40,20 40,40 20,40" [ngClass]="d.classCentro"
-                    (click)="cambiarColorArriba(d.diente,'Centro')" />
+                <!--<polygon points="20,20 40,20 40,40 20,40" [ngClass]="d.classCentro"
+                    (click)="cambiarColorArriba(d.diente,'Centro')" />-->
             </svg>
         </div>
     </div>
@@ -64,8 +64,8 @@
                     (click)="cambiarColorAbajo(d.diente,'Abajo')" />
                 <polygon points="10,50 20,40 20,20 10,10" [ngClass]="d.classIzquierda"
                     (click)="cambiarColorAbajo(d.diente,'Izquierda')" />
-                <polygon points="20,20 40,20 40,40 20,40" [ngClass]="d.classCentro"
-                    (click)="cambiarColorAbajo(d.diente,'Centro')" />
+                <!--<polygon points="20,20 40,20 40,40 20,40" [ngClass]="d.classCentro"
+                    (click)="cambiarColorAbajo(d.diente,'Centro')" />-->
             </svg>
             <div class="center">
                 {{d.dienteLabel}}
@@ -88,34 +88,6 @@
                 </button>
             </td>
 
-        </tbody>
-    </table>
-    <table class="table table-borderless mt-2">
-        <thead>
-            <tr>
-                <td *ngFor="let titulo of convencionesSegundo">{{titulo.nombre}}</td>
-            </tr>
-        </thead>
-        <tbody>
-            <td *ngFor="let colores of convencionesSegundo">
-                <button (click)="tipoDiente(colores.estado)" type="button" class="btn color"
-                    [ngStyle]="{'background-color': colores.color,'width':'20px','height':'20px', 'border-color': colores.borde, 'border-width': '1px', 'border-style': 'solid'}">
-                </button>
-            </td>
-        </tbody>
-    </table>
-    <table class="table table-borderless mt-2">
-        <thead>
-            <tr>
-                <td *ngFor="let titulo of convencionesTercero">{{titulo.nombre}}</td>
-            </tr>
-        </thead>
-        <tbody>
-            <td *ngFor="let colores of convencionesTercero">
-                <button (click)="tipoDiente(colores.estado)" type="button" class="btn color"
-                    [ngStyle]="{'background-color': colores.color,'width':'20px','height':'20px', 'border-color': colores.borde, 'border-width': '1px', 'border-style': 'solid'}">
-                </button>
-            </td>
         </tbody>
     </table>
 </body>
