@@ -284,6 +284,63 @@ export class ListService {
     });
   }
 
+  /* Cargamos la vinculacion de un tercero */
+  /**
+   *Cargamos facultad de un tercero por su ID
+   *
+   * @param {number} terceroId
+   * @return {*}  {Promise<string[]>}
+   * [facultad]
+   * @memberof ListService
+   */
+   loadFacultadTercero(terceroId: number): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      /* Cargamos vinculacion*/
+      this.tercerosService.get(`vinculacion?query=TerceroPrincipalId.Id:${terceroId}&sortby=Id&order=desc&limit=-1`)
+       .subscribe(
+          (result) => {
+            const dependencia=result[0].DependenciaId;
+            this.oikosService.get(`dependencia_padre?query=HijaId.Id:${dependencia}`)
+                .subscribe((resp) => {
+                  if (Object.keys(resp[0]).length > 0) {
+                    if (resp[0].Padre && resp[0].Hija) {
+                      resolve(resp[0].Hija.Nombre);
+                    } else {
+                      reject("Problemas de formato en la facultad");
+                    }
+                  } else {
+                    reject("Facultad no encontrada");
+                  }
+                },
+                  error => {
+                    reject(error);
+                  });
+          }, err => {
+            reject(err);
+          });
+    });
+  }
+
+  /* Cargamos las facultades de oikos */
+  /**
+   *
+   * @return {*}  {Promise<string[]>}
+   * [facultad]
+   * @memberof ListService
+   */
+   getFacultades(): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      this.oikosService.get(`dependencia?query=DependenciaTipoDependencia.TipoDependenciaId.Nombre:FACULTAD`)
+          .subscribe((resp) => {
+            let facultades: any[]=[];
+            resp.forEach(facultad =>{
+              facultades.push(facultad.Nombre);
+            })
+            resolve(facultades);
+          });
+    });
+}
+
   /**
    *Busca la informacion de un tercero por su ID
    *
