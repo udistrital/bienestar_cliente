@@ -14,6 +14,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ReactiveFormsModule } from "@angular/forms";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [ListaAtencionesComponent, CrearAtencionComponent],
@@ -31,6 +32,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     FormsModule,
     MatStepperModule,
     ReactiveFormsModule,
+    MatSlideToggleModule,
   ],
 })
 export class AtencionesModule {}
