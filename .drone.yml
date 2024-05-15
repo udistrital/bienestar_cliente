@@ -27,7 +27,7 @@ steps:
     - push
 
 - name: prueba-unitarias
-  image: node:12.6.0
+  image: node:16.14.0
   commands:
   - npm i
   - npm run test
@@ -36,7 +36,7 @@ steps:
     - unitest
 
 - name:  pruebas-linter
-  image: node:12.6.0
+  image: node:16.14.0
   commands:
   - npm i
   - npm run lint
@@ -47,7 +47,7 @@ steps:
 
 
 - name: nodejs_release
-  image: node:12.6.0
+  image: node:16.14.0
   commands:
   - node --version
   - npm cache clean --force
@@ -60,7 +60,7 @@ steps:
     - push
 
 - name: nodejs_master
-  image: node:12.6.0
+  image: node:16.14.0
   commands:
   - node --version
   - npm cache clean --force
