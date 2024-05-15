@@ -1,0 +1,160 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-7 col-md-7 offset-lg-3"> 
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 *ngIf="ifCrearEditar">
+                       Crear Grupo Cultural
+                    </h3>
+                    <h3 *ngIf="!ifCrearEditar">
+                      Editar Grupo Cultural
+                   </h3>
+                    <!--form [formGroup]="crearGrupo" (ngSubmit)="agregarGrupo()"-->
+
+                    <form [formGroup]="crearGrupo">
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                            <mat-label>Nombre Grupo Cultural</mat-label>
+                            <input matInput type="text" formControlName="nombre">
+                            <mat-error>Campo obligatorio y con longitud menor a 50 caracteres</mat-error>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-6">
+                            <mat-label>Correo del grupo</mat-label>
+                            <input matInput type="text" formControlName="correo">
+                            <mat-error>Campo obligatorio, con longitud menor de 50 caracteres y debe contener un correo electronico</mat-error>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="form-control" class="col-md-12">
+                            <mat-label>Descripcion</mat-label>
+                            <textarea matInput type="text" formControlName="descripcion" rows="3"></textarea>
+                            <mat-error>Campo obligatorio y con longitud menor de 300 caracteres </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="select-group" class="col-sm-12" *ngIf="!ifCrearEditar">
+                            <mat-label>Estado</mat-label>
+                            <mat-select formControlName="estado" >
+                              <mat-option [value]="e" *ngFor="let e of estados">
+                                {{e}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error>Campo obligatorio</mat-error>
+                        </mat-form-field>
+
+                        <div class="contenedor" formArrayName="reuniones">
+
+                            <div *ngFor="let reunion of reuniones.controls; let i = index" [formGroupName]="i">
+
+                                <mat-form-field appearance="outline" class="select-group" class="col-sm-6">
+                                    <mat-label>Dia</mat-label>
+                                    <mat-select formControlName="dia">
+                                      <mat-option [value]="d" *ngFor="let d of dias">
+                                        {{d}}
+                                      </mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo obligatorio</mat-error>
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="outline" class="col-sm-6">
+                                    <mat-label>Hora</mat-label>
+                                    <input id="timePicker" matInput [ngxTimepicker]="hora" [format]="24" formControlName="hora"  
+                                    [disableClick]="false" readonly/>
+                                    <mat-icon class="toggle-picker" matSuffix (click)="hora.open()">schedule</mat-icon>
+                                    <ngx-material-timepicker #hora [editableHintTmpl]="hint" #with5Gap [minutesGap]="10">
+                                    </ngx-material-timepicker>
+                                    <ng-template #hint>
+                                      <span class="time-hint">Ingrese la hora en formato 24 horas</span>
+                                    </ng-template>
+                                    <mat-error>Campo obligatorio</mat-error>
+                                  </mat-form-field>
+
+                                <mat-form-field appearance="outline" class="select-group" class="col-md-9">
+                                    <mat-label>Lugar</mat-label>
+                                    <input matInput type="text" formControlName="lugar">
+                                    <mat-error>Campo obligatorio con longitud menor de 50 caracteres</mat-error>
+                                </mat-form-field>
+    
+                                <button mat-raised-button color="primary" (click)="agregarFila()">+</button>
+                                <button mat-raised-button color="warn" (click)="quitarFila(i)">-</button>
+                            </div>
+
+                        </div>
+                        
+
+                        <mat-checkbox class="example-margin" [checked]="disableEnlaceInscripcion" (change)="onChange($event.checked)">
+                            ¿Necesita inscripción?
+                        </mat-checkbox>
+
+                        <mat-form-field appearance="outline" class="select-group col-sm-12">
+                            <mat-label>Enlace de inscripción</mat-label>
+                            <input matInput type="text" formControlName="enlaceInscripcion" (ngModelChange)="formatearEnlaceInscripcion($event)">
+                            <mat-error>Campo con longitud menor de 300 caracteres</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col-sm-6">
+                            <mat-label>Fecha de inicio de inscripción</mat-label>
+                            <input matInput formControlName="fechaIniInscripcion" [matDatepicker]="pickerIni" [min]="fechaActual"
+                            (ngModelChange)="formatearFechaIni($event)" readonly>
+                            <mat-icon matDatepickerToggleIcon (click)="clearFechaInicio($event)">clear</mat-icon>
+                            <mat-datepicker-toggle matSuffix [for]="pickerIni"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerIni></mat-datepicker>
+                            <mat-error>Campo obligatoria</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col-sm-6">
+                            <mat-label>Fecha de finalización de inscripción</mat-label>
+                            <input #datepickerInput class="mat-datepicker-input" matInput formControlName="fechaFinInscripcion" [matDatepicker]="pickerFin" [min]="fechaActual"
+                            (ngModelChange)="formatearFechaFin($event)" readonly>
+                            <mat-icon matDatepickerToggleIcon (click)="clearFechaFin($event)">clear</mat-icon>
+                            <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerFin></mat-datepicker>
+                            <mat-error>Campo obligatoria</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="select-group" class="col-md-12">
+                          <mat-label>Correo Lider Grupo</mat-label>
+                          <input matInput type="text" formControlName="liderGrupo">
+                          <mat-error>Campo obligatorio, con longitud menor de 50 caracteres y debe contener un correo electronico</mat-error>
+                        </mat-form-field>
+
+                        <div appearance="outline" *ngIf="ifCrearEditar">
+
+                          <label class="col-sm-8" class="boton-personalizado" for="archivoInput">{{nombreArchivo}}</label>
+                          <input type="file" id="archivoInput" style="display: none;" (change)="capturarFile($event)">
+
+                          <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="ifCrearEditar" fxLayout.lt-sm="column">
+                            <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../cultura/grupo-cultural">
+                              <mat-icon>arrow_back</mat-icon>Regresar
+                            </button>
+                            <button class="card-button" class="col-md-2" type="button" [disabled]="!validarFormularios()" (click)="agregarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                              <mat-icon>save</mat-icon> Guardar
+                            </button>
+                            <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
+                          </mat-card-actions>
+                        </div>
+
+                        <div appearance="outline" *ngIf="!ifCrearEditar">
+                          <label class="col-sm-8" class="boton-personalizado" for="archivoInput">{{nombreArchivo}}</label>
+                          <input type="file" id="archivoInput" style="display: none;" (change)="capturarFile($event)">
+
+                          <mat-card-actions class="form-action" fxLayoutAlign="center" *ngIf="!ifCrearEditar" fxLayout.lt-sm="column">
+                            <button class="card-button" class="col-md-2" type="button" mat-raised-button routerLink="../../../../cultura/grupo-cultural">
+                              <mat-icon>arrow_back</mat-icon>Regresar
+                            </button>
+                            <button class="card-button" class="col-md-2" type="button" [disabled]="!validarFormularios()" (click)="editarGrupo()" mat-raised-button> <!--[disabled]="!crearCita.valid">-->
+                                <mat-icon>save</mat-icon> Editar
+                              </button>
+                            <!-- <mat-spinner *ngIf="crearCita.invalid"></mat-spinner> -->
+                          </mat-card-actions>
+
+                        </div> 
+
+                        
+                    </form>
+                     
+                </div>
+
+            </div>
+
+        </div> 
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="card text-center">
+    <span class="h3">Actividades Culturales</span>
+</div>
+<nb-card>
+    <nb-card-header> 
+
+        <div class="d-flex justify-content-between">     
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../actividad-cultural/crear_act_cult'>Crear Actividad</button>
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../actividad-cultural/calendario-actividad'>Calendario</button>
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../actividad-cultural/cargar-evidencias'>Cargar evidencias</button>
+          <button nbButton status="success" class="mx-2" type="button" routerLink='../actividad-cultural/prev-actividad'>Previsualizar actividad cultural</button>
+
+        </div>
+    </nb-card-header> 
+
+</nb-card>
+<div class="card text-center">
+  <div class="card-body" [ngClass]="actividades ? 'show' : 'hidden'">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell *matCellDef="let ac">{{truncarContenido(ac.Nombre, 50)}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Descripcion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
+        <td mat-cell *matCellDef="let ac">{{truncarContenido(ac.Descripcion, 50)}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Estado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let ac">{{obtenerEstado(ac.Estado)}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="FechaInicio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaInicio</th>
+        <td mat-cell *matCellDef="let ac">{{ac.FechaInicio}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="FechaFin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaFin</th>
+        <td mat-cell *matCellDef="let ac">{{ac.FechaFin}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="UsuarioRegistra">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario Registra</th>
+        <td mat-cell *matCellDef="let ac">{{ac.UsuarioRegistra}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Acciones">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+        <td mat-cell *matCellDef="let ac">
+
+          <button class="btn" matTooltip="Ver más información" data-toggle="modal"
+            data-target="#modalAditional" (click)="mostrarDialogo(ac.Id)">
+            <mat-icon color="primary">remove_red_eye</mat-icon>
+          </button>
+
+          <button class="btn" [routerLink]="['../actividad-cultural/editar_act_cult', ac.Id]" matTooltip="Editar">
+            <mat-icon color="warn">update</mat-icon>
+          </button>
+
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <mat-paginator #paginator="matPaginator" [pageSizeOptions]="[50, 100, 150]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="card-body" *ngIf="!actividades">
+    <h5>No hay actividades creadas por el momento</h5>
+  </div>
+</div> 
+
+ 

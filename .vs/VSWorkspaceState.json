@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\atenciones",
+    "\\src\\app\\pages\\atenciones\\crear-atencion"
+  ],
+  "SelectedNode": "\\src\\app\\pages\\atenciones\\crear-atencion\\crear-atencion.component.ts",
+  "PreviewInSolutionExplorer": false
+}

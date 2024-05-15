@@ -143,3 +143,4 @@ export class ListaAtencionesComponent implements OnInit {
     pdfMake.createPdf(documentDefinition).open();
   }
 }
+

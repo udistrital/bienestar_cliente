@@ -50,10 +50,10 @@ const routes: Routes = [
   },
   {
     path: 'solicitud',
-    canActivate: [AuthGuard],
-    data: {
-      roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
-    },
+    // canActivate: [AuthGuard],
+    // data: {
+    //   roles: [RolesConstanst.ROLES_SISTEMA.ESTUDIANTE]
+    // },
     component: SolicitudTerceroComponent
   },
   {

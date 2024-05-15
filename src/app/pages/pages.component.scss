@@ -19,3 +19,33 @@
     }
   }
 }
+.fc .fc-button-primary {
+  background-color: #E1AD01 !important; 
+}
+
+.fc-h-event {
+ border: 1px solid #E1AD01 !important;
+ background-color: #E1AD01 !important;
+}
+.fc-daygrid-event-dot {
+ border: 4px solid #E1AD01 !important;
+}
+
+.fc table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1em;
+  background: #fefefe !important;
+  
+}
+.fc th {
+  background-color: #f0f0f0; /* Color de fondo de las celdas de encabezado */
+  color: #333; /* Color del texto en las celdas de encabezado */
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  
+  border: 1px solid !important;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+}
