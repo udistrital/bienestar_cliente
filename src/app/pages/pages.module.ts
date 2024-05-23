@@ -17,6 +17,7 @@ import { NotFoundComponent } from "./miscellaneous/not-found/not-found.component
 import { AtencionesModule } from "./atenciones/atenciones.module";
 import { FormsModule } from "@angular/forms";
 import { GestionDocumentalModule } from './gestion-documental/gestion-documental.module';
+import { AtencionesModule } from './atenciones/atenciones.module';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { GestionDocumentalModule } from './gestion-documental/gestion-documental
     NbSpinnerModule,
     AtencionesModule,
     GestionDocumentalModule,
+    CulturaModule,
 
   ],
   declarations: [PagesComponent],

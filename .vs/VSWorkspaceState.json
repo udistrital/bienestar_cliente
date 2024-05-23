@@ -6,11 +6,14 @@
     "\\src\\app\\@core",
     "\\src\\app\\@core\\store",
     "\\src\\app\\pages",
+    "\\src\\app\\pages\\atenciones",
+    "\\src\\app\\pages\\atenciones\\crear-atencion"
     "\\src\\app\\pages\\citas",
     "\\src\\app\\pages\\citas\\especialista",
     "\\src\\app\\pages\\citas\\especialista\\horarios",
     "\\src\\app\\shared",
     "\\src\\app\\shared\\services"
   ],
+  "SelectedNode": "\\src\\app\\pages\\atenciones\\crear-atencion\\crear-atencion.component.ts",
   "PreviewInSolutionExplorer": false
 }
