@@ -15,7 +15,7 @@ export const environment = {
     },
     CLIENTE_APOYO: 'apoyo-alimentario',
     CLIENTE_SALUD: 'citas',
-    CLIENTE_CULTURA:'cultura',
+    
     APOYO_ALIMENTARIO: "https://autenticacion.portaloas.udistrital.edu.co/apioas/apoyo_alimentario_mongo_crud/",
     MEDICINA: "https://inteligenciainstitucional.portaloas.udistrital.edu.co/go_api/medicina_crud/v1/",
     PSICOLOGIA: "https://inteligenciainstitucional.portaloas.udistrital.edu.co/go_api/psicologia_crud/v1/",
@@ -36,7 +36,7 @@ export const environment = {
     DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
     PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/',
     GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
-    CULTURA:'http://localhost:8080/v1/',
+    CULTURA:'https://autenticacion.portaloas.udistrital.edu.co/apioas/cultura_crud/v1/',
     EVENTO:'http://localhost:8085/v1/',
   
 
