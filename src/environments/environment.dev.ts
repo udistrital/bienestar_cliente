@@ -36,6 +36,7 @@ export const environment = {
   GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
   CULTURA:'http://localhost:8085/v1/',
   
+
   IDS: {
     IDTIPOPARAMETRO: 21,
     IDTIPOSOLICITUD: 9,
