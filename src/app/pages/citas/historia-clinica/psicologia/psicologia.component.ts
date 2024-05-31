@@ -92,10 +92,10 @@ export class PsicologiaComponent implements OnInit {
       result => this.logoDataUrl = result
     )
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
-    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+    /*this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
-    });
+    });*/
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
@@ -594,7 +594,7 @@ export class PsicologiaComponent implements OnInit {
   comprobarHoja(){
     if (this.estadoAntecedente && this.estadoComportamientoConsulta && this.estadoComposicionFamiliar && this.estadoDiagnostico && this.estadoHoja && this.estadoLimites &&
       this.estadoValoracionInterpersonal){
-        this.toastr.success(`Ha registrado con éxito la historia clínica de psicología para: ${this.paciente}`, '¡Guardado!');
+        this.toastr.success(`Ha registrado con éxito la historia clínica de psicología`, '¡Guardado!');
         setTimeout(() => {
           window.location.reload();
         },

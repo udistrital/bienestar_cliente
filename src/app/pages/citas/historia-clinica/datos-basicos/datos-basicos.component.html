@@ -5,9 +5,9 @@
     <div class="col md-3"><strong>Nombre: </strong> {{ nombre }}</div>
     <div class="col md-3"><strong>Código: </strong>{{codigo }}</div>
     <div class="col md-3">
-      <strong>Documento: </strong>{{ 'documento' }}
+      <strong>Documento: </strong>{{ documento }}
     </div>
-    <div class="col md-3"><strong>EPS: </strong>{{ 'prueba.eps' }}</div>
+    <div class="col md-3"><strong>EPS: </strong>{{ eps }}</div>
   </div>
   <hr />
   <div class="row mt-2">
@@ -16,20 +16,15 @@
       {{ fechaNacimiento | date: "dd-MMMM-yyyy":"":"es-CO" }}
     </div>
     <div class="col md-6">
-      <strong>Lugar de Nacimiento: </strong>{{ lugarNacimiento}}
+      <strong>Lugar de Nacimiento: </strong>
     </div>
     <div class="col md-4"><strong>Edad: </strong>{{ edad }}</div>
   </div>
   <hr />
   <div class="row mt-2">
     <div class="col md-4">
-      <strong>Vinculación: </strong>
-      <br />
-      <mat-radio-group formControlName="vinculacion">
-        <mat-radio-button [checked]="vinculacion=='estudiante'" value="true">Estudiante</mat-radio-button>&nbsp;
-        <mat-radio-button [checked]="vinculacion=='funcionario'" value="false">Funcionario</mat-radio-button>
-        <mat-radio-button [checked]="vinculacion=='docente'" value="false">Docente</mat-radio-button>
-      </mat-radio-group>
+      <strong>Vinculación: </strong>{{ vinculacion }}
+      
     </div>
     <!-- <div class="col md-4" *ngIf="prueba.vinculacion !== 'Estudiante'"> -->
     <div class="col md-4">

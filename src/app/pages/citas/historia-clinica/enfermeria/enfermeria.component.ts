@@ -63,10 +63,10 @@ export class EnfermeriaComponent implements OnInit {
     this.enfermeriaForm.disable();
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
     //console.log(this.saludService.IdPersona);
-    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+    /*this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
-    });
+    });*/
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
@@ -226,7 +226,7 @@ export class EnfermeriaComponent implements OnInit {
   }
   comprobarHoja() {
     if (this.estadoEnfermeria && this.estadoHoja) {
-      this.toastr.success(`Ha registrado con éxito la historia clínica de enfermería para: ${this.paciente}`, '¡Guardado!');
+      this.toastr.success(`Ha registrado con éxito la historia clínica de enfermería`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },

@@ -4,9 +4,13 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\pages",
-    "\\src\\app\\pages\\atenciones",
-    "\\src\\app\\pages\\atenciones\\crear-atencion"
+    "\\src\\app\\pages\\citas",
+    "\\src\\app\\pages\\citas\\historia-clinica",
+    "\\src\\app\\pages\\citas\\historia-clinica\\medicina",
+    "\\src\\app\\pages\\citas\\historia-clinica\\odontologia",
+    "\\src\\app\\pages\\citas\\historia-clinica\\psicologia",
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\app\\pages\\atenciones\\crear-atencion\\crear-atencion.component.ts",
+  "SelectedNode": "\\src\\environments\\environment.ts",
   "PreviewInSolutionExplorer": false
 }

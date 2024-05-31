@@ -35,7 +35,7 @@ export class PagesComponent implements OnInit {
 
   url_apoyo = environment.CLIENTE_APOYO;
   url_citas = environment.CLIENTE_SALUD;
-  url_cultura = environment.CLIENTE_CULTURA;
+  
   
   application_conf = 'SIBUD';
 
@@ -97,36 +97,8 @@ export class PagesComponent implements OnInit {
       this.roles[i] = this.roles[i].replace(/\//g, '-');
     }
 
-    /**this.object = {
-      title: 'Cultura',
-      icon: 'file-text',
-      link: `cultura`,
-      home: true,
-      key: "Cultura",
-      children: this.mapMenuChildrenObject(null)
-    };
-    this.menu.push(this.object);
-    for(var i = 0; i < this.roles.length; i++){
-      this.roles[i] = this.roles[i].replace(/\//g, '-');
-    }**/
-
-    /**this.object = {
-      title: 'Apoyo Alimentario',
-      icon: 'file-text',
-      link: `apoyo-alimentario`,
-      home: true,
-      key: "Apoyo Alimentario",
-      children: this.mapMenuChildrenObject(null)
-    };
     
-    this.menu.push(this.object);
-    for(var i = 0; i < this.roles.length; i++){
-      this.roles[i] = this.roles[i].replace(/\//g, '-');
-    }**/
-   // this.roles = this.roles.filter((item) => item !== "Internal/everyone");
-
-    //this.roles = this.roles.replace(/\//g, '-');
-    // console.log(this.roles);
+    
 
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
@@ -200,7 +172,7 @@ export class PagesComponent implements OnInit {
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
           .replace('${url_citas}', this.url_citas)
-          .replace('${url_cultura}', this.url_cultura);
+          
   }
 
   /**

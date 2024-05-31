@@ -10,6 +10,7 @@ import { SaludService } from '../../../shared/services/salud.service';
 })
 export class HistoriaClinicaComponent implements OnInit {
   roles: any[] = [];
+
   constructor(private fb: FormBuilder, private listService: ListService) { }
   ngOnInit() {
     this.listService.getInfoEstudiante().then((resp) => {

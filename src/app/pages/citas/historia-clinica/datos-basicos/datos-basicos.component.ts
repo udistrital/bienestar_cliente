@@ -13,18 +13,23 @@ import { SaludService } from '../../../../shared/services/salud.service';
   styleUrls: ['../historia-clinica.component.css']
 })
 export class DatosBasicosComponent implements OnInit {
-  vinculacion: any;
+  
   tipo: any;
   dependencia: any = '';
   procedenteDe: any = '';
   edad: number;
+  eps:string;
+  paciente:any;
+  
   nombre = "";
   apellido = "";
   carrera = "";
+  vinculacion:string;
   estado: any;
   telefono = "";
   direccion = "";
   genero = "";
+  documento:string;
   codigo!: string;
   fechaNacimiento: Date;
   lugarNacimiento = "";
@@ -53,18 +58,62 @@ export class DatosBasicosComponent implements OnInit {
     this.codigo = this.aRoute.snapshot.paramMap.get('codigo');
     this.saludService.IdPersona = parseInt(this.codigo);
     // this.verificarHistoria();
+    this.paciente=null;
     this.cargarDatos();
 
   }
   cargarDatos() {
-    this.estudianteService.getInfoPorCodigo(this.codigo).subscribe((data) => {
+    this.estudianteService.getInfoTercero(this.codigo).subscribe((data) => {
       this.fechaNacimiento = data[0].TerceroId.FechaNacimiento || '';
       this.edad = this.calcularEdad(this.fechaNacimiento);
       this.nombre = data[0].TerceroId.NombreCompleto;
       this.lugarNacimiento = data[0].TerceroId.LugarOrigen;
       this.terceroId = data[0].TerceroId.Id;
+      this.estudianteService.getCodigoTercero(this.terceroId,3).subscribe((data) => {
+        this.documento = data[0].Numero;
+      });
+      this.estudianteService
+      .getEstudiante(this.codigo)
+      .subscribe((data: any) => {
+        this.paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
+       
+        if(this.paciente!=null)
+        {
+            this.estudianteService
+              .getProyecto(this.paciente.carrera)
+              .subscribe((data: any) => {
+                this.carrera = data.carrerasCollection.carrera[0].nombre;
+              });
+        }else{
+             this.estudianteService
+
+      .getTercero( this.codigo) 
+      .subscribe((data: any) => {
+        var paciente = data.datosTerceroCollection.datosBasicosTercero[0];
+       
+        this.carrera = paciente.carrera;
+
+
+          });
+
+        }
+          
+      });
       this.estudianteService.getInfoGrupoComplementaria(this.terceroId, 6).subscribe((data) => {
         this.genero = data[0].InfoComplementariaId.Nombre;
+      });
+      this.estudianteService.getVinculacion(this.terceroId).subscribe((data) => {
+        let vinculacion2 = data[0].TipoVinculacionId;
+        this.estudianteService.getParametro(vinculacion2).subscribe((data2: any) => {
+         this.vinculacion = data2.Data.Nombre;
+            
+        });
+      });
+      
+      this.estudianteService.getInfoComplementaria(this.terceroId, 607).subscribe((data) => {
+        let eps2 = data[0].Dato;
+        let epsCorregido = eps2.replace(/{"/g, '').replace(/"}/g, '').replace(/dato/g, '').replace(/"/g, '').replace(/:/g, '');
+        this.eps = epsCorregido;
       });
       this.estudianteService.getInfoComplementaria(this.terceroId, 51).subscribe((data) => {
         let telefono2 = data[0].Dato;
@@ -123,18 +172,7 @@ export class DatosBasicosComponent implements OnInit {
       });
     });
 
-    this.estudianteService
-      .getEstudiante(this.codigo)
-      .subscribe((data: any) => {
-        var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
-        this.codigo = paciente.codigo;
-        this.estado = paciente.estado;
-        this.estudianteService
-          .getProyecto(paciente.carrera)
-          .subscribe((data: any) => {
-            this.carrera = data.carrerasCollection.carrera[0].nombre;
-          });
-      });
+    
   }
 
 
