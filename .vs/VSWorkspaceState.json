@@ -22,7 +22,14 @@
     "\\src\\app\\pages\\citas\\especialista\\horarios",
     "\\src\\app\\shared",
     "\\src\\app\\shared\\services",
-    "\\src\\app\\pages\\cultura\\cultura.module.ts"
+    "\\src\\app\\pages\\cultura\\cultura.module.ts",
+    "\\src\\app\\pages\\citas\\historia-clinica",
+    "\\src\\app\\pages\\citas\\historia-clinica\\medicina",
+    "\\src\\app\\pages\\citas\\historia-clinica\\odontologia",
+    "\\src\\app\\pages\\citas\\historia-clinica\\psicologia",
+    "\\src\\environments",
+    "\\src\\environments\\environment.ts"
   ],
+  
   "PreviewInSolutionExplorer": false
 }
