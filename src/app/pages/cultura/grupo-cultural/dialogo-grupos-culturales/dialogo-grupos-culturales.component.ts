@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ngx-dialogo-grupos-culturales',
-  template: `<h1> Ventana Modal </h1> <button (click)="close()">Cerrar</button>`,
+  
   templateUrl: './dialogo-grupos-culturales.component.html',
   styleUrls: ['./dialogo-grupos-culturales.component.scss']
 })
