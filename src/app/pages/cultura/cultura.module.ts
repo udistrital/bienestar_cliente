@@ -104,6 +104,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         DialogoEliminacionGruposCulturalesComponent,
         DialogoActividadesCulturalesComponent,
         VerGruposCulturalesComponent,
+        SubirEvidenciasActividadesComponent
         
     ],
     providers: [
