@@ -49,6 +49,7 @@ import { DialogoActividadesCulturalesComponent } from './actividad-cultural/dial
 import { VerGruposCulturalesComponent } from './grupo-cultural/ver-grupos-culturales/ver-grupos-culturales.component';
 import { SubirEvidenciasActividadesComponent } from './actividad-cultural/subir-evidencias-actividades/subir-evidencias-actividades.component';
 
+
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -105,7 +106,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         DialogoEliminacionGruposCulturalesComponent,
         DialogoActividadesCulturalesComponent,
         VerGruposCulturalesComponent,
-        SubirEvidenciasActividadesComponent
+        
         
     ],
     providers: [
