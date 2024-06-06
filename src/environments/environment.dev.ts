@@ -35,7 +35,7 @@ export const environment = {
   PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/',
   GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
   CULTURA:'http://localhost:8080/v1/',
-  //CULTURA:'https://autenticacion.portaloas.udistrital.edu.co/apioas/cultura_crud/v1/',
+  
   
 
 
