@@ -4,9 +4,13 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\pages",
-    "\\src\\app\\pages\\atenciones",
-    "\\src\\app\\pages\\atenciones\\crear-atencion"
+    "\\src\\app\\pages\\citas",
+    "\\src\\app\\pages\\cultura",
+    "\\src\\app\\pages\\cultura\\grupo-cultural",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\dialogo-grupos-culturales",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\form-grup-cult",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\ver-grupos-culturales"
   ],
-  "SelectedNode": "\\src\\app\\pages\\atenciones\\crear-atencion\\crear-atencion.component.ts",
+  "SelectedNode": "\\src\\app\\pages\\cultura\\cultura.module.ts",
   "PreviewInSolutionExplorer": false
 }

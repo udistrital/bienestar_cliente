@@ -37,6 +37,7 @@ export const environment = {
   CULTURA:'http://localhost:8080/v1/',
   
   
+
   IDS: {
     IDTIPOPARAMETRO: 21,
     IDTIPOSOLICITUD: 9,

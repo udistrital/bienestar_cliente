@@ -47,6 +47,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogoEliminacionGruposCulturalesComponent } from './actividad-cultural/form_act_cult/dialogo-eliminacion-grupos-culturales/dialogo-eliminacion-grupos-culturales.component';
 import { DialogoActividadesCulturalesComponent } from './actividad-cultural/dialogo-actividades-culturales/dialogo-actividades-culturales.component';
 import { VerGruposCulturalesComponent } from './grupo-cultural/ver-grupos-culturales/ver-grupos-culturales.component';
+import { SubirEvidenciasActividadesComponent } from './actividad-cultural/subir-evidencias-actividades/subir-evidencias-actividades.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -104,6 +105,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         DialogoEliminacionGruposCulturalesComponent,
         DialogoActividadesCulturalesComponent,
         VerGruposCulturalesComponent,
+        SubirEvidenciasActividadesComponent
         
     ],
     providers: [

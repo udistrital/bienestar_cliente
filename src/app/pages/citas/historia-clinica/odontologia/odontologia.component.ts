@@ -222,10 +222,10 @@ export class OdontologiaComponent implements OnInit {
       this.tipoOdontogramaVestibularInfantil = data['Data'];
     });
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
-    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+   /* this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
-    });
+    });*/
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
@@ -1239,7 +1239,7 @@ export class OdontologiaComponent implements OnInit {
   comprobarHojaHistoria() {
     if (this.estadoHoja && this.estadoAnanmesis && this.estadoDiagnostico && this.estadoExamenDental && this.estadoExamenEstomatologico && this.estadoExamenesComplementarios &&
       this.estadoOdontogramaVestabular && this.estadoOdontogramaVestibular && this.estadoOdontogramaVestibularInfantil) { // && this.estadoOdontogramaLingualesInfantil) {
-      this.toastr.success(`Ha registrado con éxito la historia clínica de odontología para: ${this.paciente}`, '¡Guardado!');
+      this.toastr.success(`Ha registrado con éxito la historia clínica de odontología `, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },
