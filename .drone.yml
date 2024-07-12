@@ -14,8 +14,6 @@ steps:
     event:
     - push
 
-
-
 - name: check_commits
   image: jjvargass/qa_develoment:latest
   commands:
@@ -44,15 +42,13 @@ steps:
     branch:
     - unitest
 
-
-
 - name: nodejs_release
   image: node:12.6.0
   commands:
   - node --version
   - npm cache clean --force
   - npm i
-  - npm run build:test
+  - node --max-old-space-size=4096 /drone/src/node_modules/.bin/npm run build:test
   when:
     branch:
     - release/*
