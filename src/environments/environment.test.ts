@@ -34,7 +34,7 @@ export const environment = {
     DOCUMENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/documento_crud/v2/',
     PARAMETRIAS: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/parametros/v1/',
     GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
-    
+    IDS: {
         IDTIPOPARAMETRO: 21,
         IDTIPOSOLICITUD: 9,
         IDINSCRIPCIONES: 347,
@@ -71,5 +71,5 @@ export const environment = {
         REDIRECT_URL: 'https://pruebasbienestar.portaloas.udistrital.edu.co',
         SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
         SIGN_OUT_REDIRECT_URL: 'https://pruebasbienestar.portaloas.udistrital.edu.co',
-    },
+    },  
 };
