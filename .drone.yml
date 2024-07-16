@@ -45,10 +45,11 @@ steps:
 - name: nodejs_release
   image: node:12.6.0
   commands:
+  - export NODE_OPTIONS=--max_old_space_size=4096
   - node --version
   - npm cache clean --force
   - npm i
-  - node --max-old-space-size=4096 /drone/src/node_modules/.bin/npm run build:test
+  - npm run build:test
   when:
     branch:
     - release/*
