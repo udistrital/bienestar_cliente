@@ -6,7 +6,7 @@ import { RolesConstanst } from '../../shared/constants/roles.constants';
 @Component({
   selector: 'ngx-cultura',
   templateUrl: './cultura.component.html',
-  styleUrls: ['./cultura.component.scss']
+  
 })
 export class CulturaComponent implements OnInit {
   ROLES_CONSTANTS = RolesConstanst;

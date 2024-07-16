@@ -35,8 +35,6 @@ export class PagesComponent implements OnInit {
 
   url_apoyo = environment.CLIENTE_APOYO;
   url_citas = environment.CLIENTE_SALUD;
-  
-  
   application_conf = 'SIBUD';
 
   constructor(
@@ -171,8 +169,7 @@ export class PagesComponent implements OnInit {
    */
   replaceUrlNested(urlNested) {
     return urlNested.replace('${url_apoyo}', this.url_apoyo)
-          .replace('${url_citas}', this.url_citas)
-          
+          .replace('${url_citas}', this.url_citas);
   }
 
   /**

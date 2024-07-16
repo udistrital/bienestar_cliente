@@ -36,7 +36,6 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
-  
 } from '@nebular/theme';
 // Material
 import {
@@ -67,8 +66,8 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatSliderModule,
-  MatSlideToggleModule,
-  MatStepperModule,
+  MatSlideToggleModule, 
+  MatStepperModule,  
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
@@ -142,6 +141,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSliderModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatSortModule,
     MatStepperModule,
     MatTableModule,
     MatTabsModule,
