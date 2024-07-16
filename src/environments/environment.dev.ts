@@ -38,6 +38,7 @@ export const environment = {
   
   
 
+
   IDS: {
     IDTIPOPARAMETRO: 21,
     IDTIPOSOLICITUD: 9,
