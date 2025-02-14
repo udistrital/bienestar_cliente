@@ -10,9 +10,10 @@
     <mat-form-field appearance="outline" class="select-group">
       <mat-label>Historial</mat-label>
       <mat-select (selectionChange)="cambiarHoja($event.value)"
-        (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
-        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" 
-        (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"[(value)]="firstOne">
+  		(selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
+  		(selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
+  		(selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" 
+  		(selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"[(value)]="firstOne">
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
           {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
         </mat-option>
