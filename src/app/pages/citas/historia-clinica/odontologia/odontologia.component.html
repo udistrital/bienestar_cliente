@@ -3,7 +3,7 @@
   <hr />
   <div class="text-right" [hidden]="hideHistory">
     <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
-      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()">
+      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()">
       <!--(click)="vestibularInfantil.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()"-->
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
@@ -11,7 +11,6 @@
       <mat-label>Historial</mat-label>
       <mat-select (selectionChange)="cambiarHoja($event.value)"
         (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
-        (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
         (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" 
         (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"[(value)]="firstOne">
         <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
@@ -29,7 +28,7 @@
       </div>
     </div>
     <h6 class="titulo mt-2">Origen de la enfermedad</h6>
-    <p cclass="titulo subtitulo">Anamnesis</p>
+    <p class="titulo subtitulo">Anamnesis</p>
   </div>
   <div class="row mt-2">
     <div class="col me-4 border-right ">
