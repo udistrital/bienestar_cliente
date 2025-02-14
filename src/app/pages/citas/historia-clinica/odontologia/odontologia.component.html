@@ -3,7 +3,7 @@
   <hr />
   <div class="text-right" [hidden]="hideHistory">
     <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
-      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()">>
+      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()">
       <!--(click)="vestibularInfantil.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()"-->
       <mat-icon>add</mat-icon> Añadir nueva hoja
     </button>
@@ -726,7 +726,7 @@
       <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
         <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
           <!--<input--> <textarea class="form-control"*ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
-          <!--<<button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="superAdmin">
+          <!--<button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="superAdmin">
             Borrar
           </button>-->
         </div>
