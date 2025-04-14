@@ -14,8 +14,6 @@ steps:
     event:
     - push
 
-
-
 - name: check_commits
   image: jjvargass/qa_develoment:latest
   commands:
@@ -44,11 +42,10 @@ steps:
     branch:
     - unitest
 
-
-
 - name: nodejs_release
   image: node:12.6.0
   commands:
+  - export NODE_OPTIONS=--max_old_space_size=4096
   - node --version
   - npm cache clean --force
   - npm i

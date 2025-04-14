@@ -1,0 +1,32 @@
+<div>
+    <nb-card status="info">
+        <nb-card-header>Editor</nb-card-header>
+        <nb-card-body [nbSpinner]="loading" nbSpinnerMessage="Exportando..." nbSpinnerStatus="info">
+            <div class="form-group">
+                <label for="Nombre">Nombre del documento: </label>
+                <input type="text" id="nombreEditando" name="nombre" placeholder="Nombre del documento"  [(ngModel)]='nombreDocumento' required>
+                <small *ngIf="!nombreDocumento" class="form-text text-danger">Campo requerido</small> 
+            </div>
+            <script type="text/javascript">
+                window['CKEDITOR_BASEPATH'] = '//cdn.ckeditor.com/4.21.0/full-all/';
+            </script>        
+            <ckeditor
+                languague="es"
+                [(ngModel)]="mycontent" 
+                #myckeditor="ngModel"
+                name="myckeditor"
+                required
+                [config]="ckeConfig" 
+                debounce="500"
+                contentDom="contentDom"
+                [value]="value"
+                (ngModelChange)="cambiarTexto()"
+                >
+	        </ckeditor>
+            <button nbButton type="button" class="button-editor" status="success" (click)="guardar()">Guardar</button>
+            <button nbButton type="button" class="button-editor" status="basic" (click)="cancelar()">Cancelar</button>
+            <button nbButton type="button" class="button-editor" status="warning" (click)="exportar()">Exportar a pdf</button>
+            <button nbButton type="button" class="button-editor" status="danger" (click)="eliminar()">Eliminar documento</button>
+        </nb-card-body>
+    </nb-card>
+</div>

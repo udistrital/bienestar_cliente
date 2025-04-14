@@ -1,6 +1,6 @@
 import { ThrowStmt } from '@angular/compiler';
 import { toBase64String } from '@angular/compiler/src/output/source_map';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -28,6 +28,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['../historia-clinica.component.css']
 })
 export class MedicinaComponent implements OnInit {
+
+  @Input() paciente: string;   
   enfermeria: Enfermeria | null;
   crear: boolean = false;
   superAdmin: boolean = false;
@@ -47,7 +49,7 @@ export class MedicinaComponent implements OnInit {
   examenes: Examen | null;
   evolucion: Evolucion[] = [];
   analisis: Analisis[] = [];
-  paciente: string;
+  //paciente: string;
   nuevoAnalisis: FormControl = this.fb.control('');
   nuevaEvolucion: FormControl = this.fb.control('');
   medicinaForm: FormGroup = this.fb.group({
@@ -160,10 +162,10 @@ export class MedicinaComponent implements OnInit {
       result => this.logoDataUrl = result
     )
     this.terceroId = this.aRoute.snapshot.paramMap.get('terceroId');
-    this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
+   /* this.personaService.getEstudiante(this.saludService.IdPersona).subscribe((data: any) => {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
-    });
+    });*/
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
@@ -813,7 +815,7 @@ export class MedicinaComponent implements OnInit {
   }
   comprobarHoja() {
     if (this.estadoHoja && this.estadoAntecedente && this.estadoDiagnostico && this.estadoExamen && this.estadoSistema) {
-      this.toastr.success(`Ha registrado con éxito la historia clínica de medicina para: ${this.paciente}`, '¡Guardado!');
+      this.toastr.success(`Ha registrado con éxito la historia clínica de medicina`, '¡Guardado!');
       setTimeout(() => {
         window.location.reload();
       },

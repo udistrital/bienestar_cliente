@@ -7,7 +7,12 @@ import {
     NbUserModule,
     NbIconModule,
     NbSelectModule,
-    NbListModule, NbStepperModule, NbInputModule, NbRadioModule, NbLayoutModule, NbAccordionModule,
+    NbListModule, 
+    NbStepperModule, 
+    NbInputModule, 
+    NbRadioModule, 
+    NbLayoutModule, 
+    NbAccordionModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';

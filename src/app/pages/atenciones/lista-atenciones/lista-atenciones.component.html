@@ -1,0 +1,148 @@
+<ngx-crear-atencion></ngx-crear-atencion>
+
+<div id="pdfTable" #pdfTable>
+  <mat-card class="my-5">
+    <mat-card-header>
+      <button mat-raised-button color="primary" (click)="showAtenciones()">
+        {{ mostrarAtenciones ? "Ocultar atenciones" : "Mostrar atenciones" }}
+      </button>
+    </mat-card-header>
+    <hr />
+    <mat-card-content *ngIf="mostrarAtenciones">
+      <mat-form-field>
+        <input
+          matInput
+          (keyup)="applyFilter($event.target.value)"
+          placeholder="Filter"
+        />
+      </mat-form-field>
+
+      <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Tipo de atención </mat-label>
+          <mat-select [(ngModel)]="tipo_atencion_reporte">
+            <mat-option
+              *ngFor="let tipoAtencion of tiposAtenciones"
+              [value]="tipoAtencion"
+            >
+              {{ tipoAtencion.Nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="picker_fecha_min"
+            placeholder="Fecha Mínima"
+            [(ngModel)]="fecha_min"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker_fecha_min"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker_fecha_min></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="picker_fecha_max"
+            placeholder="Fecha Máxima"
+            [(ngModel)]="fecha_max"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker_fecha_max"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker_fecha_max></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <button mat-raised-button color="warn" (click)="reporteAtenciones()">
+          Consultar
+        </button>
+      </div>
+    </div>
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        matSort
+      >
+        <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="idAtencion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>idAtencion</th>
+          <td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>codigo</th>
+          <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>nombre</th>
+          <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="fechaCreacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            fechaCreacion
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.FechaCreacion }}
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="fechaFinalizacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            fechaFinalizacion
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.fechaFinalizacion | date : longDate }}
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>estado</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.EstadoTipoSolicitudId.EstadoId.Nombre }}
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>acciones</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-raised-button
+              color="primary"
+              *ngIf="!element.SolicitudFinalizada"
+            >
+              Editar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <button class="btn btn-primary" (click)="downloadAsPDF()">
+    Export To PDF
+  </button>
+</div>

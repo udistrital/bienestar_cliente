@@ -1,0 +1,44 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\citas",
+    "\\src\\app\\pages\\cultura",
+    "\\src\\app\\pages\\cultura\\grupo-cultural",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\dialogo-grupos-culturales",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\form-grup-cult",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\ver-grupos-culturales"
+  ],
+  
+  
+  "SelectedNode": ["\\src\\app\\pages\\atenciones\\crear-atencion\\crear-atencion.component.ts",
+    "\\src\\app\\@core",
+    "\\src\\app\\@core\\store",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\citas",
+    "\\src\\app\\pages\\citas\\especialista",
+    "\\src\\app\\pages\\citas\\especialista\\horarios",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\services",
+    "\\src\\app\\pages\\cultura\\cultura.module.ts",
+    "\\src\\app\\pages\\citas\\historia-clinica",
+    "\\src\\app\\pages\\citas\\historia-clinica\\medicina",
+    "\\src\\app\\pages\\citas\\historia-clinica\\odontologia",
+    "\\src\\app\\pages\\citas\\historia-clinica\\psicologia",
+    "\\src\\environments",
+    "\\src\\environments\\environment.ts",
+    "\\src\\app\\pages\\cultura",
+    "\\src\\app\\pages\\cultura\\grupo-cultural",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\dialogo-grupos-culturales",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\form-grup-cult",
+    "\\src\\app\\pages\\cultura\\grupo-cultural\\ver-grupos-culturales",
+    "\\src\\app\\pages\\cultura\\cultura.module.ts"
+  ],
+  
+    
+  
+  
+  "PreviewInSolutionExplorer": false
+}

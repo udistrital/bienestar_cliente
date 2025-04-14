@@ -1,0 +1,26 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-7 col-md-7 offset-lg-3"> 
+            <div class="card text-center">
+                <div class="card-body">
+                    <form [formGroup]="crearEvidencia">
+
+                        <label class="col-sm-8" class="boton-personalizado" for="archivoInput1">{{nombreArchivoImg1}}</label>
+                        <input type="file" id="archivoInput1" style="display: none;" (change)="capturarFileImg1($event)">
+
+                        <label class="col-sm-8" class="boton-personalizado" for="archivoInput2">{{nombreArchivoImg2}}</label>
+                        <input type="file" id="archivoInput2" style="display: none;" (change)="capturarFileImg2($event)">
+
+                        <label class="col-sm-8" class="boton-personalizado" for="archivoInput">{{nombreArchivoImg1}}</label>
+                        <input type="file" id="archivoInput3" style="display: none;" (change)="capturarFileImg3($event)">
+
+                        
+                    </form>
+                    
+  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+                    

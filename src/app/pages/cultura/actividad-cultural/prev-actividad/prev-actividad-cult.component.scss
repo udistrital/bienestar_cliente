@@ -1,0 +1,44 @@
+#contenedor {
+    float: left;
+    width: 150px;
+}
+#contenedor2 {
+    float: right;
+    width: 150px;
+}
+
+#fila {
+    display: table-row;
+}
+#columna1, #columna2 {
+    display:table-cell;
+}
+#columnsCultura{
+    display: inline-block;
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 20px;
+  -webkit-columns: 150px 2;
+  -moz-columns: 150px 2;
+  columns: 2;
+  column-fill: auto;
+  column-gap: 10px;
+  background: #eee;
+  border-radius: 5px;
+  font-size: 16px;
+  }
+  #article {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin: 0 0 20px;
+    background-color: #fff; 
+    border-radius: 5px;
+    overflow: hidden;
+  }
+#img {
+    width: 100%;
+  }
+  
+  
+  
