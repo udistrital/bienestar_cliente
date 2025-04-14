@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form [formGroup]="odontologiaForm" (ngSubmit)="guardarDocumentos()">
   <h5 class="titulo"> Odontología</h5>
   <hr />
@@ -753,3 +754,760 @@
     </div>
   </div>
 </form>
+=======
+<form [formGroup]="odontologiaForm" (ngSubmit)="guardarDocumentos()">
+  <h5 class="titulo"> Odontología</h5>
+  <hr />
+  <div class="text-right" [hidden]="hideHistory">
+    <button class="card-button m-2" type="button" mat-raised-button color="primary" (click)="crearNuevaHoja()"
+      [disabled]="superAdmin" (click)="vestibular.limpiarOdontograma()" (click)="vestabular.limpiarOdontograma()">
+      <!--(click)="vestibularInfantil.limpiarOdontograma()" (click)="lingualesInfantil.limpiarOdontograma()"-->
+      <mat-icon>add</mat-icon> Añadir nueva hoja
+    </button>
+    <mat-form-field appearance="outline" class="select-group">
+      <mat-label>Historial</mat-label>
+      <mat-select (selectionChange)="cambiarHoja($event.value)"
+        (selectionChange)="vestabular.getOdontogramaEspecifico($event.value)"
+        (selectionChange)="vestibular.getOdontogramaEspecifico($event.value)"
+        (selectionChange)="vestibularInfantil.getOdontogramaEspecifico($event.value)" 
+        (selectionChange)="lingualesInfantil.getOdontogramaEspecifico($event.value)"[(value)]="firstOne">
+        <mat-option [value]="usuario.Id" *ngFor="let usuario of listaHojas">
+          {{usuario.FechaConsulta | date: 'dd-MM-yyyy HH:mm': '+0000'}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <div class="col md-12 mt-4 mb-4 me-4">
+      <div class="form-floating">
+        <textarea class="form-control textArea-big" formControlName="motivoConsultaOdonto"
+          placeholder="Motivo de consulta y enfermedad actual" id="motivoOdonto"></textarea>
+        <label for="motivoOdonto"> Motivo de consulta y enfermedad actual</label>
+      </div>
+    </div>
+    <h6 class="titulo mt-2">Origen de la enfermedad</h6>
+    <p cclass="titulo subtitulo">Anamnesis</p>
+  </div>
+  <div class="row mt-2">
+    <div class="col me-4 border-right ">
+      <label class="me-2">Tratamiento médico: </label>
+      <mat-radio-group formControlName="tratamientoMedico" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4 ">
+      <label class="me-2">Ingestión de medicamentos: </label>
+      <mat-radio-group formControlName="ingestionMedicamentos" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col me-4 border-right ">
+      <label class="me-2">Reacciones alérgicas: </label>
+      <mat-radio-group formControlName="reaccionesAlergicas" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4">
+      <label class="me-2">Hemorragias: </label>
+      <mat-radio-group formControlName="hemorragias" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col me-4 border-right">
+      <label class="me-2">Irradiaciones: </label>
+      <mat-radio-group formControlName="irradiaciones" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4">
+      <label class="me-2">Sinusitis: </label>
+      <mat-radio-group formControlName="sinusitis" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col me-4 border-right">
+      <label class="me-2">Enfermedades Respiratorias: </label>
+      <mat-radio-group formControlName="enfermedadesRespiratorias" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4">
+      <label class="me-2">Cardiopatías: </label>
+      <mat-radio-group formControlName="cardiopatias" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col me-4 border-right">
+      <label class="me-2">Diabetes: </label>
+      <mat-radio-group formControlName="diabetes" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4">
+      <label class="me-2">Fiebre Reumática: </label>
+      <mat-radio-group formControlName="fiebreReumatica" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col me-4 border-right">
+      <label class="me-2">Hepatitis: </label>
+      <mat-radio-group formControlName="hepatitis" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4">
+      <label class="me-2">Hipertensión Arterial: </label>
+      <mat-radio-group formControlName="hipertensionArterial" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col me-4 border-right">
+      <label class="me-2">Otras enfermedades: </label>
+      <mat-radio-group formControlName="otrasEnfermedades" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col me-4">
+      <label class="me-2">Antecedentes familiares: </label>
+      <mat-radio-group formControlName="antecedentesFamiliares" class="float-end">
+        <mat-radio-button value="Sí">Sí</mat-radio-button>&nbsp;
+        <mat-radio-button value="No">No</mat-radio-button>&nbsp;
+        <mat-radio-button value="No sabe">No sabe</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  
+  <div class="row mt-2">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <mat-form-field class="col-sm-12" appearance="outline">
+			<mat-label>Observaciones</mat-label>
+			<textarea matInput formControlName="otrosOdonto"></textarea>
+		  </mat-form-field>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-2">
+    <strong>Otros: </strong>
+    <div class="row mt-2">
+      <div class="col me-4 ">
+        <strong>Hábitos de higiene oral</strong>
+      </div>
+      <div class="col me-4 ">
+        <strong>Observaciones</strong>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col me-4 border-right ">
+        <div class="col-md-6">
+          <div class="input-group mb-3">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="cepillado" value=""
+                (change)="changeCepillado($event)">
+              Cepillado
+            </div>
+            <input type="number" class="form-control" formControlName="cepilladoCuantas" placeholder="¿Cuántas veces?"
+              min="0" [readonly]="odontologiaForm.value.cepillado==false " onKeyDown="return false" [value]="0">
+          </div>
+        </div>
+      </div>
+      <div class="col me-4 ">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-2">
+            <label for="dulces" class="col-form-label">Dulces</label>
+          </div>
+          <div class="col-auto">
+            <input type="text" id="dulces" formControlName="dulces" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col me-4 border-right ">
+        <div class="col-md-6">
+          <div class="input-group mb-6">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="sedaDental" value=""
+                (change)="changeSeda($event)">
+              Seda Dental
+            </div>
+            <input type="number" class="form-control" formControlName="sedaDentalCuantas" placeholder="¿Cuántas veces?"
+              min="0" [readonly]="odontologiaForm.value.sedaDental==false" onKeyDown="return false" [value]="0">
+          </div>
+        </div>
+      </div>
+      <div class="col me-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-2">
+            <label for="fuma" class="col-form-label">Fuma </label>
+          </div>
+          <div class="col-auto">
+            <input type="text" id="fuma" formControlName="fuma" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col me-4 border-right ">
+        <div class="col-md-6">
+          <div class="input-group mb-3">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0 me-2" type="checkbox" formControlName="enjuague" value=""
+                (change)="changeEnjuague($event)">
+              Enjuague
+            </div>
+            <input type="number" class="form-control" formControlName="enjuagueCuantas" placeholder="¿Cuántas veces?"
+              min="0" [readonly]="odontologiaForm.value.enjuague==false" onKeyDown="return false" [value]="0">
+          </div>
+        </div>
+      </div>
+      <div class="col me-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-2">
+            <label for="chicles" class="col-form-label">Chicles</label>
+          </div>
+          <div class="col-auto">
+            <input type="text" id="chicles" formControlName="chicles" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <strong>Signos vitales</strong>
+    <div class="row">
+      <div class="col mb-3 me-4 mt-2">
+        <label for="temperatura" class="form-label"><strong>Temperatura</strong></label>
+        <input type="text" class="form-control" id="temperatura" formControlName="temperatura" />
+      </div>
+      <div class="col mb-3 me-4 mt-2">
+        <label for="pulso" class="form-label"><strong>Pulso</strong></label>
+        <input type="text" class="form-control" id="pulso" formControlName="pulso" />
+      </div>
+      <div class="col mb-3 me-4 mt-2">
+        <label for="tensionArterial" class="form-label"><strong>Tensión Arterial</strong></label>
+        <input type="text" class="form-control" id="tensionArterial" formControlName="tensionArterial" />
+      </div>
+      <div class="col mb-3 me-4 mt-2">
+        <label for="respiracion" class="form-label"><strong>Respiración</strong></label>
+        <input type="text" class="form-control" id="respiracion" formControlName="respiracion" />
+      </div>
+    </div>
+  </div>
+  <h6 class="titulo">Examen físico estomatológico </h6>
+  <div class="row  mt-2 titulo">
+    <div class="col-md-4">
+    </div>
+    <div class="col-auto ">
+      <div class="col ms-3 mt-3 mb-2 float-start">
+        <label class="col-md-3 me-4">Articulación Temporo - Mandíbula: </label>
+        <mat-radio-group formControlName="articulacionTemporoMandibula">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row  mt-2">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-1  border-right ">
+      <div class="row">
+        <div class="col-auto  texto-vertical">
+          <strong>Mucosa</strong>
+        </div>
+        <br>
+        <div class="col-auto texto-vertical">
+          <strong>Bucal</strong>
+        </div>
+      </div>
+    </div>
+    <div class="col me-4 ">
+      <div class="col-auto">
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Labios:</label>
+          <mat-radio-group formControlName="labios">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class=" col-md-2 me-4">Lengua:</label>
+          <mat-radio-group formControlName="lengua">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Paladar:</label>
+          <mat-radio-group formControlName="paladar">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Piso de Boca:</label>
+          <mat-radio-group formControlName="pisoBoca">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Carrillos:</label>
+          <mat-radio-group formControlName="carrillos">
+            <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+            <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-md-4">
+    </div>
+    <div class="col ">
+      <div class="col  mt-2">
+        <label class="col-md-2 ms-4 ">Glándulas Salivares:</label>
+        <mat-radio-group formControlName="glandulasSalivares">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-md-4">
+    </div>
+    <div class="col ">
+      <div class="col  mt-2">
+        <label class="col-md-2 ms-4 ">Maxilares:</label>
+        <mat-radio-group formControlName="maxilares">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-md-4">
+    </div>
+    <div class="col ">
+      <div class="col  mt-2">
+        <label class="col-md-2 ms-4 ">Senos Maxilares:</label>
+        <mat-radio-group formControlName="senosMaxilares">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-md-4">
+    </div>
+    <div class="col">
+      <div class="col  mt-2">
+        <label class="col-md-2 ms-4 ">Músculos Masticadores: </label>
+        <mat-radio-group formControlName="musculosMasticadores">
+          <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+          <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row  mt-2">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-1  border-right texto-horizontal ">
+        <div class="row mt-5">
+          <strong>Sistemas</strong>
+        </div>
+      </div>
+      <div class="col me-4 ">
+        <div class="col-auto">
+          <div class="col me-4 mt-2 mb-2">
+            <label class="col-md-2 me-4">Nervioso: </label>
+            <mat-radio-group formControlName="nerviosoOdontologia">
+              <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+              <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="col me-4 mt-2 mb-2">
+            <label class=" col-md-2 me-4">Vascular: </label>
+            <mat-radio-group formControlName="vascularOdontologia">
+              <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+              <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="col me-4 mt-2 mb-2">
+            <label class="col-md-2 me-4">Linfático Regional:</label>
+            <mat-radio-group formControlName="linfaticoRegionalOdontologia">
+              <mat-radio-button value="Normal">Normal</mat-radio-button>&nbsp;
+              <mat-radio-button value="Anormal">Anormal</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h6 class="titulo mt-2">Examen dental</h6>
+  <div class="row mt-2">
+    <div class="col-md-4">
+    </div>
+    <div class="col me-4 ">
+      <div class="col-auto">
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Supernumerarios: </label>
+          <mat-radio-group formControlName="Supernumerarios">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class=" col-md-2 me-4"> Abrasión: </label>
+          <mat-radio-group formControlName="abrasion">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Manchas:</label>
+          <mat-radio-group formControlName="manchas">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Patología Pulpar:</label>
+          <mat-radio-group formControlName="patologiaPulpar">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Placa Blanda:</label>
+          <mat-radio-group formControlName="placaBlanda">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Placa Calcificada:</label>
+          <mat-radio-group formControlName="placaCalcificada">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col me-4 mt-2 mb-2">
+          <label class="col-md-2 me-4">Oclusión:</label>
+          <mat-radio-group formControlName="oclusion">
+            <mat-radio-button value="Si">Sí</mat-radio-button>&nbsp;
+            <mat-radio-button value="No">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-4">
+      <div class="form-floating">
+        <mat-form-field class="col-sm-12" appearance="outline">
+          <mat-label>Observaciones</mat-label>
+          <textarea matInput formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col md-4">
+      <div class="form-floating">
+        <mat-form-field appearance="outline" class="col-sm-12">
+          <mat-label>Última visita al odontólogo</mat-label>
+          <input matInput formControlName="ultimaVisitaOdontologo" id="ultimaVisitaOdontologo" [matDatepicker]="picker"
+            [max]="fechaActual" readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+ 
+  <h6 class="titulo mt-2">Estado Periodontal</h6>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil"> Observaciones</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h6 class="titulo mt-2">Control de Placa Inicial</h6>
+  <hr>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <ngx-odontograma-vestabular (odontograma)="resultOdontogramaVestabular($event)" #vestabular>
+  </ngx-odontograma-vestabular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <!--<div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+    <h6>Redirección a la Calculadora de Control de Placa</h6>
+    <button (click)="abrirCalculadora()">Ir a la Calculadora de Control de Placa</button>
+    </div>
+  </div>-->
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestabular"
+          placeholder="Observaciones" id="observacionesVestabular"></textarea>
+        <label for="observacionesVestabular">Placa Inicial / Placa Final</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h6 class="titulo mt-2">Control de Placa Final</h6>
+  <hr>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <ngx-odontograma-vestibular (odontograma)="resultOdontogramaVestibular($event)" #vestibular>
+  </ngx-odontograma-vestibular>
+  <!--<p class="titulo subtitulo">Vestibular</p>-->
+  <div class="row mt-2">
+    <h6 class="titulo">Evaluación del estado final</h6>
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="evaluacionEstadoFinal" placeholder="Observaciones"
+          id="evaluacionEstadoFinal"></textarea>
+        <label for="evaluacionEstadoFinal"> Observaciones</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h6 class="titulo mt-2">Odontograma</h6>
+  <hr>
+  <ngx-odontograma-linguales (odontograma)="resultOdontogramaLingualesInfantil($event)" #lingualesInfantil>
+  </ngx-odontograma-linguales>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesLingualesInfantil"
+          placeholder="Observaciones" id="observacionesLingualesInfantil"></textarea>
+        <label for="observacionesLingualesInfantil"> Observaciones</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h6 class="titulo mt-2">Odontograma Final</h6>
+  <hr>
+  <ngx-odontograma-v-infantil (odontograma)="resultOdontogramaVestibularInfantil($event)" #vestibularInfantil>
+  </ngx-odontograma-v-infantil>
+  <hr>
+  <div class="row">
+    <div class="col  mt-2 me-4 mb-2">
+      <div class="form-floating">
+        <textarea class="form-control textArea-mid" formControlName="observacionesVestibularInfantil"
+          placeholder="Observaciones" id="observacionesVestibularInfantil"></textarea>
+        <label for="observacionesVestibularInfantil">  </label>
+      </div>
+    </div>
+  </div>
+  <h6 class="titulo mt-2">Exámenes Complementarios (formato PDF)</h6>
+  <p class="titulo subtitulo">Examen Radiográfico</p>
+  <p class="subtitulo">Periapical</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="periapicalInicio" class="form-label">Inicio</label><br>
+      <input #inputPeriapicalInicio class="form-control" type="file" id="periapicalInicio"
+        (change)="onFilePeriapicalInicio($event)" [hidden]="estadoPeriapicalInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalInicio"
+        (click)="downloadDocumentPeriapicalInicio()">Descargar</button>
+    </div>
+    <div class="col-sm-6">
+      <label for="periapicalFinal" class="form-label">Final</label><br>
+      <input #inputPeriapicalFinal class="form-control" type="file" id="periapicalFinal"
+        (change)="onFilePeriapicalFinal($event)" [hidden]="estadoPeriapicalFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPeriapicalFinal"
+        (click)="downloadDocumentPeriapicalFinal()">Descargar</button>
+    </div>
+  </div><br>
+  <p class="subtitulo">Panorámica</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="panoramicaInicio" class="form-label">Inicio</label><br>
+      <input #inputPanoramicaInicio class="form-control" type="file" id="panoramicaInicio"
+        (change)="onFilePanoramicaInicio($event)" [hidden]="estadoPanoramicaInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaInicio"
+        (click)="downloadDocumentPanoramicaInicio()">Descargar</button>
+    </div>
+    <div class="col-sm-6">
+      <label for="panoramicaFinal" class="form-label">Final</label><br>
+      <input #inputPanoramicaFinal class="form-control" type="file" id="panoramicaFinal"
+        (change)="onFilePanoramicaFinal($event)" [hidden]="estadoPanoramicaFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoPanoramicaFinal"
+        (click)="downloadDocumentPanoramicaFinal()">Descargar</button>
+    </div>
+  </div><br>
+  <p class="subtitulo">Otra</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="otraInicio" class="form-label">Inicio</label><br>
+      <input #inputOtraInicio class="form-control" type="file" id="otraInicio" (change)="onFileOtraInicio($event)"
+        [hidden]="estadoOtraInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraInicio"
+        (click)="downloadDocumentOtraInicio()">Descargar</button>
+    </div>
+    <div class="col-sm-6">
+      <label for="otraFinal" class="form-label">Final</label><br>
+      <input #inputOtraFinal class="form-control" type="file" id="otraFinal" (change)="onFileOtraFinal($event)"
+        [hidden]="estadoOtraFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoOtraFinal"
+        (click)="downloadDocumentOtraFinal()">Descargar</button>
+    </div>
+  </div><br>
+  <p class="subtitulo">Exámenes de Laboratorio</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="examenesLaboratorioOdontoInicio" class="form-label">Inicio</label><br>
+      <input #inputLaboratorioInicio class="form-control" type="file" (change)="onFileLaboratorioInicio($event)"
+        id="examenesLaboratorioOdontoInicio" [hidden]="estadoLaboratorioInicio" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioInicio"
+        (click)="downloadDocumentLaboratorioInicio()">Descargar</button>
+    </div>
+    <div class="col-sm-6">
+      <label for="examenesLaboratorioOdontoFinal" class="form-label">Final</label><br>
+      <input #inputLaboratorioFinal class="form-control" type="file" (change)="onFileLaboratorioFinal($event)"
+        id="examenesLaboratorioOdontoFinal" [hidden]="estadoLaboratorioFinal" [disabled]="!crear || superAdmin">
+      <button class="btn btn-outline-primary" type="button" *ngIf="estadoLaboratorioFinal"
+        (click)="downloadDocumentLaboratorioFinal()">Descargar</button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <mat-form-field class="col-sm-2" appearance="outline">
+      <mat-label>TP</mat-label>
+      <input matInput formControlName="tp">
+    </mat-form-field>
+    <mat-form-field class="col-sm-2" appearance="outline">
+      <mat-label>TPT</mat-label>
+      <input matInput formControlName="tpt">
+    </mat-form-field>
+    <mat-form-field class="col-sm-3" appearance="outline">
+      <mat-label>Coagulación</mat-label>
+      <input matInput formControlName="coagulacion">
+    </mat-form-field>
+    <mat-form-field class="col-sm-3" appearance="outline">
+      <mat-label>Sangría</mat-label>
+      <input matInput formControlName="sangria">
+    </mat-form-field>
+    <mat-form-field class="col-sm-2" appearance="outline">
+      <mat-label>Otra</mat-label>
+      <input matInput formControlName="otra">
+    </mat-form-field>
+  </div>
+  <h6 class="titulo mt-2">Diagnóstico (Código CIE-10) y Pronóstico</h6>
+  <div class="row">
+    <mat-form-field class="col-sm-12" appearance="outline">
+      <mat-label>Diagnóstico</mat-label>
+      <textarea matInput formControlName="diagnosticoOdonto"></textarea>
+    </mat-form-field>
+    <a href="https://udistritaleduco-my.sharepoint.com/:b:/g/personal/jdcardosom_udistrital_edu_co/Ea9tSD0UTHNGiNXZPwa8jq8BtCqPqiDsPO5jtrdTezCcyA?e=N4e9Q3" target="_blank">Buscador CIE-10</a>
+    <!--<a href="https://www.sanidad.gob.es/estadEstudios/estadisticas/normalizacion/CIE10/CIE10ES_2016_norm_Manual_codificacion_Diagnosticos.pdf"
+      target="_blank"> Manual CIE-10</a> --> 
+  </div><br>
+  <div class="row">
+    <mat-form-field class="col-sm-12" appearance="outline">
+      <mat-label>Pronóstico</mat-label>
+      <textarea matInput formControlName="pronosticoOdonto"></textarea>
+    </mat-form-field>
+  </div>
+  <h6 class="titulo mt-2">Medicamento</h6>
+  <div class="row mt-4 mb-4">
+    <div class="col md-6 me-4 mb-4">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Medicamento"
+          formControlName="medicamento" />
+        <button class="btn btn-outline-primary" type="button" (click)="openPdf()">
+          Ver PDF
+        </button>
+      </div>
+    </div>
+  </div>
+  <h6 class="titulo mt-2">Evolución y Tratamiento</h6>
+  <div class="row mt-4 mb-4">
+    <div class="col md-6 me-4 mb-4">
+      <div class="input-group">
+        <!--<input type="text"--> <textarea class="form-control" (keyup.enter)="agregarEvolucionOdonto()" formControlName="nuevaEvolucionOdonto" name="nuevaEvolucionOdonto"
+          placeholder="Agregar" [formControl]="nuevaEvolucionOdonto" [readonly]="superAdmin"></textarea> <!--/>-->
+        <button class="btn btn-outline-primary" type="button" (click)="agregarEvolucionOdonto()" [disabled]="superAdmin">
+          Agregar
+        </button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col md-6 me-4 mb-4" formArrayName="evolucionOdonto">
+        <div class="input-group mb-1" *ngFor="let evolucion of evolucionOdontoArr.controls; let i = index">
+          <!--<input--> <textarea class="form-control"*ngIf="evolucionOdontoArr.length > 0" [formControlName]="i" readonly ></textarea> <!--/>-->
+         <!--< <button class="btn btn-outline-danger" type="button" (click)="borrarEvolucionOdonto(i)" [disabled]="superAdmin">
+            Borrar
+          </button>-->
+        </div>
+      </div>
+    </div>
+    <h6 class="titulo mt-4">Observaciones</h6>
+    <div class="row mt-4">
+      <div class="col md-12 me-4">
+        <div class="form-floating">
+          <textarea class="form-control textArea-big" formControlName="observacionesOdontologia"
+            placeholder="Observaciones" id="observaciones"></textarea>
+          <label for="observacionesOdontologia"> Observaciones</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col titulo">
+      <label><strong>Realizó: </strong>{{ nombreEspecialista }}</label>
+      <button class="card-button m-2 mt-4 float-end" type="submit" mat-raised-button
+        [disabled]="!odontologiaForm.valid || superAdmin">
+        <mat-icon>save</mat-icon> Guardar
+      </button>
+    </div>
+  </div>
+</form>
+>>>>>>> 6cc6f8614920e660dbf94dcecaa1a04e22bdda3a

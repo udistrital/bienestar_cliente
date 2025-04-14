@@ -29,7 +29,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class MedicinaComponent implements OnInit {
 
-  @Input() paciente: string;   
+  paciente: string;
   enfermeria: Enfermeria | null;
   crear: boolean = false;
   superAdmin: boolean = false;
