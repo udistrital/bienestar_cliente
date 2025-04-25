@@ -59,9 +59,9 @@ steps:
 - name: nodejs_master
   image: node:12.6.0
   commands:
+  - export NODE_OPTIONS=--max_old_space_size=4096
   - node --version
-  - npm cache clean --force
-  - npm i
+  - npm ci
   - npm run build:prod
   when:
     branch:
