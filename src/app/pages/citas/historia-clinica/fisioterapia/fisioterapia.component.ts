@@ -62,7 +62,18 @@ export class FisioterapiaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });*/
-    this.listService.getInfoEstudiante().then((resp) => {
+    const temp = atob(localStorage.getItem(btoa("roles")));
+      if (temp != undefined) {
+        if (temp.includes('SUPER_ADMIN_BIENESTAR')) {
+        this.fisioterapiaForm.disable();
+        this.superAdmin = true;
+        }
+       }
+        this.personaService.getEstudiantePorDocumento(atob(localStorage.getItem(btoa("documento")))).subscribe((res) => {
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.cargarInformacion();
+      });
+   /* this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
         this.fisioterapiaForm.disable();
@@ -73,7 +84,7 @@ export class FisioterapiaComponent implements OnInit {
         this.terceroEspecialista = res[0].TerceroId.Id;
         this.cargarInformacion();
       });
-    });
+    });*/
   }
   get evolucionFisioArr() {
     return this.fisioterapiaForm.get('evolucionFisio') as FormArray;

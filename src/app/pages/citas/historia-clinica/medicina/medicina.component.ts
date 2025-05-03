@@ -29,7 +29,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class MedicinaComponent implements OnInit {
 
-  @Input() paciente: string;   
+  paciente: string;
   enfermeria: Enfermeria | null;
   crear: boolean = false;
   superAdmin: boolean = false;
@@ -166,18 +166,27 @@ export class MedicinaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });*/
-    this.listService.getInfoEstudiante().then((resp) => {
+    //busca la informacion del login
+    //this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
-      if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
+      
+      //if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
+      const temp = atob(localStorage.getItem(btoa("roles")));
+   
+       if (temp != undefined) {
+        if (temp.includes('SUPER_ADMIN_BIENESTAR')) {
         this.medicinaForm.disable();
         this.superAdmin = true;
-      }
-      this.personaService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
-        //console.log(res);
+        }
+       }
+   
+     
+      this.personaService.getEstudiantePorDocumento(atob(localStorage.getItem(btoa("documento")))).subscribe((res) => {
+   
         this.terceroEspecialista = res[0].TerceroId.Id;
         this.getInfoHistoria();
       });
-    });
+    //});
 
   }
 
