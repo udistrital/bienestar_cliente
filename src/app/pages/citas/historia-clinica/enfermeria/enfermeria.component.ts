@@ -67,6 +67,18 @@ export class EnfermeriaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });*/
+     const temp = atob(localStorage.getItem(btoa("roles")));
+      if (temp != undefined) {
+        if (temp.includes('SUPER_ADMIN_BIENESTAR')) {
+        this.enfermeriaForm.disable();
+        this.superAdmin = true;
+        }
+       }
+        this.personaService.getEstudiantePorDocumento(atob(localStorage.getItem(btoa("documento")))).subscribe((res) => {
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoEnfermeria();
+      });
+    /*
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
@@ -78,7 +90,7 @@ export class EnfermeriaComponent implements OnInit {
         this.terceroEspecialista = res[0].TerceroId.Id;
         this.getInfoEnfermeria();
       });
-    });
+    });*/
   }
   crearNuevaHoja() {
     this.crear = true

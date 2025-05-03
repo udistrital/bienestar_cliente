@@ -96,6 +96,18 @@ export class PsicologiaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });*/
+    const temp = atob(localStorage.getItem(btoa("roles")));
+      if (temp != undefined) {
+        if (temp.includes('SUPER_ADMIN_BIENESTAR')) {
+        this.psicologiaForm.disable();
+        this.superAdmin = true;
+        }
+       }
+        this.personaService.getEstudiantePorDocumento(atob(localStorage.getItem(btoa("documento")))).subscribe((res) => {
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoPsicologia();
+      });
+    /*
     this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')){
@@ -107,7 +119,7 @@ export class PsicologiaComponent implements OnInit {
         this.terceroEspecialista = res[0].TerceroId.Id;
         this.getInfoPsicologia();
       });
-    });
+    });*/
     
   }
   get evolucionPsicoArr() {
