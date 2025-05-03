@@ -1187,7 +1187,7 @@ export class ListService {
       if (usuarioWSO2 != undefined) {
         var user = { "user": usuarioWSO2 };
         var userRol: UserRol;
-        this.autenticationMidService.post('/token/userRol', user).subscribe(
+        this.autenticationMidService.post('token/userRol', user).subscribe(
           (result) => {
             userRol = result;
             resolve(userRol);

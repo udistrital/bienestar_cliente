@@ -32,7 +32,7 @@ export class PagesComponent implements OnInit {
   rol: String;
   dataMenu: any;
   roles: any;
-
+  documento: any;
   url_apoyo = environment.CLIENTE_APOYO;
   url_citas = environment.CLIENTE_SALUD;
   application_conf = 'SIBUD';
@@ -51,6 +51,7 @@ export class PagesComponent implements OnInit {
       if (temp == undefined) {
         this.listService.getInfoEstudiante().then((resp) => {
           this.roles = resp.role;
+          this.documento=resp.documento;
           RolesConstanst.ROLES_EMAIL=this.roles;
           this.loadMenu();
         }).catch((error) => {
@@ -95,9 +96,9 @@ export class PagesComponent implements OnInit {
       this.roles[i] = this.roles[i].replace(/\//g, '-');
     }
 
-    
-    
-
+     
+    localStorage.setItem(btoa("roles"), btoa(this.roles));
+    localStorage.setItem(btoa("documento"), btoa(this.documento));
     this.menuws.get(this.roles + '/' + this.application_conf).subscribe(
       data => {
         this.dataMenu = <any>data;

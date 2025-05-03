@@ -226,7 +226,19 @@ export class OdontologiaComponent implements OnInit {
       var paciente = data.datosEstudianteCollection.datosBasicosEstudiante[0];
       this.paciente = paciente.nombre;
     });*/
-    this.listService.getInfoEstudiante().then((resp) => {
+
+     const temp = atob(localStorage.getItem(btoa("roles")));
+      if (temp != undefined) {
+        if (temp.includes('SUPER_ADMIN_BIENESTAR')) {
+        this.odontologiaForm.disable();
+        this.superAdmin = true;
+        }
+       }
+        this.personaService.getEstudiantePorDocumento(atob(localStorage.getItem(btoa("documento")))).subscribe((res) => {
+        this.terceroEspecialista = res[0].TerceroId.Id;
+        this.getInfoOdontologia();
+      });
+    /*this.listService.getInfoEstudiante().then((resp) => {
       //console.log(resp);
       if (resp.role.includes('SUPER_ADMIN_BIENESTAR')) {
         this.odontologiaForm.disable();
@@ -237,7 +249,7 @@ export class OdontologiaComponent implements OnInit {
         this.terceroEspecialista = res[0].TerceroId.Id;
         this.getInfoOdontologia();
       });
-    });
+    });*/
   }
   get evolucionOdontoArr() {
     return this.odontologiaForm.get('evolucionOdonto') as FormArray;

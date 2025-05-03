@@ -148,9 +148,9 @@ export class DatosBasicosComponent implements OnInit {
         else {
           let fechaActual = new (Date);
           fechaActual.setHours(fechaActual.getHours() - 5);
-          this.listService.getInfoEstudiante().then((resp) => {
+         // this.listService.getInfoEstudiante().then((resp) => {
             //console.log(resp);
-            this.estudianteService.getEstudiantePorDocumento(resp.documento).subscribe((res) => {
+            this.estudianteService.getEstudiantePorDocumento(atob(localStorage.getItem(btoa("documento")))).subscribe((res) => {
               //console.log(res);
               const accesoHistoria: AccesoHistoria = {
                 IdAccesoHistoria: 0,
@@ -166,7 +166,7 @@ export class DatosBasicosComponent implements OnInit {
               });
 
             });
-          });
+          //});
           this.toastr.success(`Ya existía una historia clínica para ${this.nombre}`, '¡NADA POR HACER!');
         }
       });
