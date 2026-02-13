@@ -296,6 +296,7 @@ export class ListService {
    loadFacultadTercero(terceroId: number): Promise<string[]> {
     return new Promise((resolve, reject) => {
       /* Cargamos vinculacion*/
+      //se ajusta a oikosv2
       this.tercerosService.get(`vinculacion?query=TerceroPrincipalId.Id:${terceroId}&sortby=Id&order=desc&limit=-1`)
        .subscribe(
           (result) => {
@@ -1213,5 +1214,6 @@ export class ListService {
 function reject(error: HttpErrorResponse) {
   throw new Error('Function not implemented.');
 }
+
 
 
