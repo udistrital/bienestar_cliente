@@ -303,8 +303,8 @@ export class ListService {
             this.oikosService.get(`dependencia_padre?query=HijaId.Id:${dependencia}`)
                 .subscribe((resp) => {
                   if (Object.keys(resp[0]).length > 0) {
-                    if (resp[0].Padre && resp[0].Hija) {
-                      resolve(resp[0].Hija.Nombre);
+                    if (resp[0].PadreId && resp[0].HijaId) {
+                      resolve(resp[0].HijaId.Nombre);
                     } else {
                       reject("Problemas de formato en la facultad");
                     }
@@ -1213,4 +1213,5 @@ export class ListService {
 function reject(error: HttpErrorResponse) {
   throw new Error('Function not implemented.');
 }
+
 
