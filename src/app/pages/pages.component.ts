@@ -47,7 +47,8 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     if (this.autenticacion.live()) {
-      const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role)
+      const temp = (JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).role);
+      this.documento=(JSON.parse(atob(localStorage.getItem('id_token').split('.')[1])).documento);
       if (temp == undefined) {
         this.listService.getInfoEstudiante().then((resp) => {
           this.roles = resp.role;
@@ -239,3 +240,4 @@ export class PagesComponent implements OnInit {
     return keyParts.join('.');
   }
 }
+
