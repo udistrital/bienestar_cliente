@@ -12,7 +12,7 @@ import { ActividadCulturalComponent } from './cultura/actividad-cultural/activid
 import { HomeComponent } from "./home/home.component";
 import { ApoyoAlimentarioComponent } from "./apoyo-alimentario/apoyo-alimentario.component";
 import { InscritosComponent } from "./apoyo-alimentario/registro/inscritos/inscritos.component";
-
+import { GestionDocumentalComponent } from "./gestion-documental/gestion-documental.component";
 import { AuthGuard } from "../@core/_guards/auth.guard";
 import { RolesConstanst } from "../shared/constants/roles.constants";
 import { ParametriaGuard } from "../@core/_guards/parametria.guard";
@@ -47,10 +47,10 @@ const routes: Routes = [
             path:'cultura/grupo-cultural',
             component: GrupoCulturalComponent,
             canActivate: [AuthGuard, ParametriaGuard],
-            /*data: {
+            data: {
                 roles:[RolesConstanst.ROLES_SISTEMA.lIDER_CULTURA, RolesConstanst.ROLES_SISTEMA.ADMIN_CULTURA]
             }
-            */
+            
         },
         {
             path:'cultura/actividad-cultural',
@@ -109,6 +109,11 @@ const routes: Routes = [
             path: 'apoyo-alimentario',
             loadChildren: ( ) =>import ('./apoyo-alimentario/apoyo-alimentario.module')
             .then (m => m.ApoyoAlimentarioModule),
+        }, 
+        {
+            path: 'gestion-documental',
+            loadChildren: ( ) => import ('./gestion-documental/gestion-documental.module')
+            .then(m => m.GestionDocumentalModule)
         },  
         {
             path:'citas', 
