@@ -19,7 +19,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [RolesConstanst.ROLES_SISTEMA.SUPERADMIN_DOCUMENTAL, 
-        RolesConstanst.ROLES_SISTEMA.ADMINISTRADOR_DOCUMENTAL]
+        RolesConstanst.ROLES_SISTEMA.ADMINISTRADOR_DOCUMENTAL,RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
     }
   },
   {
@@ -32,7 +32,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [RolesConstanst.ROLES_SISTEMA.SUPERADMIN_DOCUMENTAL, 
-        RolesConstanst.ROLES_SISTEMA.FUNCIONARIO_DOCUMENTAL]
+        RolesConstanst.ROLES_SISTEMA.FUNCIONARIO_DOCUMENTAL,RolesConstanst.ROLES_SISTEMA.ADMIN_BIENESTAR]
     }
   }
 ];
